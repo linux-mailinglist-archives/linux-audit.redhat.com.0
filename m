@@ -2,71 +2,70 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B58EB450
-	for <lists+linux-audit@lfdr.de>; Sat, 27 Apr 2019 20:35:29 +0200 (CEST)
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+	by mail.lfdr.de (Postfix) with ESMTPS id A3A29B451
+	for <lists+linux-audit@lfdr.de>; Sat, 27 Apr 2019 20:35:30 +0200 (CEST)
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id CED6C307D84F;
-	Sat, 27 Apr 2019 18:35:27 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id CA23B306973E;
+	Sat, 27 Apr 2019 18:35:28 +0000 (UTC)
 Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 7EFC9601B3;
-	Sat, 27 Apr 2019 18:35:26 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id A5BC7607BA;
+	Sat, 27 Apr 2019 18:35:28 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 82641181AC92;
-	Sat, 27 Apr 2019 18:35:21 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
-	[10.5.11.13])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 3EA82181AC42;
+	Sat, 27 Apr 2019 18:35:28 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+	[10.5.11.14])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id x3QIT7sG011279 for <linux-audit@listman.util.phx.redhat.com>;
-	Fri, 26 Apr 2019 14:29:07 -0400
+	id x3QIT6qN011266 for <linux-audit@listman.util.phx.redhat.com>;
+	Fri, 26 Apr 2019 14:29:06 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id 8968E2CFA7; Fri, 26 Apr 2019 18:29:07 +0000 (UTC)
+	id CFF065D9D6; Fri, 26 Apr 2019 18:29:06 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from mx1.redhat.com (ext-mx18.extmail.prod.ext.phx2.redhat.com
-	[10.5.110.47])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 820FE608CA;
-	Fri, 26 Apr 2019 18:29:07 +0000 (UTC)
+Received: from mx1.redhat.com (ext-mx03.extmail.prod.ext.phx2.redhat.com
+	[10.5.110.27])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 4DACE5DF48;
+	Fri, 26 Apr 2019 18:29:04 +0000 (UTC)
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id ED59F306D33F;
-	Fri, 26 Apr 2019 18:28:53 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 67A7F780EE;
+	Fri, 26 Apr 2019 18:28:55 +0000 (UTC)
 Received: from tleilax.poochiereds.net (cpe-71-70-156-158.nc.res.rr.com
 	[71.70.156.158])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id 449BA214C6;
-	Fri, 26 Apr 2019 18:28:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPSA id B8B1920B7C;
+	Fri, 26 Apr 2019 18:28:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1556303333;
-	bh=xgtrjev1l0myncFB4+Rxefbc1PEu33mLHqZlotiEJcw=;
+	s=default; t=1556303335;
+	bh=Tmqzy32XGQfb99U/hUBF1rbLUPylqVacMlS2Hrby3j4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=hvBLan3aRLOzI/++mN09qi5Xg/iKciT/gTDSXeO0pV+JYv/jpo71hpWUB0Sk3vpi7
-	Kt8OwiLPwW+q+Owr/IH/+LTlcuGeh6Rie1VbpW6VQz/kA0UAQJTxd/vyAnRywPquHo
-	oGVkjD2+LF/uhRYooNxRIqV3My7ISsaRbuzGGWg8=
+	b=WORJQH/P5NuYNOEARycZEMFB2PNYuFM/fkEPqczwA2glTHwA6o2J/VEHRLX/PEOIr
+	XjBtBkMoanEhgfYC3+yliQE1RiOIBGYGCkkzPwmYaXYzAtf0zBUbkxbyBEGzQ3Y4tX
+	FUIMitHRvjtJOd4bktPvQ4/aUmVB9V/ORdz9FtKE=
 From: Jeff Layton <jlayton@kernel.org>
 To: viro@zeniv.linux.org.uk
-Subject: [PATCH 2/5] fsnotify: have fsnotify_move take a struct qstr instead
-	of a string
-Date: Fri, 26 Apr 2019 14:28:44 -0400
-Message-Id: <20190426182847.25088-3-jlayton@kernel.org>
+Subject: [PATCH 3/5] fsnotify: have fsnotify() take a qstr instead of a string
+Date: Fri, 26 Apr 2019 14:28:45 -0400
+Message-Id: <20190426182847.25088-4-jlayton@kernel.org>
 In-Reply-To: <20190426182847.25088-1-jlayton@kernel.org>
 References: <20190426182847.25088-1-jlayton@kernel.org>
 MIME-Version: 1.0
 X-Greylist: Sender DNS name whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.47]);
-	Fri, 26 Apr 2019 18:28:54 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.47]);
-	Fri, 26 Apr 2019 18:28:54 +0000 (UTC) for IP:'198.145.29.99'
+	(mx1.redhat.com [10.5.110.27]);
+	Fri, 26 Apr 2019 18:28:55 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.27]);
+	Fri, 26 Apr 2019 18:28:55 +0000 (UTC) for IP:'198.145.29.99'
 	DOMAIN:'mail.kernel.org' HELO:'mail.kernel.org'
 	FROM:'jlayton@kernel.org' RCPT:''
 X-RedHat-Spam-Score: -5.092  (DKIMWL_WL_HIGH, DKIM_SIGNED, DKIM_VALID,
 	DKIM_VALID_AU, RCVD_IN_DNSWL_HI, SPF_PASS,
 	T_FILL_THIS_FORM_SHORT) 198.145.29.99 mail.kernel.org 198.145.29.99
 	mail.kernel.org <jlayton@kernel.org>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.110.47
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.78 on 10.5.110.27
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-loop: linux-audit@redhat.com
 X-Mailman-Approved-At: Sat, 27 Apr 2019 14:35:10 -0400
 Cc: jack@suse.cz, miklos@szeredi.hu, gregkh@linuxfoundation.org,
@@ -87,84 +86,150 @@ Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.48]); Sat, 27 Apr 2019 18:35:28 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.48]); Sat, 27 Apr 2019 18:35:29 +0000 (UTC)
 
-With this, ovl_lookup_real_one can skip the strlen call.
+This means that kernfs_notify_workfn has to grow a strlen as well.
 
 Signed-off-by: Jeff Layton <jlayton@kernel.org>
 ---
- fs/debugfs/inode.c       |  2 +-
- fs/namei.c               |  4 ++--
- include/linux/fsnotify.h | 11 +++++------
- 3 files changed, 8 insertions(+), 9 deletions(-)
+ fs/kernfs/file.c                 |  6 ++++--
+ fs/notify/fsnotify.c             |  8 ++++----
+ include/linux/fsnotify.h         | 10 +++++-----
+ include/linux/fsnotify_backend.h |  4 ++--
+ 4 files changed, 15 insertions(+), 13 deletions(-)
 
-diff --git a/fs/debugfs/inode.c b/fs/debugfs/inode.c
-index 37c0a025d7e8..5dbeefa69a58 100644
---- a/fs/debugfs/inode.c
-+++ b/fs/debugfs/inode.c
-@@ -824,7 +824,7 @@ struct dentry *debugfs_rename(struct dentry *old_dir, struct dentry *old_dentry,
- 		goto exit;
- 	}
- 	d_move(old_dentry, dentry);
--	fsnotify_move(d_inode(old_dir), d_inode(new_dir), old_name.name.name,
-+	fsnotify_move(d_inode(old_dir), d_inode(new_dir), &old_name.name,
- 		d_is_dir(old_dentry),
- 		NULL, old_dentry);
- 	release_dentry_name_snapshot(&old_name);
-diff --git a/fs/namei.c b/fs/namei.c
-index c96713077326..5ebd64b21970 100644
---- a/fs/namei.c
-+++ b/fs/namei.c
-@@ -4498,10 +4498,10 @@ int vfs_rename(struct inode *old_dir, struct dentry *old_dentry,
- 		inode_unlock(target);
- 	dput(new_dentry);
- 	if (!error) {
--		fsnotify_move(old_dir, new_dir, old_name.name.name, is_dir,
-+		fsnotify_move(old_dir, new_dir, &old_name.name, is_dir,
- 			      !(flags & RENAME_EXCHANGE) ? target : NULL, old_dentry);
- 		if (flags & RENAME_EXCHANGE) {
--			fsnotify_move(new_dir, old_dir, old_dentry->d_name.name,
-+			fsnotify_move(new_dir, old_dir, &old_dentry->d_name,
- 				      new_is_dir, NULL, new_dentry);
+diff --git a/fs/kernfs/file.c b/fs/kernfs/file.c
+index ae948aaa4c53..a43283c515f4 100644
+--- a/fs/kernfs/file.c
++++ b/fs/kernfs/file.c
+@@ -885,6 +885,8 @@ static void kernfs_notify_workfn(struct work_struct *work)
+ 	list_for_each_entry(info, &kernfs_root(kn)->supers, node) {
+ 		struct kernfs_node *parent;
+ 		struct inode *inode;
++		const struct qstr name = { .name = kn->name,
++					   .len  = strlen(kn->name) };
+ 
+ 		/*
+ 		 * We want fsnotify_modify() on @kn but as the
+@@ -903,7 +905,7 @@ static void kernfs_notify_workfn(struct work_struct *work)
+ 			p_inode = ilookup(info->sb, parent->id.ino);
+ 			if (p_inode) {
+ 				fsnotify(p_inode, FS_MODIFY | FS_EVENT_ON_CHILD,
+-					 inode, FSNOTIFY_EVENT_INODE, kn->name, 0);
++					 inode, FSNOTIFY_EVENT_INODE, &name, 0);
+ 				iput(p_inode);
+ 			}
+ 
+@@ -911,7 +913,7 @@ static void kernfs_notify_workfn(struct work_struct *work)
  		}
+ 
+ 		fsnotify(inode, FS_MODIFY, inode, FSNOTIFY_EVENT_INODE,
+-			 kn->name, 0);
++			 &name, 0);
+ 		iput(inode);
  	}
+ 
+diff --git a/fs/notify/fsnotify.c b/fs/notify/fsnotify.c
+index fb22f76329ae..9cbb5ae11d2f 100644
+--- a/fs/notify/fsnotify.c
++++ b/fs/notify/fsnotify.c
+@@ -179,10 +179,10 @@ int __fsnotify_parent(const struct path *path, struct dentry *dentry, __u32 mask
+ 		take_dentry_name_snapshot(&name, dentry);
+ 		if (path)
+ 			ret = fsnotify(p_inode, mask, path, FSNOTIFY_EVENT_PATH,
+-				       name.name.name, 0);
++				       &name.name, 0);
+ 		else
+ 			ret = fsnotify(p_inode, mask, dentry->d_inode, FSNOTIFY_EVENT_INODE,
+-				       name.name.name, 0);
++				       &name.name, 0);
+ 		release_dentry_name_snapshot(&name);
+ 	}
+ 
+@@ -325,7 +325,7 @@ static void fsnotify_iter_next(struct fsnotify_iter_info *iter_info)
+  * notification event in whatever means they feel necessary.
+  */
+ int fsnotify(struct inode *to_tell, __u32 mask, const void *data, int data_is,
+-	     const unsigned char *file_name, u32 cookie)
++	     const struct qstr *file_name, u32 cookie)
+ {
+ 	struct fsnotify_iter_info iter_info = {};
+ 	struct super_block *sb = to_tell->i_sb;
+@@ -379,7 +379,7 @@ int fsnotify(struct inode *to_tell, __u32 mask, const void *data, int data_is,
+ 	 */
+ 	while (fsnotify_iter_select_report_types(&iter_info)) {
+ 		ret = send_to_group(to_tell, mask, data, data_is, cookie,
+-				    file_name, &iter_info);
++				    file_name->name, &iter_info);
+ 
+ 		if (ret && (mask & ALL_FSNOTIFY_PERM_EVENTS))
+ 			goto out;
 diff --git a/include/linux/fsnotify.h b/include/linux/fsnotify.h
-index e09cfff69bb2..2de90a7e388b 100644
+index 2de90a7e388b..66e322df78a3 100644
 --- a/include/linux/fsnotify.h
 +++ b/include/linux/fsnotify.h
-@@ -102,7 +102,7 @@ static inline void fsnotify_link_count(struct inode *inode)
-  * fsnotify_move - file old_name at old_dir was moved to new_name at new_dir
-  */
- static inline void fsnotify_move(struct inode *old_dir, struct inode *new_dir,
--				 const unsigned char *old_name,
-+				 const struct qstr *old_name,
- 				 int isdir, struct inode *target,
- 				 struct dentry *moved)
+@@ -27,7 +27,7 @@ static inline int fsnotify_dirent(struct inode *dir, struct dentry *dentry,
+ 				  __u32 mask)
  {
-@@ -111,7 +111,6 @@ static inline void fsnotify_move(struct inode *old_dir, struct inode *new_dir,
- 	__u32 old_dir_mask = FS_MOVED_FROM;
- 	__u32 new_dir_mask = FS_MOVED_TO;
- 	__u32 mask = FS_MOVE_SELF;
--	const unsigned char *new_name = moved->d_name.name;
+ 	return fsnotify(dir, mask, d_inode(dentry), FSNOTIFY_EVENT_INODE,
+-			dentry->d_name.name, 0);
++			&dentry->d_name, 0);
+ }
  
- 	if (old_dir == new_dir)
- 		old_dir_mask |= FS_DN_RENAME;
-@@ -122,10 +121,10 @@ static inline void fsnotify_move(struct inode *old_dir, struct inode *new_dir,
- 		mask |= FS_ISDIR;
+ /* Notify this dentry's parent about a child's events. */
+@@ -122,9 +122,9 @@ static inline void fsnotify_move(struct inode *old_dir, struct inode *new_dir,
  	}
  
--	fsnotify(old_dir, old_dir_mask, source, FSNOTIFY_EVENT_INODE, old_name,
--		 fs_cookie);
--	fsnotify(new_dir, new_dir_mask, source, FSNOTIFY_EVENT_INODE, new_name,
--		 fs_cookie);
-+	fsnotify(old_dir, old_dir_mask, source, FSNOTIFY_EVENT_INODE,
-+		 old_name->name, fs_cookie);
-+	fsnotify(new_dir, new_dir_mask, source, FSNOTIFY_EVENT_INODE,
-+		 moved->d_name.name, fs_cookie);
+ 	fsnotify(old_dir, old_dir_mask, source, FSNOTIFY_EVENT_INODE,
+-		 old_name->name, fs_cookie);
++		 old_name, fs_cookie);
+ 	fsnotify(new_dir, new_dir_mask, source, FSNOTIFY_EVENT_INODE,
+-		 moved->d_name.name, fs_cookie);
++		 &moved->d_name, fs_cookie);
  
  	if (target)
  		fsnotify_link_count(target);
+@@ -177,7 +177,7 @@ static inline void fsnotify_nameremove(struct dentry *dentry, int isdir)
+ 	take_dentry_name_snapshot(&name, dentry);
+ 
+ 	fsnotify(d_inode(parent), mask, d_inode(dentry), FSNOTIFY_EVENT_INODE,
+-		 name.name.name, 0);
++		 &name.name, 0);
+ 
+ 	release_dentry_name_snapshot(&name);
+ 	dput(parent);
+@@ -217,7 +217,7 @@ static inline void fsnotify_link(struct inode *dir, struct inode *inode, struct
+ 	fsnotify_link_count(inode);
+ 	audit_inode_child(dir, new_dentry, AUDIT_TYPE_CHILD_CREATE);
+ 
+-	fsnotify(dir, FS_CREATE, inode, FSNOTIFY_EVENT_INODE, new_dentry->d_name.name, 0);
++	fsnotify(dir, FS_CREATE, inode, FSNOTIFY_EVENT_INODE, &new_dentry->d_name, 0);
+ }
+ 
+ /*
+diff --git a/include/linux/fsnotify_backend.h b/include/linux/fsnotify_backend.h
+index dfc28fcb4de8..7eb7821766d5 100644
+--- a/include/linux/fsnotify_backend.h
++++ b/include/linux/fsnotify_backend.h
+@@ -350,7 +350,7 @@ struct fsnotify_mark {
+ 
+ /* main fsnotify call to send events */
+ extern int fsnotify(struct inode *to_tell, __u32 mask, const void *data, int data_is,
+-		    const unsigned char *name, u32 cookie);
++		    const struct qstr *name, u32 cookie);
+ extern int __fsnotify_parent(const struct path *path, struct dentry *dentry, __u32 mask);
+ extern void __fsnotify_inode_delete(struct inode *inode);
+ extern void __fsnotify_vfsmount_delete(struct vfsmount *mnt);
+@@ -505,7 +505,7 @@ static inline void fsnotify_init_event(struct fsnotify_event *event,
+ #else
+ 
+ static inline int fsnotify(struct inode *to_tell, __u32 mask, const void *data, int data_is,
+-			   const unsigned char *name, u32 cookie)
++			   const struct qstr *name, u32 cookie)
+ {
+ 	return 0;
+ }
 -- 
 2.20.1
 
