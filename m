@@ -2,42 +2,88 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10D4FFE56
-	for <lists+linux-audit@lfdr.de>; Tue, 30 Apr 2019 19:03:02 +0200 (CEST)
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+	by mail.lfdr.de (Postfix) with ESMTPS id 03824FF02
+	for <lists+linux-audit@lfdr.de>; Tue, 30 Apr 2019 19:39:41 +0200 (CEST)
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 0F15E821F3;
-	Tue, 30 Apr 2019 17:02:59 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 8288B10027BD;
-	Tue, 30 Apr 2019 17:02:48 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 955C730BC748;
+	Tue, 30 Apr 2019 17:39:38 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 01C8DD1C7;
+	Tue, 30 Apr 2019 17:39:37 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id DA64F18089CB;
-	Tue, 30 Apr 2019 17:02:32 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
-	[10.5.11.15])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 560AB3FA4A;
+	Tue, 30 Apr 2019 17:39:32 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+	[10.5.11.22])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id x3UH1fJU013307 for <linux-audit@listman.util.phx.redhat.com>;
-	Tue, 30 Apr 2019 13:01:41 -0400
+	id x3UHc3Qd019807 for <linux-audit@listman.util.phx.redhat.com>;
+	Tue, 30 Apr 2019 13:38:03 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id EC01762495; Tue, 30 Apr 2019 17:01:41 +0000 (UTC)
+	id 50F2210E4C6A; Tue, 30 Apr 2019 17:38:03 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from madcap2.tricolour.ca (ovpn-112-16.phx2.redhat.com [10.3.112.16])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 304506249B;
-	Tue, 30 Apr 2019 17:01:34 +0000 (UTC)
-Date: Tue, 30 Apr 2019 13:01:32 -0400
-From: Richard Guy Briggs <rgb@redhat.com>
-To: Paul Moore <paul@paul-moore.com>
-Subject: Re: [PATCH ghak64 V1] audit: add saddr_fam filter field
-Message-ID: <20190430170132.qhdnryr4mjtyc4fp@madcap2.tricolour.ca>
+Received: from mx1.redhat.com (ext-mx10.extmail.prod.ext.phx2.redhat.com
+	[10.5.110.39])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 8BA1610E723A
+	for <linux-audit@redhat.com>; Tue, 30 Apr 2019 17:37:59 +0000 (UTC)
+Received: from mail-lj1-f194.google.com (mail-lj1-f194.google.com
+	[209.85.208.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 2C0E5753DC
+	for <linux-audit@redhat.com>; Tue, 30 Apr 2019 17:37:56 +0000 (UTC)
+Received: by mail-lj1-f194.google.com with SMTP id t1so3476947lje.10
+	for <linux-audit@redhat.com>; Tue, 30 Apr 2019 10:37:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=YXsmVk+ZSnvH7miYb/NOhqgFtfsKbInklPuraWGi5JE=;
+	b=NTj6xlLCrLqR1wOqdD6t/r9qR7jD9zaBakXAGXhSkMKIBeJCrGt4PARB0632N2AvYn
+	OwS61qLdxt2pt4dl6BN2AdAq9aj4U3FAs/6z0yclbp1FPrHiw/4AzNB5lZjnuLxl2Fjj
+	cVWm7uoto3St6NQaNLyzfBvlRnfU3Ey80wpY0NGTdDAaU2256mVfin+lwtnYKEBr4KzU
+	S4yh3n6SEyP6RxJQdeNNaqIlrTobyQHE2t4OBX4RKUlpWe/Mjs5VKA/MELTyCJ4ylJw+
+	eEfK8iUo6qBqbRVdXFHbIuu6anchhKL3kiFWQA+8wCp66ksmDFhRte89BkBF+4jaaaIj
+	2RUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=YXsmVk+ZSnvH7miYb/NOhqgFtfsKbInklPuraWGi5JE=;
+	b=L8zl9PYO5Pga8RpM6btY1STK6feNmB2XGdI3uS+utRQz4/o+bpRUXHPPVQ9aT2KswZ
+	KBzXln8gJsXmxN7tdrDxfRkdPYW7uZIDJG8YMb3NQcuno60fu51oz7KKDSaB0KqDqprV
+	YfqE4c4bOdNSYaNemvWUM2vsPeGh73PN08AEvHC1jyvBzSS/20XLZotHD70OXQtv95cl
+	cRH4jR7oYl7qMcunyBI2/OgrxaR5tZsNT73UeGqjsUuQ1VunOSkjCCIxk3pwM2sCI2NE
+	JjubdWUzi41awQraAhbGY9p4zmSXqbyfVWZJML036/xtRJKjzytES71i/tIXpl/BtPRz
+	9ZNw==
+X-Gm-Message-State: APjAAAVvn/gxxGZOQB1iXvr9WZHYQtt+qjui4TiMTQN80OmSYzMRV0cK
+	491FVlB5ypDSCw/xb4zSBWImmtzbiliZuUuMDVxi
+X-Google-Smtp-Source: APXvYqzpmDHEaG2WPL8RrULakNX8a72Hk689nqUFx/j0NyHglu/vYgy846H9qyYucA84GkcdsIa/ONvhBKcvjH4sB6w=
+X-Received: by 2002:a2e:888a:: with SMTP id k10mr23055874lji.57.1556645874366; 
+	Tue, 30 Apr 2019 10:37:54 -0700 (PDT)
+MIME-Version: 1.0
 References: <cdfe08c120ddf24429a6fc90c995284aa173f818.1556297772.git.rgb@redhat.com>
 	<CAHC9VhRykfjMpTpCSwX9bL1CX6cCxqd=qnr5xximj8v_k4Y9ug@mail.gmail.com>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAHC9VhRykfjMpTpCSwX9bL1CX6cCxqd=qnr5xximj8v_k4Y9ug@mail.gmail.com>
-User-Agent: NeoMutt/20180716
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+	<20190430170132.qhdnryr4mjtyc4fp@madcap2.tricolour.ca>
+In-Reply-To: <20190430170132.qhdnryr4mjtyc4fp@madcap2.tricolour.ca>
+From: Paul Moore <paul@paul-moore.com>
+Date: Tue, 30 Apr 2019 13:37:41 -0400
+Message-ID: <CAHC9VhQ4MeDMXvVAZqD03uU_LkaXDbchO76q40OzrwtGoerNAg@mail.gmail.com>
+Subject: Re: [PATCH ghak64 V1] audit: add saddr_fam filter field
+To: Richard Guy Briggs <rgb@redhat.com>
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.39]);
+	Tue, 30 Apr 2019 17:37:58 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.39]);
+	Tue, 30 Apr 2019 17:37:58 +0000 (UTC) for IP:'209.85.208.194'
+	DOMAIN:'mail-lj1-f194.google.com'
+	HELO:'mail-lj1-f194.google.com' FROM:'paul@paul-moore.com' RCPT:''
+X-RedHat-Spam-Score: -0.011  (DKIM_SIGNED, DKIM_VALID, RCVD_IN_DNSWL_NONE,
+	RCVD_IN_MSPIKE_H2) 209.85.208.194
+	mail-lj1-f194.google.com 209.85.208.194
+	mail-lj1-f194.google.com <paul@paul-moore.com>
+X-Scanned-By: MIMEDefang 2.78 on 10.5.110.39
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-loop: linux-audit@redhat.com
 Cc: Linux-Audit Mailing List <linux-audit@redhat.com>,
 	Eric Paris <eparis@parisplace.org>
@@ -56,133 +102,32 @@ Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.28]); Tue, 30 Apr 2019 17:03:00 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.43]); Tue, 30 Apr 2019 17:39:39 +0000 (UTC)
 
-On 2019-04-27 10:09, Paul Moore wrote:
-> On Fri, Apr 26, 2019 at 1:00 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> > Provide a method to filter out sockaddr and bind calls by network
-> > address family.
-> >
-> > Existing SOCKADDR records are listed for any network activity.
-> > Implement the AUDIT_SADDR_FAM field selector to be able to classify or
-> > limit records to specific network address families, such as AF_INET or
-> > AF_INET6.
-> >
-> > An example of a network record that is unlikely to be useful and flood
-> > the logs:
-> >
-> > type=SOCKADDR msg=audit(07/27/2017 12:18:27.019:845) : saddr={ fam=local
-> > path=/var/run/nscd/socket }
-> > type=SYSCALL msg=audit(07/27/2017 12:18:27.019:845) : arch=x86_64
-> > syscall=connect success=no exit=ENOENT(No such file or directory) a0=0x3
-> > a1=0x7fff229c4980 a2=0x6e a3=0x6 items=1 ppid=3301 pid=6145 auid=sgrubb
-> > uid=sgrubb gid=sgrubb euid=sgrubb suid=sgrubb fsuid=sgrubb egid=sgrubb
-> > sgid=sgrubb fsgid=sgrubb tty=pts3 ses=4 comm=bash exe=/usr/bin/bash
-> > subj=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023
-> > key=network-test
-> >
-> > Please see the github issue
-> > https://github.com/linux-audit/audit-kernel/issues/64
-> > Please see the github issue for the accompanying userspace support
-> > https://github.com/linux-audit/audit-userspace/issues/93
-> >
-> > Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
-> > ---
-> >  include/uapi/linux/audit.h | 1 +
-> >  kernel/auditfilter.c       | 6 ++----
-> >  kernel/auditsc.c           | 5 +++++
-> >  3 files changed, 8 insertions(+), 4 deletions(-)
-> 
-> In general -rc6 is getting late for things that touch include/uapi,
-> but that shouldn't be news.  I also don't see any references here, or
-> in the GitHub issue, regarding new/modified tests, but I'm sure you
-> are also aware of that and are working on something (I hope anyway).
+On Tue, Apr 30, 2019 at 1:01 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> On 2019-04-27 10:09, Paul Moore wrote:
+> > On Fri, Apr 26, 2019 at 1:00 PM Richard Guy Briggs <rgb@redhat.com> wrote:
 
-Please don't let this distract you from other patchsets already posted.
+...
 
-I have a test procedure that I used to verify this is in fact working,
-but I'm still thinking about how to automate it (to remove the rule
-add/delete events) to check it is properly filtering out any other
-events which is the whole purpose of this feature.
+> > Beyond that, looking at the patch below it seems like there is an
+> > obvious omission regarding validating the address families; some
+> > updates to audit_field_valid() to verify that the specified address
+> > family is greater than AF_UNSPEC and less than AF_MAX would be good to
+> > have.
+>
+> I thought of that and as you can see had added it to the userspace code
+> that accompanies it.  There isn't really any harm to allow it to go
+> outside those address family limits if someone really wants to do that.
 
-> Beyond that, looking at the patch below it seems like there is an
-> obvious omission regarding validating the address families; some
-> updates to audit_field_valid() to verify that the specified address
-> family is greater than AF_UNSPEC and less than AF_MAX would be good to
-> have.
+I see it as a usability issue.  In general terms, we shouldn't allow
+admins to add a nonsense filter rule to the kernel, and we shouldn't
+rely on the userspace to catch everything.
 
-I thought of that and as you can see had added it to the userspace code
-that accompanies it.  There isn't really any harm to allow it to go
-outside those address family limits if someone really wants to do that.
-
-> > diff --git a/include/uapi/linux/audit.h b/include/uapi/linux/audit.h
-> > index a1280af20336..c89c6495983d 100644
-> > --- a/include/uapi/linux/audit.h
-> > +++ b/include/uapi/linux/audit.h
-> > @@ -281,6 +281,7 @@
-> >  #define AUDIT_OBJ_GID  110
-> >  #define AUDIT_FIELD_COMPARE    111
-> >  #define AUDIT_EXE      112
-> > +#define AUDIT_SADDR_FAM        113
-> >
-> >  #define AUDIT_ARG0      200
-> >  #define AUDIT_ARG1      (AUDIT_ARG0+1)
-> > diff --git a/kernel/auditfilter.c b/kernel/auditfilter.c
-> > index 2c3c2f349b23..f4bb8e61a54b 100644
-> > --- a/kernel/auditfilter.c
-> > +++ b/kernel/auditfilter.c
-> > @@ -410,6 +410,8 @@ static int audit_field_valid(struct audit_entry *entry, struct audit_field *f)
-> >         /* FALL THROUGH */
-> >         case AUDIT_ARCH:
-> >         case AUDIT_FSTYPE:
-> > +       case AUDIT_EXE:
-> > +       case AUDIT_SADDR_FAM:
-> >                 if (f->op != Audit_not_equal && f->op != Audit_equal)
-> >                         return -EINVAL;
-> >                 break;
-> > @@ -425,10 +427,6 @@ static int audit_field_valid(struct audit_entry *entry, struct audit_field *f)
-> >                 if (f->val > AUDIT_MAX_FIELD_COMPARE)
-> >                         return -EINVAL;
-> >                 break;
-> > -       case AUDIT_EXE:
-> > -               if (f->op != Audit_not_equal && f->op != Audit_equal)
-> > -                       return -EINVAL;
-> > -               break;
-> >         }
-> >         return 0;
-> >  }
-> > diff --git a/kernel/auditsc.c b/kernel/auditsc.c
-> > index 5371b59bde36..0a830f67ca7a 100644
-> > --- a/kernel/auditsc.c
-> > +++ b/kernel/auditsc.c
-> > @@ -615,6 +615,11 @@ static int audit_filter_rules(struct task_struct *tsk,
-> >                 case AUDIT_LOGINUID_SET:
-> >                         result = audit_comparator(audit_loginuid_set(tsk), f->op, f->val);
-> >                         break;
-> > +               case AUDIT_SADDR_FAM:
-> > +                       if (ctx->sockaddr)
-> > +                               result = audit_comparator(ctx->sockaddr->ss_family,
-> > +                                                         f->op, f->val);
-> > +                       break;
-> >                 case AUDIT_SUBJ_USER:
-> >                 case AUDIT_SUBJ_ROLE:
-> >                 case AUDIT_SUBJ_TYPE:
-> > --
-> > 1.8.3.1
-> 
-> -- 
-> paul moore
-> www.paul-moore.com
-
-- RGB
-
---
-Richard Guy Briggs <rgb@redhat.com>
-Sr. S/W Engineer, Kernel Security, Base Operating Systems
-Remote, Ottawa, Red Hat Canada
-IRC: rgb, SunRaycer
-Voice: +1.647.777.2635, Internal: (81) 32635
+-- 
+paul moore
+www.paul-moore.com
 
 --
 Linux-audit mailing list
