@@ -2,77 +2,45 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9510AB44F
-	for <lists+linux-audit@lfdr.de>; Sat, 27 Apr 2019 20:35:29 +0200 (CEST)
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+	by mail.lfdr.de (Postfix) with ESMTPS id 10D4FFE56
+	for <lists+linux-audit@lfdr.de>; Tue, 30 Apr 2019 19:03:02 +0200 (CEST)
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id CC0703081252;
-	Sat, 27 Apr 2019 18:35:27 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 0F15E821F3;
+	Tue, 30 Apr 2019 17:02:59 +0000 (UTC)
 Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 3801B282D3;
-	Sat, 27 Apr 2019 18:35:26 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 8288B10027BD;
+	Tue, 30 Apr 2019 17:02:48 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 86C3A181B9E0;
-	Sat, 27 Apr 2019 18:35:21 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
-	[10.5.11.16])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id DA64F18089CB;
+	Tue, 30 Apr 2019 17:02:32 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+	[10.5.11.15])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id x3QJ3U1S025599 for <linux-audit@listman.util.phx.redhat.com>;
-	Fri, 26 Apr 2019 15:03:30 -0400
+	id x3UH1fJU013307 for <linux-audit@listman.util.phx.redhat.com>;
+	Tue, 30 Apr 2019 13:01:41 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id 8910C5C221; Fri, 26 Apr 2019 19:03:30 +0000 (UTC)
+	id EC01762495; Tue, 30 Apr 2019 17:01:41 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from mx1.redhat.com (ext-mx11.extmail.prod.ext.phx2.redhat.com
-	[10.5.110.40])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 21BEA1F8;
-	Fri, 26 Apr 2019 19:03:28 +0000 (UTC)
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 3696130BE493;
-	Fri, 26 Apr 2019 19:03:19 +0000 (UTC)
-Received: from tleilax.poochiereds.net (cpe-71-70-156-158.nc.res.rr.com
-	[71.70.156.158])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id 7C26520869;
-	Fri, 26 Apr 2019 19:03:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1556305398;
-	bh=Py2Wqi+xE6pgsXNg1HxGqxEnqkYnYEVvNDXhwnYtHso=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=c5F1FNOcUCniv2IpwJFaELXJugWly/+8V2JZhzs/fDyjDnD/ulZC0euGsDkiAFJdk
-	8UQ33DS4ufjMrcw1WKCedM34R9e8PQ3nct17/HVsAui/3RedXyTVlrg5jVcfyKnszT
-	81RO6TA99+QIZ/o/Rl05UFZv8DyEmEMORl5pVctM=
-Message-ID: <eac6b8a50c98abe2c5a3858a9d11555de2cedca3.camel@kernel.org>
-Subject: Re: [PATCH 0/5] vfs: track the dentry name length in name_snapshot
-From: Jeff Layton <jlayton@kernel.org>
-To: Al Viro <viro@zeniv.linux.org.uk>
-Date: Fri, 26 Apr 2019 15:03:16 -0400
-In-Reply-To: <20190426185158.GB2217@ZenIV.linux.org.uk>
-References: <20190426182847.25088-1-jlayton@kernel.org>
-	<20190426185158.GB2217@ZenIV.linux.org.uk>
-User-Agent: Evolution 3.30.5 (3.30.5-1.fc29) 
+Received: from madcap2.tricolour.ca (ovpn-112-16.phx2.redhat.com [10.3.112.16])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 304506249B;
+	Tue, 30 Apr 2019 17:01:34 +0000 (UTC)
+Date: Tue, 30 Apr 2019 13:01:32 -0400
+From: Richard Guy Briggs <rgb@redhat.com>
+To: Paul Moore <paul@paul-moore.com>
+Subject: Re: [PATCH ghak64 V1] audit: add saddr_fam filter field
+Message-ID: <20190430170132.qhdnryr4mjtyc4fp@madcap2.tricolour.ca>
+References: <cdfe08c120ddf24429a6fc90c995284aa173f818.1556297772.git.rgb@redhat.com>
+	<CAHC9VhRykfjMpTpCSwX9bL1CX6cCxqd=qnr5xximj8v_k4Y9ug@mail.gmail.com>
 MIME-Version: 1.0
-X-Greylist: Sender DNS name whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.40]);
-	Fri, 26 Apr 2019 19:03:19 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.40]);
-	Fri, 26 Apr 2019 19:03:19 +0000 (UTC) for IP:'198.145.29.99'
-	DOMAIN:'mail.kernel.org' HELO:'mail.kernel.org'
-	FROM:'jlayton@kernel.org' RCPT:''
-X-RedHat-Spam-Score: -5.101  (DKIM_SIGNED, DKIM_VALID, DKIM_VALID_AU,
-	RCVD_IN_DNSWL_HI,
-	SPF_PASS) 198.145.29.99 mail.kernel.org 198.145.29.99 mail.kernel.org
-	<jlayton@kernel.org>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.110.40
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Content-Disposition: inline
+In-Reply-To: <CAHC9VhRykfjMpTpCSwX9bL1CX6cCxqd=qnr5xximj8v_k4Y9ug@mail.gmail.com>
+User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-loop: linux-audit@redhat.com
-X-Mailman-Approved-At: Sat, 27 Apr 2019 14:35:10 -0400
-Cc: jack@suse.cz, miklos@szeredi.hu, gregkh@linuxfoundation.org,
-	amir73il@gmail.com, linux-kernel@vger.kernel.org, tj@kernel.org,
-	linux-audit@redhat.com, linux-fsdevel@vger.kernel.org, rafael@kernel.org
+Cc: Linux-Audit Mailing List <linux-audit@redhat.com>,
+	Eric Paris <eparis@parisplace.org>
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -88,81 +56,133 @@ Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.49]); Sat, 27 Apr 2019 18:35:28 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.28]); Tue, 30 Apr 2019 17:03:00 +0000 (UTC)
 
-On Fri, 2019-04-26 at 19:51 +0100, Al Viro wrote:
-> On Fri, Apr 26, 2019 at 02:28:42PM -0400, Jeff Layton wrote:
-> > name_snapshot will snapshot the current contents of a dentry's name for
-> > later consumption. Several of those users end up needing to do a strlen
-> > on the resulting string later. We already have that info in the original
-> > dentry though, so we can do this a bit more efficiently by stuffing the
-> > name length into the name_snapshot as well.
-> > 
-> > This is not well tested, but it built and booted. Do we have a testsuite
-> > that exercises the fsnotify code, in particular?
+On 2019-04-27 10:09, Paul Moore wrote:
+> On Fri, Apr 26, 2019 at 1:00 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> > Provide a method to filter out sockaddr and bind calls by network
+> > address family.
+> >
+> > Existing SOCKADDR records are listed for any network activity.
+> > Implement the AUDIT_SADDR_FAM field selector to be able to classify or
+> > limit records to specific network address families, such as AF_INET or
+> > AF_INET6.
+> >
+> > An example of a network record that is unlikely to be useful and flood
+> > the logs:
+> >
+> > type=SOCKADDR msg=audit(07/27/2017 12:18:27.019:845) : saddr={ fam=local
+> > path=/var/run/nscd/socket }
+> > type=SYSCALL msg=audit(07/27/2017 12:18:27.019:845) : arch=x86_64
+> > syscall=connect success=no exit=ENOENT(No such file or directory) a0=0x3
+> > a1=0x7fff229c4980 a2=0x6e a3=0x6 items=1 ppid=3301 pid=6145 auid=sgrubb
+> > uid=sgrubb gid=sgrubb euid=sgrubb suid=sgrubb fsuid=sgrubb egid=sgrubb
+> > sgid=sgrubb fsgid=sgrubb tty=pts3 ses=4 comm=bash exe=/usr/bin/bash
+> > subj=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023
+> > key=network-test
+> >
+> > Please see the github issue
+> > https://github.com/linux-audit/audit-kernel/issues/64
+> > Please see the github issue for the accompanying userspace support
+> > https://github.com/linux-audit/audit-userspace/issues/93
+> >
+> > Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
+> > ---
+> >  include/uapi/linux/audit.h | 1 +
+> >  kernel/auditfilter.c       | 6 ++----
+> >  kernel/auditsc.c           | 5 +++++
+> >  3 files changed, 8 insertions(+), 4 deletions(-)
 > 
-> FWIW, my variant sits in vfs.git@work.dcache.
-> 
-> > Jeff Layton (5):
-> >   dcache: track the length of the string in struct name_snapshot
-> >   fsnotify: have fsnotify_move take a struct qstr instead of a string
-> >   fsnotify: have fsnotify() take a qstr instead of a string
-> >   fsnotify: change ->handle_event and send_to_group to take a qstr
-> >   audit: fix audit_compare_dname_path to take a qstr
-> > 
-> >  fs/dcache.c                          | 11 +++++++----
-> >  fs/debugfs/inode.c                   |  2 +-
-> >  fs/kernfs/file.c                     |  6 ++++--
-> >  fs/namei.c                           |  4 ++--
-> >  fs/notify/dnotify/dnotify.c          |  2 +-
-> >  fs/notify/fanotify/fanotify.c        |  2 +-
-> >  fs/notify/fsnotify.c                 |  8 ++++----
-> >  fs/notify/inotify/inotify.h          |  2 +-
-> >  fs/notify/inotify/inotify_fsnotify.c |  6 +++---
-> >  fs/overlayfs/export.c                |  2 +-
-> >  include/linux/dcache.h               |  2 +-
-> >  include/linux/fsnotify.h             | 17 ++++++++---------
-> >  include/linux/fsnotify_backend.h     |  6 +++---
-> >  kernel/audit.h                       |  3 ++-
-> >  kernel/audit_fsnotify.c              |  5 +++--
-> >  kernel/audit_tree.c                  |  2 +-
-> >  kernel/audit_watch.c                 |  4 ++--
-> >  kernel/auditfilter.c                 |  7 ++++---
-> >  kernel/auditsc.c                     |  7 +++----
-> >  19 files changed, 52 insertions(+), 46 deletions(-)
-> 
->  fs/dcache.c                          | 14 ++++++--------
->  fs/debugfs/inode.c                   |  2 +-
->  fs/kernfs/file.c                     |  6 ++++--
->  fs/namei.c                           |  4 ++--
->  fs/notify/dnotify/dnotify.c          |  2 +-
->  fs/notify/fanotify/fanotify.c        |  2 +-
->  fs/notify/fsnotify.c                 |  8 ++++----
->  fs/notify/inotify/inotify.h          |  2 +-
->  fs/notify/inotify/inotify_fsnotify.c |  6 +++---
->  fs/overlayfs/export.c                |  2 +-
->  include/linux/dcache.h               |  2 +-
->  include/linux/fsnotify.h             | 10 +++++-----
->  include/linux/fsnotify_backend.h     |  6 +++---
->  kernel/audit.h                       |  2 +-
->  kernel/audit_fsnotify.c              |  2 +-
->  kernel/audit_tree.c                  |  2 +-
->  kernel/audit_watch.c                 |  4 ++--
->  kernel/auditfilter.c                 |  6 +++---
->  kernel/auditsc.c                     |  4 ++--
->  19 files changed, 43 insertions(+), 43 deletions(-)
-> 
-> here...
+> In general -rc6 is getting late for things that touch include/uapi,
+> but that shouldn't be news.  I also don't see any references here, or
+> in the GitHub issue, regarding new/modified tests, but I'm sure you
+> are also aware of that and are working on something (I hope anyway).
 
-Pretty similar :)
+Please don't let this distract you from other patchsets already posted.
 
-Let's just go with yours then, since it breaks out some of the strlen
-changes into separate patches.
+I have a test procedure that I used to verify this is in fact working,
+but I'm still thinking about how to automate it (to remove the rule
+add/delete events) to check it is properly filtering out any other
+events which is the whole purpose of this feature.
 
-Cheers,
--- 
-Jeff Layton <jlayton@kernel.org>
+> Beyond that, looking at the patch below it seems like there is an
+> obvious omission regarding validating the address families; some
+> updates to audit_field_valid() to verify that the specified address
+> family is greater than AF_UNSPEC and less than AF_MAX would be good to
+> have.
+
+I thought of that and as you can see had added it to the userspace code
+that accompanies it.  There isn't really any harm to allow it to go
+outside those address family limits if someone really wants to do that.
+
+> > diff --git a/include/uapi/linux/audit.h b/include/uapi/linux/audit.h
+> > index a1280af20336..c89c6495983d 100644
+> > --- a/include/uapi/linux/audit.h
+> > +++ b/include/uapi/linux/audit.h
+> > @@ -281,6 +281,7 @@
+> >  #define AUDIT_OBJ_GID  110
+> >  #define AUDIT_FIELD_COMPARE    111
+> >  #define AUDIT_EXE      112
+> > +#define AUDIT_SADDR_FAM        113
+> >
+> >  #define AUDIT_ARG0      200
+> >  #define AUDIT_ARG1      (AUDIT_ARG0+1)
+> > diff --git a/kernel/auditfilter.c b/kernel/auditfilter.c
+> > index 2c3c2f349b23..f4bb8e61a54b 100644
+> > --- a/kernel/auditfilter.c
+> > +++ b/kernel/auditfilter.c
+> > @@ -410,6 +410,8 @@ static int audit_field_valid(struct audit_entry *entry, struct audit_field *f)
+> >         /* FALL THROUGH */
+> >         case AUDIT_ARCH:
+> >         case AUDIT_FSTYPE:
+> > +       case AUDIT_EXE:
+> > +       case AUDIT_SADDR_FAM:
+> >                 if (f->op != Audit_not_equal && f->op != Audit_equal)
+> >                         return -EINVAL;
+> >                 break;
+> > @@ -425,10 +427,6 @@ static int audit_field_valid(struct audit_entry *entry, struct audit_field *f)
+> >                 if (f->val > AUDIT_MAX_FIELD_COMPARE)
+> >                         return -EINVAL;
+> >                 break;
+> > -       case AUDIT_EXE:
+> > -               if (f->op != Audit_not_equal && f->op != Audit_equal)
+> > -                       return -EINVAL;
+> > -               break;
+> >         }
+> >         return 0;
+> >  }
+> > diff --git a/kernel/auditsc.c b/kernel/auditsc.c
+> > index 5371b59bde36..0a830f67ca7a 100644
+> > --- a/kernel/auditsc.c
+> > +++ b/kernel/auditsc.c
+> > @@ -615,6 +615,11 @@ static int audit_filter_rules(struct task_struct *tsk,
+> >                 case AUDIT_LOGINUID_SET:
+> >                         result = audit_comparator(audit_loginuid_set(tsk), f->op, f->val);
+> >                         break;
+> > +               case AUDIT_SADDR_FAM:
+> > +                       if (ctx->sockaddr)
+> > +                               result = audit_comparator(ctx->sockaddr->ss_family,
+> > +                                                         f->op, f->val);
+> > +                       break;
+> >                 case AUDIT_SUBJ_USER:
+> >                 case AUDIT_SUBJ_ROLE:
+> >                 case AUDIT_SUBJ_TYPE:
+> > --
+> > 1.8.3.1
+> 
+> -- 
+> paul moore
+> www.paul-moore.com
+
+- RGB
+
+--
+Richard Guy Briggs <rgb@redhat.com>
+Sr. S/W Engineer, Kernel Security, Base Operating Systems
+Remote, Ottawa, Red Hat Canada
+IRC: rgb, SunRaycer
+Voice: +1.647.777.2635, Internal: (81) 32635
 
 --
 Linux-audit mailing list
