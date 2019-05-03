@@ -2,91 +2,134 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03824FF02
-	for <lists+linux-audit@lfdr.de>; Tue, 30 Apr 2019 19:39:41 +0200 (CEST)
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B1C61340A
+	for <lists+linux-audit@lfdr.de>; Fri,  3 May 2019 21:32:30 +0200 (CEST)
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 955C730BC748;
-	Tue, 30 Apr 2019 17:39:38 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 01C8DD1C7;
-	Tue, 30 Apr 2019 17:39:37 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id E866B3001805;
+	Fri,  3 May 2019 19:32:26 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id DE31B608D0;
+	Fri,  3 May 2019 19:32:23 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 560AB3FA4A;
-	Tue, 30 Apr 2019 17:39:32 +0000 (UTC)
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 03D8C18089C9;
+	Fri,  3 May 2019 19:32:02 +0000 (UTC)
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
 	[10.5.11.22])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id x3UHc3Qd019807 for <linux-audit@listman.util.phx.redhat.com>;
-	Tue, 30 Apr 2019 13:38:03 -0400
+	id x43JVpC2004788 for <linux-audit@listman.util.phx.redhat.com>;
+	Fri, 3 May 2019 15:31:51 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id 50F2210E4C6A; Tue, 30 Apr 2019 17:38:03 +0000 (UTC)
+	id 16CE91001E61; Fri,  3 May 2019 19:31:51 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from mx1.redhat.com (ext-mx10.extmail.prod.ext.phx2.redhat.com
-	[10.5.110.39])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 8BA1610E723A
-	for <linux-audit@redhat.com>; Tue, 30 Apr 2019 17:37:59 +0000 (UTC)
-Received: from mail-lj1-f194.google.com (mail-lj1-f194.google.com
-	[209.85.208.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx1.redhat.com (ext-mx04.extmail.prod.ext.phx2.redhat.com
+	[10.5.110.28])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 0F4A0100194A
+	for <linux-audit@redhat.com>; Fri,  3 May 2019 19:31:48 +0000 (UTC)
+Received: from ppes-mail-c5.wal-mart.com (ppes-mail-c5.wal-mart.com
+	[161.167.229.196])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 2C0E5753DC
-	for <linux-audit@redhat.com>; Tue, 30 Apr 2019 17:37:56 +0000 (UTC)
-Received: by mail-lj1-f194.google.com with SMTP id t1so3476947lje.10
-	for <linux-audit@redhat.com>; Tue, 30 Apr 2019 10:37:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=YXsmVk+ZSnvH7miYb/NOhqgFtfsKbInklPuraWGi5JE=;
-	b=NTj6xlLCrLqR1wOqdD6t/r9qR7jD9zaBakXAGXhSkMKIBeJCrGt4PARB0632N2AvYn
-	OwS61qLdxt2pt4dl6BN2AdAq9aj4U3FAs/6z0yclbp1FPrHiw/4AzNB5lZjnuLxl2Fjj
-	cVWm7uoto3St6NQaNLyzfBvlRnfU3Ey80wpY0NGTdDAaU2256mVfin+lwtnYKEBr4KzU
-	S4yh3n6SEyP6RxJQdeNNaqIlrTobyQHE2t4OBX4RKUlpWe/Mjs5VKA/MELTyCJ4ylJw+
-	eEfK8iUo6qBqbRVdXFHbIuu6anchhKL3kiFWQA+8wCp66ksmDFhRte89BkBF+4jaaaIj
-	2RUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=YXsmVk+ZSnvH7miYb/NOhqgFtfsKbInklPuraWGi5JE=;
-	b=L8zl9PYO5Pga8RpM6btY1STK6feNmB2XGdI3uS+utRQz4/o+bpRUXHPPVQ9aT2KswZ
-	KBzXln8gJsXmxN7tdrDxfRkdPYW7uZIDJG8YMb3NQcuno60fu51oz7KKDSaB0KqDqprV
-	YfqE4c4bOdNSYaNemvWUM2vsPeGh73PN08AEvHC1jyvBzSS/20XLZotHD70OXQtv95cl
-	cRH4jR7oYl7qMcunyBI2/OgrxaR5tZsNT73UeGqjsUuQ1VunOSkjCCIxk3pwM2sCI2NE
-	JjubdWUzi41awQraAhbGY9p4zmSXqbyfVWZJML036/xtRJKjzytES71i/tIXpl/BtPRz
-	9ZNw==
-X-Gm-Message-State: APjAAAVvn/gxxGZOQB1iXvr9WZHYQtt+qjui4TiMTQN80OmSYzMRV0cK
-	491FVlB5ypDSCw/xb4zSBWImmtzbiliZuUuMDVxi
-X-Google-Smtp-Source: APXvYqzpmDHEaG2WPL8RrULakNX8a72Hk689nqUFx/j0NyHglu/vYgy846H9qyYucA84GkcdsIa/ONvhBKcvjH4sB6w=
-X-Received: by 2002:a2e:888a:: with SMTP id k10mr23055874lji.57.1556645874366; 
-	Tue, 30 Apr 2019 10:37:54 -0700 (PDT)
+	by mx1.redhat.com (Postfix) with ESMTPS id 6F9E0882FD
+	for <linux-audit@redhat.com>; Fri,  3 May 2019 19:31:43 +0000 (UTC)
+Received: from pps.filterd (ppes-mail-c5.wal-mart.com [127.0.0.1])
+	by ppes-mail-c5.wal-mart.com (8.16.0.27/8.16.0.27) with SMTP id
+	x43JV0n5065065
+	for <linux-audit@redhat.com>; Fri, 3 May 2019 14:31:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walmart.com;
+	h=from : to : subject
+	: date : message-id : content-type : mime-version; s=mail;
+	bh=ZSrDxAs4B6KqMSpGDALPV31rZesewLy8jOB1LOjzTCs=;
+	b=uuOt2wExAr0EGcXzrhGt2Pp2xJeAghOZDXPbSeECJI8mRklyfH4ysjJYzTUuqKb1MseX
+	B6PBNaJOOqeBWdxo43ViYBlBiA6JMzznWQCtWskQOzsSwZhQNkrgUbtroGPBMQU9/VH1
+	hOt/OGDba9ve0gd8u68WXgys4AbYLKgzW05C7g6XuZqF+xl36hLpEGmWCKsZjdMBCLDP
+	pykRGRlXKoRymZoZuB9BFGEP1hKlpCrukQDC4eIf3eBVAWw021PhKX3uSIEq/TxKkK/V
+	IQhT3pDPPVRjI4nqURRQxm5fqPowcwv3ULA63MLIdhXUB3ZI0oNtFzTH1CRhx1XFFqUn
+	3g== 
+Received: from honts35016.homeoffice.wal-mart.com (oser500437.wal-mart.com
+	[10.24.131.30])
+	by ppes-mail-c5.wal-mart.com with ESMTP id 2s8q93ha7a-2
+	for <linux-audit@redhat.com>; Fri, 03 May 2019 14:31:42 -0500
+Received: from PHONT10105USC.homeoffice.Wal-Mart.com (10.24.137.104) by
+	HONTS35016.homeoffice.Wal-Mart.com (10.24.144.220) with Microsoft SMTP
+	Server (TLS) id 14.3.408.0; Fri, 3 May 2019 14:31:41 -0500
+Received: from NAM05-DM3-obe.outbound.protection.outlook.com (10.10.197.231)
+	by hybrid.wal-mart.com (10.24.137.104) with Microsoft SMTP Server (TLS)
+	id 14.3.408.0; Fri, 3 May 2019 14:31:41 -0500
+Received: from MWHP100MB0222.NAMP100.PROD.OUTLOOK.COM (129.75.89.217) by
+	MWHP100MB0207.NAMP100.PROD.OUTLOOK.COM (129.75.89.214) with Microsoft
+	SMTP
+	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+	15.20.1835.14; Fri, 3 May 2019 19:31:39 +0000
+Received: from MWHP100MB0222.NAMP100.PROD.OUTLOOK.COM
+	([fe80::4888:ce33:9d39:c74b]) by MWHP100MB0222.NAMP100.PROD.OUTLOOK.COM
+	([fe80::4888:ce33:9d39:c74b%10]) with mapi id 15.20.1835.018;
+	Fri, 3 May 2019 19:31:39 +0000
+From: Joshua Ammons <Joshua.Ammons@walmart.com>
+To: "linux-audit@redhat.com" <linux-audit@redhat.com>
+Subject: auid = unset
+Thread-Topic: auid = unset
+Thread-Index: AdUB5WDM1bPJWX9HQ3G1uxIT7bYesg==
+Date: Fri, 3 May 2019 19:31:39 +0000
+Message-ID: <MWHP100MB022241AAEC6251F1F37A6B34F2350@MWHP100MB0222.NAMP100.PROD.OUTLOOK.COM>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [161.168.138.245]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: f6c87688-b93d-40f3-83e3-08d6cffdf6df
+x-microsoft-antispam: BCL:0; PCL:0;
+	RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(2017052603328)(7193020);
+	SRVR:MWHP100MB0207; 
+x-ms-traffictypediagnostic: MWHP100MB0207:
+x-ms-exchange-purlcount: 3
+x-microsoft-antispam-prvs: <MWHP100MB02073D84587F6F8C69FB97FDF2350@MWHP100MB0207.NAMP100.PROD.OUTLOOK.COM>
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-forefront-prvs: 0026334A56
+x-forefront-antispam-report: SFV:NSPM;
+	SFS:(10009020)(346002)(376002)(136003)(366004)(396003)(39860400002)(189003)(199004)(504964003)(6916009)(26005)(14454004)(256004)(33656002)(14444005)(486006)(606006)(476003)(86362001)(2906002)(74316002)(7736002)(2351001)(68736007)(3846002)(6116002)(790700001)(71190400001)(71200400001)(52536014)(186003)(966005)(478600001)(6506007)(102836004)(316002)(25786009)(2501003)(4744005)(7696005)(5660300002)(72206003)(99286004)(5640700003)(81156014)(66066001)(81166006)(9686003)(6306002)(236005)(6436002)(66446008)(8676002)(8936002)(53936002)(55016002)(64756008)(54896002)(73956011)(66946007)(76116006)(66476007)(66556008)(9030500004);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:MWHP100MB0207;
+	H:MWHP100MB0222.NAMP100.PROD.OUTLOOK.COM; FPR:; SPF:None;
+	LANG:en; PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: walmart.com does not designate
+	permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: G5dBpMTew+/HCPGVSXEKFaYHsiAtd1KtxvPFiqzViJEh4DPlc38sHVJsRwgcFw3ycok4jH+OSZzo9aJJkudU53ePLK7fIMJBBAoBCw7/gn+Ssg3ci7i1TwA6O5SdsO6ehAoPxHi8si7N58x79C+QQ2gXZlFETSe+N3UTN/MH6300dIBYeV8OFAFG3b/P5B4xi4wfUcRqhwNtHMV5zSw4+BaznltqUuiep0KEz61JOYyU61ePJWw0tEqtoLpj5iJlu8YNmslCceRYGxNogGyfLoKJrLBNQArPgWfCzdblxg3Q0pKlVibkRtIo96npCiRUPflhuPHGxbTH1WUyw/SNLEtlmowMg/h0GOYECIJtZ8loaGiCMGtkPWMkMxpkpJUEY04ju2z3aMccwtgxBooYOwnpfQFQC1ZB4SLBgJyJ6Xo=
 MIME-Version: 1.0
-References: <cdfe08c120ddf24429a6fc90c995284aa173f818.1556297772.git.rgb@redhat.com>
-	<CAHC9VhRykfjMpTpCSwX9bL1CX6cCxqd=qnr5xximj8v_k4Y9ug@mail.gmail.com>
-	<20190430170132.qhdnryr4mjtyc4fp@madcap2.tricolour.ca>
-In-Reply-To: <20190430170132.qhdnryr4mjtyc4fp@madcap2.tricolour.ca>
-From: Paul Moore <paul@paul-moore.com>
-Date: Tue, 30 Apr 2019 13:37:41 -0400
-Message-ID: <CAHC9VhQ4MeDMXvVAZqD03uU_LkaXDbchO76q40OzrwtGoerNAg@mail.gmail.com>
-Subject: Re: [PATCH ghak64 V1] audit: add saddr_fam filter field
-To: Richard Guy Briggs <rgb@redhat.com>
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.39]);
-	Tue, 30 Apr 2019 17:37:58 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.39]);
-	Tue, 30 Apr 2019 17:37:58 +0000 (UTC) for IP:'209.85.208.194'
-	DOMAIN:'mail-lj1-f194.google.com'
-	HELO:'mail-lj1-f194.google.com' FROM:'paul@paul-moore.com' RCPT:''
-X-RedHat-Spam-Score: -0.011  (DKIM_SIGNED, DKIM_VALID, RCVD_IN_DNSWL_NONE,
-	RCVD_IN_MSPIKE_H2) 209.85.208.194
-	mail-lj1-f194.google.com 209.85.208.194
-	mail-lj1-f194.google.com <paul@paul-moore.com>
-X-Scanned-By: MIMEDefang 2.78 on 10.5.110.39
+X-MS-Exchange-CrossTenant-Network-Message-Id: f6c87688-b93d-40f3-83e3-08d6cffdf6df
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 May 2019 19:31:39.2860 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3cbcc3d3-094d-4006-9849-0d11d61f484d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHP100MB0207
+X-OriginatorOrg: walmart.com
+X-CFilter-Loop: oser500437
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+	definitions=2019-05-03_12:, , signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+	priorityscore=1501 malwarescore=0
+	suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
+	lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=848
+	adultscore=0
+	classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
+	definitions=main-1905030127
+X-Greylist: Sender passed SPF test, ACL 242 matched, not delayed by
+	milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.28]);
+	Fri, 03 May 2019 19:31:44 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.28]);
+	Fri, 03 May 2019 19:31:44 +0000 (UTC) for IP:'161.167.229.196'
+	DOMAIN:'ppes-mail-c5.wal-mart.com' HELO:'ppes-mail-c5.wal-mart.com'
+	FROM:'Joshua.Ammons@walmart.com' RCPT:''
+X-RedHat-Spam-Score: -7.61  (DKIM_SIGNED, DKIM_VALID, DKIM_VALID_AU,
+	HTML_MESSAGE, SPF_HELO_PASS, T_DKIMWL_WL_HIGH,
+	USER_IN_DEF_DKIM_WL) 161.167.229.196 ppes-mail-c5.wal-mart.com
+	161.167.229.196 ppes-mail-c5.wal-mart.com
+	<Joshua.Ammons@walmart.com>
+X-Scanned-By: MIMEDefang 2.78 on 10.5.110.28
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-loop: linux-audit@redhat.com
-Cc: Linux-Audit Mailing List <linux-audit@redhat.com>,
-	Eric Paris <eparis@parisplace.org>
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -98,38 +141,119 @@ List-Post: <mailto:linux-audit@redhat.com>
 List-Help: <mailto:linux-audit-request@redhat.com?subject=help>
 List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="===============6903090440928135318=="
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.43]); Tue, 30 Apr 2019 17:39:39 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.40]); Fri, 03 May 2019 19:32:28 +0000 (UTC)
 
-On Tue, Apr 30, 2019 at 1:01 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> On 2019-04-27 10:09, Paul Moore wrote:
-> > On Fri, Apr 26, 2019 at 1:00 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+--===============6903090440928135318==
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_MWHP100MB022241AAEC6251F1F37A6B34F2350MWHP100MB0222NAMP_"
 
-...
+--_000_MWHP100MB022241AAEC6251F1F37A6B34F2350MWHP100MB0222NAMP_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-> > Beyond that, looking at the patch below it seems like there is an
-> > obvious omission regarding validating the address families; some
-> > updates to audit_field_valid() to verify that the specified address
-> > family is greater than AF_UNSPEC and less than AF_MAX would be good to
-> > have.
+Hello, I just wanted to see if anyone has had much success with configuring=
+ redhat systems to reduce and/or eliminate the occurrence of auid =3D unset=
+ in the audit events?  I found the following redhat article that provides a=
+ fix by updating a grub setting for auditd but this doesn't seem to have mu=
+ch of an effect, as I still see large number of unset values in the logs.
+
+https://access.redhat.com/solutions/971883
+
+Thank you in advance for any information you may have on this.
+
+
+
+--_000_MWHP100MB022241AAEC6251F1F37A6B34F2350MWHP100MB0222NAMP_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
+//www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
 >
-> I thought of that and as you can see had added it to the userspace code
-> that accompanies it.  There isn't really any harm to allow it to go
-> outside those address family limits if someone really wants to do that.
+<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
+<style><!--
+/* Font Definitions */
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-priority:99;
+	color:#954F72;
+	text-decoration:underline;}
+span.EmailStyle17
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-family:"Calibri",sans-serif;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]-->
+</head>
+<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72">
+<div class=3D"WordSection1">
+<p class=3D"MsoNormal">Hello, I just wanted to see if anyone has had much s=
+uccess with configuring redhat systems to reduce and/or eliminate the occur=
+rence of auid =3D unset in the audit events?&nbsp; I found the following re=
+dhat article that provides a fix by updating
+ a grub setting for auditd but this doesn&#8217;t seem to have much of an e=
+ffect, as I still see large number of unset values in the logs.<o:p></o:p><=
+/p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal"><a href=3D"https://access.redhat.com/solutions/97188=
+3">https://access.redhat.com/solutions/971883</a><o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Thank you in advance for any information you may hav=
+e on this.<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+</div>
+</body>
+</html>
 
-I see it as a usability issue.  In general terms, we shouldn't allow
-admins to add a nonsense filter rule to the kernel, and we shouldn't
-rely on the userspace to catch everything.
+--_000_MWHP100MB022241AAEC6251F1F37A6B34F2350MWHP100MB0222NAMP_--
 
--- 
-paul moore
-www.paul-moore.com
+
+--===============6903090440928135318==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 --
 Linux-audit mailing list
 Linux-audit@redhat.com
 https://www.redhat.com/mailman/listinfo/linux-audit
+--===============6903090440928135318==--
+
