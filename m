@@ -2,97 +2,44 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C73F23C64
-	for <lists+linux-audit@lfdr.de>; Mon, 20 May 2019 17:41:31 +0200 (CEST)
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+	by mail.lfdr.de (Postfix) with ESMTPS id C0F6C241A1
+	for <lists+linux-audit@lfdr.de>; Mon, 20 May 2019 22:02:00 +0200 (CEST)
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id C0B84307D924;
-	Mon, 20 May 2019 15:40:51 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 4A17427BD2;
-	Mon, 20 May 2019 15:40:42 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 935BA308218D;
+	Mon, 20 May 2019 20:01:27 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id CCE64600CC;
+	Mon, 20 May 2019 20:01:07 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 82C205B424;
-	Mon, 20 May 2019 15:40:26 +0000 (UTC)
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 7F24D1806B15;
+	Mon, 20 May 2019 20:00:36 +0000 (UTC)
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
 	[10.5.11.15])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id x4KFdVaE005804 for <linux-audit@listman.util.phx.redhat.com>;
-	Mon, 20 May 2019 11:39:31 -0400
+	id x4KJxeTV022783 for <linux-audit@listman.util.phx.redhat.com>;
+	Mon, 20 May 2019 15:59:40 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id C51795D704; Mon, 20 May 2019 15:39:31 +0000 (UTC)
+	id 51B7346479; Mon, 20 May 2019 19:59:40 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from mx1.redhat.com (ext-mx05.extmail.prod.ext.phx2.redhat.com
-	[10.5.110.29])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id C011017C31
-	for <linux-audit@redhat.com>; Mon, 20 May 2019 15:39:29 +0000 (UTC)
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com
-	[209.85.210.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 70F1913AAE
-	for <linux-audit@redhat.com>; Mon, 20 May 2019 15:39:12 +0000 (UTC)
-Received: by mail-pf1-f173.google.com with SMTP id c6so7397398pfa.10
-	for <linux-audit@redhat.com>; Mon, 20 May 2019 08:39:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=magitekltd-com.20150623.gappssmtp.com; s=20150623;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to:content-transfer-encoding:content-language;
-	bh=DoOs+liv5BAMvF5Z/Veh3lV+KYtR7Arm4I2eAT5TFY4=;
-	b=sjjAmkS8hmubADrvQy67SKW9MnXC/KvimrsAV6TBAjE/1/HjPBMFKtIXlyeQQMJPs6
-	/6Epo5ZDBAOpTOC+7BGHkguF7Mr0fglFhhl+Ft26XHumlk7A6IClB0jrMLfmMRmM5NqE
-	rNJNEU6DQzsuqy43lx/3OUxAHgcJK2JrF13LxMwoiUzREjsbK0xqIzAnKdlUMTsOHBjw
-	YQSuZm+8gLbDPVsqG3rshkwfd19flD+LiLlwpRhPWwMc+yoQsNSnVazFfjCGlOOMifwT
-	44ZGPgFLQ8j3Ajo6S3N5u/6EIF16zz9yEB7XqZsrQC9v8LZgKPwvUh2KVB6kN66HezB0
-	mruw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding
-	:content-language;
-	bh=DoOs+liv5BAMvF5Z/Veh3lV+KYtR7Arm4I2eAT5TFY4=;
-	b=ZaaqZVmJjP5w1h+mNONwm2xOV7Ldr25XPQ1rdzOdfHamjRH+9tR0xfTScGwxhfq5cr
-	dVFcCgB8kWnpYX6OQ9dZX8qCkC98EepNA5uTcfl3w0oeZ6p+Otldlcta4vl+Ht7/uN4b
-	RAt7y+jNSupa+y5mdvRoonYfZN+220wiQAUwrNN3bzlKeC8XVQp1A+3yDx2KsqRndbuf
-	qhWJRnBpODG/SHv5RrppjO8erKvs8k3G5S0sKAYZ88eKVhemQAQ7stdytiay3dpv+5i/
-	XzxWeXUThEIGwAZulLHUfWyShp1e8RZL2Iz0tDY8Za+teGnnF6MpQJvLke3LWlNqBJ8B
-	tzTw==
-X-Gm-Message-State: APjAAAUfRZMyUe6ypad5k5lTv18ONeP+0Y1yXWE1IqRMp0uXIzHr7NQE
-	2uF9d8buRS/z6HiaDSTzMSfDgU3pZC0=
-X-Google-Smtp-Source: APXvYqyow659tI+gD/w278nCb3Mio3HIwRyXJODbNLFSAnBZ0femJQLHZ+lCCPDldXUT2wON6yyFXg==
-X-Received: by 2002:aa7:9356:: with SMTP id 22mr4655100pfn.188.1558366751480; 
-	Mon, 20 May 2019 08:39:11 -0700 (PDT)
-Received: from [192.168.1.159] ([47.187.54.59])
-	by smtp.gmail.com with ESMTPSA id
-	s18sm22880934pgg.64.2019.05.20.08.39.10
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 20 May 2019 08:39:11 -0700 (PDT)
+Received: from x2.localnet (ovpn-122-201.rdu2.redhat.com [10.10.122.201])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id C5CF77A429;
+	Mon, 20 May 2019 19:59:36 +0000 (UTC)
+From: Steve Grubb <sgrubb@redhat.com>
+To: Lenny Bruzenak <lenny@magitekltd.com>
 Subject: Re: useradd question
-To: Steve Grubb <sgrubb@redhat.com>, linux-audit@redhat.com
+Date: Mon, 20 May 2019 15:59:30 -0400
+Message-ID: <2786293.P8e7BSF5A5@x2>
+Organization: Red Hat
+In-Reply-To: <50add8c3-88c7-5f67-5ece-39fd92f1e646@magitekltd.com>
 References: <d3d7fc57-c368-9d01-aae5-cb5469cd2334@magitekltd.com>
 	<1666978.mmmlVrCjaM@x2>
-From: Lenny Bruzenak <lenny@magitekltd.com>
-Message-ID: <50add8c3-88c7-5f67-5ece-39fd92f1e646@magitekltd.com>
-Date: Mon, 20 May 2019 10:39:09 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	<50add8c3-88c7-5f67-5ece-39fd92f1e646@magitekltd.com>
 MIME-Version: 1.0
-In-Reply-To: <1666978.mmmlVrCjaM@x2>
-Content-Language: en-US
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.29]);
-	Mon, 20 May 2019 15:39:12 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.29]);
-	Mon, 20 May 2019 15:39:12 +0000 (UTC) for IP:'209.85.210.173'
-	DOMAIN:'mail-pf1-f173.google.com'
-	HELO:'mail-pf1-f173.google.com' FROM:'lenny@magitekltd.com' RCPT:''
-X-RedHat-Spam-Score: -0.009  (DKIM_SIGNED, DKIM_VALID, RCVD_IN_DNSWL_NONE,
-	SPF_HELO_NONE) 209.85.210.173 mail-pf1-f173.google.com
-	209.85.210.173 mail-pf1-f173.google.com <lenny@magitekltd.com>
-X-Scanned-By: MIMEDefang 2.78 on 10.5.110.29
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-loop: linux-audit@redhat.com
+Cc: linux-audit@redhat.com
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -104,146 +51,241 @@ List-Post: <mailto:linux-audit@redhat.com>
 List-Help: <mailto:linux-audit-request@redhat.com?subject=help>
 List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.48]); Mon, 20 May 2019 15:41:29 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.47]); Mon, 20 May 2019 20:01:59 +0000 (UTC)
 
-T24gNS8xNy8xOSA3OjQ0IEFNLCBTdGV2ZSBHcnViYiB3cm90ZToKCj4gT24gVGh1cnNkYXksIE1h
-eSAxNiwgMjAxOSA3OjAwOjM4IFBNIEVEVCBMZW5ueSBCcnV6ZW5hayB3cm90ZToKPj4gSWYgSSBh
-ZGQgYSBuZXcgdXNlciB3aXRoIHRoZSAidXNlcmFkZCIgdXRpbGl0eSwgaXQgc3VibWl0cyBhIEFE
-RF9VU0VSCj4+IGV2ZW50LCBidXQgdGhlIGV2ZW50IGl0c2VsZiBoYXMgbm8gaW50ZXJwcmV0YXRp
-b24gZm9yIHRoZSBuZXcgVUlELgo+IFdoYXQgZXhhY3RseSB3YXMgdHlwZWQgaW4gYXQgdGhlIGNv
-bW1hbmQgbGluZT8gCgojIHVzZXJhZGQgLWMgaWFtMiAtRyBpc3NtIGlhbTIKCgo+IFRoaXMgaXMg
-Y2F1c2VkIGJ5IHRoaXMgbGluZSBvZiAKPiBjb2RlOgo+Cj4gaHR0cHM6Ly9naXRodWIuY29tL2xp
-bnV4LWF1ZGl0L2F1ZGl0LXVzZXJzcGFjZS9ibG9iL21hc3Rlci9saWIvCj4gYXVkaXRfbG9nZ2lu
-Zy5jI0w0ODAKPgo+IFRoZSBpZGVhIGlzIHRoYXQgd2Ugd2FudCB0byByZWx5IG9uIHRoZSBudW1i
-ZXIgcmF0aGVyIHRoYW4gdGhlIG5hbWUuIEhvd2V2ZXIsIAo+IHRoZSBsb2cgZXZlbnQgaXMgc3Vw
-cG9zZWQgdG8gYmUgY3JlYXRlZCBhZnRlciBwYXNzd2QgYW5kIHNoYWRvdyBoYXZlIGJlZW4gCj4g
-dXBkYXRlZC4gU28sIHRoZSBhdWRpdCBkYWVtb24gc2hvdWxkIGJlIGFibGUgdG8gcmVzb2x2ZSB0
-aGUgZXZlbnQuIAo+Cj4gTWF5YmUgdXNlcmFkZCBuZWVkcyB0byBiZSBzdHJhY2VkIHRvIHNlZSBp
-ZiBpdCBkb2VzIGV2ZXJ5dGhpbmcgaW4gb25lIHNob3Qgb3IgCj4gaWYgaXQgc2VuZHMgbXVsdGlw
-bGUgZXZlbnRzIGFzIGl0IGJ1aWxkcyB0aGUgdXNlci4KCkkgdGhpbmsgaXQgaXMgYWRkaW5nIHRo
-ZSBldmVudHMgaW5kZXBlbmRlbnRseSBJSVVDIHdoYXQgdGhlIHN0cmFjZQpyZXN1bHRzIHNheS4g
-U3RhcnRpbmcgd2l0aCB0aGUgYXVkaXRfb3BlbiBnZXR0aW5nIHRoZSBuZXRsaW5rIHNvY2tldDoK
-Ci4uLgoKc29ja2V0KEFGX05FVExJTkssIFNPQ0tfUkFXLCBORVRMSU5LX0FVRElUKSA9IDMKc2Vu
-ZHRvKDMsICJ0XDBcMFwwXFxcNFw1XDBcMVwwXDBcMFwwXDBcMFwwb3A9YWRkLWdyb3VwIGFjYyIu
-Li4sIDExNiwgMCwKe3NhX2ZhbWlseT1BRl9ORVRMSU5LLCBwaWQ9MCwgZ3JvdXBzPTAwMDAwMDAw
-fSwgMTIpID0gMTE2CnJlY3Zmcm9tKDMsCiIkXDBcMFwwXDJcMFwwXDBcMVwwXDBcMDAwNl1cMFww
-XDBcMFwwXDB0XDBcMFwwXFxcNFw1XDBcMVwwXDBcMCIuLi4sCjg5ODgsIE1TR19QRUVLfE1TR19E
-T05UV0FJVCwge3NhX2ZhbWlseT1BRl9ORVRMSU5LLCBwaWQ9MCwKZ3JvdXBzPTAwMDAwMDAwfSwg
-WzEyXSkgPSAzNgpyZWN2ZnJvbSgzLAoiJFwwXDBcMFwyXDBcMFwwXDFcMFwwXDAwMDZdXDBcMFww
-XDBcMFwwdFwwXDBcMFxcXDRcNVwwXDFcMFwwXDAiLi4uLAo4OTg4LCBNU0dfRE9OVFdBSVQsIHtz
-YV9mYW1pbHk9QUZfTkVUTElOSywgcGlkPTAsIGdyb3Vwcz0wMDAwMDAwMH0sClsxMl0pID0gMzYK
-c2VuZHRvKDMsICJwXDBcMFwwWlw0XDVcMFwyXDBcMFwwXDBcMFwwXDBvcD1hZGQtdXNlciBpZD0x
-Ii4uLiwgMTEyLCAwLAp7c2FfZmFtaWx5PUFGX05FVExJTkssIHBpZD0wLCBncm91cHM9MDAwMDAw
-MDB9LCAxMikgPSAxMTIKcmVjdmZyb20oMywKIiRcMFwwXDBcMlwwXDBcMFwyXDBcMFwwMDA2XVww
-XDBcMFwwXDBcMHBcMFwwXDBaXDRcNVwwXDJcMFwwXDAiLi4uLAo4OTg4LCBNU0dfUEVFS3xNU0df
-RE9OVFdBSVQsIHtzYV9mYW1pbHk9QUZfTkVUTElOSywgcGlkPTAsCmdyb3Vwcz0wMDAwMDAwMH0s
-IFsxMl0pID0gMzYKcmVjdmZyb20oMywKIiRcMFwwXDBcMlwwXDBcMFwyXDBcMFwwMDA2XVwwXDBc
-MFwwXDBcMHBcMFwwXDBaXDRcNVwwXDJcMFwwXDAiLi4uLAo4OTg4LCBNU0dfRE9OVFdBSVQsIHtz
-YV9mYW1pbHk9QUZfTkVUTElOSywgcGlkPTAsIGdyb3Vwcz0wMDAwMDAwMH0sClsxMl0pID0gMzYK
-c2VuZHRvKDMsICJcMjEwXDBcMFwwTlw0XDVcMFwzXDBcMFwwXDBcMFwwXDBvcD1hZGQtdXNlci10
-by1nIi4uLiwgMTM2LAowLCB7c2FfZmFtaWx5PUFGX05FVExJTkssIHBpZD0wLCBncm91cHM9MDAw
-MDAwMDB9LCAxMikgPSAxMzYKcmVjdmZyb20oMywKIiRcMFwwXDBcMlwwXDBcMFwzXDBcMFwwMDA2
-XVwwXDBcMFwwXDBcMFwyMTBcMFwwXDBOXDRcNVwwXDNcMFwwXDAiLi4uLAo4OTg4LCBNU0dfUEVF
-S3xNU0dfRE9OVFdBSVQsIHtzYV9mYW1pbHk9QUZfTkVUTElOSywgcGlkPTAsCmdyb3Vwcz0wMDAw
-MDAwMH0sIFsxMl0pID0gMzYKcmVjdmZyb20oMywKIiRcMFwwXDBcMlwwXDBcMFwzXDBcMFwwMDA2
-XVwwXDBcMFwwXDBcMFwyMTBcMFwwXDBOXDRcNVwwXDNcMFwwXDAiLi4uLAo4OTg4LCBNU0dfRE9O
-VFdBSVQsIHtzYV9mYW1pbHk9QUZfTkVUTElOSywgcGlkPTAsIGdyb3Vwcz0wMDAwMDAwMH0sClsx
-Ml0pID0gMzYKc2VuZHRvKDMsICJcMjEwXDBcMFwwTlw0XDVcMFw0XDBcMFwwXDBcMFwwXDBvcD1h
-ZGQtdG8tc2hhZG93Ii4uLiwgMTM2LAowLCB7c2FfZmFtaWx5PUFGX05FVExJTkssIHBpZD0wLCBn
-cm91cHM9MDAwMDAwMDB9LCAxMikgPSAxMzYKcmVjdmZyb20oMywKIiRcMFwwXDBcMlwwXDBcMFw0
-XDBcMFwwMDA2XVwwXDBcMFwwXDBcMFwyMTBcMFwwXDBOXDRcNVwwXDRcMFwwXDAiLi4uLAo4OTg4
-LCBNU0dfUEVFS3xNU0dfRE9OVFdBSVQsIHtzYV9mYW1pbHk9QUZfTkVUTElOSywgcGlkPTAsCmdy
-b3Vwcz0wMDAwMDAwMH0sIFsxMl0pID0gMzYKcmVjdmZyb20oMywKIiRcMFwwXDBcMlwwXDBcMFw0
-XDBcMFwwMDA2XVwwXDBcMFwwXDBcMFwyMTBcMFwwXDBOXDRcNVwwXDRcMFwwXDAiLi4uLAo4OTg4
-LCBNU0dfRE9OVFdBSVQsIHtzYV9mYW1pbHk9QUZfTkVUTElOSywgcGlkPTAsIGdyb3Vwcz0wMDAw
-MDAwMH0sClsxMl0pID0gMzYKc2VuZHRvKDMsICJ0XDBcMFwwTlw0XDVcMFw1XDBcMFwwXDBcMFww
-XDBvcD1hZGQtaG9tZS1kaXIgIi4uLiwgMTE2LCAwLAp7c2FfZmFtaWx5PUFGX05FVExJTkssIHBp
-ZD0wLCBncm91cHM9MDAwMDAwMDB9LCAxMikgPSAxMTYKcmVjdmZyb20oMywKIiRcMFwwXDBcMlww
-XDBcMFw1XDBcMFwwMDA2XVwwXDBcMFwwXDBcMHRcMFwwXDBOXDRcNVwwXDVcMFwwXDAiLi4uLAo4
-OTg4LCBNU0dfUEVFS3xNU0dfRE9OVFdBSVQsIHtzYV9mYW1pbHk9QUZfTkVUTElOSywgcGlkPTAs
-Cmdyb3Vwcz0wMDAwMDAwMH0sIFsxMl0pID0gMzYKcmVjdmZyb20oMywKIiRcMFwwXDBcMlwwXDBc
-MFw1XDBcMFwwMDA2XVwwXDBcMFwwXDBcMHRcMFwwXDBOXDRcNVwwXDVcMFwwXDAiLi4uLAo4OTg4
-LCBNU0dfRE9OVFdBSVQsIHtzYV9mYW1pbHk9QUZfTkVUTElOSywgcGlkPTAsIGdyb3Vwcz0wMDAw
-MDAwMH0sClsxMl0pID0gMzYKClRoYXQncyBhbGwgdGhlIEZEIDMgYWN0aXZpdHkuCgo+ICAKPj4g
-SU9XLCB0aGUgImlkIiBmaWVsZCBpcyBudW1lcmljIGFuZCB0aGUgdHJhbnNsYXRlZCBkYXRhIGF0
-IHRoZSBlbmQgb2YgdGhlCj4+IHJhdyByZWNvcmQgaGFzICJJRD11bmtub3duKG51bWJlcikiLgo+
-Pgo+PiBJJ20gZ3Vlc3NpbmcgaXQgaXMgYmVjYXVzZSB1bnRpbCB0aGUgdXNlciBkYXRhIGhhcyBi
-ZWVuIHN1Y2Nlc3NmdWxseQo+PiBlbnRlcmVkLCB0aGVyZSBpcyBubyB0cmFuc2xhdGlvbi4gUGVy
-aGFwcyB0aGUgZXZlbnQgc3VibWlzc2lvbiBzaG91bGQKPj4gd2FpdCB1bnRpbCB0aGF0IGhhcHBl
-bnM/Cj4gSSdkIHNheSBzdHJhY2UgdXNlcmFkZCB3aWxsIGhhdmUgdGhlIGFuc3dlci4KCkxldCBt
-ZSBrbm93IGlmIHRoZSBhYm92ZSBpc24ndCBzdWZmaWNpZW50OyBJJ2xsIHNlYXJjaCBhZ2Fpbi4K
-Cgo+PiBJIG1heSBiZSBhYmxlIHRvIGRpZyBvdXQgdGhlIG5hbWUgZnJvbSBvdGhlciByZWxhdGVk
-IGdlbmVyYXRlZCBldmVudHMsCj4+IGJ1dCB0aGF0IGlzIGtpbmQgb2YgYSBwYWluLgo+IFJpZ2h0
-LiBMZXQncyBzZWUgd2hhdCB0aGUgcm9vdCBjYXVzZSBpcyBhbmQgdGhlbiB3aGF0IHdlIGNhbiBk
-byBhYm91dCBpdC4KPgpUaGFua3MgU3RldmUuCgpJIHNlZSBwbGVudHkgb2YgYXVkaXQgZXZlbnRz
-IGNvcnJlbGF0aW5nIHRvIHRoZSBhYm92ZSBzdHJhY2UgY2FsbHM7IGUuZy46Cgpub2RlPWF1ZGl0
-IHR5cGU9QUREX0dST1VQIG1zZz1hdWRpdCgwNS8xNS8yMDE5IDE2OjI4OjM4LjUxMDoxNjg0KSA6
-CnBpZD0yNTI4NCB1aWQ9cm9vdCBhdWlkPWlhbTEgc2VzPTEKc3Viaj11bmNvbmZpbmVkX3U6dW5j
-b25maW5lZF9yOnVuY29uZmluZWRfdDpzMC1zMDpjMC5jMTAyMwptc2c9J29wPWFkZC1ncm91cCBh
-Y2N0PWlhbTIgZXhlPS91c3Ivc2Jpbi91c2VyYWRkIGhvc3RuYW1lPWF1ZGl0IGFkZHI9Pwp0ZXJt
-aW5hbD1wdHMvMSByZXM9c3VjY2VzcycKLi4uCm5vZGU9YXVkaXQgdHlwZT1BRERfVVNFUiBtc2c9
-YXVkaXQoMDUvMTUvMjAxOSAxNjoyODozOC41MTY6MTY4NikgOgpwaWQ9MjUyODQgdWlkPXJvb3Qg
-YXVpZD1pYW0xIHNlcz0xCnN1Ymo9dW5jb25maW5lZF91OnVuY29uZmluZWRfcjp1bmNvbmZpbmVk
-X3Q6czAtczA6YzAuYzEwMjMKbXNnPSdvcD1hZGQtdXNlciBpZD1pYW0yIGV4ZT0vdXNyL3NiaW4v
-dXNlcmFkZCBob3N0bmFtZT1hdWRpdCBhZGRyPT8KdGVybWluYWw9cHRzLzEgcmVzPXN1Y2Nlc3Mn
-Ci4uLgpub2RlPWF1ZGl0IHR5cGU9VVNFUl9NR01UIG1zZz1hdWRpdCgwNS8xNS8yMDE5IDE2OjI4
-OjM4LjUxNjoxNjg3KSA6CnBpZD0yNTI4NCB1aWQ9cm9vdCBhdWlkPWlhbTEgc2VzPTEKc3Viaj11
-bmNvbmZpbmVkX3U6dW5jb25maW5lZF9yOnVuY29uZmluZWRfdDpzMC1zMDpjMC5jMTAyMwptc2c9
-J29wPWFkZC11c2VyLXRvLWdyb3VwIGdycD1pc3NtIGFjY3Q9aWFtMiBleGU9L3Vzci9zYmluL3Vz
-ZXJhZGQKaG9zdG5hbWU9YXVkaXQgYWRkcj0/IHRlcm1pbmFsPXB0cy8xIHJlcz1zdWNjZXNzJwou
-Li4Kbm9kZT1hdWRpdCB0eXBlPVVTRVJfTUdNVCBtc2c9YXVkaXQoMDUvMTUvMjAxOSAxNjoyODoz
-OC41MTY6MTY4OCkgOgpwaWQ9MjUyODQgdWlkPXJvb3QgYXVpZD1pYW0xIHNlcz0xCnN1Ymo9dW5j
-b25maW5lZF91OnVuY29uZmluZWRfcjp1bmNvbmZpbmVkX3Q6czAtczA6YzAuYzEwMjMKbXNnPSdv
-cD1hZGQtdG8tc2hhZG93LWdyb3VwIGdycD1pc3NtIGFjY3Q9aWFtMiBleGU9L3Vzci9zYmluL3Vz
-ZXJhZGQKaG9zdG5hbWU9YXVkaXQgYWRkcj0/IHRlcm1pbmFsPXB0cy8xIHJlcz1zdWNjZXNzJwoK
-Li4uCgpUaGVuIHRoZSB1c2VyJ3MgaG9tZSBmaWxlIHNldHVwIGV2ZW50cy4KCgoKQnV0IHdhaXQs
-IHRoZXJlJ3MgbW9yZSBhbmQgaXQgaXNuJ3QgZ29vZCBhdCBhbGwuIEhlcmUncyB3aGF0IEkgZGlk
-IG5leHQsCmJlY2F1c2UgSSB3YW50ZWQgdG8gY2FwdHVyZSB0aGUgZXZlbnRzIGZyb20gYW4gZW50
-aXJlbHkgbmV3IHVzZXIuClByZXZpb3VzbHksIEkgd2FzIGRvaW5nICJ1c2VyYWRkIiBhcyBhYm92
-ZSBmb2xsb3dlZCBieSAidXNlcmRlbCAtcmYKaWFtMiIuIEFsc28gaWFtMy4gVGhlbiBJIGRpZDoK
-Cltyb290QGF1ZGl0IH5dIyB1c2VyYWRkIC1jIGlhbTEwIC1HIGlzc20gaWFtMTAKW3Jvb3RAYXVk
-aXQgfl0jIGF1c2VhcmNoIC1pIC10cyByZWNlbnQgLW0gQUREX1VTRVIKLS0tLQpub2RlPWF1ZGl0
-IHR5cGU9QUREX1VTRVIgbXNnPWF1ZGl0KDA1LzE1LzIwMTkgMTY6NDM6MjguNDU2OjE4MTIpIDoK
-cGlkPTI2MjEwIHVpZD1yb290IGF1aWQ9aWFtMSBzZXM9MQpzdWJqPXVuY29uZmluZWRfdTp1bmNv
-bmZpbmVkX3I6dW5jb25maW5lZF90OnMwLXMwOmMwLmMxMDIzCm1zZz0nb3A9YWRkLXVzZXIgaWQ9
-aWFtMyBleGU9L3Vzci9zYmluL3VzZXJhZGQgaG9zdG5hbWU9YXVkaXQgYWRkcj0/CnRlcm1pbmFs
-PXB0cy8xIHJlcz1zdWNjZXNzJwpbcm9vdEBhdWRpdCB+XSMgYXVzZWFyY2ggLWkgLXRzIHJlY2Vu
-dCAtbSBBRERfVVNFUgoKTm90ZSB0aGF0IGFsdGhvdWdoIHRoZSB1c2VyIGlkIGlzIGZpbGxlZCBp
-biwgaXQgaXMgd3JvbmcuIEkgdGhvdWdodCB0aGF0Cm11c3QgYmUgZnJvbSBhbiBlYXJsaWVyIGFk
-ZCwgc28gSSBkaWQ6Cgpbcm9vdEBhdWRpdCB+XSMgdXNlcmRlbCBpYW0xMCAtcmYKCltyb290QGF1
-ZGl0IH5dIyBhdXNlYXJjaCAtaSAtdHMgcmVjZW50IC1tIEFERF9VU0VSCi0tLS0Kbm9kZT1hdWRp
-dCB0eXBlPUFERF9VU0VSIG1zZz1hdWRpdCgwNS8xNS8yMDE5IDE2OjQzOjI4LjQ1NjoxODEyKSA6
-CnBpZD0yNjIxMCB1aWQ9cm9vdCBhdWlkPWlhbTEgc2VzPTEKc3Viaj11bmNvbmZpbmVkX3U6dW5j
-b25maW5lZF9yOnVuY29uZmluZWRfdDpzMC1zMDpjMC5jMTAyMwptc2c9J29wPWFkZC11c2VyIGlk
-PWlhbTMgZXhlPS91c3Ivc2Jpbi91c2VyYWRkIGhvc3RuYW1lPWF1ZGl0IGFkZHI9Pwp0ZXJtaW5h
-bD1wdHMvMSByZXM9c3VjY2VzcycKW3Jvb3RAYXVkaXQgfl0jIHVzZXJhZGQgLWMgaWFtMTAgLUcg
-aXNzbSBpYW0xMApbcm9vdEBhdWRpdCB+XSMgYXVzZWFyY2ggLWkgLXRzIHJlY2VudCAtbSBBRERf
-VVNFUgotLS0tCm5vZGU9YXVkaXQgdHlwZT1BRERfVVNFUiBtc2c9YXVkaXQoMDUvMTUvMjAxOSAx
-Njo0MzoyOC40NTY6MTgxMikgOgpwaWQ9MjYyMTAgdWlkPXJvb3QgYXVpZD1pYW0xIHNlcz0xCnN1
-Ymo9dW5jb25maW5lZF91OnVuY29uZmluZWRfcjp1bmNvbmZpbmVkX3Q6czAtczA6YzAuYzEwMjMK
-bXNnPSdvcD1hZGQtdXNlciBpZD1pYW0zIGV4ZT0vdXNyL3NiaW4vdXNlcmFkZCBob3N0bmFtZT1h
-dWRpdCBhZGRyPT8KdGVybWluYWw9cHRzLzEgcmVzPXN1Y2Nlc3MnCi0tLS0Kbm9kZT1hdWRpdCB0
-eXBlPUFERF9VU0VSIG1zZz1hdWRpdCgwNS8xNS8yMDE5IDE2OjQ4OjU4Ljc0NjoxOTY1KSA6CnBp
-ZD0yNjU1NSB1aWQ9cm9vdCBhdWlkPWlhbTEgc2VzPTEKc3Viaj11bmNvbmZpbmVkX3U6dW5jb25m
-aW5lZF9yOnVuY29uZmluZWRfdDpzMC1zMDpjMC5jMTAyMwptc2c9J29wPWFkZC11c2VyIGlkPWlh
-bTMgZXhlPS91c3Ivc2Jpbi91c2VyYWRkIGhvc3RuYW1lPWF1ZGl0IGFkZHI9Pwp0ZXJtaW5hbD1w
-dHMvMSByZXM9c3VjY2VzcycKClNvIGFmdGVyIHNpdHRpbmcgdGhlcmUgaW4gc3R1bm5lZCBzaWxl
-bmNlIGEgYml0LCBJIGRpZDoKCltyb290QGF1ZGl0IH5dIyBkYXRlCldlZCBNYXkgMTUgMTY6NDk6
-MDcgR01UIDIwMTkKCltyb290QGF1ZGl0IH5dIyBhdXNlYXJjaCAtciAtYSAxOTY1wqAgLXRzIHJl
-Y2VudApub2RlPWF1ZGl0IHR5cGU9QUREX1VTRVIgbXNnPWF1ZGl0KDE1NTc5Mzg5MzguNzQ2OjE5
-NjUpOiBwaWQ9MjY1NTUgdWlkPTAKYXVpZD0xMDAwIHNlcz0xCnN1Ymo9dW5jb25maW5lZF91OnVu
-Y29uZmluZWRfcjp1bmNvbmZpbmVkX3Q6czAtczA6YzAuYzEwMjMKbXNnPSdvcD1hZGQtdXNlciBp
-ZD0xMDAzIGV4ZT0iL3Vzci9zYmluL3VzZXJhZGQiIGhvc3RuYW1lPWF1ZGl0IGFkZHI9Pwp0ZXJt
-aW5hbD1wdHMvMSByZXM9c3VjY2VzcydVSUQ9InJvb3QiIEFVSUQ9ImlhbTEiIElEPSJpYW0zIgoK
-Cltyb290QGF1ZGl0IH5dIyBncmVwIGlhbSAvZXRjL3Bhc3N3ZAppYW0xOng6MTAwMDoxMDAwOmlh
-bTE6L2hvbWUvaWFtMTovYmluL2Jhc2gKaWFtMjp4OjEwMDI6MTAwMjppYW0yOi9ob21lL2lhbTI6
-L2Jpbi9iYXNoCmlhbTEwOng6MTAwMzoxMDAzOmlhbTEwOi9ob21lL2lhbTEwOi9iaW4vYmFzaAoK
-ClNvIG5vdyBJJ20gdHJ1bHkgY29uZnVzZWQgYWJvdXQgd2hhdCBpcyBoYXBwZW5pbmcuCgpUaHgs
-CgpMQ0IKCi0tIApMZW5ueSBCcnV6ZW5hawpNYWdpdGVrTFRECgotLQpMaW51eC1hdWRpdCBtYWls
-aW5nIGxpc3QKTGludXgtYXVkaXRAcmVkaGF0LmNvbQpodHRwczovL3d3dy5yZWRoYXQuY29tL21h
-aWxtYW4vbGlzdGluZm8vbGludXgtYXVkaXQ=
+On Monday, May 20, 2019 11:39:09 AM EDT Lenny Bruzenak wrote:
+> On 5/17/19 7:44 AM, Steve Grubb wrote:
+> > On Thursday, May 16, 2019 7:00:38 PM EDT Lenny Bruzenak wrote:
+> >> If I add a new user with the "useradd" utility, it submits a ADD_USER
+> >> event, but the event itself has no interpretation for the new UID.
+> > 
+> > What exactly was typed in at the command line?
+> 
+> # useradd -c iam2 -G issm iam2
+> 
+> > This is caused by this line of
+> > code:
+> > 
+> > https://github.com/linux-audit/audit-userspace/blob/master/lib/
+> > audit_logging.c#L480
+> > 
+> > The idea is that we want to rely on the number rather than the name.
+> > However, the log event is supposed to be created after passwd and shadow
+> > have been updated. So, the audit daemon should be able to resolve the
+> > event.
+> > 
+> > Maybe useradd needs to be straced to see if it does everything in one
+> > shot or if it sends multiple events as it builds the user.
+> 
+> I think it is adding the events independently IIUC what the strace
+> results say. Starting with the audit_open getting the netlink socket:
+> 
+> ...
+> 
+> socket(AF_NETLINK, SOCK_RAW, NETLINK_AUDIT) = 3
+> sendto(3, "t\0\0\0\\\4\5\0\1\0\0\0\0\0\0\0op=add-group acc"..., 116, 0,
+> {sa_family=AF_NETLINK, pid=0, groups=00000000}, 12) = 116
+> recvfrom(3,
+> "$\0\0\0\2\0\0\0\1\0\0\0006]\0\0\0\0\0\0t\0\0\0\\\4\5\0\1\0\0\0"...,
+> 8988, MSG_PEEK|MSG_DONTWAIT, {sa_family=AF_NETLINK, pid=0,
+> groups=00000000}, [12]) = 36
+> recvfrom(3,
+> "$\0\0\0\2\0\0\0\1\0\0\0006]\0\0\0\0\0\0t\0\0\0\\\4\5\0\1\0\0\0"...,
+> 8988, MSG_DONTWAIT, {sa_family=AF_NETLINK, pid=0, groups=00000000},
+> [12]) = 36
+> sendto(3, "p\0\0\0Z\4\5\0\2\0\0\0\0\0\0\0op=add-user id=1"..., 112, 0,
+> {sa_family=AF_NETLINK, pid=0, groups=00000000}, 12) = 112
+> recvfrom(3,
+> "$\0\0\0\2\0\0\0\2\0\0\0006]\0\0\0\0\0\0p\0\0\0Z\4\5\0\2\0\0\0"...,
+> 8988, MSG_PEEK|MSG_DONTWAIT, {sa_family=AF_NETLINK, pid=0,
+> groups=00000000}, [12]) = 36
+> recvfrom(3,
+> "$\0\0\0\2\0\0\0\2\0\0\0006]\0\0\0\0\0\0p\0\0\0Z\4\5\0\2\0\0\0"...,
+> 8988, MSG_DONTWAIT, {sa_family=AF_NETLINK, pid=0, groups=00000000},
+> [12]) = 36
+> sendto(3, "\210\0\0\0N\4\5\0\3\0\0\0\0\0\0\0op=add-user-to-g"..., 136,
+> 0, {sa_family=AF_NETLINK, pid=0, groups=00000000}, 12) = 136
+> recvfrom(3,
+> "$\0\0\0\2\0\0\0\3\0\0\0006]\0\0\0\0\0\0\210\0\0\0N\4\5\0\3\0\0\0"...,
+> 8988, MSG_PEEK|MSG_DONTWAIT, {sa_family=AF_NETLINK, pid=0,
+> groups=00000000}, [12]) = 36
+> recvfrom(3,
+> "$\0\0\0\2\0\0\0\3\0\0\0006]\0\0\0\0\0\0\210\0\0\0N\4\5\0\3\0\0\0"...,
+> 8988, MSG_DONTWAIT, {sa_family=AF_NETLINK, pid=0, groups=00000000},
+> [12]) = 36
+> sendto(3, "\210\0\0\0N\4\5\0\4\0\0\0\0\0\0\0op=add-to-shadow"..., 136,
+> 0, {sa_family=AF_NETLINK, pid=0, groups=00000000}, 12) = 136
+> recvfrom(3,
+> "$\0\0\0\2\0\0\0\4\0\0\0006]\0\0\0\0\0\0\210\0\0\0N\4\5\0\4\0\0\0"...,
+> 8988, MSG_PEEK|MSG_DONTWAIT, {sa_family=AF_NETLINK, pid=0,
+> groups=00000000}, [12]) = 36
+> recvfrom(3,
+> "$\0\0\0\2\0\0\0\4\0\0\0006]\0\0\0\0\0\0\210\0\0\0N\4\5\0\4\0\0\0"...,
+> 8988, MSG_DONTWAIT, {sa_family=AF_NETLINK, pid=0, groups=00000000},
+> [12]) = 36
+> sendto(3, "t\0\0\0N\4\5\0\5\0\0\0\0\0\0\0op=add-home-dir "..., 116, 0,
+> {sa_family=AF_NETLINK, pid=0, groups=00000000}, 12) = 116
+> recvfrom(3,
+> "$\0\0\0\2\0\0\0\5\0\0\0006]\0\0\0\0\0\0t\0\0\0N\4\5\0\5\0\0\0"...,
+> 8988, MSG_PEEK|MSG_DONTWAIT, {sa_family=AF_NETLINK, pid=0,
+> groups=00000000}, [12]) = 36
+> recvfrom(3,
+> "$\0\0\0\2\0\0\0\5\0\0\0006]\0\0\0\0\0\0t\0\0\0N\4\5\0\5\0\0\0"...,
+> 8988, MSG_DONTWAIT, {sa_family=AF_NETLINK, pid=0, groups=00000000},
+> [12]) = 36
+> 
+> That's all the FD 3 activity.
+> 
+> >> IOW, the "id" field is numeric and the translated data at the end of the
+> >> raw record has "ID=unknown(number)".
+> >> 
+> >> I'm guessing it is because until the user data has been successfully
+> >> entered, there is no translation. Perhaps the event submission should
+> >> wait until that happens?
+> > 
+> > I'd say strace useradd will have the answer.
+> 
+> Let me know if the above isn't sufficient; I'll search again.
+
+So...I went digging through the source code of useradd.c. In main is this 
+comment:
+
+        /*
+         * Do the hard stuff:
+         * - open the files,
+         * - create the user entries,
+         * - create the home directory,
+         * - create user mail spool,
+         * - flush nscd caches for passwd and group services,
+         * - then close and update the files.
+         */
+
+If you dig around, you'll see in the above process it calls usr_update(). 
+This is where the audit event is. The very next function call is close_files. 
+This is where it actually writes to the files where it would be visible to 
+auditd. So, it looks like auditing in shadow-utils is busted.
+
+I also see where its calling pam_tally2 which is deprecated for years. It 
+should be calling faillock. I'll chat with upstream maintainers.
+
+-Steve
+
+
+> >> I may be able to dig out the name from other related generated events,
+> >> but that is kind of a pain.
+> > 
+> > Right. Let's see what the root cause is and then what we can do about it.
+> 
+> Thanks Steve.
+> 
+> I see plenty of audit events correlating to the above strace calls; e.g.:
+> 
+> node=audit type=ADD_GROUP msg=audit(05/15/2019 16:28:38.510:1684) :
+> pid=25284 uid=root auid=iam1 ses=1
+> subj=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023
+> msg='op=add-group acct=iam2 exe=/usr/sbin/useradd hostname=audit addr=?
+> terminal=pts/1 res=success'
+> ...
+> node=audit type=ADD_USER msg=audit(05/15/2019 16:28:38.516:1686) :
+> pid=25284 uid=root auid=iam1 ses=1
+> subj=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023
+> msg='op=add-user id=iam2 exe=/usr/sbin/useradd hostname=audit addr=?
+> terminal=pts/1 res=success'
+> ...
+> node=audit type=USER_MGMT msg=audit(05/15/2019 16:28:38.516:1687) :
+> pid=25284 uid=root auid=iam1 ses=1
+> subj=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023
+> msg='op=add-user-to-group grp=issm acct=iam2 exe=/usr/sbin/useradd
+> hostname=audit addr=? terminal=pts/1 res=success'
+> ...
+> node=audit type=USER_MGMT msg=audit(05/15/2019 16:28:38.516:1688) :
+> pid=25284 uid=root auid=iam1 ses=1
+> subj=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023
+> msg='op=add-to-shadow-group grp=issm acct=iam2 exe=/usr/sbin/useradd
+> hostname=audit addr=? terminal=pts/1 res=success'
+> 
+> ...
+> 
+> Then the user's home file setup events.
+> 
+> 
+> 
+> But wait, there's more and it isn't good at all. Here's what I did next,
+> because I wanted to capture the events from an entirely new user.
+> Previously, I was doing "useradd" as above followed by "userdel -rf
+> iam2". Also iam3. Then I did:
+> 
+> [root@audit ~]# useradd -c iam10 -G issm iam10
+> [root@audit ~]# ausearch -i -ts recent -m ADD_USER
+> ----
+> node=audit type=ADD_USER msg=audit(05/15/2019 16:43:28.456:1812) :
+> pid=26210 uid=root auid=iam1 ses=1
+> subj=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023
+> msg='op=add-user id=iam3 exe=/usr/sbin/useradd hostname=audit addr=?
+> terminal=pts/1 res=success'
+> [root@audit ~]# ausearch -i -ts recent -m ADD_USER
+> 
+> Note that although the user id is filled in, it is wrong. I thought that
+> must be from an earlier add, so I did:
+> 
+> [root@audit ~]# userdel iam10 -rf
+> 
+> [root@audit ~]# ausearch -i -ts recent -m ADD_USER
+> ----
+> node=audit type=ADD_USER msg=audit(05/15/2019 16:43:28.456:1812) :
+> pid=26210 uid=root auid=iam1 ses=1
+> subj=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023
+> msg='op=add-user id=iam3 exe=/usr/sbin/useradd hostname=audit addr=?
+> terminal=pts/1 res=success'
+> [root@audit ~]# useradd -c iam10 -G issm iam10
+> [root@audit ~]# ausearch -i -ts recent -m ADD_USER
+> ----
+> node=audit type=ADD_USER msg=audit(05/15/2019 16:43:28.456:1812) :
+> pid=26210 uid=root auid=iam1 ses=1
+> subj=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023
+> msg='op=add-user id=iam3 exe=/usr/sbin/useradd hostname=audit addr=?
+> terminal=pts/1 res=success'
+> ----
+> node=audit type=ADD_USER msg=audit(05/15/2019 16:48:58.746:1965) :
+> pid=26555 uid=root auid=iam1 ses=1
+> subj=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023
+> msg='op=add-user id=iam3 exe=/usr/sbin/useradd hostname=audit addr=?
+> terminal=pts/1 res=success'
+> 
+> So after sitting there in stunned silence a bit, I did:
+> 
+> [root@audit ~]# date
+> Wed May 15 16:49:07 GMT 2019
+> 
+> [root@audit ~]# ausearch -r -a 1965  -ts recent
+> node=audit type=ADD_USER msg=audit(1557938938.746:1965): pid=26555 uid=0
+> auid=1000 ses=1
+> subj=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023
+> msg='op=add-user id=1003 exe="/usr/sbin/useradd" hostname=audit addr=?
+> terminal=pts/1 res=success'UID="root" AUID="iam1" ID="iam3"
+> 
+> 
+> [root@audit ~]# grep iam /etc/passwd
+> iam1:x:1000:1000:iam1:/home/iam1:/bin/bash
+> iam2:x:1002:1002:iam2:/home/iam2:/bin/bash
+> iam10:x:1003:1003:iam10:/home/iam10:/bin/bash
+> 
+> 
+> So now I'm truly confused about what is happening.
+> 
+> Thx,
+> 
+> LCB
+
+
+
+
+--
+Linux-audit mailing list
+Linux-audit@redhat.com
+https://www.redhat.com/mailman/listinfo/linux-audit
