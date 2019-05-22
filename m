@@ -2,90 +2,89 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D53A25BED
-	for <lists+linux-audit@lfdr.de>; Wed, 22 May 2019 04:26:49 +0200 (CEST)
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+	by mail.lfdr.de (Postfix) with ESMTPS id AE68025BFC
+	for <lists+linux-audit@lfdr.de>; Wed, 22 May 2019 04:58:46 +0200 (CEST)
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 9A7F259464;
-	Wed, 22 May 2019 02:26:45 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id C11071A929;
-	Wed, 22 May 2019 02:26:39 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 9888B3082E09;
+	Wed, 22 May 2019 02:58:44 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 3F66F61986;
+	Wed, 22 May 2019 02:58:43 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 84D36206D2;
-	Wed, 22 May 2019 02:26:33 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
-	[10.5.11.16])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 0E0A61806B0F;
+	Wed, 22 May 2019 02:58:41 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+	[10.5.11.11])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id x4M2NokI012223 for <linux-audit@listman.util.phx.redhat.com>;
-	Tue, 21 May 2019 22:23:50 -0400
+	id x4M2wYkY018752 for <linux-audit@listman.util.phx.redhat.com>;
+	Tue, 21 May 2019 22:58:35 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id 38BC32CFD0; Wed, 22 May 2019 02:23:50 +0000 (UTC)
+	id EB95B6013D; Wed, 22 May 2019 02:58:34 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from mx1.redhat.com (ext-mx10.extmail.prod.ext.phx2.redhat.com
-	[10.5.110.39])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 30A4D17519
-	for <linux-audit@redhat.com>; Wed, 22 May 2019 02:23:46 +0000 (UTC)
-Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com
-	[209.85.208.193])
+Received: from mx1.redhat.com (ext-mx05.extmail.prod.ext.phx2.redhat.com
+	[10.5.110.29])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id E41AB60142
+	for <linux-audit@redhat.com>; Wed, 22 May 2019 02:58:31 +0000 (UTC)
+Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com
+	[209.85.208.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id ADF73792AE
-	for <linux-audit@redhat.com>; Wed, 22 May 2019 02:23:39 +0000 (UTC)
-Received: by mail-lj1-f193.google.com with SMTP id 14so578933ljj.5
-	for <linux-audit@redhat.com>; Tue, 21 May 2019 19:23:39 -0700 (PDT)
+	by mx1.redhat.com (Postfix) with ESMTPS id B18A633025F
+	for <linux-audit@redhat.com>; Wed, 22 May 2019 02:58:30 +0000 (UTC)
+Received: by mail-lj1-f195.google.com with SMTP id e13so597430ljl.11
+	for <linux-audit@redhat.com>; Tue, 21 May 2019 19:58:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=FoATy8oZsskl8ARNANZmhlDNjVNkchw4y2fRYzB5sLg=;
-	b=PVPFHzryLgdl317MtVFNF4zHtZ9oKN1Vd1ljsQiqgKDbN6uztGOCkcuaO1VMftuRnl
-	VutoyZXPws6YtnCNpjj9ORtgriTRvWLuXp/nIUG2YEUsBp4CfNtxNUOv5zggwq0JxNyz
-	JBXDPdq3cVwXGcV6Ubb3Blx2+t1YYDNbK9njZwcTI90V69psWIQ4514/glNSAUPL5X21
-	gtxk6nQ3MxfjVWV7isrI/fSN7QLV9ZkhGslrh+IVoTnIFM9OlaDbJdKz+b8iQLJrbn4w
-	fhjDX/9ncQqEvq8vus8mrlUzoUtFL0s/hPPOIfe8IYhh8vKKzsSAevcW55XIjoEBbiZO
-	hMcA==
+	:cc; bh=j8PdCLitq9riR6Vw+GpaNeQZZUNGOkXrDZxVSRtX3n0=;
+	b=fEMP/5HXj8+m/XODCJgk2gBqKpsVosEm8QELltJxyjpue0p8nvv4fr4cldH1MbJIBJ
+	FKhGeurOx1elNgibly8b+jRgEfiK6+5KB9yt1cTEzb85kpB3OkufsamLFr+EWNwGBTIH
+	7uB0vVM/6+JmMw+jmUg5ZMvbAYOR/avElTgGYgFXf8KX5SOuNs3zGNqividVrC/f+4XH
+	gROzSXFpP0GukDF93eOkSQLfu7vMrzyvWRkF4iDjgJV7wRM1cXmxHddf39sbqSBy+sNB
+	zBokB+V/COz0/nHFSaQ2F3txjKoZZokQ8G/XmFeWbHzhB/rsnppD4spHkLIAbgYcoWC6
+	jDqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=FoATy8oZsskl8ARNANZmhlDNjVNkchw4y2fRYzB5sLg=;
-	b=YwrbWxNnLLDyDH9In5RxxHEgiwg7IGkFBHQY3tuDqPHPC3YxpWQEWxb7k8PZh64ERC
-	h3gYQh6Hh33PyHqVcfZnuwTb/06UMqrOCkKQp07OqpTEKosijSCRkThZXPdNY765CKR4
-	wGNDjh2FNq429xI6Z6pBMeMi7IbknfbW3gLS8mgqVraO7YW69S+6LR8Zx7okna/iVHGN
-	d23ZHh/01hgwS7MiDiZm8/f2NxvXFf/c5ib84eTu9czHeewAT1erlvzZEKcizegPXDit
-	XNy2ArA/g9h+x2wI2Uaz3l4ElixL5JrZFy52quAegQ9O+qAaPHpXIH4gvgAfXUl+dah1
-	RVHw==
-X-Gm-Message-State: APjAAAWV85mp16zg9QE02CiJPvv+jyWodU7YQny0tTJSu0Vtu6qF+by8
-	Tba8cER37IkCPyoCam4u0RwBYpfN6B1lMt4nCBPX
-X-Google-Smtp-Source: APXvYqy8jWokTyif6KzOybi3pSR8WmhOtchqhgdhvt7RrSGFTqkGrmdUyolCs+vmB7F+uW4cl7gy9HWttXA8XM5+5fI=
-X-Received: by 2002:a2e:1412:: with SMTP id u18mr8759792ljd.197.1558491817982; 
-	Tue, 21 May 2019 19:23:37 -0700 (PDT)
+	bh=j8PdCLitq9riR6Vw+GpaNeQZZUNGOkXrDZxVSRtX3n0=;
+	b=p/j6+/43A6Qv+lFh8ZgcYGOo20UcDiEfidE2/57tyNiK5iIu00xCTZJBp7DKVZ7oFk
+	HHEShLbKmxauSWzpbBJc1Nx08Ot473w7kVuYI5nbXky57AxSERPKGvhrPzu0TbrIw09v
+	4DQUPs95Jhs53upUSGsAYX6l36LcHY4gTHRismWdpy5K30SHQ4X+JmFoFrKJgvyilrgU
+	pWnuJmA7Ic3LMVBLy7hHhkTl4iYwE/CaUzqt2/QgJDAe9pIM7DKpMM1VeQwG7h+ihjJt
+	UfU5n0bSNRpnBC0pJPiJH2f8sE6RgqIZ0UZujJLMQyQxoHVKjTsti5exzhl9PZG9EV3F
+	m45A==
+X-Gm-Message-State: APjAAAXnC7N0FBEHESRCQHULoDsdwEHHRBydB066mklfgaV5kHOj2YHY
+	XqE0CNAt4TZjBvqM/qq4tnZxniFGz9fw/HMZn8og
+X-Google-Smtp-Source: APXvYqxmlE9qNWdocS4oCN93tjxSsX9kqQ7GY4TjeZkA1hiafKJJnzWIx78W7C/NyRC9s/sYHB6nNx7F3v7Kyt/NQq0=
+X-Received: by 2002:a2e:5502:: with SMTP id j2mr4433823ljb.63.1558493908879;
+	Tue, 21 May 2019 19:58:28 -0700 (PDT)
 MIME-Version: 1.0
-References: <67828806f9d2bf0f1e98e24afa58af55c8c8678f.1557358701.git.rgb@redhat.com>
-In-Reply-To: <67828806f9d2bf0f1e98e24afa58af55c8c8678f.1557358701.git.rgb@redhat.com>
+References: <e0cb73251e93f7a0798a18298cbf688f06a2bc74.1557330625.git.rgb@redhat.com>
+In-Reply-To: <e0cb73251e93f7a0798a18298cbf688f06a2bc74.1557330625.git.rgb@redhat.com>
 From: Paul Moore <paul@paul-moore.com>
-Date: Tue, 21 May 2019 22:23:27 -0400
-Message-ID: <CAHC9VhQ2X_iVO658JP5GgUy8rsr_LnqeJNeQTiWKnQxaCUUFKw@mail.gmail.com>
-Subject: Re: [PATCH ghak111 V2] audit: deliver signal_info regarless of syscall
+Date: Tue, 21 May 2019 22:58:17 -0400
+Message-ID: <CAHC9VhT454EEWkpUXAMar3wk8KBT+ZhMBrXkek08bBM=yca_4g@mail.gmail.com>
+Subject: Re: [PATCH ghak73 V2] audit: re-structure audit field valid checks
 To: Richard Guy Briggs <rgb@redhat.com>
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.39]);
-	Wed, 22 May 2019 02:23:40 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.39]);
-	Wed, 22 May 2019 02:23:40 +0000 (UTC) for IP:'209.85.208.193'
-	DOMAIN:'mail-lj1-f193.google.com'
-	HELO:'mail-lj1-f193.google.com' FROM:'paul@paul-moore.com' RCPT:''
+	(mx1.redhat.com [10.5.110.29]);
+	Wed, 22 May 2019 02:58:31 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.29]);
+	Wed, 22 May 2019 02:58:31 +0000 (UTC) for IP:'209.85.208.195'
+	DOMAIN:'mail-lj1-f195.google.com'
+	HELO:'mail-lj1-f195.google.com' FROM:'paul@paul-moore.com' RCPT:''
 X-RedHat-Spam-Score: -0.321  (DKIM_SIGNED, DKIM_VALID, RCVD_IN_DNSWL_NONE,
 	RCVD_IN_MSPIKE_H2, SPF_HELO_NONE,
-	SPF_NONE) 209.85.208.193 mail-lj1-f193.google.com 209.85.208.193
-	mail-lj1-f193.google.com <paul@paul-moore.com>
-X-Scanned-By: MIMEDefang 2.78 on 10.5.110.39
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+	SPF_NONE) 209.85.208.195 mail-lj1-f195.google.com 209.85.208.195
+	mail-lj1-f195.google.com <paul@paul-moore.com>
+X-Scanned-By: MIMEDefang 2.78 on 10.5.110.29
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-loop: linux-audit@redhat.com
-Cc: LKML <linux-kernel@vger.kernel.org>,
-	Linux-Audit Mailing List <linux-audit@redhat.com>,
-	ebiederm@xmission.com, oleg@redhat.com, Eric Paris <eparis@parisplace.org>
+Cc: Linux-Audit Mailing List <linux-audit@redhat.com>,
+	Eric Paris <eparis@parisplace.org>
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -101,41 +100,87 @@ Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.39]); Wed, 22 May 2019 02:26:47 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.46]); Wed, 22 May 2019 02:58:45 +0000 (UTC)
 
-On Fri, May 10, 2019 at 12:22 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+On Wed, May 8, 2019 at 12:43 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> Multiple checks were being done in one switch case statement that
+> started to cause some redundancies and awkward exceptions.  Separate the
+> valid field and op check from the select valid values checks.
 >
-> When a process signals the audit daemon (shutdown, rotate, resume,
-> reconfig) but syscall auditing is not enabled, we still want to know the
-> identity of the process sending the signal to the audit daemon.
+> Enforce the elimination of meaningless bitwise and greater/lessthan
+> checks on string fields and other fields with unrelated scalar values.
 >
-> Move audit_signal_info() out of syscall auditing to general auditing but
-> create a new function audit_signal_info_syscall() to take care of the
-> syscall dependent parts for when syscall auditing is enabled.
+> Honour the operator for WATCH, DIR, PERM, FILETYPE fields as is done in
+> the EXE field.
 >
-> Please see the github kernel audit issue
-> https://github.com/linux-audit/audit-kernel/issues/111
+> Please see the github issue
+> https://github.com/linux-audit/audit-kernel/issues/73
 >
 > Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
 > ---
 > Changelog:
 > v2:
-> - change patch title to avoid siginfo_t confusion
-> - change return value to "0" from AUDIT_OFF
-> - use dummy functions instead of macros in header files
+> - address WATCH, DIR, FILETYPE, PERM lack of op checking
+> - touch up switch statement formatting
 >
-> Compile/boot/test auditsyscall enable/disable, audit disable,
-> auditsyscall enable/selinux disable.
->
->  include/linux/audit.h |  9 +++++++++
->  kernel/audit.c        | 27 +++++++++++++++++++++++++++
->  kernel/audit.h        |  8 ++++++--
->  kernel/auditsc.c      | 19 +++----------------
->  kernel/signal.c       |  2 +-
->  5 files changed, 46 insertions(+), 19 deletions(-)
+>  kernel/auditfilter.c | 48 ++++++++++++++++++++++++++++++------------------
+>  kernel/auditsc.c     | 18 +++++++++++++++---
+>  2 files changed, 45 insertions(+), 21 deletions(-)
 
-Merged into audit/next, thanks.
+...
+
+> diff --git a/kernel/auditsc.c b/kernel/auditsc.c
+> index 5371b59bde36..4bd0ec60a0e8 100644
+> --- a/kernel/auditsc.c
+> +++ b/kernel/auditsc.c
+> @@ -601,12 +601,20 @@ static int audit_filter_rules(struct task_struct *tsk,
+>                         }
+>                         break;
+>                 case AUDIT_WATCH:
+> -                       if (name)
+> -                               result = audit_watch_compare(rule->watch, name->ino, name->dev);
+> +                       if (name) {
+> +                               result = audit_watch_compare(rule->watch,
+> +                                                            name->ino,
+> +                                                            name->dev);
+> +                               if (f->op == Audit_not_equal)
+> +                                       result = !result;
+> +                       }
+>                         break;
+>                 case AUDIT_DIR:
+> -                       if (ctx)
+> +                       if (ctx) {
+>                                 result = match_tree_refs(ctx, rule->tree);
+> +                               if (f->op == Audit_not_equal)
+> +                                       result = !result;
+> +                       }
+>                         break;
+>                 case AUDIT_LOGINUID:
+>                         result = audit_uid_comparator(audit_get_loginuid(tsk),
+> @@ -684,9 +692,13 @@ static int audit_filter_rules(struct task_struct *tsk,
+>                         break;
+>                 case AUDIT_PERM:
+>                         result = audit_match_perm(ctx, f->val);
+> +                       if (f->op == Audit_not_equal)
+> +                               result = !result;
+>                         break;
+>                 case AUDIT_FILETYPE:
+>                         result = audit_match_filetype(ctx, f->val);
+> +                       if (f->op == Audit_not_equal)
+> +                               result = !result;
+>                         break;
+>                 case AUDIT_FIELD_COMPARE:
+>                         result = audit_field_compare(tsk, cred, f, ctx, name);
+
+Other than the fact that Ondrej suggested these changes during review
+of this patch's first iteration, is there a reason why you thought it
+best to include the audit_filter_rules() changes in with the
+audit_field_valid() changes?  I ask because the audit_field_valid()
+changes are mostly cosmetic in nature where the audit_filter_rules()
+changes actually affect the behavior of the code and there is no
+strong connection between the two changes.  It seems like we would be
+better off if you split the changes into two patches.
 
 -- 
 paul moore
