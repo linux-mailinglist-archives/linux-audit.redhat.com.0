@@ -2,92 +2,84 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFC9928E85
-	for <lists+linux-audit@lfdr.de>; Fri, 24 May 2019 03:15:45 +0200 (CEST)
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+	by mail.lfdr.de (Postfix) with ESMTPS id BAC332D141
+	for <lists+linux-audit@lfdr.de>; Tue, 28 May 2019 23:54:32 +0200 (CEST)
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id CAC56309264D;
-	Fri, 24 May 2019 01:15:43 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 8F3EF8764B;
+	Tue, 28 May 2019 21:54:29 +0000 (UTC)
 Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 77D1267C8F;
-	Fri, 24 May 2019 01:15:42 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 7B0581001DC3;
+	Tue, 28 May 2019 21:54:26 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 9D7221806B13;
-	Fri, 24 May 2019 01:15:40 +0000 (UTC)
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 5DF531806B16;
+	Tue, 28 May 2019 21:54:21 +0000 (UTC)
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
 	[10.5.11.23])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id x4O1DJQC019545 for <linux-audit@listman.util.phx.redhat.com>;
-	Thu, 23 May 2019 21:13:19 -0400
+	id x4SLs9Am026646 for <linux-audit@listman.util.phx.redhat.com>;
+	Tue, 28 May 2019 17:54:09 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id 37BB519724; Fri, 24 May 2019 01:13:19 +0000 (UTC)
+	id 9B42218536; Tue, 28 May 2019 21:54:09 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from mx1.redhat.com (ext-mx06.extmail.prod.ext.phx2.redhat.com
-	[10.5.110.30])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 32A4519C4F
-	for <linux-audit@redhat.com>; Fri, 24 May 2019 01:13:17 +0000 (UTC)
-Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com
-	[209.85.208.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 559C8368A5
-	for <linux-audit@redhat.com>; Fri, 24 May 2019 01:13:14 +0000 (UTC)
-Received: by mail-lj1-f195.google.com with SMTP id h19so1689144ljj.4
-	for <linux-audit@redhat.com>; Thu, 23 May 2019 18:13:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=y5q1fgaekb9IUclbfSZU19hVqMX9nWjb2QoSRvsBh1w=;
-	b=Barotc24qbKKKRuhyPyiWA9c4LWtSPqpozL+XEGKdrWtkWuXE/Q+wSaCCbg+uJ8FRz
-	RRmF4bG6qC4R3O+NvqLDMAcr4EI9HTD8NxMO+UF2cFnpYAHdWkCoGKEcCtObFdYhFjWX
-	qUYnOtH7mrzjNqlHztZPbTpfj9F/6gIb7kRBo4zgD0vP3NTPpH7wQKA7qDDz+GfB5waw
-	TOWG5LO2NTFWJDNViIQqO6cB02tPaiL242PAjAG2e1YKeouIyFffEeDPs1klHB4zRE5K
-	Ara7yggX/kIag067LvdcDO1HK/V2xYQcmgCBUSzEiTcXfQr2e4Y2iU85Iqcpz5hZkFKZ
-	luMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=y5q1fgaekb9IUclbfSZU19hVqMX9nWjb2QoSRvsBh1w=;
-	b=WOMVTyRJrFUTOxk95iW4nrpACasnAeR0QXo90wIsqn3X5qZ35bw8A5IlDUeDpQo1Ss
-	kagn9oEDzZtbdBLk7doIFrulVlvT6XjRjFB6ksp7isnDYvHgNdM5NqY+Fc8T1CUwoFdl
-	SB5qnc7POrLYgpDEyEuG2z83CjbHtIuzrJGtSKPr+uwlCrJNwJNP07DzZ7hf8tyc6nTh
-	BF7bBIg5TgNE8jwh/ZVWsLkH7POtdAEM7WK0j8kA130fremrpPcWc1CYpkyGmB13pPEx
-	CfnubK2iORBU+bjELbHraAecnhK3bvqDzOQvAITv9psqtIgH0KMPukQPcHHEotegkyEJ
-	W3jQ==
-X-Gm-Message-State: APjAAAUflUx2CTKkxXHYrTQi0sR5/2Yq/4WqYyI96l5SBLSxMSp8rM47
-	PMhFHD6DcNSKzdbY8cEqggIrYM8l8NhBrF+ASa/J
-X-Google-Smtp-Source: APXvYqyMSdsnUF9BVHI9S7XjT7wSA4uQ4sAxphOsSdoG7sg1735XG1E+4FMRO2MgQLGEVRtytMAUAc8NonMOLrMkmtw=
-X-Received: by 2002:a2e:9747:: with SMTP id f7mr9545933ljj.34.1558660392644;
-	Thu, 23 May 2019 18:13:12 -0700 (PDT)
+Received: from localhost.localdomain (ovpn-112-56.rdu2.redhat.com
+	[10.10.112.56])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 4332E1972B;
+	Tue, 28 May 2019 21:53:56 +0000 (UTC)
+Subject: Re: [PATCH ghak90 V6 00/10] audit: implement container identifier
+To: Paul Moore <paul@paul-moore.com>, Neil Horman <nhorman@tuxdriver.com>
+References: <cover.1554732921.git.rgb@redhat.com>
+	<20190422113810.GA27747@hmswarspite.think-freely.org>
+	<CAHC9VhQYPF2ma_W+hySbQtfTztf=K1LTFnxnyVK0y9VYxj-K=w@mail.gmail.com>
+From: Daniel Walsh <dwalsh@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=dwalsh@redhat.com; prefer-encrypt=mutual; keydata=
+	mQENBFsaqOEBCADBSnZCZpi262vX8m7iL/OdHKP9G9dhS28FR60cjd8nMPqHDNhQJBjLMZra
+	66L2cCIEhc4HEItail7KU1BckrMc4laFaxL8tLoVTKHZwb74n2OcAJ4FtgzkNNlB1XJvSwC/
+	909uwt7cpDqwXpJvyP3t17iuklB1OY0EEjTDt9aU4+0QjHzV18L4Cpd9iQ4ksu+EHT+pjlBk
+	DdQB+hKoAjxPl11Eh6pZfrAcrNWpYBBk0A3XE9Jb6ghbmHWltNgVOsCa9GcswJHUEeFiOup6
+	J5DTv6Xzwt0t6QB8nIs+wDJH+VxqAXcrxscnAhViIfGGS2AtxzjnVOz/J+UZPaauIGXTABEB
+	AAG0LERhbmllbCBKIFdhbHNoIChGb3IgR2l0KSA8ZHdhbHNoQHJlZGhhdC5jb20+iQE4BBMB
+	AgAiBQJbGqjhAhsDBgsJCAcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRCi35Adq+LAKHuJB/98
+	nZB5RmNjMWua4Ms8q5a1R9XWlDAb3mrST6JeL+uV/M0fa18e2Aw4/hi/WZHjAjoypLmcuaRx
+	GeCbC8iYdpfRDUG79Y956Qq+Vs8c6VfNDMY1mvtfb00eeTaYoOCu0Aa9LDeR9iLKh2g0RI+N
+	Zr3EU45RxZdacIs1v6mU8pGpyUq/FvuTGK9GzR9d1YeVCuSpQKN4ckHNZHJUXyk0vOZft1oO
+	nSgLqM9EDWA+yz1JLmRYwbNsim7IvfVOav5mCgnKzHcL2mLv8qCnMFZjoQV8aGny/W739Z3a
+	YJo1CdOg6zSu5SOvmq9idYrBRkwEtyLXss2oceTVBs0MxqQ/9mLPuQENBFsaqOEBCADDl2hl
+	bUpqJGgwt2eQvs0Z0DCx/7nn0hlLfEn4WAv2HqP25AjIRXUX31Mzu68C4QnsvNtY4zN+FGRC
+	EfUpYsjiL7vBYlRePhIohyMYU4RLp5eXFQKahHO/9Xlhe8mwueQNwYxNBPfMQ65U2AuqxpcS
+	scx4s5w208mhqHoKz6IB2LuKeflhYfH5Y1FNAtVGHfhg22xlcAdupPPcxGuS4fBEW6PD/SDf
+	Y4HT5iUHsyksQKjM0IFalqZ7YuLfXBl07OD2zU7WI9c3W0dwkvwIRjt3aD4iAah544uOLff+
+	BzfxWghXeo80S2a1WCL0S/2qR0NVct/ExaDWboYr/bKpTa/1ABEBAAGJAR8EGAECAAkFAlsa
+	qOECGwwACgkQot+QHaviwCi2hgf/XRvrt+VBmp1ZFxQAR9E6S7AtRT8KSytjFiqEC7TpOx3r
+	2OZ4gZ3ZiW4TMW8hS7aYRgF1uYpLzl7BbrCfCHfAWEcXZ+uG8vayg8G/mLAcNlLY+JE76ATs
+	53ziEY9R2Vb/wLMFd2nNBdqfwGcRH9N9VOej9vP76nCP01ZolY8Nms2hE383/+1Quxp5EedU
+	BN5W5l7x9riBJyqCA63hr4u8wNsTuQgrDyhm/U1IvYeLtMopgotjnIR3KiTKOElbppLeXW3w
+	EO/sQTPk+vQ4vcsJYY9Dnf1NlvHE4klj60GHjtjitsBEHzdE7s+J9FOxPmt8l+gMogGumKpN
+	Y4lO0pfTyg==
+Organization: Red Hat
+Message-ID: <509ea6b0-1ac8-b809-98c2-37c34dd98ca3@redhat.com>
+Date: Tue, 28 May 2019 17:53:55 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-References: <875429973aa2d4d5d54de195b2233f70fed8553c.1557409253.git.rgb@redhat.com>
-In-Reply-To: <875429973aa2d4d5d54de195b2233f70fed8553c.1557409253.git.rgb@redhat.com>
-From: Paul Moore <paul@paul-moore.com>
-Date: Thu, 23 May 2019 21:13:01 -0400
-Message-ID: <CAHC9VhSntkMnKscpG95KZ0HvVU9hUR8g0db43N8SF4MpbcH4KQ@mail.gmail.com>
-Subject: Re: [PATCH ghak64 V3] audit: add saddr_fam filter field
-To: Richard Guy Briggs <rgb@redhat.com>
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.30]);
-	Fri, 24 May 2019 01:13:14 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.30]);
-	Fri, 24 May 2019 01:13:14 +0000 (UTC) for IP:'209.85.208.195'
-	DOMAIN:'mail-lj1-f195.google.com'
-	HELO:'mail-lj1-f195.google.com' FROM:'paul@paul-moore.com' RCPT:''
-X-RedHat-Spam-Score: -0.444  (DKIM_SIGNED, DKIM_VALID, RCVD_IN_DNSWL_NONE,
-	RCVD_IN_MSPIKE_H2, SPF_HELO_NONE,
-	SPF_NONE) 209.85.208.195 mail-lj1-f195.google.com 209.85.208.195
-	mail-lj1-f195.google.com <paul@paul-moore.com>
-X-Scanned-By: MIMEDefang 2.78 on 10.5.110.30
+In-Reply-To: <CAHC9VhQYPF2ma_W+hySbQtfTztf=K1LTFnxnyVK0y9VYxj-K=w@mail.gmail.com>
+Content-Language: en-US
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-loop: linux-audit@redhat.com
-Cc: Linux-Audit Mailing List <linux-audit@redhat.com>,
-	Eric Paris <eparis@parisplace.org>
+Cc: Richard Guy Briggs <rgb@redhat.com>, linux-api@vger.kernel.org,
+	containers@lists.linux-foundation.org,
+	LKML <linux-kernel@vger.kernel.org>, dhowells@redhat.com,
+	Linux-Audit Mailing List <linux-audit@redhat.com>,
+	netfilter-devel@vger.kernel.org, ebiederm@xmission.com,
+	simo@redhat.com, netdev@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	Eric Paris <eparis@parisplace.org>, Mrunal Patel <mpatel@redhat.com>,
+	Serge Hallyn <serge@hallyn.com>
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
+Reply-To: dwalsh@redhat.com
 List-Id: Linux Audit Discussion <linux-audit.redhat.com>
 List-Unsubscribe: <https://www.redhat.com/mailman/options/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=unsubscribe>
@@ -100,58 +92,44 @@ Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.43]); Fri, 24 May 2019 01:15:44 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.26]); Tue, 28 May 2019 21:54:31 +0000 (UTC)
 
-On Thu, May 9, 2019 at 8:02 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+On 4/22/19 9:49 AM, Paul Moore wrote:
+> On Mon, Apr 22, 2019 at 7:38 AM Neil Horman <nhorman@tuxdriver.com> wrote:
+>> On Mon, Apr 08, 2019 at 11:39:07PM -0400, Richard Guy Briggs wrote:
+>>> Implement kernel audit container identifier.
+>> I'm sorry, I've lost track of this, where have we landed on it? Are we good for
+>> inclusion?
+> I haven't finished going through this latest revision, but unless
+> Richard made any significant changes outside of the feedback from the
+> v5 patchset I'm guessing we are "close".
 >
-> Provide a method to filter out sockaddr and bind calls by network
-> address family.
+> Based on discussions Richard and I had some time ago, I have always
+> envisioned the plan as being get the kernel patchset, tests, docs
+> ready (which Richard has been doing) and then run the actual
+> implemented API by the userland container folks, e.g. cri-o/lxc/etc.,
+> to make sure the actual implementation is sane from their perspective.
+> They've already seen the design, so I'm not expecting any real
+> surprises here, but sometimes opinions change when they have actual
+> code in front of them to play with and review.
 >
-> Existing SOCKADDR records are listed for any network activity.
-> Implement the AUDIT_SADDR_FAM field selector to be able to classify or
-> limit records to specific network address families, such as AF_INET or
-> AF_INET6.
+> Beyond that, while the cri-o/lxc/etc. folks are looking it over,
+> whatever additional testing we can do would be a big win.  I'm
+> thinking I'll pull it into a separate branch in the audit tree
+> (audit/working-container ?) and include that in my secnext kernels
+> that I build/test on a regular basis; this is also a handy way to keep
+> it based against the current audit/next branch.  If any changes are
+> needed Richard can either chose to base those changes on audit/next or
+> the separate audit container ID branch; that's up to him.  I've done
+> this with other big changes in other trees, e.g. SELinux, and it has
+> worked well to get some extra testing in and keep the patchset "merge
+> ready" while others outside the subsystem look things over.
 >
-> An example of a network record that is unlikely to be useful and flood
-> the logs:
->
-> type=SOCKADDR msg=audit(07/27/2017 12:18:27.019:845) : saddr={ fam=local
-> path=/var/run/nscd/socket }
-> type=SYSCALL msg=audit(07/27/2017 12:18:27.019:845) : arch=x86_64
-> syscall=connect success=no exit=ENOENT(No such file or directory) a0=0x3
-> a1=0x7fff229c4980 a2=0x6e a3=0x6 items=1 ppid=3301 pid=6145 auid=sgrubb
-> uid=sgrubb gid=sgrubb euid=sgrubb suid=sgrubb fsuid=sgrubb egid=sgrubb
-> sgid=sgrubb fsgid=sgrubb tty=pts3 ses=4 comm=bash exe=/usr/bin/bash
-> subj=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023
-> key=network-test
->
-> Please see the audit-testsuite PR at
-> https://github.com/linux-audit/audit-testsuite/pull/87
-> Please see the github issue
-> https://github.com/linux-audit/audit-kernel/issues/64
-> Please see the github issue for the accompanying userspace support
-> https://github.com/linux-audit/audit-userspace/issues/93
->
-> Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
-> ---
-> Changelog:
-> v2:
-> - rebase on ghak73 v2
-> - check for valid range of saddr_fam value
-> v3:
-> - eliminate AF_UNSPEC check
->
->  include/uapi/linux/audit.h | 1 +
->  kernel/auditfilter.c       | 5 +++++
->  kernel/auditsc.c           | 5 +++++
->  3 files changed, 11 insertions(+)
+Mrunal Patel (maintainer of CRI-O) and I have reviewed the API, and
+believe this is something we can work on in the container runtimes team
+to implement the container auditing code in CRI-O and Podman.
 
-Merged into audit/next.
-
--- 
-paul moore
-www.paul-moore.com
 
 --
 Linux-audit mailing list
