@@ -2,97 +2,80 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2AE82FDF6
-	for <lists+linux-audit@lfdr.de>; Thu, 30 May 2019 16:35:41 +0200 (CEST)
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+	by mail.lfdr.de (Postfix) with ESMTPS id 44A132FF27
+	for <lists+linux-audit@lfdr.de>; Thu, 30 May 2019 17:15:11 +0200 (CEST)
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id EA69D8553B;
-	Thu, 30 May 2019 14:35:34 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id B5940611A1;
-	Thu, 30 May 2019 14:35:31 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id ACDCC3082E55;
+	Thu, 30 May 2019 15:14:40 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 2BBDA7A514;
+	Thu, 30 May 2019 15:14:30 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id C55C11806B0F;
-	Thu, 30 May 2019 14:35:29 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
-	[10.5.11.23])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id C5FEB206D2;
+	Thu, 30 May 2019 15:14:17 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+	[10.5.11.11])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id x4UEZDwo025660 for <linux-audit@listman.util.phx.redhat.com>;
-	Thu, 30 May 2019 10:35:13 -0400
+	id x4UFBuhH003582 for <linux-audit@listman.util.phx.redhat.com>;
+	Thu, 30 May 2019 11:11:57 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id 0A8201973B; Thu, 30 May 2019 14:35:13 +0000 (UTC)
+	id A07007C55C; Thu, 30 May 2019 15:11:56 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from mx1.redhat.com (ext-mx09.extmail.prod.ext.phx2.redhat.com
-	[10.5.110.38])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 0511F808B
-	for <linux-audit@redhat.com>; Thu, 30 May 2019 14:35:10 +0000 (UTC)
-Received: from mail-lf1-f68.google.com (mail-lf1-f68.google.com
-	[209.85.167.68])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx1.redhat.com (ext-mx10.extmail.prod.ext.phx2.redhat.com
+	[10.5.110.39])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 9852B7C55B
+	for <linux-audit@redhat.com>; Thu, 30 May 2019 15:11:54 +0000 (UTC)
+Received: from web-out.onbox.hu (fmfe37.onbox.hu [46.107.16.242])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 60BF6E3E08
-	for <linux-audit@redhat.com>; Thu, 30 May 2019 14:35:02 +0000 (UTC)
-Received: by mail-lf1-f68.google.com with SMTP id a9so3802879lff.7
-	for <linux-audit@redhat.com>; Thu, 30 May 2019 07:35:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=BnDbzkkNEs3+qCAYM6PlcBSJ9muruAbc6zh0yrmMscI=;
-	b=GWJCSp8Ea5nLSw4PQsmUexLPU9ilEqisyppKzq55gGe0EXTU1gK81I2OupZcNpEfBp
-	FEt6cP3ID92EWi+7AOnBYGA0Ks7kMMHmIwuCOXSTnoWyt9G0QUg/qPKTyCr++U1Vj81z
-	OBD9bVbRccfpHrJSutlT+QxN7HGtO6iu7CDa5SLnoPR89ac3mi2LAiNOoxPv0PDN/hp4
-	l40+0DaiA/QQzBIUYu0FZHnaSsQni3VmtD1j1Ni4uJrquQC2ecy5KN+HQxdP9IoLrIqB
-	NQaPK9NrzK6KSr1mQCUVyOMXunHba1wxDCzenzD+grV8InLlZw+DV7yqW3qc0uFM5f2z
-	aTnQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=BnDbzkkNEs3+qCAYM6PlcBSJ9muruAbc6zh0yrmMscI=;
-	b=db78Sy3LEpcJ9Ic8FSjpSBlonFNOsd+lBDg/UxX4SydAKSNcFRkg9kTH9GDTd474SF
-	BzKO/IZwR3tWIWuYWujKnGwoQ3hKJPn1yPXFW+jwm6bP5z69unEH4QMOlbPsTQFuE/Gz
-	qqazmycmWYVF1W9MN8XKiZjZGIHZ9kHHbKem7UZ0Oebz0EMlr1O/vwR3wZLRKu8RBOX9
-	1pQ5L10aJ+V1wmVEFYyVlyinrorBsxCKbFYVUh7JJvYOgbyPltwM1t/k+qEliP08ig66
-	q7suXKKhcv3sN4mDTJ9uGXs0QdYk7BMYyAiQq50NufVz3A9LLaw9nIkqjdL71sbp9fiI
-	oxhg==
-X-Gm-Message-State: APjAAAW24eoykCjUIui5+ozI1jSDAgGx5yA7J01Esbaf/DQDT7BAfhEF
-	kO76CMb7/10SUOruE6GmlY4vq3GTJ/HKywQnkED2
-X-Google-Smtp-Source: APXvYqwHC8RbjMH6lxvVIhsAzDm3HE9/Eadxhwf+Gs4Sub/2cYfUPJHXYxbbG9TWyQTvzlhVlUcV6s1iN4J/NfvvlRg=
-X-Received: by 2002:ac2:410a:: with SMTP id b10mr2250887lfi.175.1559226900658; 
-	Thu, 30 May 2019 07:35:00 -0700 (PDT)
+	by mx1.redhat.com (Postfix) with ESMTPS id E908E9FFFA
+	for <linux-audit@redhat.com>; Thu, 30 May 2019 15:11:39 +0000 (UTC)
+X-fm-smtp-source: yes
+Received: from localhost (localhost [92.249.148.46])
+	by web-out.onbox.hu (Postfix) with SMTP id 45F9yy0yYHz754;
+	Thu, 30 May 2019 17:11:38 +0200 (CEST)
+From: =?utf-8?Q?R=C3=B3bert_Nagy?= <robert.nagy1@freemail.hu>
+To: "linux-audit@redhat.com" <linux-audit@redhat.com>
+Message-ID: <AxkQnw.DojO6sY8KOO.G6ELBQGJHRFdjRqyI7Mm@freemail.hu>
+In-Reply-To: <9453511.RplY5aRnKT@x2>
+References: <AxkNEg.6xBamOA67vUU.O6mFWVI0mE32fIXmL36@freemail.hu>
+	<9453511.RplY5aRnKT@x2>
+Subject: Re: Missing login records - Audit functionality in different kernel
+	versions
 MIME-Version: 1.0
-References: <cover.1554732921.git.rgb@redhat.com>
-	<0785ee2644804f3ec6af1243cc0dcf89709c1fd4.1554732921.git.rgb@redhat.com>
-	<CAHC9VhRV-0LSEcRvPO1uXtKdpEQsaLZnBV3T=zcMTZPN5ugz5w@mail.gmail.com>
-	<20190530141951.iofimovrndap4npq@madcap2.tricolour.ca>
-In-Reply-To: <20190530141951.iofimovrndap4npq@madcap2.tricolour.ca>
-From: Paul Moore <paul@paul-moore.com>
-Date: Thu, 30 May 2019 10:34:49 -0400
-Message-ID: <CAHC9VhQhkzCtVOXhPL7BzaqvF0y+8gBQwhOo1EQDS2OUyZbV5g@mail.gmail.com>
-Subject: Re: [PATCH ghak90 V6 08/10] audit: add containerid filtering
-To: Richard Guy Briggs <rgb@redhat.com>
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.38]);
-	Thu, 30 May 2019 14:35:02 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.38]);
-	Thu, 30 May 2019 14:35:02 +0000 (UTC) for IP:'209.85.167.68'
-	DOMAIN:'mail-lf1-f68.google.com' HELO:'mail-lf1-f68.google.com'
-	FROM:'paul@paul-moore.com' RCPT:''
-X-RedHat-Spam-Score: -0.305  (DKIM_SIGNED, DKIM_VALID, RCVD_IN_MSPIKE_H2,
-	SPF_HELO_NONE,
-	SPF_NONE) 209.85.167.68 mail-lf1-f68.google.com 209.85.167.68
-	mail-lf1-f68.google.com <paul@paul-moore.com>
-X-Scanned-By: MIMEDefang 2.78 on 10.5.110.38
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-AccountId: 54268006
+X-Originating-Ip: 92.249.148.46
+Date: Thu, 30 May 2019 17:11:38 +0200 (CEST)
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduuddruddvledgkeehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuggftfghnshhusghstghrihgsvgdpucfhtffggffotefknfenuceurghilhhouhhtmecufedttdenucenucfjughrpefhvffkjghfufggtghiffesrgdtregstddtjeenucfhrhhomheptfpksggvrhhtpgfprghghicuoehrohgsvghrthdrnhgrghihudesfhhrvggvmhgrihhlrdhhuheqnecuffhomhgrihhnpehrvgguhhgrthdrtghomhenucfkphepledvrddvgeelrddugeekrdegieenucfrrghrrghmpehhvghloheppdhinhgvthepledvrddvgeelrddugeekrdegiedpmhgrihhlfhhrohhmpehrohgsvghrthdrnhgrghihudesfhhrvggvmhgrihhlrdhhuhdprhgtphhtthhopehlihhnuhigqdgruhguihhtsehrvgguhhgrthdrtghomhenucevlhhushhtvghrufhiiigvpedt
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=simple/relaxed; t=1559229098; 
+	s=20181004; d=freemail.hu;
+	h=From:To:Message-ID:In-Reply-To:References:Subject:MIME-Version:Content-Type:Date;
+	l=5857; bh=zbZm3ZwKjLAPI4cqkPBDri2B3vlL2+gAD8nqQpwlsmo=;
+	b=ERjAnrwIZyUlDM2lv7nz+3iOD7CGdja5jIkxqApYRU1cXJwRxh69JXVfSToK2UMq
+	o5PvdTwwj5T0ZpIA+IE9JscWKvJzRQFi3xGITkRpbuRlxBnjw5WoCV9kxOxt0zu3+fe
+	K9EqKffRqotaKYzi1Vtqxu2+s0a5ym9GfS+n+OlhCeuJ6XvlEO0P9oIRfV/SO7WVSqO
+	qPqREoAQQyIvEzzKuTx49qX3tNFZhiTcpnpBey6FPHLu4cmUVswGFB7W2PxMTdZW4xx
+	vGWR5CETb4sOmWu2fu4h7uVW1UeZnn47kc/1y17OY4TEYysAoZlsWPSqLsMa4/aT8bl
+	hd/rAs4r0g==
+X-Greylist: Sender passed SPF test, Sender IP whitelisted by DNSRBL, ACL 216
+	matched, not delayed by milter-greylist-4.5.16 (mx1.redhat.com
+	[10.5.110.39]); Thu, 30 May 2019 15:11:40 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.39]);
+	Thu, 30 May 2019 15:11:40 +0000 (UTC) for IP:'46.107.16.242'
+	DOMAIN:'fmfe37.onbox.hu' HELO:'web-out.onbox.hu'
+	FROM:'robert.nagy1@freemail.hu' RCPT:''
+X-RedHat-Spam-Score: 0.144  (DKIM_SIGNED, DKIM_VALID, DKIM_VALID_AU,
+	FREEMAIL_ENVFROM_END_DIGIT, FREEMAIL_FROM, HTML_MESSAGE,
+	RCVD_IN_DNSWL_NONE, SPF_HELO_NONE,
+	SPF_NONE) 46.107.16.242 fmfe37.onbox.hu 46.107.16.242 fmfe37.onbox.hu
+	<robert.nagy1@freemail.hu>
+X-Scanned-By: MIMEDefang 2.78 on 10.5.110.39
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-loop: linux-audit@redhat.com
-Cc: nhorman@tuxdriver.com, linux-api@vger.kernel.org,
-	containers@lists.linux-foundation.org,
-	LKML <linux-kernel@vger.kernel.org>, dhowells@redhat.com,
-	Linux-Audit Mailing List <linux-audit@redhat.com>,
-	netfilter-devel@vger.kernel.org, ebiederm@xmission.com,
-	simo@redhat.com, netdev@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	Eric Paris <eparis@parisplace.org>, Serge Hallyn <serge@hallyn.com>
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -104,98 +87,200 @@ List-Post: <mailto:linux-audit@redhat.com>
 List-Help: <mailto:linux-audit-request@redhat.com?subject=help>
 List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="===============4282336960403730414=="
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.28]); Thu, 30 May 2019 14:35:40 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.46]); Thu, 30 May 2019 15:15:10 +0000 (UTC)
 
-On Thu, May 30, 2019 at 10:20 AM Richard Guy Briggs <rgb@redhat.com> wrote:
+--===============4282336960403730414==
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_2362_1736767868.1559228853194"
+
+------=_Part_2362_1736767868.1559228853194
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+Steve, thank you for your quick response!
+Indeed, that's the problem. My copy of PAM is not compiled with audit suppo=
+rt.
+Many thanks, again,
+Robert
+=C2=A0
+
+-------- Eredeti lev=C3=A9l --------
+
+Felad=C3=B3: Steve Grubb <sgrubb@redhat.com>
+D=C3=A1tum: 2019 m=C3=A1jus 30 14:31:19
+T=C3=A1rgy: Re: Missing login records - Audit functionality in different ke=
+rnel versions
+C=C3=ADmzett: linux-audit@redhat.com
+
+Hello,
+
+On Thursday, May 30, 2019 3:37:23 AM EDT R=C3=B3bert Nagy wrote:
+> I tested Audit on a Debian 7 (kernel version 3.2.0-5-amd64), but in the
+> audit.log I get no USER_AUTH, USER_ACCT, CRED_ACQ, USER_START and
+> USER_LOGIN record types at all, Only USER_LOGIN types.
 >
-> On 2019-05-29 18:16, Paul Moore wrote:
-> > On Mon, Apr 8, 2019 at 11:41 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> > >
-> > > Implement audit container identifier filtering using the AUDIT_CONTID
-> > > field name to send an 8-character string representing a u64 since the
-> > > value field is only u32.
-> > >
-> > > Sending it as two u32 was considered, but gathering and comparing two
-> > > fields was more complex.
-> > >
-> > > The feature indicator is AUDIT_FEATURE_BITMAP_CONTAINERID.
-> > >
-> > > Please see the github audit kernel issue for the contid filter feature:
-> > >   https://github.com/linux-audit/audit-kernel/issues/91
-> > > Please see the github audit userspace issue for filter additions:
-> > >   https://github.com/linux-audit/audit-userspace/issues/40
-> > > Please see the github audit testsuiite issue for the test case:
-> > >   https://github.com/linux-audit/audit-testsuite/issues/64
-> > > Please see the github audit wiki for the feature overview:
-> > >   https://github.com/linux-audit/audit-kernel/wiki/RFE-Audit-Container-ID
-> > > Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
-> > > Acked-by: Serge Hallyn <serge@hallyn.com>
-> > > Acked-by: Neil Horman <nhorman@tuxdriver.com>
-> > > Reviewed-by: Ondrej Mosnacek <omosnace@redhat.com>
-> > > ---
-> > >  include/linux/audit.h      |  1 +
-> > >  include/uapi/linux/audit.h |  5 ++++-
-> > >  kernel/audit.h             |  1 +
-> > >  kernel/auditfilter.c       | 47 ++++++++++++++++++++++++++++++++++++++++++++++
-> > >  kernel/auditsc.c           |  4 ++++
-> > >  5 files changed, 57 insertions(+), 1 deletion(-)
-> >
-> > ...
-> >
-> > > diff --git a/kernel/auditfilter.c b/kernel/auditfilter.c
-> > > index 63f8b3f26fab..407b5bb3b4c6 100644
-> > > --- a/kernel/auditfilter.c
-> > > +++ b/kernel/auditfilter.c
-> > > @@ -1206,6 +1224,31 @@ int audit_comparator(u32 left, u32 op, u32 right)
-> > >         }
-> > >  }
-> > >
-> > > +int audit_comparator64(u64 left, u32 op, u64 right)
-> > > +{
-> > > +       switch (op) {
-> > > +       case Audit_equal:
-> > > +               return (left == right);
-> > > +       case Audit_not_equal:
-> > > +               return (left != right);
-> > > +       case Audit_lt:
-> > > +               return (left < right);
-> > > +       case Audit_le:
-> > > +               return (left <= right);
-> > > +       case Audit_gt:
-> > > +               return (left > right);
-> > > +       case Audit_ge:
-> > > +               return (left >= right);
-> > > +       case Audit_bitmask:
-> > > +               return (left & right);
-> > > +       case Audit_bittest:
-> > > +               return ((left & right) == right);
-> > > +       default:
-> > > +               BUG();
-> >
-> > A little birdy mentioned the BUG() here as a potential issue and while
-> > I had ignored it in earlier patches because this is likely a
-> > cut-n-paste from another audit comparator function, I took a closer
-> > look this time.  It appears as though we will never have an invalid op
-> > value as audit_data_to_entry()/audit_to_op() ensure that the op value
-> > is a a known good value.  Removing the BUG() from all the audit
-> > comparators is a separate issue, but I think it would be good to
-> > remove it from this newly added comparator; keeping it so that we
-> > return "0" in the default case seems reasoanble.
+> As I understand these records should be there without any rules set.
+> https://www.redhat.com/archives/linux-audit/2017-July/msg00046.html
+
+Yes. These are sent by pam. So, the question would be, is your copy of pam
+compiled with audit support?
+
+ldd /usr/lib64/libpam_misc.so | grep libaudit
+libaudit.so.1 =3D> /lib64/libaudit.so.1 (0x00007f06c2c39000)
+
+
+> On another server with kernel version 4.9 it works properly. Is there a
+> possibility that this Audit functionality is not implemented in kernel
+> version 3.2, or is this just a configuration issue on my side?
+
+This should be pam.
+
+-Steve
+
+> We have too many Debian 3.x production servers to consider kernel upgrade
+> being an option.
 >
-> Fair enough.  That BUG(); can be removed.
+> If it's a kernel issue, could you please recommend any workaround?
+> Currently I am thinking on parsing the auth.log
+>
+> Many thanks,
+> Robert
+>
+> auditd.conf:
+> log_file =3D /var/log/audit/audit.log
+> log_format =3D RAW
+> log_group =3D root
+> priority_boost =3D 4
+> flush =3D INCREMENTAL
+> freq =3D 20
+> num_logs =3D 4
+> disp_qos =3D lossy
+> dispatcher =3D /sbin/audispd
+> name_format =3D NONE
+> ##name =3D mydomain
+> max_log_file =3D 5
+> max_log_file_action =3D ROTATE
+> space_left =3D 75
+> space_left_action =3D SYSLOG
+> action_mail_acct =3D root
+> admin_space_left =3D 50
+> admin_space_left_action =3D SUSPEND
+> disk_full_action =3D SUSPEND
+> disk_error_action =3D SUSPEND
+> ##tcp_listen_port =3D
+> tcp_listen_queue =3D 5
+> tcp_max_per_addr =3D 1
+> ##tcp_client_ports =3D 1024-65535
+> tcp_client_max_idle =3D 0
+> enable_krb5 =3D no
+> krb5_principal =3D auditd
+> ##krb5_key_file =3D /etc/audit/audit.key
 
-Please send a fixup patch for this.
 
--- 
-paul moore
-www.paul-moore.com
+
+=C2=A0
+
+------=_Part_2362_1736767868.1559228853194
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+Steve, thank you for your quick response!<br />
+Indeed, that&#39;s the problem. My copy of PAM is not compiled with audit support.<br />
+Many thanks, again,<br />
+Robert<br />
+&#160;
+<blockquote class="fm-read-more">
+<div data-ng="originalcontent">-------- Eredeti lev&#233;l --------</div>
+<br />
+Felad&#243;: Steve Grubb &#60;<a href="mailto:sgrubb@redhat.com" rel="nofollow">sgrubb@redhat.com</a>&#62;<br />
+D&#225;tum: 2019 m&#225;jus 30 14:31:19<br />
+T&#225;rgy: Re: Missing login records - Audit functionality in different kernel versions<br />
+C&#237;mzett: <a href="mailto:linux-audit@redhat.com" rel="nofollow">linux-audit@redhat.com</a><br />
+<br />
+Hello,<br />
+<br />
+On Thursday, May 30, 2019 3:37:23 AM EDT R&#243;bert Nagy wrote:<br />
+&#62; I tested Audit on a Debian 7 (kernel version 3.2.0-5-amd64), but in the<br />
+&#62; audit.log I get no USER_AUTH, USER_ACCT, CRED_ACQ, USER_START and<br />
+&#62; USER_LOGIN record types at all, Only USER_LOGIN types.<br />
+&#62;<br />
+&#62; As I understand these records should be there without any rules set.<br />
+&#62; https://www.redhat.com/archives/linux-audit/2017-July/msg00046.html<br />
+<br />
+Yes. These are sent by pam. So, the question would be, is your copy of pam<br />
+compiled with audit support?<br />
+<br />
+ldd /usr/lib64/libpam_misc.so | grep libaudit<br />
+libaudit.so.1 =&#62; /lib64/libaudit.so.1 (0x00007f06c2c39000)<br />
+<br />
+<br />
+&#62; On another server with kernel version 4.9 it works properly. Is there a<br />
+&#62; possibility that this Audit functionality is not implemented in kernel<br />
+&#62; version 3.2, or is this just a configuration issue on my side?<br />
+<br />
+This should be pam.<br />
+<br />
+-Steve<br />
+<br />
+&#62; We have too many Debian 3.x production servers to consider kernel upgrade<br />
+&#62; being an option.<br />
+&#62;<br />
+&#62; If it&#39;s a kernel issue, could you please recommend any workaround?<br />
+&#62; Currently I am thinking on parsing the auth.log<br />
+&#62;<br />
+&#62; Many thanks,<br />
+&#62; Robert<br />
+&#62;<br />
+&#62; auditd.conf:<br />
+&#62; log_file = /var/log/audit/audit.log<br />
+&#62; log_format = RAW<br />
+&#62; log_group = root<br />
+&#62; priority_boost = 4<br />
+&#62; flush = INCREMENTAL<br />
+&#62; freq = 20<br />
+&#62; num_logs = 4<br />
+&#62; disp_qos = lossy<br />
+&#62; dispatcher = /sbin/audispd<br />
+&#62; name_format = NONE<br />
+&#62; ##name = mydomain<br />
+&#62; max_log_file = 5<br />
+&#62; max_log_file_action = ROTATE<br />
+&#62; space_left = 75<br />
+&#62; space_left_action = SYSLOG<br />
+&#62; action_mail_acct = root<br />
+&#62; admin_space_left = 50<br />
+&#62; admin_space_left_action = SUSPEND<br />
+&#62; disk_full_action = SUSPEND<br />
+&#62; disk_error_action = SUSPEND<br />
+&#62; ##tcp_listen_port =<br />
+&#62; tcp_listen_queue = 5<br />
+&#62; tcp_max_per_addr = 1<br />
+&#62; ##tcp_client_ports = 1024-65535<br />
+&#62; tcp_client_max_idle = 0<br />
+&#62; enable_krb5 = no<br />
+&#62; krb5_principal = auditd<br />
+&#62; ##krb5_key_file = /etc/audit/audit.key<br />
+<br />
+<br />
+<br />
+&#160;</blockquote>
+
+------=_Part_2362_1736767868.1559228853194--
+
+
+--===============4282336960403730414==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 --
 Linux-audit mailing list
 Linux-audit@redhat.com
 https://www.redhat.com/mailman/listinfo/linux-audit
+--===============4282336960403730414==--
+
