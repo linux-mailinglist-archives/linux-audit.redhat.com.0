@@ -2,42 +2,94 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3ADE23162C
-	for <lists+linux-audit@lfdr.de>; Fri, 31 May 2019 22:37:42 +0200 (CEST)
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+	by mail.lfdr.de (Postfix) with ESMTPS id 49D403347A
+	for <lists+linux-audit@lfdr.de>; Mon,  3 Jun 2019 18:04:05 +0200 (CEST)
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 866B330BB37D;
-	Fri, 31 May 2019 20:37:38 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 2597710027B7;
-	Fri, 31 May 2019 20:37:36 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id E353F308FEC4;
+	Mon,  3 Jun 2019 16:03:23 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 324B560BFB;
+	Mon,  3 Jun 2019 16:03:06 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id A90621806B15;
-	Fri, 31 May 2019 20:37:27 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
-	[10.5.11.16])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 351DA206D4;
+	Mon,  3 Jun 2019 16:02:46 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+	[10.5.11.11])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id x4VKbI73013039 for <linux-audit@listman.util.phx.redhat.com>;
-	Fri, 31 May 2019 16:37:18 -0400
+	id x53G1sbc014557 for <linux-audit@listman.util.phx.redhat.com>;
+	Mon, 3 Jun 2019 12:01:54 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id 4219B1B428; Fri, 31 May 2019 20:37:18 +0000 (UTC)
+	id E1A56604FE; Mon,  3 Jun 2019 16:01:54 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from x2.localnet (ovpn-121-148.rdu2.redhat.com [10.10.121.148])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 97D355C57D;
-	Fri, 31 May 2019 20:37:13 +0000 (UTC)
-From: Steve Grubb <sgrubb@redhat.com>
-To: Richard Guy Briggs <rgb@redhat.com>
-Subject: Re: [PATCH ghau93 v1] add support to filter on sockaddr family
-Date: Fri, 31 May 2019 16:37:10 -0400
-Message-ID: <2066826.q3lDRu4DR0@x2>
-Organization: Red Hat
-In-Reply-To: <1556297985-1229-1-git-send-email-rgb@redhat.com>
-References: <1556297985-1229-1-git-send-email-rgb@redhat.com>
+Received: from mx1.redhat.com (ext-mx04.extmail.prod.ext.phx2.redhat.com
+	[10.5.110.28])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id D9D02605CF
+	for <linux-audit@redhat.com>; Mon,  3 Jun 2019 16:01:52 +0000 (UTC)
+Received: from mail-lf1-f66.google.com (mail-lf1-f66.google.com
+	[209.85.167.66])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 13B508110C
+	for <linux-audit@redhat.com>; Mon,  3 Jun 2019 16:01:37 +0000 (UTC)
+Received: by mail-lf1-f66.google.com with SMTP id y13so14008928lfh.9
+	for <linux-audit@redhat.com>; Mon, 03 Jun 2019 09:01:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=wwAb+fjZakb4SE3XBU2vDo+/FsY9YcZ27a86p6XEaAs=;
+	b=RAknaK6HJEQ5zkQCebN0zIeweiFarG87mqZWgTXpU/mJYEt/DEie3H3GUrpMAkizhf
+	DAjrek0lkfPev895ypNRKOioKwTHoHppJhQCGVAq+NcSFX9QQKad4aQE4NgXUszbotod
+	HpqE5XLtyZaVR5/qdNcdgb7ceGwsUQvR666euqtSsqc3OmniQ2styCZ5A6fa8wFzmYab
+	XQWs/R8Zv9uWMeeBYycMepmlBwpgKHulJsqz5096zetgsMifJSoInjVF+zauJ7Lcd+ZK
+	poQFphqqutbXYOSTji0TJpFkZiZboByLaWGvrwJDqBIG4csRSA2uepIebTq5Rhzk3wDG
+	LSOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=wwAb+fjZakb4SE3XBU2vDo+/FsY9YcZ27a86p6XEaAs=;
+	b=Q9xemCX8JUFsd/dx5mhAt9RIH+So+Wa5r8UN5Mn4/kWyckgU9QajhyGzuFYuz4xJ0W
+	NlNLq29ay5GVKjkdI99JLq0w44P4YECKgXpzjpSB279ttrh4O5YkQdrdulbE4FPOA0Q6
+	6eKr44A9vJjzSEA1xbe7IuRC8CyVh4NMUe+jgtOtXgFmTS0+YRi2HqDVxCLQzNQxMHTw
+	LTgzu7js5+fI0XInyMwBRjS9cNH8EhnODpOAF6g/iJQolUdXakP9l94/OcmDAg2PIUMW
+	Vb5CjK8XQ/g28XMhIrGOwKHnxCT6XCfuoZqKexAg2/Zr49ISFhwVip6IXtKygJSbVIda
+	4G5Q==
+X-Gm-Message-State: APjAAAUao4bChW0ipM/b8FiXRCsLZn1UQZ/fIxBBpL3SwcLEO5q+q/hn
+	Q9+XVuW4H3oqzV6WMfquOzEu2nQiVYItI4UD+6+zk/k=
+X-Google-Smtp-Source: APXvYqzF84jTm/2bsJE8Z7872PStSoK3LKry51awtLL9AllXtZ9eS6eWxt9+Bys/+Qo1UsfILlV7LgRg51RsyxVhV98=
+X-Received: by 2002:ac2:446b:: with SMTP id y11mr9514878lfl.158.1559577695379; 
+	Mon, 03 Jun 2019 09:01:35 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+References: <fadb320e38a899441fcc693bbbc822a3b57f1a46.1559239558.git.rgb@redhat.com>
+In-Reply-To: <fadb320e38a899441fcc693bbbc822a3b57f1a46.1559239558.git.rgb@redhat.com>
+From: Paul Moore <paul@paul-moore.com>
+Date: Mon, 3 Jun 2019 12:01:24 -0400
+Message-ID: <CAHC9VhQZuOXiK4yj4xeRwGF_qepeg7qDL02GDdYhwTNRLRdmPA@mail.gmail.com>
+Subject: Re: [PATCH ghak90 V6] fixup! audit: add containerid filtering
+To: Richard Guy Briggs <rgb@redhat.com>
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.28]);
+	Mon, 03 Jun 2019 16:01:37 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.28]);
+	Mon, 03 Jun 2019 16:01:37 +0000 (UTC) for IP:'209.85.167.66'
+	DOMAIN:'mail-lf1-f66.google.com' HELO:'mail-lf1-f66.google.com'
+	FROM:'paul@paul-moore.com' RCPT:''
+X-RedHat-Spam-Score: -0.604  (DKIM_INVALID, DKIM_SIGNED, RCVD_IN_DNSWL_NONE,
+	RCVD_IN_MSPIKE_H2,
+	SPF_NONE) 209.85.167.66 mail-lf1-f66.google.com 209.85.167.66
+	mail-lf1-f66.google.com <paul@paul-moore.com>
+X-Scanned-By: MIMEDefang 2.78 on 10.5.110.28
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-loop: linux-audit@redhat.com
-Cc: Linux-Audit Mailing List <linux-audit@redhat.com>
+Cc: nhorman@tuxdriver.com, linux-api@vger.kernel.org,
+	containers@lists.linux-foundation.org,
+	LKML <linux-kernel@vger.kernel.org>, dhowells@redhat.com,
+	Linux-Audit Mailing List <linux-audit@redhat.com>,
+	netfilter-devel@vger.kernel.org, ebiederm@xmission.com,
+	simo@redhat.com, netdev@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	Eric Paris <eparis@parisplace.org>, Serge Hallyn <serge@hallyn.com>
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -53,102 +105,49 @@ Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.49]); Fri, 31 May 2019 20:37:40 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.49]); Mon, 03 Jun 2019 16:03:59 +0000 (UTC)
 
-On Friday, April 26, 2019 12:59:45 PM EDT Richard Guy Briggs wrote:
-> Provide a method to filter on network address family.
-> 
-> This adds support for the kernel filter for sockaddr family,
-> AUDIT_SADDR_FAM, adding the command line option "saddr_fam" to auditctl.
-> 
-> See: https://github.com/linux-audit/audit-kernel/issues/64
-> See: https://github.com/linux-audit/audit-userspace/issues/93
-> 
+On Fri, May 31, 2019 at 1:54 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+>
+> Remove the BUG() call since we will never have an invalid op value as
+> audit_data_to_entry()/audit_to_op() ensure that the op value is a a
+> known good value.
+>
 > Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
-
-Applied.
-
-Thanks,
--Steve
-
-
 > ---
->  lib/errormsg.h | 2 ++
->  lib/fieldtab.h | 1 +
->  lib/libaudit.c | 6 ++++++
->  lib/libaudit.h | 3 +++
->  4 files changed, 12 insertions(+)
-> 
-> diff --git a/lib/errormsg.h b/lib/errormsg.h
-> index fd8c4a4b1311..fc03b2475034 100644
-> --- a/lib/errormsg.h
-> +++ b/lib/errormsg.h
-> @@ -70,6 +70,7 @@ struct msg_tab {
->  #define EAU_FIELDUNAVAIL	34
->  #define EAU_FILTERNOSUPPORT	35
->  #define EAU_FSTYPEUNKNOWN	36
-> +#define EAU_FIELDVALTOOBIG	37
->  static const struct msg_tab err_msgtab[] = {
->      { -EAU_OPMISSING,		2, "-F missing operation for" },
->      { -EAU_FIELDUNKNOWN,	2, "-F unknown field:" },
-> @@ -107,5 +108,6 @@ static const struct msg_tab err_msgtab[] = {
->      { -EAU_FIELDUNAVAIL,	1, "field is not valid for the filter" },
->      { -EAU_FILTERNOSUPPORT,	1, "filter is not supported by the kernel" },
->      { -EAU_FSTYPEUNKNOWN,	2, "file system type is unknown for field:" },
-> +    { -EAU_FIELDVALTOOBIG,	2, "value is too large for field:" },
->  };
->  #endif
-> diff --git a/lib/fieldtab.h b/lib/fieldtab.h
-> index c425d5b86049..b597cafb2df8 100644
-> --- a/lib/fieldtab.h
-> +++ b/lib/fieldtab.h
-> @@ -69,3 +69,4 @@ _S(AUDIT_ARG3,         "a3"           )
-> 
->  _S(AUDIT_FILTERKEY,    "key"          )
->  _S(AUDIT_EXE,          "exe"          )
-> +_S(AUDIT_SADDR_FAM,    "saddr_fam"    )
-> diff --git a/lib/libaudit.c b/lib/libaudit.c
-> index 2af017a0e520..2e4b148edde9 100644
-> --- a/lib/libaudit.c
-> +++ b/lib/libaudit.c
-> @@ -40,6 +40,7 @@
->  #include <limits.h>	/* for PATH_MAX */
->  #include <sys/stat.h>
->  #include <sys/types.h>
-> +#include <sys/socket.h> /* AF_MAX */
->  #ifdef HAVE_LIBCAP_NG
->  #include <cap-ng.h>
->  #endif
-> @@ -1742,6 +1743,11 @@ int audit_rule_fieldpair_data(struct audit_rule_data
-> **rulep, const char *pair, else if (strcmp(v, "unset") == 0)
->  				rule->values[rule->field_count] = 4294967295;
->  			break;
-> +		case AUDIT_SADDR_FAM:
-> +			rule->values[rule->field_count] = strtoul(v, NULL, 0);
-> +			if (rule->values[rule->field_count] >= AF_MAX)
-> +				return -EAU_FIELDVALTOOBIG;
-> +			break;
->  		case AUDIT_DEVMAJOR...AUDIT_INODE:
->  		case AUDIT_SUCCESS:
->  			if (flags != AUDIT_FILTER_EXIT)
-> diff --git a/lib/libaudit.h b/lib/libaudit.h
-> index 77e4142beea2..89fe4839a69b 100644
-> --- a/lib/libaudit.h
-> +++ b/lib/libaudit.h
-> @@ -356,6 +356,9 @@ extern "C" {
->  #ifndef AUDIT_EXE
->  #define AUDIT_EXE 112
->  #endif
-> +#ifndef AUDIT_SADDR_FAM
-> +#define AUDIT_SADDR_FAM 113
-> +#endif
-> 
->  #ifndef AUDIT_SESSIONID
->  #define AUDIT_SESSIONID 25
+>  kernel/auditfilter.c | 1 -
+>  1 file changed, 1 deletion(-)
+
+Thanks for sending this out.  However, in light of the discussion in
+the patchset's cover letter it looks like we need to better support
+nested container orchestrators which is likely going to require some
+non-trivial changes to the kernel/userspace API.  Because of this I'm
+going to hold off pulling these patches into a "working" branch,
+hopefully the next revision of these patches will solve the nested
+orchestrator issue enough that we can continue to move forward with
+testing.
+
+> diff --git a/kernel/auditfilter.c b/kernel/auditfilter.c
+> index 407b5bb3b4c6..385a114a1254 100644
+> --- a/kernel/auditfilter.c
+> +++ b/kernel/auditfilter.c
+> @@ -1244,7 +1244,6 @@ int audit_comparator64(u64 left, u32 op, u64 right)
+>         case Audit_bittest:
+>                 return ((left & right) == right);
+>         default:
+> -               BUG();
+>                 return 0;
+>         }
+>  }
+> --
+> 1.8.3.1
+>
 
 
-
+-- 
+paul moore
+www.paul-moore.com
 
 --
 Linux-audit mailing list
