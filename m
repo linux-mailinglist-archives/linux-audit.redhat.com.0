@@ -2,54 +2,74 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99F09339B3
-	for <lists+linux-audit@lfdr.de>; Mon,  3 Jun 2019 22:26:37 +0200 (CEST)
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+	by mail.lfdr.de (Postfix) with ESMTPS id 07A89340D9
+	for <lists+linux-audit@lfdr.de>; Tue,  4 Jun 2019 09:56:36 +0200 (CEST)
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id E42482F8BCF;
-	Mon,  3 Jun 2019 20:26:08 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 38D11307C941;
+	Tue,  4 Jun 2019 07:55:56 +0000 (UTC)
 Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 0970010013D9;
-	Mon,  3 Jun 2019 20:25:56 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 4A1922B5B6;
+	Tue,  4 Jun 2019 07:55:28 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id D0D541806B18;
-	Mon,  3 Jun 2019 20:25:40 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
-	[10.5.11.23])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id F23381806B15;
+	Tue,  4 Jun 2019 07:55:00 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+	[10.5.11.15])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id x53KOdgC007083 for <linux-audit@listman.util.phx.redhat.com>;
-	Mon, 3 Jun 2019 16:24:39 -0400
+	id x547rnAp004210 for <linux-audit@listman.util.phx.redhat.com>;
+	Tue, 4 Jun 2019 03:53:49 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id 6490F19735; Mon,  3 Jun 2019 20:24:39 +0000 (UTC)
+	id F0A9A5B686; Tue,  4 Jun 2019 07:53:48 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from x2.localnet (ovpn-122-112.rdu2.redhat.com [10.10.122.112])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id DC03E19936;
-	Mon,  3 Jun 2019 20:24:23 +0000 (UTC)
-From: Steve Grubb <sgrubb@redhat.com>
-To: Paul Moore <paul@paul-moore.com>
-Subject: Re: [PATCH ghak90 V6 02/10] audit: add container id
-Date: Mon, 03 Jun 2019 16:24:23 -0400
-Message-ID: <97478582.yP93vGJyqj@x2>
+Received: from localhost.localdomain (unknown [10.33.36.52])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 46FCE5B683
+	for <linux-audit@redhat.com>; Tue,  4 Jun 2019 07:53:45 +0000 (UTC)
+Subject: Re: [PATCH ghak90 V6] fixup! audit: add containerid filtering
+To: linux-audit@redhat.com
+References: <fadb320e38a899441fcc693bbbc822a3b57f1a46.1559239558.git.rgb@redhat.com>
+	<CAHC9VhQZuOXiK4yj4xeRwGF_qepeg7qDL02GDdYhwTNRLRdmPA@mail.gmail.com>
+From: Daniel Walsh <dwalsh@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=dwalsh@redhat.com; prefer-encrypt=mutual; keydata=
+	mQENBFsaqOEBCADBSnZCZpi262vX8m7iL/OdHKP9G9dhS28FR60cjd8nMPqHDNhQJBjLMZra
+	66L2cCIEhc4HEItail7KU1BckrMc4laFaxL8tLoVTKHZwb74n2OcAJ4FtgzkNNlB1XJvSwC/
+	909uwt7cpDqwXpJvyP3t17iuklB1OY0EEjTDt9aU4+0QjHzV18L4Cpd9iQ4ksu+EHT+pjlBk
+	DdQB+hKoAjxPl11Eh6pZfrAcrNWpYBBk0A3XE9Jb6ghbmHWltNgVOsCa9GcswJHUEeFiOup6
+	J5DTv6Xzwt0t6QB8nIs+wDJH+VxqAXcrxscnAhViIfGGS2AtxzjnVOz/J+UZPaauIGXTABEB
+	AAG0LERhbmllbCBKIFdhbHNoIChGb3IgR2l0KSA8ZHdhbHNoQHJlZGhhdC5jb20+iQE4BBMB
+	AgAiBQJbGqjhAhsDBgsJCAcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRCi35Adq+LAKHuJB/98
+	nZB5RmNjMWua4Ms8q5a1R9XWlDAb3mrST6JeL+uV/M0fa18e2Aw4/hi/WZHjAjoypLmcuaRx
+	GeCbC8iYdpfRDUG79Y956Qq+Vs8c6VfNDMY1mvtfb00eeTaYoOCu0Aa9LDeR9iLKh2g0RI+N
+	Zr3EU45RxZdacIs1v6mU8pGpyUq/FvuTGK9GzR9d1YeVCuSpQKN4ckHNZHJUXyk0vOZft1oO
+	nSgLqM9EDWA+yz1JLmRYwbNsim7IvfVOav5mCgnKzHcL2mLv8qCnMFZjoQV8aGny/W739Z3a
+	YJo1CdOg6zSu5SOvmq9idYrBRkwEtyLXss2oceTVBs0MxqQ/9mLPuQENBFsaqOEBCADDl2hl
+	bUpqJGgwt2eQvs0Z0DCx/7nn0hlLfEn4WAv2HqP25AjIRXUX31Mzu68C4QnsvNtY4zN+FGRC
+	EfUpYsjiL7vBYlRePhIohyMYU4RLp5eXFQKahHO/9Xlhe8mwueQNwYxNBPfMQ65U2AuqxpcS
+	scx4s5w208mhqHoKz6IB2LuKeflhYfH5Y1FNAtVGHfhg22xlcAdupPPcxGuS4fBEW6PD/SDf
+	Y4HT5iUHsyksQKjM0IFalqZ7YuLfXBl07OD2zU7WI9c3W0dwkvwIRjt3aD4iAah544uOLff+
+	BzfxWghXeo80S2a1WCL0S/2qR0NVct/ExaDWboYr/bKpTa/1ABEBAAGJAR8EGAECAAkFAlsa
+	qOECGwwACgkQot+QHaviwCi2hgf/XRvrt+VBmp1ZFxQAR9E6S7AtRT8KSytjFiqEC7TpOx3r
+	2OZ4gZ3ZiW4TMW8hS7aYRgF1uYpLzl7BbrCfCHfAWEcXZ+uG8vayg8G/mLAcNlLY+JE76ATs
+	53ziEY9R2Vb/wLMFd2nNBdqfwGcRH9N9VOej9vP76nCP01ZolY8Nms2hE383/+1Quxp5EedU
+	BN5W5l7x9riBJyqCA63hr4u8wNsTuQgrDyhm/U1IvYeLtMopgotjnIR3KiTKOElbppLeXW3w
+	EO/sQTPk+vQ4vcsJYY9Dnf1NlvHE4klj60GHjtjitsBEHzdE7s+J9FOxPmt8l+gMogGumKpN
+	Y4lO0pfTyg==
 Organization: Red Hat
-In-Reply-To: <CAHC9VhTrM1op_EH=YAn9pU8dMOr=jB-Ph4SxFeqGFskwLmFnCA@mail.gmail.com>
-References: <20190529145742.GA8959@cisco>
-	<20190531002058.tsddah4edcazkuzs@madcap2.tricolour.ca>
-	<CAHC9VhTrM1op_EH=YAn9pU8dMOr=jB-Ph4SxFeqGFskwLmFnCA@mail.gmail.com>
+Message-ID: <7059722c-99a5-fd0b-9a7a-7a9afc99cb39@redhat.com>
+Date: Tue, 4 Jun 2019 09:53:45 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.7.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <CAHC9VhQZuOXiK4yj4xeRwGF_qepeg7qDL02GDdYhwTNRLRdmPA@mail.gmail.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-loop: linux-audit@redhat.com
-Cc: Tycho Andersen <tycho@tycho.ws>, nhorman@tuxdriver.com,
-	Richard Guy Briggs <rgb@redhat.com>, linux-api@vger.kernel.org,
-	containers@lists.linux-foundation.org,
-	LKML <linux-kernel@vger.kernel.org>, dhowells@redhat.com,
-	Linux-Audit Mailing List <linux-audit@redhat.com>,
-	netfilter-devel@vger.kernel.org, ebiederm@xmission.com,
-	simo@redhat.com, netdev@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	Eric Paris <eparis@parisplace.org>, "Serge E. Hallyn" <serge@hallyn.com>
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
+Reply-To: dwalsh@redhat.com
 List-Id: Linux Audit Discussion <linux-audit.redhat.com>
 List-Unsubscribe: <https://www.redhat.com/mailman/options/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=unsubscribe>
@@ -58,156 +78,50 @@ List-Post: <mailto:linux-audit@redhat.com>
 List-Help: <mailto:linux-audit-request@redhat.com?subject=help>
 List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.38]); Mon, 03 Jun 2019 20:26:36 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.46]); Tue, 04 Jun 2019 07:56:24 +0000 (UTC)
 
-Hello Paul,
-
-I am curious about this. We seemed to be close to getting this patch pulled 
-in. A lot of people are waiting for it. Can you summarize what you think the 
-patches need and who we think needs to do it? I'm lost. Does LXC people need 
-to propose something? Does Richard? Someone else? Who's got the ball?
-
-Thank,
--Steve
-
-On Friday, May 31, 2019 8:44:45 AM EDT Paul Moore wrote:
-> On Thu, May 30, 2019 at 8:21 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> > On 2019-05-30 19:26, Paul Moore wrote:
-> > > On Thu, May 30, 2019 at 5:29 PM Tycho Andersen <tycho@tycho.ws> wrote:
-> > > > On Thu, May 30, 2019 at 03:29:32PM -0400, Paul Moore wrote:
-> > > > > [REMINDER: It is an "*audit* container ID" and not a general
-> > > > > "container ID" ;)  Smiley aside, I'm not kidding about that part.]
-> > > > 
-> > > > This sort of seems like a distinction without a difference;
-> > > > presumably
-> > > > audit is going to want to differentiate between everything that
-> > > > people
-> > > > in userspace call a container. So you'll have to support all this
-> > > > insanity anyway, even if it's "not a container ID".
-> > > 
-> > > That's not quite right.  Audit doesn't care about what a container is,
-> > > or is not, it also doesn't care if the "audit container ID" actually
-> > > matches the ID used by the container engine in userspace and I think
-> > > that is a very important line to draw.  Audit is simply given a value
-> > > which it calls the "audit container ID", it ensures that the value is
-> > > inherited appropriately (e.g. children inherit their parent's audit
-> > > container ID), and it uses the value in audit records to provide some
-> > > additional context for log analysis.  The distinction isn't limited to
-> > > the value itself, but also to how it is used; it is an "audit
-> > > container ID" and not a "container ID" because this value is
-> > > exclusively for use by the audit subsystem.  We are very intentionally
-> > > not adding a generic container ID to the kernel.  If the kernel does
-> > > ever grow a general purpose container ID we will be one of the first
-> > > ones in line to make use of it, but we are not going to be the ones to
-> > > generically add containers to the kernel.  Enough people already hate
-> > > audit ;)
-> > > 
-> > > > > I'm not interested in supporting/merging something that isn't
-> > > > > useful;
-> > > > > if this doesn't work for your use case then we need to figure out
-> > > > > what
-> > > > > would work.  It sounds like nested containers are much more common
-> > > > > in
-> > > > > the lxc world, can you elaborate a bit more on this?
-> > > > > 
-> > > > > As far as the possible solutions you mention above, I'm not sure I
-> > > > > like the per-userns audit container IDs, I'd much rather just emit
-> > > > > the
-> > > > > necessary tracking information via the audit record stream and let
-> > > > > the
-> > > > > log analysis tools figure it out.  However, the bigger question is
-> > > > > how
-> > > > > to limit (re)setting the audit container ID when you are in a
-> > > > > non-init
-> > > > > userns.  For reasons already mentioned, using capable() is a non
-> > > > > starter for everything but the initial userns, and using
-> > > > > ns_capable()
-> > > > > is equally poor as it essentially allows any userns the ability to
-> > > > > munge it's audit container ID (obviously not good).  It appears we
-> > > > > need a different method for controlling access to the audit
-> > > > > container
-> > > > > ID.
-> > > > 
-> > > > One option would be to make it a string, and have it be append only.
-> > > > That should be safe with no checks.
-> > > > 
-> > > > I know there was a long thread about what type to make this thing. I
-> > > > think you could accomplish the append-only-ness with a u64 if you had
-> > > > some rule about only allowing setting lower order bits than those
-> > > > that
-> > > > are already set. With 4 bits for simplicity:
-> > > > 
-> > > > 1100         # initial container id
-> > > > 1100 -> 1011 # not allowed
-> > > > 1100 -> 1101 # allowed, but now 1101 is set in stone since there are
-> > > > 
-> > > >              # no lower order bits left
-> > > > 
-> > > > There are probably fancier ways to do it if you actually understand
-> > > > math :)
-> > >  
-> > >  ;)
-> > >  
-> > > > Since userns nesting is limited to 32 levels (right now, IIRC), and
-> > > > you have 64 bits, this might be reasonable. You could just teach
-> > > > container engines to use the first say N bits for themselves, with a
-> > > > 1
-> > > > bit for the barrier at the end.
-> > > 
-> > > I like the creativity, but I worry that at some point these
-> > > limitations are going to be raised (limits have a funny way of doing
-> > > that over time) and we will be in trouble.  I say "trouble" because I
-> > > want to be able to quickly do an audit container ID comparison and
-> > > we're going to pay a penalty for these larger values (we'll need this
-> > > when we add multiple auditd support and the requisite record routing).
-> > > 
-> > > Thinking about this makes me also realize we probably need to think a
-> > > bit longer about audit container ID conflicts between orchestrators.
-> > > Right now we just take the value that is given to us by the
-> > > orchestrator, but if we want to allow multiple container orchestrators
-> > > to work without some form of cooperation in userspace (I think we have
-> > > to assume the orchestrators will not talk to each other) we likely
-> > > need to have some way to block reuse of an audit container ID.  We
-> > > would either need to prevent the orchestrator from explicitly setting
-> > > an audit container ID to a currently in use value, or instead generate
-> > > the audit container ID in the kernel upon an event triggered by the
-> > > orchestrator (e.g. a write to a /proc file).  I suspect we should
-> > > start looking at the idr code, I think we will need to make use of it.
-> > 
-> > My first reaction to using the IDR code is that once an idr is given up,
-> > it can be reused.  I suppose we request IDRs and then never give them up
-> > to avoid reuse...
-> 
-> I'm not sure we ever what to guarantee that an audit container ID
-> won't be reused during the lifetime of the system, it is a discrete
-> integer after all.  What I think we do want to guarantee is that we
-> won't allow an unintentional audit container ID collision between
-> different orchestrators; if a single orchestrator wants to reuse an
-> audit container ID then that is its choice.
-> 
-> > I already had some ideas of preventing an existing ID from being reused,
-> 
-> Cool.  I only made the idr suggestion since it is used for PIDs and
-> solves a very similar problem.
-> 
-> > but that makes the practice of some container engines injecting
-> > processes into existing containers difficult if not impossible.
-> 
-> Yes, we'll need some provision to indicate which orchestrator
-> "controls" that particular audit container ID, and allow that
-> orchestrator to reuse that particular audit container ID (until all
-> those containers disappear and the audit container ID is given back to
-> the pool).
-
-
-
-
---
-Linux-audit mailing list
-Linux-audit@redhat.com
-https://www.redhat.com/mailman/listinfo/linux-audit
+VGhlIG5lZWQgZm9yIG5lc3RlZCBjb250YWluZXIgc3VwcG9ydCBpcyB0aGUgYEVuZW15IG9mIHRo
+ZSBnb29kYC7CoCBUaGlzCmlkZWEgaGFzIGJlZW4gYmVpbmcgd29ya2VkIG9uIGZvciB5ZWFycyBh
+bmQgaGFzIGFsd2F5cyBiZWVuIGJsb2NrZWQgYnkKdGhpcyBzZWxkb20gdXNlZCBmZWF0dXJlLgoK
+V2UgYXJlIHdvcmtpbmcgb24gYSBwcm9qZWN0IHJpZ2h0IHRoaXMgc3VtbWVyIHRvIGFsbG93IHVz
+IHRvIHVzZSB0aGUKYXVkaXQgc3lzdGVtIHRvIHRyYWNrIHRoZSBzeXNjYWxscyB1c2VkIGJ5IGEg
+Y29udGFpbmVyIGFuZCB0aGVuIGdlbmVyYXRlCmEgc2VjY29tcC5qc29uIGZpbGUgdG8gbG9jayBk
+b3duIHRoZSBjb250YWluZXIgaW4gdGhlIGZ1dHVyZS7CoCBUaGluayBvZgppdCBhcyBBdWRpdDJh
+bGxvdyBmb3Igc2VjY29tcCBydWxlcyBvbiBhIGNvbnRhaW5lci7CoCBUaGUgcHJvYmxlbSBpcywK
+b3RoZXIgdGhlbiBQSUQxIGluc2lkZSBvZiB0aGUgY29udGFpbmVyLCBpdCBpcyByZWFsIGRpZmZp
+Y3VsdCB0byBmb2xsb3cKdGhlIG90aGVyIHByb2Nlc3NlcyBpbnNpZGUgb2YgdGhlIGNvbnRhaW5l
+ciB3aXRob3V0IGEgY29udGFpbmVyaWQuwqAKCklzIHRoZXJlIGEgY2hhbmNlIHdlIGNvdWxkIGdl
+dCBhIHNpbmdsZSBJRCBmb3IgYSBjb250YWluZXIgZm9yIG5vdywgYW5kCnRoZW4gZW5oYW5jZSB0
+aGUgZmVhdHVyZSBpbiB0aGUgZnV0dXJlIGZvciBuZXN0ZWQgQ29udGFpbmVySURzLsKgCgpJIGZl
+YXIgdGhhdCB0aGlzIHdpbGwgYmxvY2sgdGhlIGNvbnRhaW5lciBpZCBmb3IgeWVhcnMuCgoKT24g
+Ni8zLzE5IDY6MDEgUE0sIFBhdWwgTW9vcmUgd3JvdGU6Cj4gT24gRnJpLCBNYXkgMzEsIDIwMTkg
+YXQgMTo1NCBQTSBSaWNoYXJkIEd1eSBCcmlnZ3MgPHJnYkByZWRoYXQuY29tPiB3cm90ZToKPj4g
+UmVtb3ZlIHRoZSBCVUcoKSBjYWxsIHNpbmNlIHdlIHdpbGwgbmV2ZXIgaGF2ZSBhbiBpbnZhbGlk
+IG9wIHZhbHVlIGFzCj4+IGF1ZGl0X2RhdGFfdG9fZW50cnkoKS9hdWRpdF90b19vcCgpIGVuc3Vy
+ZSB0aGF0IHRoZSBvcCB2YWx1ZSBpcyBhIGEKPj4ga25vd24gZ29vZCB2YWx1ZS4KPj4KPj4gU2ln
+bmVkLW9mZi1ieTogUmljaGFyZCBHdXkgQnJpZ2dzIDxyZ2JAcmVkaGF0LmNvbT4KPj4gLS0tCj4+
+ICBrZXJuZWwvYXVkaXRmaWx0ZXIuYyB8IDEgLQo+PiAgMSBmaWxlIGNoYW5nZWQsIDEgZGVsZXRp
+b24oLSkKPiBUaGFua3MgZm9yIHNlbmRpbmcgdGhpcyBvdXQuICBIb3dldmVyLCBpbiBsaWdodCBv
+ZiB0aGUgZGlzY3Vzc2lvbiBpbgo+IHRoZSBwYXRjaHNldCdzIGNvdmVyIGxldHRlciBpdCBsb29r
+cyBsaWtlIHdlIG5lZWQgdG8gYmV0dGVyIHN1cHBvcnQKPiBuZXN0ZWQgY29udGFpbmVyIG9yY2hl
+c3RyYXRvcnMgd2hpY2ggaXMgbGlrZWx5IGdvaW5nIHRvIHJlcXVpcmUgc29tZQo+IG5vbi10cml2
+aWFsIGNoYW5nZXMgdG8gdGhlIGtlcm5lbC91c2Vyc3BhY2UgQVBJLiAgQmVjYXVzZSBvZiB0aGlz
+IEknbQo+IGdvaW5nIHRvIGhvbGQgb2ZmIHB1bGxpbmcgdGhlc2UgcGF0Y2hlcyBpbnRvIGEgIndv
+cmtpbmciIGJyYW5jaCwKPiBob3BlZnVsbHkgdGhlIG5leHQgcmV2aXNpb24gb2YgdGhlc2UgcGF0
+Y2hlcyB3aWxsIHNvbHZlIHRoZSBuZXN0ZWQKPiBvcmNoZXN0cmF0b3IgaXNzdWUgZW5vdWdoIHRo
+YXQgd2UgY2FuIGNvbnRpbnVlIHRvIG1vdmUgZm9yd2FyZCB3aXRoCj4gdGVzdGluZy4KPgo+PiBk
+aWZmIC0tZ2l0IGEva2VybmVsL2F1ZGl0ZmlsdGVyLmMgYi9rZXJuZWwvYXVkaXRmaWx0ZXIuYwo+
+PiBpbmRleCA0MDdiNWJiM2I0YzYuLjM4NWExMTRhMTI1NCAxMDA2NDQKPj4gLS0tIGEva2VybmVs
+L2F1ZGl0ZmlsdGVyLmMKPj4gKysrIGIva2VybmVsL2F1ZGl0ZmlsdGVyLmMKPj4gQEAgLTEyNDQs
+NyArMTI0NCw2IEBAIGludCBhdWRpdF9jb21wYXJhdG9yNjQodTY0IGxlZnQsIHUzMiBvcCwgdTY0
+IHJpZ2h0KQo+PiAgICAgICAgIGNhc2UgQXVkaXRfYml0dGVzdDoKPj4gICAgICAgICAgICAgICAg
+IHJldHVybiAoKGxlZnQgJiByaWdodCkgPT0gcmlnaHQpOwo+PiAgICAgICAgIGRlZmF1bHQ6Cj4+
+IC0gICAgICAgICAgICAgICBCVUcoKTsKPj4gICAgICAgICAgICAgICAgIHJldHVybiAwOwo+PiAg
+ICAgICAgIH0KPj4gIH0KPj4gLS0KPj4gMS44LjMuMQo+Pgo+CgotLQpMaW51eC1hdWRpdCBtYWls
+aW5nIGxpc3QKTGludXgtYXVkaXRAcmVkaGF0LmNvbQpodHRwczovL3d3dy5yZWRoYXQuY29tL21h
+aWxtYW4vbGlzdGluZm8vbGludXgtYXVkaXQ=
