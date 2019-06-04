@@ -2,74 +2,93 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07A89340D9
-	for <lists+linux-audit@lfdr.de>; Tue,  4 Jun 2019 09:56:36 +0200 (CEST)
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+	by mail.lfdr.de (Postfix) with ESMTPS id 396AC34E9B
+	for <lists+linux-audit@lfdr.de>; Tue,  4 Jun 2019 19:20:22 +0200 (CEST)
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 38D11307C941;
-	Tue,  4 Jun 2019 07:55:56 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 22F3EC4ECF;
+	Tue,  4 Jun 2019 17:19:23 +0000 (UTC)
 Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 4A1922B5B6;
-	Tue,  4 Jun 2019 07:55:28 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id D1937100EBDF;
+	Tue,  4 Jun 2019 17:19:13 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id F23381806B15;
-	Tue,  4 Jun 2019 07:55:00 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
-	[10.5.11.15])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id A23531806B15;
+	Tue,  4 Jun 2019 17:18:56 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+	[10.5.11.13])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id x547rnAp004210 for <linux-audit@listman.util.phx.redhat.com>;
-	Tue, 4 Jun 2019 03:53:49 -0400
+	id x54HIFFq023624 for <linux-audit@listman.util.phx.redhat.com>;
+	Tue, 4 Jun 2019 13:18:15 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id F0A9A5B686; Tue,  4 Jun 2019 07:53:48 +0000 (UTC)
+	id 0B94B17DF0; Tue,  4 Jun 2019 17:18:15 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from localhost.localdomain (unknown [10.33.36.52])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 46FCE5B683
-	for <linux-audit@redhat.com>; Tue,  4 Jun 2019 07:53:45 +0000 (UTC)
-Subject: Re: [PATCH ghak90 V6] fixup! audit: add containerid filtering
-To: linux-audit@redhat.com
+Received: from mx1.redhat.com (ext-mx11.extmail.prod.ext.phx2.redhat.com
+	[10.5.110.40])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 03CA117CFA
+	for <linux-audit@redhat.com>; Tue,  4 Jun 2019 17:18:10 +0000 (UTC)
+Received: from mail-lf1-f66.google.com (mail-lf1-f66.google.com
+	[209.85.167.66])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 47D9330C319F
+	for <linux-audit@redhat.com>; Tue,  4 Jun 2019 17:18:01 +0000 (UTC)
+Received: by mail-lf1-f66.google.com with SMTP id q26so17041092lfc.3
+	for <linux-audit@redhat.com>; Tue, 04 Jun 2019 10:18:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=QeUo798vz7HhYw4EbpKO5sAMQCjOWInhC7aifH0PcFw=;
+	b=KqxS8sl0M+TaQ7LPtX8YXG95+GDr1F4JhMbVfyD+DM25gaO0Ccl0UZrDK5QQmaS69e
+	A29uwkjoOCmv1CZeGaz7ZJm+enf8HhINRPsnuc6a6+ogz2s1TDM3geKc9loP8003X/hy
+	g/757i7wqiPCUW1tiWXKu5Aq0UgCztzCj22yzTz0fywHolczjFW0q5ZIVz+HrxDtuHgR
+	aa3UsfC0kV05U49BIjO9uByfsMS/LScKN8HKU7iV2XSNiWZwY2/LIuKteCImGTfZ6Dj7
+	NsRAYyNo/40Mv1Mv5Xv4ZPDQMsoWsG5WMjhxCGOZtNR2nQ85Scg+8fxB/SwAf9pkN65E
+	fpTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=QeUo798vz7HhYw4EbpKO5sAMQCjOWInhC7aifH0PcFw=;
+	b=qqDviMMsleNiisGu25LmRijRXTzEoJdaIyyWkXix1h/oSXVy3yEOG9mRZ4Wdieu50b
+	mfmCAW381kWHgzGNlRELztB6SJnLu8n8CJAWufEU1lHDZQ/YXaubEgFhwRM7ewJDLevK
+	z+7pbvGshpL9yq5Q8Uu6ahc/COeajQQ14EjgKSHPwDxBr+sMgRPVYuTU/ekh8BZQbd52
+	uV7Cx8n1cODMTZ/q6qyKpPAfzZL+k3orY8SXjihaFwQm6VwGqod8AwiEPEVLLJAv7IOg
+	K7zZIL3c5TakB8vIn6pTFQjkOZMugN+dbEdZYiJwFqdJ8dCJPHVIx14NE2CZnbCx99Vc
+	ggfQ==
+X-Gm-Message-State: APjAAAUFC8fczmIzTSCjf+LZz6DjrMcjGN6+aXDxkVw9NTk5MR5XFpr2
+	1VG/fm5SRKYqMcppBIncOIi/QQBPlOyV6dfjuT+1vd4=
+X-Google-Smtp-Source: APXvYqy5M4WaPJM1n+VVkF4X+bkVmkjvEz3Ze2xcHVAiR4Qjy7BIMbtZukZSs13jqUiu1y0kGO/p6lNdmpp94nGrxiQ=
+X-Received: by 2002:ac2:4111:: with SMTP id b17mr2962635lfi.31.1559668679489; 
+	Tue, 04 Jun 2019 10:17:59 -0700 (PDT)
+MIME-Version: 1.0
 References: <fadb320e38a899441fcc693bbbc822a3b57f1a46.1559239558.git.rgb@redhat.com>
 	<CAHC9VhQZuOXiK4yj4xeRwGF_qepeg7qDL02GDdYhwTNRLRdmPA@mail.gmail.com>
-From: Daniel Walsh <dwalsh@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=dwalsh@redhat.com; prefer-encrypt=mutual; keydata=
-	mQENBFsaqOEBCADBSnZCZpi262vX8m7iL/OdHKP9G9dhS28FR60cjd8nMPqHDNhQJBjLMZra
-	66L2cCIEhc4HEItail7KU1BckrMc4laFaxL8tLoVTKHZwb74n2OcAJ4FtgzkNNlB1XJvSwC/
-	909uwt7cpDqwXpJvyP3t17iuklB1OY0EEjTDt9aU4+0QjHzV18L4Cpd9iQ4ksu+EHT+pjlBk
-	DdQB+hKoAjxPl11Eh6pZfrAcrNWpYBBk0A3XE9Jb6ghbmHWltNgVOsCa9GcswJHUEeFiOup6
-	J5DTv6Xzwt0t6QB8nIs+wDJH+VxqAXcrxscnAhViIfGGS2AtxzjnVOz/J+UZPaauIGXTABEB
-	AAG0LERhbmllbCBKIFdhbHNoIChGb3IgR2l0KSA8ZHdhbHNoQHJlZGhhdC5jb20+iQE4BBMB
-	AgAiBQJbGqjhAhsDBgsJCAcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRCi35Adq+LAKHuJB/98
-	nZB5RmNjMWua4Ms8q5a1R9XWlDAb3mrST6JeL+uV/M0fa18e2Aw4/hi/WZHjAjoypLmcuaRx
-	GeCbC8iYdpfRDUG79Y956Qq+Vs8c6VfNDMY1mvtfb00eeTaYoOCu0Aa9LDeR9iLKh2g0RI+N
-	Zr3EU45RxZdacIs1v6mU8pGpyUq/FvuTGK9GzR9d1YeVCuSpQKN4ckHNZHJUXyk0vOZft1oO
-	nSgLqM9EDWA+yz1JLmRYwbNsim7IvfVOav5mCgnKzHcL2mLv8qCnMFZjoQV8aGny/W739Z3a
-	YJo1CdOg6zSu5SOvmq9idYrBRkwEtyLXss2oceTVBs0MxqQ/9mLPuQENBFsaqOEBCADDl2hl
-	bUpqJGgwt2eQvs0Z0DCx/7nn0hlLfEn4WAv2HqP25AjIRXUX31Mzu68C4QnsvNtY4zN+FGRC
-	EfUpYsjiL7vBYlRePhIohyMYU4RLp5eXFQKahHO/9Xlhe8mwueQNwYxNBPfMQ65U2AuqxpcS
-	scx4s5w208mhqHoKz6IB2LuKeflhYfH5Y1FNAtVGHfhg22xlcAdupPPcxGuS4fBEW6PD/SDf
-	Y4HT5iUHsyksQKjM0IFalqZ7YuLfXBl07OD2zU7WI9c3W0dwkvwIRjt3aD4iAah544uOLff+
-	BzfxWghXeo80S2a1WCL0S/2qR0NVct/ExaDWboYr/bKpTa/1ABEBAAGJAR8EGAECAAkFAlsa
-	qOECGwwACgkQot+QHaviwCi2hgf/XRvrt+VBmp1ZFxQAR9E6S7AtRT8KSytjFiqEC7TpOx3r
-	2OZ4gZ3ZiW4TMW8hS7aYRgF1uYpLzl7BbrCfCHfAWEcXZ+uG8vayg8G/mLAcNlLY+JE76ATs
-	53ziEY9R2Vb/wLMFd2nNBdqfwGcRH9N9VOej9vP76nCP01ZolY8Nms2hE383/+1Quxp5EedU
-	BN5W5l7x9riBJyqCA63hr4u8wNsTuQgrDyhm/U1IvYeLtMopgotjnIR3KiTKOElbppLeXW3w
-	EO/sQTPk+vQ4vcsJYY9Dnf1NlvHE4klj60GHjtjitsBEHzdE7s+J9FOxPmt8l+gMogGumKpN
-	Y4lO0pfTyg==
-Organization: Red Hat
-Message-ID: <7059722c-99a5-fd0b-9a7a-7a9afc99cb39@redhat.com>
-Date: Tue, 4 Jun 2019 09:53:45 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.7.0
-MIME-Version: 1.0
-In-Reply-To: <CAHC9VhQZuOXiK4yj4xeRwGF_qepeg7qDL02GDdYhwTNRLRdmPA@mail.gmail.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+	<7059722c-99a5-fd0b-9a7a-7a9afc99cb39@redhat.com>
+In-Reply-To: <7059722c-99a5-fd0b-9a7a-7a9afc99cb39@redhat.com>
+From: Paul Moore <paul@paul-moore.com>
+Date: Tue, 4 Jun 2019 13:17:48 -0400
+Message-ID: <CAHC9VhSLBxBeU-Hsm6ZY4aSd6u2yGQu3+aqaw3Tjuk=O=2xgUw@mail.gmail.com>
+Subject: Re: [PATCH ghak90 V6] fixup! audit: add containerid filtering
+To: Dan Walsh <dwalsh@redhat.com>
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.40]);
+	Tue, 04 Jun 2019 17:18:01 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.40]);
+	Tue, 04 Jun 2019 17:18:01 +0000 (UTC) for IP:'209.85.167.66'
+	DOMAIN:'mail-lf1-f66.google.com' HELO:'mail-lf1-f66.google.com'
+	FROM:'paul@paul-moore.com' RCPT:''
+X-RedHat-Spam-Score: -0.803  (DKIM_SIGNED, DKIM_VALID, RCVD_IN_DNSWL_NONE,
+	RCVD_IN_MSPIKE_H2, SPF_HELO_NONE,
+	SPF_NONE) 209.85.167.66 mail-lf1-f66.google.com 209.85.167.66
+	mail-lf1-f66.google.com <paul@paul-moore.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.110.40
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-loop: linux-audit@redhat.com
+Cc: linux-audit@redhat.com
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
-Reply-To: dwalsh@redhat.com
 List-Id: Linux Audit Discussion <linux-audit.redhat.com>
 List-Unsubscribe: <https://www.redhat.com/mailman/options/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=unsubscribe>
@@ -78,50 +97,102 @@ List-Post: <mailto:linux-audit@redhat.com>
 List-Help: <mailto:linux-audit-request@redhat.com?subject=help>
 List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.46]); Tue, 04 Jun 2019 07:56:24 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.38]); Tue, 04 Jun 2019 17:20:15 +0000 (UTC)
 
-VGhlIG5lZWQgZm9yIG5lc3RlZCBjb250YWluZXIgc3VwcG9ydCBpcyB0aGUgYEVuZW15IG9mIHRo
-ZSBnb29kYC7CoCBUaGlzCmlkZWEgaGFzIGJlZW4gYmVpbmcgd29ya2VkIG9uIGZvciB5ZWFycyBh
-bmQgaGFzIGFsd2F5cyBiZWVuIGJsb2NrZWQgYnkKdGhpcyBzZWxkb20gdXNlZCBmZWF0dXJlLgoK
-V2UgYXJlIHdvcmtpbmcgb24gYSBwcm9qZWN0IHJpZ2h0IHRoaXMgc3VtbWVyIHRvIGFsbG93IHVz
-IHRvIHVzZSB0aGUKYXVkaXQgc3lzdGVtIHRvIHRyYWNrIHRoZSBzeXNjYWxscyB1c2VkIGJ5IGEg
-Y29udGFpbmVyIGFuZCB0aGVuIGdlbmVyYXRlCmEgc2VjY29tcC5qc29uIGZpbGUgdG8gbG9jayBk
-b3duIHRoZSBjb250YWluZXIgaW4gdGhlIGZ1dHVyZS7CoCBUaGluayBvZgppdCBhcyBBdWRpdDJh
-bGxvdyBmb3Igc2VjY29tcCBydWxlcyBvbiBhIGNvbnRhaW5lci7CoCBUaGUgcHJvYmxlbSBpcywK
-b3RoZXIgdGhlbiBQSUQxIGluc2lkZSBvZiB0aGUgY29udGFpbmVyLCBpdCBpcyByZWFsIGRpZmZp
-Y3VsdCB0byBmb2xsb3cKdGhlIG90aGVyIHByb2Nlc3NlcyBpbnNpZGUgb2YgdGhlIGNvbnRhaW5l
-ciB3aXRob3V0IGEgY29udGFpbmVyaWQuwqAKCklzIHRoZXJlIGEgY2hhbmNlIHdlIGNvdWxkIGdl
-dCBhIHNpbmdsZSBJRCBmb3IgYSBjb250YWluZXIgZm9yIG5vdywgYW5kCnRoZW4gZW5oYW5jZSB0
-aGUgZmVhdHVyZSBpbiB0aGUgZnV0dXJlIGZvciBuZXN0ZWQgQ29udGFpbmVySURzLsKgCgpJIGZl
-YXIgdGhhdCB0aGlzIHdpbGwgYmxvY2sgdGhlIGNvbnRhaW5lciBpZCBmb3IgeWVhcnMuCgoKT24g
-Ni8zLzE5IDY6MDEgUE0sIFBhdWwgTW9vcmUgd3JvdGU6Cj4gT24gRnJpLCBNYXkgMzEsIDIwMTkg
-YXQgMTo1NCBQTSBSaWNoYXJkIEd1eSBCcmlnZ3MgPHJnYkByZWRoYXQuY29tPiB3cm90ZToKPj4g
-UmVtb3ZlIHRoZSBCVUcoKSBjYWxsIHNpbmNlIHdlIHdpbGwgbmV2ZXIgaGF2ZSBhbiBpbnZhbGlk
-IG9wIHZhbHVlIGFzCj4+IGF1ZGl0X2RhdGFfdG9fZW50cnkoKS9hdWRpdF90b19vcCgpIGVuc3Vy
-ZSB0aGF0IHRoZSBvcCB2YWx1ZSBpcyBhIGEKPj4ga25vd24gZ29vZCB2YWx1ZS4KPj4KPj4gU2ln
-bmVkLW9mZi1ieTogUmljaGFyZCBHdXkgQnJpZ2dzIDxyZ2JAcmVkaGF0LmNvbT4KPj4gLS0tCj4+
-ICBrZXJuZWwvYXVkaXRmaWx0ZXIuYyB8IDEgLQo+PiAgMSBmaWxlIGNoYW5nZWQsIDEgZGVsZXRp
-b24oLSkKPiBUaGFua3MgZm9yIHNlbmRpbmcgdGhpcyBvdXQuICBIb3dldmVyLCBpbiBsaWdodCBv
-ZiB0aGUgZGlzY3Vzc2lvbiBpbgo+IHRoZSBwYXRjaHNldCdzIGNvdmVyIGxldHRlciBpdCBsb29r
-cyBsaWtlIHdlIG5lZWQgdG8gYmV0dGVyIHN1cHBvcnQKPiBuZXN0ZWQgY29udGFpbmVyIG9yY2hl
-c3RyYXRvcnMgd2hpY2ggaXMgbGlrZWx5IGdvaW5nIHRvIHJlcXVpcmUgc29tZQo+IG5vbi10cml2
-aWFsIGNoYW5nZXMgdG8gdGhlIGtlcm5lbC91c2Vyc3BhY2UgQVBJLiAgQmVjYXVzZSBvZiB0aGlz
-IEknbQo+IGdvaW5nIHRvIGhvbGQgb2ZmIHB1bGxpbmcgdGhlc2UgcGF0Y2hlcyBpbnRvIGEgIndv
-cmtpbmciIGJyYW5jaCwKPiBob3BlZnVsbHkgdGhlIG5leHQgcmV2aXNpb24gb2YgdGhlc2UgcGF0
-Y2hlcyB3aWxsIHNvbHZlIHRoZSBuZXN0ZWQKPiBvcmNoZXN0cmF0b3IgaXNzdWUgZW5vdWdoIHRo
-YXQgd2UgY2FuIGNvbnRpbnVlIHRvIG1vdmUgZm9yd2FyZCB3aXRoCj4gdGVzdGluZy4KPgo+PiBk
-aWZmIC0tZ2l0IGEva2VybmVsL2F1ZGl0ZmlsdGVyLmMgYi9rZXJuZWwvYXVkaXRmaWx0ZXIuYwo+
-PiBpbmRleCA0MDdiNWJiM2I0YzYuLjM4NWExMTRhMTI1NCAxMDA2NDQKPj4gLS0tIGEva2VybmVs
-L2F1ZGl0ZmlsdGVyLmMKPj4gKysrIGIva2VybmVsL2F1ZGl0ZmlsdGVyLmMKPj4gQEAgLTEyNDQs
-NyArMTI0NCw2IEBAIGludCBhdWRpdF9jb21wYXJhdG9yNjQodTY0IGxlZnQsIHUzMiBvcCwgdTY0
-IHJpZ2h0KQo+PiAgICAgICAgIGNhc2UgQXVkaXRfYml0dGVzdDoKPj4gICAgICAgICAgICAgICAg
-IHJldHVybiAoKGxlZnQgJiByaWdodCkgPT0gcmlnaHQpOwo+PiAgICAgICAgIGRlZmF1bHQ6Cj4+
-IC0gICAgICAgICAgICAgICBCVUcoKTsKPj4gICAgICAgICAgICAgICAgIHJldHVybiAwOwo+PiAg
-ICAgICAgIH0KPj4gIH0KPj4gLS0KPj4gMS44LjMuMQo+Pgo+CgotLQpMaW51eC1hdWRpdCBtYWls
-aW5nIGxpc3QKTGludXgtYXVkaXRAcmVkaGF0LmNvbQpodHRwczovL3d3dy5yZWRoYXQuY29tL21h
-aWxtYW4vbGlzdGluZm8vbGludXgtYXVkaXQ=
+On Tue, Jun 4, 2019 at 3:55 AM Daniel Walsh <dwalsh@redhat.com> wrote:
+> The need for nested container support is the `Enemy of the good`.  This
+> idea has been being worked on for years and has always been blocked by
+> this seldom used feature.
+
+Speaking with some of the LXC folks, nested orchestrators isn't a
+seldom used feature for them, they see bug reports on a regular basis
+from users nesting various different orchestrators.  You are correct
+that we didn't originally think this was very common, which is
+unfortunate, but it's better we fix this now than push something into
+the kernel which might require a kernel API change to be useful to a
+wider audience.  To be clear, that's where we are at: we need to
+figure out what the kernel API would look like to support nested
+container orchestrators.  My gut feeling is that this isn't going to
+be terribly complicated compared to the rest of the audit container ID
+work, but it is going to be some work.  We had a discussion about some
+potential solutions in the cover letter and it sounds like Richard is
+working up some ideas now, let's wait to see what that looks like.
+
+> We are working on a project right this summer to allow us to use the
+> audit system to track the syscalls used by a container and then generate
+> a seccomp.json file to lock down the container in the future.  Think of
+> it as Audit2allow for seccomp rules on a container.  The problem is,
+> other then PID1 inside of the container, it is real difficult to follow
+> the other processes inside of the container without a containerid.
+
+That sounds interesting.
+
+> Is there a chance we could get a single ID for a container for now, and
+> then enhance the feature in the future for nested ContainerIDs.
+
+The blocker is the kernel/userspace API; I'm not going to merge code
+which provides an API which breaks when you try to nest orchestrators.
+Whatever we pick we are likely going to have to support f-o-r-e-v-e-r,
+so I want to make sure it is useful for the significant use cases we
+have today.
+
+> I fear that this will block the container id for years.
+
+It's ready when it's ready.
+
+> On 6/3/19 6:01 PM, Paul Moore wrote:
+> > On Fri, May 31, 2019 at 1:54 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> >> Remove the BUG() call since we will never have an invalid op value as
+> >> audit_data_to_entry()/audit_to_op() ensure that the op value is a a
+> >> known good value.
+> >>
+> >> Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
+> >> ---
+> >>  kernel/auditfilter.c | 1 -
+> >>  1 file changed, 1 deletion(-)
+> > Thanks for sending this out.  However, in light of the discussion in
+> > the patchset's cover letter it looks like we need to better support
+> > nested container orchestrators which is likely going to require some
+> > non-trivial changes to the kernel/userspace API.  Because of this I'm
+> > going to hold off pulling these patches into a "working" branch,
+> > hopefully the next revision of these patches will solve the nested
+> > orchestrator issue enough that we can continue to move forward with
+> > testing.
+> >
+> >> diff --git a/kernel/auditfilter.c b/kernel/auditfilter.c
+> >> index 407b5bb3b4c6..385a114a1254 100644
+> >> --- a/kernel/auditfilter.c
+> >> +++ b/kernel/auditfilter.c
+> >> @@ -1244,7 +1244,6 @@ int audit_comparator64(u64 left, u32 op, u64 right)
+> >>         case Audit_bittest:
+> >>                 return ((left & right) == right);
+> >>         default:
+> >> -               BUG();
+> >>                 return 0;
+> >>         }
+> >>  }
+> >> --
+> >> 1.8.3.1
+> >>
+> >
+>
+> --
+> Linux-audit mailing list
+> Linux-audit@redhat.com
+> https://www.redhat.com/mailman/listinfo/linux-audit
+
+
+
+-- 
+paul moore
+www.paul-moore.com
+
+--
+Linux-audit mailing list
+Linux-audit@redhat.com
+https://www.redhat.com/mailman/listinfo/linux-audit
