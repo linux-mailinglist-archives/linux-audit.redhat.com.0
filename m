@@ -2,95 +2,148 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5472F520B5
-	for <lists+linux-audit@lfdr.de>; Tue, 25 Jun 2019 04:43:45 +0200 (CEST)
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CCF35537F
+	for <lists+linux-audit@lfdr.de>; Tue, 25 Jun 2019 17:35:14 +0200 (CEST)
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 289A230821DF;
-	Tue, 25 Jun 2019 02:43:43 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 1E9581001DEA;
-	Tue, 25 Jun 2019 02:43:41 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 319903092663;
+	Tue, 25 Jun 2019 15:34:42 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id EDA335D70D;
+	Tue, 25 Jun 2019 15:34:20 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 52B133D87;
-	Tue, 25 Jun 2019 02:43:36 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
-	[10.5.11.23])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 4C0731806B16;
+	Tue, 25 Jun 2019 15:33:59 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+	[10.5.11.15])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id x5P2gl6k023089 for <linux-audit@listman.util.phx.redhat.com>;
-	Mon, 24 Jun 2019 22:42:49 -0400
+	id x5PFV5Lq023862 for <linux-audit@listman.util.phx.redhat.com>;
+	Tue, 25 Jun 2019 11:31:07 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id 50E5219722; Tue, 25 Jun 2019 02:42:47 +0000 (UTC)
+	id EF9685B68D; Tue, 25 Jun 2019 15:31:05 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from mx1.redhat.com (ext-mx01.extmail.prod.ext.phx2.redhat.com
-	[10.5.110.25])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 4BE4819936
-	for <linux-audit@redhat.com>; Tue, 25 Jun 2019 02:42:43 +0000 (UTC)
-Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com
-	[209.85.208.193])
+Received: from mx1.redhat.com (ext-mx20.extmail.prod.ext.phx2.redhat.com
+	[10.5.110.49])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id EA5FC5D756
+	for <linux-audit@redhat.com>; Tue, 25 Jun 2019 15:31:02 +0000 (UTC)
+Received: from sonic310-22.consmr.mail.bf2.yahoo.com
+	(sonic310-22.consmr.mail.bf2.yahoo.com [74.6.135.196])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 66D0C81F25
-	for <linux-audit@redhat.com>; Tue, 25 Jun 2019 02:42:26 +0000 (UTC)
-Received: by mail-lj1-f193.google.com with SMTP id p17so14634594ljg.1
-	for <linux-audit@redhat.com>; Mon, 24 Jun 2019 19:42:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=CKBE8eaoco4pGI763kC/y95/qX1Cg9WszVwNQiVM23M=;
-	b=eymxPmIScDKLhyJTp2mEkUmTZp/oEzH5x6rUE6KoNYoVY6rRSLkd6UztBZnDlPUsT6
-	Adara3v74FkG48l0SfVaDVjJjjWd2mjJ85XuRW42uD3bZx8WeaZmb4nfb/F/Al2RWagH
-	n0m5vmZoySDwY6VZlyFAnxP4SSpWtPjJYpPR9jj66UuhG00QXsNLCaS+AGdT3raxwYNf
-	TkQKKxteXJ3ZNGyl6Ro5K2FYpQr1OgFdg4oKZtjf6LoW6BTjJioLWXvI/WVKFz/w8RAo
-	9EFeT3stuOS1Ioooh44u3gSc9uvWrYexzdeUgm0ptpcYVq13+PrZLYK1XLZc64H7LeGv
-	IjZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=CKBE8eaoco4pGI763kC/y95/qX1Cg9WszVwNQiVM23M=;
-	b=jLo6E3DMmgVqRHZnK3OgiEh0ZDAwTdkQgeFznTE/GDT0N8dTPbMz+Ik9ca1IN7/CBf
-	fXTFCcprnJogfUb5t2JXgXhm3q49c6kNj/DtrHzrdxUBy6yASaj6lvTFKZ1r/ey2Fngj
-	OZ8whzXja/RkLHre9obSbEka4T/Th6iFnInqO9eV2q60DDoR7g+EjsX+iONEf8JWodf9
-	eWGLFnjVRBLcXd74b/CVVUFKPb9r58A/eI6IAxQdtXr5LIQvkMBf2USXnMZyU9bWwTy4
-	8LgaJUFF6uFCbFiBLi+zVpFLjwXW6zw4Pzk3BXqJJ0Dm5csyIBQ54+MYQJ9AHz6xyqC8
-	YmnQ==
-X-Gm-Message-State: APjAAAVBirIxQG5xSBZq+H049MaA6SZNwH/rMG9pLn8qzJYWyCms+Dsv
-	NeLizfD5P2fYPOVLtIV59abS7rrb6s0pImg3FB78
-X-Google-Smtp-Source: APXvYqwXYECY5QYIKYlztS3Bw6N8um6jtDalK1khlT0nS84vFu+q+1zZgG/gvAAY6THtOhE425wHJMqvGSwg1eKRB2g=
-X-Received: by 2002:a2e:9e1a:: with SMTP id e26mr16720717ljk.158.1561430544600;
-	Mon, 24 Jun 2019 19:42:24 -0700 (PDT)
-MIME-Version: 1.0
+	by mx1.redhat.com (Postfix) with ESMTPS id 20B1730BC589
+	for <linux-audit@redhat.com>; Tue, 25 Jun 2019 15:30:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
+	t=1561476638; bh=FnPWufeLeQr0hI3+/yRaQrxAzEWJRWUBrvGSKpKp0UM=;
+	h=Subject:To:Cc:References:From:Date:In-Reply-To:From:Subject;
+	b=oIkOGE2oBvIUiuhlUqkiLsAglTLFEnkOvBzwMXoZUvaFMkJLGV2+Lj81y6zgbOLzoNuusDOKKCimpsjUli5PqM0lWa3szpf8EbPmoImdZcsGhF8kVFHllGaxBo0R/+S5jjZ5X3mHR8oAQ29F7TIVh0ny1HqYAgkfH5JvCzvvxipvVZTjKVJ+hJSxYqZZaotlaBEhEB1CuHmFULR6x+xaaxgNd38lbMswV6NXqNUZPbuv0cVCRjk/KAkOQWpKPpmv9bFix+A4wYAjMwQEzFIH85oN0XcmGplU2bRJUc61q4UXcqQ0MwnHhYGqXqmaSwVbjHmf/1/Zu5DZy4Iwid44Ig==
+X-YMail-OSG: Sd1tFWAVM1mF7.szlHt.SMirUFE7h1lDWy08VsWvVOWkDIYjsXruzLpwMzDVb9L
+	XCXoGqLWPhXzgp6nJbSD8ixtn7BKLRfV4GXIqEYgXWB5tjrZJLqo00L.EdwJjfi86Gb1AbrOtCzY
+	Sd9GnPMm17SecyKRa3rjWcVr7SluRGS62mIyZRNkPXn9K1q0UFzrvusW_W7tXlC6EeVfOYAUDXJ9
+	35nglXzPJYaiePRs8bj9BcfkJEJA6O49qoVChVpkow7WL4I6SG_wiRQc8Gu1WekDrSEojgGxYmsg
+	7YZ.cMJCJD7wp0w_GjXdn_TJvMVGZLmw5LhMl_jr_7NxlPfBHgfg3AfAb1nXrrhYXJLzUj6rQwJ7
+	eRRiJufvEIyAt2WU6F8xI_LDrogG31DIwUBLKDUU.9y7ne1GNcae6HnVqH5d0D7K.2fEqXCaZ8El
+	aEtGQXkhu0S9ZjBNuDT_Z3.KIJ2.MjRaqduMrviK4BGwn4DQcYqkZT2xW_WwKpGs5Q_5MCc_GZhV
+	gF1IkAAx7pifEYZcOkZO1cjQ2OOFVrB1TvDcyslfsmhtfJPLcI3eQT7RnatXXWZHzs6aWgyVyEpW
+	71TGjr6UjXTMbsHEHJVN76Rr95h7g8bZpUXr2kCJ8oqO7DUOINkxEkJs_OFbc9k.XuIZsOmrV.dn
+	tp4dISvUAxNkcAKPlebfN0n7QA5zaxBuJz..UsDcUIGKuyBCjiOIkTwGN9_hsa8.XDtaSag6KJ2x
+	_RnANiBQVrw0QvgvJtUHp554HzM9of5pZvENYG1dYx8yUjIHJejU.Bt3U4jFiUoVlUvylR_vj4No
+	OwnvSEsonCtOL9rAYmKQ5YRYUorUS7HKGIAsB2SuFPv05lBnpP7RNdPHSb_l7HeJe_o_V2n3YG.Q
+	csh0Cb6vJ_pC2HVD_j9aB_UhCHD6XdBNTmi07sw4DO3ngnBcv4MKsWuhlZAv8ItfuUG.RC4wSNMa
+	VUqsJJoq6nmn8L0zcroZBze_W0qJqgYU5lw.ywj68B_2iAeYQy34achOMudlmLN_dhgIY3_65P5.
+	WcRJBPf4_kSDkwQV3hFVeqjAfvdyf5bUNDSpDKI0HB1rvTOL4qK3jkVcPCp88RpvT29DzSOBat3s
+	GkVVXMvyLy0Pfll4g2PICUzlhUzroq75JVRlnTtFCuW0p..pbP9OiJ8ke9Q0TCE.Wved7GuafoV1
+	HdGvqo7841EhKpSdQRNFhN3MDEiG0jmoFRiv1qqqe_WdxhekrI4zNZfCMeWQOLXzvbCT93eAwc9B
+	w.emr8pZBmwBsB85_CVh6tQ1RUF3HoITvj0nVaTvS.Xc5
+Received: from sonic.gate.mail.ne1.yahoo.com by
+	sonic310.consmr.mail.bf2.yahoo.com with HTTP;
+	Tue, 25 Jun 2019 15:30:38 +0000
+Received: from c-73-223-4-185.hsd1.ca.comcast.net (EHLO [192.168.0.103])
+	([73.223.4.185])
+	by smtp411.mail.bf1.yahoo.com (Oath Hermes SMTP Server) with ESMTPA ID
+	5dd7601bc46a4923afb7c89cf89f33a9; 
+	Tue, 25 Jun 2019 15:30:36 +0000 (UTC)
+Subject: Re: [PATCH v3 21/24] Audit: Store LSM audit information in an lsmblob
+To: Paul Moore <paul@paul-moore.com>,
+	John Johansen <john.johansen@canonical.com>
 References: <20190621185233.6766-1-casey@schaufler-ca.com>
 	<20190621185233.6766-22-casey@schaufler-ca.com>
 	<79cd4a92-c221-eda4-58ba-730b5c2680d7@canonical.com>
 	<0ad8f906-16ff-61af-ce7c-0ea1e9760d03@schaufler-ca.com>
 	<CAHC9VhSSwCY8L71x4WTr7kJhF1f_oyQ1NcwyXCAgW7ruKACQdQ@mail.gmail.com>
 	<41f99313-1aa4-bacc-6767-8ee1389ca220@canonical.com>
-In-Reply-To: <41f99313-1aa4-bacc-6767-8ee1389ca220@canonical.com>
-From: Paul Moore <paul@paul-moore.com>
-Date: Mon, 24 Jun 2019 22:42:12 -0400
-Message-ID: <CAHC9VhSSMjCdT8gfB03gh8VvJngTHnsUsDCpseMUiEPQM9z_FQ@mail.gmail.com>
-Subject: Re: [PATCH v3 21/24] Audit: Store LSM audit information in an lsmblob
-To: John Johansen <john.johansen@canonical.com>
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.25]);
-	Tue, 25 Jun 2019 02:42:35 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.25]);
-	Tue, 25 Jun 2019 02:42:35 +0000 (UTC) for IP:'209.85.208.193'
-	DOMAIN:'mail-lj1-f193.google.com'
-	HELO:'mail-lj1-f193.google.com' FROM:'paul@paul-moore.com' RCPT:''
-X-RedHat-Spam-Score: -0.008  (DKIM_SIGNED, DKIM_VALID, RCVD_IN_DNSWL_NONE,
-	SPF_HELO_NONE,
-	SPF_NONE) 209.85.208.193 mail-lj1-f193.google.com 209.85.208.193
-	mail-lj1-f193.google.com <paul@paul-moore.com>
-X-Scanned-By: MIMEDefang 2.83 on 10.5.110.25
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+	<CAHC9VhSSMjCdT8gfB03gh8VvJngTHnsUsDCpseMUiEPQM9z_FQ@mail.gmail.com>
+From: Casey Schaufler <casey@schaufler-ca.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=casey@schaufler-ca.com; keydata=
+	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
+	abzjfg==
+Message-ID: <c231726e-5235-1dae-8fb9-6f89db406260@schaufler-ca.com>
+Date: Tue, 25 Jun 2019 08:30:35 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+	Thunderbird/60.7.2
+MIME-Version: 1.0
+In-Reply-To: <CAHC9VhSSMjCdT8gfB03gh8VvJngTHnsUsDCpseMUiEPQM9z_FQ@mail.gmail.com>
+Content-Language: en-US
+X-Greylist: Sender passed SPF test, Sender IP whitelisted by DNSRBL, ACL 216
+	matched, not delayed by milter-greylist-4.5.16 (mx1.redhat.com
+	[10.5.110.49]); Tue, 25 Jun 2019 15:30:51 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.49]);
+	Tue, 25 Jun 2019 15:30:51 +0000 (UTC) for IP:'74.6.135.196'
+	DOMAIN:'sonic310-22.consmr.mail.bf2.yahoo.com'
+	HELO:'sonic310-22.consmr.mail.bf2.yahoo.com'
+	FROM:'casey@schaufler-ca.com' RCPT:''
+X-RedHat-Spam-Score: 0.002  (DKIM_SIGNED, DKIM_VALID, SPF_HELO_NONE,
+	SPF_NONE) 74.6.135.196
+	sonic310-22.consmr.mail.bf2.yahoo.com 74.6.135.196
+	sonic310-22.consmr.mail.bf2.yahoo.com <casey@schaufler-ca.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.110.49
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-loop: linux-audit@redhat.com
 Cc: selinux@vger.kernel.org, James Morris <jmorris@namei.org>,
-	casey.schaufler@intel.com, linux-security-module@vger.kernel.org,
-	linux-audit@redhat.com, Stephen Smalley <sds@tycho.nsa.gov>
+	linux-security-module@vger.kernel.org, linux-audit@redhat.com,
+	casey.schaufler@intel.com, Stephen Smalley <sds@tycho.nsa.gov>
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -106,113 +159,67 @@ Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.47]); Tue, 25 Jun 2019 02:43:44 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.43]); Tue, 25 Jun 2019 15:35:09 +0000 (UTC)
 
-On Mon, Jun 24, 2019 at 10:15 PM John Johansen
-<john.johansen@canonical.com> wrote:
-> On 6/24/19 6:46 PM, Paul Moore wrote:
-> > On Mon, Jun 24, 2019 at 9:01 PM Casey Schaufler <casey@schaufler-ca.com> wrote:
-> >> On 6/24/2019 2:33 PM, John Johansen wrote:
-> >>> On 6/21/19 11:52 AM, Casey Schaufler wrote:
-> >>>> Change the audit code to store full lsmblob data instead of
-> >>>> a single u32 secid. This allows for multiple security modules
-> >>>> to use the audit system at the same time. It also allows the
-> >>>> removal of scaffolding code that was included during the
-> >>>> revision of LSM interfaces.
-> >>>>
-> >>>> Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
-> >>> I know Kees raised this too, but I haven't seen a reply
-> >>>
-> >>> Eric (Paul is already CCed): I have directly added you because of
-> >>> the question below.
-> >>>
-> >>> In summary there isn't necessarily a single secid any more, and
-> >>> we need to know whether dropping the logging of the secid or
-> >>> logging all secids is the correct action.
-> >>
-> >> It is to be considered that this is an error case. If
-> >> everything is working normally you should have produced
-> >> a secctx previously, which you'll have included in the
-> >> audit record. Including the secid in the record ought to
-> >> be pointless, as the secid is strictly an internal token
-> >> with no meaning outside the running kernel. You are providing
-> >> no security relevant information by providing the secid.
-> >> I will grant the possibility that the secid might be useful
-> >> in debugging, but for that a pr_warn is more appropriate
-> >> than a field in the audit record.
-> >
-> > FWIW, this probably should have been CC'd to the audit list.
-> >
-> hrmm indeed, sorry
->
-> > I agree that this is an error case (security_secid_to_secctx() failed
-> > to resolve the secid) and further that logging the secid, or a
-> > collection of secids, has little value the way things currently work.
-> > Since secids are a private kernel implementation detail, we don't
-> > really display them outside the context of the kernel, including in
-> > the audit logs.  Recording a secid in this case doesn't provide
-> > anything meaningful since secids aren't recorded in the audit record
-> > stream, only the secctxs, and there is no "magic decoder ring" to go
-> > between the two in the audit logs, or anywhere else in userspace for
-> > that matter.
->
-> Okay, thanks. Casey I am good with just a pr_warn here. I just didn't
-> have context of why it was going to the audit_log and didn't want
-> to change that without some more input.
+On 6/24/2019 7:42 PM, Paul Moore wrote:
+> On Mon, Jun 24, 2019 at 10:15 PM John Johansen
+> <john.johansen@canonical.com> wrote:
+>> On 6/24/19 6:46 PM, Paul Moore wrote:
+>>> On Mon, Jun 24, 2019 at 9:01 PM Casey Schaufler <casey@schaufler-ca.com> wrote:
+>>>> On 6/24/2019 2:33 PM, John Johansen wrote:
+>>>>> On 6/21/19 11:52 AM, Casey Schaufler wrote:
+>>>>>> Change the audit code to store full lsmblob data instead of
+>>>>>> a single u32 secid. This allows for multiple security modules
+>>>>>> to use the audit system at the same time. It also allows the
+>>>>>> removal of scaffolding code that was included during the
+>>>>>> revision of LSM interfaces.
+>>>>>>
+>>>>>> Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
+>>>>> I know Kees raised this too, but I haven't seen a reply
+>>>>>
+>>>>> Eric (Paul is already CCed): I have directly added you because of
+>>>>> the question below.
+>>>>>
+>>>>> In summary there isn't necessarily a single secid any more, and
+>>>>> we need to know whether dropping the logging of the secid or
+>>>>> logging all secids is the correct action.
+>>>> It is to be considered that this is an error case. If
+>>>> everything is working normally you should have produced
+>>>> a secctx previously, which you'll have included in the
+>>>> audit record. Including the secid in the record ought to
+>>>> be pointless, as the secid is strictly an internal token
+>>>> with no meaning outside the running kernel. You are providing
+>>>> no security relevant information by providing the secid.
+>>>> I will grant the possibility that the secid might be useful
+>>>> in debugging, but for that a pr_warn is more appropriate
+>>>> than a field in the audit record.
+>>> FWIW, this probably should have been CC'd to the audit list.
+>>>
+>> hrmm indeed, sorry
+>>
+>>> I agree that this is an error case (security_secid_to_secctx() failed
+>>> to resolve the secid) and further that logging the secid, or a
+>>> collection of secids, has little value the way things currently work.
+>>> Since secids are a private kernel implementation detail, we don't
+>>> really display them outside the context of the kernel, including in
+>>> the audit logs.  Recording a secid in this case doesn't provide
+>>> anything meaningful since secids aren't recorded in the audit record
+>>> stream, only the secctxs, and there is no "magic decoder ring" to go
+>>> between the two in the audit logs, or anywhere else in userspace for
+>>> that matter.
+>> Okay, thanks. Casey I am good with just a pr_warn here. I just didn't
+>> have context of why it was going to the audit_log and didn't want
+>> to change that without some more input.
+> Hmm.  Actually, let me change my comments slightly ... perhaps what we
+> should do here is keep the audit_log_format(), but change it from
+> audit_log_format("osid=%u",...) to audit_log_format("obj=?").  The "?"
+> is used in audit when we can't determine a piece of information, but
+> we normally log it.  It wasn't used very widely originally, which is
+> probably why it isn't in this piece of code.
 
-Hmm.  Actually, let me change my comments slightly ... perhaps what we
-should do here is keep the audit_log_format(), but change it from
-audit_log_format("osid=%u",...) to audit_log_format("obj=?").  The "?"
-is used in audit when we can't determine a piece of information, but
-we normally log it.  It wasn't used very widely originally, which is
-probably why it isn't in this piece of code.
-
-> >>>> ---
-> >>>>  kernel/audit.h   |  6 +++---
-> >>>>  kernel/auditsc.c | 38 +++++++++++---------------------------
-> >>>>  2 files changed, 14 insertions(+), 30 deletions(-)
-> >
-> > ...
-> >
-> >>>> diff --git a/kernel/auditsc.c b/kernel/auditsc.c
-> >>>> index 0478680cd0a8..d3ad13f11788 100644
-> >>>> --- a/kernel/auditsc.c
-> >>>> +++ b/kernel/auditsc.c
-> >>>> @@ -1187,21 +1184,18 @@ static void show_special(struct audit_context *context, int *call_panic)
-> >>>>                              context->socketcall.args[i]);
-> >>>>              break; }
-> >>>>      case AUDIT_IPC: {
-> >>>> -            u32 osid = context->ipc.osid;
-> >>>> +            struct lsmblob *olsm = &context->ipc.olsm;
-> >>>>
-> >>>>              audit_log_format(ab, "ouid=%u ogid=%u mode=%#ho",
-> >>>>                               from_kuid(&init_user_ns, context->ipc.uid),
-> >>>>                               from_kgid(&init_user_ns, context->ipc.gid),
-> >>>>                               context->ipc.mode);
-> >>>> -            if (osid) {
-> >>>> +            if (lsmblob_is_set(olsm)) {
-> >>>>                      struct lsmcontext lsmcxt;
-> >>>> -                    struct lsmblob blob;
-> >>>>
-> >>>> -                    lsmblob_init(&blob, osid);
-> >>>> -                    if (security_secid_to_secctx(&blob, &lsmcxt)) {
-> >>>> -                            audit_log_format(ab, " osid=%u", osid);
-> >>> I am not comfortable just dropping this I would think logging all secids is the
-> >>> correct action here.
-> >>>
-> >>>
-> >>>> +                    if (security_secid_to_secctx(olsm, &lsmcxt))
-> >>>>                              *call_panic = 1;
-> >>>> -                    } else {
-> >>>> +                    else {
-> >>>>                              audit_log_format(ab, " obj=%s", lsmcxt.context);
-> >>>>                              security_release_secctx(&lsmcxt);
-> >>>>                      }
-
--- 
-paul moore
-www.paul-moore.com
+Works for me. I'll make the change. Thank you.
+??
 
 --
 Linux-audit mailing list
