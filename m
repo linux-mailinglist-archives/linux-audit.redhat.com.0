@@ -2,84 +2,52 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
-	by mail.lfdr.de (Postfix) with ESMTPS id B43AF5D546
-	for <lists+linux-audit@lfdr.de>; Tue,  2 Jul 2019 19:31:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A1DB627AF
+	for <lists+linux-audit@lfdr.de>; Mon,  8 Jul 2019 19:53:46 +0200 (CEST)
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 8EF43C01F28C;
-	Tue,  2 Jul 2019 17:30:42 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 6063B1001925;
-	Tue,  2 Jul 2019 17:30:24 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id E5373308402A;
+	Mon,  8 Jul 2019 17:53:33 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 6A3D61001B02;
+	Mon,  8 Jul 2019 17:53:20 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 1CDBE1806B12;
-	Tue,  2 Jul 2019 17:30:06 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
-	[10.5.11.14])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id CF866206D2;
+	Mon,  8 Jul 2019 17:53:05 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+	[10.5.11.13])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id x62HTKRu020693 for <linux-audit@listman.util.phx.redhat.com>;
-	Tue, 2 Jul 2019 13:29:20 -0400
+	id x68HpWoi007397 for <linux-audit@listman.util.phx.redhat.com>;
+	Mon, 8 Jul 2019 13:51:32 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id 44D9637CE; Tue,  2 Jul 2019 17:29:20 +0000 (UTC)
+	id 6D723579A8; Mon,  8 Jul 2019 17:51:32 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from mx1.redhat.com (ext-mx14.extmail.prod.ext.phx2.redhat.com
-	[10.5.110.43])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 3F3945D9E1
-	for <linux-audit@redhat.com>; Tue,  2 Jul 2019 17:29:18 +0000 (UTC)
-Received: from mail-lf1-f67.google.com (mail-lf1-f67.google.com
-	[209.85.167.67])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id AAD6E309265C
-	for <linux-audit@redhat.com>; Tue,  2 Jul 2019 17:28:47 +0000 (UTC)
-Received: by mail-lf1-f67.google.com with SMTP id z15so11961594lfh.13
-	for <linux-audit@redhat.com>; Tue, 02 Jul 2019 10:28:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:from:date:message-id:subject:to:cc;
-	bh=ESbvDEOdDN7N8DWL7d5n/EnOhVPr3X8R6VtdhGwRNQs=;
-	b=lz/WdCzaZCnTbIbCuxpcV//e9TGNlh1GfKTw5RvdcDSkmJ6Dj78ko6p+cWWq0ZfArv
-	b19JtebtGJImHC+u26CDonFRrWM42EGJR+i8qj/AwJaPvV8gfq6E2uxxIA+9SDc5Itm4
-	xsvQ4VScX+i3WZtr0dXxkwZLuwA6xK/Nd70QR7POFURuTUyz10+1HEQs0Vp/QszcAKxH
-	DZ1eEadO2vawg7hnJ2QN4lBXbpEpjM37CNzl6Mz/oyRHNoypBiz0Jsig530yPtd7lEsQ
-	2hefryuBVodP3YGjE9FoyJqAkY+mRVEfh5zTALbvGCZM/zFcnZyTJYrxejReHxhOpzxT
-	ncTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
-	bh=ESbvDEOdDN7N8DWL7d5n/EnOhVPr3X8R6VtdhGwRNQs=;
-	b=nppPusQv+IosQ/BgvBJqWIuX2TlbL7xJfAolP2RReHX89f5ZewbPALqKNto0+Rqy+O
-	2v4ZKAVDXarOqpegdmpfgoHsbrcqUJ0PbWfankw2ziaZwBFQZI4+AmWEFyfqSdsSmefl
-	fo+2RLCzjfRfWx/byz5vDB4Bx4UbTsi6lEZ2MwGvuWBzfV5SfctDhJmNboIq4txWptFI
-	G/gBjzl6JfG8qB3D1dSxbYEvA+3Q505YwydtoSRinBI7vffxMeyZxl8pi37j5BcTRczk
-	2okoVSAg9oM1S8F1nHKHTmkG5oJa3QrFz4rWmi8pDZa+1zjircXUXBAHeWDNOyLVLpWp
-	MZCw==
-X-Gm-Message-State: APjAAAW4xHOM3HKXrkWBXlz+fJoyByzEwta+O63xUGDCBEOe0rtQ94U6
-	cUYPcSFFj04Vejz2L+sGkXBtSCc5kls8K3JgNH83
-X-Google-Smtp-Source: APXvYqxl+hOO7NlDSd2NcPfDAxUqaJXo35Dg2EkyAhR8Wt+Mp/lkrTHU5Fea4EB9KnqRfSC0rFeY5SbDGBFVCJ1EV0w=
-X-Received: by 2002:ac2:4109:: with SMTP id b9mr13868455lfi.31.1562088524511; 
-	Tue, 02 Jul 2019 10:28:44 -0700 (PDT)
+Received: from madcap2.tricolour.ca (ovpn-112-14.phx2.redhat.com [10.3.112.14])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id E42FD608A4;
+	Mon,  8 Jul 2019 17:51:08 +0000 (UTC)
+Date: Mon, 8 Jul 2019 13:51:05 -0400
+From: Richard Guy Briggs <rgb@redhat.com>
+To: Paul Moore <paul@paul-moore.com>
+Subject: Re: [PATCH ghak90 V6 02/10] audit: add container id
+Message-ID: <20190708175105.7zb6mikjw2wmnwln@madcap2.tricolour.ca>
+References: <cover.1554732921.git.rgb@redhat.com>
+	<9edad39c40671fb53f28d76862304cc2647029c6.1554732921.git.rgb@redhat.com>
+	<20190529145742.GA8959@cisco>
+	<CAHC9VhR4fudQanvZGYWMvCf7k2CU3q7e7n1Pi7hzC3v_zpVEdw@mail.gmail.com>
 MIME-Version: 1.0
-From: Paul Moore <paul@paul-moore.com>
-Date: Tue, 2 Jul 2019 13:28:33 -0400
-Message-ID: <CAHC9VhQ7md3PmUkzv8DNL-RTrq_4r2sRzGjwwaT0ZS-CPOxGBw@mail.gmail.com>
-Subject: [GIT PULL] Audit patches for v5.3
-To: Linus Torvalds <torvalds@linux-foundation.org>
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.43]);
-	Tue, 02 Jul 2019 17:28:56 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.43]);
-	Tue, 02 Jul 2019 17:28:56 +0000 (UTC) for IP:'209.85.167.67'
-	DOMAIN:'mail-lf1-f67.google.com' HELO:'mail-lf1-f67.google.com'
-	FROM:'paul@paul-moore.com' RCPT:''
-X-RedHat-Spam-Score: -0.009  (DKIM_SIGNED, DKIM_VALID, RCVD_IN_DNSWL_NONE,
-	SPF_HELO_NONE) 209.85.167.67 mail-lf1-f67.google.com
-	209.85.167.67 mail-lf1-f67.google.com <paul@paul-moore.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.110.43
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Content-Disposition: inline
+In-Reply-To: <CAHC9VhR4fudQanvZGYWMvCf7k2CU3q7e7n1Pi7hzC3v_zpVEdw@mail.gmail.com>
+User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-loop: linux-audit@redhat.com
-Cc: linux-audit@redhat.com, linux-kernel@vger.kernel.org
+Cc: Tycho Andersen <tycho@tycho.ws>, nhorman@tuxdriver.com,
+	linux-api@vger.kernel.org, containers@lists.linux-foundation.org,
+	LKML <linux-kernel@vger.kernel.org>, dhowells@redhat.com,
+	Linux-Audit Mailing List <linux-audit@redhat.com>,
+	netfilter-devel@vger.kernel.org, ebiederm@xmission.com,
+	simo@redhat.com, netdev@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	Eric Paris <eparis@parisplace.org>, Serge Hallyn <serge@hallyn.com>
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -96,70 +64,109 @@ Content-Transfer-Encoding: 7bit
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.31]); Tue, 02 Jul 2019 17:31:28 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.40]); Mon, 08 Jul 2019 17:53:40 +0000 (UTC)
 
-Hi Linus,
+On 2019-05-29 11:29, Paul Moore wrote:
+> On Wed, May 29, 2019 at 10:57 AM Tycho Andersen <tycho@tycho.ws> wrote:
+> >
+> > On Mon, Apr 08, 2019 at 11:39:09PM -0400, Richard Guy Briggs wrote:
+> > > It is not permitted to unset the audit container identifier.
+> > > A child inherits its parent's audit container identifier.
+> >
+> > ...
+> >
+> > >  /**
+> > > + * audit_set_contid - set current task's audit contid
+> > > + * @contid: contid value
+> > > + *
+> > > + * Returns 0 on success, -EPERM on permission failure.
+> > > + *
+> > > + * Called (set) from fs/proc/base.c::proc_contid_write().
+> > > + */
+> > > +int audit_set_contid(struct task_struct *task, u64 contid)
+> > > +{
+> > > +     u64 oldcontid;
+> > > +     int rc = 0;
+> > > +     struct audit_buffer *ab;
+> > > +     uid_t uid;
+> > > +     struct tty_struct *tty;
+> > > +     char comm[sizeof(current->comm)];
+> > > +
+> > > +     task_lock(task);
+> > > +     /* Can't set if audit disabled */
+> > > +     if (!task->audit) {
+> > > +             task_unlock(task);
+> > > +             return -ENOPROTOOPT;
+> > > +     }
+> > > +     oldcontid = audit_get_contid(task);
+> > > +     read_lock(&tasklist_lock);
+> > > +     /* Don't allow the audit containerid to be unset */
+> > > +     if (!audit_contid_valid(contid))
+> > > +             rc = -EINVAL;
+> > > +     /* if we don't have caps, reject */
+> > > +     else if (!capable(CAP_AUDIT_CONTROL))
+> > > +             rc = -EPERM;
+> > > +     /* if task has children or is not single-threaded, deny */
+> > > +     else if (!list_empty(&task->children))
+> > > +             rc = -EBUSY;
+> > > +     else if (!(thread_group_leader(task) && thread_group_empty(task)))
+> > > +             rc = -EALREADY;
+> > > +     read_unlock(&tasklist_lock);
+> > > +     if (!rc)
+> > > +             task->audit->contid = contid;
+> > > +     task_unlock(task);
+> > > +
+> > > +     if (!audit_enabled)
+> > > +             return rc;
+> >
+> > ...but it is allowed to change it (assuming
+> > capable(CAP_AUDIT_CONTROL), of course)? Seems like this might be more
+> > immediately useful since we still live in the world of majority
+> > privileged containers if we didn't allow changing it, in addition to
+> > un-setting it.
+> 
+> The idea is that only container orchestrators should be able to
+> set/modify the audit container ID, and since setting the audit
+> container ID can have a significant effect on the records captured
+> (and their routing to multiple daemons when we get there) modifying
+> the audit container ID is akin to modifying the audit configuration
+> which is why it is gated by CAP_AUDIT_CONTROL.  The current thinking
+> is that you would only change the audit container ID from one
+> set/inherited value to another if you were nesting containers, in
+> which case the nested container orchestrator would need to be granted
+> CAP_AUDIT_CONTROL (which everyone to date seems to agree is a workable
+> compromise).  We did consider allowing for a chain of nested audit
+> container IDs, but the implications of doing so are significant
+> (implementation mess, runtime cost, etc.) so we are leaving that out
+> of this effort.
 
-This PR is a bit early, but with some vacation time coming up I wanted
-to send this out now just in case the remote Internet Gods decide not
-to smile on me once the merge window opens.  The patchset for v5.3 is
-pretty minor this time, the highlights include:
+We had previously discussed the idea of restricting
+orchestrators/engines from only being able to set the audit container
+identifier on their own descendants, but it was discarded.  I've added a
+check to ensure this is now enforced.
 
-- When the audit daemon is sent a signal, ensure we deliver
-information about the sender even when syscall auditing is not
-enabled/supported.
+I've also added a check to ensure that a process can't set its own audit
+container identifier and that if the identifier is already set, then the
+orchestrator/engine must be in a descendant user namespace from the
+orchestrator that set the previously inherited audit container
+identifier.
 
-- Add the ability to filter audit records based on network address family.
+> From a practical perspective, un-setting the audit container ID is
+> pretty much the same as changing it from one set value to another so
+> most of the above applies to that case as well.
+> 
+> -- 
+> paul moore
+> www.paul-moore.com
 
-- Tighten the audit field filtering restrictions on string based fields.
-
-- Cleanup the audit field filtering verification code.
-
-- Remove a few BUG() calls from the audit code.
-
-Please pull this once the merge window opens,
--Paul
+- RGB
 
 --
-The following changes since commit a188339ca5a396acc588e5851ed7e19f66b0ebd9:
-
- Linux 5.2-rc1 (2019-05-19 15:47:09 -0700)
-
-are available in the Git repository at:
-
- git://git.kernel.org/pub/scm/linux/kernel/git/pcmoore/audit.git
-   tags/audit-pr-20190702
-
-for you to fetch changes up to 839d05e413856bd686a33b59294d4e8238169320:
-
- audit: remove the BUG() calls in the audit rule comparison functions
-   (2019-05-30 12:53:42 -0400)
-
-----------------------------------------------------------------
-audit/stable-5.3 PR 20190702
-
-----------------------------------------------------------------
-Paul Moore (1):
-     audit: remove the BUG() calls in the audit rule comparison functions
-
-Richard Guy Briggs (4):
-     audit: deliver signal_info regarless of syscall
-     audit: re-structure audit field valid checks
-     audit: add saddr_fam filter field
-     audit: enforce op for string fields
-
-include/linux/audit.h      |  9 +++++++
-include/uapi/linux/audit.h |  1 +
-kernel/audit.c             | 27 +++++++++++++++++++++
-kernel/audit.h             |  8 ++++--
-kernel/auditfilter.c       | 62 ++++++++++++++++++++++++++---------------
-kernel/auditsc.c           | 42 +++++++++++++++++---------------
-kernel/signal.c            |  2 +-
-7 files changed, 105 insertions(+), 46 deletions(-)
-
--- 
-paul moore
-www.paul-moore.com
+Richard Guy Briggs <rgb@redhat.com>
+Sr. S/W Engineer, Kernel Security, Base Operating Systems
+Remote, Ottawa, Red Hat Canada
+IRC: rgb, SunRaycer
+Voice: +1.647.777.2635, Internal: (81) 32635
 
 --
 Linux-audit mailing list
