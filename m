@@ -2,45 +2,50 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
-	by mail.lfdr.de (Postfix) with ESMTPS id E160369520
-	for <lists+linux-audit@lfdr.de>; Mon, 15 Jul 2019 16:56:54 +0200 (CEST)
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+	by mail.lfdr.de (Postfix) with ESMTPS id 50A8F69AF7
+	for <lists+linux-audit@lfdr.de>; Mon, 15 Jul 2019 20:42:41 +0200 (CEST)
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id D504730C0DCF;
-	Mon, 15 Jul 2019 14:56:51 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 9A04E19698;
-	Mon, 15 Jul 2019 14:56:49 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 6522781DF1;
+	Mon, 15 Jul 2019 18:42:38 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 1547F5C224;
+	Mon, 15 Jul 2019 18:42:36 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 5DE9E149E1;
-	Mon, 15 Jul 2019 14:56:45 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
-	[10.5.11.13])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 3679A1833002;
+	Mon, 15 Jul 2019 18:42:31 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+	[10.5.11.14])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id x6FEuZkV015173 for <linux-audit@listman.util.phx.redhat.com>;
-	Mon, 15 Jul 2019 10:56:35 -0400
+	id x6FIgKpJ026530 for <linux-audit@listman.util.phx.redhat.com>;
+	Mon, 15 Jul 2019 14:42:20 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id 54EB2608C6; Mon, 15 Jul 2019 14:56:35 +0000 (UTC)
+	id 4E4795DA34; Mon, 15 Jul 2019 18:42:20 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from x2.localnet (ovpn-117-145.phx2.redhat.com [10.3.117.145])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id B29FD6085B;
-	Mon, 15 Jul 2019 14:56:31 +0000 (UTC)
-From: Steve Grubb <sgrubb@redhat.com>
-To: =?utf-8?B?5p2o5rW3?= <hai.yang@magic-shield.com>
-Subject: Re: overhead of auditd
-Date: Mon, 15 Jul 2019 10:56:30 -0400
-Message-ID: <3117481.ooqTYu3AtQ@x2>
-Organization: Red Hat
-In-Reply-To: <tencent_426F741872D994171406DF95@qq.com>
-References: <tencent_5FA425C1329B32126C1D89F1@qq.com> <9307307.NKOEW2x8Z6@x2>
-	<tencent_426F741872D994171406DF95@qq.com>
+Received: from madcap2.tricolour.ca (ovpn-112-14.phx2.redhat.com [10.3.112.14])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 7CFCA4F676;
+	Mon, 15 Jul 2019 18:42:12 +0000 (UTC)
+Date: Mon, 15 Jul 2019 14:42:09 -0400
+From: Richard Guy Briggs <rgb@redhat.com>
+To: Stephen Smalley <sds@tycho.nsa.gov>
+Subject: Re: [RFC PATCH] security, capability: pass object information to
+	security_capable
+Message-ID: <20190715184209.j75kpav4tmmunejh@madcap2.tricolour.ca>
+References: <20190712173404.14417-1-nhfran2@tycho.nsa.gov>
+	<alpine.LRH.2.21.1907130347010.1509@namei.org>
+	<3605eb1a-fb1c-8933-b1e1-a60e54fb1e1c@tycho.nsa.gov>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MIME-Autoconverted: from quoted-printable to 8bit by
-	lists01.pubmisc.prod.ext.phx2.redhat.com id x6FEuZkV015173
+Content-Disposition: inline
+In-Reply-To: <3605eb1a-fb1c-8933-b1e1-a60e54fb1e1c@tycho.nsa.gov>
+User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-loop: linux-audit@redhat.com
-Cc: linux-audit <linux-audit@redhat.com>
+Cc: mortonm@chromium.org, john.johansen@canonical.com, selinux@vger.kernel.org,
+	James Morris <jmorris@namei.org>, luto@amacapital.net,
+	linux-security-module@vger.kernel.org,
+	"linux-audit@redhat.com" <linux-audit@redhat.com>,
+	serge@hallyn.com, Nicholas Franck <nhfran2@tycho.nsa.gov>
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -52,34 +57,76 @@ List-Post: <mailto:linux-audit@redhat.com>
 List-Help: <mailto:linux-audit-request@redhat.com?subject=help>
 List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.45]); Mon, 15 Jul 2019 14:56:53 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.25]); Mon, 15 Jul 2019 18:42:40 +0000 (UTC)
 
-T24gTW9uZGF5LCBKdWx5IDE1LCAyMDE5IDY6MjE6MTEgQU0gRURUIOadqOa1tyB3cm90ZToKPiBJ
-IGV2ZXIgcmVhZCB0aGUgZG9jdW1lbnQgeW91IHdyb3RlIGFib3V0IGxheWluZyBJRFMgb24gdG9w
-IG9mIGF1ZGl0ZC4gQW5kIEkKPiBzdXBwb3NlIGlub3RpZnkgY291bGQgYmUgbGlnaHR3ZWlnaHQg
-Zm9yIElEUy4gQW55IGNvbW1lbnQ/CgpZZXMsIGF1ZGl0IHdvcmtzIGZpbmUgZm9yIElEUyB3b3Jr
-LiBCdXQgb25lIHdvdWxkIG5vdCBhdWRpdCBhbGwgc3lzY2FsbHMgZm9yIApldmVyeSBwcm9ncmFt
-LiBUaGF0IHdpbGwga2lsbCB5b3VyIHN5c3RlbS4gWW91IGhhdmUgdG8gYmUgc2VsZWN0aXZlIGFi
-b3V0IAp3aGF0IHlvdSBhcmUgYXVkaXRpbmcuCgotU3RldmUKIAo+IC0tLS0tLS0tLS0tLS0tLS0t
-LSBPcmlnaW5hbCAtLS0tLS0tLS0tLS0tLS0tLS0KPiBGcm9tOiAgIlN0ZXZlIEdydWJiIjxzZ3J1
-YmJAcmVkaGF0LmNvbT47Cj4gRGF0ZTogIEZyaSwgSnVsIDEyLCAyMDE5IDA4OjE0IFBNCj4gVG86
-ICAibGludXgtYXVkaXQiPGxpbnV4LWF1ZGl0QHJlZGhhdC5jb20+OyAKPiBDYzogICLmnajmtbci
-PGhhaS55YW5nQG1hZ2ljLXNoaWVsZC5jb20+OyAKPiBTdWJqZWN0OiAgUmU6IG92ZXJoZWFkIG9m
-IGF1ZGl0ZAo+IAo+IEhlbGxvLAo+IAo+IE9uIFRodXJzZGF5LCBKdWx5IDExLCAyMDE5IDExOjIz
-OjQ1IFBNIEVEVCDmnajmtbcgd3JvdGU6Cj4gCj4gPiBUdXJuaW5nIG9uIGFsbCBzeXN0ZW0gY2Fs
-bHMgaW4gYXVkaXQucnVsZXMsIGFuZCB0cmFuc2ZlcnJpbmcgYSB0YXIgZmlsZQo+ID4gdG8gdGhl
-IHRhcmdldCBzeXN0ZW0gKENlbnRPUyA3LCA0IGNvcmVzKSwgSSBmb3VuZCAiYXVkaXRkIiBjb25z
-dW1lcwo+ID4gaGlnaCBDUFUgdXNhZ2UuIElzIGl0IGV4cGVjdGVkPwo+IAo+IEl0IHdvdWxkIG5v
-dCBiZSBzdXJwcmlzaW5nLiBTb21lIHN5c3RlbSBjYWxscyBoYXZlIG1vcmUgb3ZlcmhlYWQgdGhh
-bgo+IG90aGVycy4gIFNvLCBkZXBlbmRpbmcgb24gZXZlcnl0aGluZyB0aGF0IGlzIHJ1bm5pbmcs
-IHlvdSBjYW4ga2lsbCB5b3VyCj4gc3lzdGVtLiAKPiAKPiA+IEJUVywgYWZ0ZXIgdHVybmluZyB3
-cml0ZS1sb2dzIG9mZiwgYW5kIGFkZCBkaXNwYXRjaGVyLCBib3RoICJhdWRpc3BkIgo+ID4gYW5k
-ICAiYXVkaXRkIiBhcmUgY29uc3VtaW5nIGhpZ2ggQ1BVLgo+IAo+IFRoZXkgaGF2ZSBhIGxvdCBv
-ZiBldmVudHMgdG8gaGFuZGxlLgoKCgoKLS0KTGludXgtYXVkaXQgbWFpbGluZyBsaXN0CkxpbnV4
-LWF1ZGl0QHJlZGhhdC5jb20KaHR0cHM6Ly93d3cucmVkaGF0LmNvbS9tYWlsbWFuL2xpc3RpbmZv
-L2xpbnV4LWF1ZGl0
+On 2019-07-12 14:02, Stephen Smalley wrote:
+> On 7/12/19 1:50 PM, James Morris wrote:
+> > On Fri, 12 Jul 2019, Nicholas Franck wrote:
+> > 
+
+This aggressive trimming dropped a bit of helpful context:
+
++++ b/security/lsm_audit.c
+@@ -229,9 +229,26 @@ static void dump_common_audit_data(struct
+audit_buffer *ab,
+        case LSM_AUDIT_DATA_IPC:
+                audit_log_format(ab, " key=%d ", a->u.ipc_id);
+                break;
+-       case LSM_AUDIT_DATA_CAP:
+-               audit_log_format(ab, " capability=%d ", a->u.cap);
+
+> > > +	case LSM_AUDIT_DATA_CAP: {
+> > > +		const struct inode *inode;
+> > > +
+> > > +		if (a->u.cap_struct.cad) {
+> > > +			switch (a->u.cap_struct.cad->type) {
+> > > +			case CAP_AUX_DATA_INODE: {
+> > > +				inode = a->u.cap_struct.cad->u.inode;
+> > > +
+> > > +				audit_log_format(ab, " dev=");
+> > > +				audit_log_untrustedstring(ab,
+> > > +					inode->i_sb->s_id);
+> > > +				audit_log_format(ab, " ino=%lu",
+> > > +					inode->i_ino);
+> > > +				break;
+> > > +			}
+> > > +			}
+> > > +		}
+> > > +		audit_log_format(ab, " capability=%d ", a->u.cap_struct.cap);
+> > >   		break;
+
++       }
+        case LSM_AUDIT_DATA_PATH: {
+                struct inode *inode;
+
+> > 
+> > Will this break any existing userspace log parsers?
+> 
+> I'm hoping not given that we are only adding auxiliary fields and those are
+> already defined for other AVC audit messages.  ausearch appeared to work
+> fine.  Added the linux-audit mailing list to the cc line to get their view.
+
+Generally, additional or optional fields should only be added after
+existing ones.  Also, generally, fields should not be optional, but this
+is tricky since it gobbles network and cpu bandwidth and disk space and
+there are lots of precedents to contradict this.
+
+
+- RGB
+
+--
+Richard Guy Briggs <rgb@redhat.com>
+Sr. S/W Engineer, Kernel Security, Base Operating Systems
+Remote, Ottawa, Red Hat Canada
+IRC: rgb, SunRaycer
+Voice: +1.647.777.2635, Internal: (81) 32635
+
+--
+Linux-audit mailing list
+Linux-audit@redhat.com
+https://www.redhat.com/mailman/listinfo/linux-audit
