@@ -2,104 +2,92 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4624F69D5A
-	for <lists+linux-audit@lfdr.de>; Mon, 15 Jul 2019 23:10:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D08D69E58
+	for <lists+linux-audit@lfdr.de>; Mon, 15 Jul 2019 23:29:25 +0200 (CEST)
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id E7BF8308427C;
-	Mon, 15 Jul 2019 21:10:23 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 0F16436883;
+	Mon, 15 Jul 2019 21:29:23 +0000 (UTC)
 Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 9F9DB608CD;
-	Mon, 15 Jul 2019 21:10:23 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 1087F6085B;
+	Mon, 15 Jul 2019 21:29:22 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 89BA618433A1;
-	Mon, 15 Jul 2019 21:10:22 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
-	[10.5.11.22])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 759F918033A0;
+	Mon, 15 Jul 2019 21:29:20 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+	[10.5.11.23])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id x6FLAGSP019814 for <linux-audit@listman.util.phx.redhat.com>;
-	Mon, 15 Jul 2019 17:10:16 -0400
+	id x6FLTD8A022604 for <linux-audit@listman.util.phx.redhat.com>;
+	Mon, 15 Jul 2019 17:29:14 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id 368D41001B16; Mon, 15 Jul 2019 21:10:16 +0000 (UTC)
+	id E745D19C59; Mon, 15 Jul 2019 21:29:13 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from mx1.redhat.com (ext-mx07.extmail.prod.ext.phx2.redhat.com
-	[10.5.110.31])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 31BCD1001B3E
-	for <linux-audit@redhat.com>; Mon, 15 Jul 2019 21:10:12 +0000 (UTC)
-Received: from mail-lj1-f194.google.com (mail-lj1-f194.google.com
-	[209.85.208.194])
+Received: from mx1.redhat.com (ext-mx01.extmail.prod.ext.phx2.redhat.com
+	[10.5.110.25])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id E1F6D19C68
+	for <linux-audit@redhat.com>; Mon, 15 Jul 2019 21:29:10 +0000 (UTC)
+Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com
+	[209.85.208.196])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 44B59C0495A6
-	for <linux-audit@redhat.com>; Mon, 15 Jul 2019 21:10:11 +0000 (UTC)
-Received: by mail-lj1-f194.google.com with SMTP id v24so17731854ljg.13
-	for <linux-audit@redhat.com>; Mon, 15 Jul 2019 14:10:11 -0700 (PDT)
+	by mx1.redhat.com (Postfix) with ESMTPS id 2B08385376
+	for <linux-audit@redhat.com>; Mon, 15 Jul 2019 21:29:09 +0000 (UTC)
+Received: by mail-lj1-f196.google.com with SMTP id x25so17787734ljh.2
+	for <linux-audit@redhat.com>; Mon, 15 Jul 2019 14:29:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=QqWs6tnJsgPqdUO1RETz8iVY1LYxL4xOc0UaMWvwPg0=;
-	b=Jc3fkDPoiovpnK/n6pDHbPLS9nVpGOM7djQI5/ClJN/dSVYx0G2CcXdfv23vT3PanX
-	Qn6AUs3nVlieQDU5Z4c7eqmhRVhmiFpAcCkovtd0tanJyIidCZd+LqSce4GoI/lUymw3
-	ElQLBiBEe1Ku5Olg531yOzIB+dCJGL8uU4Lf44GoktV3dBNmKyeVkOTIuJ7cMV0EA4hN
-	rcTTJVbFdwgsoDOx4fLkWerxaPeZb6F33gh+JEpagB8bKE/FmRMbnODKAMa0coDjYDqZ
-	4BjkOPXxge1sCEh141rXpKRh4sAooMqCmZgsr22pRF9VCyPb2695owHUo7FbJ1nKjCGq
-	vcNg==
+	:cc; bh=lH0ilMsPvEsTZwGkYjGPBLQ8MujKloGNsDszsbL7WYI=;
+	b=N5nyhHwhwA2oU5hxixZqFCRLElBSqzKoxoW8AwKlQ3RosvQyOpDqjKolZvgeKJsRFI
+	vLn8Q048Si5rItc1f/lxbPXtYHKOtDDt5rppKmmAjZAmW0MpEyv7dhpQgbKeyuhXIeXj
+	6NZs7MpiyrjtfObKdprhNwFxYmUnORmTzf+Z6qUHMOjFgJS6TNT2STwm/xsQzhzi6b7u
+	0oNTl50bzG/nwU1HU3WGugrParpNRaZnQit9NP36T3P144WCk+ryik8CmRFKawY8fGW4
+	rS0SuVC5SSpw4lJES9qGmeNIiQY9hoqElR/K49ZI0P3CS7mM5f5zh7d2Ib+pEl3khVlw
+	TNmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=QqWs6tnJsgPqdUO1RETz8iVY1LYxL4xOc0UaMWvwPg0=;
-	b=MQqjabaYSMJ5MmGnRukOs7gMOpJs/4dXwYLZjGEAxs3fsMrgimqe1o6kp9OViG0h9t
-	TJO9YBp+Mx9ia2XfpABzWQw7mTTfrbmpGfI3w8OQHdVVDmEfFsHHcjJ598HF/cgSLt9T
-	SGkxD5l7A4mkgmEKgl1Lxzu/1JN9m2Nj1sRR2WEZAjOYXvTPZxOIfzPARGFZ2VhsPspA
-	r4tJAmu1QxdSj8pllhddaciDaRr98swdgLovfGHPBynBAVyjqyJKX8Kl4JGUZtDQPI/p
-	yaRpcyUvTIBxenz3dHUeMIhwkZf59BoJ3r6ZVRq+gJSsZT9hTaeWgxGoaTqKiI1Ezaka
-	04Cw==
-X-Gm-Message-State: APjAAAXWZCvvKADStwgsDtnyVDHxtGIn2LjfjpZlJxXo3u4eHavDyAEm
-	71MUV3zZoHnHcT3BnMxrPkF2gn71BF2Efy1dtA==
-X-Google-Smtp-Source: APXvYqxVf+AvafI76eso5Vi9qaZvd/1ppBT5BDFcvn0IUAfeDjccWO8ASbUvznAJcvMELWLizujdPIuM3Zrv5fujIzE=
-X-Received: by 2002:a2e:9dc1:: with SMTP id x1mr15382970ljj.0.1563225009574;
-	Mon, 15 Jul 2019 14:10:09 -0700 (PDT)
+	bh=lH0ilMsPvEsTZwGkYjGPBLQ8MujKloGNsDszsbL7WYI=;
+	b=JCSUd7+5LiZ3QuTbibXwu5WYRB+NJTw3kUv9AxEBe8+M51TxqUTWhFyimZafCfS2ic
+	7LHcdUUfXBDFDlhv9jYDBpXJQWDBbmDvYb5kGRnHCTK4AYdjzj9WikxfWo779cO7BD0B
+	vsmF1e6fSaLDNJNlSkkoJoozM/vtt1Qi5/HzzshOx4YOHp/xENHPTAV9KVjlXD0FjFUJ
+	59qzt+9Sg+HVaXbOuLZxTNDoHlHXWlFC4zNkJMX0RX90wkeDo2FCzgc1DIXMAUR5yGqh
+	nRTjeDnokwIzQ0/BiV+kcYXAuZ6h93R1x/ETvQHbaSQgjSvqgWIXiU8d/UkmBLnXvs2F
+	3Sqw==
+X-Gm-Message-State: APjAAAUdIezfxvbLtTptr3igjetBYLGiaeAxSITHsldmh+ib0cTWpP1M
+	eplq+3mJlatRYccGu/LKmZXcstqOdhb9PnSjhw==
+X-Google-Smtp-Source: APXvYqwmoPEY7eCVnOT7M4LK3oo0XfA45eJpM0PdtAbre1sPeEPwbPsVY03A+ABokEsU4i2wysAC9RlPg8244pCLGYg=
+X-Received: by 2002:a2e:3807:: with SMTP id f7mr2151378lja.87.1563226147496;
+	Mon, 15 Jul 2019 14:29:07 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190529145742.GA8959@cisco>
-	<CAHC9VhR4fudQanvZGYWMvCf7k2CU3q7e7n1Pi7hzC3v_zpVEdw@mail.gmail.com>
-	<20190529153427.GB8959@cisco>
-	<CAHC9VhSF3AjErX37+eeusJ7+XRw8yuPsmqBTRwc9EVoRBh_3Tw@mail.gmail.com>
-	<20190529222835.GD8959@cisco>
-	<CAHC9VhRS66VGtug3fq3RTGHDvfGmBJG6yRJ+iMxm3cxnNF-zJw@mail.gmail.com>
-	<20190530170913.GA16722@mail.hallyn.com>
-	<CAHC9VhThLiQzGYRUWmSuVfOC6QCDmA75BDB7Eg7V8HX4x7ymQg@mail.gmail.com>
-	<20190530212900.GC5739@cisco>
-	<CAHC9VhT5HPt9rCJoDutdvA3r1Y1GOHfpXe2eJ54atNC1=Vd8LA@mail.gmail.com>
-	<20190708181237.5poheliito7zpvmc@madcap2.tricolour.ca>
-In-Reply-To: <20190708181237.5poheliito7zpvmc@madcap2.tricolour.ca>
+References: <f824828c-5c9d-b91e-5cec-70ee7a45e760@schaufler-ca.com>
+	<2268017.8MBUnBNn7u@x2>
+	<20190715190457.pqlaxjcxhdcosdsz@madcap2.tricolour.ca>
+	<c46932ec-e38e-ba15-7ceb-70e0fe0ef5dc@schaufler-ca.com>
+In-Reply-To: <c46932ec-e38e-ba15-7ceb-70e0fe0ef5dc@schaufler-ca.com>
 From: Paul Moore <paul@paul-moore.com>
-Date: Mon, 15 Jul 2019 17:09:58 -0400
-Message-ID: <CAHC9VhT0V+xi_6nAR5TsM2vs34LbgMeO=-W+MS_kqiXRRzneZQ@mail.gmail.com>
-Subject: Re: [PATCH ghak90 V6 02/10] audit: add container id
-To: Richard Guy Briggs <rgb@redhat.com>
+Date: Mon, 15 Jul 2019 17:28:56 -0400
+Message-ID: <CAHC9VhQ08LKUmYS8ho_0-uDUFakPPq1bvR6JwWiLUrnwaRV6Aw@mail.gmail.com>
+Subject: Re: Preferred subj= with multiple LSMs
+To: Casey Schaufler <casey@schaufler-ca.com>, Steve Grubb <sgrubb@redhat.com>
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.31]);
-	Mon, 15 Jul 2019 21:10:11 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.31]);
-	Mon, 15 Jul 2019 21:10:11 +0000 (UTC) for IP:'209.85.208.194'
-	DOMAIN:'mail-lj1-f194.google.com'
-	HELO:'mail-lj1-f194.google.com' FROM:'paul@paul-moore.com' RCPT:''
+	(mx1.redhat.com [10.5.110.25]);
+	Mon, 15 Jul 2019 21:29:09 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.25]);
+	Mon, 15 Jul 2019 21:29:09 +0000 (UTC) for IP:'209.85.208.196'
+	DOMAIN:'mail-lj1-f196.google.com'
+	HELO:'mail-lj1-f196.google.com' FROM:'paul@paul-moore.com' RCPT:''
 X-RedHat-Spam-Score: 0.001  (DKIM_SIGNED, DKIM_VALID, RCVD_IN_DNSWL_NONE,
 	RCVD_IN_MSPIKE_H2, SPF_HELO_NONE,
-	SPF_NONE) 209.85.208.194 mail-lj1-f194.google.com 209.85.208.194
-	mail-lj1-f194.google.com <paul@paul-moore.com>
-X-Scanned-By: MIMEDefang 2.78 on 10.5.110.31
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+	SPF_NONE) 209.85.208.196 mail-lj1-f196.google.com 209.85.208.196
+	mail-lj1-f196.google.com <paul@paul-moore.com>
+X-Scanned-By: MIMEDefang 2.83 on 10.5.110.25
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-loop: linux-audit@redhat.com
-Cc: Tycho Andersen <tycho@tycho.ws>, nhorman@tuxdriver.com,
-	linux-api@vger.kernel.org, containers@lists.linux-foundation.org,
-	LKML <linux-kernel@vger.kernel.org>, dhowells@redhat.com,
-	Linux-Audit Mailing List <linux-audit@redhat.com>,
-	netfilter-devel@vger.kernel.org, ebiederm@xmission.com,
-	simo@redhat.com, netdev@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	Eric Paris <eparis@parisplace.org>, "Serge E. Hallyn" <serge@hallyn.com>
+Cc: Richard Guy Briggs <rgb@redhat.com>,
+	"linux-audit@redhat.com" <linux-audit@redhat.com>
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -116,45 +104,58 @@ Content-Transfer-Encoding: 7bit
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.40]); Mon, 15 Jul 2019 21:10:25 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.30]); Mon, 15 Jul 2019 21:29:23 +0000 (UTC)
 
-On Mon, Jul 8, 2019 at 2:12 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> On 2019-05-30 19:26, Paul Moore wrote:
-
-...
-
-> > I like the creativity, but I worry that at some point these
-> > limitations are going to be raised (limits have a funny way of doing
-> > that over time) and we will be in trouble.  I say "trouble" because I
-> > want to be able to quickly do an audit container ID comparison and
-> > we're going to pay a penalty for these larger values (we'll need this
-> > when we add multiple auditd support and the requisite record routing).
-> >
-> > Thinking about this makes me also realize we probably need to think a
-> > bit longer about audit container ID conflicts between orchestrators.
-> > Right now we just take the value that is given to us by the
-> > orchestrator, but if we want to allow multiple container orchestrators
-> > to work without some form of cooperation in userspace (I think we have
-> > to assume the orchestrators will not talk to each other) we likely
-> > need to have some way to block reuse of an audit container ID.  We
-> > would either need to prevent the orchestrator from explicitly setting
-> > an audit container ID to a currently in use value, or instead generate
-> > the audit container ID in the kernel upon an event triggered by the
-> > orchestrator (e.g. a write to a /proc file).  I suspect we should
-> > start looking at the idr code, I think we will need to make use of it.
+On Mon, Jul 15, 2019 at 3:37 PM Casey Schaufler <casey@schaufler-ca.com> wrote:
+> On 7/15/2019 12:04 PM, Richard Guy Briggs wrote:
+> > On 2019-07-13 11:08, Steve Grubb wrote:
+> >> Hello,
+> >>
+> >> On Friday, July 12, 2019 12:33:55 PM EDT Casey Schaufler wrote:
+> >>> Which of these options would be preferred for audit records
+> >>> when there are multiple active security modules?
+> >> I'd like to start out with what is the underlying problem that results in
+> >> this? For example, we have pam. It has multiple modules each having a vote.
+> >> If a module votes no, then we need to know who voted no and maybe why. We
+> >> normally do not need to know who voted yes.
+> >>
+> >> So, in a stacked situation, shouldn't each module make its own event, if
+> >> required, just like pam? And then log the attributes as it knows them? Also,
+> >> what model is being used? Does first module voting no end access voting? Or
+> >> does each module get a vote even if one has already said no?
+> >>
+> >> Also, we try to keep LSM subsystems separated by record type numbers. So,
+> >> apparmour and selinux events are entirely different record numbers and
+> >> formats. Combining everything into one record is going to be problematic for
+> >> reporting.
+> > I was wrestling with the options below and was uncomfortable with all of
+> > them because none of them was guaranteed not to break existing parsers.
 >
-> To address this, I'd suggest that it is enforced to only allow the
-> setting of descendants and to maintain a master list of audit container
-> identifiers (with a hash table if necessary later) that includes the
-> container owner.
+> I too, am uncomfortable regarding record parsing.
 
-We're discussing the audit container ID management policy elsewhere in
-this thread so I won't comment on that here, but I did want to say
-that we will likely need something better than a simple list of audit
-container IDs from the start.  It's common for systems to have
-thousands of containers now (or multiple thousands), which tells me
-that a list is a poor choice.  You mentioned a hash table, so I would
-suggest starting with that over the list for the initial patchset.
+If you can find me someone who is happy and comfortable with the
+current state of the audit record and/or formatting I would love to
+see them :)
+
+> > Steve's answer is the obvious one, ideally allocating a seperate range
+> > to each LSM with each message type having its own well defined format.
+>
+> It doesn't address the issue of success records, or records
+> generated outside the security modules.
+
+Yes, exactly.  The individual LSM will presumably will continue to
+generate their own audit records as they do today and I would imagine
+that the subject and object fields could remain as they do today for
+the LSM specific records.
+
+The trick is the other records which are not LSM specific but still
+want to include subject and/or object information.  Unfortunately we
+are stuck with some tough limitations given the current audit record
+format and Steve's audit userspace tools; I can toss out some
+suggestions but it would be nice to hear what Steve's tools would
+support with respect to LSM subject/object value formats.  Steve, are
+these values interpreted at all by your tools, or are the opaque
+values?
 
 -- 
 paul moore
