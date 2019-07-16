@@ -2,71 +2,72 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9119B6AD87
-	for <lists+linux-audit@lfdr.de>; Tue, 16 Jul 2019 19:17:06 +0200 (CEST)
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+	by mail.lfdr.de (Postfix) with ESMTPS id BCF186ADA9
+	for <lists+linux-audit@lfdr.de>; Tue, 16 Jul 2019 19:30:21 +0200 (CEST)
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id A585281F19;
-	Tue, 16 Jul 2019 17:17:04 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 8C94D3082E40;
+	Tue, 16 Jul 2019 17:30:19 +0000 (UTC)
 Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 4763F600C8;
-	Tue, 16 Jul 2019 17:17:04 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 8D20C60C44;
+	Tue, 16 Jul 2019 17:30:18 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 6FBFC1800207;
-	Tue, 16 Jul 2019 17:17:03 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
-	[10.5.11.12])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 229021800207;
+	Tue, 16 Jul 2019 17:30:16 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+	[10.5.11.15])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id x6GHGxDc008677 for <linux-audit@listman.util.phx.redhat.com>;
-	Tue, 16 Jul 2019 13:16:59 -0400
+	id x6GHU9mn010849 for <linux-audit@listman.util.phx.redhat.com>;
+	Tue, 16 Jul 2019 13:30:09 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id A39E760C6D; Tue, 16 Jul 2019 17:16:59 +0000 (UTC)
+	id 95C805B686; Tue, 16 Jul 2019 17:30:09 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from mx1.redhat.com (ext-mx16.extmail.prod.ext.phx2.redhat.com
-	[10.5.110.45])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 9C4E260C70
-	for <linux-audit@redhat.com>; Tue, 16 Jul 2019 17:16:52 +0000 (UTC)
-Received: from sonic303-27.consmr.mail.ne1.yahoo.com
-	(sonic303-27.consmr.mail.ne1.yahoo.com [66.163.188.153])
+Received: from mx1.redhat.com (ext-mx12.extmail.prod.ext.phx2.redhat.com
+	[10.5.110.41])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 8BE735D72E
+	for <linux-audit@redhat.com>; Tue, 16 Jul 2019 17:30:05 +0000 (UTC)
+Received: from sonic314-26.consmr.mail.ne1.yahoo.com
+	(sonic314-26.consmr.mail.ne1.yahoo.com [66.163.189.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 4354130C1325
-	for <linux-audit@redhat.com>; Tue, 16 Jul 2019 17:16:51 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 1B3C9307FBCB
+	for <linux-audit@redhat.com>; Tue, 16 Jul 2019 17:30:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
-	t=1563297410; bh=u7sAiRpyCpmW2BJzOS7brURt1AL8q1TjA6vK82WiCVs=;
+	t=1563298203; bh=6UzBpl5Oiz34Y20W6zry02s4o6QUbCi3SDcmzZo28As=;
 	h=Subject:To:Cc:References:From:Date:In-Reply-To:From:Subject;
-	b=Xk+yS/ZfaWPSIIxEb+/BZSLYATxLCT0WlVGDBuR83TZgxia4zjnd9NcHUEZLl5fUJ2NlaiscRD5pDpGVtm7gRLx9P5hUv/KUIZNiNNs1506zGAyX7/qmAvfFopg6xm/kX0JVbuT7tnQwcdEQHoYcIWaZCw4NKolOXxRJgZKoxIvMqVD7lkY0ML+oZFGKO8eWIvD0q/hjN0R7MtdQN87ZI0U5M7wNx1RZpU4DQ58LamBMOdTR72xyqs3LJA0F3yUqj2avxmh+94RmkkX1I4jIRRXmx8CWtIxBASbikzxnWCoUcOzl2AJvXQs+yUtBSx66eK+1d3cEzxHsjL1GUJkn7A==
-X-YMail-OSG: rpGMFisVM1lZdtGkZwhZgnhpuLp2Pol5Ht5VkryeacWQaAY1K0ci4hLxm9UPaD2
-	.8pGTxac1HKSN06l6b_cw5Xtc2jcbMPTlvP.2dpoehf3pX3GCMpBUNJVj1x7EX.lTbGJK9gEkLgz
-	3tVbfZdnMr7LR.bcx2mo_wEcwjdUlCnRe12k01SETp4skldE1G8gYMEjOVNatpa4p8isplyZXask
-	kmJRFDiZqv2D9jfBe65K0YEnuGs2qaQII8mAq7bW8d48iYc9l9IbqL71D0L5Ian1cz6SmkK4CMMD
-	_.Q5mSRbgabpTJdwuMfdvYs36titcfRwfCyxo7n3nNWP1w.z6fEfgytrTu0v_tC5GjgkjX1pHl3e
-	GPyiETiycpXX_X59w5o38n2ix0E0mLWxq2b5bUeGCo1l19lDvNsrXz85eKixvxpjoPGiCwAA.gfs
-	ksgzeEXN6ZOgji1iD7YX1Td84SacAv4iaQeUFE5R1xXinT_yJg.xZa_cjeBGzIXI3VTxnWE_Aep0
-	JJ5.elftUHW0wc_uFo5nphqNbGaABe8r.0FpuZk4L.gsgq1OySujTekToECABN3JejQuW_5109Yi
-	VZMkwCZ9gQ3wJ1B_HxHtwpsGGlvWKg1l0.XNU8OD7lig6q5SwLcoea.wvAJWexkyta9BOwN1JQSs
-	dOSVlGS7Czk2k.pcWsCVjUUiPVpFX0maIfoRcSGV_ZoPrytoaDakRY.4lboyXEzUnDWwerXxGB4u
-	5YQyOtbhglYGPphNSyH46fSNMgGSNacLlS4tOxcNR2.PG4W6nOYcjzOpHO6O0w2b2QcR.EGxcM8Y
-	ZIfMuV2VHG6zasYKTWDumrPnvORBPFHNMMLGmA7ojVnzbLU2gVGFEeqOcoTqwzjZQewuLIEjJ2W1
-	oypL0k_SWDMHu6mcQu2Yx2rd73XDZQMhhDsOehB3giFveB2nW7YGTAQiDKMoSFmfTbIEtELSerde
-	vuPxlPIF3h5OZUOLx_kTP7PM_Q6mQW3xfMVpFjFig2AEzYm3nRAXkEASwbk5S3bwor54kUZadUhm
-	1hgmbz3DGu1VG0Ev4FhRGn0hNmDp9qTXch.vZxPUXAYzFCQHEUVkNC3KIK7BAhXRsbEbOLbTNChl
-	CbByOwL1X1xtRF9K7BDKo25PS4lfeThElSJwBSTyZIsds2My42c2gfi_PbjsuxTTUHrEk5Vne0W7
-	8vVAgpe4wVWrl6RXmSwhgqSR9645VXgxOI5BFRzGZ4lshd0kocgK5FFzBFAjJt_eVeQHkACmU3PW
-	SsmdC3KLI
+	b=Qc6P+tMCJEmgGcig5sSChfkd02dhimS8DHxnCsf3EAmOlfhRqGU+4YcRUHc/sDBAcodJByksq+gO1tJQVfDYZ3Sg9ac8BlCrOkOed0YSL9m9TVGwt7JMxoI34WQZnubz6L+yh1bV1mvmngg35wLEmgr4znzExCYUZNqeD+0aWigAhpRr2nQgeb2U+S3TcqIurb6+i1I0ryy203MuAnvYiXYa58wmjAWTADIekGX+h7mxLpcGj3Oq7JqfLSLhwglwdv3DIdqYKN5BurOP6XSOYnmh0UK5AIKYFMo9fBntAgDaPDwx3U9wVPEt0STeWGh92M4niojCSVmCnZXawizobQ==
+X-YMail-OSG: Hwt91g8VM1n4bhzhPwqgxPD9ItMuceQAEo9vjFGeTNJ.qiDEFJUoqx8umdNa7ts
+	u2lLqYgnohxPPCijg5IeYCy6tRYWI9bJUsqBPaMAs4LcFqvLmTLCQVXbrvlOKEswPzeRlD0g8H5s
+	B9JDCqYm7i37QlHsDqSq9oWZKEKmk7RpeFNoO4OAnm4pQgTvyZoFFINx.s45GpSX9rNCraUWDTlq
+	Gn87f.39tEGFrsApKnJr5ZMQQMdLZBgNyajWmx.JsJ1iBFnqYDcPAA_2fQRE23CjzQMzgQ2jd5mV
+	dQXTKtmr28iyqJKtvHQIED_cVuWhm3TIz0dAxM5Brl1PcB3wNaD1MqGGwRvhNDsdE3RyMXaG8i8w
+	zhPgLrgcD4MxOX9DeBBPwqI8A9MzdntEO_i7p3wTnlRiYkFxIHwVtHJ7Ces7lJDEpr6PVArtVPNn
+	u5sBAPrlN_GcbQwIvaSPMWgW3A.tlDi6CHekE3sVLPeQfrQLJRrvufFew5RPlDxF8bMPHUMLL06r
+	ZDHmQ3M58tWFKCEMAClhpPo16Yn8TqbvTh2TkNCAaC07oklLxDP85h.23NckzfXm71.fARECS4j7
+	EKBsKxyHs1EGi80z7jlnSNli3QHI_izLmcZOAiC8Aa5jb9.ZuTOb8Al7Nh8GJGsf7wg5M7E7ISyF
+	7F1lVTutpMtR5fPkT7EBL.cSNTkMql.Dzgmd7nBOBhZaKQ4ESzfSTzMYLgD1LZIMJfigESlVa3Vv
+	551dm9IahQY45LHc2AqHGZr4S7nGiJhvVxuxHYwyomN.MxyQj.J3YCY0cPpEYUAXaYY5dEm9KIPW
+	HTryt2eFaWXJMBtV7ysOu6HsiQcMhtKfyfzpuMV1MQmpakyy_zXQwadAjtQeGDYPXIJsMBI53FVw
+	k9RiUB1BmGkVLYGeJDKC7F.1NJFnc08BdE1SfpNFPVI4t4Pfib_lGhiqQg6NqZ6w39ttqlQ4SRra
+	ySENYg.5bzlckBS3Afw2H8ZdQx9T3zodoJmkkZ5_ru.5uoX60Pq2QwJoHai59Al_Z9vMu8eYo_nn
+	.xXQbA2pv4BiKsAFsYCuuyVt3kUaqawMD8YbFEcPDGLhfxEiZCeQVChQcuVWNb9PxIVau.CnRdjH
+	hrXlzrkv97NpqEEBPsvr0g5PsnbXI3hXNfTHXQLYGcAAdUgokBvsuFzux0e0N_AcQTOD3gBkyZmH
+	a3YkuZyisKlXr8zjrZGFbBrAPhtoAqKztF6rQUdHE2XDlCttkvQ8HIvKH10ITzbEMQHxQU7cuGKQ
+	t7MvJrkbl73x0Dw--
 Received: from sonic.gate.mail.ne1.yahoo.com by
-	sonic303.consmr.mail.ne1.yahoo.com with HTTP;
-	Tue, 16 Jul 2019 17:16:50 +0000
-Received: by smtp431.mail.ne1.yahoo.com (Oath Hermes SMTP Server) with ESMTPA
-	ID a05989cbd0d6943daf91831b8336a510; 
-	Tue, 16 Jul 2019 17:16:46 +0000 (UTC)
+	sonic314.consmr.mail.ne1.yahoo.com with HTTP;
+	Tue, 16 Jul 2019 17:30:03 +0000
+Received: by smtp411.mail.ne1.yahoo.com (Oath Hermes SMTP Server) with ESMTPA
+	ID 401141501cbcdce833d5f43827a2e28b; 
+	Tue, 16 Jul 2019 17:29:58 +0000 (UTC)
 Subject: Re: Preferred subj= with multiple LSMs
-To: Steve Grubb <sgrubb@redhat.com>
+To: Paul Moore <paul@paul-moore.com>, Steve Grubb <sgrubb@redhat.com>
 References: <f824828c-5c9d-b91e-5cec-70ee7a45e760@schaufler-ca.com>
+	<c46932ec-e38e-ba15-7ceb-70e0fe0ef5dc@schaufler-ca.com>
+	<CAHC9VhQ08LKUmYS8ho_0-uDUFakPPq1bvR6JwWiLUrnwaRV6Aw@mail.gmail.com>
 	<1979804.kRvuSoDnao@x2>
-	<2802ddee-b621-c2eb-9ff3-ea15c4f19d0c@schaufler-ca.com>
-	<3577098.oGDFHdoSSQ@x2>
+	<CAHC9VhSELVZN8feH56zsANqoHu16mPMD04Ww60W=r6tWs+8WnQ@mail.gmail.com>
 From: Casey Schaufler <casey@schaufler-ca.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=casey@schaufler-ca.com; keydata=
@@ -113,30 +114,28 @@ Autocrypt: addr=casey@schaufler-ca.com; keydata=
 	wQ1QL4o4t1hviM7LyoflsCLnQFJh6RSBhBpKQinMJl/z0A6NYDkQi6vEGMDBWX/M2vk9Jvwa
 	v0cEBfY3Z5oFgkh7BUORsu1V+Hn0fR/Lqq/Pyq+nTR26WzGDkolLsDr3IH0TiAVH5ZuPxyz6
 	abzjfg==
-Message-ID: <ee64901e-b374-07b6-12b4-5754187d8f70@schaufler-ca.com>
-Date: Tue, 16 Jul 2019 10:16:45 -0700
+Message-ID: <c993f63a-7c2d-c6c8-cfa6-3cfba410770d@schaufler-ca.com>
+Date: Tue, 16 Jul 2019 10:29:57 -0700
 User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
 	Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <3577098.oGDFHdoSSQ@x2>
+In-Reply-To: <CAHC9VhSELVZN8feH56zsANqoHu16mPMD04Ww60W=r6tWs+8WnQ@mail.gmail.com>
 Content-Language: en-US
 X-Greylist: Sender passed SPF test, Sender IP whitelisted by DNSRBL, ACL 238
 	matched, not delayed by milter-greylist-4.5.16 (mx1.redhat.com
-	[10.5.110.45]); Tue, 16 Jul 2019 17:16:51 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.45]);
-	Tue, 16 Jul 2019 17:16:51 +0000 (UTC) for IP:'66.163.188.153'
-	DOMAIN:'sonic303-27.consmr.mail.ne1.yahoo.com'
-	HELO:'sonic303-27.consmr.mail.ne1.yahoo.com'
+	[10.5.110.41]); Tue, 16 Jul 2019 17:30:04 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.41]);
+	Tue, 16 Jul 2019 17:30:04 +0000 (UTC) for IP:'66.163.189.152'
+	DOMAIN:'sonic314-26.consmr.mail.ne1.yahoo.com'
+	HELO:'sonic314-26.consmr.mail.ne1.yahoo.com'
 	FROM:'casey@schaufler-ca.com' RCPT:''
 X-RedHat-Spam-Score: 0.002  (DKIM_SIGNED, DKIM_VALID, RCVD_IN_DNSWL_NONE,
 	SPF_HELO_NONE,
-	SPF_NONE) 66.163.188.153 sonic303-27.consmr.mail.ne1.yahoo.com
-	66.163.188.153 sonic303-27.consmr.mail.ne1.yahoo.com
+	SPF_NONE) 66.163.189.152 sonic314-26.consmr.mail.ne1.yahoo.com
+	66.163.189.152 sonic314-26.consmr.mail.ne1.yahoo.com
 	<casey@schaufler-ca.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.110.45
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MIME-Autoconverted: from quoted-printable to 8bit by
-	lists01.pubmisc.prod.ext.phx2.redhat.com id x6GHGxDc008677
+X-Scanned-By: MIMEDefang 2.84 on 10.5.110.41
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-loop: linux-audit@redhat.com
 Cc: Richard Guy Briggs <rgb@redhat.com>,
 	Linux Security Module list <linux-security-module@vger.kernel.org>,
@@ -156,47 +155,78 @@ Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.25]); Tue, 16 Jul 2019 17:17:05 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.46]); Tue, 16 Jul 2019 17:30:20 +0000 (UTC)
 
-On 7/16/2019 9:14 AM, Steve Grubb wrote:
-> On Tuesday, July 16, 2019 12:00:05 PM EDT Casey Schaufler wrote:
+On 7/16/2019 10:12 AM, Paul Moore wrote:
+> On Mon, Jul 15, 2019 at 6:56 PM Steve Grubb <sgrubb@redhat.com> wrote:
+>> On Monday, July 15, 2019 5:28:56 PM EDT Paul Moore wrote:
+>>> On Mon, Jul 15, 2019 at 3:37 PM Casey Schaufler <casey@schaufler-ca.com>
+>> wrote:
+>>>> On 7/15/2019 12:04 PM, Richard Guy Briggs wrote:
+>>>>> On 2019-07-13 11:08, Steve Grubb wrote:
+> ...
+>
+>>>>> Steve's answer is the obvious one, ideally allocating a seperate range
+>>>>> to each LSM with each message type having its own well defined format.
+>>>> It doesn't address the issue of success records, or records
+>>>> generated outside the security modules.
+>>> Yes, exactly.  The individual LSM will presumably will continue to
+>>> generate their own audit records as they do today and I would imagine
+>>> that the subject and object fields could remain as they do today for
+>>> the LSM specific records.
+>>>
+>>> The trick is the other records which are not LSM specific but still
+>>> want to include subject and/or object information.  Unfortunately we
+>>> are stuck with some tough limitations given the current audit record
+>>> format and Steve's audit userspace tools;
+>> Not really. We just need to approach the problem thinking about how to make
+>> it work based on how things currently work.
+> I suppose it is all somewhat "subjective" - bad joke fully intended :)
+> - with respect to what one considers good/bad/limiting.  My personal
+> view is that an ideal solution would allow for multiple independent
+> subj/obj labels without having to multiplex on a single subj/obj
+> field.  My gut feeling is that this would confuse your tools, yes?
+>
+>> For example Casey had a list of possible formats. Like this one:
 >>
->> Unless there's an objection I will use this format with
->> a slight modification. Smack allows commas in labels, so
->> using a bare comma can lead to ambiguity.
+>> Option 3:
+>>         lsms=selinux,apparmor subj=x:y:z:s:c subj=a
 >>
->> lsms=smack,apparmor subj="TS/Alpha,Beta","a"
-
-Oops! '/' isn't allowed in a Smack label. How embarrassing is that?
-
+>> I'd suggest something almost like that. The first field could be a map to
+>> decipher the labels. Then we could have a comma separated list of labels.
 >>
->> It's more code change than some of the other options,
->> but if it has the best chance of working with user space
->> I'm game.
-> Quoting has a specific meaning in audit fields. So, we really shouldn't do 
-> that. We can simply pick another field delimiter. I really don't care which it 
-> is as long as its illegal for use in a label. For example, we use 
+>> lsms=selinux,apparmor subj=x:y:z:s:c,a
+> Some quick comments:
 >
-> #define AUDIT_KEY_SEPARATOR 0x01
+> * My usual reminder that new fields for existing audit records must be
+> added to the end of the record.
 >
-> to separate key fields. We can pick almost anything. (exclamation mark, semi-
-> colon, hash, plus symbol, tilde, 0x02, whatever) But it will need to be 
-> documented and put into the API so that everyone is aware of the convention.
-
-Unless there's objection I'll document and use '/',
-
-lsms=selinux,apparmor subj=a:b:c:d/a
-
-If there is objection without alternative presented I'll use 0x02,
-because no one (I hope) is going to allow that in their label, and
-keys have set precedence for unprintable characters.
-
+> * If we are going to multiplex the labels on a single field (more on
+> that below) I might suggest using "subj_lsms" instead of "lsms" so we
+> leave ourself some wiggle room in the future.
 >
-> -Steve
+> * Multiplexing on a single "subj" field is going to be difficult
+> because picking the label delimiter is going to be a pain.  For
+> example, in the example above a comma is used, which at the very least
+> is a valid part of a SELinux label and I suspect for Smack as well
+> (I'm not sure about the other LSMs).  I suspect the only way to parse
+> out the component labels would be to have knowledge of the LSMs in
+> use, as well as the policies loaded at the time the audit record was
+> generated.
 >
+> This may be a faulty assumption, but assuming your tools will fall
+> over if they see multiple "subj" fields, could we do something like
+> the following (something between option #2 and #3):
 >
+>   subj1_lsm=smack subj1=<smack_label> subj2_lsm=selinux
+> subj2=<selinux_label> ...
 
+If it's not a subj= field why use the indirection?
+
+	subj_smack=<smack_label> subj_selinux=<selinux_label>
+
+would be easier. 
 
 --
 Linux-audit mailing list
