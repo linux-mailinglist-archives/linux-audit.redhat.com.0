@@ -2,46 +2,58 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0FE36B152
-	for <lists+linux-audit@lfdr.de>; Tue, 16 Jul 2019 23:47:07 +0200 (CEST)
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+	by mail.lfdr.de (Postfix) with ESMTPS id 71BA76B184
+	for <lists+linux-audit@lfdr.de>; Wed, 17 Jul 2019 00:03:49 +0200 (CEST)
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id C8798811A9;
-	Tue, 16 Jul 2019 21:47:05 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id E6DB95B681;
-	Tue, 16 Jul 2019 21:47:04 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 59ED83082A8D;
+	Tue, 16 Jul 2019 22:03:47 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id C4AFF611DC;
+	Tue, 16 Jul 2019 22:03:45 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 79C4A4E58F;
-	Tue, 16 Jul 2019 21:47:03 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
-	[10.5.11.16])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 12A3F1800207;
+	Tue, 16 Jul 2019 22:03:43 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+	[10.5.11.13])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id x6GLkvQK024690 for <linux-audit@listman.util.phx.redhat.com>;
-	Tue, 16 Jul 2019 17:46:57 -0400
+	id x6GM3aJ4027230 for <linux-audit@listman.util.phx.redhat.com>;
+	Tue, 16 Jul 2019 18:03:36 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id CB9075C231; Tue, 16 Jul 2019 21:46:57 +0000 (UTC)
+	id 6643F611DE; Tue, 16 Jul 2019 22:03:36 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from x2.localnet (ovpn-116-76.phx2.redhat.com [10.3.116.76])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id B7C5A5C220;
-	Tue, 16 Jul 2019 21:46:52 +0000 (UTC)
-From: Steve Grubb <sgrubb@redhat.com>
+Received: from madcap2.tricolour.ca (ovpn-112-14.phx2.redhat.com [10.3.112.14])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 66EB71D5;
+	Tue, 16 Jul 2019 22:03:23 +0000 (UTC)
+Date: Tue, 16 Jul 2019 18:03:20 -0400
+From: Richard Guy Briggs <rgb@redhat.com>
 To: Paul Moore <paul@paul-moore.com>
-Subject: Re: Preferred subj= with multiple LSMs
-Date: Tue, 16 Jul 2019 17:46:52 -0400
-Message-ID: <2517266.eHZzEmjMsX@x2>
-Organization: Red Hat
-In-Reply-To: <CAHC9VhTQLihNQ1iGjJB=LAn=C6BQokFsjsRcj8O_O9AjqQ7HBg@mail.gmail.com>
-References: <f824828c-5c9d-b91e-5cec-70ee7a45e760@schaufler-ca.com>
-	<d1a237d3-4b72-48b0-27d6-fb168354ad31@schaufler-ca.com>
-	<CAHC9VhTQLihNQ1iGjJB=LAn=C6BQokFsjsRcj8O_O9AjqQ7HBg@mail.gmail.com>
+Subject: Re: [PATCH ghak90 V6 02/10] audit: add container id
+Message-ID: <20190716220320.sotbfqplgdructg7@madcap2.tricolour.ca>
+References: <20190529145742.GA8959@cisco>
+	<CAHC9VhR4fudQanvZGYWMvCf7k2CU3q7e7n1Pi7hzC3v_zpVEdw@mail.gmail.com>
+	<20190529153427.GB8959@cisco>
+	<CAHC9VhSF3AjErX37+eeusJ7+XRw8yuPsmqBTRwc9EVoRBh_3Tw@mail.gmail.com>
+	<20190529222835.GD8959@cisco>
+	<CAHC9VhRS66VGtug3fq3RTGHDvfGmBJG6yRJ+iMxm3cxnNF-zJw@mail.gmail.com>
+	<20190530170913.GA16722@mail.hallyn.com>
+	<CAHC9VhThLiQzGYRUWmSuVfOC6QCDmA75BDB7Eg7V8HX4x7ymQg@mail.gmail.com>
+	<20190708180558.5bar6ripag3sdadl@madcap2.tricolour.ca>
+	<CAHC9VhRTT7JWqNnynvK04wKerjc-3UJ6R1uPtjCAPVr_tW-7MA@mail.gmail.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Content-Disposition: inline
+In-Reply-To: <CAHC9VhRTT7JWqNnynvK04wKerjc-3UJ6R1uPtjCAPVr_tW-7MA@mail.gmail.com>
+User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-loop: linux-audit@redhat.com
-Cc: Richard Guy Briggs <rgb@redhat.com>,
-	Linux Security Module list <linux-security-module@vger.kernel.org>,
-	"linux-audit@redhat.com" <linux-audit@redhat.com>
+Cc: Tycho Andersen <tycho@tycho.ws>, nhorman@tuxdriver.com,
+	linux-api@vger.kernel.org, containers@lists.linux-foundation.org,
+	LKML <linux-kernel@vger.kernel.org>, dhowells@redhat.com,
+	Linux-Audit Mailing List <linux-audit@redhat.com>,
+	netfilter-devel@vger.kernel.org, ebiederm@xmission.com,
+	simo@redhat.com, netdev@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	Eric Paris <eparis@parisplace.org>, "Serge E. Hallyn" <serge@hallyn.com>
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -57,185 +69,130 @@ Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.27]); Tue, 16 Jul 2019 21:47:06 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.45]); Tue, 16 Jul 2019 22:03:48 +0000 (UTC)
 
-On Tuesday, July 16, 2019 5:25:21 PM EDT Paul Moore wrote:
-> On Tue, Jul 16, 2019 at 2:41 PM Casey Schaufler <casey@schaufler-ca.com> 
-wrote:
-> > On 7/16/2019 11:06 AM, Steve Grubb wrote:
-> > > On Tuesday, July 16, 2019 1:43:18 PM EDT Paul Moore wrote:
-> > >> On Tue, Jul 16, 2019 at 1:30 PM Casey Schaufler
-> > >> <casey@schaufler-ca.com>
-> > > 
-> > > wrote:
-> > >>> On 7/16/2019 10:12 AM, Paul Moore wrote:
-> > >>>> On Mon, Jul 15, 2019 at 6:56 PM Steve Grubb <sgrubb@redhat.com> 
-wrote:
-> > >>>>> On Monday, July 15, 2019 5:28:56 PM EDT Paul Moore wrote:
-> > >>>>>> On Mon, Jul 15, 2019 at 3:37 PM Casey Schaufler
-> > >>>>>> <casey@schaufler-ca.com>
-> > >>>>> 
-> > >>>>> wrote:
-> > >>>>>>> On 7/15/2019 12:04 PM, Richard Guy Briggs wrote:
-> > >>>>>>>> On 2019-07-13 11:08, Steve Grubb wrote:
-> > >>>> ...
-> > >>>> 
-> > >>>>>>>> Steve's answer is the obvious one, ideally allocating a seperate
-> > >>>>>>>> range
-> > >>>>>>>> to each LSM with each message type having its own well defined
-> > >>>>>>>> format.
-> > >>>>>>> 
-> > >>>>>>> It doesn't address the issue of success records, or records
-> > >>>>>>> generated outside the security modules.
-> > >>>>>> 
-> > >>>>>> Yes, exactly.  The individual LSM will presumably will continue to
-> > >>>>>> generate their own audit records as they do today and I would
-> > >>>>>> imagine
-> > >>>>>> that the subject and object fields could remain as they do today
-> > >>>>>> for
-> > >>>>>> the LSM specific records.
-> > >>>>>> 
-> > >>>>>> The trick is the other records which are not LSM specific but
-> > >>>>>> still
-> > >>>>>> want to include subject and/or object information.  Unfortunately
-> > >>>>>> we
-> > >>>>>> are stuck with some tough limitations given the current audit
-> > >>>>>> record
-> > >>>>>> format and Steve's audit userspace tools;
-> > >>>>> 
-> > >>>>> Not really. We just need to approach the problem thinking about how
-> > >>>>> to
-> > >>>>> make it work based on how things currently work.
-> > >>>> 
-> > >>>> I suppose it is all somewhat "subjective" - bad joke fully intended
-> > >>>> :)
-> > >>>> - with respect to what one considers good/bad/limiting.  My personal
-> > >>>> view is that an ideal solution would allow for multiple independent
-> > >>>> subj/obj labels without having to multiplex on a single subj/obj
-> > >>>> field.  My gut feeling is that this would confuse your tools, yes?
-> > >>>> 
-> > >>>>> For example Casey had a list of possible formats. Like this one:
-> > >>>>> 
-> > >>>>> Option 3:
-> > >>>>>         lsms=selinux,apparmor subj=x:y:z:s:c subj=a
-> > >>>>> 
-> > >>>>> I'd suggest something almost like that. The first field could be a
-> > >>>>> map
-> > >>>>> to
-> > >>>>> decipher the labels. Then we could have a comma separated list of
-> > >>>>> labels.
-> > >>>>> 
-> > >>>>> lsms=selinux,apparmor subj=x:y:z:s:c,a
-> > >>>> 
-> > >>>> Some quick comments:
-> > >>>> 
-> > >>>> * My usual reminder that new fields for existing audit records must
-> > >>>> be
-> > >>>> added to the end of the record.
-> > >>>> 
-> > >>>> * If we are going to multiplex the labels on a single field (more on
-> > >>>> that below) I might suggest using "subj_lsms" instead of "lsms" so
-> > >>>> we
-> > >>>> leave ourself some wiggle room in the future.
-> > >>>> 
-> > >>>> * Multiplexing on a single "subj" field is going to be difficult
-> > >>>> because picking the label delimiter is going to be a pain.  For
-> > >>>> example, in the example above a comma is used, which at the very
-> > >>>> least
-> > >>>> is a valid part of a SELinux label and I suspect for Smack as well
-> > >>>> (I'm not sure about the other LSMs).  I suspect the only way to
-> > >>>> parse
-> > >>>> out the component labels would be to have knowledge of the LSMs in
-> > >>>> use, as well as the policies loaded at the time the audit record was
-> > >>>> generated.
-> > >>>> 
-> > >>>> This may be a faulty assumption, but assuming your tools will fall
-> > >>>> over if they see multiple "subj" fields, could we do something like
-> > >>>> 
-> > >>>> the following (something between option #2 and #3):
-> > >>>>   subj1_lsm=smack subj1=<smack_label> subj2_lsm=selinux
-> > >>>> 
-> > >>>> subj2=<selinux_label> ...
-> > >>> 
-> > >>> If it's not a subj= field why use the indirection?
-> > >>> 
-> > >>>         subj_smack=<smack_label> subj_selinux=<selinux_label>
-> > >>> 
-> > >>> would be easier.
-> > >> 
-> > >> Good point, that looks reasonable to me.
-> > > 
-> > > But doing something like this will totally break all parsers. To be
-> > > honest, I don't know if I'll ever see more than one labeled security
-> > > system running at the same time. And this would be a big penalty to
-> > > pay for the flexibility that someone, somewhere just might possibly do
-> > > this.
-> > 
-> > While I have never seen multiple-LSM plans from RedHat/IBM I
-> > have seen them from Ubuntu. This isn't hypothetical. I know that
-> > it's a hard problem, which is why we need to get it as right as
-> > possible.
+On 2019-07-15 17:04, Paul Moore wrote:
+> On Mon, Jul 8, 2019 at 2:06 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> > On 2019-05-30 15:29, Paul Moore wrote:
 > 
-> Agreed.  While I'm not going to be on a specific Linux release, I do
-> believe that at some point in the future the LSM stacking work is
-> going to land in Linus' tree.  Perhaps you'll never see it Steve, but
-> we need to prepare the code to handle it when it happens.
-
-And I agree with that. I'm saying that if we push it all in subj= then it is 
-not a big penalty. It saves major breakage. Every single event is required to 
-have a subj= field if its a MAC system. By changing it to lsm_subj= it changes 
-the layout of every single event. And it make more to parse. And searching 
-the labels is worse because it has to iterate over a list of *_subj to match 
-it. This will hurt performance because it is for every single event.
-
-> For my own sanity, here is a quick summary of the constraints as I
-> currently see them, please feel free to add/disagree:
+> ...
 > 
-> * We can't have multiple "subj" fields in a single audit record.
-> * The different LSMs all have different label formats and allowed
-> characters.  Further, a given label format may not be unique for a
-> given LSM; for example, Smack could be configured with a subset of
-> SELinux labels.
-> * Steve's audit tools appear to require a "subj" and "obj" fields for
-> LSM information or else they break into tiny little pieces.
-
-It changes all knowledge of where to look for things. And considering 
-considering that events could be aggregated from systems of different ages/
-distributions, audit userspace will always have to be backwards compatible.
- 
-> What if we preserved the existing subj/obj fields in the case where
-> there is only one "major" LSM (SELinux, Smack, AppArmor, etc.):
+> > > [REMINDER: It is an "*audit* container ID" and not a general
+> > > "container ID" ;)  Smiley aside, I'm not kidding about that part.]
+> > >
+> > > I'm not interested in supporting/merging something that isn't useful;
+> > > if this doesn't work for your use case then we need to figure out what
+> > > would work.  It sounds like nested containers are much more common in
+> > > the lxc world, can you elaborate a bit more on this?
+> > >
+> > > As far as the possible solutions you mention above, I'm not sure I
+> > > like the per-userns audit container IDs, I'd much rather just emit the
+> > > necessary tracking information via the audit record stream and let the
+> > > log analysis tools figure it out.  However, the bigger question is how
+> > > to limit (re)setting the audit container ID when you are in a non-init
+> > > userns.  For reasons already mentioned, using capable() is a non
+> > > starter for everything but the initial userns, and using ns_capable()
+> > > is equally poor as it essentially allows any userns the ability to
+> > > munge it's audit container ID (obviously not good).  It appears we
+> > > need a different method for controlling access to the audit container
+> > > ID.
+> >
+> > We're not quite ready yet for multiple audit daemons and possibly not
+> > yet for audit namespaces, but this is starting to look a lot like the
+> > latter.
 > 
->   subj=<lsm_label>
+> A few quick comments on audit namespaces: the audit container ID is
+> not envisioned as a new namespace (even in nested form) and neither do
+> I consider running multiple audit daemons to be a new namespace.
+
+I can picture either one.
+
+> From my perspective we create namespaces to allow us to redefine a
+> global resource for some subset of the system, e.g. providing a unique
+> /tmp for some number of processes on the system.  While it may be
+> tempting to think of the audit container ID as something we could
+> "namespace", especially when multiple audit daemons are concerned, in
+> some ways this would be counter productive; the audit container ID is
+> intended to be a global ID that can be used to associate audit event
+> records with a "container" where the "container" is defined by an
+> orchestrator outside the audit subsystem.  The global nature of the
+> audit container ID allows us to maintain a sane(ish) view of the
+> system in the audit log, if we were to "namespace" the audit container
+> ID such that the value was no longer guaranteed to be unique
+> throughout the system, we would need to additionally track the audit
+> namespace along with the audit container ID which starts to border on
+> insanity IMHO.
+
+Understood.  And mostly agree.  Any audit namespace would have to be a
+hybrid anyways, since only the init one would have full access to audit
+resources.  All the others would be somewhat neutered.  And in the case
+of checking for previous usage of a contid, if it was not already in use
+in the hypothetical audit namespace but was in use elsewhere in the
+system and we blocked its usage in this namespace, it would leak that
+information by blocking it.
+
+I saw it as a way of permitting layering with the natural descendancy
+structure showing that hierarchy.  The potential flaw with my reasoning
+is that a parent could exit and its children would get re-parented onto
+its next ancestor, so the intermediate task with an intermediate contid
+would break that contid documentation chain.
+
+> > If we can't trust ns_capable() then why are we passing on
+> > CAP_AUDIT_CONTROL?  It is being passed down and not stripped purposely
+> > by the orchestrator/engine.  If ns_capable() isn't inherited how is it
+> > gained otherwise?  Can it be inserted by cotainer image?  I think the
+> > answer is "no".  Either we trust ns_capable() or we have audit
+> > namespaces (recommend based on user namespace) (or both).
 > 
-> ... and in the case of multiple major LSMs we set the subj value to
-> "?" and introduce new subj_X fields (as necessary) as discussed above:
+> My thinking is that since ns_capable() checks the credentials with
+> respect to the current user namespace we can't rely on it to control
+> access since it would be possible for a privileged process running
+> inside an unprivileged container to manipulate the audit container ID
+> (containerized process has CAP_AUDIT_CONTROL, e.g. running as root in
+> the container, while the container itself does not).
+
+What makes an unprivileged container unprivileged?  "root", or "CAP_*"?
+
+If CAP_AUDIT_CONTROL is granted, does "root" matter?  Does it matter
+what user namespace it is in?  I understand that root is *gained* in an
+unprivileged user namespace, but capabilities are inherited or permitted
+and that process either has it or it doesn't and an unprivileged user
+namespace can't gain a capability that has been rescinded.  Different
+subsystems use the userid or capabilities or both to determine
+privileges.  In this case, is the userid relevant?
+
+> > At this point I would say we are at an impasse unless we trust
+> > ns_capable() or we implement audit namespaces.
 > 
->   subj=? subj_smack=<smack_label> subj_selinux=<selinux_label> ...
+> I'm not sure how we can trust ns_capable(), but if you can think of a
+> way I would love to hear it.  I'm also not sure how namespacing audit
+> is helpful (see my above comments), but if you think it is please
+> explain.
+
+So if we are not namespacing, why do we not trust capabilities?
+
+> > I don't think another mechanism to trust nested orchestrators/engines
+> > will buy us anything.
+> >
+> > Am I missing something?
 > 
-> ... I believe that Steve's old/existing userspace tools would simply
-> report "?"/unknown LSM credentials where new multi-LSM tools could
-> report the multiple different labels. 
+> Based on your questions/comments above it looks like your
+> understanding of ns_capable() does not match mine; if I'm thinking
+> about ns_capable() incorrectly, please educate me.
+> 
+> -- 
+> paul moore
+> www.paul-moore.com
 
-Common Criteria as well as other standards require subject labels to be 
-searchable. So, changing behavior based on how many modules will still cause 
-problems with performance because I'll always have to assume it could be 
-either way and try both.
+- RGB
 
-> While this may not be perfect,
-> it avoids having to multiplex the different labels into a single field
-> (which is a big win IMHO) with the only issue being that multi-LSM
-> solutions will need an updated audit toolset to see the new labels
-> (which seems like a reasonable requirement).
-
-Why would not multiplexing different labels in the same field be a big win? Its 
-a big loss in my mind. Using the same field preserves backward compatibility, 
-is more compact in bytes, creates performance problems, changes all mapping 
-of what things means, etc. IOW, this makes things much worse.
-
--Steve
-
+--
+Richard Guy Briggs <rgb@redhat.com>
+Sr. S/W Engineer, Kernel Security, Base Operating Systems
+Remote, Ottawa, Red Hat Canada
+IRC: rgb, SunRaycer
+Voice: +1.647.777.2635, Internal: (81) 32635
 
 --
 Linux-audit mailing list
