@@ -2,58 +2,77 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A64C6C3E7
-	for <lists+linux-audit@lfdr.de>; Thu, 18 Jul 2019 02:52:23 +0200 (CEST)
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+	by mail.lfdr.de (Postfix) with ESMTPS id E3C276CEA4
+	for <lists+linux-audit@lfdr.de>; Thu, 18 Jul 2019 15:13:19 +0200 (CEST)
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id EA494308FE8D;
-	Thu, 18 Jul 2019 00:52:19 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id EFCFC307D853;
+	Thu, 18 Jul 2019 13:13:15 +0000 (UTC)
 Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 3DB3960C5F;
-	Thu, 18 Jul 2019 00:52:17 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 84F725C21A;
+	Thu, 18 Jul 2019 13:13:12 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 4BE4754D3D;
-	Thu, 18 Jul 2019 00:52:12 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
-	[10.5.11.15])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id EE9DC264C9;
+	Thu, 18 Jul 2019 13:13:05 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+	[10.5.11.12])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id x6I0q0oO001578 for <linux-audit@listman.util.phx.redhat.com>;
-	Wed, 17 Jul 2019 20:52:00 -0400
+	id x6IDAjeT032073 for <linux-audit@listman.util.phx.redhat.com>;
+	Thu, 18 Jul 2019 09:10:45 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id CD75B5D720; Thu, 18 Jul 2019 00:52:00 +0000 (UTC)
+	id 16AFF60CBC; Thu, 18 Jul 2019 13:10:45 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from madcap2.tricolour.ca (ovpn-112-14.phx2.redhat.com [10.3.112.14])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id CCA60544F3;
-	Thu, 18 Jul 2019 00:51:48 +0000 (UTC)
-Date: Wed, 17 Jul 2019 20:51:45 -0400
-From: Richard Guy Briggs <rgb@redhat.com>
-To: Paul Moore <paul@paul-moore.com>
-Subject: Re: [PATCH ghak90 V6 02/10] audit: add container id
-Message-ID: <20190718005145.eshekqfr3navqqiy@madcap2.tricolour.ca>
-References: <20190529153427.GB8959@cisco>
-	<CAHC9VhSF3AjErX37+eeusJ7+XRw8yuPsmqBTRwc9EVoRBh_3Tw@mail.gmail.com>
-	<20190529222835.GD8959@cisco>
-	<CAHC9VhRS66VGtug3fq3RTGHDvfGmBJG6yRJ+iMxm3cxnNF-zJw@mail.gmail.com>
-	<20190530170913.GA16722@mail.hallyn.com>
-	<CAHC9VhThLiQzGYRUWmSuVfOC6QCDmA75BDB7Eg7V8HX4x7ymQg@mail.gmail.com>
-	<20190708180558.5bar6ripag3sdadl@madcap2.tricolour.ca>
-	<CAHC9VhRTT7JWqNnynvK04wKerjc-3UJ6R1uPtjCAPVr_tW-7MA@mail.gmail.com>
-	<20190716220320.sotbfqplgdructg7@madcap2.tricolour.ca>
-	<CAHC9VhScHizB2r5q3T5s0P3jkYdvzBPPudDksosYFp_TO7W9-Q@mail.gmail.com>
+Received: from mx1.redhat.com (ext-mx14.extmail.prod.ext.phx2.redhat.com
+	[10.5.110.43])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id BD54860F82;
+	Thu, 18 Jul 2019 13:10:40 +0000 (UTC)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+	bits)) (No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id A70B13092652;
+	Thu, 18 Jul 2019 13:10:38 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2a00:5f00:102:0:3aba:f8ff:fe58:9ca1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+	bits)) (No client certificate requested) (Authenticated sender: smcv)
+	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id D92DF28A357;
+	Thu, 18 Jul 2019 14:10:36 +0100 (BST)
+Date: Thu, 18 Jul 2019 14:10:34 +0100
+From: Simon McVittie <smcv@collabora.com>
+To: Casey Schaufler <casey@schaufler-ca.com>
+Subject: Re: Preferred subj= with multiple LSMs
+Message-ID: <20190718131034.GA12581@horizon>
+References: <d1a237d3-4b72-48b0-27d6-fb168354ad31@schaufler-ca.com>
+	<CAHC9VhTQLihNQ1iGjJB=LAn=C6BQokFsjsRcj8O_O9AjqQ7HBg@mail.gmail.com>
+	<2517266.eHZzEmjMsX@x2>
+	<27e2c710-efe6-d9cd-d4f9-bc217df5ede3@schaufler-ca.com>
+	<CAHC9VhTpcnyGg5j3b6Z7Yi0Ob01JETRiBmz1AuLqPWqP9tEAnA@mail.gmail.com>
+	<5ea2a25b-364f-3c30-79c6-cfb18515d7ba@schaufler-ca.com>
+	<CAHC9VhQ9MSh5zCkhMja4r9j0RT952LwKSaG5dR-BqXzXrtEAUw@mail.gmail.com>
+	<e9cf875a-0d0f-a56f-71dd-c22c67bdcc2d@schaufler-ca.com>
+	<CAHC9VhQS9We1TNqRfuR_E-kV4aZddx9euaiv5Gzd5B5AkiDAUQ@mail.gmail.com>
+	<f375c23c-29e6-dc98-d71c-328db91117bc@schaufler-ca.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <CAHC9VhScHizB2r5q3T5s0P3jkYdvzBPPudDksosYFp_TO7W9-Q@mail.gmail.com>
-User-Agent: NeoMutt/20180716
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <f375c23c-29e6-dc98-d71c-328db91117bc@schaufler-ca.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Greylist: Sender passed SPF test, Sender IP whitelisted by DNSRBL, ACL 238
+	matched, not delayed by milter-greylist-4.5.16 (mx1.redhat.com
+	[10.5.110.43]); Thu, 18 Jul 2019 13:10:39 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.43]);
+	Thu, 18 Jul 2019 13:10:39 +0000 (UTC) for IP:'46.235.227.227'
+	DOMAIN:'bhuna.collabora.co.uk' HELO:'bhuna.collabora.co.uk'
+	FROM:'smcv@collabora.com' RCPT:''
+X-RedHat-Spam-Score: -0.002  (RCVD_IN_DNSWL_NONE, SPF_HELO_PASS,
+	SPF_PASS) 46.235.227.227 bhuna.collabora.co.uk
+	46.235.227.227 bhuna.collabora.co.uk <smcv@collabora.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.110.43
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-loop: linux-audit@redhat.com
-Cc: Tycho Andersen <tycho@tycho.ws>, nhorman@tuxdriver.com,
-	linux-api@vger.kernel.org, containers@lists.linux-foundation.org,
-	LKML <linux-kernel@vger.kernel.org>, dhowells@redhat.com,
-	Linux-Audit Mailing List <linux-audit@redhat.com>,
-	netfilter-devel@vger.kernel.org, ebiederm@xmission.com,
-	simo@redhat.com, netdev@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	Eric Paris <eparis@parisplace.org>, "Serge E. Hallyn" <serge@hallyn.com>
+X-Mailman-Approved-At: Thu, 18 Jul 2019 09:12:48 -0400
+Cc: Richard Guy Briggs <rgb@redhat.com>,
+	Linux Security Module list <linux-security-module@vger.kernel.org>,
+	"linux-audit@redhat.com" <linux-audit@redhat.com>
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -69,120 +88,67 @@ Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.49]); Thu, 18 Jul 2019 00:52:22 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.48]); Thu, 18 Jul 2019 13:13:18 +0000 (UTC)
 
-On 2019-07-16 19:30, Paul Moore wrote:
-> On Tue, Jul 16, 2019 at 6:03 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> > On 2019-07-15 17:04, Paul Moore wrote:
-> > > On Mon, Jul 8, 2019 at 2:06 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+On Wed, 17 Jul 2019 at 16:02:16 -0700, Casey Schaufler wrote:
+> We've never had to think about having general rules on
+> what security modules do before, because with only one
+> active each could do whatever it wanted without fear of
+> conflict. If there is already a character that none of
+> the existing modules use, how would it be wrong to
+> reserve it?
 > 
-> ...
-> 
-> > > > If we can't trust ns_capable() then why are we passing on
-> > > > CAP_AUDIT_CONTROL?  It is being passed down and not stripped purposely
-> > > > by the orchestrator/engine.  If ns_capable() isn't inherited how is it
-> > > > gained otherwise?  Can it be inserted by cotainer image?  I think the
-> > > > answer is "no".  Either we trust ns_capable() or we have audit
-> > > > namespaces (recommend based on user namespace) (or both).
-> > >
-> > > My thinking is that since ns_capable() checks the credentials with
-> > > respect to the current user namespace we can't rely on it to control
-> > > access since it would be possible for a privileged process running
-> > > inside an unprivileged container to manipulate the audit container ID
-> > > (containerized process has CAP_AUDIT_CONTROL, e.g. running as root in
-> > > the container, while the container itself does not).
-> >
-> > What makes an unprivileged container unprivileged?  "root", or "CAP_*"?
-> 
-> My understanding is that when most people refer to an unprivileged
-> container they are referring to a container run without capabilities
-> or a container run by a user other than root.  I'm sure there are
-> better definitions out there, by folks much smarter than me on these
-> things, but that's my working definition.
+> Smack disallows the four characters '"/\ because quoting
+> is too important to ignore and the likelyhood that someone
+> would confuse labels with paths seemed great. I sniffed
+> around a little, but couldn't find the sets for SELinux or
+> AppArmor.
 
-Close enough to my understanding...
+It seems we've been here before, when I added LinuxSecurityLabel to
+https://dbus.freedesktop.org/doc/dbus-specification.html#bus-messages-get-connection-credentials
+in D-Bus.
 
-> > If CAP_AUDIT_CONTROL is granted, does "root" matter?
-> 
-> Our discussions here have been about capabilities, not UIDs.  The only
-> reason root might matter is that it generally has the full capability
-> set.
+Recapping the context for those who might have missed it: in D-Bus,
+processes communicate in a hub-and-spoke topology via a central message
+bus process, which forwards messages between the other processes. Some
+other IPC systems would call this a broker. As a result of this
+indirection, the message bus is the only process in the overall system
+that is in a position to ask the kernel for the identity of the other
+processes (credentials(7) and related topics like LSM labels) using
+unforgeable kernel-guaranteed socket options like SO_PEERCRED, SO_PEERSEC
+and SO_PEERGROUPS. This means that if two processes communicate via D-Bus
+and want to know each other's identities, they have to ask the message
+bus; so the message bus needs a representation for that information. For
+LSM labels, that representation is LinuxSecurityLabel, which is defined
+in terms of SO_PEERSEC.
 
-Good, that's my understanding.
+At the time that I defined LinuxSecurityLabel, nobody was willing to
+say for sure that the label was guaranteed to be ASCII or UTF-8 (which
+is part of the specification for the D-Bus STRING ('s') type), so I
+had to encode it as an arbitrary ARRAY of BYTE ('ay') rather than as
+a STRING. I was at least told that the label wouldn't contain embedded
+'\0', and that if there is a trailing '\0', I can safely canonicalize
+the string by removing it.
 
-> > Does it matter what user namespace it is in?
-> 
-> What likely matters is what check is called: capable() or
-> ns_capable().  Those can yield very different results.
+Also, at the time that I did that, nobody was willing to say for sure
+that there was any particular correspondence between the security
+label obtained by reading /proc/self/attr/current and the security
+label obtained by getting the SO_PEERSEC socket option: in AppArmor,
+/proc/self/attr/current is something like "unconfined\n" whereas
+SO_PEERSEC is either "unconfined" or "unconfined\0" (I forget which),
+but the consensus seemed to be that there is no guarantee that the
+presence or absence of a trailing newline wouldn't be significant to
+some non-AppArmor LSM.
 
-Ok, I finally found what I was looking for to better understand the
-challenge with trusting ns_capable().  Sorry for being so dense and slow
-on this one.  I thought I had gone through the code carefully enough,
-but this time I finally found it.  set_cred_user_ns() sets a full set of
-capabilities rather than inheriting them from the parent user_ns, called
-from userns_install() or create_userns().  Even if the container
-orchestrator/engine restricts those capabilities on its own containers,
-they could easily unshare a userns and get a full set unless it also
-restricted CAP_SYS_ADMIN, which is used too many other places to be
-practical to restrict.
+If LSM stacking is going to lead to syntactic restrictions being imposed
+on security labels, please could someone add them to credentials(7)
+or some other suitable documentation so user-space developers can know
+where we stand, or tell me what the restrictions and guarantees are so
+I can propose a documentation patch?
 
-> > I understand that root is *gained* in an
-> > unprivileged user namespace, but capabilities are inherited or permitted
-> > and that process either has it or it doesn't and an unprivileged user
-> > namespace can't gain a capability that has been rescinded.  Different
-> > subsystems use the userid or capabilities or both to determine
-> > privileges.
-> 
-> Once again, I believe the important thing to focus on here is
-> capable() vs ns_capable().  We can't safely rely on ns_capable() for
-> the audit container ID policy since that is easily met inside the
-> container regardless of the process' creds which started the
-> container.
-
-Agreed.
-
-> > In this case, is the userid relevant?
-> 
-> We don't do UID checks, we do capability checks, so yes, the UID is irrelevant.
-
-Agreed.
-
-> > > > At this point I would say we are at an impasse unless we trust
-> > > > ns_capable() or we implement audit namespaces.
-> > >
-> > > I'm not sure how we can trust ns_capable(), but if you can think of a
-> > > way I would love to hear it.  I'm also not sure how namespacing audit
-> > > is helpful (see my above comments), but if you think it is please
-> > > explain.
-> >
-> > So if we are not namespacing, why do we not trust capabilities?
-> 
-> We can trust capable(CAP_AUDIT_CONTROL) for enforcing audit container
-> ID policy, we can not trust ns_capable(CAP_AUDIT_CONTROL).
-
-Ok.  So does a process in a non-init user namespace have two (or more)
-sets of capabilities stored in creds, one in the init_user_ns, and one
-in current_user_ns?  Or does it get stripped of all its capabilities in
-init_user_ns once it has its own set in current_user_ns?  If the former,
-then we can use capable().  If the latter, we need another mechanism, as
-you have suggested might be needed.
-
-If some random unprivileged user wants to fire up a container
-orchestrator/engine in his own user namespace, then audit needs to be
-namespaced.  Can we safely discard this scenario for now?  That user can
-use a VM.
-
-> paul moore
-
-- RGB
-
---
-Richard Guy Briggs <rgb@redhat.com>
-Sr. S/W Engineer, Kernel Security, Base Operating Systems
-Remote, Ottawa, Red Hat Canada
-IRC: rgb, SunRaycer
-Voice: +1.647.777.2635, Internal: (81) 32635
+Thanks,
+    smcv
 
 --
 Linux-audit mailing list
