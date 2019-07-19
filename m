@@ -2,111 +2,152 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0B4A6E8B6
-	for <lists+linux-audit@lfdr.de>; Fri, 19 Jul 2019 18:25:04 +0200 (CEST)
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+	by mail.lfdr.de (Postfix) with ESMTPS id B2C826E8C7
+	for <lists+linux-audit@lfdr.de>; Fri, 19 Jul 2019 18:29:27 +0200 (CEST)
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id E6C11C06512D;
-	Fri, 19 Jul 2019 16:25:02 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id BBA995DA38;
-	Fri, 19 Jul 2019 16:25:02 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id D2B98A3B5F;
+	Fri, 19 Jul 2019 16:29:25 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id ADC35183AD;
+	Fri, 19 Jul 2019 16:29:25 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id E18471800207;
-	Fri, 19 Jul 2019 16:25:00 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
-	[10.5.11.15])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 44EA44E58E;
+	Fri, 19 Jul 2019 16:29:25 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+	[10.5.11.13])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id x6JG81bF002319 for <linux-audit@listman.util.phx.redhat.com>;
-	Fri, 19 Jul 2019 12:08:01 -0400
+	id x6JGTMWI005650 for <linux-audit@listman.util.phx.redhat.com>;
+	Fri, 19 Jul 2019 12:29:22 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id E755746475; Fri, 19 Jul 2019 16:08:01 +0000 (UTC)
+	id 4B02D608AB; Fri, 19 Jul 2019 16:29:22 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from mx1.redhat.com (ext-mx19.extmail.prod.ext.phx2.redhat.com
-	[10.5.110.48])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 2632E2FC52;
-	Fri, 19 Jul 2019 16:07:54 +0000 (UTC)
-Received: from out01.mta.xmission.com (out01.mta.xmission.com [166.70.13.231])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128
-	bits)) (No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id A9264307D98F;
-	Fri, 19 Jul 2019 16:07:52 +0000 (UTC)
-Received: from in02.mta.xmission.com ([166.70.13.52])
-	by out01.mta.xmission.com with esmtps
-	(TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.87)
-	(envelope-from <ebiederm@xmission.com>)
-	id 1hoVQF-0001CW-AF; Fri, 19 Jul 2019 10:07:51 -0600
-Received: from ip68-227-160-95.om.om.cox.net ([68.227.160.95]
-	helo=x220.xmission.com) by in02.mta.xmission.com with esmtpsa
-	(TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.87)
-	(envelope-from <ebiederm@xmission.com>)
-	id 1hoVQD-0001X8-CP; Fri, 19 Jul 2019 10:07:51 -0600
-From: ebiederm@xmission.com (Eric W. Biederman)
-To: Richard Guy Briggs <rgb@redhat.com>
-References: <cover.1554732921.git.rgb@redhat.com>
-	<cover.1554732921.git.rgb@redhat.com>
-	<9edad39c40671fb53f28d76862304cc2647029c6.1554732921.git.rgb@redhat.com>
-Date: Fri, 19 Jul 2019 11:07:36 -0500
-In-Reply-To: <9edad39c40671fb53f28d76862304cc2647029c6.1554732921.git.rgb@redhat.com>
-	(Richard Guy Briggs's message of "Mon, 8 Apr 2019 23:39:09 -0400")
-Message-ID: <87y30uc8jb.fsf@xmission.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/25.1 (gnu/linux)
+Received: from mx1.redhat.com (ext-mx03.extmail.prod.ext.phx2.redhat.com
+	[10.5.110.27])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 44949608A4
+	for <linux-audit@redhat.com>; Fri, 19 Jul 2019 16:29:19 +0000 (UTC)
+Received: from sonic303-27.consmr.mail.ne1.yahoo.com
+	(sonic303-27.consmr.mail.ne1.yahoo.com [66.163.188.153])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 533497FDE5
+	for <linux-audit@redhat.com>; Fri, 19 Jul 2019 16:29:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
+	t=1563553757; bh=3XJz1EMebhAnByro7T3uiT24PczRcyvRBajVwerk0rE=;
+	h=Subject:To:Cc:References:From:Date:In-Reply-To:From:Subject;
+	b=mcrdT71E7nWHkGNKUpvYvTkz8QhnpbXMiTmpN1fmT83E908w0Kaldpj/WMmvNI1a1L/lXIoJTXzdOXTKa6JukzT8vLJV0cQaoRYjgbqTxeaGUy9dDbRA3CFwVKhqi3A19A5mUGROvNzL7MdCszz+pKcfJqEuHMsGcqXBhN+HZ4LzYVzgrfQqpfVE6ULPFCfbccbIjRhzye+lFBXs31aOdQVlj8tKD5C5hBF+YPOF4eBAmHDjhhuraK/sL+jBWGiyja9Kekc0DTZ4B1dHqqVcHWzUQchCyjoDNYh/uWKRlA48hNmkiNXS5eP+u3KpQKNUTF4QUCOnkExLI/9aAr7Tvg==
+X-YMail-OSG: j8fcgosVM1nVS2L5DWvgE_G3nf5HKbR2RajUqXa9rkHJZifPl1wwWMs3QV8DxCG
+	WBW2aoMOkCoCgz86KBBb._fig9uCjqlFUhET5wtLkQq9x0YL8wZ.PHPX4MtWfUG9LX7yAiamDYqO
+	Utftm1jPWLU9mDk.leE.dHRcSF.Hb41HYaP1VddTTiXoa9V4wOzv8o_zqWv2_Sf2v.__3nCSx9ED
+	R5ZD20NuhcGKRvqqzKZKSW8xeLsc1zihFkHu59IAQpRQNw8tsl8aBvZTkRI51O_PdH4ecSA_Yf7h
+	uSS0xrKMvML8VFbG.w9s1AjuavCNaPBUXTHP4bgLsmYFAsOw.rMErjzP2Soxi25wbzyTZhxcaIAI
+	iNdWGUKUrOkV5QshXPyBATre9_yprAtZcJX4uZbxX5V6IEQA_FIHOichkTiJnQ5p88ANzb.UF0A3
+	XOx4TNRBsGimoi7N0t4EByvCUoGLc_umfSJ1tFustX3ZRK2Yb6qYjLFcR9l1bVB1._ydPVlEkfcn
+	qqUdOExuJsbO6ksGm.lPe6aoCbK.RpMTNPIMSCXo5ymsB5z.1SsMWX45Cj8wwLw0OfkTEUT.5e0Q
+	rs2ij_IjGmYR..2t60y_iEa6Orj6zfIrf7A70JQKJbhvi9RkR_t.gRWzEfJ6gUBr2HyzUChm._kZ
+	9kZMT8ox77htPUwfR5sKJ6m3ecJ1D.cnssgxBA1rTegKiRuGI47BgXo0Rsg8LkAm52h.QGzmy0_y
+	kZrIyjCMyEwEvFTFQuxtz5992r_zZmd74.4Jpvp6IYQUF4dO7ZSOrhUF_Y_a0vBrF1mxmluT75Jv
+	MAOVq.Rslu1kgXKcsEG0m804I_Muj2IIuBoRv44l440oJDTVnyuh0R1wGmWrWF5WqE6yv6hkmkr_
+	kzkh3neyfF.RjY9SKz1w4SpP0FjZ293V3dDPUDbu5Jr3sbY3D5vQjUI52_jGoE8OcapedrFnmrNZ
+	nUPOcso8iyWxoL2FpdZbK_sFq0ETPUSqpgbX6SvyNv1kNS6lSCMm7NRYuiDSsygisup6N8_B1xsC
+	JvkaT7ZTCNIaklsA3mhwwEAjMlIOu7aUktPZwFEoXDs3oM.S7uPlKPKquJhePq7gbgGLsltTN2yB
+	ImDEuWA4n7_zzAnzUDGogmZUo2JATApK4CyiMRInI8NTzO5DPTCSNzzId.vu7uGKwSKIzdY41Gs7
+	l7uYyxKfEtgOBwi9QajCkP.2xswcyZMVoIZJuMNRvFs0JzZgkmduQsvuLNgTU.tmhDSSWvF3mRCg
+	G9IrvMA--
+Received: from sonic.gate.mail.ne1.yahoo.com by
+	sonic303.consmr.mail.ne1.yahoo.com with HTTP;
+	Fri, 19 Jul 2019 16:29:17 +0000
+Received: by smtp429.mail.ne1.yahoo.com (Oath Hermes SMTP Server) with ESMTPA
+	ID 7e5be3ec72392f683f1e604fcf2df451; 
+	Fri, 19 Jul 2019 16:29:16 +0000 (UTC)
+Subject: Re: Preferred subj= with multiple LSMs
+To: Simon McVittie <smcv@collabora.com>
+References: <2517266.eHZzEmjMsX@x2>
+	<27e2c710-efe6-d9cd-d4f9-bc217df5ede3@schaufler-ca.com>
+	<CAHC9VhTpcnyGg5j3b6Z7Yi0Ob01JETRiBmz1AuLqPWqP9tEAnA@mail.gmail.com>
+	<5ea2a25b-364f-3c30-79c6-cfb18515d7ba@schaufler-ca.com>
+	<CAHC9VhQ9MSh5zCkhMja4r9j0RT952LwKSaG5dR-BqXzXrtEAUw@mail.gmail.com>
+	<e9cf875a-0d0f-a56f-71dd-c22c67bdcc2d@schaufler-ca.com>
+	<CAHC9VhQS9We1TNqRfuR_E-kV4aZddx9euaiv5Gzd5B5AkiDAUQ@mail.gmail.com>
+	<f375c23c-29e6-dc98-d71c-328db91117bc@schaufler-ca.com>
+	<20190718131034.GA12581@horizon>
+	<45661e97-2ed0-22e5-992e-5d562ff11488@schaufler-ca.com>
+	<20190719121540.GA1764@horizon>
+From: Casey Schaufler <casey@schaufler-ca.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=casey@schaufler-ca.com; keydata=
+	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
+	abzjfg==
+Message-ID: <720880ca-834c-1986-3baf-021c67221ae2@schaufler-ca.com>
+Date: Fri, 19 Jul 2019 09:29:17 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+	Thunderbird/60.8.0
 MIME-Version: 1.0
-X-XM-SPF: eid=1hoVQD-0001X8-CP; ; ; mid=<87y30uc8jb.fsf@xmission.com>; ; ;
-	hst=in02.mta.xmission.com; ; ; ip=68.227.160.95; ; ;
-	frm=ebiederm@xmission.com; ; ; spf=neutral
-X-XM-AID: U2FsdGVkX1+hbXFXPaobkrA2h+btAHY/3WXcCltEO3E=
-X-SA-Exim-Connect-IP: 68.227.160.95
-X-SA-Exim-Mail-From: ebiederm@xmission.com
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on sa04.xmission.com
-X-Spam-Level: 
-X-Spam-Status: No, score=-0.2 required=8.0 tests=ALL_TRUSTED,BAYES_50,
-	DCC_CHECK_NEGATIVE,T_TM2_M_HEADER_IN_MSG autolearn=disabled
-	version=3.4.2
-X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-	*  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-	*      [score: 0.5000]
-	*  0.0 T_TM2_M_HEADER_IN_MSG BODY: No description available.
-	* -0.0 DCC_CHECK_NEGATIVE Not listed in DCC
-	*      [sa04 1397; Body=1 Fuz1=1 Fuz2=1]
-X-Spam-DCC: XMission; sa04 1397; Body=1 Fuz1=1 Fuz2=1 
-X-Spam-Combo: ;Richard Guy Briggs <rgb@redhat.com>
-X-Spam-Relay-Country: 
-X-Spam-Timing: total 1530 ms - load_scoreonly_sql: 0.04 (0.0%),
-	signal_user_changed: 3.1 (0.2%), b_tie_ro: 2.0 (0.1%), parse: 2.2
-	(0.1%), extract_message_metadata: 33 (2.1%), get_uri_detail_list: 12
-	(0.8%), tests_pri_-1000: 30 (1.9%), tests_pri_-950: 1.61 (0.1%),
-	tests_pri_-900: 1.30 (0.1%), tests_pri_-90: 67 (4.4%), check_bayes: 65
-	(4.3%), b_tokenize: 26 (1.7%), b_tok_get_all: 22 (1.4%), b_comp_prob:
-	4.8 (0.3%), b_tok_touch_all: 9 (0.6%), b_finish: 1.11 (0.1%),
-	tests_pri_0: 1371 (89.6%), check_dkim_signature: 0.75 (0.0%),
-	check_dkim_adsp: 2.4 (0.2%), poll_dns_idle: 0.68 (0.0%), tests_pri_10:
-	3.0 (0.2%), tests_pri_500: 12 (0.8%), rewrite_mail: 0.00 (0.0%)
-Subject: Re: [PATCH ghak90 V6 02/10] audit: add container id
-X-SA-Exim-Version: 4.2.1 (built Thu, 05 May 2016 13:38:54 -0600)
-X-SA-Exim-Scanned: Yes (on in02.mta.xmission.com)
+In-Reply-To: <20190719121540.GA1764@horizon>
+Content-Language: en-US
 X-Greylist: Sender passed SPF test, Sender IP whitelisted by DNSRBL, ACL 238
 	matched, not delayed by milter-greylist-4.5.16 (mx1.redhat.com
-	[10.5.110.48]); Fri, 19 Jul 2019 16:07:53 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.48]);
-	Fri, 19 Jul 2019 16:07:53 +0000 (UTC) for IP:'166.70.13.231'
-	DOMAIN:'out01.mta.xmission.com' HELO:'out01.mta.xmission.com'
-	FROM:'ebiederm@xmission.com' RCPT:''
-X-RedHat-Spam-Score: -0.7  (RCVD_IN_DNSWL_LOW, SPF_HELO_NONE,
-	SPF_PASS) 166.70.13.231 out01.mta.xmission.com
-	166.70.13.231 out01.mta.xmission.com <ebiederm@xmission.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.110.48
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+	[10.5.110.27]); Fri, 19 Jul 2019 16:29:18 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.27]);
+	Fri, 19 Jul 2019 16:29:18 +0000 (UTC) for IP:'66.163.188.153'
+	DOMAIN:'sonic303-27.consmr.mail.ne1.yahoo.com'
+	HELO:'sonic303-27.consmr.mail.ne1.yahoo.com'
+	FROM:'casey@schaufler-ca.com' RCPT:''
+X-RedHat-Spam-Score: 0.002  (DKIM_SIGNED, DKIM_VALID, RCVD_IN_DNSWL_NONE,
+	SPF_HELO_NONE,
+	SPF_NONE) 66.163.188.153 sonic303-27.consmr.mail.ne1.yahoo.com
+	66.163.188.153 sonic303-27.consmr.mail.ne1.yahoo.com
+	<casey@schaufler-ca.com>
+X-Scanned-By: MIMEDefang 2.78 on 10.5.110.27
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MIME-Autoconverted: from quoted-printable to 8bit by
+	lists01.pubmisc.prod.ext.phx2.redhat.com id x6JGTMWI005650
 X-loop: linux-audit@redhat.com
-X-Mailman-Approved-At: Fri, 19 Jul 2019 12:24:53 -0400
-Cc: nhorman@tuxdriver.com, linux-api@vger.kernel.org,
-	containers@lists.linux-foundation.org,
-	LKML <linux-kernel@vger.kernel.org>, dhowells@redhat.com,
-	Linux-Audit Mailing List <linux-audit@redhat.com>,
-	netfilter-devel@vger.kernel.org, simo@redhat.com,
-	netdev@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	eparis@parisplace.org, serge@hallyn.com
+Cc: Richard Guy Briggs <rgb@redhat.com>,
+	Linux Security Module list <linux-security-module@vger.kernel.org>,
+	"linux-audit@redhat.com" <linux-audit@redhat.com>
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -122,343 +163,185 @@ Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.31]); Fri, 19 Jul 2019 16:25:03 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.30]); Fri, 19 Jul 2019 16:29:26 +0000 (UTC)
 
-Richard Guy Briggs <rgb@redhat.com> writes:
+On 7/19/2019 5:15 AM, Simon McVittie wrote:
+> On Thu, 18 Jul 2019 at 09:13:52 -0700, Casey Schaufler wrote:
+>> We have discussed what's currently being
+>> called the "hideous" format, selinux='a:b:c:d',apparmor='x' which
+>> in the past, and concluded that the compatibility issues would be too
+>> great.
+> I agree this might be too big a compat break for existing interfaces that
+> were designed with the assumption that there can only be one "big" LSM
+> at a time, like /proc/54321/attr/current and SO_PEERSEC. It would certainly
+> break the current libapparmor, and presumably libselinux as well.
+>
+> However, I think it would be great to have multiple-"big"-LSM-aware
+> replacements for those interfaces, which present the various LSMs as
+> multiple parallel credentials.
 
-> Implement the proc fs write to set the audit container identifier of a
-> process, emitting an AUDIT_CONTAINER_OP record to document the event.
->
-> This is a write from the container orchestrator task to a proc entry of
-> the form /proc/PID/audit_containerid where PID is the process ID of the
-> newly created task that is to become the first task in a container, or
-> an additional task added to a container.
->
-> The write expects up to a u64 value (unset: 18446744073709551615).
->
-> The writer must have capability CAP_AUDIT_CONTROL.
->
-> This will produce a record such as this:
->   type=CONTAINER_OP msg=audit(2018-06-06 12:39:29.636:26949) : op=set opid=2209 contid=123456 old-contid=18446744073709551615 pid=628 auid=root uid=root tty=ttyS0 ses=1 subj=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023 comm=bash exe=/usr/bin/bash res=yes
->
-> The "op" field indicates an initial set.  The "pid" to "ses" fields are
-> the orchestrator while the "opid" field is the object's PID, the process
-> being "contained".  New and old audit container identifier values are
-> given in the "contid" fields, while res indicates its success.
->
-> It is not permitted to unset the audit container identifier.
-> A child inherits its parent's audit container identifier.
+Defining what would go into liblsm* is a task that has fallen to
+the chicken/egg paradox. We can't really define how the user-space
+should work without knowing how the kernel will work, and we can't
+solidify how the kernel will work until we know what user-space
+can use.
 
-Why get proc involved in this?  I know it more or less fits as
-this is about a process and it's descendants.  But this seems to
-encouarge being able to read this value, and being able to read
-this value seems to encourage misuse.
+---
+* I absolutely refuse to allow this to be libsecurity!
 
-So I am not of fan of using proc for this.
+> I think it would also be valuable to take this opportunity to pin down
+> what can and can't be in a label, to an extent where people who want
+> to represent them in a similar encoding know what they can and can't
+> assume about their format. For example, when dbus-daemon reports an
+> unusual event (like rejecting a message due to policy rules or LSMs,
+> or hitting a resource limit that isn't normally meant to be reached),
+> the log entry contains miscellaneous information about the process for
+> debugging purposes, and it would be good if we could include all the LSM
+> labels in that string without ambiguity. This is essentially the same
+> problem that the audit subsystem has, but with fewer constraints, since
+> the audit subsystem has to meet externally-imposed security requirements
+> but our equivalent is just a nice-to-have for debugging.
 
-> Please see the github audit kernel issue for the main feature:
->   https://github.com/linux-audit/audit-kernel/issues/90
-> Please see the github audit userspace issue for supporting additions:
->   https://github.com/linux-audit/audit-userspace/issues/51
-> Please see the github audit testsuiite issue for the test case:
->   https://github.com/linux-audit/audit-testsuite/issues/64
-> Please see the github audit wiki for the feature overview:
->   https://github.com/linux-audit/audit-kernel/wiki/RFE-Audit-Container-ID
+Sounds like the Hideous format, or a variant thereof, would be
+fine for you, especially if you never parse it.
+
+>> Have you been following the discussions on setting a "display" value
+>> to specify which LSM data is presented by /proc/self/attr/current and
+>> SO_PEERSEC? Briefly, a process can write the name of the LSM it wants
+>> to see data from to /proc/self/attr/display, and the aforementioned
+>> interfaces will use that LSM. If no value has been set the first LSM
+>> registered that uses any of these interfaces gets the nod.
+> I'm vaguely aware of the discussion, but LSMs aren't a big part of my
+> D-Bus maintainer role, so I'm afraid I can't keep up with all of it.
 >
-> Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
-> Acked-by: Serge Hallyn <serge@hallyn.com>
-> Acked-by: Steve Grubb <sgrubb@redhat.com>
-> Acked-by: Neil Horman <nhorman@tuxdriver.com>
-> Reviewed-by: Ondrej Mosnacek <omosnace@redhat.com>
-> ---
->  fs/proc/base.c             | 36 ++++++++++++++++++++++++
->  include/linux/audit.h      | 25 +++++++++++++++++
->  include/uapi/linux/audit.h |  2 ++
->  kernel/audit.c             | 69 ++++++++++++++++++++++++++++++++++++++++++++++
->  kernel/audit.h             |  1 +
->  kernel/auditsc.c           |  4 +++
->  6 files changed, 137 insertions(+)
+> Do you mean that if process 11111 writes (for example) "apparmor" into
+> /proc/11111/attr/display, and then reads /proc/22222/attr/current
+> or queries the SO_PEERSEC of a socket opened by process 22222,
+> it will specifically see 22222's AppArmor label and not 22222's SELinux
+> label? Or is the contents of /proc/22222/attr/current controlled
+> by /proc/22222/attr/display?
+
+Process 11111 would see the AppArmor label when reading
+/proc/22222/attr/current. The display value is controlled
+by process 11111 so that it can control what data it wants
+to see.
+
+> How is this meant to work for generic LSM-aware user-space processes? If
+> (for example) ps -Z 22222 wants to get both the AppArmor label and the
+> SELinux label for process 22222, is it meant to write "apparmor" into
+> attr/display, then read /proc/22222/attr/current, then write "selinux"
+> to attr/display, then read /proc/22222/attr/current again? That sounds
+> risky if another thread might be manipulating attr/display concurrently.
+
+The display is set at the task level, so should be thread safe.
+
+> The D-Bus message bus/broker (reference implementation: dbus-daemon)
+> is somewhat tricky because it is returning data on behalf of processes
+> other than itself, so it would be difficult for it to choose a good
+> value for "display": there's no reason why it wouldn't be responding
+> to requests from NetworkManager that expect to see SELinux labels, and
+> also requests from lxd that expect to see AppArmor labels. Obviously
+> it can't put both in LinuxSecurityLabel without the same compatibility
+> issues you're discussing.
+
+Just so.
+
+> Also note that dbus-daemon is trusted but mostly unprivileged - it
+> starts as root, then drops privileges to a system user normally called
+> messagebus, dbus or _dbus for its normal operation (although it does
+> retain CAP_AUDIT_WRITE) - so it can't carry out privileged operations
+> on other processes' /proc entries, if that's what the API requires.
+
+Writing to display does not require privilege, as it affects only
+the current process. The display is inherited on fork and reset on
+a privileged exec.
+
+> I would strongly prefer it if we could get this information from
+> the kernel in a way that is Linux-specific but LSM-agnostic, without
+> having to link to libapparmor, libselinux, libsmack and everyone else's
+> favourite LSM library. At the moment we only need to link to libraries
+> for the LSMs where dbus-daemon can carry out mediation (asking the LSM
+> whether to accept or reject messages), and we don't need the libraries
+> if we are just passing through identity information.
+
+I can see that making dbus-daemon have to decide which label of many
+to pass on to its clients would be bad.
+
+> I would also prefer it if we can get this information from SO_PEERSEC
+> (or some newer SO_PEERSEC replacement) without having to manipulate
+> ambient/implicit state like attr/display; but dbus-daemon is
+> single-threaded, so if we must do that, it wouldn't be *so* horrible.
+
+An option that hasn't been discussed is a display option to provide
+the Hideous format for applications that know that's what they want.
+Write "hideous" into /proc/self/attr/display, and from then on you
+get selinux='a:b:c:d',apparmor='z'. This could be used widely in liblsm
+interfaces.
+
+> Ideally I would like to be able to get all the LSM labels in O(1)
+> syscalls. Perhaps something with the same (buffer,length) kernel <->
+> user-space API as SO_PEERSEC and SO_PEERGROUPS, but instead of returning
+> a single \0-terminated string, it could return either the "hideous" format,
+> or a byte-blob that looks something like this?
 >
-> diff --git a/fs/proc/base.c b/fs/proc/base.c
-> index ddef482f1334..43fd0c4b87de 100644
-> --- a/fs/proc/base.c
-> +++ b/fs/proc/base.c
-> @@ -1294,6 +1294,40 @@ static ssize_t proc_sessionid_read(struct file * file, char __user * buf,
->  	.read		= proc_sessionid_read,
->  	.llseek		= generic_file_llseek,
->  };
-> +
-> +static ssize_t proc_contid_write(struct file *file, const char __user *buf,
-> +				   size_t count, loff_t *ppos)
-> +{
-> +	struct inode *inode = file_inode(file);
-> +	u64 contid;
-> +	int rv;
-> +	struct task_struct *task = get_proc_task(inode);
-> +
-> +	if (!task)
-> +		return -ESRCH;
-> +	if (*ppos != 0) {
-> +		/* No partial writes. */
-> +		put_task_struct(task);
-> +		return -EINVAL;
-> +	}
-> +
-> +	rv = kstrtou64_from_user(buf, count, 10, &contid);
-> +	if (rv < 0) {
-> +		put_task_struct(task);
-> +		return rv;
-> +	}
-> +
-> +	rv = audit_set_contid(task, contid);
-> +	put_task_struct(task);
-> +	if (rv < 0)
-> +		return rv;
-> +	return count;
-> +}
-> +
-> +static const struct file_operations proc_contid_operations = {
-> +	.write		= proc_contid_write,
-> +	.llseek		= generic_file_llseek,
-> +};
->  #endif
->  
->  #ifdef CONFIG_FAULT_INJECTION
-> @@ -3033,6 +3067,7 @@ static int proc_stack_depth(struct seq_file *m, struct pid_namespace *ns,
->  #ifdef CONFIG_AUDIT
->  	REG("loginuid",   S_IWUSR|S_IRUGO, proc_loginuid_operations),
->  	REG("sessionid",  S_IRUGO, proc_sessionid_operations),
-> +	REG("audit_containerid", S_IWUSR, proc_contid_operations),
->  #endif
->  #ifdef CONFIG_FAULT_INJECTION
->  	REG("make-it-fail", S_IRUGO|S_IWUSR, proc_fault_inject_operations),
-> @@ -3431,6 +3466,7 @@ static int proc_tid_comm_permission(struct inode *inode, int mask)
->  #ifdef CONFIG_AUDIT
->  	REG("loginuid",  S_IWUSR|S_IRUGO, proc_loginuid_operations),
->  	REG("sessionid",  S_IRUGO, proc_sessionid_operations),
-> +	REG("audit_containerid", S_IWUSR, proc_contid_operations),
->  #endif
->  #ifdef CONFIG_FAULT_INJECTION
->  	REG("make-it-fail", S_IRUGO|S_IWUSR, proc_fault_inject_operations),
-> diff --git a/include/linux/audit.h b/include/linux/audit.h
-> index bde346e73f0c..301337776193 100644
-> --- a/include/linux/audit.h
-> +++ b/include/linux/audit.h
-> @@ -89,6 +89,7 @@ struct audit_field {
->  struct audit_task_info {
->  	kuid_t			loginuid;
->  	unsigned int		sessionid;
-> +	u64			contid;
->  #ifdef CONFIG_AUDITSYSCALL
->  	struct audit_context	*ctx;
->  #endif
-> @@ -189,6 +190,15 @@ static inline unsigned int audit_get_sessionid(struct task_struct *tsk)
->  	return tsk->audit->sessionid;
->  }
->  
-> +extern int audit_set_contid(struct task_struct *tsk, u64 contid);
-> +
-> +static inline u64 audit_get_contid(struct task_struct *tsk)
-> +{
-> +	if (!tsk->audit)
-> +		return AUDIT_CID_UNSET;
-> +	return tsk->audit->contid;
-> +}
-> +
->  extern u32 audit_enabled;
->  #else /* CONFIG_AUDIT */
->  static inline int audit_alloc(struct task_struct *task)
-> @@ -250,6 +260,11 @@ static inline unsigned int audit_get_sessionid(struct task_struct *tsk)
->  	return AUDIT_SID_UNSET;
->  }
->  
-> +static inline u64 audit_get_contid(struct task_struct *tsk)
-> +{
-> +	return AUDIT_CID_UNSET;
-> +}
-> +
->  #define audit_enabled AUDIT_OFF
->  #endif /* CONFIG_AUDIT */
->  
-> @@ -606,6 +621,16 @@ static inline bool audit_loginuid_set(struct task_struct *tsk)
->  	return uid_valid(audit_get_loginuid(tsk));
->  }
->  
-> +static inline bool audit_contid_valid(u64 contid)
-> +{
-> +	return contid != AUDIT_CID_UNSET;
-> +}
-> +
-> +static inline bool audit_contid_set(struct task_struct *tsk)
-> +{
-> +	return audit_contid_valid(audit_get_contid(tsk));
-> +}
-> +
->  static inline void audit_log_string(struct audit_buffer *ab, const char *buf)
->  {
->  	audit_log_n_string(ab, buf, strlen(buf));
-> diff --git a/include/uapi/linux/audit.h b/include/uapi/linux/audit.h
-> index 3901c51c0b93..4a6a8bf1de32 100644
-> --- a/include/uapi/linux/audit.h
-> +++ b/include/uapi/linux/audit.h
-> @@ -71,6 +71,7 @@
->  #define AUDIT_TTY_SET		1017	/* Set TTY auditing status */
->  #define AUDIT_SET_FEATURE	1018	/* Turn an audit feature on or off */
->  #define AUDIT_GET_FEATURE	1019	/* Get which features are enabled */
-> +#define AUDIT_CONTAINER_OP	1020	/* Define the container id and info */
->  
->  #define AUDIT_FIRST_USER_MSG	1100	/* Userspace messages mostly uninteresting to kernel */
->  #define AUDIT_USER_AVC		1107	/* We filter this differently */
-> @@ -485,6 +486,7 @@ struct audit_tty_status {
->  
->  #define AUDIT_UID_UNSET (unsigned int)-1
->  #define AUDIT_SID_UNSET ((unsigned int)-1)
-> +#define AUDIT_CID_UNSET ((u64)-1)
->  
->  /* audit_rule_data supports filter rules with both integer and string
->   * fields.  It corresponds with AUDIT_ADD_RULE, AUDIT_DEL_RULE and
-> diff --git a/kernel/audit.c b/kernel/audit.c
-> index 3fb09783cd4a..182b0f2c183d 100644
-> --- a/kernel/audit.c
-> +++ b/kernel/audit.c
-> @@ -244,6 +244,7 @@ int audit_alloc(struct task_struct *tsk)
->  	}
->  	info->loginuid = audit_get_loginuid(current);
->  	info->sessionid = audit_get_sessionid(current);
-> +	info->contid = audit_get_contid(current);
->  	tsk->audit = info;
->  
->  	ret = audit_alloc_syscall(tsk);
-> @@ -258,6 +259,7 @@ int audit_alloc(struct task_struct *tsk)
->  struct audit_task_info init_struct_audit = {
->  	.loginuid = INVALID_UID,
->  	.sessionid = AUDIT_SID_UNSET,
-> +	.contid = AUDIT_CID_UNSET,
->  #ifdef CONFIG_AUDITSYSCALL
->  	.ctx = NULL,
->  #endif
-> @@ -2341,6 +2343,73 @@ int audit_set_loginuid(kuid_t loginuid)
->  }
->  
->  /**
-> + * audit_set_contid - set current task's audit contid
-> + * @contid: contid value
-> + *
-> + * Returns 0 on success, -EPERM on permission failure.
-> + *
-> + * Called (set) from fs/proc/base.c::proc_contid_write().
-> + */
-> +int audit_set_contid(struct task_struct *task, u64 contid)
-> +{
-> +	u64 oldcontid;
-> +	int rc = 0;
-> +	struct audit_buffer *ab;
-> +	uid_t uid;
-> +	struct tty_struct *tty;
-> +	char comm[sizeof(current->comm)];
-> +
-> +	task_lock(task);
-> +	/* Can't set if audit disabled */
-> +	if (!task->audit) {
-> +		task_unlock(task);
-> +		return -ENOPROTOOPT;
-> +	}
-> +	oldcontid = audit_get_contid(task);
-> +	read_lock(&tasklist_lock);
-> +	/* Don't allow the audit containerid to be unset */
-> +	if (!audit_contid_valid(contid))
-> +		rc = -EINVAL;
-> +	/* if we don't have caps, reject */
-> +	else if (!capable(CAP_AUDIT_CONTROL))
-> +		rc = -EPERM;
-> +	/* if task has children or is not single-threaded, deny */
-> +	else if (!list_empty(&task->children))
-> +		rc = -EBUSY;
-> +	else if (!(thread_group_leader(task) && thread_group_empty(task)))
-> +		rc = -EALREADY;
-> +	read_unlock(&tasklist_lock);
-> +	if (!rc)
-> +		task->audit->contid = contid;
-> +	task_unlock(task);
-> +
-> +	if (!audit_enabled)
-> +		return rc;
-> +
-> +	ab = audit_log_start(audit_context(), GFP_KERNEL, AUDIT_CONTAINER_OP);
-> +	if (!ab)
-> +		return rc;
-> +
-> +	uid = from_kuid(&init_user_ns, task_uid(current));
-> +	tty = audit_get_tty();
-> +	audit_log_format(ab,
-> +			 "op=set opid=%d contid=%llu old-contid=%llu pid=%d uid=%u auid=%u tty=%s ses=%u",
-> +			 task_tgid_nr(task), contid, oldcontid,
-> +			 task_tgid_nr(current), uid,
-> +			 from_kuid(&init_user_ns, audit_get_loginuid(current)),
-> +			 tty ? tty_name(tty) : "(none)",
-> +			 audit_get_sessionid(current));
-> +	audit_put_tty(tty);
-> +	audit_log_task_context(ab);
-> +	audit_log_format(ab, " comm=");
-> +	audit_log_untrustedstring(ab, get_task_comm(comm, current));
-> +	audit_log_d_path_exe(ab, current->mm);
-> +	audit_log_format(ab, " res=%d", !rc);
-> +	audit_log_end(ab);
-> +	return rc;
-> +}
-> +
-> +/**
->   * audit_log_end - end one audit record
->   * @ab: the audit_buffer
->   *
-> diff --git a/kernel/audit.h b/kernel/audit.h
-> index c00e2ee3c6b3..e2912924af0d 100644
-> --- a/kernel/audit.h
-> +++ b/kernel/audit.h
-> @@ -148,6 +148,7 @@ struct audit_context {
->  	kuid_t		    target_uid;
->  	unsigned int	    target_sessionid;
->  	u32		    target_sid;
-> +	u64		    target_cid;
->  	char		    target_comm[TASK_COMM_LEN];
->  
->  	struct audit_tree_refs *trees, *first_trees;
-> diff --git a/kernel/auditsc.c b/kernel/auditsc.c
-> index fd7ca983de4f..1f7edf035b16 100644
-> --- a/kernel/auditsc.c
-> +++ b/kernel/auditsc.c
-> @@ -113,6 +113,7 @@ struct audit_aux_data_pids {
->  	kuid_t			target_uid[AUDIT_AUX_PIDS];
->  	unsigned int		target_sessionid[AUDIT_AUX_PIDS];
->  	u32			target_sid[AUDIT_AUX_PIDS];
-> +	u64			target_cid[AUDIT_AUX_PIDS];
->  	char 			target_comm[AUDIT_AUX_PIDS][TASK_COMM_LEN];
->  	int			pid_count;
->  };
-> @@ -2368,6 +2369,7 @@ void __audit_ptrace(struct task_struct *t)
->  	context->target_uid = task_uid(t);
->  	context->target_sessionid = audit_get_sessionid(t);
->  	security_task_getsecid(t, &context->target_sid);
-> +	context->target_cid = audit_get_contid(t);
->  	memcpy(context->target_comm, t->comm, TASK_COMM_LEN);
->  }
->  
-> @@ -2408,6 +2410,7 @@ int audit_signal_info(int sig, struct task_struct *t)
->  		ctx->target_uid = t_uid;
->  		ctx->target_sessionid = audit_get_sessionid(t);
->  		security_task_getsecid(t, &ctx->target_sid);
-> +		ctx->target_cid = audit_get_contid(t);
->  		memcpy(ctx->target_comm, t->comm, TASK_COMM_LEN);
->  		return 0;
->  	}
-> @@ -2429,6 +2432,7 @@ int audit_signal_info(int sig, struct task_struct *t)
->  	axp->target_uid[axp->pid_count] = t_uid;
->  	axp->target_sessionid[axp->pid_count] = audit_get_sessionid(t);
->  	security_task_getsecid(t, &axp->target_sid[axp->pid_count]);
-> +	axp->target_cid[axp->pid_count] = audit_get_contid(t);
->  	memcpy(axp->target_comm[axp->pid_count], t->comm, TASK_COMM_LEN);
->  	axp->pid_count++;
+>     char buffer[ENOUGH_LENGTH] = { 0 };
+>     socklen_t len = sizeof (buffer);
+>     char[] expected =
+>     "apparmor=unconfined\0"
+>     "selinux=system_u:system_r:init_t:s0\0"
+>     "\0"
+>     ;
+>
+>     getsockopt (fd, SOL_SOCKET, SO_PEERSECLABELS, &buffer, &length);
+>     /* should return 0 */
+>     /* now buffer should have the same bytes as expected, ending with
+>      * "\0\0" */
+>
+> (Obviously in real life you'd have a retry loop to get the length right,
+> like the SO_PEERSEC code in dbus does.)
+
+I would see creating a friendly interface like this as part of
+my mythical liblsm, but I see your point.
+
+> Because GetConnectionCredentials() is extensible, if there is some way
+> to enumerate all the security labels and get their values individually,
+> we could have (pseudocode)
+>
+> GetConnectionCredentials(":1.1") -> {
+>   "UnixUserID": 0,
+>   "ProcessID": 1,
+>   "LinuxSecurityLabel.apparmor": "unconfined",
+>   "LinuxSecurityLabel.selinux": "system_u:system_r:init_t:s0",
+>   "LinuxSecurityLabel": "unconfined",    /* deprecated */
+> }
+>
+> or (using D-Bus' structured type system)
+>
+> GetConnectionCredentials(":1.1") -> {
+>   "UnixUserID": 0,
+>   "ProcessID": 1,
+>   "LinuxSecurityLabels": {
+>     "apparmor": "unconfined",
+>     "selinux": "system_u:system_r:init_t:s0",
+>   },
+>   "LinuxSecurityLabel": "unconfined",    /* deprecated */
+> }
+>
+> with LinuxSecurityLabel showing the first LSM registered for backwards
+> compatibility? Or we could make LinuxSecurityLabel always be in the
+> "hideous" format if you chose to go that way in the kernel interfaces:
+> it's defined in terms of SO_PEERSEC, so whatever you do at the kernel
+> level, D-Bus should mimic that.
+
+If providing the Hideous format makes library code easier or more
+efficient I'm happy to make that happen. It can't be the default due to
+backward compatibility, but it can be easy as
+"echo hideous > /proc/self/attr/display".
+
+>
+>     smcv
+
 
 --
 Linux-audit mailing list
