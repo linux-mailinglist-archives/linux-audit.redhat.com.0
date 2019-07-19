@@ -2,46 +2,67 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B1C86EADC
-	for <lists+linux-audit@lfdr.de>; Fri, 19 Jul 2019 20:52:22 +0200 (CEST)
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B6396EB69
+	for <lists+linux-audit@lfdr.de>; Fri, 19 Jul 2019 22:03:20 +0200 (CEST)
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id B5C1B308404C;
-	Fri, 19 Jul 2019 18:52:16 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 8EE4B5DA38;
-	Fri, 19 Jul 2019 18:52:12 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id E2E403179B5F;
+	Fri, 19 Jul 2019 20:03:17 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 4C949620BD;
+	Fri, 19 Jul 2019 20:03:15 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id B6A551972D;
-	Fri, 19 Jul 2019 18:52:06 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
-	[10.5.11.12])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 573571800205;
+	Fri, 19 Jul 2019 20:03:10 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+	[10.5.11.11])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id x6JIlUo2029262 for <linux-audit@listman.util.phx.redhat.com>;
-	Fri, 19 Jul 2019 14:47:30 -0400
+	id x6JK2VDF008570 for <linux-audit@listman.util.phx.redhat.com>;
+	Fri, 19 Jul 2019 16:02:31 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id 9855C619AC; Fri, 19 Jul 2019 18:47:30 +0000 (UTC)
+	id 29607620CA; Fri, 19 Jul 2019 20:02:31 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from mx1.redhat.com (ext-mx12.extmail.prod.ext.phx2.redhat.com
-	[10.5.110.41])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 2D515610A6;
-	Fri, 19 Jul 2019 18:47:25 +0000 (UTC)
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
-	bits)) (No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 2029D3091783;
-	Fri, 19 Jul 2019 18:47:24 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a00:5f00:102:0:3aba:f8ff:fe58:9ca1])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
-	bits)) (No client certificate requested) (Authenticated sender: smcv)
-	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id D9A2E28C7EA;
-	Fri, 19 Jul 2019 19:47:22 +0100 (BST)
-Date: Fri, 19 Jul 2019 19:47:20 +0100
-From: Simon McVittie <smcv@collabora.com>
-To: Casey Schaufler <casey@schaufler-ca.com>
-Subject: Re: Preferred subj= with multiple LSMs
-Message-ID: <20190719184720.GB24836@horizon>
+Received: from mx1.redhat.com (ext-mx07.extmail.prod.ext.phx2.redhat.com
+	[10.5.110.31])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 22D91620C5
+	for <linux-audit@redhat.com>; Fri, 19 Jul 2019 20:02:29 +0000 (UTC)
+Received: from sonic301-38.consmr.mail.ne1.yahoo.com
+	(sonic301-38.consmr.mail.ne1.yahoo.com [66.163.184.207])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id A4C63C0733C9
+	for <linux-audit@redhat.com>; Fri, 19 Jul 2019 20:02:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
+	t=1563566546; bh=qeE1e3etaziWp3w+RWUgDzIJ0smrTNQvePO0N+EDU6Q=;
+	h=Subject:To:Cc:References:From:Date:In-Reply-To:From:Subject;
+	b=BzeQ46IVvrSR5FtVQJmyEQm/xCpKRoa7Zj/i3q8Z9mw0SSTdyjBYwO4aH+7rjcEONGn0u654NhvsA2n9S4XK4IvNUZfhYt6E+oL5N3iUQTzZYmg9xrhaOeUHnMP88rLBOlnGu06XPq1KQ+rESl2nHFpsq/Yk5DYUw/YpWxhViAc1BtuusrBgiOs8/eankhVKa65eadEhmkhq2ufv73XlbuFfRx1EAI5iwMQfhPrMneRXAi9JpKvF223srafRq4bwoff8BmhEBV0Uq0aTWZ6xuaJ3vM24x8mSVBJfGLXoxYoZq1XEtqm1AvO6OqKos8SNejfaf+7Lk9mqu5GdBq8OEg==
+X-YMail-OSG: eA3bt2QVM1mMfr87TvzKJDa_xqj.8izvqJkwu5W2lP1I02cAi8pmOvVBvSWL4TH
+	NuJ2KpIl_CbwvOtkVBsyUY.ehJelzcJR7V4Qc.Ulpcb1.aI2vVwFF2h4HxAzUoKZg7GTq_UPyRqX
+	1hFOECjv00JB_vkUJFTTK8jAsK3fyypb1SZ1xfgUbpzGIX0oqE.E8d1hBTYg6oJQC68POuuKxYSj
+	4saE9NauToATvBAUJwbNPUYX0.kTqmwvK33ccsDtrio2_XccPPtITbiV44K7KGFFSQ4KAXzMEead
+	h1ydO1N6dejyOzpyLg7NEnKXwxYyVoSoqD9g95hMTTvyotsyBoA32oRZsLEhsm4mzEPSfPrQOKKl
+	U7pij.Ww5K82Wiwmpdq.9QNsVmVXl.DVH28E3woqSl0.JJJb5rQui6VvsLuKSRcCL1532sDrX8ri
+	8kqTd9aleh2.Tsnx4D_x4H3oXaK5sPTFySFskTQ9mwlg9_ZFlbNs0lD0xHnW85neqKYN3Es9MNSW
+	QAhdkRNhufZK0Qrz5ewTvv.oAZq0.B5VSNnJK.aM5jWszawSMlKN.tKGe7ntx7yg0NPftluYsT3Z
+	kgggALWcVPoQW_IaVMHt6IwgSPQLIwx0UcHJ87TDklM9EaZ.t31mTc2fWdhk7QUbI4z189OU_jsf
+	bfPnnXGdKHxrFllODbMgCgajRLWi3Vgc.3CpLsu_mqOjN3XzTDJffaJO_9K72V1GFJZOg0nuvy5T
+	JOMBh.lHo9C_4Kj8lUfbrYur88iJ1aLgXgcN7h9KqYOmGolSa7T08Ol.R1KGMyOMAeyo4.EAVT11
+	XzpovffddzPGevqrkNynlGk6dZnaYhPklBD1RYLKeTjj1YEejt_kbgEwAvNPRpLY2qkZaq4Z8PBB
+	fv20e7O1N2muUD0j4uFEenquB8SGiTyXtNitZmIh6_dhFEC76MGTZAkrd6pctnhm5FDa1apL0Ly0
+	8i8pZ91WGXELbgJySjG7ufrAF3CMFcmPeWbiNl1pvJ30y9uj9TJV0EcOJjk5jSefEL4ujlY0c87y
+	z3y7b7DXvJ21PVYPwWY4qkRnmMBf6qDZcBLGwX8Z5HaDsEGbDabgIlAg1VQCUamhfzSg498jwyXN
+	DfbWlavl6PJFVaxEsDFPD5fjQjK5DOxJNHAQ4_YLk2n6bCohDYJt88nx9P_R5VtFV7j2ae22LQyf
+	e2PBfmKB0VzHDCzVD4WuNvF3FVMd3llpiq4qg0.I0AODiCv3SQ4xhjX9fcbKcrMtAfo4dGo5fkI.
+	udusGj0qmGHafiA--
+Received: from sonic.gate.mail.ne1.yahoo.com by
+	sonic301.consmr.mail.ne1.yahoo.com with HTTP;
+	Fri, 19 Jul 2019 20:02:26 +0000
+Received: by smtp403.mail.ne1.yahoo.com (Oath Hermes SMTP Server) with ESMTPA
+	ID 678414199c710243eb384f38fea31f5f; 
+	Fri, 19 Jul 2019 20:02:26 +0000 (UTC)
+Subject: Dbus and multiple LSMs (was Preferred subj= with multiple LSMs)
+To: Simon McVittie <smcv@collabora.com>
 References: <CAHC9VhTpcnyGg5j3b6Z7Yi0Ob01JETRiBmz1AuLqPWqP9tEAnA@mail.gmail.com>
 	<5ea2a25b-364f-3c30-79c6-cfb18515d7ba@schaufler-ca.com>
 	<CAHC9VhQ9MSh5zCkhMja4r9j0RT952LwKSaG5dR-BqXzXrtEAUw@mail.gmail.com>
@@ -52,25 +73,79 @@ References: <CAHC9VhTpcnyGg5j3b6Z7Yi0Ob01JETRiBmz1AuLqPWqP9tEAnA@mail.gmail.com>
 	<45661e97-2ed0-22e5-992e-5d562ff11488@schaufler-ca.com>
 	<20190719121540.GA1764@horizon>
 	<720880ca-834c-1986-3baf-021c67221ae2@schaufler-ca.com>
+	<20190719184720.GB24836@horizon>
+From: Casey Schaufler <casey@schaufler-ca.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=casey@schaufler-ca.com; keydata=
+	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
+	abzjfg==
+Message-ID: <700301b3-b607-3234-15ae-b958df2b59d3@schaufler-ca.com>
+Date: Fri, 19 Jul 2019 13:02:24 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+	Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <720880ca-834c-1986-3baf-021c67221ae2@schaufler-ca.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190719184720.GB24836@horizon>
+Content-Language: en-US
 X-Greylist: Sender passed SPF test, Sender IP whitelisted by DNSRBL, ACL 238
 	matched, not delayed by milter-greylist-4.5.16 (mx1.redhat.com
-	[10.5.110.41]); Fri, 19 Jul 2019 18:47:24 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.41]);
-	Fri, 19 Jul 2019 18:47:24 +0000 (UTC) for IP:'46.235.227.227'
-	DOMAIN:'bhuna.collabora.co.uk' HELO:'bhuna.collabora.co.uk'
-	FROM:'smcv@collabora.com' RCPT:''
-X-RedHat-Spam-Score: -0.002  (RCVD_IN_DNSWL_NONE, SPF_HELO_PASS,
-	SPF_PASS) 46.235.227.227 bhuna.collabora.co.uk
-	46.235.227.227 bhuna.collabora.co.uk <smcv@collabora.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.110.41
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+	[10.5.110.31]); Fri, 19 Jul 2019 20:02:28 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.31]);
+	Fri, 19 Jul 2019 20:02:28 +0000 (UTC) for IP:'66.163.184.207'
+	DOMAIN:'sonic301-38.consmr.mail.ne1.yahoo.com'
+	HELO:'sonic301-38.consmr.mail.ne1.yahoo.com'
+	FROM:'casey@schaufler-ca.com' RCPT:''
+X-RedHat-Spam-Score: 0.002  (DKIM_SIGNED, DKIM_VALID, RCVD_IN_DNSWL_NONE,
+	SPF_HELO_NONE,
+	SPF_NONE) 66.163.184.207 sonic301-38.consmr.mail.ne1.yahoo.com
+	66.163.184.207 sonic301-38.consmr.mail.ne1.yahoo.com
+	<casey@schaufler-ca.com>
+X-Scanned-By: MIMEDefang 2.78 on 10.5.110.31
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MIME-Autoconverted: from quoted-printable to 8bit by
+	lists01.pubmisc.prod.ext.phx2.redhat.com id x6JK2VDF008570
 X-loop: linux-audit@redhat.com
-X-Mailman-Approved-At: Fri, 19 Jul 2019 14:51:57 -0400
-Cc: Richard Guy Briggs <rgb@redhat.com>,
+Cc: Richard Guy Briggs <rgb@redhat.com>, SELinux <selinux@vger.kernel.org>,
 	Linux Security Module list <linux-security-module@vger.kernel.org>,
 	"linux-audit@redhat.com" <linux-audit@redhat.com>
 X-BeenThere: linux-audit@redhat.com
@@ -84,142 +159,148 @@ List-Post: <mailto:linux-audit@redhat.com>
 List-Help: <mailto:linux-audit-request@redhat.com?subject=help>
 List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.40]); Fri, 19 Jul 2019 18:52:20 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.41]); Fri, 19 Jul 2019 20:03:19 +0000 (UTC)
 
-Thanks for considering user-space in this, and sorry if I'm hijacking
-this thread a bit (but I think some of the things I'm raising might be
-equally applicable for audit subjects).
-
-On Fri, 19 Jul 2019 at 09:29:17 -0700, Casey Schaufler wrote:
-> On 7/19/2019 5:15 AM, Simon McVittie wrote:
-> > However, I think it would be great to have multiple-"big"-LSM-aware
-> > replacements for those interfaces, which present the various LSMs as
-> > multiple parallel credentials.
-> 
-> Defining what would go into liblsm* is a task that has fallen to
-> the chicken/egg paradox. We can't really define how the user-space
-> should work without knowing how the kernel will work, and we can't
-> solidify how the kernel will work until we know what user-space
-> can use.
-
-I was hoping the syscall wrappers in glibc would be a viable user-space
-interface to the small amount of LSM stuff that dbus needs to use in an
-LSM-agnostic way. That's what we use in dbus at the moment (in practice
-just getsockopt, but I'd also be reading /proc/self/attr/current if there
-was a specification for how to normalize it to match SO_PEERSEC results)
-and it's no harder than the rest of the syscall-level APIs.
-
-A single LSM-agnostic shared library would be the next best thing from
-my point of view.
-
-> An option that hasn't been discussed is a display option to provide
-> the Hideous format for applications that know that's what they want.
-> Write "hideous" into /proc/self/attr/display, and from then on you
-> get selinux='a:b:c:d',apparmor='z'. This could be used widely in liblsm
-> interfaces.
-
-If the way to parse/split it is documented, then this would be easier
-for dbus-daemon than continually resetting attr/display. It would be
-especially good if you can document a way to find out which one of the
-many labels would have been seen by an older user-space process that never
-wrote to attr/display ("it's the first one in the list" would be fine),
-so that we can put that one in our backwards-compatible API to clients.
-
-Or, alternatively, we could pass it on directly to our clients and let
-*them* parse it (possibly by using liblsm), the same way AppArmor-aware
-D-Bus clients have to know how to use either aa_splitcon() or their
-own parsing to go from the raw SO_PEERSEC result
-"/usr/bin/firefox (enforce)" to the pair ("/usr/bin/firefox", "enforce")
-that they probably actually wanted.
-
-> > Do you mean that if process 11111 writes (for example) "apparmor" into
-> > /proc/11111/attr/display, and then reads /proc/22222/attr/current
-> > or queries the SO_PEERSEC of a socket opened by process 22222,
-> > it will specifically see 22222's AppArmor label and not 22222's SELinux
-> > label?
-> 
-> Process 11111 would see the AppArmor label when reading
-> /proc/22222/attr/current. The display value is controlled
-> by process 11111 so that it can control what data it wants
-> to see.
-
-OK, that's what I'd hoped.
-
-> The display is set at the task level, so should be thread safe.
-
-OK, good. However, thinking more about this, I have other concerns:
-
-* In library code that can be used by a thread (task) that also uses other
-  arbitrary libraries, or in an executable that uses libraries that might
-  be interested in LSMs, the only safe way to deal with attr/display would
-  be this sequence:
-
-    - write desired value to /proc/self/attr/display
-    - immediately read /proc/other/attr/current or query SO_PEERSEC
-
-  and it would not be safe to rely on writing /proc/self/attr/display
-  just once at startup, because some other library might have already
-  changed it between startup and the actual read. Paradoxically, this
-  maximizes the chance of breaking a reader that was relying on writing
-  /proc/self/attr/display once during startup.
-
-* If an async signal handler needs to know a LSM label for whatever
-  reason, it will break anything in the same thread that was relying on
-  that sequence, because it might have interrupted them between their
-  write and their read:
-
-    main execution path                  signal handler
-    -------------------                  --------------
-
-    write "apparmor" to attr/display
-    (interrupted by async signal)
-                                         write "selinux" to attr/display
-                                         read attr/current or SO_PEERSEC
-                                         do other stuff with SELinux label
-                                         return
-    (resumes)
-    read attr/current or SO_PEERSEC
-    expect an AppArmor label
-    get a SELinux label
-    sadness ensues
-
-  Of course it's probably crazy for an async signal handler to do
-  this... but people do lots of odd things in async signal handlers,
-  and open(), read(), write(), getsockopt() are all async-signal-safe
-  functions, so it's at least arguably valid.
-
-> Writing to display does not require privilege, as it affects only
-> the current process. The display is inherited on fork and reset on
-> a privileged exec.
-
-Another concern here: are you sure it shouldn't be reset on *any*
-exec? Lots of programs (including dbus-daemon) fork-and-exec arbitrary
-child processes that come from a different codebase not under our
-control and aren't necessarily LSM-stacking-aware. I don't really want
-to have to reset /proc/self/attr/display in our increasingly crowded
-after-fork-but-before-exec code path (which, according to POSIX, is not
-a safe place to invoke any non-async-signal-safe function, so we can't
-easily do error handling if something goes wrong there).
-
-Is there any possibility of having a parallel kernel API that,
-if it exists, always returns the whole stack, maybe something
-like /proc/<pid>/attr/current_stack and the SO_PEERSECLABELS that I
-suggested previously, instead of repurposing /proc/<pid>/attr/current
-and SO_PEERSEC to have contents that vary according to ambient process
-state in their reader? (Bonus points if they are documented/defined with
-a particular syntactic normalization this time, unlike the situation
-with /proc/<pid>/attr/current and SO_PEERSEC where in principle you
-need LSM-specific knowledge to know whether a trailing "\n" or "\0"
-is safe to discard.)
-
-    smcv
-
---
-Linux-audit mailing list
-Linux-audit@redhat.com
-https://www.redhat.com/mailman/listinfo/linux-audit
+T24gNy8xOS8yMDE5IDExOjQ3IEFNLCBTaW1vbiBNY1ZpdHRpZSB3cm90ZToKPiBUaGFua3MgZm9y
+IGNvbnNpZGVyaW5nIHVzZXItc3BhY2UgaW4gdGhpcywgYW5kIHNvcnJ5IGlmIEknbSBoaWphY2tp
+bmcKPiB0aGlzIHRocmVhZCBhIGJpdCAoYnV0IEkgdGhpbmsgc29tZSBvZiB0aGUgdGhpbmdzIEkn
+bSByYWlzaW5nIG1pZ2h0IGJlCj4gZXF1YWxseSBhcHBsaWNhYmxlIGZvciBhdWRpdCBzdWJqZWN0
+cykuCgpUaGFuayB5b3UgZm9yIGFza2luZyB0aGVzZSBxdWVzdGlvbnMuIEkgdGhpbmsgdGhhdCBp
+ZiB3ZQpjYW4gYWRkcmVzcyB0aGUgaXNzdWVzIGFyb3VuZCBkYnVzIHdlJ2xsIGJlIGluIHByZXR0
+eSBnb29kCnNoYXBlIGluIGdlbmVyYWwuCgo+IE9uIEZyaSwgMTkgSnVsIDIwMTkgYXQgMDk6Mjk6
+MTcgLTA3MDAsIENhc2V5IFNjaGF1ZmxlciB3cm90ZToKPj4gT24gNy8xOS8yMDE5IDU6MTUgQU0s
+IFNpbW9uIE1jVml0dGllIHdyb3RlOgo+Pj4gSG93ZXZlciwgSSB0aGluayBpdCB3b3VsZCBiZSBn
+cmVhdCB0byBoYXZlIG11bHRpcGxlLSJiaWciLUxTTS1hd2FyZQo+Pj4gcmVwbGFjZW1lbnRzIGZv
+ciB0aG9zZSBpbnRlcmZhY2VzLCB3aGljaCBwcmVzZW50IHRoZSB2YXJpb3VzIExTTXMgYXMKPj4+
+IG11bHRpcGxlIHBhcmFsbGVsIGNyZWRlbnRpYWxzLgo+PiBEZWZpbmluZyB3aGF0IHdvdWxkIGdv
+IGludG8gbGlibHNtKiBpcyBhIHRhc2sgdGhhdCBoYXMgZmFsbGVuIHRvCj4+IHRoZSBjaGlja2Vu
+L2VnZyBwYXJhZG94LiBXZSBjYW4ndCByZWFsbHkgZGVmaW5lIGhvdyB0aGUgdXNlci1zcGFjZQo+
+PiBzaG91bGQgd29yayB3aXRob3V0IGtub3dpbmcgaG93IHRoZSBrZXJuZWwgd2lsbCB3b3JrLCBh
+bmQgd2UgY2FuJ3QKPj4gc29saWRpZnkgaG93IHRoZSBrZXJuZWwgd2lsbCB3b3JrIHVudGlsIHdl
+IGtub3cgd2hhdCB1c2VyLXNwYWNlCj4+IGNhbiB1c2UuCj4gSSB3YXMgaG9waW5nIHRoZSBzeXNj
+YWxsIHdyYXBwZXJzIGluIGdsaWJjIHdvdWxkIGJlIGEgdmlhYmxlIHVzZXItc3BhY2UKPiBpbnRl
+cmZhY2UgdG8gdGhlIHNtYWxsIGFtb3VudCBvZiBMU00gc3R1ZmYgdGhhdCBkYnVzIG5lZWRzIHRv
+IHVzZSBpbiBhbgo+IExTTS1hZ25vc3RpYyB3YXkuIFRoYXQncyB3aGF0IHdlIHVzZSBpbiBkYnVz
+IGF0IHRoZSBtb21lbnQgKGluIHByYWN0aWNlCj4ganVzdCBnZXRzb2Nrb3B0LCBidXQgSSdkIGFs
+c28gYmUgcmVhZGluZyAvcHJvYy9zZWxmL2F0dHIvY3VycmVudCBpZiB0aGVyZQo+IHdhcyBhIHNw
+ZWNpZmljYXRpb24gZm9yIGhvdyB0byBub3JtYWxpemUgaXQgdG8gbWF0Y2ggU09fUEVFUlNFQyBy
+ZXN1bHRzKQo+IGFuZCBpdCdzIG5vIGhhcmRlciB0aGFuIHRoZSByZXN0IG9mIHRoZSBzeXNjYWxs
+LWxldmVsIEFQSXMuCgpJIGRvbid0IHNlZSBob3cgdG8gZG8gdGhhdCB3aXRob3V0IG1ha2luZyB0
+aGUgRmVkb3JhIGFuZCBVYnVudHUgdXNlciBzcGFjZQplbnZpcm9ubWVudHMgcmVtYWluIGZ1bmN0
+aW9uYWwuCgo+IEEgc2luZ2xlIExTTS1hZ25vc3RpYyBzaGFyZWQgbGlicmFyeSB3b3VsZCBiZSB0
+aGUgbmV4dCBiZXN0IHRoaW5nIGZyb20KPiBteSBwb2ludCBvZiB2aWV3LgoKR29vZCwgdGhhdCdz
+IGhvdyBpdCBsb29rcyB0byBtZSBhcyB3ZWxsLgoKPj4gQW4gb3B0aW9uIHRoYXQgaGFzbid0IGJl
+ZW4gZGlzY3Vzc2VkIGlzIGEgZGlzcGxheSBvcHRpb24gdG8gcHJvdmlkZQo+PiB0aGUgSGlkZW91
+cyBmb3JtYXQgZm9yIGFwcGxpY2F0aW9ucyB0aGF0IGtub3cgdGhhdCdzIHdoYXQgdGhleSB3YW50
+Lgo+PiBXcml0ZSAiaGlkZW91cyIgaW50byAvcHJvYy9zZWxmL2F0dHIvZGlzcGxheSwgYW5kIGZy
+b20gdGhlbiBvbiB5b3UKPj4gZ2V0IHNlbGludXg9J2E6YjpjOmQnLGFwcGFybW9yPSd6Jy4gVGhp
+cyBjb3VsZCBiZSB1c2VkIHdpZGVseSBpbiBsaWJsc20KPj4gaW50ZXJmYWNlcy4KPiBJZiB0aGUg
+d2F5IHRvIHBhcnNlL3NwbGl0IGl0IGlzIGRvY3VtZW50ZWQsIHRoZW4gdGhpcyB3b3VsZCBiZSBl
+YXNpZXIKPiBmb3IgZGJ1cy1kYWVtb24gdGhhbiBjb250aW51YWxseSByZXNldHRpbmcgYXR0ci9k
+aXNwbGF5LiBJdCB3b3VsZCBiZQo+IGVzcGVjaWFsbHkgZ29vZCBpZiB5b3UgY2FuIGRvY3VtZW50
+IGEgd2F5IHRvIGZpbmQgb3V0IHdoaWNoIG9uZSBvZiB0aGUKPiBtYW55IGxhYmVscyB3b3VsZCBo
+YXZlIGJlZW4gc2VlbiBieSBhbiBvbGRlciB1c2VyLXNwYWNlIHByb2Nlc3MgdGhhdCBuZXZlcgo+
+IHdyb3RlIHRvIGF0dHIvZGlzcGxheSAoIml0J3MgdGhlIGZpcnN0IG9uZSBpbiB0aGUgbGlzdCIg
+d291bGQgYmUgZmluZSksCj4gc28gdGhhdCB3ZSBjYW4gcHV0IHRoYXQgb25lIGluIG91ciBiYWNr
+d2FyZHMtY29tcGF0aWJsZSBBUEkgdG8gY2xpZW50cy4KCi9zeXMva2VybmVsL3NlY3VyaXR5L2xz
+bSBwcm92aWRlcyB0aGUgbGlzdCBvZiBhbGwgTFNNcyBhY3RpdmUgb24gdGhlIHN5c3RlbS4KSXQg
+d291bGQgYmUgdHJpdmlhbCB0byBhZGQgL3N5cy9rZXJuZWwvc2VjdXJpdHkvZGVmYXVsdC1kaXNw
+bGF5LWxzbSB3aGljaAp3b3VsZCBjb250YWluIHRoYXQuCgo+IE9yLCBhbHRlcm5hdGl2ZWx5LCB3
+ZSBjb3VsZCBwYXNzIGl0IG9uIGRpcmVjdGx5IHRvIG91ciBjbGllbnRzIGFuZCBsZXQKPiAqdGhl
+bSogcGFyc2UgaXQgKHBvc3NpYmx5IGJ5IHVzaW5nIGxpYmxzbSksIHRoZSBzYW1lIHdheSBBcHBB
+cm1vci1hd2FyZQo+IEQtQnVzIGNsaWVudHMgaGF2ZSB0byBrbm93IGhvdyB0byB1c2UgZWl0aGVy
+IGFhX3NwbGl0Y29uKCkgb3IgdGhlaXIKPiBvd24gcGFyc2luZyB0byBnbyBmcm9tIHRoZSByYXcg
+U09fUEVFUlNFQyByZXN1bHQKPiAiL3Vzci9iaW4vZmlyZWZveCAoZW5mb3JjZSkiIHRvIHRoZSBw
+YWlyICgiL3Vzci9iaW4vZmlyZWZveCIsICJlbmZvcmNlIikKPiB0aGF0IHRoZXkgcHJvYmFibHkg
+YWN0dWFsbHkgd2FudGVkLgo+Cj4+PiBEbyB5b3UgbWVhbiB0aGF0IGlmIHByb2Nlc3MgMTExMTEg
+d3JpdGVzIChmb3IgZXhhbXBsZSkgImFwcGFybW9yIiBpbnRvCj4+PiAvcHJvYy8xMTExMS9hdHRy
+L2Rpc3BsYXksIGFuZCB0aGVuIHJlYWRzIC9wcm9jLzIyMjIyL2F0dHIvY3VycmVudAo+Pj4gb3Ig
+cXVlcmllcyB0aGUgU09fUEVFUlNFQyBvZiBhIHNvY2tldCBvcGVuZWQgYnkgcHJvY2VzcyAyMjIy
+MiwKPj4+IGl0IHdpbGwgc3BlY2lmaWNhbGx5IHNlZSAyMjIyMidzIEFwcEFybW9yIGxhYmVsIGFu
+ZCBub3QgMjIyMjIncyBTRUxpbnV4Cj4+PiBsYWJlbD8KPj4gUHJvY2VzcyAxMTExMSB3b3VsZCBz
+ZWUgdGhlIEFwcEFybW9yIGxhYmVsIHdoZW4gcmVhZGluZwo+PiAvcHJvYy8yMjIyMi9hdHRyL2N1
+cnJlbnQuIFRoZSBkaXNwbGF5IHZhbHVlIGlzIGNvbnRyb2xsZWQKPj4gYnkgcHJvY2VzcyAxMTEx
+MSBzbyB0aGF0IGl0IGNhbiBjb250cm9sIHdoYXQgZGF0YSBpdCB3YW50cwo+PiB0byBzZWUuCj4g
+T0ssIHRoYXQncyB3aGF0IEknZCBob3BlZC4KPgo+PiBUaGUgZGlzcGxheSBpcyBzZXQgYXQgdGhl
+IHRhc2sgbGV2ZWwsIHNvIHNob3VsZCBiZSB0aHJlYWQgc2FmZS4KPiBPSywgZ29vZC4gSG93ZXZl
+ciwgdGhpbmtpbmcgbW9yZSBhYm91dCB0aGlzLCBJIGhhdmUgb3RoZXIgY29uY2VybnM6Cj4KPiAq
+IEluIGxpYnJhcnkgY29kZSB0aGF0IGNhbiBiZSB1c2VkIGJ5IGEgdGhyZWFkICh0YXNrKSB0aGF0
+IGFsc28gdXNlcyBvdGhlcgo+ICAgYXJiaXRyYXJ5IGxpYnJhcmllcywgb3IgaW4gYW4gZXhlY3V0
+YWJsZSB0aGF0IHVzZXMgbGlicmFyaWVzIHRoYXQgbWlnaHQKPiAgIGJlIGludGVyZXN0ZWQgaW4g
+TFNNcywgdGhlIG9ubHkgc2FmZSB3YXkgdG8gZGVhbCB3aXRoIGF0dHIvZGlzcGxheSB3b3VsZAo+
+ICAgYmUgdGhpcyBzZXF1ZW5jZToKPgo+ICAgICAtIHdyaXRlIGRlc2lyZWQgdmFsdWUgdG8gL3By
+b2Mvc2VsZi9hdHRyL2Rpc3BsYXkKPiAgICAgLSBpbW1lZGlhdGVseSByZWFkIC9wcm9jL290aGVy
+L2F0dHIvY3VycmVudCBvciBxdWVyeSBTT19QRUVSU0VDCj4KPiAgIGFuZCBpdCB3b3VsZCBub3Qg
+YmUgc2FmZSB0byByZWx5IG9uIHdyaXRpbmcgL3Byb2Mvc2VsZi9hdHRyL2Rpc3BsYXkKPiAgIGp1
+c3Qgb25jZSBhdCBzdGFydHVwLCBiZWNhdXNlIHNvbWUgb3RoZXIgbGlicmFyeSBtaWdodCBoYXZl
+IGFscmVhZHkKPiAgIGNoYW5nZWQgaXQgYmV0d2VlbiBzdGFydHVwIGFuZCB0aGUgYWN0dWFsIHJl
+YWQuIFBhcmFkb3hpY2FsbHksIHRoaXMKPiAgIG1heGltaXplcyB0aGUgY2hhbmNlIG9mIGJyZWFr
+aW5nIGEgcmVhZGVyIHRoYXQgd2FzIHJlbHlpbmcgb24gd3JpdGluZwo+ICAgL3Byb2Mvc2VsZi9h
+dHRyL2Rpc3BsYXkgb25jZSBkdXJpbmcgc3RhcnR1cC4KPgo+ICogSWYgYW4gYXN5bmMgc2lnbmFs
+IGhhbmRsZXIgbmVlZHMgdG8ga25vdyBhIExTTSBsYWJlbCBmb3Igd2hhdGV2ZXIKPiAgIHJlYXNv
+biwgaXQgd2lsbCBicmVhayBhbnl0aGluZyBpbiB0aGUgc2FtZSB0aHJlYWQgdGhhdCB3YXMgcmVs
+eWluZyBvbgo+ICAgdGhhdCBzZXF1ZW5jZSwgYmVjYXVzZSBpdCBtaWdodCBoYXZlIGludGVycnVw
+dGVkIHRoZW0gYmV0d2VlbiB0aGVpcgo+ICAgd3JpdGUgYW5kIHRoZWlyIHJlYWQ6Cj4KPiAgICAg
+bWFpbiBleGVjdXRpb24gcGF0aCAgICAgICAgICAgICAgICAgIHNpZ25hbCBoYW5kbGVyCj4gICAg
+IC0tLS0tLS0tLS0tLS0tLS0tLS0gICAgICAgICAgICAgICAgICAtLS0tLS0tLS0tLS0tLQo+Cj4g
+ICAgIHdyaXRlICJhcHBhcm1vciIgdG8gYXR0ci9kaXNwbGF5Cj4gICAgIChpbnRlcnJ1cHRlZCBi
+eSBhc3luYyBzaWduYWwpCj4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICB3cml0ZSAic2VsaW51eCIgdG8gYXR0ci9kaXNwbGF5Cj4gICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICByZWFkIGF0dHIvY3VycmVudCBvciBTT19QRUVSU0VDCj4gICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBkbyBvdGhlciBzdHVmZiB3aXRo
+IFNFTGludXggbGFiZWwKPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+IHJldHVybgo+ICAgICAocmVzdW1lcykKPiAgICAgcmVhZCBhdHRyL2N1cnJlbnQgb3IgU09fUEVF
+UlNFQwo+ICAgICBleHBlY3QgYW4gQXBwQXJtb3IgbGFiZWwKPiAgICAgZ2V0IGEgU0VMaW51eCBs
+YWJlbAo+ICAgICBzYWRuZXNzIGVuc3Vlcwo+Cj4gICBPZiBjb3Vyc2UgaXQncyBwcm9iYWJseSBj
+cmF6eSBmb3IgYW4gYXN5bmMgc2lnbmFsIGhhbmRsZXIgdG8gZG8KPiAgIHRoaXMuLi4gYnV0IHBl
+b3BsZSBkbyBsb3RzIG9mIG9kZCB0aGluZ3MgaW4gYXN5bmMgc2lnbmFsIGhhbmRsZXJzLAo+ICAg
+YW5kIG9wZW4oKSwgcmVhZCgpLCB3cml0ZSgpLCBnZXRzb2Nrb3B0KCkgYXJlIGFsbCBhc3luYy1z
+aWduYWwtc2FmZQo+ICAgZnVuY3Rpb25zLCBzbyBpdCdzIGF0IGxlYXN0IGFyZ3VhYmx5IHZhbGlk
+LgoKU3RlcGhlbiBTbWFsbGV5IGhhcyBhbHJlYWR5IHBvaW50ZWQgb3V0IHNvbWUgb2YgdGhlc2Ug
+aXNzdWVzLgpJIHNlZSBkaXNwbGF5IGJlaW5nIHVzZWQgaW4gc2NyaXB0czoKCgllY2hvIGFwcGFy
+bW9yID4gL3Byb2Mvc2VsZi9hdHRyL2Rpc3BsYXkKCWFwcGFybW9yLWRvLXN0dWZmIC0tb3B0aW9u
+cyAtLWRlYW1vbgoKbXVjaCBtb3JlIHRoYW4gaW5zaWRlIG5ldyBvciB1cGRhdGVkIHByb2dyYW1z
+LgoKPj4gV3JpdGluZyB0byBkaXNwbGF5IGRvZXMgbm90IHJlcXVpcmUgcHJpdmlsZWdlLCBhcyBp
+dCBhZmZlY3RzIG9ubHkKPj4gdGhlIGN1cnJlbnQgcHJvY2Vzcy4gVGhlIGRpc3BsYXkgaXMgaW5o
+ZXJpdGVkIG9uIGZvcmsgYW5kIHJlc2V0IG9uCj4+IGEgcHJpdmlsZWdlZCBleGVjLgo+IEFub3Ro
+ZXIgY29uY2VybiBoZXJlOiBhcmUgeW91IHN1cmUgaXQgc2hvdWxkbid0IGJlIHJlc2V0IG9uICph
+bnkqCj4gZXhlYz8KClllcywgYmVjYXVzZSBzbyBtdWNoIG9mIHRoZSB1c2VyLXNwYWNlIGVjb3N5
+c3RlbSBkZXBlbmRzIG9uIHByb2dyYW1zCnRoYXQgcmFyZWx5IGdldCB1cGRhdGVkIHRoZXJlIGhh
+cyB0byBiZSBhIHdheSB0byBzcGVjaWZ5IGl0IGV4dGVybmFsbHkuCkkgZG9uJ3QgbGlrZSB0aGUg
+c2l0dWF0aW9uLCBidXQgd2UgY2FuJ3QgaWdub3JlIGl0LgoKPiBMb3RzIG9mIHByb2dyYW1zIChp
+bmNsdWRpbmcgZGJ1cy1kYWVtb24pIGZvcmstYW5kLWV4ZWMgYXJiaXRyYXJ5Cj4gY2hpbGQgcHJv
+Y2Vzc2VzIHRoYXQgY29tZSBmcm9tIGEgZGlmZmVyZW50IGNvZGViYXNlIG5vdCB1bmRlciBvdXIK
+PiBjb250cm9sIGFuZCBhcmVuJ3QgbmVjZXNzYXJpbHkgTFNNLXN0YWNraW5nLWF3YXJlLiBJIGRv
+bid0IHJlYWxseSB3YW50Cj4gdG8gaGF2ZSB0byByZXNldCAvcHJvYy9zZWxmL2F0dHIvZGlzcGxh
+eSBpbiBvdXIgaW5jcmVhc2luZ2x5IGNyb3dkZWQKPiBhZnRlci1mb3JrLWJ1dC1iZWZvcmUtZXhl
+YyBjb2RlIHBhdGggKHdoaWNoLCBhY2NvcmRpbmcgdG8gUE9TSVgsIGlzIG5vdAo+IGEgc2FmZSBw
+bGFjZSB0byBpbnZva2UgYW55IG5vbi1hc3luYy1zaWduYWwtc2FmZSBmdW5jdGlvbiwgc28gd2Ug
+Y2FuJ3QKPiBlYXNpbHkgZG8gZXJyb3IgaGFuZGxpbmcgaWYgc29tZXRoaW5nIGdvZXMgd3Jvbmcg
+dGhlcmUpLgoKTXkgaG9wZSBpcyB0aGF0IG5ldyBhbmQgdXBkYXRlZCBwcm9ncmFtcyB3aWxsIGhh
+dmUgdG8gdG9vbHMKdGhleSBuZWVkIHRvIGdldCBpdCByaWdodCwgYW5kIHRoYXQgdGhvc2UgdGhh
+dCBkb24ndCB3b24ndApmYWxsIG92ZXIgb24gYSB3ZWxsIGNvbmZpZ3VyZWQgc3lzdGVtLgoKPiBJ
+cyB0aGVyZSBhbnkgcG9zc2liaWxpdHkgb2YgaGF2aW5nIGEgcGFyYWxsZWwga2VybmVsIEFQSSB0
+aGF0LAo+IGlmIGl0IGV4aXN0cywgYWx3YXlzIHJldHVybnMgdGhlIHdob2xlIHN0YWNrLCBtYXli
+ZSBzb21ldGhpbmcKPiBsaWtlIC9wcm9jLzxwaWQ+L2F0dHIvY3VycmVudF9zdGFjayBhbmQgdGhl
+IFNPX1BFRVJTRUNMQUJFTFMgdGhhdCBJCj4gc3VnZ2VzdGVkIHByZXZpb3VzbHksCgovcHJvYy88
+cGlkPi9hdHRyL2N1cnJlbnRfc3RhY2sgaXMgZWFzeS4gU09fUEVFUlNFQ0xBQkVMUyB3aWxsIGJl
+CmhhcmRlciB0byBzZWxsLCBidXQgd291bGQgbm90IGJlIGhhcmQgdG8gaW1wbGVtZW50IGlmIHdl
+IGNhbiBnZXQKYWdyZWVtZW50IG9uIHRoZSBIaWRlb3VzIGZvcm1hdC4KwqAKCj4gaW5zdGVhZCBv
+ZiByZXB1cnBvc2luZyAvcHJvYy88cGlkPi9hdHRyL2N1cnJlbnQKPiBhbmQgU09fUEVFUlNFQyB0
+byBoYXZlIGNvbnRlbnRzIHRoYXQgdmFyeSBhY2NvcmRpbmcgdG8gYW1iaWVudCBwcm9jZXNzCj4g
+c3RhdGUgaW4gdGhlaXIgcmVhZGVyPwoKSW4gYWRkaXRpb24sIHllcy4gSW5zdGVhZCBvZj8gSSBk
+b24ndCB0aGluayB0aGF0IHdlIGNhbiBoYXZlIGEKYmFja3dhcmQgY29tcGF0aWJpbGl0eSBzdG9y
+eSB0aGF0IGZsaWVzIHdpdGhvdXQgaXQuCgo+ICAoQm9udXMgcG9pbnRzIGlmIHRoZXkgYXJlIGRv
+Y3VtZW50ZWQvZGVmaW5lZCB3aXRoCj4gYSBwYXJ0aWN1bGFyIHN5bnRhY3RpYyBub3JtYWxpemF0
+aW9uIHRoaXMgdGltZSwgdW5saWtlIHRoZSBzaXR1YXRpb24KPiB3aXRoIC9wcm9jLzxwaWQ+L2F0
+dHIvY3VycmVudCBhbmQgU09fUEVFUlNFQyB3aGVyZSBpbiBwcmluY2lwbGUgeW91Cj4gbmVlZCBM
+U00tc3BlY2lmaWMga25vd2xlZGdlIHRvIGtub3cgd2hldGhlciBhIHRyYWlsaW5nICJcbiIgb3Ig
+IlwwIgo+IGlzIHNhZmUgdG8gZGlzY2FyZC4pCgpJIHRoaW5rIHRoYXQncyBuZWNlc3NhcnkuCgo+
+Cj4gICAgIHNtY3YKCgotLQpMaW51eC1hdWRpdCBtYWlsaW5nIGxpc3QKTGludXgtYXVkaXRAcmVk
+aGF0LmNvbQpodHRwczovL3d3dy5yZWRoYXQuY29tL21haWxtYW4vbGlzdGluZm8vbGludXgtYXVk
+aXQ=
