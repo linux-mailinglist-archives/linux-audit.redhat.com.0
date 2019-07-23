@@ -2,93 +2,77 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1169D71A47
-	for <lists+linux-audit@lfdr.de>; Tue, 23 Jul 2019 16:26:17 +0200 (CEST)
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+	by mail.lfdr.de (Postfix) with ESMTPS id 55D2571A46
+	for <lists+linux-audit@lfdr.de>; Tue, 23 Jul 2019 16:26:08 +0200 (CEST)
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id AF96530C583B;
-	Tue, 23 Jul 2019 14:26:14 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 6D2DB3084242;
+	Tue, 23 Jul 2019 14:26:06 +0000 (UTC)
 Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 86FAC1017E3C;
-	Tue, 23 Jul 2019 14:26:14 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id A3CB060852;
+	Tue, 23 Jul 2019 14:26:05 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 4903F1972F;
-	Tue, 23 Jul 2019 14:26:14 +0000 (UTC)
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id EBAFF1972F;
+	Tue, 23 Jul 2019 14:26:03 +0000 (UTC)
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
 	[10.5.11.23])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id x6NCo41E015769 for <linux-audit@listman.util.phx.redhat.com>;
-	Tue, 23 Jul 2019 08:50:04 -0400
+	id x6NE6mNi001726 for <linux-audit@listman.util.phx.redhat.com>;
+	Tue, 23 Jul 2019 10:06:48 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id E2D6A19D7D; Tue, 23 Jul 2019 12:50:04 +0000 (UTC)
+	id F34D219C78; Tue, 23 Jul 2019 14:06:47 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from mx1.redhat.com (ext-mx11.extmail.prod.ext.phx2.redhat.com
-	[10.5.110.40])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 1CAC619C59;
-	Tue, 23 Jul 2019 12:50:02 +0000 (UTC)
-Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
-	[209.85.215.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 6D0A530084BD;
-	Tue, 23 Jul 2019 12:50:01 +0000 (UTC)
-Received: by mail-pg1-f194.google.com with SMTP id k189so350661pgk.13;
-	Tue, 23 Jul 2019 05:50:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=ScN8WzRMKv9ujMKagsG6pPThL/4YrWzQ0Mh2lGU8I9Q=;
-	b=TSyIOGxIgaDKwv/VxCj9bFdSyEYkKmwRWtQYccafT2FZwvSVPVcwGy9p6YB3jYyvfE
-	IeYF5PtZPvSwA/3F6zkI8ozhCAqW8aWMETFoQu8cRdcCNYvdZCXrki5P2bKeogpqBf1U
-	WMbprsYbetR4G+JcREVUCLaDKpwNV683KXqQjMVypckUH0XsUeWzZmjF92kDBtefSYzV
-	pqwB917WJ7+yZsTh8QnRa9ZYQCRByw9Z3GBy9V58gi2Rk3qUvUosmftkhYzYmXk5taoN
-	Dn4Cu3sHOB1KHX5a6R+ensmxSRb8PpYckJXntTO3mH+0JCiq2XsT7/my9jVxTIJo1f6L
-	FXlA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=ScN8WzRMKv9ujMKagsG6pPThL/4YrWzQ0Mh2lGU8I9Q=;
-	b=gwef0rZNVH/VHSGPKG9Mb2rEEGD9tNx2a2e5o8EcTX649gN4ZTZk/gv8CfBLRaagJY
-	V9HMewU7qWjf3PK7/iT8yvi2t6rmpwPf6xJePqvKT95gD6Pfl3+iXyMItlD+FUZ8pUci
-	JWIEsmBo5stuqnrVX0hjRlr1A6O4amzSbiidHyez881EZ1tq/fJ0KnQLZVSzkzXy1xBO
-	WPPzYFTEJHVmpGcpJFHrol03OUBrYLLLpi//JEKQy9eHIguXYYAzKTkUrHMTEJtpbTMu
-	4nIIb0Jsu3f36VTYr3yABpZ/sCxk0YBorrari4NVhCI/UiZb8BGbZrJ3zELB2xplbxdo
-	hvxA==
-X-Gm-Message-State: APjAAAXqNKSKxJc2233xu2WwcW+OPIPKeneed47NNa96tb3eK5zb0NTY
-	uSO/W8uF/E35eOA5TCB5LF7fnlb1
-X-Google-Smtp-Source: APXvYqxF0qCyIETGsOEUtisC5gjWspQwU9DqLrwTq+1COsi6j95zH/CKSyJl1TUBThdLpBE6qoH3GA==
-X-Received: by 2002:a62:4e58:: with SMTP id c85mr5635177pfb.176.1563886200947; 
-	Tue, 23 Jul 2019 05:50:00 -0700 (PDT)
-Received: from oslab.tsinghua.edu.cn ([2402:f000:4:72:808::3ca])
-	by smtp.gmail.com with ESMTPSA id
-	e17sm33750479pgm.21.2019.07.23.05.49.57
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 23 Jul 2019 05:50:00 -0700 (PDT)
-From: Jia-Ju Bai <baijiaju1990@gmail.com>
-To: paul@paul-moore.com, eparis@redhat.com
-Subject: [PATCH] kernel: auditfilter: Fix a possible null-pointer dereference
-	in audit_watch_path()
-Date: Tue, 23 Jul 2019 20:49:51 +0800
-Message-Id: <20190723124951.25713-1-baijiaju1990@gmail.com>
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.40]);
-	Tue, 23 Jul 2019 12:50:01 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.40]);
-	Tue, 23 Jul 2019 12:50:01 +0000 (UTC) for IP:'209.85.215.194'
-	DOMAIN:'mail-pg1-f194.google.com'
-	HELO:'mail-pg1-f194.google.com' FROM:'baijiaju1990@gmail.com'
-	RCPT:''
-X-RedHat-Spam-Score: 0.153  (DKIM_SIGNED, DKIM_VALID, DKIM_VALID_AU,
-	FREEMAIL_ENVFROM_END_DIGIT, FREEMAIL_FROM, RCVD_IN_DNSWL_NONE,
-	RCVD_IN_MSPIKE_H3, RCVD_IN_MSPIKE_WL, SPF_HELO_NONE,
-	SPF_PASS) 209.85.215.194 mail-pg1-f194.google.com 209.85.215.194
-	mail-pg1-f194.google.com <baijiaju1990@gmail.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.110.40
+Received: from mx1.redhat.com (ext-mx13.extmail.prod.ext.phx2.redhat.com
+	[10.5.110.42])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 9769519C58;
+	Tue, 23 Jul 2019 14:06:42 +0000 (UTC)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+	bits)) (No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id D6BA3300CA3F;
+	Tue, 23 Jul 2019 14:06:40 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2a00:5f00:102:0:3aba:f8ff:fe58:9ca1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+	bits)) (No client certificate requested) (Authenticated sender: smcv)
+	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 9FE1928A8AF;
+	Tue, 23 Jul 2019 15:06:36 +0100 (BST)
+Date: Tue, 23 Jul 2019 15:06:34 +0100
+From: Simon McVittie <smcv@collabora.com>
+To: Paul Moore <paul@paul-moore.com>
+Subject: Re: Preferred subj= with multiple LSMs
+Message-ID: <20190723140634.GA30188@horizon>
+References: <CAHC9VhTpcnyGg5j3b6Z7Yi0Ob01JETRiBmz1AuLqPWqP9tEAnA@mail.gmail.com>
+	<5ea2a25b-364f-3c30-79c6-cfb18515d7ba@schaufler-ca.com>
+	<CAHC9VhQ9MSh5zCkhMja4r9j0RT952LwKSaG5dR-BqXzXrtEAUw@mail.gmail.com>
+	<e9cf875a-0d0f-a56f-71dd-c22c67bdcc2d@schaufler-ca.com>
+	<CAHC9VhQS9We1TNqRfuR_E-kV4aZddx9euaiv5Gzd5B5AkiDAUQ@mail.gmail.com>
+	<f375c23c-29e6-dc98-d71c-328db91117bc@schaufler-ca.com>
+	<CAHC9VhTf0yYDZBxOtfv2E5=GtrBYonoqr46hyBy7qdNdjVLoVg@mail.gmail.com>
+	<alpine.LRH.2.21.1907230649460.18217@namei.org>
+	<ca22ea45-3f3b-4f79-8d77-7528877b8b36@schaufler-ca.com>
+	<CAHC9VhSbg7BxPSA4NkQV3_1zx6cj3ej25e6fJ2FBWX9fU104rg@mail.gmail.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <CAHC9VhSbg7BxPSA4NkQV3_1zx6cj3ej25e6fJ2FBWX9fU104rg@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Greylist: Sender passed SPF test, Sender IP whitelisted by DNSRBL, ACL 238
+	matched, not delayed by milter-greylist-4.5.16 (mx1.redhat.com
+	[10.5.110.42]); Tue, 23 Jul 2019 14:06:41 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.42]);
+	Tue, 23 Jul 2019 14:06:41 +0000 (UTC) for IP:'46.235.227.227'
+	DOMAIN:'bhuna.collabora.co.uk' HELO:'bhuna.collabora.co.uk'
+	FROM:'smcv@collabora.com' RCPT:''
+X-RedHat-Spam-Score: -0.002  (RCVD_IN_DNSWL_NONE, SPF_HELO_PASS,
+	SPF_PASS) 46.235.227.227 bhuna.collabora.co.uk
+	46.235.227.227 bhuna.collabora.co.uk <smcv@collabora.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.110.42
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-loop: linux-audit@redhat.com
 X-Mailman-Approved-At: Tue, 23 Jul 2019 10:25:44 -0400
-Cc: Jia-Ju Bai <baijiaju1990@gmail.com>, linux-audit@redhat.com,
-	linux-kernel@vger.kernel.org
+Cc: Richard Guy Briggs <rgb@redhat.com>, James Morris <jmorris@namei.org>,
+	Linux Security Module list <linux-security-module@vger.kernel.org>,
+	"linux-audit@redhat.com" <linux-audit@redhat.com>
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -100,54 +84,60 @@ List-Post: <mailto:linux-audit@redhat.com>
 List-Help: <mailto:linux-audit-request@redhat.com?subject=help>
 List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.46]); Tue, 23 Jul 2019 14:26:15 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.40]); Tue, 23 Jul 2019 14:26:07 +0000 (UTC)
 
-In audit_find_rule(), there is an if statement on line 894 to check
-whether entry->rule.watch is NULL:
-    else if (entry->rule.watch)
+On Mon, 22 Jul 2019 at 18:30:35 -0400, Paul Moore wrote:
+> On Mon, Jul 22, 2019 at 6:01 PM Casey Schaufler <casey@schaufler-ca.com> wrote:
+> > I suggest that if supporting dbus well is assisted by
+> > making reasonable restrictions on what constitutes a valid LSM
+> > "context" that we have a good reason.
+> 
+> I continue to believe that restrictions on the label format are a bad
+> idea
 
-If entry->rule.watch is NULL, audit_compare_rule on 910 is called:
-    audit_compare_rule(&entry->rule, &e->rule))
+Does this include the restriction "the label does not include \0",
+which is an assumption that dbus is already relying on since I checked
+it in the thread around
+<https://marc.info/?l=linux-security-module&m=142323508321029&w=2>?
+Or is that restriction so fundamental that it's considered OK?
 
-In audit_compare_rule(), a->watch is used on line 720:
-    if (strcmp(audit_watch_path(a->watch), ...)
+(Other user-space tools like ls -Z and ps -Z also rely on that assumption
+by printing security contexts with %s, as far as I know.)
 
-In this case, a->watch is NULL, and audit_watch_path() will use:
-    watch->path
+dbus does not require a way to multiplex multiple LSMs' labels in a
+printable text string, so from my point of view, multiplexed labels do
+not necessarily have to be in what Casey calls the "Hideous" format,
+or in any text format at all: anything with documented rules for parsing
+(including the unescaping that readers are expected to apply, if there
+is any) would be fine. Based on the assumption of no "\0", I previously
+suggested a "\0"-delimited encoding similar to /proc/self/cmdline, which
+would not need any escaping/unescaping:
 
-Thus, a possible null-pointer dereference may occur in this case.
+    "apparmor\0" <apparmor label> "\0"
+    "selinux\0" <SELinux label> "\0"
+    ...
+    "\0" (or this could be omitted since it's redundant with the length)
 
-To fix this possible bug, an if statement is added in
-audit_compare_rule() to check a->watch before using a->watch.
+which would be fine (indeed, actually easier than the "Hideous" format)
+from dbus' point of view.
 
-This bug is found by a static analysis tool STCheck written by us.
+dbus does not strictly need reading security labels for sockets or
+processes to be atomic, either: it would be OK if we can get the complete
+list of LSM labels *somehow*, possibly in O(number of LSMs) rather than
+O(1) syscalls (although I'd prefer O(1)).
 
-Signed-off-by: Jia-Ju Bai <baijiaju1990@gmail.com>
----
- kernel/auditfilter.c | 2 ++
- 1 file changed, 2 insertions(+)
+However, the getsockopt() interface only lets the kernel return one thing
+per socket option, and I assume the networking maintainers probably don't
+want to have to add SO_PEERAPPARMOR, SO_PEERSELINUX... for each LSM -
+so this part at least would probably be easier as a single blob in some
+text or binary format.
 
-diff --git a/kernel/auditfilter.c b/kernel/auditfilter.c
-index b0126e9c0743..b0ad17b14609 100644
---- a/kernel/auditfilter.c
-+++ b/kernel/auditfilter.c
-@@ -717,6 +717,8 @@ static int audit_compare_rule(struct audit_krule *a, struct audit_krule *b)
- 				return 1;
- 			break;
- 		case AUDIT_WATCH:
-+			if (!a->watch)
-+				break;
- 			if (strcmp(audit_watch_path(a->watch),
- 				   audit_watch_path(b->watch)))
- 				return 1;
--- 
-2.17.0
+    smcv
 
 --
 Linux-audit mailing list
