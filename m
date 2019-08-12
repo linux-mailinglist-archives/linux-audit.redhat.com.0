@@ -2,45 +2,47 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44E2F8A00B
-	for <lists+linux-audit@lfdr.de>; Mon, 12 Aug 2019 15:50:19 +0200 (CEST)
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B3678A13F
+	for <lists+linux-audit@lfdr.de>; Mon, 12 Aug 2019 16:36:48 +0200 (CEST)
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 0BC60302562E;
-	Mon, 12 Aug 2019 13:50:16 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 06EFB646B9;
-	Mon, 12 Aug 2019 13:50:14 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 4F26130FB8FC;
+	Mon, 12 Aug 2019 14:36:46 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 78863600C4;
+	Mon, 12 Aug 2019 14:36:45 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 64D9024F30;
-	Mon, 12 Aug 2019 13:50:09 +0000 (UTC)
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id F1FBD18005B9;
+	Mon, 12 Aug 2019 14:36:43 +0000 (UTC)
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
 	[10.5.11.15])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id x7CDnw0T021828 for <linux-audit@listman.util.phx.redhat.com>;
-	Mon, 12 Aug 2019 09:49:58 -0400
+	id x7C7xZG6009591 for <linux-audit@listman.util.phx.redhat.com>;
+	Mon, 12 Aug 2019 03:59:35 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id 187DF2FC5B; Mon, 12 Aug 2019 13:49:58 +0000 (UTC)
+	id 272B298B8; Mon, 12 Aug 2019 07:59:35 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from x2.localnet (ovpn-116-49.phx2.redhat.com [10.3.116.49])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id F03025D6B2;
-	Mon, 12 Aug 2019 13:49:43 +0000 (UTC)
-From: Steve Grubb <sgrubb@redhat.com>
-To: Jiri Olsa <jolsa@redhat.com>
+Received: from krava (unknown [10.43.17.33])
+	by smtp.corp.redhat.com (Postfix) with SMTP id CF1F35D6A0;
+	Mon, 12 Aug 2019 07:59:22 +0000 (UTC)
+Date: Mon, 12 Aug 2019 09:59:22 +0200
+From: Jiri Olsa <jolsa@redhat.com>
+To: Steve Grubb <sgrubb@redhat.com>
 Subject: Re: [RFC] audit support for BPF notification
-Date: Mon, 12 Aug 2019 09:49:43 -0400
-Message-ID: <5293423.BmRMD7FMx9@x2>
-Organization: Red Hat
-In-Reply-To: <20190812075922.GA3012@krava>
-References: <20190809141831.GB9377@krava> <2985228.9kGasGrDWd@x2>
-	<20190812075922.GA3012@krava>
+Message-ID: <20190812075922.GA3012@krava>
+References: <20190809141831.GB9377@krava>
+ <2985228.9kGasGrDWd@x2>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <2985228.9kGasGrDWd@x2>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-loop: linux-audit@redhat.com
+X-Mailman-Approved-At: Mon, 12 Aug 2019 10:36:38 -0400
 Cc: Stanislav Kozina <skozina@redhat.com>,
 	Yauheni Kaliuta <yauheni.kaliuta@redhat.com>,
-	Toke =?ISO-8859-1?Q?H=F8iland=2DJ=F8rgensen?= <toke@redhat.com>,
+	Toke =?iso-8859-1?Q?H=F8iland-J=F8rgensen?= <toke@redhat.com>,
 	Jiri Benc <jbenc@redhat.com>, Arnaldo Carvalho de Melo <acme@redhat.com>,
 	linux-audit@redhat.com, Jesper Dangaard Brouer <brouer@redhat.com>
 X-BeenThere: linux-audit@redhat.com
@@ -58,88 +60,64 @@ Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.43]); Mon, 12 Aug 2019 13:50:18 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.47]); Mon, 12 Aug 2019 14:36:47 +0000 (UTC)
 
-On Monday, August 12, 2019 3:59:22 AM EDT Jiri Olsa wrote:
-> On Fri, Aug 09, 2019 at 01:45:21PM -0400, Steve Grubb wrote:
-> > Hello,
-> > 
-> > On Friday, August 9, 2019 10:18:31 AM EDT Jiri Olsa wrote:
-> > > I posted initial change that allows auditd to log BPF program
-> > > 
-> > > load/unload events, it's in here:
-> > >   https://github.com/linux-audit/audit-userspace/pull/104
-> > 
-> > Thanks for the patch...but we probably should have talked a bit more
-> > before undertaking this effort. We normally do not audit from user space
-> > what happens in the kernel. Doing this can be racy and it keeps auditd
-> > from doing the one job it has - which is to grab events and record them
-> > to disk and send them out the realtime interface.
-> > 
-> > > We tried to push pure AUDIT interface for BPF program notification,
-> > > 
-> > > but it was denied, the discussion is in here:
-> > >   https://marc.info/?t=153866123200003&r=1&w=2
-> > 
-> > Hmm. The email I remember was here:
-> > https://www.redhat.com/archives/linux-audit/2018-October/msg00053.html
-> > 
-> > and was only 2 emails long with no answer to my question. :-)
+On Fri, Aug 09, 2019 at 01:45:21PM -0400, Steve Grubb wrote:
+> Hello,
 > 
-> oops, sry about that, your question was:
-> 	> I'm not sure exactly what the issue is. You can audit for specific
-> 	> syscall
-> 	> and argument. So, if you want to see loads, then you can make a rule
-> 	> like:
-> 	> 
-> 	> -a always,exit -F arch=b64 -S bpf -F a0=5
+> On Friday, August 9, 2019 10:18:31 AM EDT Jiri Olsa wrote:
+> > I posted initial change that allows auditd to log BPF program
+> > load/unload events, it's in here:
+> >   https://github.com/linux-audit/audit-userspace/pull/104
 > 
-> The problem with above for us is that we also:
+> Thanks for the patch...but we probably should have talked a bit more before 
+> undertaking this effort. We normally do not audit from user space what happens 
+> in the kernel. Doing this can be racy and it keeps auditd from doing the one 
+> job it has - which is to grab events and record them to disk and send them 
+> out the realtime interface.
 > 
->   - need to log also other properties of the BPF program,
->     which are not visible from BPF syscall arguments, like
->     its ID, JIT status 
+> 
+> > We tried to push pure AUDIT interface for BPF program notification,
+> > but it was denied, the discussion is in here:
+> >   https://marc.info/?t=153866123200003&r=1&w=2
+> 
+> Hmm. The email I remember was here:
+> https://www.redhat.com/archives/linux-audit/2018-October/msg00053.html
+> 
+> and was only 2 emails long with no answer to my question. :-)
 
-The way this is normally done is to add a supplemental record. For example, 
-when auditing the open syscall, we also get CWD & PATH supplemental records. 
-When auditing connect, we get a SOCKADDR supplemental record. We have 
-requirements around selective audit whereby the admin is in control of what 
-is selected for audit via audit rules. So, what one could do is set a rule 
-for the bpf syscall and then when it triggers, we get these other records 
-added to the bpf syscall event.
+oops, sry about that, your question was:
 
->     or license info
+	> I'm not sure exactly what the issue is. You can audit for specific syscall 
+	> and argument. So, if you want to see loads, then you can make a rule like:
 
-This ^^ is not a security issue.
+	> -a always,exit -F arch=b64 -S bpf -F a0=5
 
 
->   - need to see BPF program UNLOAD, which is not done
->     via syscall, so those would be unvisible at all
+The problem with above for us is that we also:
 
-Is there a place in the kernel where this happens? I could see abnormal 
-termination being something we might want. Does the program go through 
-something like an exit syscall internally?
+  - need to log also other properties of the BPF program,
+    which are not visible from BPF syscall arguments, like
+    its ID, JIT status or license info
 
- 
-> > > The outcome of the discussion was to use perf event interface
-> > > for BPF notification and use it in some deamon.. audit was our
-> > > first choice.
-> > > 
-> > > thoughts?
+  - need to see BPF program UNLOAD, which is not done
+    via syscall, so those would be unvisible at all
+
+> 
+> > The outcome of the discussion was to use perf event interface
+> > for BPF notification and use it in some deamon.. audit was our
+> > first choice.
 > > 
-> > I'd like to understand what the basic problem is that needs to be solved.
+> > thoughts?
 > 
-> we need a way for administrators to see the history of loaded BPF
-> programs, to help investigating issues related to BPF.. and the
-> only BPF interface for this data is through perf ring buffer
+> I'd like to understand what the basic problem is that needs to be solved.
 
-That is really not the audit way. Let's keep talking to see where this ends 
-up.
+we need a way for administrators to see the history of loaded BPF
+programs, to help investigating issues related to BPF.. and the
+only BPF interface for this data is through perf ring buffer
 
-Thanks,
--Steve
-
+jirka
 
 --
 Linux-audit mailing list
