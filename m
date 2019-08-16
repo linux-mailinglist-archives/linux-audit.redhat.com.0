@@ -2,102 +2,96 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD2DD905C1
-	for <lists+linux-audit@lfdr.de>; Fri, 16 Aug 2019 18:29:39 +0200 (CEST)
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB0ED905F1
+	for <lists+linux-audit@lfdr.de>; Fri, 16 Aug 2019 18:36:38 +0200 (CEST)
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id D7FAA65F5A;
-	Fri, 16 Aug 2019 16:29:37 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id BB87C2A09A0;
+	Fri, 16 Aug 2019 16:36:36 +0000 (UTC)
 Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 9024E3795;
-	Fri, 16 Aug 2019 16:29:36 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id F2CCC8F6DA;
+	Fri, 16 Aug 2019 16:36:35 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id C957918005B9;
-	Fri, 16 Aug 2019 16:29:34 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
-	[10.5.11.12])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 0CD381800202;
+	Fri, 16 Aug 2019 16:36:34 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+	[10.5.11.23])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id x7GGTQtY002816 for <linux-audit@listman.util.phx.redhat.com>;
-	Fri, 16 Aug 2019 12:29:26 -0400
+	id x7GGaUKZ003021 for <linux-audit@listman.util.phx.redhat.com>;
+	Fri, 16 Aug 2019 12:36:30 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id 064623842; Fri, 16 Aug 2019 16:29:26 +0000 (UTC)
+	id 706052719C; Fri, 16 Aug 2019 16:36:30 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from mx1.redhat.com (ext-mx03.extmail.prod.ext.phx2.redhat.com
-	[10.5.110.27])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 011F0BA59
-	for <linux-audit@redhat.com>; Fri, 16 Aug 2019 16:29:22 +0000 (UTC)
-Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com
-	[209.85.208.195])
+Received: from mx1.redhat.com (ext-mx19.extmail.prod.ext.phx2.redhat.com
+	[10.5.110.48])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 6B48C27C4C
+	for <linux-audit@redhat.com>; Fri, 16 Aug 2019 16:36:28 +0000 (UTC)
+Received: from mail-lf1-f66.google.com (mail-lf1-f66.google.com
+	[209.85.167.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 6B2B081F0C
-	for <linux-audit@redhat.com>; Fri, 16 Aug 2019 16:29:21 +0000 (UTC)
-Received: by mail-lj1-f195.google.com with SMTP id m24so5809285ljg.8
-	for <linux-audit@redhat.com>; Fri, 16 Aug 2019 09:29:21 -0700 (PDT)
+	by mx1.redhat.com (Postfix) with ESMTPS id 38F98307D857
+	for <linux-audit@redhat.com>; Fri, 16 Aug 2019 16:36:27 +0000 (UTC)
+Received: by mail-lf1-f66.google.com with SMTP id x3so4498148lfc.0
+	for <linux-audit@redhat.com>; Fri, 16 Aug 2019 09:36:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=Pb1dJnMcCuUxqNlEH74lTDGdrP8RS3vLcKTgQoY3yZQ=;
-	b=FWoV0ATs5FGV4ZBl8oQJ/yknE0+N+PGT7v0iE5Ro42XrtEZle8i+DYwWT/ou09MbhF
-	TMShCE9s0yl4vkYMkhVeDsmUQq8hxHyolqQfd9pWEx5FOYhHy8UkMHCbeeMqOc65Cxtg
-	+s40PJdTcOz7M2w3cigXXDLvL51ivCvvmKa5ADm9JWhlNA2dZkQudT2f/p8ba7qH1r3F
-	dXDc2Gb/H277NFrKD49ECjh49cmWL/lfwZe19yhi9DNKA9KyGLRMwltd9jCNJbv2AdpX
-	/sZcC/CVc4Z0yJgRQn2NFNko7Mi/s5jUlWH7GZG8OiuGG2c2gE6gpVh2wnE/tjAAw3/f
-	g/jA==
+	:cc; bh=5lHpPSdCyT7Kyd9IXcFuqji9CoKFwycWngQ6LfdZfg0=;
+	b=H5BhUsEHdQ5FzU5Gk3d5ZM8xImwWXVoWJAWrdM3kLZsOeJoUZ3avKESAh1tSeDZ6Ea
+	hVTCFxGqXCkimDn7bP6MI3lVwNGcCDuB/i2EoTFkLFImYFh2pLggPXya/lJAbgxTYXXK
+	J+qeWHgEB4zdRQtaHTstos5ShRNZY3RSuKs+rajrXYDjswCt179GXtFpHvriHjbNkpOm
+	5rLot+GwHZvcR7cSBNSaOFe73ujrtrfrczpr7b24A0jQYXFechzoNzamh/kRq+4MtIk5
+	5N3sYJi9TrrpnqevluuW3pQzGMuLqeZQcnwKjhPSXQlE/pM7kSShuu9j8krYJfDsnjgm
+	yoiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=Pb1dJnMcCuUxqNlEH74lTDGdrP8RS3vLcKTgQoY3yZQ=;
-	b=AaIpxO7EkhccFc3RJnFoSQNeRfjrEkWatT5O3bqa0bRBTDCYpXDNeJmK5roAf+b3Yz
-	KYJmApb8W1C1U+nM3NaUT9n+CR9e00F/+fKrStOKDtdOrDJIPFywD2EYIFLFS+DGzz1E
-	4UvN29pH1D7KnaQy2Gz8ejx3rCEicCVB87njyV7+JgxAhV94tIzhQIoXyNsWkmBm9bwW
-	iHqawsmcV6/1k4LjJahDyr3Qp3woQ1IlV7tXx3KjKBxGHJXr+1FnmXH6AqUAzu3MQ8xc
-	7hvGHfIVJLmOfslFFn5ZuEPPI+YglLeaX/tqu3suucUMv3DWzIPkGaS742u3pvp0gz5O
-	SWOA==
-X-Gm-Message-State: APjAAAUxBcuxIj56vnFoz9ioZElz2MbmwjPPvzYHImAS87copONVckaN
-	jXUYdtFM1BzKNdm+mWbNg4KyFM7L8U6J6xDnJHck
-X-Google-Smtp-Source: APXvYqwTo86pc3wtjSRNvwvaVvPzQk1GNxxqKZk/bJrUwU1pnmgHD+hdoXWEmocncfzZBvnR92VFb0IdWgE43DMpiIc=
-X-Received: by 2002:a2e:834e:: with SMTP id l14mr6010790ljh.158.1565972959608; 
-	Fri, 16 Aug 2019 09:29:19 -0700 (PDT)
+	bh=5lHpPSdCyT7Kyd9IXcFuqji9CoKFwycWngQ6LfdZfg0=;
+	b=F+OIEC3LL26ulPgPFcEbhpoMv2zH9S/RE95EKhg2blJ4ptvJmLTHJmWNxR71POsIlG
+	4kWFzpPFLOJEcz/3Ka7lLm6xHJiNppzHf88rZA6sSc/8QrjaLYK6uUi/b5v+KdlFP7pl
+	fQhfwQ32S3NlEpCER7cTdYrV6+QtE0qL3DlTahfWDThE+zxPOX6DhMAGTiLf+Ka//JzS
+	nWs01EhhUe/tfdnhu6u4mBkcWJM+Ril9JDJkwaJ/mFKp29zQGiw8Yhi9sEPAR+NZeiys
+	bEnuXmT0FCePa0zjLPfYBASSpbYt+V9XxwPBMODfaOSwHZTe00J4xiuezqIvz14Opnw4
+	DN8g==
+X-Gm-Message-State: APjAAAVlu/Qllf024jwDfzNBW1nZwppsVREgO9q1n9YRVgWg5xSRMAJM
+	3pXxT4jHsM6z0xBWH5tNADbBXq9P1wa9tBdMaj9R6RA=
+X-Google-Smtp-Source: APXvYqzYbBGmvFQFm936ktOk3rwIm65aWylGP4lmnHHLscikOOcm/+ByQtnYFkBaH0Iqli70i/v+iW3RlhqE02ViCts=
+X-Received: by 2002:ac2:5225:: with SMTP id i5mr4589867lfl.13.1565973385355;
+	Fri, 16 Aug 2019 09:36:25 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190801144313.1014-1-acgoide@tycho.nsa.gov>
-	<CAHC9VhTSWiz45vh+M+sgu+ePwgFPZ4Mr8GmRZQjsGWQSzkjbLg@mail.gmail.com>
-	<b79617aa-2b40-40bf-9f35-0f5be8e34d3f@tycho.nsa.gov>
-	<20190813212710.wimxgfunrijqwuqt@madcap2.tricolour.ca>
-	<CAHC9VhTWY4vtsmCn8X3TjR1HdsB1-wqBLs03vZVv0SmWQ-Ab2Q@mail.gmail.com>
-	<b47e07bc-1b01-c5f0-305d-e6fe014b00d8@tycho.nsa.gov>
-	<CAHC9VhRzz52bVwMikM7C65vCCSLb0=y1HtB50o-H0G3AMHqRNw@mail.gmail.com>
-	<cb2833ee-3a12-9c7d-6c5b-c7944e74b3e9@tycho.nsa.gov>
-In-Reply-To: <cb2833ee-3a12-9c7d-6c5b-c7944e74b3e9@tycho.nsa.gov>
+References: <20190815202357.4238-1-acgoide@tycho.nsa.gov>
+	<alpine.LRH.2.21.1908160817300.22623@namei.org>
+	<cebacde0-5c53-c414-8f27-8d81ed928dfd@tycho.nsa.gov>
+In-Reply-To: <cebacde0-5c53-c414-8f27-8d81ed928dfd@tycho.nsa.gov>
 From: Paul Moore <paul@paul-moore.com>
-Date: Fri, 16 Aug 2019 12:29:08 -0400
-Message-ID: <CAHC9VhT-mmTyHij0MJHBWRjf6YmPBX9LHHaZ0H1sWx7v0O8jPw@mail.gmail.com>
-Subject: Re: [Non-DoD Source] Re: [RFC PATCH v2] security, capability: pass
-	object information to security_capable
-To: Aaron Goidel <acgoide@tycho.nsa.gov>
+Date: Fri, 16 Aug 2019 12:36:13 -0400
+Message-ID: <CAHC9VhRLnUO_iiz31z=7wiHf2sNihC7mmi3FhaPCqmW=xt+tRw@mail.gmail.com>
+Subject: Re: [RFC PATCH v3] security,
+	capability: pass object information to security_capable
+To: Stephen Smalley <sds@tycho.nsa.gov>
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.27]);
-	Fri, 16 Aug 2019 16:29:21 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.27]);
-	Fri, 16 Aug 2019 16:29:21 +0000 (UTC) for IP:'209.85.208.195'
-	DOMAIN:'mail-lj1-f195.google.com'
-	HELO:'mail-lj1-f195.google.com' FROM:'paul@paul-moore.com' RCPT:''
-X-RedHat-Spam-Score: -0.172  (DKIM_SIGNED, DKIM_VALID, RCVD_IN_DNSWL_NONE,
+	(mx1.redhat.com [10.5.110.48]);
+	Fri, 16 Aug 2019 16:36:27 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.48]);
+	Fri, 16 Aug 2019 16:36:27 +0000 (UTC) for IP:'209.85.167.66'
+	DOMAIN:'mail-lf1-f66.google.com' HELO:'mail-lf1-f66.google.com'
+	FROM:'paul@paul-moore.com' RCPT:''
+X-RedHat-Spam-Score: -0.261  (DKIM_SIGNED, DKIM_VALID, RCVD_IN_DNSWL_NONE,
 	RCVD_IN_MSPIKE_H2, SPF_HELO_NONE,
-	SPF_NONE) 209.85.208.195 mail-lj1-f195.google.com 209.85.208.195
-	mail-lj1-f195.google.com <paul@paul-moore.com>
-X-Scanned-By: MIMEDefang 2.78 on 10.5.110.27
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+	SPF_NONE) 209.85.167.66 mail-lf1-f66.google.com 209.85.167.66
+	mail-lf1-f66.google.com <paul@paul-moore.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.110.48
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-loop: linux-audit@redhat.com
-Cc: mortonm@chromium.org, john.johansen@canonical.com,
-	Richard Guy Briggs <rgb@redhat.com>,
-	James Morris <jmorris@namei.org>, luto@amacapital.net,
+Cc: mortonm@chromium.org, john.johansen@canonical.com, rgb@redhat.com,
+	James Morris <jmorris@namei.org>,
+	Aaron Goidel <acgoide@tycho.nsa.gov>, luto@amacapital.net,
 	selinux@vger.kernel.org, linux-security-module@vger.kernel.org,
 	linux-audit@redhat.com, Serge Hallyn <serge@hallyn.com>,
-	Stephen Smalley <sds@tycho.nsa.gov>,
-	Nicholas Franck <nhfran2@tycho.nsa.gov>
+	nhfran2@tycho.nsa.gov
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -113,63 +107,48 @@ Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.25]); Fri, 16 Aug 2019 16:29:38 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.38]); Fri, 16 Aug 2019 16:36:37 +0000 (UTC)
 
-On Thu, Aug 15, 2019 at 9:11 AM Aaron Goidel <acgoide@tycho.nsa.gov> wrote:
-> I'm looking at how to enable LSMs to selectively turn on audit
-> collection. So there seems to be two key points: audit_alloc() and
-> __audit_syscall_entry(). Would it suffice to define a single boolean
-> hook that takes the task and call it from both functions, to decide
-> whether to override an AUDIT_DISABLED state in audit_alloc() and to
-> override a 0 audit_n_rules in __audit_syscall_entry(). In audit_alloc()
-> if audit_filter_task() returned AUDIT_DISABLED and the hook returned
-> true, we would change the state to AUDIT_BUILD_CONTEXT. In
-> __audit_syscall_entry(), if the hook returned true, we would set dummy
-> to 0. Obviously, we could have a more general hook which lets us return
-> arbitrary audit states, but, it isn't clear how we would reconcile
-> conflicting results from audit_filter_task() and the hook for any
-> situation other than AUDIT_DISABLED. We could also potentially use a
-> different hook in __audit_syscall_entry(), though I don't think that we
-> want the LSMs trying to interpret the syscall number or arguments.
+On Fri, Aug 16, 2019 at 10:57 AM Stephen Smalley <sds@tycho.nsa.gov> wrote:
+> On 8/15/19 6:32 PM, James Morris wrote:
+> > On Thu, 15 Aug 2019, Aaron Goidel wrote:
+> >
+> >> In SELinux this new information is leveraged here to perform an
+> >> additional inode based check for capabilities relevant to inodes. Since
+> >> the inode provided to capable_wrt_inode_uidgid() is a const argument,
+> >> this also required propagating const down to dump_common_audit_data() and
+> >> dropping the use of d_find_alias() to find an alias for the inode. This
+> >> was sketchy to begin with and should be obsoleted by a separate change
+> >> that will allow LSMs to trigger audit collection for all file-related
+> >> information.
+> >
+> > Will the audit logs look the same once the 2nd patch is applied? We need
+> > to be careful about breaking existing userland.
 >
-> Do you think that is sufficiently general or would you suggest something
-> different?
+> It was already the case that the name= field in the AVC audit record was
+> not guaranteed to be emitted in this case, since d_find_alias could
+> return NULL.  And it was only a hint, since that name might have nothing
+> to do with the name used to look up the inode in the first place. So I
+> don't believe userland could have ever relied upon it being present
+> here.  Removing it also fixes a problem with AVC audit generation under
+> RCU walk; we should be able to drop the code that skips audit generation
+> in that case with this d_find_alias call gone IIUC.
+>
+> With the ability for an LSM to enable collection and generation of
+> AUDIT_PATH and other AUDIT_* records (which is made possible via the
+> other patch), we will get more complete and relevant information in the
+> audit log.  It won't look exactly the same (there will be separate AVC,
+> PATH, ... records that can be correlated based on timestamp/serial and
+> ausearch does this automatically for you).
 
-FWIW, I think treating the per-task audit switch as a boolean is fine;
-I don't think we want other in-kernel callers to have to worry about
-the different audit states.  From their perspective it is either "on"
-or "off".
+Regardless of if it is The Right Thing, changes like this should
+probably be put into a separate, unrelated patch.
 
-However, I think there are two parts of the greater LSM-enables-audit
-discussion, and we're only discussing the first part: collection.  The
-second part is the actual audit record generation, and I think this
-part is going to be less clear.  While the changes to audit_alloc(),
-etc. are necessary to be able to do any meaningful audit later on, I'm
-thinking introducing some granularity and LSM control to what gets
-generated in audit_log_exit() might be very welcome both from a
-performance and log cleanliness perspective.
-
-Some random thoughts on this (some may be way off, but I want to start
-with some expectations):
-* The LSM should never be able to block collection/generation of audit
-records, just enable additional records.
-* The LSM controls should only affect what we call the "syscall
-auditing" bits, e.g. the stuff in auditsc.c.  Audit records that
-happen outside of this should be untouched, the AVC records are an
-example of a record that exists independent of syscall auditing.
-* We should be able to have the LSM set a per-syscall audit enable
-flag which would be checked in audit_log_exit() (or
-audit_free()/__audit_syscall_exit()).
-* It's not clear to me if we want to provide some granularity to the
-LSM regarding what records get generated in audit_log_exit(), for
-example do we allow the LSM to request just PATH records?  I'm
-guessing we wouldn't want to specify record types directly, but
-perhaps record "classes", e.g. "file".
-
-I'm not sure if any of this is going to be a good idea, but I think we
-need to discuss it a bit before we start duplicating things in
-lsm_audit.c.
+I think there are a few things in dump_common_audit_data() that should
+have been done differently, but unfortunately the audit records (and
+IMHO the many stupid design decisions that went into them) are
+effectively part of the kernel API and need to be treated with care.
 
 -- 
 paul moore
