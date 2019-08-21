@@ -2,51 +2,69 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5F54962AF
-	for <lists+linux-audit@lfdr.de>; Tue, 20 Aug 2019 16:42:51 +0200 (CEST)
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2023297D33
+	for <lists+linux-audit@lfdr.de>; Wed, 21 Aug 2019 16:38:20 +0200 (CEST)
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id CCFD95D5EE;
-	Tue, 20 Aug 2019 14:42:49 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 26AE13739;
-	Tue, 20 Aug 2019 14:42:45 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id B4CF13058DAA;
+	Wed, 21 Aug 2019 14:38:16 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 007126CE48;
+	Wed, 21 Aug 2019 14:38:14 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 5392B18005B9;
-	Tue, 20 Aug 2019 14:42:40 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
-	[10.5.11.23])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 0959E24F30;
+	Wed, 21 Aug 2019 14:38:09 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+	[10.5.11.11])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id x7KDtAvs026033 for <linux-audit@listman.util.phx.redhat.com>;
-	Tue, 20 Aug 2019 09:55:10 -0400
+	id x7L9W0fQ031323 for <linux-audit@listman.util.phx.redhat.com>;
+	Wed, 21 Aug 2019 05:32:00 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id 7D60852CE; Tue, 20 Aug 2019 13:55:10 +0000 (UTC)
+	id 4805D5B0A1; Wed, 21 Aug 2019 09:32:00 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from krava (unknown [10.43.17.33])
-	by smtp.corp.redhat.com (Postfix) with SMTP id 231C03DB4;
-	Tue, 20 Aug 2019 13:54:53 +0000 (UTC)
-Date: Tue, 20 Aug 2019 15:54:53 +0200
-From: Jiri Olsa <jolsa@redhat.com>
-To: Steve Grubb <sgrubb@redhat.com>
-Subject: Re: [RFC] audit support for BPF notification
-Message-ID: <20190820135453.GH24105@krava>
-References: <20190809141831.GB9377@krava> <2985228.9kGasGrDWd@x2>
-	<20190812075922.GA3012@krava> <5293423.BmRMD7FMx9@x2>
-	<20190812143257.GC23992@krava> <20190814073323.GA16363@krava>
+Received: from mx1.redhat.com (ext-mx25.extmail.prod.ext.phx2.redhat.com
+	[10.5.110.66])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 6A5175B091;
+	Wed, 21 Aug 2019 09:31:50 +0000 (UTC)
+Received: from huawei.com (szxga07-in.huawei.com [45.249.212.35])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 4255710F23E1;
+	Wed, 21 Aug 2019 09:31:48 +0000 (UTC)
+Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.58])
+	by Forcepoint Email with ESMTP id B9D67FB12728DFC5AF07;
+	Wed, 21 Aug 2019 17:31:45 +0800 (CST)
+Received: from [127.0.0.1] (10.119.195.53) by DGGEMS407-HUB.china.huawei.com
+	(10.3.19.207) with Microsoft SMTP Server id 14.3.439.0; Wed, 21 Aug 2019
+	17:31:35 +0800
+To: <linux-kernel@vger.kernel.org>, <linux-audit@redhat.com>,
+	<paul@paul-moore.com>, <eparis@redhat.com>
+From: Chen Wandun <chenwandun@huawei.com>
+Subject: [Question] audit_names use after delete in audit_filter_inodes
+Message-ID: <4997df37-4a80-5cf5-effc-0a6f040c4528@huawei.com>
+Date: Wed, 21 Aug 2019 17:32:01 +0800
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:60.0) Gecko/20100101
+	Thunderbird/60.2.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190814073323.GA16363@krava>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Content-Language: en-US
+X-Originating-IP: [10.119.195.53]
+X-CFilter-Loop: Reflected
+X-Greylist: Sender passed SPF test, Sender IP whitelisted by DNSRBL, ACL 238
+	matched, not delayed by milter-greylist-4.6.2 (mx1.redhat.com
+	[10.5.110.66]); Wed, 21 Aug 2019 09:31:49 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.6.2 (mx1.redhat.com [10.5.110.66]);
+	Wed, 21 Aug 2019 09:31:49 +0000 (UTC) for IP:'45.249.212.35'
+	DOMAIN:'szxga07-in.huawei.com' HELO:'huawei.com'
+	FROM:'chenwandun@huawei.com' RCPT:''
+X-RedHat-Spam-Score: -2.302  (RCVD_IN_DNSWL_MED, SPF_HELO_PASS,
+	SPF_PASS) 45.249.212.35 szxga07-in.huawei.com
+	45.249.212.35 szxga07-in.huawei.com <chenwandun@huawei.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.110.66
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-loop: linux-audit@redhat.com
-X-Mailman-Approved-At: Tue, 20 Aug 2019 10:42:25 -0400
-Cc: Stanislav Kozina <skozina@redhat.com>,
-	Yauheni Kaliuta <yauheni.kaliuta@redhat.com>,
-	Toke =?iso-8859-1?Q?H=F8iland-J=F8rgensen?= <toke@redhat.com>,
-	Jiri Benc <jbenc@redhat.com>, Arnaldo Carvalho de Melo <acme@redhat.com>,
-	linux-audit@redhat.com, Jesper Dangaard Brouer <brouer@redhat.com>,
-	Petr Matousek <pmatouse@redhat.com>, Vlad Dronov <vdronov@redhat.com>
+X-Mailman-Approved-At: Wed, 21 Aug 2019 10:37:57 -0400
+Cc: Kefeng Wang <wangkefeng.wang@huawei.com>
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -58,133 +76,74 @@ List-Post: <mailto:linux-audit@redhat.com>
 List-Help: <mailto:linux-audit-request@redhat.com?subject=help>
 List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.39]); Tue, 20 Aug 2019 14:42:50 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.47]); Wed, 21 Aug 2019 14:38:18 +0000 (UTC)
 
-cc-ing Petr Matousek
+Hi,
+Recently, I hit a use after delete in audit_filter_inodes,
 
-jirka
+In this case, I found audit_names->list->next is dead000000000100, when enumerate each
+audit_names on list context->names_list.
 
-On Wed, Aug 14, 2019 at 09:33:34AM +0200, Jiri Olsa wrote:
-> hi,
-> Adding Vlad Dronov to the loop, because he asked
-> about this functionality some time ago.
-> 
-> Vlad, the full thread can be found in here:
->   https://www.redhat.com/archives/linux-audit/2019-August/msg00004.html
-> 
-> Any thoughts on this?
-> 
-> thanks,
-> jirka
-> 
-> On Mon, Aug 12, 2019 at 04:33:10PM +0200, Jiri Olsa wrote:
-> > On Mon, Aug 12, 2019 at 09:49:43AM -0400, Steve Grubb wrote:
-> > > On Monday, August 12, 2019 3:59:22 AM EDT Jiri Olsa wrote:
-> > > > On Fri, Aug 09, 2019 at 01:45:21PM -0400, Steve Grubb wrote:
-> > > > > Hello,
-> > > > > 
-> > > > > On Friday, August 9, 2019 10:18:31 AM EDT Jiri Olsa wrote:
-> > > > > > I posted initial change that allows auditd to log BPF program
-> > > > > > 
-> > > > > > load/unload events, it's in here:
-> > > > > >   https://github.com/linux-audit/audit-userspace/pull/104
-> > > > > 
-> > > > > Thanks for the patch...but we probably should have talked a bit more
-> > > > > before undertaking this effort. We normally do not audit from user space
-> > > > > what happens in the kernel. Doing this can be racy and it keeps auditd
-> > > > > from doing the one job it has - which is to grab events and record them
-> > > > > to disk and send them out the realtime interface.
-> > > > > 
-> > > > > > We tried to push pure AUDIT interface for BPF program notification,
-> > > > > > 
-> > > > > > but it was denied, the discussion is in here:
-> > > > > >   https://marc.info/?t=153866123200003&r=1&w=2
-> > > > > 
-> > > > > Hmm. The email I remember was here:
-> > > > > https://www.redhat.com/archives/linux-audit/2018-October/msg00053.html
-> > > > > 
-> > > > > and was only 2 emails long with no answer to my question. :-)
-> > > > 
-> > > > oops, sry about that, your question was:
-> > > > 	> I'm not sure exactly what the issue is. You can audit for specific
-> > > > 	> syscall
-> > > > 	> and argument. So, if you want to see loads, then you can make a rule
-> > > > 	> like:
-> > > > 	> 
-> > > > 	> -a always,exit -F arch=b64 -S bpf -F a0=5
-> > > > 
-> > > > The problem with above for us is that we also:
-> > > > 
-> > > >   - need to log also other properties of the BPF program,
-> > > >     which are not visible from BPF syscall arguments, like
-> > > >     its ID, JIT status 
-> > > 
-> > > The way this is normally done is to add a supplemental record. For example, 
-> > > when auditing the open syscall, we also get CWD & PATH supplemental records. 
-> > > When auditing connect, we get a SOCKADDR supplemental record. We have 
-> > > requirements around selective audit whereby the admin is in control of what 
-> > > is selected for audit via audit rules. So, what one could do is set a rule 
-> > > for the bpf syscall and then when it triggers, we get these other records 
-> > > added to the bpf syscall event.
-> > 
-> > right, that was the initial plan, but BPF guys wanted just
-> > single notification system without specific hooks for audit,
-> > so we ended up with perf specific interface
-> > 
-> > > >     or license info
-> > > 
-> > > This ^^ is not a security issue.
-> > > 
-> > > 
-> > > >   - need to see BPF program UNLOAD, which is not done
-> > > >     via syscall, so those would be unvisible at all
-> > > 
-> > > Is there a place in the kernel where this happens? I could see abnormal 
-> > > termination being something we might want. Does the program go through 
-> > > something like an exit syscall internally?
-> > 
-> > it's happening in here (kernel/bpf/syscall.c):
-> > 
-> > 	bpf_prog_put
-> > 	  __bpf_prog_put
-> > 	  {
-> > 		    if (atomic_dec_and_test(&prog->aux->refcnt)) {
-> > 			perf_event_bpf_event(prog, PERF_BPF_EVENT_PROG_UNLOAD, 0);
-> > 			...
-> > 	  }
-> > 
-> > BPF program is released when it drops the reference count,
-> > which is normally when its file descriptor is closed.
-> > 
-> > However it might get pinned and stay alive even when the initial
-> > file descriptor is closed.. and then there's the networking world,
-> > which might have some other specific ways.. but it all ends up
-> > in bpf_prog_put and zero reference count.
-> > 
-> > > > > > The outcome of the discussion was to use perf event interface
-> > > > > > for BPF notification and use it in some deamon.. audit was our
-> > > > > > first choice.
-> > > > > > 
-> > > > > > thoughts?
-> > > > > 
-> > > > > I'd like to understand what the basic problem is that needs to be solved.
-> > > > 
-> > > > we need a way for administrators to see the history of loaded BPF
-> > > > programs, to help investigating issues related to BPF.. and the
-> > > > only BPF interface for this data is through perf ring buffer
-> > > 
-> > > That is really not the audit way. Let's keep talking to see where this ends 
-> > > up.
-> > 
-> > Would you see some other auditing daemon/app in place for this kind of data?
-> > 
-> > thanks,
-> > jirka
+void audit_filter_inodes(struct task_struct *tsk, struct audit_context *ctx)
+{
+         struct audit_names *n;
+
+         if (audit_pid && tsk->tgid == audit_pid)
+                 return;
+
+         rcu_read_lock();
+
+         list_for_each_entry(n, &ctx->names_list, list) {
+                 if (audit_filter_inode_name(tsk, n, ctx))
+                         break;
+         }
+         rcu_read_unlock();
+}
+
+it seem like the audit_names was already delete from context->names_list.
+
+In source code, there is no any protection on context->names_list when read and write,
+is there any race in read and write?
+
+Unfortunately, there is no way to reproduce it.
+
+the call stack is below:
+[321315.077117] CPU: 6 PID: 8944 Comm: DefSch0100 Tainted: G           OE  ----V-------   3.10.0-327.62.59.83.w75.x86_64 #1
+[321315.077117] Hardware name: OpenStack Foundation OpenStack Nova, BIOS rel-1.8.1-0-g4adadbd-20170107_142945-9_64_246_229 04/01/2014
+[321315.113772] task: ffff8804061c4500 ti: ffff8804021d8000 task.ti: ffff8804021d8000
+[321315.113772] RIP: 0010:[<ffffffff8110f038>]  [<ffffffff8110f038>] audit_filter_inodes+0x68/0x130
+[321315.113772] RSP: 0018:ffff8804021dbef0  EFLAGS: 00010297
+[321315.113772] RAX: ffff88040632aa48 RBX: ffff88040632a800 RCX: 000000000000000a
+[321315.113772] RDX: 00000000000000c0 RSI: ffff88040632a800 RDI: ffff8804061c4500
+[321315.132068] RBP: ffff8804021dbf40 R08: 0000000000000000 R09: 0000000000000000
+[321315.132068] R10: 00007fd38197ac00 R11: 0000000000000206 R12: dead000000000100
+[321315.132068] R13: ffff8804061c4500 R14: 00000000ffffffff R15: ffff88040632a800
+[321315.132068] FS:  00007fd38197b700(0000) GS:ffff88053c380000(0000) knlGS:0000000000000000
+[321315.132068] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[321315.132068] CR2: 00007fe48936d156 CR3: 0000000098b50000 CR4: 00000000001407e0
+[321315.149373] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+[321315.149373] DR3: 0000000000000000 DR6: 00000000ffff0ff0 DR7: 0000000000000400
+[321315.149373] Stack:
+[321315.149373]  ffff88040632aa48 ffff8804061c4500 ffff8804021dbf78 ffffffff819a6260
+[321315.149373]  00000000aefb5477 ffff88040632a800 00007fd3d6e80690 ffff8804061c4500
+[321315.149373]  00007fd38197ac70 00007fd3f218d008 ffff8804021dbf78 ffffffff8110f7d5
+[321315.149373] Call Trace:
+[321315.149373]  [<ffffffff8110f7d5>] __audit_syscall_exit+0x245/0x280
+[321315.149373]  [<ffffffff8165316b>] sysret_audit+0x17/0x21
+[321315.149373] Code: 84 be 00 00 00 4d 8b a7 48 02 00 00 49 8d 87 48 02 00 00 48 89 45 b0 49 39 c4 0f 84 a3 00 00 00 41 be ff ff ff ff 0f 1f 44 00 00 <49> 8b 44 24 20 83 e0 1f 48 c1 e0 04 4c 8d a8 e0 5e df 81 48 8b
+[321315.149373] RIP  [<ffffffff8110f038>] audit_filter_inodes+0x68/0x130
+[321315.149373]  RSP <ffff8804021dbef0>
+[321315.196242] ---[ end trace e1b43c8e59447f0a ]---
+
+I am unfamiliar with audit. I will be appreciated if you could give me some suggestion.
+
+Thanks
+ChenWandun
 
 --
 Linux-audit mailing list
