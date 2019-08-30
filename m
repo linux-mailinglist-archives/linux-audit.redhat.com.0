@@ -2,125 +2,143 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCCB5A3914
-	for <lists+linux-audit@lfdr.de>; Fri, 30 Aug 2019 16:22:27 +0200 (CEST)
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+	by mail.lfdr.de (Postfix) with ESMTPS id 141B0A3A62
+	for <lists+linux-audit@lfdr.de>; Fri, 30 Aug 2019 17:31:57 +0200 (CEST)
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id B9A1F18F3506;
-	Fri, 30 Aug 2019 14:22:24 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 442EE60166;
-	Fri, 30 Aug 2019 14:22:22 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 28D3230A7B8A;
+	Fri, 30 Aug 2019 15:31:54 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 6CCEE19D7A;
+	Fri, 30 Aug 2019 15:31:51 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 790F9E203;
-	Fri, 30 Aug 2019 14:22:16 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
-	[10.5.11.11])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 4E14B180B536;
+	Fri, 30 Aug 2019 15:31:47 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+	[10.5.11.12])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id x7UDiZce021890 for <linux-audit@listman.util.phx.redhat.com>;
-	Fri, 30 Aug 2019 09:44:35 -0400
+	id x7UFVd1a026179 for <linux-audit@listman.util.phx.redhat.com>;
+	Fri, 30 Aug 2019 11:31:39 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id 167616012C; Fri, 30 Aug 2019 13:44:35 +0000 (UTC)
+	id C487960C05; Fri, 30 Aug 2019 15:31:39 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from mx1.redhat.com (ext-mx23.extmail.prod.ext.phx2.redhat.com
-	[10.5.110.64])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 807CA600F8;
-	Fri, 30 Aug 2019 13:44:30 +0000 (UTC)
-Received: from USFB19PA31.eemsg.mail.mil (USFB19PA31.eemsg.mail.mil
-	[214.24.26.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mx1.redhat.com (ext-mx11.extmail.prod.ext.phx2.redhat.com
+	[10.5.110.40])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id BED7F60BE1
+	for <linux-audit@redhat.com>; Fri, 30 Aug 2019 15:31:37 +0000 (UTC)
+Received: from sonic303-27.consmr.mail.ne1.yahoo.com
+	(sonic303-27.consmr.mail.ne1.yahoo.com [66.163.188.153])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id A049A102BB36;
-	Fri, 30 Aug 2019 13:44:27 +0000 (UTC)
-X-EEMSG-check-017: 4376686|USFB19PA31_ESA_OUT01.csd.disa.mil
-X-IronPort-AV: E=Sophos;i="5.64,447,1559520000"; 
-   d="scan'208";a="4376686"
-Received: from emsm-gh1-uea10.ncsc.mil ([214.29.60.2])
-	by USFB19PA31.eemsg.mail.mil with ESMTP/TLS/DHE-RSA-AES256-SHA256;
-	30 Aug 2019 13:44:25 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=tycho.nsa.gov; i=@tycho.nsa.gov; q=dns/txt;
-	s=tycho.nsa.gov; t=1567172666; x=1598708666;
-	h=subject:to:cc:references:from:message-id:date:
-	mime-version:in-reply-to:content-transfer-encoding;
-	bh=XUBHxWU1Z7Jm0bL4OinM71Tbd9LjL3nrkYVjh7bFyfU=;
-	b=AG/njoKdbvKOMc1eFe6ADVW7TOnk+eW1ML0HBxsYmdRdsrRTnTWyKsiW
-	WrZ0rwNE/gd6yHBAAMPdOejt/tXWXe0IwpLW2Bpwr/BGZz4Tu7gazYwpw
-	L/0codz31lB0fmwN7nc7BQuMmdr02oL8vwI3kr3sFLtawir5/YMvgRSxx
-	8Hm4lHV8Znwjncym61petZ3qvTyGugRTxp0CA05Lz+th3mfFe0QbleFH7
-	fzt2kDulevXEIQbCMnXlFEpVmKVOufd5g0poYG6mlq3LhAaZnFjCek6Wj
-	jWp6KaAWVkYXW7fY7q9jGrgRS6KE6bb14elJW/HLsKkRUYZt8wJhq3D/i w==;
-X-IronPort-AV: E=Sophos;i="5.64,447,1559520000"; d="scan'208";a="27376410"
-IronPort-PHdr: =?us-ascii?q?9a23=3A+yffLBDuSOF2vPeouInuUyQJP3N1i/DPJgcQr6?=
-	=?us-ascii?q?AfoPdwSP35rsiwAkXT6L1XgUPTWs2DsrQY0rCQ6v68EjJdqb+681k6OKRWUB?=
-	=?us-ascii?q?EEjchE1ycBO+WiTXPBEfjxciYhF95DXlI2t1uyMExSBdqsLwaK+i764jEdAA?=
-	=?us-ascii?q?jwOhRoLerpBIHSk9631+ev8JHPfglEnjWwba5sIBmssAnct8YbjYRjJ6sx1x?=
-	=?us-ascii?q?DEvmZGd+NKyG1yOFmdhQz85sC+/J5i9yRfpfcs/NNeXKv5Yqo1U6VWACwpPG?=
-	=?us-ascii?q?4p6sLrswLDTRaU6XsHTmoWiBtIDBPb4xz8Q5z8rzH1tut52CmdIM32UbU5Ui?=
-	=?us-ascii?q?ms4qt3VBPljjoMOiUn+2/LlMN/kKNboAqgpxNhxY7UfJqVP+d6cq/EYN8WWX?=
-	=?us-ascii?q?ZNUsNXWiNPGIO8a5YEAfQHM+hWsoLxo0ICoBu6CAWpAu7k1z1GiWLs3aAizu?=
-	=?us-ascii?q?ovDw/G0gwjEdwAvnvbo9f6O7sdX+2u0KnFzy/OY+9K1Trz6oXFdA0qr/GWXb?=
-	=?us-ascii?q?J3dMrc0VQhFx/bgVWIqYzqITWV3fkQvWie9eVgUeavhHAnqgpspTWv3dojip?=
-	=?us-ascii?q?LSi4IJylHL6SV5wIEvKd2+U050e8SoEJRXtyGELoZ7RN4pTWJwuCsi17ELtp?=
-	=?us-ascii?q?G2cDIKxZg63RLTdfOKf5aS7h7+UuuaPC12i2h/eL2lgha/6U2gyurhWcaqyF?=
-	=?us-ascii?q?tKtS9FksXUtnAKyhzT9tCLSvtj8Uel3jaCzxzT5fteIUA1iKrbMIQtwqIwl5?=
-	=?us-ascii?q?UPsUTDGTX6mEPqg6+Nakoo4O2o6+XjYrn+p5+cMZF7ih3mP6gzlcGyDv40Pw?=
-	=?us-ascii?q?gTU2SB5+ix26Pv8VfkTLlSi/05iKjZsJTUJcQBoa65BhdY0p0+5BakFDqmzN?=
-	=?us-ascii?q?QZkmUHLFJCYh6HiZPpNEvULPD3Cve/nUygkC13yPDeIr3hHpLNI2DbkLj7YL?=
-	=?us-ascii?q?Z971VRyBIpwtBC45JYE7QBIPX0Wk/rqtPUFAM2Mwuxw+z/EtVyypseWX6TAq?=
-	=?us-ascii?q?+eKK7Ss1qI5uU1I+mWZY8Voy3wK/4/6P7rk3A5mEURfa6z3ZsYcHq4BOhpI1?=
-	=?us-ascii?q?2FYXrwhdcMCXwKsRQkTOzlllKPSj5TaGy2X6I45jA7DpiqApvERoComLaBxj?=
-	=?us-ascii?q?u0HoVKZmBaDVCBCXToeJuaVPcXdC2SJchhkj8fWLe9S48hzxautAr7y7p6K+?=
-	=?us-ascii?q?rY4CoYtYjs1NJt/e3ciQky9SBoD8Say2yCU3t7nngWSD42x61/ulByyleZ3q?=
-	=?us-ascii?q?hljfxYEcJc5+lQXggmL5HQ1fB1C9f3WgjZZNeGVE6mQsm6ATE2Vt8x2dAObF?=
-	=?us-ascii?q?1mFtW4kB/MwiqqDKUJl7CRGJM09afc1WDrJ8lh03bGyLUhj14+T8tLNG2mgL?=
-	=?us-ascii?q?N/9gfKC4HTjkWWiqeqdbgH0S7X6miM0GqOs1tEUAJqTarFWnUfbFPMrdvl/k?=
-	=?us-ascii?q?PCU6OuCbM/PwtFyM6CLLZKa9LwgVVdWvjsJMneY3iwm2esBReE37aMbI33dG?=
-	=?us-ascii?q?UA2CXSFlMJkx4c/XmYLwgyHCShrHzEDDxoC13vZ1ng8e5kqHO0VkU01R2Fb1?=
-	=?us-ascii?q?V917qp/R4YneecRO0X3rIFvichtjp1EU2j39LZFdWAvRBtfKZCbtMn5ldIy2?=
-	=?us-ascii?q?bZuxZ6Ppy6IKAxzmIZJi1+pUTonzpwC4lNlYB+pXglywt+JIqEwVhBcHWexp?=
-	=?us-ascii?q?m2NbrJfC265Bmyb4bO00zaldOR/b0Crv8/rgbNpgasQ3E+/m1n3t8d6H6V4p?=
-	=?us-ascii?q?HHHUJGSp7qelom/Bh94bfBa28y4J2Chi4kCrW9rjKXg4FhP+Ai0Bv1Oo4CYa?=
-	=?us-ascii?q?4=3D?=
-X-IPAS-Result: =?us-ascii?q?A2AAAQDfJmld/wHyM5BmGwEBAQEDAQEBBwMBAQGBZ4FuK?=
-	=?us-ascii?q?oFAMhYUhCGQdSV+iHGRJgkBAQEBAQEBAQE0AQIBAYQ/AoJgIzgTAgsBAQEEA?=
-	=?us-ascii?q?QEBAQEGAwEBbIU6gjopAYJmAQEBAQIBIwQRQRALDgoCAiYCAlcGAQwGAgEBg?=
-	=?us-ascii?q?l8/JwGBTwUPrFN/M4VKgz6BSYEMKIgFg3MYgX+BEScMgio1PodPglgElUKWT?=
-	=?us-ascii?q?YIpgieSKgYbmGKNcpRrhWghgVgrCAIYCCEPgyeCThcVjikjAzCBBgEBixklg?=
-	=?us-ascii?q?i0BAQ?=
-Received: from tarius.tycho.ncsc.mil ([144.51.242.1])
-	by EMSM-GH1-UEA10.NCSC.MIL with ESMTP; 30 Aug 2019 13:44:24 +0000
-Received: from moss-pluto.infosec.tycho.ncsc.mil (moss-pluto [192.168.25.131])
-	by tarius.tycho.ncsc.mil (8.14.4/8.14.4) with ESMTP id
-	x7UDiJtA007015; Fri, 30 Aug 2019 09:44:19 -0400
+	by mx1.redhat.com (Postfix) with ESMTPS id 28EE6300BEAD
+	for <linux-audit@redhat.com>; Fri, 30 Aug 2019 15:31:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
+	t=1567179093; bh=YsCM41DRxgqJ7bQDAlTbvv4y3j7g5s9eMQIG7dPUcdc=;
+	h=Subject:To:Cc:References:From:Date:In-Reply-To:From:Subject;
+	b=iNo2yOIR8die0TuOzKxfh91WHKVOZDt0O8b99tGlXDqP09EbHnSydELQ6Cgp96+qo4zZmLzAvm1YlFYDrnCBQEDLJvTimJfendbBdRYDedVGZ1C++Ryf/1AOn2SBHw5GflSMIt8amNHHnmn6A6CUefrOm9Zek8NapcdV0cUplZhmK9kT+9hi8Squ0wRi/z+BS42G+iqKZOFPYClu8zwo+r3ufeIrDYhE3FoEiW7mGoLVPEyxmjsG42yb81p3ZXIEIncaShotT7+w1nRhSc9m4LtMXdUVGTMhU1nAwRRFKzRM2hGNIWPP0kqhYTTTv7F+3GxMiBBNfa2T2Qq8SLpzKA==
+X-YMail-OSG: CgBDRnAVM1m5JEbpZSyYsJDq6wa2zY6PWCb1qwNgFJBddD1sBQ.WJwbsJkCUbyj
+	_XYrs0tUVyxQC6WoPWU_auIyzNENbnZXkTybIpr4jrkDj0LSV9Y5pn.I5dTyKG_GCk.DqsHTFVTC
+	Az6ueVqWuaxLX5DqAa1aXPeh5GziBQPU3ojosx_mNm0M.Ll8_jxJbeQsDAhURqBm5pCkzF0MjKVZ
+	JFRH4SY.B_Y20QE2tT.EfI2dDOjq1ktuTCnFOmNNw1o67O.G.2w5idR66z.8ry2mY4s7y86NGKkN
+	NaCU.bFspsHAPr9qj2K_FmNfTNXHPAZQmP..j84Rx.5xJOeoU_RKarWTn6xhalQ5tNK6IIqS8cyU
+	4tpNjXZbKfcFkFPtaCDXao8LMkvN2G8ynD8HCSK8prXAbkehKfimZFt3Kr5KAdIKnDt3PrTTphHY
+	u732jQCX.z7NHKHerZc9GzDBDKiw1R0zNordceCjdmIzqe5y9YyshXRivzciaetgzxBSE7OmNf7B
+	QwAEEwiopAa0nxtkIDVFTdk1UQikkpEC8WTZdgEi6XoB7ua2oF5U3uPqtItxUfYeoZgoRx8iiN2G
+	tw.7ekipq0mo9bQR2fbT9wEixIs6DAmwxU0Z.CYf.QBKYPUyqvQKUNSjs_IZ8FVJRV3HriMXZej6
+	60BuW542Gag53tqsPZQvis4Y6GTfUT5o467daz9Cdy9atNn8j6DQQR0DrrX2wq9PT2c_SkwAKy.j
+	3mweXZoTB0vCwrG3d7OpqtcOgtGg5.lQGgYqnqrmoLV2_Mj4_sNXVKi566NX6WntvaeV.RWM08Hw
+	fV3_q_wsPNjfr1Haz5_sTik.YbD68rPdks_P6Qn9xWMUci2ZsWH.k7vff02IX8lY335ZwQxCPoNj
+	K6UadWSSpi.sdjhgzRUOpQRRSgpfH4f8x1KJar2OMYd6xdR_O5rgNi4i1LZy_lgw7jiL6tiUEz.E
+	29nA12ljFAEvJQuoResmqCTY7j.1sm1arPK.1J4bq4Dm5vgK6asha7cYId_VZjG9UgENEnZNuqsw
+	UM.huvLYtvKpcrwSKV3vxmx0dgHXu28sgDSQWZ07wzgRgI_VGT8RI9ahRopuZYeZOH8YsZEAtpc4
+	Rw2E9iJ2h1ZMqqAegZmWVJDYju6kMRVnIvcjN9z9cMXRp0PVk39J4GvGLab1t4Mrbgj6kKhAy_rn
+	z3q0BFLAikW1CPV2I182aEOhS36lg33N0gV55dlfaa4ASYQq9xxCNICRkzK7kLG_bexRNAQRl9XJ
+	YDTvp47YpoPVcea7aIxj7iFACsqr6JVplR3F3a5NXP_LbYaziKEQPQWaSy6ziUZai0cwkw7Vc5k4
+	uNTaDhUGj8cFs
+Received: from sonic.gate.mail.ne1.yahoo.com by
+	sonic303.consmr.mail.ne1.yahoo.com with HTTP;
+	Fri, 30 Aug 2019 15:31:33 +0000
+Received: by smtp403.mail.ne1.yahoo.com (Oath Hermes SMTP Server) with ESMTPA
+	ID 5b7fad49954c1afb4635a79f8facf116; 
+	Fri, 30 Aug 2019 15:31:33 +0000 (UTC)
 Subject: Re: [RFC PATCH] audit, security: allow LSMs to selectively enable
 	audit collection
-To: Aaron Goidel <acgoide@tycho.nsa.gov>, paul@paul-moore.com
+To: Stephen Smalley <sds@tycho.nsa.gov>, Aaron Goidel <acgoide@tycho.nsa.gov>,
+	paul@paul-moore.com
 References: <20190815174111.6309-1-acgoide@tycho.nsa.gov>
-From: Stephen Smalley <sds@tycho.nsa.gov>
-Message-ID: <edfe85bc-108a-f0cb-8678-67dc143284d5@tycho.nsa.gov>
-Date: Fri, 30 Aug 2019 09:44:19 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.7.0
+	<edfe85bc-108a-f0cb-8678-67dc143284d5@tycho.nsa.gov>
+From: Casey Schaufler <casey@schaufler-ca.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=casey@schaufler-ca.com; keydata=
+	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
+	abzjfg==
+Message-ID: <c5156aaf-e361-65e6-3ca5-89f17fee54bd@schaufler-ca.com>
+Date: Fri, 30 Aug 2019 08:31:31 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+	Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190815174111.6309-1-acgoide@tycho.nsa.gov>
+In-Reply-To: <edfe85bc-108a-f0cb-8678-67dc143284d5@tycho.nsa.gov>
 Content-Language: en-US
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
-	(mx1.redhat.com [10.5.110.64]);
-	Fri, 30 Aug 2019 13:44:28 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.6.2 (mx1.redhat.com [10.5.110.64]);
-	Fri, 30 Aug 2019 13:44:28 +0000 (UTC) for IP:'214.24.26.194'
-	DOMAIN:'USFB19PA31.eemsg.mail.mil'
-	HELO:'USFB19PA31.eemsg.mail.mil' FROM:'sds@tycho.nsa.gov' RCPT:''
-X-RedHat-Spam-Score: -0.101  (DKIMWL_WL_HIGH, DKIM_SIGNED, DKIM_VALID,
-	DKIM_VALID_AU, SPF_HELO_NONE,
-	SPF_PASS) 214.24.26.194 USFB19PA31.eemsg.mail.mil 214.24.26.194
-	USFB19PA31.eemsg.mail.mil <sds@tycho.nsa.gov>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.110.64
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender passed SPF test, Sender IP whitelisted by DNSRBL, ACL 238
+	matched, not delayed by milter-greylist-4.5.16 (mx1.redhat.com
+	[10.5.110.40]); Fri, 30 Aug 2019 15:31:34 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.40]);
+	Fri, 30 Aug 2019 15:31:34 +0000 (UTC) for IP:'66.163.188.153'
+	DOMAIN:'sonic303-27.consmr.mail.ne1.yahoo.com'
+	HELO:'sonic303-27.consmr.mail.ne1.yahoo.com'
+	FROM:'casey@schaufler-ca.com' RCPT:''
+X-RedHat-Spam-Score: 0.002  (DKIM_SIGNED, DKIM_VALID, RCVD_IN_DNSWL_NONE,
+	SPF_HELO_NONE,
+	SPF_NONE) 66.163.188.153 sonic303-27.consmr.mail.ne1.yahoo.com
+	66.163.188.153 sonic303-27.consmr.mail.ne1.yahoo.com
+	<casey@schaufler-ca.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.110.40
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MIME-Autoconverted: from base64 to 8bit by
+	lists01.pubmisc.prod.ext.phx2.redhat.com id x7UFVd1a026179
 X-loop: linux-audit@redhat.com
-X-Mailman-Approved-At: Fri, 30 Aug 2019 10:22:03 -0400
 Cc: rgb@redhat.com, jmorris@namei.org, selinux@vger.kernel.org,
 	linux-security-module@vger.kernel.org, linux-audit@redhat.com,
 	serge@hallyn.com
@@ -135,189 +153,153 @@ List-Post: <mailto:linux-audit@redhat.com>
 List-Help: <mailto:linux-audit-request@redhat.com?subject=help>
 List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2 (mx1.redhat.com [10.5.110.63]); Fri, 30 Aug 2019 14:22:26 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.47]); Fri, 30 Aug 2019 15:31:55 +0000 (UTC)
 
-On 8/15/19 1:41 PM, Aaron Goidel wrote:
-> Presently, there is no way for LSMs to enable collection of supplemental
-> audit records such as path and inode information when a permission denial
-> occurs. Provide a LSM hook to allow LSMs to selectively enable collection
-> on a per-task basis, even if the audit configuration would otherwise
-> disable auditing of a task and/or contains no audit filter rules. If the
-> hook returns a non-zero result, collect all available audit information. If
-> the hook generates its own audit record, then supplemental audit
-> information will be emitted at syscall exit.
-> 
-> In SELinux, we implement this hook by returning the result of a permission
-> check on the process. If the new process2:audit_enable permission is
-> allowed by the policy, then audit collection will be enabled for that
-> process. Otherwise, SELinux will defer to the audit configuration.
-
-Any feedback on this RFC patch?  I know Paul provided some thoughts on 
-the general topic of LSM/audit enablement in the other patch thread but 
-I haven't seen any response to this patch.
-
-> 
-> Signed-off-by: Aaron Goidel <acgoide@tycho.nsa.gov>
-> ---
->   include/linux/lsm_hooks.h           |  7 +++++++
->   include/linux/security.h            |  7 ++++++-
->   kernel/auditsc.c                    | 10 +++++++---
->   security/security.c                 |  5 +++++
->   security/selinux/hooks.c            | 11 +++++++++++
->   security/selinux/include/classmap.h |  2 +-
->   6 files changed, 37 insertions(+), 5 deletions(-)
-> 
-> diff --git a/include/linux/lsm_hooks.h b/include/linux/lsm_hooks.h
-> index ead98af9c602..7d70a6759621 100644
-> --- a/include/linux/lsm_hooks.h
-> +++ b/include/linux/lsm_hooks.h
-> @@ -1380,6 +1380,11 @@
->    *	audit_rule_init.
->    *	@lsmrule contains the allocated rule
->    *
-> + * @audit_enable:
-> + *	Allow the security module to selectively enable audit collection
-> + *	on permission denials based on whether or not @tsk has the
-> + *	process2:audit_enable permission.
-> + *
->    * @inode_invalidate_secctx:
->    *	Notify the security module that it must revalidate the security context
->    *	of an inode.
-> @@ -1800,6 +1805,7 @@ union security_list_options {
->   	int (*audit_rule_known)(struct audit_krule *krule);
->   	int (*audit_rule_match)(u32 secid, u32 field, u32 op, void *lsmrule);
->   	void (*audit_rule_free)(void *lsmrule);
-> +	int (*audit_enable)(struct task_struct *tsk);
->   #endif /* CONFIG_AUDIT */
->   
->   #ifdef CONFIG_BPF_SYSCALL
-> @@ -2043,6 +2049,7 @@ struct security_hook_heads {
->   	struct hlist_head audit_rule_known;
->   	struct hlist_head audit_rule_match;
->   	struct hlist_head audit_rule_free;
-> +	struct hlist_head audit_enable;
->   #endif /* CONFIG_AUDIT */
->   #ifdef CONFIG_BPF_SYSCALL
->   	struct hlist_head bpf;
-> diff --git a/include/linux/security.h b/include/linux/security.h
-> index 7d9c1da1f659..7be66db8de4e 100644
-> --- a/include/linux/security.h
-> +++ b/include/linux/security.h
-> @@ -1719,7 +1719,7 @@ int security_audit_rule_init(u32 field, u32 op, char *rulestr, void **lsmrule);
->   int security_audit_rule_known(struct audit_krule *krule);
->   int security_audit_rule_match(u32 secid, u32 field, u32 op, void *lsmrule);
->   void security_audit_rule_free(void *lsmrule);
-> -
-> +int security_audit_enable(struct task_struct *tsk);
->   #else
->   
->   static inline int security_audit_rule_init(u32 field, u32 op, char *rulestr,
-> @@ -1742,6 +1742,11 @@ static inline int security_audit_rule_match(u32 secid, u32 field, u32 op,
->   static inline void security_audit_rule_free(void *lsmrule)
->   { }
->   
-> +static inline int security_audit_enable(struct task_struct *tsk)
-> +{
-> +	return 0;
-> +}
-> +
->   #endif /* CONFIG_SECURITY */
->   #endif /* CONFIG_AUDIT */
->   
-> diff --git a/kernel/auditsc.c b/kernel/auditsc.c
-> index 95ae27edd417..7e052b71bc42 100644
-> --- a/kernel/auditsc.c
-> +++ b/kernel/auditsc.c
-> @@ -906,8 +906,12 @@ int audit_alloc(struct task_struct *tsk)
->   
->   	state = audit_filter_task(tsk, &key);
->   	if (state == AUDIT_DISABLED) {
-> -		clear_tsk_thread_flag(tsk, TIF_SYSCALL_AUDIT);
-> -		return 0;
-> +		if (security_audit_enable(tsk)) {
-> +			state = AUDIT_BUILD_CONTEXT;
-> +		} else {
-> +			clear_tsk_thread_flag(tsk, TIF_SYSCALL_AUDIT);
-> +			return 0;
-> +		}
->   	}
->   
->   	if (!(context = audit_alloc_context(state))) {
-> @@ -1623,7 +1627,7 @@ void __audit_syscall_entry(int major, unsigned long a1, unsigned long a2,
->   	if (state == AUDIT_DISABLED)
->   		return;
->   
-> -	context->dummy = !audit_n_rules;
-> +	context->dummy = !audit_n_rules && !security_audit_enable(current);
->   	if (!context->dummy && state == AUDIT_BUILD_CONTEXT) {
->   		context->prio = 0;
->   		if (auditd_test_task(current))
-> diff --git a/security/security.c b/security/security.c
-> index 30687e1366b7..04e160e5d4ab 100644
-> --- a/security/security.c
-> +++ b/security/security.c
-> @@ -2333,6 +2333,11 @@ int security_audit_rule_match(u32 secid, u32 field, u32 op, void *lsmrule)
->   {
->   	return call_int_hook(audit_rule_match, 0, secid, field, op, lsmrule);
->   }
-> +
-> +int security_audit_enable(struct task_struct *tsk)
-> +{
-> +	return call_int_hook(audit_enable, 0, tsk);
-> +}
->   #endif /* CONFIG_AUDIT */
->   
->   #ifdef CONFIG_BPF_SYSCALL
-> diff --git a/security/selinux/hooks.c b/security/selinux/hooks.c
-> index d55571c585ff..88764aa0ab43 100644
-> --- a/security/selinux/hooks.c
-> +++ b/security/selinux/hooks.c
-> @@ -6628,6 +6628,16 @@ static void selinux_ib_free_security(void *ib_sec)
->   }
->   #endif
->   
-> +#ifdef CONFIG_AUDIT
-> +static int selinux_audit_enable(struct task_struct *tsk)
-> +{
-> +	u32 sid = current_sid();
-> +
-> +	return !avc_has_perm(&selinux_state, sid, sid, SECCLASS_PROCESS2,
-> +			PROCESS2__AUDIT_ENABLE, NULL);
-> +}
-> +#endif
-> +
->   #ifdef CONFIG_BPF_SYSCALL
->   static int selinux_bpf(int cmd, union bpf_attr *attr,
->   				     unsigned int size)
-> @@ -6999,6 +7009,7 @@ static struct security_hook_list selinux_hooks[] __lsm_ro_after_init = {
->   	LSM_HOOK_INIT(audit_rule_known, selinux_audit_rule_known),
->   	LSM_HOOK_INIT(audit_rule_match, selinux_audit_rule_match),
->   	LSM_HOOK_INIT(audit_rule_free, selinux_audit_rule_free),
-> +	LSM_HOOK_INIT(audit_enable, selinux_audit_enable),
->   #endif
->   
->   #ifdef CONFIG_BPF_SYSCALL
-> diff --git a/security/selinux/include/classmap.h b/security/selinux/include/classmap.h
-> index 32e9b03be3dd..d7d856cbd486 100644
-> --- a/security/selinux/include/classmap.h
-> +++ b/security/selinux/include/classmap.h
-> @@ -52,7 +52,7 @@ struct security_class_mapping secclass_map[] = {
->   	    "execmem", "execstack", "execheap", "setkeycreate",
->   	    "setsockcreate", "getrlimit", NULL } },
->   	{ "process2",
-> -	  { "nnp_transition", "nosuid_transition", NULL } },
-> +	  { "nnp_transition", "nosuid_transition", "audit_enable", NULL } },
->   	{ "system",
->   	  { "ipc_info", "syslog_read", "syslog_mod",
->   	    "syslog_console", "module_request", "module_load", NULL } },
-> 
-
---
-Linux-audit mailing list
-Linux-audit@redhat.com
-https://www.redhat.com/mailman/listinfo/linux-audit
+T24gOC8zMC8yMDE5IDY6NDQgQU0sIFN0ZXBoZW4gU21hbGxleSB3cm90ZToKPiBPbiA4LzE1LzE5
+IDE6NDEgUE0sIEFhcm9uIEdvaWRlbCB3cm90ZToKPj4gUHJlc2VudGx5LCB0aGVyZSBpcyBubyB3
+YXkgZm9yIExTTXMgdG8gZW5hYmxlIGNvbGxlY3Rpb24gb2Ygc3VwcGxlbWVudGFsCj4+IGF1ZGl0
+IHJlY29yZHMgc3VjaCBhcyBwYXRoIGFuZCBpbm9kZSBpbmZvcm1hdGlvbiB3aGVuIGEgcGVybWlz
+c2lvbiBkZW5pYWwKPj4gb2NjdXJzLiBQcm92aWRlIGEgTFNNIGhvb2sgdG8gYWxsb3cgTFNNcyB0
+byBzZWxlY3RpdmVseSBlbmFibGUgY29sbGVjdGlvbgo+PiBvbiBhIHBlci10YXNrIGJhc2lzLCBl
+dmVuIGlmIHRoZSBhdWRpdCBjb25maWd1cmF0aW9uIHdvdWxkIG90aGVyd2lzZQo+PiBkaXNhYmxl
+IGF1ZGl0aW5nIG9mIGEgdGFzayBhbmQvb3IgY29udGFpbnMgbm8gYXVkaXQgZmlsdGVyIHJ1bGVz
+LiBJZiB0aGUKPj4gaG9vayByZXR1cm5zIGEgbm9uLXplcm8gcmVzdWx0LCBjb2xsZWN0IGFsbCBh
+dmFpbGFibGUgYXVkaXQgaW5mb3JtYXRpb24uIElmCj4+IHRoZSBob29rIGdlbmVyYXRlcyBpdHMg
+b3duIGF1ZGl0IHJlY29yZCwgdGhlbiBzdXBwbGVtZW50YWwgYXVkaXQKPj4gaW5mb3JtYXRpb24g
+d2lsbCBiZSBlbWl0dGVkIGF0IHN5c2NhbGwgZXhpdC4KPj4KPj4gSW4gU0VMaW51eCwgd2UgaW1w
+bGVtZW50IHRoaXMgaG9vayBieSByZXR1cm5pbmcgdGhlIHJlc3VsdCBvZiBhIHBlcm1pc3Npb24K
+Pj4gY2hlY2sgb24gdGhlIHByb2Nlc3MuIElmIHRoZSBuZXcgcHJvY2VzczI6YXVkaXRfZW5hYmxl
+IHBlcm1pc3Npb24gaXMKPj4gYWxsb3dlZCBieSB0aGUgcG9saWN5LCB0aGVuIGF1ZGl0IGNvbGxl
+Y3Rpb24gd2lsbCBiZSBlbmFibGVkIGZvciB0aGF0Cj4+IHByb2Nlc3MuIE90aGVyd2lzZSwgU0VM
+aW51eCB3aWxsIGRlZmVyIHRvIHRoZSBhdWRpdCBjb25maWd1cmF0aW9uLgo+Cj4gQW55IGZlZWRi
+YWNrIG9uIHRoaXMgUkZDIHBhdGNoP8KgIEkga25vdyBQYXVsIHByb3ZpZGVkIHNvbWUgdGhvdWdo
+dHMgb24gdGhlIGdlbmVyYWwgdG9waWMgb2YgTFNNL2F1ZGl0IGVuYWJsZW1lbnQgaW4gdGhlIG90
+aGVyIHBhdGNoIHRocmVhZCBidXQgSSBoYXZlbid0IHNlZW4gYW55IHJlc3BvbnNlIHRvIHRoaXMg
+cGF0Y2guCgpBdWRpdCBwb2xpY3kgc2hvdWxkIGJlIGluZGVwZW5kZW50IG9mIHNlY3VyaXR5IG1v
+ZHVsZSBwb2xpY3kuCkkgc2hvdWxkbid0IGhhdmUgdG8gY2hhbmdlIFNFTGludXggcG9saWN5IHRv
+IGVuYWJsZSB0aGlzIGRhdGEKY29sbGVjdGlvbi4gSSBzaG91bGQgYmUgYWJsZSB0byBjaGFuZ2Ug
+dGhlIGF1ZGl0IGNvbmZpZ3VyYXRpb24KdG8gZ2V0IHRoaXMgaWYgSSB3YW50IGl0LiAKCgo+Cj4+
+Cj4+IFNpZ25lZC1vZmYtYnk6IEFhcm9uIEdvaWRlbCA8YWNnb2lkZUB0eWNoby5uc2EuZ292Pgo+
+PiAtLS0KPj4gwqAgaW5jbHVkZS9saW51eC9sc21faG9va3MuaMKgwqDCoMKgwqDCoMKgwqDCoMKg
+IHzCoCA3ICsrKysrKysKPj4gwqAgaW5jbHVkZS9saW51eC9zZWN1cml0eS5owqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoCB8wqAgNyArKysrKystCj4+IMKgIGtlcm5lbC9hdWRpdHNjLmPCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8IDEwICsrKysrKystLS0KPj4gwqAgc2VjdXJp
+dHkvc2VjdXJpdHkuY8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHzCoCA1ICsrKysr
+Cj4+IMKgIHNlY3VyaXR5L3NlbGludXgvaG9va3MuY8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfCAx
+MSArKysrKysrKysrKwo+PiDCoCBzZWN1cml0eS9zZWxpbnV4L2luY2x1ZGUvY2xhc3NtYXAuaCB8
+wqAgMiArLQo+PiDCoCA2IGZpbGVzIGNoYW5nZWQsIDM3IGluc2VydGlvbnMoKyksIDUgZGVsZXRp
+b25zKC0pCj4+Cj4+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2xpbnV4L2xzbV9ob29rcy5oIGIvaW5j
+bHVkZS9saW51eC9sc21faG9va3MuaAo+PiBpbmRleCBlYWQ5OGFmOWM2MDIuLjdkNzBhNjc1OTYy
+MSAxMDA2NDQKPj4gLS0tIGEvaW5jbHVkZS9saW51eC9sc21faG9va3MuaAo+PiArKysgYi9pbmNs
+dWRlL2xpbnV4L2xzbV9ob29rcy5oCj4+IEBAIC0xMzgwLDYgKzEzODAsMTEgQEAKPj4gwqDCoCAq
+wqDCoMKgIGF1ZGl0X3J1bGVfaW5pdC4KPj4gwqDCoCAqwqDCoMKgIEBsc21ydWxlIGNvbnRhaW5z
+IHRoZSBhbGxvY2F0ZWQgcnVsZQo+PiDCoMKgICoKPj4gKyAqIEBhdWRpdF9lbmFibGU6Cj4+ICsg
+KsKgwqDCoCBBbGxvdyB0aGUgc2VjdXJpdHkgbW9kdWxlIHRvIHNlbGVjdGl2ZWx5IGVuYWJsZSBh
+dWRpdCBjb2xsZWN0aW9uCj4+ICsgKsKgwqDCoCBvbiBwZXJtaXNzaW9uIGRlbmlhbHMgYmFzZWQg
+b24gd2hldGhlciBvciBub3QgQHRzayBoYXMgdGhlCj4+ICsgKsKgwqDCoCBwcm9jZXNzMjphdWRp
+dF9lbmFibGUgcGVybWlzc2lvbi4KPj4gKyAqCj4+IMKgwqAgKiBAaW5vZGVfaW52YWxpZGF0ZV9z
+ZWNjdHg6Cj4+IMKgwqAgKsKgwqDCoCBOb3RpZnkgdGhlIHNlY3VyaXR5IG1vZHVsZSB0aGF0IGl0
+IG11c3QgcmV2YWxpZGF0ZSB0aGUgc2VjdXJpdHkgY29udGV4dAo+PiDCoMKgICrCoMKgwqAgb2Yg
+YW4gaW5vZGUuCj4+IEBAIC0xODAwLDYgKzE4MDUsNyBAQCB1bmlvbiBzZWN1cml0eV9saXN0X29w
+dGlvbnMgewo+PiDCoMKgwqDCoMKgIGludCAoKmF1ZGl0X3J1bGVfa25vd24pKHN0cnVjdCBhdWRp
+dF9rcnVsZSAqa3J1bGUpOwo+PiDCoMKgwqDCoMKgIGludCAoKmF1ZGl0X3J1bGVfbWF0Y2gpKHUz
+MiBzZWNpZCwgdTMyIGZpZWxkLCB1MzIgb3AsIHZvaWQgKmxzbXJ1bGUpOwo+PiDCoMKgwqDCoMKg
+IHZvaWQgKCphdWRpdF9ydWxlX2ZyZWUpKHZvaWQgKmxzbXJ1bGUpOwo+PiArwqDCoMKgIGludCAo
+KmF1ZGl0X2VuYWJsZSkoc3RydWN0IHRhc2tfc3RydWN0ICp0c2spOwo+PiDCoCAjZW5kaWYgLyog
+Q09ORklHX0FVRElUICovCj4+IMKgIMKgICNpZmRlZiBDT05GSUdfQlBGX1NZU0NBTEwKPj4gQEAg
+LTIwNDMsNiArMjA0OSw3IEBAIHN0cnVjdCBzZWN1cml0eV9ob29rX2hlYWRzIHsKPj4gwqDCoMKg
+wqDCoCBzdHJ1Y3QgaGxpc3RfaGVhZCBhdWRpdF9ydWxlX2tub3duOwo+PiDCoMKgwqDCoMKgIHN0
+cnVjdCBobGlzdF9oZWFkIGF1ZGl0X3J1bGVfbWF0Y2g7Cj4+IMKgwqDCoMKgwqAgc3RydWN0IGhs
+aXN0X2hlYWQgYXVkaXRfcnVsZV9mcmVlOwo+PiArwqDCoMKgIHN0cnVjdCBobGlzdF9oZWFkIGF1
+ZGl0X2VuYWJsZTsKPj4gwqAgI2VuZGlmIC8qIENPTkZJR19BVURJVCAqLwo+PiDCoCAjaWZkZWYg
+Q09ORklHX0JQRl9TWVNDQUxMCj4+IMKgwqDCoMKgwqAgc3RydWN0IGhsaXN0X2hlYWQgYnBmOwo+
+PiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9saW51eC9zZWN1cml0eS5oIGIvaW5jbHVkZS9saW51eC9z
+ZWN1cml0eS5oCj4+IGluZGV4IDdkOWMxZGExZjY1OS4uN2JlNjZkYjhkZTRlIDEwMDY0NAo+PiAt
+LS0gYS9pbmNsdWRlL2xpbnV4L3NlY3VyaXR5LmgKPj4gKysrIGIvaW5jbHVkZS9saW51eC9zZWN1
+cml0eS5oCj4+IEBAIC0xNzE5LDcgKzE3MTksNyBAQCBpbnQgc2VjdXJpdHlfYXVkaXRfcnVsZV9p
+bml0KHUzMiBmaWVsZCwgdTMyIG9wLCBjaGFyICpydWxlc3RyLCB2b2lkICoqbHNtcnVsZSk7Cj4+
+IMKgIGludCBzZWN1cml0eV9hdWRpdF9ydWxlX2tub3duKHN0cnVjdCBhdWRpdF9rcnVsZSAqa3J1
+bGUpOwo+PiDCoCBpbnQgc2VjdXJpdHlfYXVkaXRfcnVsZV9tYXRjaCh1MzIgc2VjaWQsIHUzMiBm
+aWVsZCwgdTMyIG9wLCB2b2lkICpsc21ydWxlKTsKPj4gwqAgdm9pZCBzZWN1cml0eV9hdWRpdF9y
+dWxlX2ZyZWUodm9pZCAqbHNtcnVsZSk7Cj4+IC0KPj4gK2ludCBzZWN1cml0eV9hdWRpdF9lbmFi
+bGUoc3RydWN0IHRhc2tfc3RydWN0ICp0c2spOwo+PiDCoCAjZWxzZQo+PiDCoCDCoCBzdGF0aWMg
+aW5saW5lIGludCBzZWN1cml0eV9hdWRpdF9ydWxlX2luaXQodTMyIGZpZWxkLCB1MzIgb3AsIGNo
+YXIgKnJ1bGVzdHIsCj4+IEBAIC0xNzQyLDYgKzE3NDIsMTEgQEAgc3RhdGljIGlubGluZSBpbnQg
+c2VjdXJpdHlfYXVkaXRfcnVsZV9tYXRjaCh1MzIgc2VjaWQsIHUzMiBmaWVsZCwgdTMyIG9wLAo+
+PiDCoCBzdGF0aWMgaW5saW5lIHZvaWQgc2VjdXJpdHlfYXVkaXRfcnVsZV9mcmVlKHZvaWQgKmxz
+bXJ1bGUpCj4+IMKgIHsgfQo+PiDCoCArc3RhdGljIGlubGluZSBpbnQgc2VjdXJpdHlfYXVkaXRf
+ZW5hYmxlKHN0cnVjdCB0YXNrX3N0cnVjdCAqdHNrKQo+PiArewo+PiArwqDCoMKgIHJldHVybiAw
+Owo+PiArfQo+PiArCj4+IMKgICNlbmRpZiAvKiBDT05GSUdfU0VDVVJJVFkgKi8KPj4gwqAgI2Vu
+ZGlmIC8qIENPTkZJR19BVURJVCAqLwo+PiDCoCBkaWZmIC0tZ2l0IGEva2VybmVsL2F1ZGl0c2Mu
+YyBiL2tlcm5lbC9hdWRpdHNjLmMKPj4gaW5kZXggOTVhZTI3ZWRkNDE3Li43ZTA1MmI3MWJjNDIg
+MTAwNjQ0Cj4+IC0tLSBhL2tlcm5lbC9hdWRpdHNjLmMKPj4gKysrIGIva2VybmVsL2F1ZGl0c2Mu
+Ywo+PiBAQCAtOTA2LDggKzkwNiwxMiBAQCBpbnQgYXVkaXRfYWxsb2Moc3RydWN0IHRhc2tfc3Ry
+dWN0ICp0c2spCj4+IMKgIMKgwqDCoMKgwqAgc3RhdGUgPSBhdWRpdF9maWx0ZXJfdGFzayh0c2ss
+ICZrZXkpOwo+PiDCoMKgwqDCoMKgIGlmIChzdGF0ZSA9PSBBVURJVF9ESVNBQkxFRCkgewo+PiAt
+wqDCoMKgwqDCoMKgwqAgY2xlYXJfdHNrX3RocmVhZF9mbGFnKHRzaywgVElGX1NZU0NBTExfQVVE
+SVQpOwo+PiAtwqDCoMKgwqDCoMKgwqAgcmV0dXJuIDA7Cj4+ICvCoMKgwqDCoMKgwqDCoCBpZiAo
+c2VjdXJpdHlfYXVkaXRfZW5hYmxlKHRzaykpIHsKPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
+c3RhdGUgPSBBVURJVF9CVUlMRF9DT05URVhUOwo+PiArwqDCoMKgwqDCoMKgwqAgfSBlbHNlIHsK
+Pj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgY2xlYXJfdHNrX3RocmVhZF9mbGFnKHRzaywgVElG
+X1NZU0NBTExfQVVESVQpOwo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCByZXR1cm4gMDsKPj4g
+K8KgwqDCoMKgwqDCoMKgIH0KPj4gwqDCoMKgwqDCoCB9Cj4+IMKgIMKgwqDCoMKgwqAgaWYgKCEo
+Y29udGV4dCA9IGF1ZGl0X2FsbG9jX2NvbnRleHQoc3RhdGUpKSkgewo+PiBAQCAtMTYyMyw3ICsx
+NjI3LDcgQEAgdm9pZCBfX2F1ZGl0X3N5c2NhbGxfZW50cnkoaW50IG1ham9yLCB1bnNpZ25lZCBs
+b25nIGExLCB1bnNpZ25lZCBsb25nIGEyLAo+PiDCoMKgwqDCoMKgIGlmIChzdGF0ZSA9PSBBVURJ
+VF9ESVNBQkxFRCkKPj4gwqDCoMKgwqDCoMKgwqDCoMKgIHJldHVybjsKPj4gwqAgLcKgwqDCoCBj
+b250ZXh0LT5kdW1teSA9ICFhdWRpdF9uX3J1bGVzOwo+PiArwqDCoMKgIGNvbnRleHQtPmR1bW15
+ID0gIWF1ZGl0X25fcnVsZXMgJiYgIXNlY3VyaXR5X2F1ZGl0X2VuYWJsZShjdXJyZW50KTsKPj4g
+wqDCoMKgwqDCoCBpZiAoIWNvbnRleHQtPmR1bW15ICYmIHN0YXRlID09IEFVRElUX0JVSUxEX0NP
+TlRFWFQpIHsKPj4gwqDCoMKgwqDCoMKgwqDCoMKgIGNvbnRleHQtPnByaW8gPSAwOwo+PiDCoMKg
+wqDCoMKgwqDCoMKgwqAgaWYgKGF1ZGl0ZF90ZXN0X3Rhc2soY3VycmVudCkpCj4+IGRpZmYgLS1n
+aXQgYS9zZWN1cml0eS9zZWN1cml0eS5jIGIvc2VjdXJpdHkvc2VjdXJpdHkuYwo+PiBpbmRleCAz
+MDY4N2UxMzY2YjcuLjA0ZTE2MGU1ZDRhYiAxMDA2NDQKPj4gLS0tIGEvc2VjdXJpdHkvc2VjdXJp
+dHkuYwo+PiArKysgYi9zZWN1cml0eS9zZWN1cml0eS5jCj4+IEBAIC0yMzMzLDYgKzIzMzMsMTEg
+QEAgaW50IHNlY3VyaXR5X2F1ZGl0X3J1bGVfbWF0Y2godTMyIHNlY2lkLCB1MzIgZmllbGQsIHUz
+MiBvcCwgdm9pZCAqbHNtcnVsZSkKPj4gwqAgewo+PiDCoMKgwqDCoMKgIHJldHVybiBjYWxsX2lu
+dF9ob29rKGF1ZGl0X3J1bGVfbWF0Y2gsIDAsIHNlY2lkLCBmaWVsZCwgb3AsIGxzbXJ1bGUpOwo+
+PiDCoCB9Cj4+ICsKPj4gK2ludCBzZWN1cml0eV9hdWRpdF9lbmFibGUoc3RydWN0IHRhc2tfc3Ry
+dWN0ICp0c2spCj4+ICt7Cj4+ICvCoMKgwqAgcmV0dXJuIGNhbGxfaW50X2hvb2soYXVkaXRfZW5h
+YmxlLCAwLCB0c2spOwo+PiArfQo+PiDCoCAjZW5kaWYgLyogQ09ORklHX0FVRElUICovCj4+IMKg
+IMKgICNpZmRlZiBDT05GSUdfQlBGX1NZU0NBTEwKPj4gZGlmZiAtLWdpdCBhL3NlY3VyaXR5L3Nl
+bGludXgvaG9va3MuYyBiL3NlY3VyaXR5L3NlbGludXgvaG9va3MuYwo+PiBpbmRleCBkNTU1NzFj
+NTg1ZmYuLjg4NzY0YWEwYWI0MyAxMDA2NDQKPj4gLS0tIGEvc2VjdXJpdHkvc2VsaW51eC9ob29r
+cy5jCj4+ICsrKyBiL3NlY3VyaXR5L3NlbGludXgvaG9va3MuYwo+PiBAQCAtNjYyOCw2ICs2NjI4
+LDE2IEBAIHN0YXRpYyB2b2lkIHNlbGludXhfaWJfZnJlZV9zZWN1cml0eSh2b2lkICppYl9zZWMp
+Cj4+IMKgIH0KPj4gwqAgI2VuZGlmCj4+IMKgICsjaWZkZWYgQ09ORklHX0FVRElUCj4+ICtzdGF0
+aWMgaW50IHNlbGludXhfYXVkaXRfZW5hYmxlKHN0cnVjdCB0YXNrX3N0cnVjdCAqdHNrKQo+PiAr
+ewo+PiArwqDCoMKgIHUzMiBzaWQgPSBjdXJyZW50X3NpZCgpOwo+PiArCj4+ICvCoMKgwqAgcmV0
+dXJuICFhdmNfaGFzX3Blcm0oJnNlbGludXhfc3RhdGUsIHNpZCwgc2lkLCBTRUNDTEFTU19QUk9D
+RVNTMiwKPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgUFJPQ0VTUzJfX0FVRElUX0VOQUJMRSwg
+TlVMTCk7Cj4+ICt9Cj4+ICsjZW5kaWYKPj4gKwo+PiDCoCAjaWZkZWYgQ09ORklHX0JQRl9TWVND
+QUxMCj4+IMKgIHN0YXRpYyBpbnQgc2VsaW51eF9icGYoaW50IGNtZCwgdW5pb24gYnBmX2F0dHIg
+KmF0dHIsCj4+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHVu
+c2lnbmVkIGludCBzaXplKQo+PiBAQCAtNjk5OSw2ICs3MDA5LDcgQEAgc3RhdGljIHN0cnVjdCBz
+ZWN1cml0eV9ob29rX2xpc3Qgc2VsaW51eF9ob29rc1tdIF9fbHNtX3JvX2FmdGVyX2luaXQgPSB7
+Cj4+IMKgwqDCoMKgwqAgTFNNX0hPT0tfSU5JVChhdWRpdF9ydWxlX2tub3duLCBzZWxpbnV4X2F1
+ZGl0X3J1bGVfa25vd24pLAo+PiDCoMKgwqDCoMKgIExTTV9IT09LX0lOSVQoYXVkaXRfcnVsZV9t
+YXRjaCwgc2VsaW51eF9hdWRpdF9ydWxlX21hdGNoKSwKPj4gwqDCoMKgwqDCoCBMU01fSE9PS19J
+TklUKGF1ZGl0X3J1bGVfZnJlZSwgc2VsaW51eF9hdWRpdF9ydWxlX2ZyZWUpLAo+PiArwqDCoMKg
+IExTTV9IT09LX0lOSVQoYXVkaXRfZW5hYmxlLCBzZWxpbnV4X2F1ZGl0X2VuYWJsZSksCj4+IMKg
+ICNlbmRpZgo+PiDCoCDCoCAjaWZkZWYgQ09ORklHX0JQRl9TWVNDQUxMCj4+IGRpZmYgLS1naXQg
+YS9zZWN1cml0eS9zZWxpbnV4L2luY2x1ZGUvY2xhc3NtYXAuaCBiL3NlY3VyaXR5L3NlbGludXgv
+aW5jbHVkZS9jbGFzc21hcC5oCj4+IGluZGV4IDMyZTliMDNiZTNkZC4uZDdkODU2Y2JkNDg2IDEw
+MDY0NAo+PiAtLS0gYS9zZWN1cml0eS9zZWxpbnV4L2luY2x1ZGUvY2xhc3NtYXAuaAo+PiArKysg
+Yi9zZWN1cml0eS9zZWxpbnV4L2luY2x1ZGUvY2xhc3NtYXAuaAo+PiBAQCAtNTIsNyArNTIsNyBA
+QCBzdHJ1Y3Qgc2VjdXJpdHlfY2xhc3NfbWFwcGluZyBzZWNjbGFzc19tYXBbXSA9IHsKPj4gwqDC
+oMKgwqDCoMKgwqDCoMKgICJleGVjbWVtIiwgImV4ZWNzdGFjayIsICJleGVjaGVhcCIsICJzZXRr
+ZXljcmVhdGUiLAo+PiDCoMKgwqDCoMKgwqDCoMKgwqAgInNldHNvY2tjcmVhdGUiLCAiZ2V0cmxp
+bWl0IiwgTlVMTCB9IH0sCj4+IMKgwqDCoMKgwqAgeyAicHJvY2VzczIiLAo+PiAtwqDCoMKgwqDC
+oCB7ICJubnBfdHJhbnNpdGlvbiIsICJub3N1aWRfdHJhbnNpdGlvbiIsIE5VTEwgfSB9LAo+PiAr
+wqDCoMKgwqDCoCB7ICJubnBfdHJhbnNpdGlvbiIsICJub3N1aWRfdHJhbnNpdGlvbiIsICJhdWRp
+dF9lbmFibGUiLCBOVUxMIH0gfSwKPj4gwqDCoMKgwqDCoCB7ICJzeXN0ZW0iLAo+PiDCoMKgwqDC
+oMKgwqDCoCB7ICJpcGNfaW5mbyIsICJzeXNsb2dfcmVhZCIsICJzeXNsb2dfbW9kIiwKPj4gwqDC
+oMKgwqDCoMKgwqDCoMKgICJzeXNsb2dfY29uc29sZSIsICJtb2R1bGVfcmVxdWVzdCIsICJtb2R1
+bGVfbG9hZCIsIE5VTEwgfSB9LAo+Pgo+CgotLQpMaW51eC1hdWRpdCBtYWlsaW5nIGxpc3QKTGlu
+dXgtYXVkaXRAcmVkaGF0LmNvbQpodHRwczovL3d3dy5yZWRoYXQuY29tL21haWxtYW4vbGlzdGlu
+Zm8vbGludXgtYXVkaXQ=
