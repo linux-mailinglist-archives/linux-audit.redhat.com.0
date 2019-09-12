@@ -2,55 +2,104 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1CD5B071D
-	for <lists+linux-audit@lfdr.de>; Thu, 12 Sep 2019 05:20:16 +0200 (CEST)
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+	by mail.lfdr.de (Postfix) with ESMTPS id D75D8B0F72
+	for <lists+linux-audit@lfdr.de>; Thu, 12 Sep 2019 15:02:19 +0200 (CEST)
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 3273A308213F;
-	Thu, 12 Sep 2019 03:20:14 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 0B7DA194B9;
-	Thu, 12 Sep 2019 03:20:12 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 34DBE81F2F;
+	Thu, 12 Sep 2019 13:02:18 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id DD2FF6017E;
+	Thu, 12 Sep 2019 13:02:15 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 9617C1802217;
-	Thu, 12 Sep 2019 03:20:07 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
-	[10.5.11.16])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 7CE5F2551B;
+	Thu, 12 Sep 2019 13:02:11 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+	[10.5.11.22])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id x8C3JuQj007839 for <linux-audit@listman.util.phx.redhat.com>;
-	Wed, 11 Sep 2019 23:19:56 -0400
+	id x8C100Du001646 for <linux-audit@listman.util.phx.redhat.com>;
+	Wed, 11 Sep 2019 21:00:00 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id 66F765C231; Thu, 12 Sep 2019 03:19:56 +0000 (UTC)
+	id 8FCA3100197A; Thu, 12 Sep 2019 01:00:00 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mx1.redhat.com (ext-mx30.extmail.prod.ext.phx2.redhat.com
 	[10.5.110.71])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id E67E55C207;
-	Thu, 12 Sep 2019 03:19:53 +0000 (UTC)
-Received: from tc-sys-mailedm04.tc.baidu.com (mx60.baidu.com [61.135.168.60])
-	by mx1.redhat.com (Postfix) with ESMTP id 2D5501DA6;
-	Thu, 12 Sep 2019 03:19:47 +0000 (UTC)
-Received: from localhost (cp01-cos-dev01.cp01.baidu.com [10.92.119.46])
-	by tc-sys-mailedm04.tc.baidu.com (Postfix) with ESMTP id 5A551236C011; 
-	Thu, 12 Sep 2019 11:19:45 +0800 (CST)
-From: Li RongQing <lirongqing@baidu.com>
-To: paul@paul-moore.com, eparis@redhat.com, linux-audit@redhat.com
-Subject: [PATCH][RFC] audit: set wait time to zero when audit failed
-Date: Thu, 12 Sep 2019 11:19:45 +0800
-Message-Id: <1568258385-10643-1-git-send-email-lirongqing@baidu.com>
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 863961001958;
+	Thu, 12 Sep 2019 00:59:58 +0000 (UTC)
+Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com
+	[64.147.123.19])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id E9FE91DBD;
+	Thu, 12 Sep 2019 00:59:56 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailout.west.internal (Postfix) with ESMTP id E21055D5;
+	Wed, 11 Sep 2019 20:59:54 -0400 (EDT)
+Received: from imap4 ([10.202.2.54])
+	by compute3.internal (MEProxy); Wed, 11 Sep 2019 20:59:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.fm; h=
+	mime-version:message-id:in-reply-to:references:date:from:to:cc
+	:subject:content-type; s=fm1; bh=jo9hPMX06zt4n+izVtw+o/xz0UpZXiz
+	EkCTH618SpxA=; b=fpUbp/fqciOUibSzaEno1fXkphaFjNN2VQlG+sPngOGiiOv
+	b8EvZYbYA8GOSMSDX3HS7q4FKS5MTsa1hWUvHRB0NXd78KprF7qz1r2JwlHVRSx3
+	YiuXEVENUadOdPIGcIlqjPYb92UHCQUwXrlCjzozlGN0zGgQ3hxoAVuvq2jSEzI6
+	IzQuB9Q8Vk841vAUEzNL87dy6ZT+7wMknZCrB0AYTwgQBvFz/zNZhHqqorLEYyoe
+	xPH4TIfW6l9ngYxm0wiQ2o89aJzI/sf0RUvh0Y8A1WF5ryeN3EcDVeqjAJkz9zgB
+	VxeiUxA20hu/7laLlxoBfhlkXHqfw4AMaQpmc3Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=jo9hPM
+	X06zt4n+izVtw+o/xz0UpZXizEkCTH618SpxA=; b=eWmUTNKoDkFmqR/YY8iJ37
+	Al4O7vyJAWmKOW7tlokoVnpZS5xUlSzJxlTuJfP8Y2cJVU504FsKuaFeLXn2MxBt
+	T5LZ6xfDsPvpL97HEyUmOgyt0p5z0Em3q7QOcE5MrbjkoEcMrh2dcWv3209D952e
+	d9LE1gaa7MjZW1dtKMGV8I7I1P5Cm4AqncaohYXnQ5GN9UOgTSuoGfUya9LdI8BT
+	nZYE0fDH7GM6wzzjymB50fKlXJehe1DICEPugEqIhQLzssGawLjPH6eZIs2wQf4g
+	/6g4e/5Zdx31ZMALl//+o6Z/BryZ1Bub/59L+2dZ0BXRGZpu4Y/SQsKtbKFqOHfg
+	==
+X-ME-Sender: <xms:iph5XTttBdo21gbUL-e9peravCKiZtgN8lKxBi9QzqH9F61EXGPucg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrtdeggdegudcutefuodetggdotefrodftvf
+	curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+	uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+	fjughrpefofgggkfgjfhffhffvufgtsehttdertderredtnecuhfhrohhmpedfifhiohhv
+	rghnnhhiucfrrghnvghpihhnthhofdcuoehgphgrnhgvphhinhhtohesfhgrshhtmhgrih
+	hlrdhfmheqnecuffhomhgrihhnpehrvgguhhgrthdrtghomhenucfrrghrrghmpehmrghi
+	lhhfrhhomhepghhprghnvghpihhnthhosehfrghsthhmrghilhdrfhhmnecuvehluhhsth
+	gvrhfuihiivgeptd
+X-ME-Proxy: <xmx:iph5XfZ3hNqfgDTdMAlrJPRN5PcCJRRLxD92PH-ne7o8vxPWMrEhQg>
+	<xmx:iph5XVvou9pq05EAVy5wvG7DuOY1ytSFwQXmpr7iB409AX5gKV4b5w>
+	<xmx:iph5XWptV-1A7Hv3hYApdQcNJQfmay6vYYQgf2DEjBgZRUpIgeRLtg>
+	<xmx:iph5XaOEYaaB4IkrKx2zCtTYB0o5TYIaGRryrAp99n0_6Ytv4mi1Eg>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id E707D3C00A1; Wed, 11 Sep 2019 20:59:53 -0400 (EDT)
+User-Agent: Cyrus-JMAP/3.1.7-227-g18586b54-fmstable-20190911v1
+Mime-Version: 1.0
+Message-Id: <a66ead37-2959-448a-a688-838f58798ce5@www.fastmail.com>
+In-Reply-To: <15531009.1YdTc8d0Yq@x2>
+References: <bd4b2f99-89a0-4d59-aeb9-a97be31b0445@www.fastmail.com>
+	<15531009.1YdTc8d0Yq@x2>
+Date: Thu, 12 Sep 2019 10:59:32 +1000
+From: "Giovanni Panepinto" <gpanepinto@fastmail.fm>
+To: "Steve Grubb" <sgrubb@redhat.com>, linux-audit@redhat.com
+Subject: Re: When is EOE generated?
 X-Greylist: Sender passed SPF test, Sender IP whitelisted by DNSRBL, ACL 238
 	matched, not delayed by milter-greylist-4.6.2 (mx1.redhat.com
-	[10.5.110.71]); Thu, 12 Sep 2019 03:19:48 +0000 (UTC)
+	[10.5.110.71]); Thu, 12 Sep 2019 00:59:57 +0000 (UTC)
 X-Greylist: inspected by milter-greylist-4.6.2 (mx1.redhat.com [10.5.110.71]);
-	Thu, 12 Sep 2019 03:19:48 +0000 (UTC) for IP:'61.135.168.60'
-	DOMAIN:'mx60.baidu.com' HELO:'tc-sys-mailedm04.tc.baidu.com'
-	FROM:'lirongqing@baidu.com' RCPT:''
-X-RedHat-Spam-Score: -0.701  (RCVD_IN_DNSWL_LOW,
-	SPF_PASS) 61.135.168.60 mx60.baidu.com 61.135.168.60
-	mx60.baidu.com <lirongqing@baidu.com>
+	Thu, 12 Sep 2019 00:59:57 +0000 (UTC) for IP:'64.147.123.19'
+	DOMAIN:'wout3-smtp.messagingengine.com'
+	HELO:'wout3-smtp.messagingengine.com'
+	FROM:'gpanepinto@fastmail.fm' RCPT:''
+X-RedHat-Spam-Score: -0.801  (DKIM_SIGNED, DKIM_VALID, DKIM_VALID_AU,
+	FREEMAIL_FROM, RCVD_IN_DNSWL_LOW, SPF_HELO_PASS,
+	SPF_PASS) 64.147.123.19 wout3-smtp.messagingengine.com 64.147.123.19
+	wout3-smtp.messagingengine.com <gpanepinto@fastmail.fm>
 X-Scanned-By: MIMEDefang 2.84 on 10.5.110.71
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-loop: linux-audit@redhat.com
+X-Mailman-Approved-At: Thu, 12 Sep 2019 08:56:01 -0400
+Cc: Matthew Bobrowski <mbobrowski@mbobrowski.org>
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -62,86 +111,51 @@ List-Post: <mailto:linux-audit@redhat.com>
 List-Help: <mailto:linux-audit-request@redhat.com?subject=help>
 List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.42]); Thu, 12 Sep 2019 03:20:15 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.27]); Thu, 12 Sep 2019 13:02:18 +0000 (UTC)
 
-if audit_log_start failed because queue is full, kauditd is waiting
-the receiving queue empty, but no receiver, a task will be forced to
-wait 60 seconds for each audited syscall, and it will be hang for a
-very long time
+Thanks for the response Steve.
 
-so at this condition, set the wait time to zero to reduce wait, and
-restore wait time when audit works again
+What exact criteria the deamon uses when it strips EOE? Is it purely based on the size of the event or remaining disk space or?
 
-it partially restore the commit 3197542482df ("audit: rework
-audit_log_start()")
+That leads me to the next question, can I force it to log EOE regardless?
 
-Signed-off-by: Li RongQing <lirongqing@baidu.com>
-Signed-off-by: Liang ZhiCheng <liangzhicheng@baidu.com>
----
-reboot is taking a very long time on my machine(centos 6u4 +kernel 5.3)
-since TIF_SYSCALL_AUDIT is set by default, and when reboot, userspace process
-which receiver audit message , will be killed, and lead to that no user
-drain the audit queue
-
-git bitsect show it is caused by 3197542482df ("audit: rework audit_log_start()")
-
- kernel/audit.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
-
-diff --git a/kernel/audit.c b/kernel/audit.c
-index da8dc0db5bd3..6de23599fd43 100644
---- a/kernel/audit.c
-+++ b/kernel/audit.c
-@@ -119,6 +119,7 @@ static u32	audit_rate_limit;
-  * When set to zero, this means unlimited. */
- static u32	audit_backlog_limit = 64;
- #define AUDIT_BACKLOG_WAIT_TIME (60 * HZ)
-+static u32	audit_backlog_wait_time_master = AUDIT_BACKLOG_WAIT_TIME;
- static u32	audit_backlog_wait_time = AUDIT_BACKLOG_WAIT_TIME;
- 
- /* The identity of the user shutting down the audit system. */
-@@ -435,7 +436,7 @@ static int audit_set_backlog_limit(u32 limit)
- static int audit_set_backlog_wait_time(u32 timeout)
- {
- 	return audit_do_config_change("audit_backlog_wait_time",
--				      &audit_backlog_wait_time, timeout);
-+				      &audit_backlog_wait_time_master, timeout);
- }
- 
- static int audit_set_enabled(u32 state)
-@@ -1202,7 +1203,7 @@ static int audit_receive_msg(struct sk_buff *skb, struct nlmsghdr *nlh)
- 		s.lost			= atomic_read(&audit_lost);
- 		s.backlog		= skb_queue_len(&audit_queue);
- 		s.feature_bitmap	= AUDIT_FEATURE_BITMAP_ALL;
--		s.backlog_wait_time	= audit_backlog_wait_time;
-+		s.backlog_wait_time	= audit_backlog_wait_time_master;
- 		audit_send_reply(skb, seq, AUDIT_GET, 0, 0, &s, sizeof(s));
- 		break;
- 	}
-@@ -1785,11 +1786,15 @@ struct audit_buffer *audit_log_start(struct audit_context *ctx, gfp_t gfp_mask,
- 						skb_queue_len(&audit_queue),
- 						audit_backlog_limit);
- 				audit_log_lost("backlog limit exceeded");
-+				audit_backlog_wait_time = 0;
- 				return NULL;
- 			}
- 		}
- 	}
- 
-+	if (audit_backlog_wait_time != audit_backlog_wait_time_master)
-+		audit_backlog_wait_time = audit_backlog_wait_time_master;
-+
- 	ab = audit_buffer_alloc(ctx, gfp_mask, type);
- 	if (!ab) {
- 		audit_log_lost("out of memory in audit_log_start");
 -- 
-2.16.2
+Kind Regards,
+Giovanni
+
+On Thu, Sep 12, 2019, at 07:19, Steve Grubb wrote:
+> Hello,
+> 
+> On Tuesday, September 10, 2019 11:55:58 PM EDT Giovanni Panepinto wrote:
+> > According to
+> > https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/h
+> > tml/security_guide/sec-audit_record_types , the record EOE gets generated
+> > to represent "the end of a multi-record event."
+> > 
+> > In my audit logs, I can see that for some events, EOE doesn't get
+> > generated.
+> 
+> <snip>
+> 
+> > So my question is, what defines a multi-record event? And why is EOE not
+> > generated when I create a file under /usr/local/bin?
+> 
+> The EOE record is stripped by the audit daemon to save disk space. The audit 
+> libraries and utilities use heuristics to determine the end of an event. So, 
+> if you are parsing events with auparse, it will figure out the end of the 
+> event and group all related records for you. The EOE record is passes along 
+> to the real time interface just in case it helps to mark an event complete 
+> before the heuristics determine it is complete.
+> 
+> -Steve
+> 
+> 
+>
 
 --
 Linux-audit mailing list
