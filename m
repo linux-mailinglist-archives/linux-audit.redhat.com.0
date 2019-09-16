@@ -2,76 +2,88 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BB89B339C
-	for <lists+linux-audit@lfdr.de>; Mon, 16 Sep 2019 04:56:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46EC2B4443
+	for <lists+linux-audit@lfdr.de>; Tue, 17 Sep 2019 00:52:51 +0200 (CEST)
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 5398F85A03;
-	Mon, 16 Sep 2019 02:55:57 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id E49A618CB8E3;
+	Mon, 16 Sep 2019 22:52:48 +0000 (UTC)
 Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id BDAB260923;
-	Mon, 16 Sep 2019 02:55:51 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 1FBF160A9F;
+	Mon, 16 Sep 2019 22:52:46 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id BF6261800B74;
-	Mon, 16 Sep 2019 02:55:45 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
-	[10.5.11.11])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 8E5161803518;
+	Mon, 16 Sep 2019 22:52:41 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+	[10.5.11.15])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id x8G2tTE9030131 for <linux-audit@listman.util.phx.redhat.com>;
-	Sun, 15 Sep 2019 22:55:30 -0400
+	id x8GMqVlJ024921 for <linux-audit@listman.util.phx.redhat.com>;
+	Mon, 16 Sep 2019 18:52:31 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id D067B600F8; Mon, 16 Sep 2019 02:55:29 +0000 (UTC)
+	id BA6315D6C8; Mon, 16 Sep 2019 22:52:31 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from mx1.redhat.com (ext-mx07.extmail.prod.ext.phx2.redhat.com
-	[10.5.110.31])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id A7F1F600CD;
-	Mon, 16 Sep 2019 02:55:27 +0000 (UTC)
-Received: from baidu.com (mx20.baidu.com [111.202.115.85])
-	by mx1.redhat.com (Postfix) with ESMTP id 92938C049E32;
-	Mon, 16 Sep 2019 02:55:25 +0000 (UTC)
-Received: from BC-Mail-Ex29.internal.baidu.com (unknown [172.31.51.23])
-	by Forcepoint Email with ESMTPS id 729699FAC67F9;
-	Mon, 16 Sep 2019 10:55:21 +0800 (CST)
-Received: from BJHW-Mail-Ex13.internal.baidu.com (10.127.64.36) by
-	BC-Mail-Ex29.internal.baidu.com (172.31.51.23) with Microsoft SMTP
-	Server
-	(version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
-	15.1.1713.5; Mon, 16 Sep 2019 10:55:23 +0800
-Received: from BJHW-Mail-Ex13.internal.baidu.com ([100.100.100.36]) by
-	BJHW-Mail-Ex13.internal.baidu.com ([100.100.100.36]) with mapi id
-	15.01.1713.004; Mon, 16 Sep 2019 10:55:23 +0800
-From: "Li,Rongqing" <lirongqing@baidu.com>
-To: Paul Moore <paul@paul-moore.com>
-Subject: =?utf-8?B?562U5aSNOiBbUEFUQ0hdW1JGQ10gYXVkaXQ6IHNldCB3YWl0IHRpbWUgdG8g?=
-	=?utf-8?Q?zero_when_audit_failed?=
-Thread-Topic: [PATCH][RFC] audit: set wait time to zero when audit failed
-Thread-Index: AQHVaWpIwZPuSgS+uUKlaAzCHP+Gd6ctnETA
-Date: Mon, 16 Sep 2019 02:55:23 +0000
-Message-ID: <f0efb280c80342049d4c43c9acb42676@baidu.com>
+Received: from mx1.redhat.com (ext-mx14.extmail.prod.ext.phx2.redhat.com
+	[10.5.110.43])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id B4FFF5D6B2
+	for <linux-audit@redhat.com>; Mon, 16 Sep 2019 22:52:29 +0000 (UTC)
+Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com
+	[209.85.208.196])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 40119308FBAC
+	for <linux-audit@redhat.com>; Mon, 16 Sep 2019 22:52:28 +0000 (UTC)
+Received: by mail-lj1-f196.google.com with SMTP id e17so1449328ljf.13
+	for <linux-audit@redhat.com>; Mon, 16 Sep 2019 15:52:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=dlZ1zGHZkoJ6/E2qOm43de5/u/WlaXxfSVzrgQidlFw=;
+	b=ass72gui8ieoGaQqwVDq7A+wZcUGy/s6Azd5l/YVhCnxF+qESro02gfZzOaKs8h2UY
+	MCwJ0rYiaOA9AfI9so231GaTCfc1XP6GWpcHG42bbW6nOV+wfSGSxNPspUl9QOXrUMQI
+	+7JjuFln3SWjSj9okw5WAeCwed5wEF9czaLRHz+It7mc4IZsey6vDwpYLZOD2ulCaP/1
+	DjHphh6LsqXtuQ019DnDepUM2p4e4gXilclqETDgPlC4a3CMH2lWmAodWRbaI8Tg6smT
+	TIimiTjZJwqEJUuD8GQ5TC0v6uDZnQ3EwGj6t0E46OWpDv1gfiAfU2B6quYwOK3Pv+PH
+	MzGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=dlZ1zGHZkoJ6/E2qOm43de5/u/WlaXxfSVzrgQidlFw=;
+	b=f0hlUkpdKPKRWDvE0uN4mW3+yc5hxlkOF1IJYTVhjDdYfMZMBsVIwERqF1y0rInYt4
+	c0hF2UQfY/GHwwx+cWUpE5t+/EAnuxrxqEa9LRfqYuFF6ltLFUiyFzrfXZdT8deg2cf7
+	7QgJdqZuDkmx2mtDpSzS6wdbBOt4gjj1SuNoy9kcWGsuA+yZq1uYqcpURtGiPnUhbhIt
+	gqhJXeMECmHCPmGusVf1foezzJqNVoITbZFZdCg4NH9x1YeQhRbh9KyapxSM623A2reU
+	PpPIOGCmTrrACCXfC3S0OuhEhJiAb2+osOr3GiyeglGsITw9jmSTcC32KU+dcnyP/MJ9
+	p4oA==
+X-Gm-Message-State: APjAAAVI5I04Eiv4nT4OcBKt5PkRkggPK2rvOuU2kuLNM0+UeaqblWNK
+	i0vV5vlOEg1Grc4sz2GGytS9ORc4pMiNvClLfEVp2yKHFg==
+X-Google-Smtp-Source: APXvYqzN+GxIWNb3nxT9jAI04PaDf6E3uNbHg9dvP3jzxBGLP4N93kLn0SlQVS37v6/5tu9nowKDlKqntPJlQx8ziDg=
+X-Received: by 2002:a2e:6e18:: with SMTP id j24mr140752ljc.158.1568674346441; 
+	Mon, 16 Sep 2019 15:52:26 -0700 (PDT)
+MIME-Version: 1.0
 References: <1568258385-10643-1-git-send-email-lirongqing@baidu.com>
 	<CAHC9VhRXj2UpdijxpKgMROfNu9tETpXpHdboPqP=HvVF-GuBVQ@mail.gmail.com>
-In-Reply-To: <CAHC9VhRXj2UpdijxpKgMROfNu9tETpXpHdboPqP=HvVF-GuBVQ@mail.gmail.com>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.22.198.30]
-MIME-Version: 1.0
-X-Greylist: Sender passed SPF test, Sender IP whitelisted by DNSRBL, ACL 238
-	matched, not delayed by milter-greylist-4.5.16 (mx1.redhat.com
-	[10.5.110.31]); Mon, 16 Sep 2019 02:55:26 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.31]);
-	Mon, 16 Sep 2019 02:55:26 +0000 (UTC) for IP:'111.202.115.85'
-	DOMAIN:'mx20.baidu.com' HELO:'baidu.com'
-	FROM:'lirongqing@baidu.com' RCPT:''
-X-RedHat-Spam-Score: -0.702  (RCVD_IN_DNSWL_LOW, SPF_HELO_PASS,
-	SPF_PASS) 111.202.115.85 mx20.baidu.com 111.202.115.85
-	mx20.baidu.com <lirongqing@baidu.com>
-X-Scanned-By: MIMEDefang 2.78 on 10.5.110.31
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MIME-Autoconverted: from base64 to 8bit by
-	lists01.pubmisc.prod.ext.phx2.redhat.com id x8G2tTE9030131
+	<f0efb280c80342049d4c43c9acb42676@baidu.com>
+In-Reply-To: <f0efb280c80342049d4c43c9acb42676@baidu.com>
+From: Paul Moore <paul@paul-moore.com>
+Date: Mon, 16 Sep 2019 18:52:15 -0400
+Message-ID: <CAHC9VhR79o8aSkORj0fU2XKfLUBipRtTO+xUHPAd+StfpzAV-g@mail.gmail.com>
+Subject: Re: [PATCH][RFC] audit: set wait time to zero when audit failed
+To: "Li,Rongqing" <lirongqing@baidu.com>
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.43]);
+	Mon, 16 Sep 2019 22:52:28 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.43]);
+	Mon, 16 Sep 2019 22:52:28 +0000 (UTC) for IP:'209.85.208.196'
+	DOMAIN:'mail-lj1-f196.google.com'
+	HELO:'mail-lj1-f196.google.com' FROM:'paul@paul-moore.com' RCPT:''
+X-RedHat-Spam-Score: 0.001  (DKIM_SIGNED, DKIM_VALID, RCVD_IN_DNSWL_NONE,
+	RCVD_IN_MSPIKE_H2, SPF_HELO_NONE,
+	SPF_NONE) 209.85.208.196 mail-lj1-f196.google.com 209.85.208.196
+	mail-lj1-f196.google.com <paul@paul-moore.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.110.43
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-loop: linux-audit@redhat.com
 Cc: "linux-audit@redhat.com" <linux-audit@redhat.com>
 X-BeenThere: linux-audit@redhat.com
@@ -90,54 +102,69 @@ Content-Transfer-Encoding: 7bit
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.26]); Mon, 16 Sep 2019 02:55:58 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2 (mx1.redhat.com [10.5.110.63]); Mon, 16 Sep 2019 22:52:50 +0000 (UTC)
 
+On Sun, Sep 15, 2019 at 10:55 PM Li,Rongqing <lirongqing@baidu.com> wrote:
+> > > if audit_log_start failed because queue is full, kauditd is waiting
+> > > the receiving queue empty, but no receiver, a task will be forced to
+> > > wait 60 seconds for each audited syscall, and it will be hang for a
+> > > very long time
+> > >
+> > > so at this condition, set the wait time to zero to reduce wait, and
+> > > restore wait time when audit works again
+> > >
+> > > it partially restore the commit 3197542482df ("audit: rework
+> > > audit_log_start()")
+> > >
+> > > Signed-off-by: Li RongQing <lirongqing@baidu.com>
+> > > Signed-off-by: Liang ZhiCheng <liangzhicheng@baidu.com>
+> > > ---
+> > > reboot is taking a very long time on my machine(centos 6u4 +kernel
+> > > 5.3) since TIF_SYSCALL_AUDIT is set by default, and when reboot,
+> > > userspace process which receiver audit message , will be killed, and
+> > > lead to that no user drain the audit queue
+> > >
+> > > git bitsect show it is caused by 3197542482df ("audit: rework
+> > > audit_log_start()")
+> > >
+> > >  kernel/audit.c | 9 +++++++--
+> > >  1 file changed, 7 insertions(+), 2 deletions(-)
 > >
-> > if audit_log_start failed because queue is full, kauditd is waiting
-> > the receiving queue empty, but no receiver, a task will be forced to
-> > wait 60 seconds for each audited syscall, and it will be hang for a
-> > very long time
-> >
-> > so at this condition, set the wait time to zero to reduce wait, and
-> > restore wait time when audit works again
-> >
-> > it partially restore the commit 3197542482df ("audit: rework
-> > audit_log_start()")
-> >
-> > Signed-off-by: Li RongQing <lirongqing@baidu.com>
-> > Signed-off-by: Liang ZhiCheng <liangzhicheng@baidu.com>
-> > ---
-> > reboot is taking a very long time on my machine(centos 6u4 +kernel
-> > 5.3) since TIF_SYSCALL_AUDIT is set by default, and when reboot,
-> > userspace process which receiver audit message , will be killed, and
-> > lead to that no user drain the audit queue
-> >
-> > git bitsect show it is caused by 3197542482df ("audit: rework
-> > audit_log_start()")
-> >
-> >  kernel/audit.c | 9 +++++++--
-> >  1 file changed, 7 insertions(+), 2 deletions(-)
-> 
-> This is typically solved by increasing the backlog using the "audit_backlog_limit"
-> kernel parameter (link to the docs below). 
+> > This is typically solved by increasing the backlog using the "audit_backlog_limit"
+> > kernel parameter (link to the docs below).
+>
+> It should be able to avoid my issue, but the default behaviors does not working for me; And not all have enough knowledge about audit, who maybe spend lots of effort to find the root cause, and estimate how large should be "audit_backlog_limit"
 
-It should be able to avoid my issue, but the default behaviors does not working for me; And not all have enough knowledge about audit, who maybe spend lots of effort to find the root cause, and estimate how large should be "audit_backlog_limit"
+The pause/sleep behavior is desired behavior and is intended to help
+kauditd/auditd process the audit backlog on a busy system.  If we
+didn't sleep the current process and give kauditd/auditd a chance to
+flush the backlog when it was full, a lot of bad things could happen
+with respect to audit.  We generally select the backlog limit so that
+this is not a problem for most systems, although there will always be
+edge cases where the default does not work well; it is impossible to
+pick defaults that work well for every case.
 
-> You might also want to investigate
-> what is generating some many audit records prior to starting the audit
-> daemon.
-> 
-It is /sbin/readahead-collector, in fact, we stop the auditd; We are doing a reboot test, which rebooting machine continue to test hardware/software.
+If you are not using audit, you can always disable it via the kernel
+command line, or at runtime (look at what Fedora does).
 
-it is same as below:
-auditctl -a always,exit -S all -F pid='xxx'
-kill -s 19 `pidof auditd`
+> > You might also want to investigate
+> > what is generating some many audit records prior to starting the audit
+> > daemon.
+>
+> It is /sbin/readahead-collector, in fact, we stop the auditd; We are doing a reboot test, which rebooting machine continue to test hardware/software.
+>
+> it is same as below:
+> auditctl -a always,exit -S all -F pid='xxx'
+> kill -s 19 `pidof auditd`
+>
+> then the audited task will be hung
 
-then the audited task will be hung
+So you are seeing this problem only when you run a test, or did you
+provide this as a reproducer?
 
--RongQing
-
-
+-- 
+paul moore
+www.paul-moore.com
 
 --
 Linux-audit mailing list
