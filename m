@@ -2,97 +2,43 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94D3AB6308
-	for <lists+linux-audit@lfdr.de>; Wed, 18 Sep 2019 14:24:28 +0200 (CEST)
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E7AFB706F
+	for <lists+linux-audit@lfdr.de>; Thu, 19 Sep 2019 03:23:50 +0200 (CEST)
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id B995A36955;
-	Wed, 18 Sep 2019 12:24:25 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 106A98AB25B;
+	Thu, 19 Sep 2019 01:23:47 +0000 (UTC)
 Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 990BE104812F;
-	Wed, 18 Sep 2019 12:24:23 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 5494260CD0;
+	Thu, 19 Sep 2019 01:23:44 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 2BB731808878;
-	Wed, 18 Sep 2019 12:24:18 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
-	[10.5.11.11])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id C80251803B37;
+	Thu, 19 Sep 2019 01:23:37 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+	[10.5.11.12])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id x8ICNUvP022977 for <linux-audit@listman.util.phx.redhat.com>;
-	Wed, 18 Sep 2019 08:23:30 -0400
+	id x8J1NLd6010111 for <linux-audit@listman.util.phx.redhat.com>;
+	Wed, 18 Sep 2019 21:23:21 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id CCF496012C; Wed, 18 Sep 2019 12:23:30 +0000 (UTC)
+	id B37A760C83; Thu, 19 Sep 2019 01:23:21 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from mx1.redhat.com (ext-mx14.extmail.prod.ext.phx2.redhat.com
-	[10.5.110.43])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id C7D17600CC
-	for <linux-audit@redhat.com>; Wed, 18 Sep 2019 12:23:30 +0000 (UTC)
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com
-	[209.85.208.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 34554308FB9A
-	for <linux-audit@redhat.com>; Wed, 18 Sep 2019 12:23:29 +0000 (UTC)
-Received: by mail-lj1-f182.google.com with SMTP id l21so5284610lje.4
-	for <linux-audit@redhat.com>; Wed, 18 Sep 2019 05:23:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=gjfV++zqlJviQPTYj2W4ffyH0ZbgxLvP42MIZ2hsV10=;
-	b=b2UvaTigkafm8+ND3WJkD2s7c63IauSHJ1r62S/epLsvm/pF/j4MznGnSZ1gxZOBc5
-	Dpc7PvbvIYljaluR0d2/6XVQ6aPQ7SBWZHpYKljoizyRdsOX1ajBehIvL7mrIEnumHNP
-	gKKd8odndCQAWoMNzZsh/s898QGvpYckgAl5pqch+9hZXJYmaAAvVF/QkRaeRVkOgV/n
-	z+bJSfeO4F+fT7oCS7NKYSAglYv87ZQWcY0XJwGENF+34C8lbPzbphFSjgFRPL+9g4Jn
-	bYmYxbALiu8JXdOff1fWM8OZ1zBl2zl28dlPFFbm27kYWntP+nyN4LmhvYQO1tK0HZ5y
-	gPRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=gjfV++zqlJviQPTYj2W4ffyH0ZbgxLvP42MIZ2hsV10=;
-	b=ghgzNTXiX8ZU++7Z5twVxcML17xqIxuc3gvl6QfClwVFIdqq96tpjb1R8eSPG2s1Qc
-	hDKlZQxdQasc+v9q+Q8JXBbb0/iqFaNu8IlTZkNu4OlV6enCPMnpNIG7uhRZLlqnoToZ
-	M6WmSUnIsj7ca4gU0DI0dhbfC4Nq+KozXj2Y6wmbKc+nbm1D+jjxBF3Bh50F1c6Vn8gI
-	gHeRuc7gSyAL4sxf4naNIfb9BL365IZEFZ5RhTUPMjJiQ8bEVi9wgxpTi77ZJguoZV2R
-	NMmNzNfkBgWRhiOdOoFq/9Z3xkJQeqgjgP4fYFf/OvJAfRbcT54dQlRMLm0sXDe7z8Nd
-	rZzQ==
-X-Gm-Message-State: APjAAAWUOm2br3P3vX9lLqG+S4nWrAUJQBnsUTMby1XP2hYkFxFBRSfD
-	IfJa4fYBl3gUXL7go6k9clDba+k1mr5V+n7FtAgK
-X-Google-Smtp-Source: APXvYqxkwz4V7shWM3sj6eGDcBqRkybSVZZcivs34ssmHDayrALGKM+nVa6aGicey/PC8xK6gN/Ie/sPDuW/yJ3BGrQ=
-X-Received: by 2002:a2e:6e18:: with SMTP id j24mr2062052ljc.158.1568809407431; 
-	Wed, 18 Sep 2019 05:23:27 -0700 (PDT)
-MIME-Version: 1.0
-References: <1568258385-10643-1-git-send-email-lirongqing@baidu.com>
-	<CAHC9VhRXj2UpdijxpKgMROfNu9tETpXpHdboPqP=HvVF-GuBVQ@mail.gmail.com>
-	<f0efb280c80342049d4c43c9acb42676@baidu.com>
-	<CAHC9VhR79o8aSkORj0fU2XKfLUBipRtTO+xUHPAd+StfpzAV-g@mail.gmail.com>
-	<fe43dc199f3949709828e1d96edf7556@baidu.com>
-	<CAHC9VhTSBvZr0jFARoFQ2dBxQR6rsDxY6uOLaF35e9BVhNEvaA@mail.gmail.com>
-	<dbfc8ea5cdc3413e829eb864430ed7dc@baidu.com>
-In-Reply-To: <dbfc8ea5cdc3413e829eb864430ed7dc@baidu.com>
-From: Paul Moore <paul@paul-moore.com>
-Date: Wed, 18 Sep 2019 08:23:16 -0400
-Message-ID: <CAHC9VhRQKcS2E-WwMoJ_GntXY6cKTCvaykRBF_FXG4ggvAiHLA@mail.gmail.com>
-Subject: Re: [PATCH][RFC] audit: set wait time to zero when audit failed
-To: "Li,Rongqing" <lirongqing@baidu.com>
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.43]);
-	Wed, 18 Sep 2019 12:23:29 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.43]);
-	Wed, 18 Sep 2019 12:23:29 +0000 (UTC) for IP:'209.85.208.182'
-	DOMAIN:'mail-lj1-f182.google.com'
-	HELO:'mail-lj1-f182.google.com' FROM:'paul@paul-moore.com' RCPT:''
-X-RedHat-Spam-Score: 0.001  (DKIM_SIGNED, DKIM_VALID, RCVD_IN_DNSWL_NONE,
-	RCVD_IN_MSPIKE_H2, SPF_HELO_NONE,
-	SPF_NONE) 209.85.208.182 mail-lj1-f182.google.com 209.85.208.182
-	mail-lj1-f182.google.com <paul@paul-moore.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.110.43
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MIME-Autoconverted: from quoted-printable to 8bit by
-	lists01.pubmisc.prod.ext.phx2.redhat.com id x8ICNUvP022977
+Received: from madcap2.tricolour.ca (ovpn-112-19.phx2.redhat.com [10.3.112.19])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 6BBD960C5D;
+	Thu, 19 Sep 2019 01:23:07 +0000 (UTC)
+From: Richard Guy Briggs <rgb@redhat.com>
+To: containers@lists.linux-foundation.org, linux-api@vger.kernel.org,
+	Linux-Audit Mailing List <linux-audit@redhat.com>,
+	linux-fsdevel@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+	netdev@vger.kernel.org, netfilter-devel@vger.kernel.org
+Subject: [PATCH ghak90 V7 00/21] audit: implement container identifier
+Date: Wed, 18 Sep 2019 21:22:17 -0400
+Message-Id: <cover.1568834524.git.rgb@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-loop: linux-audit@redhat.com
-Cc: "linux-audit@redhat.com" <linux-audit@redhat.com>
+Cc: nhorman@tuxdriver.com, Richard Guy Briggs <rgb@redhat.com>,
+	dhowells@redhat.com, ebiederm@xmission.com, simo@redhat.com,
+	eparis@parisplace.org, mpatel@redhat.com, serge@hallyn.com
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -104,69 +50,333 @@ List-Post: <mailto:linux-audit@redhat.com>
 List-Help: <mailto:linux-audit-request@redhat.com?subject=help>
 List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.30]); Wed, 18 Sep 2019 12:24:27 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2 (mx1.redhat.com [10.5.110.68]); Thu, 19 Sep 2019 01:23:49 +0000 (UTC)
 
-T24gVHVlLCBTZXAgMTcsIDIwMTkgYXQgOTowNyBQTSBMaSxSb25ncWluZyA8bGlyb25ncWluZ0Bi
-YWlkdS5jb20+IHdyb3RlOgo+ID4gLS0tLS3pgq7ku7bljp/ku7YtLS0tLQo+ID4g5Y+R5Lu25Lq6
-OiBQYXVsIE1vb3JlIFttYWlsdG86cGF1bEBwYXVsLW1vb3JlLmNvbV0KPiA+IOWPkemAgeaXtumX
-tDogMjAxOeW5tDnmnIgxOOaXpSAzOjE3Cj4gPiDmlLbku7bkuro6IExpLFJvbmdxaW5nIDxsaXJv
-bmdxaW5nQGJhaWR1LmNvbT4KPiA+IOaKhOmAgTogRXJpYyBQYXJpcyA8ZXBhcmlzQHJlZGhhdC5j
-b20+OyBsaW51eC1hdWRpdEByZWRoYXQuY29tCj4gPiDkuLvpopg6IFJlOiBbUEFUQ0hdW1JGQ10g
-YXVkaXQ6IHNldCB3YWl0IHRpbWUgdG8gemVybyB3aGVuIGF1ZGl0IGZhaWxlZAo+ID4KPiA+IE9u
-IE1vbiwgU2VwIDE2LCAyMDE5IGF0IDk6MDggUE0gTGksUm9uZ3FpbmcgPGxpcm9uZ3FpbmdAYmFp
-ZHUuY29tPiB3cm90ZToKPiA+ID4gPiAtLS0tLemCruS7tuWOn+S7ti0tLS0tCj4gPiA+ID4g5Y+R
-5Lu25Lq6OiBQYXVsIE1vb3JlIFttYWlsdG86cGF1bEBwYXVsLW1vb3JlLmNvbV0KPiA+ID4gPiDl
-j5HpgIHml7bpl7Q6IDIwMTnlubQ55pyIMTfml6UgNjo1Mgo+ID4gPiA+IOaUtuS7tuS6ujogTGks
-Um9uZ3FpbmcgPGxpcm9uZ3FpbmdAYmFpZHUuY29tPgo+ID4gPiA+IOaKhOmAgTogRXJpYyBQYXJp
-cyA8ZXBhcmlzQHJlZGhhdC5jb20+OyBsaW51eC1hdWRpdEByZWRoYXQuY29tCj4gPiA+ID4g5Li7
-6aKYOiBSZTogW1BBVENIXVtSRkNdIGF1ZGl0OiBzZXQgd2FpdCB0aW1lIHRvIHplcm8gd2hlbiBh
-dWRpdCBmYWlsZWQKCi4uLgoKPiA+ID4gSSBqdXN0IHdhbnQgdG8gaXQgYXMgYmVmb3JlIDMxOTc1
-NDI0ODJkZiAoImF1ZGl0OiByZXdvcmsKPiA+ID4gYXVkaXRfbG9nX3N0YXJ0KCkiKSwgd2FpdCA2
-MCBzZWNvbmRzIG9uY2UgaWYKPiA+ID4gYXVkaXRkL3JlYWRhaGVhYWQtY29sbGVjdG9yIGhhdmUg
-c29tZSBwcm9ibGVtIHRvIGRyYWluIHRoZSBhdWRpdCBiYWNrbG9nLgo+ID4KPiA+IFRoZSBwYXRj
-aCB5b3UgbWVudGlvbiBmaXhlZCB3aGF0IHdhcyBkZWVtZWQgdG8gYmUgYnVnZ3kgYmVoYXZpb3I7
-IGFzCj4gPiBtZW50aW9uZWQgcHJldmlvdXNseSBpbiB0aGlzIHRocmVhZCBJIHNlZSBubyBnb29k
-IHJlYXNvbiB0byBnbyBiYWNrIHRvIHRoZSBvbGQKPiA+IGJlaGF2aW9yLgo+ID4KPiA+ID4gPiBJ
-ZiB5b3UgYXJlIG5vdCB1c2luZyBhdWRpdCwgeW91IGNhbiBhbHdheXMgZGlzYWJsZSBpdCB2aWEg
-dGhlIGtlcm5lbAo+ID4gPiA+IGNvbW1hbmQgbGluZSwgb3IgYXQgcnVudGltZSAobG9vayBhdCB3
-aGF0IEZlZG9yYSBkb2VzKS4KPiA+ID4gPgo+ID4gPiA+ID4gPiBZb3UgbWlnaHQgYWxzbyB3YW50
-IHRvIGludmVzdGlnYXRlIHdoYXQgaXMgZ2VuZXJhdGluZyBzb21lIG1hbnkKPiA+ID4gPiA+ID4g
-YXVkaXQgcmVjb3JkcyBwcmlvciB0byBzdGFydGluZyB0aGUgYXVkaXQgZGFlbW9uLgo+ID4gPiA+
-ID4KPiA+ID4gPiA+IEl0IGlzIC9zYmluL3JlYWRhaGVhZC1jb2xsZWN0b3IsIGluIGZhY3QsIHdl
-IHN0b3AgdGhlIGF1ZGl0ZDsgV2UKPiA+ID4gPiA+IGFyZSBkb2luZyBhCj4gPiA+ID4gcmVib290
-IHRlc3QsIHdoaWNoIHJlYm9vdGluZyBtYWNoaW5lIGNvbnRpbnVlIHRvIHRlc3QgaGFyZHdhcmUv
-c29mdHdhcmUuCj4gPiA+ID4gPgo+ID4gPiA+ID4gaXQgaXMgc2FtZSBhcyBiZWxvdzoKPiA+ID4g
-PiA+IGF1ZGl0Y3RsIC1hIGFsd2F5cyxleGl0IC1TIGFsbCAtRiBwaWQ9J3h4eCcKPiA+ID4gPiA+
-IGtpbGwgLXMgMTkgYHBpZG9mIGF1ZGl0ZGAKPiA+ID4gPiA+Cj4gPiA+ID4gPiB0aGVuIHRoZSBh
-dWRpdGVkIHRhc2sgd2lsbCBiZSBodW5nCj4gPiA+ID4KPiA+ID4gPiBTbyB5b3UgYXJlIHNlZWlu
-ZyB0aGlzIHByb2JsZW0gb25seSB3aGVuIHlvdSBydW4gYSB0ZXN0LCBvciBkaWQgeW91Cj4gPiA+
-ID4gcHJvdmlkZSB0aGlzIGFzIGEgcmVwcm9kdWNlcj8KPiA+ID4KPiA+ID4gYXVkaXRjdGwgLWEg
-YWx3YXlzLGV4aXQgLVMgYWxsIC1GIHBwaWQ9YHBpZG9mIHNzaGRgIGtpbGwgLXMgMTkgYHBpZG9m
-Cj4gPiA+IGF1ZGl0ZGAgc3NoIHJvb3RAMTI3LjAuMC4xCj4gPiA+Cj4gPiA+IHRoZW4gc3NoIHdp
-bGwgYmUgaHVuZyBmb3JldmVyCj4gPgo+ID4gVGhhdCBpcyBleHBlY3RlZCBiZWhhdmlvci4gIFlv
-dSBhcmUgcHV0dGluZyBhIG1hc3NpdmUgYXVkaXQgbG9hZCBvbiB0aGUgc3lzdGVtCj4gPiBieSB0
-ZWxsaW5nIHRoZSBrZXJuZWwgdG8gYXVkaXQgZXZlcnkgc3lzY2FsbCB0aGF0IHNzaGQgbWFrZXMs
-IHRoZW4geW91IGFyZQo+ID4gaW50ZW50aW9uYWxseSBraWxsaW5nIHRoZSBhdWRpdCBkYWVtb24g
-YW5kIGF0dGVtcHRpbmcgdG8gc3NoIGludG8gdGhlIHN5c3RlbS4KPiA+IFRoZSBwcm9wZXIgZml4
-KGVzKSBoZXJlIHdvdWxkIGJlIHRvIDEpIHNldCByZWFzb25hYmxlIGF1ZGl0IHJ1bGVzIGFuZC9v
-ciAyKSB1c2UKPiA+IGFuIGluaXQgc3lzdGVtIHRoYXQgbW9uaXRvcnMgYW5kIHJlc3RhcnRzIGF1
-ZGl0ZCB3aGVuIGl0IGZhaWxzIChzeXN0ZW1kIGhhcyB0aGlzCj4gPiBjYXBhYmlsaXR5LCBJIGJl
-bGlldmUgc29tZSBvdGhlcnMgZG8gYXMgd2VsbCkuCj4KPiBCb3RoIGFyZSBub3Qgd29ya2luZy4K
-PiBUaGUgYXVkaXRkIGlzIG5vdCBkZWFkLCBpdCBpcyBpbiBzdG9wIHN0YXR1cyhraWxsIC1zIDE5
-KS4gU28gc3lzdGVtZC9pbml0IHdpbGwgbm90IHJlc3RhcnQgaXQuCj4gRXZlbiBpZiB3aXRoIGxp
-dHRsZSBhdWRpdCBydWxlcywgYWZ0ZXIgbXVsdGlwbGUgYWNjZXNzZXMsIHRoZSBiYWNrbG9nIHdp
-bGwgZnVsbCBkdWUgdG8gbm8gcmVjZWl2ZXIKCkZhaXIgcG9pbnQsIGhvd2V2ZXIgSSBzdGlsbCBz
-dGFuZCBieSBteSBwcmV2aW91cyBjb21tZW50cyB0aGF0IHRoZXJlCmFyZSBydW50aW1lIGNvbmZp
-Z3VyYXRpb24ga25vYnMgd2hpY2ggY2FuIG1pdGlnYXRlIHRoaXMgcHJvYmxlbSBpZiBpdAppcyBz
-b21ldGhpbmcgeW91IGFyZSBjb25jZXJuZWQgYWJvdXQuICBEZXBlbmRpbmcgb24gdGhlIHNpdHVh
-dGlvbiwgeW91CmNhbiBlaXRoZXIgaW5jcmVhc2UgdGhlIGJhY2tsb2cgdG8gZGVhbCB3aXRoIHRy
-YW5zaWVudCBwcm9ibGVtcywgb3IKZGVjcmVhc2UgdGhlIGJhY2tsb2cgd2FpdCB0aW1lIChwb3Nz
-aWJseSB0byB6ZXJvKSB0byBwcmV2ZW50IGJsb2NraW5nCmVudGlyZWx5LgoKLS0gCnBhdWwgbW9v
-cmUKd3d3LnBhdWwtbW9vcmUuY29tCgotLQpMaW51eC1hdWRpdCBtYWlsaW5nIGxpc3QKTGludXgt
-YXVkaXRAcmVkaGF0LmNvbQpodHRwczovL3d3dy5yZWRoYXQuY29tL21haWxtYW4vbGlzdGluZm8v
-bGludXgtYXVkaXQ=
+Implement kernel audit container identifier.
+
+This patchset is a seventh based on the proposal document (V3)
+posted:
+	https://www.redhat.com/archives/linux-audit/2018-January/msg00014.html
+
+The first patch was the last patch from ghak81 that was absorbed into
+this patchset since its primary justification is the rest of this
+patchset.
+
+The second patch implements the proc fs write to set the audit container
+identifier of a process, emitting an AUDIT_CONTAINER_OP record to
+announce the registration of that audit container identifier on that
+process.  This patch requires userspace support for record acceptance
+and proper type display.
+
+The third implements reading the audit container identifier from the
+proc filesystem for debugging.  This patch wasn't planned for upstream
+inclusion but is starting to become more likely.
+
+The fourth converts over from a simple u64 to a list member that includes
+owner information to check for descendancy, allow process injection into
+a container and prevent id reuse by other orchestrators.
+
+The fifth logs the drop of an audit container identifier once all tasks
+using that audit container identifier have exited.
+
+The 6th limits the total number of containers on a system.
+
+The 7th implements the auxiliary record AUDIT_CONTAINER_ID if an audit
+container identifier is associated with an event.  This patch requires
+userspace support for proper type display.
+
+The 8th adds audit daemon signalling provenance through audit_sig_info2.
+
+The 9th creates a local audit context to be able to bind a standalone
+record with a locally created auxiliary record.
+
+The 10th patch adds audit container identifier records to the user
+standalone records.
+
+The 11th adds audit container identifier filtering to the exit,
+exclude and user lists.  This patch adds the AUDIT_CONTID field and
+requires auditctl userspace support for the --contid option.
+
+The 12th adds network namespace audit container identifier labelling
+based on member tasks' audit container identifier labels.
+
+The 13th adds audit container identifier support to standalone netfilter
+records that don't have a task context and lists each container to which
+that net namespace belongs.
+
+The 14th checks that the target is a descendant for nesting and the 15th
+refactors to avoid a duplicate of the copied function.
+
+The 16th and 17th add audit netlink interfaces for the /proc
+audit_containerid, loginuid and sessionid.
+
+The 18th adds tracking and reporting for container nesting.  This patch
+could be split up and the chunks applied to earlier patches if this
+nesting tracking and reporting approach is acceptable.  Arguably this is
+the only way to be able to report activity in a nested container that
+also affects its parent containers.
+
+The 19th limits the container nesting depth.
+
+The 20th adds a mechanism to allow a process to be designated as a
+container orchestrator/engine in non-init user namespaces and the 21st
+adds a /proc interface for testing only.
+
+
+Example: Set an audit container identifier of 123456 to the "sleep" task:
+
+  sleep 2&
+  child=$!
+  echo 123456 > /proc/$child/audit_containerid; echo $?
+  ausearch -ts recent -m container_op
+  echo child:$child contid:$( cat /proc/$child/audit_containerid)
+
+This should produce a record such as:
+
+  type=CONTAINER_OP msg=audit(2018-06-06 12:39:29.636:26949) : op=set opid=2209 contid=123456 old-contid=18446744073709551615 pid=628 auid=root uid=root tty=ttyS0 ses=1 subj=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023 comm=bash exe=/usr/bin/bash res=yes
+
+
+Example: Set a filter on an audit container identifier 123459 on /tmp/tmpcontainerid:
+
+  contid=123459
+  key=tmpcontainerid
+  auditctl -a exit,always -F dir=/tmp -F perm=wa -F contid=$contid -F key=$key
+  perl -e "sleep 1; open(my \$tmpfile, '>', \"/tmp/$key\"); close(\$tmpfile);" &
+  child=$!
+  echo $contid > /proc/$child/audit_containerid
+  sleep 2
+  ausearch -i -ts recent -k $key
+  auditctl -d exit,always -F dir=/tmp -F perm=wa -F contid=$contid -F key=$key
+  rm -f /tmp/$key
+
+This should produce an event such as:
+
+  type=CONTAINER_ID msg=audit(2018-06-06 12:46:31.707:26953) : contid=123459
+  type=PROCTITLE msg=audit(2018-06-06 12:46:31.707:26953) : proctitle=perl -e sleep 1; open(my $tmpfile, '>', "/tmp/tmpcontainerid"); close($tmpfile);
+  type=PATH msg=audit(2018-06-06 12:46:31.707:26953) : item=1 name=/tmp/tmpcontainerid inode=25656 dev=00:26 mode=file,644 ouid=root ogid=root rdev=00:00 obj=unconfined_u:object_r:user_tmp_t:s0 nametype=CREATE cap_fp=none cap_fi=none cap_fe=0 cap_fver=0
+  type=PATH msg=audit(2018-06-06 12:46:31.707:26953) : item=0 name=/tmp/ inode=8985 dev=00:26 mode=dir,sticky,777 ouid=root ogid=root rdev=00:00 obj=system_u:object_r:tmp_t:s0 nametype=PARENT cap_fp=none cap_fi=none cap_fe=0 cap_fver=0
+  type=CWD msg=audit(2018-06-06 12:46:31.707:26953) : cwd=/root
+  type=SYSCALL msg=audit(2018-06-06 12:46:31.707:26953) : arch=x86_64 syscall=openat success=yes exit=3 a0=0xffffffffffffff9c a1=0x5621f2b81900 a2=O_WRONLY|O_CREAT|O_TRUNC a3=0x1b6 items=2 ppid=628 pid=2232 auid=root uid=root gid=root euid=root suid=root fsuid=root egid=root sgid=root fsgid=root tty=ttyS0 ses=1 comm=perl exe=/usr/bin/perl subj=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023 key=tmpcontainerid
+
+Example: Test multiple containers on one netns:
+
+  sleep 5 &
+  child1=$!
+  containerid1=123451
+  echo $containerid1 > /proc/$child1/audit_containerid
+  sleep 5 &
+  child2=$!
+  containerid2=123452
+  echo $containerid2 > /proc/$child2/audit_containerid
+  iptables -I INPUT -i lo -p icmp --icmp-type echo-request -j AUDIT --type accept
+  iptables -I INPUT  -t mangle -i lo -p icmp --icmp-type echo-request -j MARK --set-mark 0x12345555
+  sleep 1;
+  bash -c "ping -q -c 1 127.0.0.1 >/dev/null 2>&1"
+  sleep 1;
+  ausearch -i -m NETFILTER_PKT -ts boot|grep mark=0x12345555
+  ausearch -i -m NETFILTER_PKT -ts boot|grep contid=|grep $containerid1|grep $containerid2
+
+This should produce an event such as:
+
+  type=NETFILTER_PKT msg=audit(03/15/2019 14:16:13.369:244) : mark=0x12345555 saddr=127.0.0.1 daddr=127.0.0.1 proto=icmp
+  type=CONTAINER_ID msg=audit(03/15/2019 14:16:13.369:244) : contid=123452,123451
+
+
+Includes the last patch of https://github.com/linux-audit/audit-kernel/issues/81
+Please see the github audit kernel issue for the main feature:
+  https://github.com/linux-audit/audit-kernel/issues/90
+and the kernel filter code:
+  https://github.com/linux-audit/audit-kernel/issues/91
+and the network support:
+  https://github.com/linux-audit/audit-kernel/issues/92
+Please see the github audit userspace issue for supporting record types:
+  https://github.com/linux-audit/audit-userspace/issues/51
+and filter code:
+  https://github.com/linux-audit/audit-userspace/issues/40
+Please see the github audit testsuiite issue for the test case:
+  https://github.com/linux-audit/audit-testsuite/issues/64
+Please see the github audit wiki for the feature overview:
+  https://github.com/linux-audit/audit-kernel/wiki/RFE-Audit-Container-ID
+
+
+Changelog:
+v7
+- remove BUG() in audit_comparator64()
+- rebase on v5.2-rc1 audit/next
+- resolve merge conflict with ghak111 (signal_info regardless syscall)
+- resolve merge conflict with ghak73 (audit_field_valid)
+- resolve merge conflict with ghak64 (saddr_fam filter)
+- resolve merge conflict with ghak10 (ntp audit) change AUDIT_CONTAINER_ID from 1332 to 1334
+- rebase on v5.3-rc1 audit/next
+- track container owner
+- only permit setting contid of descendants for nesting
+- track drop of contid and permit reuse
+- track and report container nesting
+- permit filtering on any nested contid
+- set/get contid and loginuid/sessionid via netlink
+- implement capcontid to enable orchestrators in non-init user
+  namespaces
+- limit number of containers
+- limit depth of container nesting
+
+v6
+- change TMPBUFLEN from 11 to 21 to cover the decimal value of contid
+  u64 (nhorman)
+- fix bug overwriting ctx in struct audit_sig_info, move cid above
+  ctx[0] (nhorman)
+- fix bug skipping remaining fields and not advancing bufp when copying
+  out contid in audit_krule_to_data (omosnacec)
+- add acks, tidy commit descriptions, other formatting fixes (checkpatch
+  wrong on audit_log_lost)
+- cast ull for u64 prints
+- target_cid tracking was moved from the ptrace/signal patch to
+  container_op
+- target ptrace and signal records were moved from the ptrace/signal
+  patch to container_id
+- auditd signaller tracking was moved to a new AUDIT_SIGNAL_INFO2
+  request and record
+- ditch unnecessary list_empty() checks
+- check for null net and aunet in audit_netns_contid_add()
+- swap CONTAINER_OP contid/old-contid order to ease parsing
+
+v5
+- address loginuid and sessionid syscall scope in ghak104
+- address audit_context in CONFIG_AUDIT vs CONFIG_AUDITSYSCALL in ghak105
+- remove tty patch, addressed in ghak106
+- rebase on audit/next v5.0-rc1
+  w/ghak59/ghak104/ghak103/ghak100/ghak107/ghak105/ghak106/ghak105sup
+- update CONTAINER_ID to CONTAINER_OP in patch description
+- move audit_context in audit_task_info to CONFIG_AUDITSYSCALL
+- move audit_alloc() and audit_free() out of CONFIG_AUDITSYSCALL and into
+  CONFIG_AUDIT and create audit_{alloc,free}_syscall
+- use plain kmem_cache_alloc() rather than kmem_cache_zalloc() in audit_alloc()
+- fix audit_get_contid() declaration type error
+- move audit_set_contid() from auditsc.c to audit.c
+- audit_log_contid() returns void
+- audit_log_contid() handed contid rather than tsk
+- switch from AUDIT_CONTAINER to AUDIT_CONTAINER_ID for aux record
+- move audit_log_contid(tsk/contid) & audit_contid_set(tsk)/audit_contid_valid(contid)
+- switch from tsk to current
+- audit_alloc_local() calls audit_log_lost() on failure to allocate a context
+- add AUDIT_USER* non-syscall contid record
+- cosmetic cleanup double parens, goto out on err
+- ditch audit_get_ns_contid_list_lock(), fix aunet lock race
+- switch from all-cpu read spinlock to rcu, keep spinlock for write
+- update audit_alloc_local() to use ktime_get_coarse_real_ts64()
+- add nft_log support
+- add call from do_exit() in audit_free() to remove contid from netns
+- relegate AUDIT_CONTAINER ref= field (was op=) to debug patch
+
+v4
+- preface set with ghak81:"collect audit task parameters"
+- add shallyn and sgrubb acks
+- rename feature bitmap macro
+- rename cid_valid() to audit_contid_valid()
+- rename AUDIT_CONTAINER_ID to AUDIT_CONTAINER_OP
+- delete audit_get_contid_list() from headers
+- move work into inner if, delete "found"
+- change netns contid list function names
+- move exports for audit_log_contid audit_alloc_local audit_free_context to non-syscall patch
+- list contids CSV
+- pass in gfp flags to audit_alloc_local() (fix audit_alloc_context callers)
+- use "local" in lieu of abusing in_syscall for auditsc_get_stamp()
+- read_lock(&tasklist_lock) around children and thread check
+- task_lock(tsk) should be taken before first check of tsk->audit
+- add spin lock to contid list in aunet
+- restrict /proc read to CAP_AUDIT_CONTROL
+- remove set again prohibition and inherited flag
+- delete contidion spelling fix from patchset, send to netdev/linux-wireless
+
+v3
+- switched from containerid in task_struct to audit_task_info (depends on ghak81)
+- drop INVALID_CID in favour of only AUDIT_CID_UNSET
+- check for !audit_task_info, throw -ENOPROTOOPT on set
+- changed -EPERM to -EEXIST for parent check
+- return AUDIT_CID_UNSET if !audit_enabled
+- squash child/thread check patch into AUDIT_CONTAINER_ID patch
+- changed -EPERM to -EBUSY for child check
+- separate child and thread checks, use -EALREADY for latter
+- move addition of op= from ptrace/signal patch to AUDIT_CONTAINER patch
+- fix && to || bashism in ptrace/signal patch
+- uninline and export function for audit_free_context()
+- drop CONFIG_CHANGE, FEATURE_CHANGE, ANOM_ABEND, ANOM_SECCOMP patches
+- move audit_enabled check (xt_AUDIT)
+- switched from containerid list in struct net to net_generic's struct audit_net
+- move containerid list iteration into audit (xt_AUDIT)
+- create function to move namespace switch into audit
+- switched /proc/PID/ entry from containerid to audit_containerid
+- call kzalloc with GFP_ATOMIC on in_atomic() in audit_alloc_context()
+- call kzalloc with GFP_ATOMIC on in_atomic() in audit_log_container_info()
+- use xt_net(par) instead of sock_net(skb->sk) to get net
+- switched record and field names: initial CONTAINER_ID, aux CONTAINER, field CONTID
+- allow to set own contid
+- open code audit_set_containerid
+- add contid inherited flag
+- ccontainerid and pcontainerid eliminated due to inherited flag
+- change name of container list funcitons
+- rename containerid to contid
+- convert initial container record to syscall aux
+- fix spelling mistake of contidion in net/rfkill/core.c to avoid contid name collision
+
+v2
+- add check for children and threads
+- add network namespace container identifier list
+- add NETFILTER_PKT audit container identifier logging
+- patch description and documentation clean-up and example
+- reap unused ppid
+
+Richard Guy Briggs (21):
+  audit: collect audit task parameters
+  audit: add container id
+  audit: read container ID of a process
+  audit: convert to contid list to check for orch/engine ownership
+  audit: log drop of contid on exit of last task
+  audit: contid limit of 32k imposed to avoid DoS
+  audit: log container info of syscalls
+  audit: add contid support for signalling the audit daemon
+  audit: add support for non-syscall auxiliary records
+  audit: add containerid support for user records
+  audit: add containerid filtering
+  audit: add support for containerid to network namespaces
+  audit: NETFILTER_PKT: record each container ID associated with a netNS
+  audit: contid check descendancy and nesting
+  sched: pull task_is_descendant into kernel/sched/core.c
+  audit: add support for contid set/get by netlink
+  audit: add support for loginuid/sessionid set/get by netlink
+  audit: track container nesting
+  audit: check cont depth
+  audit: add capcontid to set contid outside init_user_ns
+  audit: add proc interface for capcontid
+
+ fs/proc/base.c              | 112 ++++++-
+ include/linux/audit.h       | 148 ++++++++-
+ include/linux/sched.h       |  10 +-
+ include/uapi/linux/audit.h  |  16 +-
+ init/init_task.c            |   3 +-
+ init/main.c                 |   2 +
+ kernel/audit.c              | 728 +++++++++++++++++++++++++++++++++++++++++++-
+ kernel/audit.h              |  38 +++
+ kernel/auditfilter.c        |  64 ++++
+ kernel/auditsc.c            |  91 ++++--
+ kernel/fork.c               |   1 -
+ kernel/nsproxy.c            |   4 +
+ kernel/sched/core.c         |  33 ++
+ net/netfilter/nft_log.c     |  11 +-
+ net/netfilter/xt_AUDIT.c    |  11 +-
+ security/selinux/nlmsgtab.c |   1 +
+ security/yama/yama_lsm.c    |  33 --
+ 17 files changed, 1210 insertions(+), 96 deletions(-)
+
+-- 
+1.8.3.1
+
+--
+Linux-audit mailing list
+Linux-audit@redhat.com
+https://www.redhat.com/mailman/listinfo/linux-audit
