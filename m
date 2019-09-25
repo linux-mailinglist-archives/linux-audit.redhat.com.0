@@ -2,96 +2,98 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1D9BBD4D7
-	for <lists+linux-audit@lfdr.de>; Wed, 25 Sep 2019 00:18:26 +0200 (CEST)
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+	by mail.lfdr.de (Postfix) with ESMTPS id EE275BE6D6
+	for <lists+linux-audit@lfdr.de>; Wed, 25 Sep 2019 23:02:59 +0200 (CEST)
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 32DAC3086211;
-	Tue, 24 Sep 2019 22:18:25 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 9FE4E308403B;
+	Wed, 25 Sep 2019 21:02:57 +0000 (UTC)
 Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 0D7211001B00;
-	Tue, 24 Sep 2019 22:18:25 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 36D4F60A35;
+	Wed, 25 Sep 2019 21:02:55 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id B3AC04E58C;
-	Tue, 24 Sep 2019 22:18:24 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
-	[10.5.11.22])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 543444E589;
+	Wed, 25 Sep 2019 21:02:50 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+	[10.5.11.13])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id x8OMIBXS019471 for <linux-audit@listman.util.phx.redhat.com>;
-	Tue, 24 Sep 2019 18:18:11 -0400
+	id x8PL2dR8008177 for <linux-audit@listman.util.phx.redhat.com>;
+	Wed, 25 Sep 2019 17:02:39 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id E4570100197A; Tue, 24 Sep 2019 22:18:11 +0000 (UTC)
+	id B123560A35; Wed, 25 Sep 2019 21:02:39 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from mx1.redhat.com (ext-mx01.extmail.prod.ext.phx2.redhat.com
-	[10.5.110.25])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id DE5361001B00
-	for <linux-audit@redhat.com>; Tue, 24 Sep 2019 22:18:09 +0000 (UTC)
-Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com
-	[209.85.160.196])
+Received: from mx1.redhat.com (ext-mx30.extmail.prod.ext.phx2.redhat.com
+	[10.5.110.71])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id AC77660920
+	for <linux-audit@redhat.com>; Wed, 25 Sep 2019 21:02:37 +0000 (UTC)
+Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
+	[209.85.210.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 891DD81DE0
-	for <linux-audit@redhat.com>; Tue, 24 Sep 2019 22:18:08 +0000 (UTC)
-Received: by mail-qt1-f196.google.com with SMTP id r5so4173945qtd.0
-	for <linux-audit@redhat.com>; Tue, 24 Sep 2019 15:18:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
-	h=from:subject:to:date:message-id:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=6SUbtIU2v+D6Yju69i+6pCECw0z02a9he4nj7UNmGvU=;
-	b=UfhUfWcodyHgPMp0nUo/qcc/8Pdjro0tWvf2SR+Q7P9QlahbhCl7bSLkZwureJ1rxL
-	2IDNQ5HamORiFozNXczT3A0zsNQeidv8sEctjrmSDxLoHs5eZ3xhM+CMc1A8YfmqGd1U
-	4/e/Vz+Sn090/N4lYvbL/TwNuETzf2wcof1cCKMSONNJVCVIRKbWShFP65WbixjrMqO/
-	ilY1wBnT1GLRU5Bk4TqVl3C4QIbJpkcD3huGfM6A9eIkGQJiwJWYvSUMaqMYcOm8YgFc
-	0Yh+SbtoMAH2KzqlD6ef30QWUFGDIr391lLtwZVC4XVIO4d40+Kn9lW7iXPIMqTrMaqt
-	0V5w==
+	by mx1.redhat.com (Postfix) with ESMTPS id 23C7F20F5
+	for <linux-audit@redhat.com>; Wed, 25 Sep 2019 21:02:36 +0000 (UTC)
+Received: by mail-pf1-f194.google.com with SMTP id q7so178149pfh.8
+	for <linux-audit@redhat.com>; Wed, 25 Sep 2019 14:02:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+	h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+	:content-transfer-encoding;
+	bh=7xhrP95QBYJiSF2YxdsM/vyNYpW4G7L9q0PwFgts0Eg=;
+	b=PhYrdbXFW7DxjoTBihqkbscUj3ihaM+7AY9Uko1qzd/uFoRL8eCcWcrRFhuukFI+Oz
+	tHzDS4E8nYIttCuj/nMIfyN+ttt8eZInD6Ld0sgEK6AuJlEQGAUO5CV2x0pMB6curxMS
+	NQeJZM+/oKiZHqo7s+oNvkBKelSGTUnca6lg8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:subject:to:date:message-id:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=6SUbtIU2v+D6Yju69i+6pCECw0z02a9he4nj7UNmGvU=;
-	b=Zixnq0IV4PHSEEtQtkozaiqsx5Os2MVwyko621J9eO6sm6reK6mO6CBOZRAv8DfjB+
-	Sj2/Cg3sVdKVOlHFMy4TtVIyYMV/nelyVLJnoKZq+1SfjNwMfnMXlOwh9RFRUCJixPhf
-	LTne/OlL9WuzjBtClZw0nB2TfsPi1z1AIh7dQ/NEIrz5gETnt3sQvzah0v7GYTW+s1w9
-	baaKAlEsyrKXCnG7zYWoZuBST5jhJcCr4C1YsMKSqod8qIBZ8ayrlTV8A76OzLdibe/X
-	kLj6pTDVOYGDG7UeYG8LHq/I/Fng1mFddTOKvDoM+7vt7Mz8pJCtpM2uFmZ4DWOmidkB
-	fjqQ==
-X-Gm-Message-State: APjAAAUhQ3OCETNb/faA0dz3+vOtlxmtO1bdPA09XUHsqzX8/Iq+UUrP
-	zMKCZ0WacDE2hmkouIkDdT6qB5zmIg==
-X-Google-Smtp-Source: APXvYqwokXiSM5gDf0dpo9HlMQYsRCk6C01YXXf4gdwZmSl5H+wCWbTt4AZze18gWKJxvfIHq+CG4Q==
-X-Received: by 2002:ac8:710b:: with SMTP id z11mr5434388qto.372.1569363487262; 
-	Tue, 24 Sep 2019 15:18:07 -0700 (PDT)
-Received: from localhost (static-96-233-112-89.bstnma.ftas.verizon.net.
-	[96.233.112.89]) by smtp.gmail.com with ESMTPSA id
-	d205sm1640938qke.96.2019.09.24.15.18.06
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+	:content-disposition:content-transfer-encoding;
+	bh=7xhrP95QBYJiSF2YxdsM/vyNYpW4G7L9q0PwFgts0Eg=;
+	b=VdS2cSaUl7mGp9St7ui3WOXHWZ7QmA+faazQFYXAJcV+t+JR8iIHKxhFefgh40wtjS
+	aJdJC+uuHD33TiGK1mhiaK5bWLqgDKk/b9BOCp+nGCT5zLQyLpNrE8f8WOoJoi18gbA1
+	IeIiPm9Uw3DtPHCq/vWQFZA3nSHORWtFvLZu3ZMna2m86Wf+whdx17QjjxwuT0PR5dqZ
+	hGaKVU57FXZICuEaTVugwy9d45CfPQ+NKs1jx/zpBFTBdQpk4tIeCNJfNLaRuMY1hRK1
+	ToAOzDgFdk1M9gS7c4xJvEtkYokTQ//fkOYlbhLqWt1AYvhaC/otwhAmvPCN9r2B/WCj
+	A+Tg==
+X-Gm-Message-State: APjAAAXe3XWDopYZzPbfx8LF2MDqCyYqmbVupH7A42V/9xKE7OXc8ubI
+	Gu/1qooV/QGX+TGzX26tHs3Xzg==
+X-Google-Smtp-Source: APXvYqy8enN66HCBAXgdyj2WiN3UN+3QBv7218MOZV3xhCqI5u1BW3NXe4CmUibg81qEWdaXeJbpZA==
+X-Received: by 2002:a17:90a:8c14:: with SMTP id
+	a20mr8916240pjo.45.1569445355367; 
+	Wed, 25 Sep 2019 14:02:35 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+	by smtp.gmail.com with ESMTPSA id
+	p66sm13856502pfg.127.2019.09.25.14.02.34
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 24 Sep 2019 15:18:06 -0700 (PDT)
-From: Paul Moore <paul@paul-moore.com>
-X-Google-Original-From: Paul Moore <pmoore2@cisco.com>
-Subject: [PATCH 2/2] audit-testsuite: fix the style according to
-	./tools/check-syntax
-To: linux-audit@redhat.com
-Date: Tue, 24 Sep 2019 18:18:05 -0400
-Message-ID: <156936348584.596476.12062813974120524062.stgit@chester>
-In-Reply-To: <156936337513.596476.11307857211925574009.stgit@chester>
-References: <156936337513.596476.11307857211925574009.stgit@chester>
-User-Agent: StGit/0.19-dirty
+	Wed, 25 Sep 2019 14:02:34 -0700 (PDT)
+Date: Wed, 25 Sep 2019 14:02:33 -0700
+From: Kees Cook <keescook@chromium.org>
+To: Paul Moore <paul@paul-moore.com>
+Subject: [PATCH] audit: Report suspicious O_CREAT usage
+Message-ID: <201909251348.A1542A52@keescook>
 MIME-Version: 1.0
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.25]);
-	Tue, 24 Sep 2019 22:18:08 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.25]);
-	Tue, 24 Sep 2019 22:18:08 +0000 (UTC) for IP:'209.85.160.196'
-	DOMAIN:'mail-qt1-f196.google.com'
-	HELO:'mail-qt1-f196.google.com' FROM:'paul@paul-moore.com' RCPT:''
-X-RedHat-Spam-Score: 0.004  (DKIM_SIGNED, DKIM_VALID, RCVD_IN_DNSWL_NONE,
-	RCVD_IN_MSPIKE_H3, RCVD_IN_MSPIKE_WL, SPF_HELO_NONE,
-	SPF_NONE) 209.85.160.196 mail-qt1-f196.google.com 209.85.160.196
-	mail-qt1-f196.google.com <paul@paul-moore.com>
-X-Scanned-By: MIMEDefang 2.83 on 10.5.110.25
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Content-Disposition: inline
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+	(mx1.redhat.com [10.5.110.71]);
+	Wed, 25 Sep 2019 21:02:36 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.6.2 (mx1.redhat.com [10.5.110.71]);
+	Wed, 25 Sep 2019 21:02:36 +0000 (UTC) for IP:'209.85.210.194'
+	DOMAIN:'mail-pf1-f194.google.com'
+	HELO:'mail-pf1-f194.google.com' FROM:'keescook@chromium.org'
+	RCPT:''
+X-RedHat-Spam-Score: -0.099  (DKIMWL_WL_HIGH, DKIM_SIGNED, DKIM_VALID,
+	DKIM_VALID_AU, RCVD_IN_DNSWL_NONE, RCVD_IN_MSPIKE_H3,
+	RCVD_IN_MSPIKE_WL, SPF_HELO_NONE,
+	SPF_PASS) 209.85.210.194 mail-pf1-f194.google.com 209.85.210.194
+	mail-pf1-f194.google.com <keescook@chromium.org>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.110.71
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-loop: linux-audit@redhat.com
+Cc: s.mesoraca16@gmail.com, kernel-hardening@lists.openwall.com,
+	linux-kernel@vger.kernel.org, linux-audit@redhat.com,
+	=?iso-8859-1?Q?J=E9r=E9mie?= Galarneau <jeremie.galarneau@efficios.com>,
+	viro@zeniv.linux.org.uk,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	akpm@linux-foundation.org, torvalds@linux-foundation.org,
+	dan.carpenter@oracle.com
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -103,242 +105,159 @@ List-Post: <mailto:linux-audit@redhat.com>
 List-Help: <mailto:linux-audit-request@redhat.com?subject=help>
 List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.42]); Tue, 24 Sep 2019 22:18:25 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.40]); Wed, 25 Sep 2019 21:02:58 +0000 (UTC)
 
-From: Paul Moore <paul@paul-moore.com>
+This renames the very specific audit_log_link_denied() to
+audit_log_path_denied() and adds the AUDIT_* type as an argument. This
+allows for the creation of the new AUDIT_ANOM_CREAT that can be used to
+report the fifo/regular file creation restrictions that were introduced
+in commit 30aba6656f61 ("namei: allow restricted O_CREAT of FIFOs and
+regular files"). Without this change, discovering that the restriction
+is enabled can be very challenging:
+https://lore.kernel.org/lkml/CA+jJMxvkqjXHy3DnV5MVhFTL2RUhg0WQ-XVFW3ngDQOdk=
+Fq0PA@mail.gmail.com
 
-Signed-off-by: Paul Moore <paul@paul-moore.com>
+Reported-by: J=E9r=E9mie Galarneau <jeremie.galarneau@efficios.com>
+Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- tests/exec_execve/test                       |    2 +-
- tests/exec_name/test                         |    2 +-
- tests/file_create/test                       |    2 +-
- tests/file_delete/test                       |    2 +-
- tests/file_rename/test                       |    2 +-
- tests/filter_exclude/test                    |    2 +-
- tests/filter_sessionid/test                  |    2 +-
- tests/login_tty/test                         |    2 +-
- tests/lost_reset/test                        |    2 +-
- tests/netfilter_pkt/test                     |    2 +-
- tests/syscall_module/test                    |    2 +-
- tests/syscall_socketcall/test                |    2 +-
- tests/syscalls_file/test                     |    2 +-
- tests/user_msg/test                          |    2 +-
- tests_manual/stress_tree/test                |    2 +-
- tests_manual/syscall_module_path_filter/test |    1 +
- 16 files changed, 16 insertions(+), 15 deletions(-)
+This is not a complete fix because reporting was broken in commit
+15564ff0a16e ("audit: make ANOM_LINK obey audit_enabled and
+audit_dummy_context")
+which specifically goes against the intention of these records: they
+should _always_ be reported. If auditing isn't enabled, they should be
+ratelimited.
 
-diff --git a/tests/exec_execve/test b/tests/exec_execve/test
-index 64260e7..7c119b8 100755
---- a/tests/exec_execve/test
-+++ b/tests/exec_execve/test
-@@ -15,7 +15,7 @@ $basedir =~ s|(.*)/[^/]*|$1|;
- 
- sub key_gen {
-     my @chars = ( "A" .. "Z", "a" .. "z" );
--    my $key = "testsuite-" . time . "-";
-+    my $key   = "testsuite-" . time . "-";
-     $key .= $chars[ rand @chars ] for 1 .. 8;
-     return $key;
+Instead of using audit, should this just go back to using
+pr_ratelimited()?
+---
+ fs/namei.c                 |  7 +++++--
+ include/linux/audit.h      |  5 +++--
+ include/uapi/linux/audit.h |  1 +
+ kernel/audit.c             | 11 ++++++-----
+ 4 files changed, 15 insertions(+), 9 deletions(-)
+
+diff --git a/fs/namei.c b/fs/namei.c
+index 671c3c1a3425..0e60f81e1d5a 100644
+--- a/fs/namei.c
++++ b/fs/namei.c
+@@ -925,7 +925,7 @@ static inline int may_follow_link(struct nameidata *nd)
+ 		return -ECHILD;
+ =
+
+ 	audit_inode(nd->name, nd->stack[0].link.dentry, 0);
+-	audit_log_link_denied("follow_link");
++	audit_log_path_denied(AUDIT_ANOM_LINK, "follow_link");
+ 	return -EACCES;
  }
-diff --git a/tests/exec_name/test b/tests/exec_name/test
-index f6d8ae4..95b0cc7 100755
---- a/tests/exec_name/test
-+++ b/tests/exec_name/test
-@@ -12,7 +12,7 @@ use File::Temp qw/ tempfile /;
- 
- sub key_gen {
-     my @chars = ( "A" .. "Z", "a" .. "z" );
--    my $key = "testsuite-" . time . "-";
-+    my $key   = "testsuite-" . time . "-";
-     $key .= $chars[ rand @chars ] for 1 .. 8;
-     return $key;
+ =
+
+@@ -993,7 +993,7 @@ static int may_linkat(struct path *link)
+ 	if (safe_hardlink_source(inode) || inode_owner_or_capable(inode))
+ 		return 0;
+ =
+
+-	audit_log_link_denied("linkat");
++	audit_log_path_denied(AUDIT_ANOM_LINK, "linkat");
+ 	return -EPERM;
  }
-diff --git a/tests/file_create/test b/tests/file_create/test
-index df3c293..8a75780 100755
---- a/tests/file_create/test
-+++ b/tests/file_create/test
-@@ -12,7 +12,7 @@ use File::Temp qw/ tempdir tempfile /;
- 
- sub key_gen {
-     my @chars = ( "A" .. "Z", "a" .. "z" );
--    my $key = "testsuite-" . time . "-";
-+    my $key   = "testsuite-" . time . "-";
-     $key .= $chars[ rand @chars ] for 1 .. 8;
-     return $key;
- }
-diff --git a/tests/file_delete/test b/tests/file_delete/test
-index e12b248..3bde29c 100755
---- a/tests/file_delete/test
-+++ b/tests/file_delete/test
-@@ -12,7 +12,7 @@ use File::Temp qw/ tempdir tempfile /;
- 
- sub key_gen {
-     my @chars = ( "A" .. "Z", "a" .. "z" );
--    my $key = "testsuite-" . time . "-";
-+    my $key   = "testsuite-" . time . "-";
-     $key .= $chars[ rand @chars ] for 1 .. 8;
-     return $key;
- }
-diff --git a/tests/file_rename/test b/tests/file_rename/test
-index 3b27abe..651aa3a 100755
---- a/tests/file_rename/test
-+++ b/tests/file_rename/test
-@@ -12,7 +12,7 @@ use File::Temp qw/ tempdir tempfile /;
- 
- sub key_gen {
-     my @chars = ( "A" .. "Z", "a" .. "z" );
--    my $key = "testsuite-" . time . "-";
-+    my $key   = "testsuite-" . time . "-";
-     $key .= $chars[ rand @chars ] for 1 .. 8;
-     return $key;
- }
-diff --git a/tests/filter_exclude/test b/tests/filter_exclude/test
-index fd4b058..c734269 100755
---- a/tests/filter_exclude/test
-+++ b/tests/filter_exclude/test
-@@ -13,7 +13,7 @@ use Time::HiRes qw(usleep);
- 
- sub key_gen {
-     my @chars = ( "A" .. "Z", "a" .. "z" );
--    my $key = "testsuite-" . time . "-";
-+    my $key   = "testsuite-" . time . "-";
-     $key .= $chars[ rand @chars ] for 1 .. 8;
-     return $key;
- }
-diff --git a/tests/filter_sessionid/test b/tests/filter_sessionid/test
-index 891293b..3c8fa6e 100755
---- a/tests/filter_sessionid/test
-+++ b/tests/filter_sessionid/test
-@@ -12,7 +12,7 @@ use File::Temp qw/ tempdir tempfile /;
- 
- sub key_gen {
-     my @chars = ( "A" .. "Z", "a" .. "z" );
--    my $key = "testsuite-" . time . "-";
-+    my $key   = "testsuite-" . time . "-";
-     $key .= $chars[ rand @chars ] for 1 .. 8;
-     return $key;
- }
-diff --git a/tests/login_tty/test b/tests/login_tty/test
-index 442ee42..4b9cfae 100755
---- a/tests/login_tty/test
-+++ b/tests/login_tty/test
-@@ -12,7 +12,7 @@ use File::Temp qw/ tempdir tempfile /;
- 
- sub key_gen {
-     my @chars = ( "A" .. "Z", "a" .. "z" );
--    my $key = "testsuite-" . time . "-";
-+    my $key   = "testsuite-" . time . "-";
-     $key .= $chars[ rand @chars ] for 1 .. 8;
-     return $key;
- }
-diff --git a/tests/lost_reset/test b/tests/lost_reset/test
-index 08a82c1..ce242e2 100755
---- a/tests/lost_reset/test
-+++ b/tests/lost_reset/test
-@@ -10,7 +10,7 @@ BEGIN { plan tests => 5 }
- 
- sub key_gen {
-     my @chars = ( "A" .. "Z", "a" .. "z" );
--    my $key = "testsuite-" . time . "-";
-+    my $key   = "testsuite-" . time . "-";
-     $key .= $chars[ rand @chars ] for 1 .. 8;
-     return $key;
- }
-diff --git a/tests/netfilter_pkt/test b/tests/netfilter_pkt/test
-index 8dfe7f4..3efa8da 100755
---- a/tests/netfilter_pkt/test
-+++ b/tests/netfilter_pkt/test
-@@ -13,7 +13,7 @@ use File::Temp qw/ tempfile /;
- 
- sub key_gen {
-     my @chars = ( "A" .. "Z", "a" .. "z" );
--    my $key = "testsuite-" . time . "-";
-+    my $key   = "testsuite-" . time . "-";
-     $key .= $chars[ rand @chars ] for 1 .. 8;
-     return $key;
- }
-diff --git a/tests/syscall_module/test b/tests/syscall_module/test
-index fe8e482..2ce4f17 100755
---- a/tests/syscall_module/test
-+++ b/tests/syscall_module/test
-@@ -12,7 +12,7 @@ use File::Temp qw/ tempfile /;
- 
- sub key_gen {
-     my @chars = ( "A" .. "Z", "a" .. "z" );
--    my $key = "testsuite-" . time . "-";
-+    my $key   = "testsuite-" . time . "-";
-     $key .= $chars[ rand @chars ] for 1 .. 8;
-     return $key;
- }
-diff --git a/tests/syscall_socketcall/test b/tests/syscall_socketcall/test
-index 124d160..d30c7a1 100755
---- a/tests/syscall_socketcall/test
-+++ b/tests/syscall_socketcall/test
-@@ -15,7 +15,7 @@ $basedir =~ s|(.*)/[^/]*|$1|;
- 
- sub key_gen {
-     my @chars = ( "A" .. "Z", "a" .. "z" );
--    my $key = "testsuite-" . time . "-";
-+    my $key   = "testsuite-" . time . "-";
-     $key .= $chars[ rand @chars ] for 1 .. 8;
-     return $key;
- }
-diff --git a/tests/syscalls_file/test b/tests/syscalls_file/test
-index 917449a..8aeadb7 100755
---- a/tests/syscalls_file/test
-+++ b/tests/syscalls_file/test
-@@ -12,7 +12,7 @@ use File::Temp qw/ tempdir tempfile /;
- 
- sub key_gen {
-     my @chars = ( "A" .. "Z", "a" .. "z" );
--    my $key = "testsuite-" . time . "-";
-+    my $key   = "testsuite-" . time . "-";
-     $key .= $chars[ rand @chars ] for 1 .. 8;
-     return $key;
- }
-diff --git a/tests/user_msg/test b/tests/user_msg/test
-index 3a7cc9f..b0ef84d 100755
---- a/tests/user_msg/test
-+++ b/tests/user_msg/test
-@@ -12,7 +12,7 @@ use File::Temp qw/ tempdir tempfile /;
- 
- sub key_gen {
-     my @chars = ( "A" .. "Z", "a" .. "z" );
--    my $key = "testsuite-" . time . "-";
-+    my $key   = "testsuite-" . time . "-";
-     $key .= $chars[ rand @chars ] for 1 .. 8;
-     return $key;
- }
-diff --git a/tests_manual/stress_tree/test b/tests_manual/stress_tree/test
-index 1b7c647..1b39d2d 100755
---- a/tests_manual/stress_tree/test
-+++ b/tests_manual/stress_tree/test
-@@ -12,7 +12,7 @@ use File::Temp qw/ tempdir tempfile /;
- 
- sub key_gen {
-     my @chars = ( "A" .. "Z", "a" .. "z" );
--    my $key = "testsuite-" . time . "-";
-+    my $key   = "testsuite-" . time . "-";
-     $key .= $chars[ rand @chars ] for 1 .. 8;
-     return $key;
- }
-diff --git a/tests_manual/syscall_module_path_filter/test b/tests_manual/syscall_module_path_filter/test
-index c27c06b..46881fa 100755
---- a/tests_manual/syscall_module_path_filter/test
-+++ b/tests_manual/syscall_module_path_filter/test
-@@ -74,6 +74,7 @@ my $msgdate       = "";
- my $line2;
- seek( $fh_out, 0, 0 );
- seek( $fh_err, 0, 0 );
-+
- while ( $line = <$fh_out> ) {
- 
-     # test if we generate any audit records from the filter rule
+ =
+
+@@ -1031,6 +1031,9 @@ static int may_create_in_sticky(struct dentry * const=
+ dir,
+ 	    (dir->d_inode->i_mode & 0020 &&
+ 	     ((sysctl_protected_fifos >=3D 2 && S_ISFIFO(inode->i_mode)) ||
+ 	      (sysctl_protected_regular >=3D 2 && S_ISREG(inode->i_mode))))) {
++		audit_log_path_denied(AUDIT_ANOM_CREAT,
++				      S_ISFIFO(inode->i_mode) ? "fifo"
++							      : "regular");
+ 		return -EACCES;
+ 	}
+ 	return 0;
+diff --git a/include/linux/audit.h b/include/linux/audit.h
+index aee3dc9eb378..b3715e2ee1c5 100644
+--- a/include/linux/audit.h
++++ b/include/linux/audit.h
+@@ -156,7 +156,8 @@ extern void		    audit_log_d_path(struct audit_buffer *=
+ab,
+ 					     const struct path *path);
+ extern void		    audit_log_key(struct audit_buffer *ab,
+ 					  char *key);
+-extern void		    audit_log_link_denied(const char *operation);
++extern void		    audit_log_path_denied(int type,
++						  const char *operation);
+ extern void		    audit_log_lost(const char *message);
+ =
+
+ extern int audit_log_task_context(struct audit_buffer *ab);
+@@ -217,7 +218,7 @@ static inline void audit_log_d_path(struct audit_buffer=
+ *ab,
+ { }
+ static inline void audit_log_key(struct audit_buffer *ab, char *key)
+ { }
+-static inline void audit_log_link_denied(const char *string)
++static inline void audit_log_path_denied(int type, const char *string);
+ { }
+ static inline int audit_log_task_context(struct audit_buffer *ab)
+ {
+diff --git a/include/uapi/linux/audit.h b/include/uapi/linux/audit.h
+index c89c6495983d..3ad935527177 100644
+--- a/include/uapi/linux/audit.h
++++ b/include/uapi/linux/audit.h
+@@ -143,6 +143,7 @@
+ #define AUDIT_ANOM_PROMISCUOUS      1700 /* Device changed promiscuous mod=
+e */
+ #define AUDIT_ANOM_ABEND            1701 /* Process ended abnormally */
+ #define AUDIT_ANOM_LINK		    1702 /* Suspicious use of file links */
++#define AUDIT_ANOM_CREAT	    1703 /* Suspicious file creation */
+ #define AUDIT_INTEGRITY_DATA	    1800 /* Data integrity verification */
+ #define AUDIT_INTEGRITY_METADATA    1801 /* Metadata integrity verificatio=
+n */
+ #define AUDIT_INTEGRITY_STATUS	    1802 /* Integrity enable status */
+diff --git a/kernel/audit.c b/kernel/audit.c
+index da8dc0db5bd3..ed7402ac81b6 100644
+--- a/kernel/audit.c
++++ b/kernel/audit.c
+@@ -2155,18 +2155,19 @@ void audit_log_task_info(struct audit_buffer *ab)
+ EXPORT_SYMBOL(audit_log_task_info);
+ =
+
+ /**
+- * audit_log_link_denied - report a link restriction denial
+- * @operation: specific link operation
++ * audit_log_path_denied - report a path restriction denial
++ * @type: audit message type (AUDIT_ANOM_LINK, AUDIT_ANOM_CREAT, etc)
++ * @operation: specific operation name
+  */
+-void audit_log_link_denied(const char *operation)
++void audit_log_path_denied(int type, const char *operation)
+ {
+ 	struct audit_buffer *ab;
+ =
+
+ 	if (!audit_enabled || audit_dummy_context())
+ 		return;
+ =
+
+-	/* Generate AUDIT_ANOM_LINK with subject, operation, outcome. */
+-	ab =3D audit_log_start(audit_context(), GFP_KERNEL, AUDIT_ANOM_LINK);
++	/* Generate log with subject, operation, outcome. */
++	ab =3D audit_log_start(audit_context(), GFP_KERNEL, type);
+ 	if (!ab)
+ 		return;
+ 	audit_log_format(ab, "op=3D%s", operation);
+-- =
+
+2.17.1
+
+
+-- =
+
+Kees Cook
 
 --
 Linux-audit mailing list
