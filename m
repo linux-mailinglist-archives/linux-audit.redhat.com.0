@@ -2,41 +2,40 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
-	by mail.lfdr.de (Postfix) with ESMTPS id D04DAD9BA0
-	for <lists+linux-audit@lfdr.de>; Wed, 16 Oct 2019 22:22:09 +0200 (CEST)
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+	by mail.lfdr.de (Postfix) with ESMTPS id 98983D9BB3
+	for <lists+linux-audit@lfdr.de>; Wed, 16 Oct 2019 22:23:49 +0200 (CEST)
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 6C3C9300DFA9;
-	Wed, 16 Oct 2019 20:22:07 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 93DD360BF7;
-	Wed, 16 Oct 2019 20:22:06 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 525448667D;
+	Wed, 16 Oct 2019 20:23:47 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 4BCE119C6A;
+	Wed, 16 Oct 2019 20:23:46 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id DEFED1800535;
-	Wed, 16 Oct 2019 20:22:04 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
-	[10.5.11.13])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id A11774A486;
+	Wed, 16 Oct 2019 20:23:45 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+	[10.5.11.11])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id x9GKCL1T016446 for <linux-audit@listman.util.phx.redhat.com>;
-	Wed, 16 Oct 2019 16:12:21 -0400
+	id x9GKFVwY016523 for <linux-audit@listman.util.phx.redhat.com>;
+	Wed, 16 Oct 2019 16:15:31 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id 36B496061E; Wed, 16 Oct 2019 20:12:21 +0000 (UTC)
+	id B436E60127; Wed, 16 Oct 2019 20:15:31 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from madcap2.tricolour.ca (ovpn-112-19.phx2.redhat.com [10.3.112.19])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 88EF66060D;
-	Wed, 16 Oct 2019 20:12:13 +0000 (UTC)
-Date: Wed, 16 Oct 2019 16:12:10 -0400
-From: Richard Guy Briggs <rgb@redhat.com>
+Received: from x2.localnet (ovpn-117-29.phx2.redhat.com [10.3.117.29])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id EE1B260167;
+	Wed, 16 Oct 2019 20:15:17 +0000 (UTC)
+From: Steve Grubb <sgrubb@redhat.com>
 To: Ankitha Kundhuru <akundhuru@cs.stonybrook.edu>
 Subject: Re: New field seen in audit.log
-Message-ID: <20191016201210.fsqagtx6yehzqxmy@madcap2.tricolour.ca>
+Date: Wed, 16 Oct 2019 16:15:17 -0400
+Message-ID: <7632538.cuNEITiOso@x2>
+Organization: Red Hat
+In-Reply-To: <CAG-5c_ERofGJWMKv0SZiSZvsRdLYLboBP4anZYOChpvL-=Wq+Q@mail.gmail.com>
 References: <CAG-5c_ERofGJWMKv0SZiSZvsRdLYLboBP4anZYOChpvL-=Wq+Q@mail.gmail.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAG-5c_ERofGJWMKv0SZiSZvsRdLYLboBP4anZYOChpvL-=Wq+Q@mail.gmail.com>
-User-Agent: NeoMutt/20180716
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-loop: linux-audit@redhat.com
 Cc: linux-audit@redhat.com
 X-BeenThere: linux-audit@redhat.com
@@ -54,28 +53,25 @@ Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.41]); Wed, 16 Oct 2019 20:22:08 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.26]); Wed, 16 Oct 2019 20:23:48 +0000 (UTC)
 
-On 2019-10-16 15:36, Ankitha Kundhuru wrote:
-> Hi All,
-> 
+Hello,
+
+On Wednesday, October 16, 2019 3:36:43 PM EDT Ankitha Kundhuru wrote:
 > I found a new word "per" in some of the records of my audit.log.
-> Any idea of why this happened and what it means ?
+> Any idea of why this happened 
 
-This is a "swinging" field, which means that it only appears when it is
-different from an expected value (zero usually expected).
+The process personality is not normal. 
 
-That isn't new.  It has been there since the very first audit commit,
-	commit b7b0074ca3c9fe22d07b97e42a99c8b27be6307f
-	Author:     Andrew Morton <akpm@osdl.org>
-	AuthorDate: 2004-04-11 23:29:12 -0700
-		Light-weight Auditing Framework
-		From: Rik Faith <faith@redhat.com>
+> and what it means ?
 
-You may never have seen it before because it appears you now have a
-personality other than PER_LINUX for this event.  32-bit binary on 64
-bit?  I assume your arch is x86 64 (LE)?
+https://github.com/linux-audit/audit-documentation/blob/master/specs/fields/
+field-dictionary.csv#L176
+
+You can use ausearch -i to decode it.
+
+-Steve
 
 > type=SYSCALL msg=audit(1571245536.351:43593): arch=c000003e syscall=3
 > *per=40000* success=yes exit=0 a0=5 a1=5 a2=556213b6d6bc a3=7f483b98bcc0
@@ -88,14 +84,8 @@ bit?  I assume your arch is x86 64 (LE)?
 > Thanks & Regards,
 > Ankitha Kundhuru
 
-- RGB
 
---
-Richard Guy Briggs <rgb@redhat.com>
-Sr. S/W Engineer, Kernel Security, Base Operating Systems
-Remote, Ottawa, Red Hat Canada
-IRC: rgb, SunRaycer
-Voice: +1.647.777.2635, Internal: (81) 32635
+
 
 --
 Linux-audit mailing list
