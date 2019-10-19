@@ -2,44 +2,49 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9635DC9CD
-	for <lists+linux-audit@lfdr.de>; Fri, 18 Oct 2019 17:52:19 +0200 (CEST)
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C958DD606
+	for <lists+linux-audit@lfdr.de>; Sat, 19 Oct 2019 03:39:59 +0200 (CEST)
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 3805782A498;
-	Fri, 18 Oct 2019 15:52:14 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id B8D3D10CC1E0;
+	Sat, 19 Oct 2019 01:39:56 +0000 (UTC)
 Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 395C560BFB;
-	Fri, 18 Oct 2019 15:52:10 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id D783F600C8;
+	Sat, 19 Oct 2019 01:39:51 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id A0FD51803B48;
-	Fri, 18 Oct 2019 15:52:06 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
-	[10.5.11.14])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id DFFFB180085A;
+	Sat, 19 Oct 2019 01:39:42 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+	[10.5.11.23])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id x9IFnVXQ003092 for <linux-audit@listman.util.phx.redhat.com>;
-	Fri, 18 Oct 2019 11:49:31 -0400
+	id x9J1dRtj002041 for <linux-audit@listman.util.phx.redhat.com>;
+	Fri, 18 Oct 2019 21:39:27 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id 23CD25D9DC; Fri, 18 Oct 2019 15:49:31 +0000 (UTC)
+	id 35ABC7E25; Sat, 19 Oct 2019 01:39:27 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from madcap2.tricolour.ca (ovpn-112-19.phx2.redhat.com [10.3.112.19])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 2A39A5D9D5;
-	Fri, 18 Oct 2019 15:49:24 +0000 (UTC)
-Date: Fri, 18 Oct 2019 11:49:22 -0400
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id EFB0A19C7F;
+	Sat, 19 Oct 2019 01:39:06 +0000 (UTC)
+Date: Fri, 18 Oct 2019 21:39:04 -0400
 From: Richard Guy Briggs <rgb@redhat.com>
-To: Evelyn Mitchell <efmphone@gmail.com>
-Subject: Re: New field seen in audit.log
-Message-ID: <20191018154922.zvncalb6gkx2dhkj@madcap2.tricolour.ca>
-References: <mailman.103.1571328019.6486.linux-audit@redhat.com>
-	<CABD0H0vS3THc--rx2ZS=A_g8p-MvSX8EBzt7qa1R7or7ba3xNw@mail.gmail.com>
+To: containers@lists.linux-foundation.org, linux-api@vger.kernel.org,
+	Linux-Audit Mailing List <linux-audit@redhat.com>,
+	linux-fsdevel@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+	netdev@vger.kernel.org, netfilter-devel@vger.kernel.org
+Subject: Re: [PATCH ghak90 V7 20/21] audit: add capcontid to set contid
+	outside init_user_ns
+Message-ID: <20191019013904.uevmrzbmztsbhpnh@madcap2.tricolour.ca>
+References: <cover.1568834524.git.rgb@redhat.com>
+	<214163d11a75126f610bcedfad67a4d89575dc77.1568834525.git.rgb@redhat.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <CABD0H0vS3THc--rx2ZS=A_g8p-MvSX8EBzt7qa1R7or7ba3xNw@mail.gmail.com>
+In-Reply-To: <214163d11a75126f610bcedfad67a4d89575dc77.1568834525.git.rgb@redhat.com>
 User-Agent: NeoMutt/20180716
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-loop: linux-audit@redhat.com
-Cc: linux-audit@redhat.com
+Cc: nhorman@tuxdriver.com, dhowells@redhat.com, ebiederm@xmission.com,
+	simo@redhat.com, eparis@parisplace.org, mpatel@redhat.com, serge@hallyn.com
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -55,43 +60,251 @@ Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2 (mx1.redhat.com [10.5.110.69]); Fri, 18 Oct 2019 15:52:18 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2 (mx1.redhat.com [10.5.110.65]); Sat, 19 Oct 2019 01:39:58 +0000 (UTC)
 
-On 2019-10-18 08:38, Evelyn Mitchell wrote:
-> For my own learning, I'm trying to understand what personality=40000 means.
+On 2019-09-18 21:22, Richard Guy Briggs wrote:
+> Provide a mechanism similar to CAP_AUDIT_CONTROL to explicitly give a
+> process in a non-init user namespace the capability to set audit
+> container identifiers.
 > 
-> In looking at /uapi/linux/personality.h where the
-> personality types are defined, and manually converting 40000 to hex
-> 0x9C40, it looks to me like the personality is set to enable:
-> ADDR_LIMIT_3GB =        0x8000000
-> SHORT_INODE =           0x1000000
-> ADDR_LIMIT_32BIT =      0x0800000
-> READ_IMPLIES_EXEC =     0x0400000
-> ADDR_COMPAT_LAYOUT =    0x0200000
-> MMAP_PAGE_ZERO =        0x0100000
-> ADDR_NO_RANDOMIZE =     0x0040000
-> 
-> But, this looks unreasonable to me as a set of flags someone would
-> deliberately pick, so I thought I'd ask if I'm interpreting this
-> correctly.
+> Use audit netlink message types AUDIT_GET_CAPCONTID 1027 and
+> AUDIT_SET_CAPCONTID 1028.  The message format includes the data
+> structure:
+> struct audit_capcontid_status {
+>         pid_t   pid;
+>         u32     enable;
+> };
 
-The per value printed is hex ("per=%lx"), (so really the output could be
-prefixed with 0x) so the only flag that applies is ADDR_NO_RANDOMIZE.
+Paul, can I get a review of the general idea here to see if you're ok
+with this way of effectively extending CAP_AUDIT_CONTROL for the sake of
+setting contid from beyond the init user namespace where capable() can't
+reach and ns_capable() is meaningless for these purposes?
 
-> Evelyn Mitchell
+Last weekend was Canadian Thanksgiving where I took an extra day for an
+annual bike trip and I'm buried to my neck in a complete kitchen gut
+(down to 1920 structural double brick and knob/tube wiring), but I've
+got fixes or responses to almost everything else you've raised which
+I'll post shortly.
+
+Thanks!
+
+> Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
+> ---
+>  include/linux/audit.h      | 14 +++++++
+>  include/uapi/linux/audit.h |  2 +
+>  kernel/audit.c             | 98 +++++++++++++++++++++++++++++++++++++++++++++-
+>  kernel/audit.h             |  5 +++
+>  4 files changed, 117 insertions(+), 2 deletions(-)
 > 
-> > You may never have seen it before because it appears you now have a
-> > personality other than PER_LINUX for this event.  32-bit binary on 64
-> > bit?  I assume your arch is x86 64 (LE)?
-> >
-> > > type=SYSCALL msg=audit(1571245536.351:43593): arch=c000003e syscall=3
-> > > *per=40000* success=yes exit=0 a0=5 a1=5 a2=556213b6d6bc a3=7f483b98bcc0
-> > > items=0 ppid=2653 pid=2655 auid=1000 uid=1000 gid=1000 euid=1000 suid=1000
-> > > fsuid=1000 egid=1000 sgid=1000 fsgid=1000 tty=pts1 ses=3 comm="gdb"
-> > > exe="/usr/bin/gdb" key=(null)
-> >
-> > - RGB
+> diff --git a/include/linux/audit.h b/include/linux/audit.h
+> index 1ce27af686ea..dcc53e62e266 100644
+> --- a/include/linux/audit.h
+> +++ b/include/linux/audit.h
+> @@ -117,6 +117,7 @@ struct audit_task_info {
+>  	kuid_t			loginuid;
+>  	unsigned int		sessionid;
+>  	struct audit_cont	*cont;
+> +	u32			capcontid;
+>  #ifdef CONFIG_AUDITSYSCALL
+>  	struct audit_context	*ctx;
+>  #endif
+> @@ -224,6 +225,14 @@ static inline unsigned int audit_get_sessionid(struct task_struct *tsk)
+>  	return tsk->audit->sessionid;
+>  }
+>  
+> +static inline u32 audit_get_capcontid(struct task_struct *tsk)
+> +{
+> +	if (!tsk->audit)
+> +		return 0;
+> +	return tsk->audit->capcontid;
+> +}
+> +
+> +extern int audit_set_capcontid(struct task_struct *tsk, u32 enable);
+>  extern int audit_set_contid(struct task_struct *tsk, u64 contid);
+>  
+>  static inline u64 audit_get_contid(struct task_struct *tsk)
+> @@ -309,6 +318,11 @@ static inline unsigned int audit_get_sessionid(struct task_struct *tsk)
+>  	return AUDIT_SID_UNSET;
+>  }
+>  
+> +static inline u32 audit_get_capcontid(struct task_struct *tsk)
+> +{
+> +	return 0;
+> +}
+> +
+>  static inline u64 audit_get_contid(struct task_struct *tsk)
+>  {
+>  	return AUDIT_CID_UNSET;
+> diff --git a/include/uapi/linux/audit.h b/include/uapi/linux/audit.h
+> index eef42c8eea77..011b0a8ee9b2 100644
+> --- a/include/uapi/linux/audit.h
+> +++ b/include/uapi/linux/audit.h
+> @@ -78,6 +78,8 @@
+>  #define AUDIT_GET_LOGINUID	1024	/* Get loginuid of a task */
+>  #define AUDIT_SET_LOGINUID	1025	/* Set loginuid of a task */
+>  #define AUDIT_GET_SESSIONID	1026	/* Set sessionid of a task */
+> +#define AUDIT_GET_CAPCONTID	1027	/* Get cap_contid of a task */
+> +#define AUDIT_SET_CAPCONTID	1028	/* Set cap_contid of a task */
+>  
+>  #define AUDIT_FIRST_USER_MSG	1100	/* Userspace messages mostly uninteresting to kernel */
+>  #define AUDIT_USER_AVC		1107	/* We filter this differently */
+> diff --git a/kernel/audit.c b/kernel/audit.c
+> index a70c9184e5d9..7160da464849 100644
+> --- a/kernel/audit.c
+> +++ b/kernel/audit.c
+> @@ -1192,6 +1192,14 @@ static int audit_netlink_ok(struct sk_buff *skb, u16 msg_type)
+>  	case AUDIT_GET_SESSIONID:
+>  		return 0;
+>  		break;
+> +	case AUDIT_GET_CAPCONTID:
+> +	case AUDIT_SET_CAPCONTID:
+> +	case AUDIT_GET_CONTID:
+> +	case AUDIT_SET_CONTID:
+> +		if (!netlink_capable(skb, CAP_AUDIT_CONTROL) && !audit_get_capcontid(current))
+> +			return -EPERM;
+> +		return 0;
+> +		break;
+>  	default:  /* do more checks below */
+>  		break;
+>  	}
+> @@ -1227,8 +1235,6 @@ static int audit_netlink_ok(struct sk_buff *skb, u16 msg_type)
+>  	case AUDIT_TTY_SET:
+>  	case AUDIT_TRIM:
+>  	case AUDIT_MAKE_EQUIV:
+> -	case AUDIT_GET_CONTID:
+> -	case AUDIT_SET_CONTID:
+>  	case AUDIT_SET_LOGINUID:
+>  		/* Only support auditd and auditctl in initial pid namespace
+>  		 * for now. */
+> @@ -1304,6 +1310,23 @@ static int audit_get_contid_status(struct sk_buff *skb)
+>  	return 0;
+>  }
+>  
+> +static int audit_get_capcontid_status(struct sk_buff *skb)
+> +{
+> +	struct nlmsghdr *nlh = nlmsg_hdr(skb);
+> +	u32 seq = nlh->nlmsg_seq;
+> +	void *data = nlmsg_data(nlh);
+> +	struct audit_capcontid_status cs;
+> +
+> +	cs.pid = ((struct audit_capcontid_status *)data)->pid;
+> +	if (!cs.pid)
+> +		cs.pid = task_tgid_nr(current);
+> +	rcu_read_lock();
+> +	cs.enable = audit_get_capcontid(find_task_by_vpid(cs.pid));
+> +	rcu_read_unlock();
+> +	audit_send_reply(skb, seq, AUDIT_GET_CAPCONTID, 0, 0, &cs, sizeof(cs));
+> +	return 0;
+> +}
+> +
+>  struct audit_loginuid_status { uid_t loginuid; };
+>  
+>  static int audit_get_loginuid_status(struct sk_buff *skb)
+> @@ -1779,6 +1802,27 @@ static int audit_receive_msg(struct sk_buff *skb, struct nlmsghdr *nlh)
+>  		if (err)
+>  			return err;
+>  		break;
+> +	case AUDIT_SET_CAPCONTID: {
+> +		struct audit_capcontid_status *s = data;
+> +		struct task_struct *tsk;
+> +
+> +		/* check if new data is valid */
+> +		if (nlmsg_len(nlh) < sizeof(*s))
+> +			return -EINVAL;
+> +		tsk = find_get_task_by_vpid(s->pid);
+> +		if (!tsk)
+> +			return -EINVAL;
+> +
+> +		err = audit_set_capcontid(tsk, s->enable);
+> +		put_task_struct(tsk);
+> +		return err;
+> +		break;
+> +	}
+> +	case AUDIT_GET_CAPCONTID:
+> +		err = audit_get_capcontid_status(skb);
+> +		if (err)
+> +			return err;
+> +		break;
+>  	case AUDIT_SET_LOGINUID: {
+>  		uid_t *loginuid = data;
+>  		kuid_t kloginuid;
+> @@ -2711,6 +2755,56 @@ static struct task_struct *audit_cont_owner(struct task_struct *tsk)
+>  	return NULL;
+>  }
+>  
+> +int audit_set_capcontid(struct task_struct *task, u32 enable)
+> +{
+> +	u32 oldcapcontid;
+> +	int rc = 0;
+> +	struct audit_buffer *ab;
+> +	uid_t uid;
+> +	struct tty_struct *tty;
+> +	char comm[sizeof(current->comm)];
+> +
+> +	if (!task->audit)
+> +		return -ENOPROTOOPT;
+> +	oldcapcontid = audit_get_capcontid(task);
+> +	/* if task is not descendant, block */
+> +	if (task == current)
+> +		rc = -EBADSLT;
+> +	else if (!task_is_descendant(current, task))
+> +		rc = -EXDEV;
+> +	else if (current_user_ns() == &init_user_ns) {
+> +		if (!capable(CAP_AUDIT_CONTROL) && !audit_get_capcontid(current))
+> +			rc = -EPERM;
+> +	}
+> +	if (!rc)
+> +		task->audit->capcontid = enable;
+> +
+> +	if (!audit_enabled)
+> +		return rc;
+> +
+> +	ab = audit_log_start(audit_context(), GFP_KERNEL, AUDIT_SET_CAPCONTID);
+> +	if (!ab)
+> +		return rc;
+> +
+> +	uid = from_kuid(&init_user_ns, task_uid(current));
+> +	tty = audit_get_tty();
+> +	audit_log_format(ab,
+> +			 "opid=%d capcontid=%u old-capcontid=%u pid=%d uid=%u auid=%u tty=%s ses=%u",
+> +			 task_tgid_nr(task), enable, oldcapcontid,
+> +			 task_tgid_nr(current), uid,
+> +			 from_kuid(&init_user_ns, audit_get_loginuid(current)),
+> +			 tty ? tty_name(tty) : "(none)",
+> +			 audit_get_sessionid(current));
+> +	audit_put_tty(tty);
+> +	audit_log_task_context(ab);
+> +	audit_log_format(ab, " comm=");
+> +	audit_log_untrustedstring(ab, get_task_comm(comm, current));
+> +	audit_log_d_path_exe(ab, current->mm);
+> +	audit_log_format(ab, " res=%d", !rc);
+> +	audit_log_end(ab);
+> +	return rc;
+> +}
+> +
+>  /*
+>   * audit_set_contid - set current task's audit contid
+>   * @task: target task
+> diff --git a/kernel/audit.h b/kernel/audit.h
+> index cb25341c1a0f..ac4694e88485 100644
+> --- a/kernel/audit.h
+> +++ b/kernel/audit.h
+> @@ -231,6 +231,11 @@ struct audit_contid_status {
+>  	u64	id;
+>  };
+>  
+> +struct audit_capcontid_status {
+> +	pid_t	pid;
+> +	u32	enable;
+> +};
+> +
+>  #define AUDIT_CONTID_DEPTH	5
+>  
+>  /* Indicates that audit should log the full pathname. */
+> -- 
+> 1.8.3.1
+> 
 
 - RGB
 
