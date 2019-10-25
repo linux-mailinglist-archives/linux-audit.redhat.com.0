@@ -1,68 +1,105 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [205.139.110.61])
-	by mail.lfdr.de (Postfix) with ESMTP id CB1F9E3ECE
-	for <lists+linux-audit@lfdr.de>; Fri, 25 Oct 2019 00:08:57 +0200 (CEST)
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com [205.139.110.120])
+	by mail.lfdr.de (Postfix) with ESMTP id 1FDFAE4302
+	for <lists+linux-audit@lfdr.de>; Fri, 25 Oct 2019 07:44:21 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1571954935;
+	s=mimecast20190719; t=1571982259;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=iZXIL44ddWwVtlO2auo3BFEX7JUeqrM4AZL2yyEnBOc=;
-	b=SO1Mnu6a1N7RYTVA54MKySjuSdy1uCqip/0tKaJOr2+orK9qpfwr0bLFjbUJRCQAD+/rUF
-	jBLHRbcyWAnQsnzs6pXGO2OdJapNv5qT/1WFFIzXi6FFCcKERoyAynqE0jbpxK3h3R07Xp
-	ynRfPZCQNJrdtLsedP7CZwkv6wGSGcw=
+	bh=CXNOIrFXavwYaY3BqSXPjt3nv7iTK26tOhKLFCE1+fQ=;
+	b=XTynaF13sLuywNt63ZVijUcHNkco3QDZYMqFcoP84EA1McPXUQATyPjCqp+yRj3TxQCug0
+	zMFmdj04JDnP2ga/YRISWj+Ks2JoEuH3XRDWxk9Dv4YKLZ6zWbkV4oyrtpk3alxC7LmEtb
+	qQ6F9MmE7tjRBen5LivKkxvo8QRfraI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-46-DJGm0lwcMf-dOIXUBWOwoA-1; Thu, 24 Oct 2019 18:08:50 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+ us-mta-8-jp1qwRmdOI-UyDsp5_PZZQ-1; Fri, 25 Oct 2019 01:44:15 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4FC0347B;
-	Thu, 24 Oct 2019 22:08:45 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id E1A075D713;
-	Thu, 24 Oct 2019 22:08:41 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AA528800D41;
+	Fri, 25 Oct 2019 05:44:10 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 322585DAAF;
+	Fri, 25 Oct 2019 05:44:08 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id A74914E58A;
-	Thu, 24 Oct 2019 22:08:38 +0000 (UTC)
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id B04B31800B74;
+	Fri, 25 Oct 2019 05:44:02 +0000 (UTC)
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
 	[10.5.11.16])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id x9OM8Tl6022345 for <linux-audit@listman.util.phx.redhat.com>;
-	Thu, 24 Oct 2019 18:08:29 -0400
+	id x9P5hnkl010889 for <linux-audit@listman.util.phx.redhat.com>;
+	Fri, 25 Oct 2019 01:43:49 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id 3FE7B5C223; Thu, 24 Oct 2019 22:08:29 +0000 (UTC)
+	id 0DEFE5C223; Fri, 25 Oct 2019 05:43:49 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from madcap2.tricolour.ca (ovpn-112-19.phx2.redhat.com [10.3.112.19])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 961B05C1B5;
-	Thu, 24 Oct 2019 22:08:17 +0000 (UTC)
-Date: Thu, 24 Oct 2019 18:08:14 -0400
-From: Richard Guy Briggs <rgb@redhat.com>
-To: Paul Moore <paul@paul-moore.com>
-Subject: Re: [PATCH ghak90 V7 14/21] audit: contid check descendancy and
-	nesting
-Message-ID: <20191024220814.pid5ql6kvyr4ianb@madcap2.tricolour.ca>
-References: <cover.1568834524.git.rgb@redhat.com>
-	<16abf1b2aafeb5f1b8dae20b9a4836e54f959ca5.1568834524.git.rgb@redhat.com>
-	<CAHC9VhSRmn46DcazH4Q35vOSxVoEu8PsX79aurkHkFymRoMwag@mail.gmail.com>
+Received: from mx1.redhat.com (ext-mx09.extmail.prod.ext.phx2.redhat.com
+	[10.5.110.38])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 08C505C219
+	for <linux-audit@redhat.com>; Fri, 25 Oct 2019 05:43:46 +0000 (UTC)
+Received: from mail-yw1-f68.google.com (mail-yw1-f68.google.com
+	[209.85.161.68])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 01BEB4E8AC
+	for <linux-audit@redhat.com>; Fri, 25 Oct 2019 05:43:43 +0000 (UTC)
+Received: by mail-yw1-f68.google.com with SMTP id w140so411635ywd.0
+	for <linux-audit@redhat.com>; Thu, 24 Oct 2019 22:43:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:date:message-id:in-reply-to
+	:references:user-agent:subject:mime-version
+	:content-transfer-encoding;
+	bh=Fd7RXxRWJ4J0hJ0jyxPd09lzue/aYzfNqk8tuCDAACY=;
+	b=eu0aGbiF636BldNNxrTT7B1olIfyXx1aTM02t+8kSIs6UxsUpxKyVqbNEbcKvLHo3F
+	0iFCySgGE3+E/7lc27yzUMeftRA+Hy6YJ1EUH1UETPmCe3TzeFrt5sU7RXEIdhq1yPoo
+	Xs9EWblQISbEtq2YIEPaE0fUaG+h+F1tLK0MbeuncjL7l4mpxMjLlHBIv49ZnXeXtHan
+	T3E4Kh/+uSqvYcn3rjWBhpczcuv+vR2pGwu5XZGdynKhW3lNzWR5JzFtEyeJfwfrYT9a
+	ckL5x4jmgbc44VrPbs75sBIZxFpgZezH/QlUlkKGq+9NJNz0zbyed4/fdWd6/MpToEVO
+	p+xg==
+X-Gm-Message-State: APjAAAVhDC5zEtahFKejLb7JCcIeKZp1km2bDUSNAlYZDCQRNCsevLQZ
+	ghTorJ6Hjj3MwnkWROBfgP6FAAHwDErf
+X-Google-Smtp-Source: APXvYqz6j70rhPDk97kDk5M2WocFgZjOherEcRWqCGj1FuQC2lgG1k6GJ9/b7lbdUpwhgu7FyDmgFg==
+X-Received: by 2002:a81:5749:: with SMTP id l70mr848949ywb.488.1571982221892; 
+	Thu, 24 Oct 2019 22:43:41 -0700 (PDT)
+Received: from [172.31.99.25] ([212.147.57.94])
+	by smtp.gmail.com with ESMTPSA id
+	l188sm359126ywl.29.2019.10.24.22.43.39
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 24 Oct 2019 22:43:40 -0700 (PDT)
+From: Paul Moore <paul@paul-moore.com>
+To: Yunfeng Ye <yeyunfeng@huawei.com>, <eparis@redhat.com>
+Date: Fri, 25 Oct 2019 07:43:37 +0200
+Message-ID: <16e0170d878.280e.85c95baa4474aabc7814e68940a78392@paul-moore.com>
+In-Reply-To: <7869bb43-5cb1-270a-07d1-31574595e13e@huawei.com>
+References: <7869bb43-5cb1-270a-07d1-31574595e13e@huawei.com>
+User-Agent: AquaMail/1.20.0-1469 (build: 102100004)
+Subject: Re: [PATCH] audit: remove redundant condition check in
+	kauditd_thread()
 MIME-Version: 1.0
-In-Reply-To: <CAHC9VhSRmn46DcazH4Q35vOSxVoEu8PsX79aurkHkFymRoMwag@mail.gmail.com>
-User-Agent: NeoMutt/20180716
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.38]);
+	Fri, 25 Oct 2019 05:43:43 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.38]);
+	Fri, 25 Oct 2019 05:43:43 +0000 (UTC) for IP:'209.85.161.68'
+	DOMAIN:'mail-yw1-f68.google.com' HELO:'mail-yw1-f68.google.com'
+	FROM:'paul@paul-moore.com' RCPT:''
+X-RedHat-Spam-Score: 0.004  (DKIM_SIGNED, DKIM_VALID, RCVD_IN_DNSWL_NONE,
+	RCVD_IN_MSPIKE_H3, RCVD_IN_MSPIKE_WL, SPF_HELO_NONE,
+	SPF_NONE) 209.85.161.68 mail-yw1-f68.google.com 209.85.161.68
+	mail-yw1-f68.google.com <paul@paul-moore.com>
+X-Scanned-By: MIMEDefang 2.78 on 10.5.110.38
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MIME-Autoconverted: from quoted-printable to 8bit by
+	lists01.pubmisc.prod.ext.phx2.redhat.com id x9P5hnkl010889
 X-loop: linux-audit@redhat.com
-Cc: nhorman@tuxdriver.com, linux-api@vger.kernel.org,
-	containers@lists.linux-foundation.org,
-	LKML <linux-kernel@vger.kernel.org>, dhowells@redhat.com,
-	Linux-Audit Mailing List <linux-audit@redhat.com>,
-	netfilter-devel@vger.kernel.org, ebiederm@xmission.com,
-	simo@redhat.com, netdev@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	Eric Paris <eparis@parisplace.org>, mpatel@redhat.com,
-	Serge Hallyn <serge@hallyn.com>
+Cc: hushiyuan@huawei.com, linfeilong@huawei.com, linux-audit@redhat.com,
+	linux-kernel@vger.kernel.org
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -76,166 +113,63 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: DJGm0lwcMf-dOIXUBWOwoA-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: jp1qwRmdOI-UyDsp5_PZZQ-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
-On 2019-10-10 20:40, Paul Moore wrote:
-> On Wed, Sep 18, 2019 at 9:26 PM Richard Guy Briggs <rgb@redhat.com> wrote=
-:
-> > ?fixup! audit: convert to contid list to check for orch/engine ownershi=
-p
->=20
-> ?
->=20
-> > Require the target task to be a descendant of the container
-> > orchestrator/engine.
-> >
-> > You would only change the audit container ID from one set or inherited
-> > value to another if you were nesting containers.
-> >
-> > If changing the contid, the container orchestrator/engine must be a
-> > descendant and not same orchestrator as the one that set it so it is no=
-t
-> > possible to change the contid of another orchestrator's container.
->=20
-> Did you mean to say that the container orchestrator must be an
-> ancestor of the target, and the same orchestrator as the one that set
-> the target process' audit container ID?
+On October 23, 2019 3:27:50 PM Yunfeng Ye <yeyunfeng@huawei.com> wrote:
+> Warning is found by the code analysis tool:
+>  "the condition 'if(ac && rc < 0)' is redundant: ac"
+>
+>
+> The @ac variable has been checked before. It can't be a null pointer
+> here, so remove the redundant condition check.
+>
+>
+> Signed-off-by: Yunfeng Ye <yeyunfeng@huawei.com>
+> ---
+> kernel/audit.c | 4 ++--
+> 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Not quite, the first half yes, but the second half: if it was already
-set by that orchestrator, it can't be set again.  If it is a different
-orchestrator that is a descendant of the orchestrator that set it, then
-allow the action.
+Hello,
 
-> Or maybe I'm missing something about what you are trying to do?
+Thank you for the patch.  Looking quickly at it, it appears to be correct, unfortunately I'm not in a position to merge non-critical patches, but I expect to merge this next week.
 
-Does that help clarify it?
 
-> > Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
-> > ---
-> >  kernel/audit.c | 70 ++++++++++++++++++++++++++++++++++++++++++++++++++=
-+-------
-> >  1 file changed, 62 insertions(+), 8 deletions(-)
-> >
-> > diff --git a/kernel/audit.c b/kernel/audit.c
-> > index 9ce7a1ec7a92..69fe1e9af7cb 100644
-> > --- a/kernel/audit.c
-> > +++ b/kernel/audit.c
-> > @@ -2560,6 +2560,39 @@ static struct task_struct *audit_cont_owner(stru=
-ct task_struct *tsk)
-> >  }
-> >
-> >  /*
-> > + * task_is_descendant - walk up a process family tree looking for a ma=
-tch
-> > + * @parent: the process to compare against while walking up from child
-> > + * @child: the process to start from while looking upwards for parent
-> > + *
-> > + * Returns 1 if child is a descendant of parent, 0 if not.
-> > + */
-> > +static int task_is_descendant(struct task_struct *parent,
-> > +                             struct task_struct *child)
-> > +{
-> > +       int rc =3D 0;
-> > +       struct task_struct *walker =3D child;
-> > +
-> > +       if (!parent || !child)
-> > +               return 0;
-> > +
-> > +       rcu_read_lock();
-> > +       if (!thread_group_leader(parent))
-> > +               parent =3D rcu_dereference(parent->group_leader);
-> > +       while (walker->pid > 0) {
-> > +               if (!thread_group_leader(walker))
-> > +                       walker =3D rcu_dereference(walker->group_leader=
-);
-> > +               if (walker =3D=3D parent) {
-> > +                       rc =3D 1;
-> > +                       break;
-> > +               }
-> > +               walker =3D rcu_dereference(walker->real_parent);
-> > +       }
-> > +       rcu_read_unlock();
-> > +
-> > +       return rc;
-> > +}
-> > +
-> > +/*
-> >   * audit_set_contid - set current task's audit contid
-> >   * @task: target task
-> >   * @contid: contid value
-> > @@ -2587,22 +2620,43 @@ int audit_set_contid(struct task_struct *task, =
-u64 contid)
-> >         oldcontid =3D audit_get_contid(task);
-> >         read_lock(&tasklist_lock);
-> >         /* Don't allow the contid to be unset */
-> > -       if (!audit_contid_valid(contid))
-> > +       if (!audit_contid_valid(contid)) {
-> >                 rc =3D -EINVAL;
-> > +               goto unlock;
-> > +       }
-> >         /* Don't allow the contid to be set to the same value again */
-> > -       else if (contid =3D=3D oldcontid) {
-> > +       if (contid =3D=3D oldcontid) {
-> >                 rc =3D -EADDRINUSE;
-> > +               goto unlock;
-> > +       }
-> >         /* if we don't have caps, reject */
-> > -       else if (!capable(CAP_AUDIT_CONTROL))
-> > +       if (!capable(CAP_AUDIT_CONTROL)) {
-> >                 rc =3D -EPERM;
-> > -       /* if task has children or is not single-threaded, deny */
-> > -       else if (!list_empty(&task->children))
-> > +               goto unlock;
-> > +       }
-> > +       /* if task has children, deny */
-> > +       if (!list_empty(&task->children)) {
-> >                 rc =3D -EBUSY;
-> > -       else if (!(thread_group_leader(task) && thread_group_empty(task=
-)))
-> > +               goto unlock;
-> > +       }
-> > +       /* if task is not single-threaded, deny */
-> > +       if (!(thread_group_leader(task) && thread_group_empty(task))) {
-> >                 rc =3D -EALREADY;
-> > -       /* if contid is already set, deny */
-> > -       else if (audit_contid_set(task))
-> > +               goto unlock;
-> > +       }
-> > +       /* if task is not descendant, block */
-> > +       if (task =3D=3D current) {
-> > +               rc =3D -EBADSLT;
-> > +               goto unlock;
-> > +       }
-> > +       if (!task_is_descendant(current, task)) {
-> > +               rc =3D -EXDEV;
-> > +               goto unlock;
-> > +       }
-> > +       /* only allow contid setting again if nesting */
-> > +       if (audit_contid_set(task) && current =3D=3D audit_cont_owner(t=
-ask))
-> >                 rc =3D -ECHILD;
-> > +unlock:
-> >         read_unlock(&tasklist_lock);
-> >         if (!rc) {
-> >                 struct audit_cont *oldcont =3D audit_cont(task);
->=20
+> diff --git a/kernel/audit.c b/kernel/audit.c
+> index da8dc0db5bd3..193f3a1f4425 100644
+> --- a/kernel/audit.c
+> +++ b/kernel/audit.c
+> @@ -830,7 +830,7 @@ static int kauditd_thread(void *dummy)
+>  rc = kauditd_send_queue(sk, portid,
+>  &audit_hold_queue, UNICAST_RETRIES,
+>  NULL, kauditd_rehold_skb);
+> - if (ac && rc < 0) {
+> + if (rc < 0) {
+>  sk = NULL;
+>  auditd_reset(ac);
+>  goto main_queue;
+> @@ -840,7 +840,7 @@ static int kauditd_thread(void *dummy)
+>  rc = kauditd_send_queue(sk, portid,
+>  &audit_retry_queue, UNICAST_RETRIES,
+>  NULL, kauditd_hold_skb);
+> - if (ac && rc < 0) {
+> + if (rc < 0) {
+>  sk = NULL;
+>  auditd_reset(ac);
+>  goto main_queue;
 > --
-> paul moore
-> www.paul-moore.com
-
-- RGB
+> 2.7.4.3
 
 --
-Richard Guy Briggs <rgb@redhat.com>
-Sr. S/W Engineer, Kernel Security, Base Operating Systems
-Remote, Ottawa, Red Hat Canada
-IRC: rgb, SunRaycer
-Voice: +1.647.777.2635, Internal: (81) 32635
+paul moore
+www.paul-moore.com
+
+
+
+
 
 --
 Linux-audit mailing list
