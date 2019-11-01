@@ -1,102 +1,69 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-delivery-1.mimecast.com [207.211.31.120])
-	by mail.lfdr.de (Postfix) with ESMTP id 87EF9EC533
-	for <lists+linux-audit@lfdr.de>; Fri,  1 Nov 2019 15:58:53 +0100 (CET)
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-delivery-1.mimecast.com [205.139.110.120])
+	by mail.lfdr.de (Postfix) with ESMTP id EFE90EC561
+	for <lists+linux-audit@lfdr.de>; Fri,  1 Nov 2019 16:10:05 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1572620332;
+	s=mimecast20190719; t=1572621004;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
-	 message-id:message-id:to:to:cc:mime-version:mime-version:
-	 content-type:content-type:in-reply-to:in-reply-to:
-	 references:references:list-id:list-help:list-unsubscribe:
-	 list-subscribe:list-post; bh=dZgrWknaFEzTJCQk+z6OLYYic2nPA0H7Djf7tTaup28=;
-	b=K2eWDo4tdoq+ffWJhS019xkrir3IXjy4y9eh6Udpx41Mud0h171C5siFkbYNL6BLA1pbSL
-	MkV9M0QGrt038j5ZR8moirPLWt/0wD6GR2itzgVt7CSu0PiI1o3Cn5nI8y+3ytwe7z+Rdn
-	8oh2bisG4nyxRxqJtNYkPG+/A2wejQk=
+	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+	 content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:list-id:list-help:
+	 list-unsubscribe:list-subscribe:list-post;
+	bh=zPybxiGeF4JDQmQYf/Cl2WBzgJtgp7k2CuRLyWT1FAI=;
+	b=NVGkZYweUTiY5Wwn8v0Ne5La16kTDL5cps6F9kLL7/tAoNbuFTAqTYVuq21nNnSUXAfaqc
+	0WOb2SxHrKfWnJOUVIAZaQAMTmbr8wMC9ei+K6MjbY5s9rDZDGNjqi6gCOczIUe9TcjUY7
+	yi3iMzh9VjRW6LF4Yu7vFYUNzZq0UyY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-143-Rj_Y65EoPZqe30NENRrhWg-1; Fri, 01 Nov 2019 10:58:28 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+ us-mta-32-Epo3dTUvOK2T9gPRLwyaPQ-1; Fri, 01 Nov 2019 11:10:02 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A9EC8107ACC2;
-	Fri,  1 Nov 2019 14:58:23 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 955F060876;
-	Fri,  1 Nov 2019 14:58:22 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A91A5800C80;
+	Fri,  1 Nov 2019 15:09:57 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 250971001281;
+	Fri,  1 Nov 2019 15:09:57 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 2302F18034E9;
-	Fri,  1 Nov 2019 14:58:20 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
-	[10.5.11.23])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 13FD24BB78;
+	Fri,  1 Nov 2019 15:09:55 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+	[10.5.11.22])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id xA1EwFgA013688 for <linux-audit@listman.util.phx.redhat.com>;
-	Fri, 1 Nov 2019 10:58:15 -0400
+	id xA1F9kaH014812 for <linux-audit@listman.util.phx.redhat.com>;
+	Fri, 1 Nov 2019 11:09:46 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id B211C19757; Fri,  1 Nov 2019 14:58:15 +0000 (UTC)
+	id 6A6161000232; Fri,  1 Nov 2019 15:09:46 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from mx1.redhat.com (ext-mx13.extmail.prod.ext.phx2.redhat.com
-	[10.5.110.42])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id AC96919C5B
-	for <linux-audit@redhat.com>; Fri,  1 Nov 2019 14:58:10 +0000 (UTC)
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com
-	[209.85.214.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id E0D3A3001870
-	for <linux-audit@redhat.com>; Fri,  1 Nov 2019 14:58:09 +0000 (UTC)
-Received: by mail-pl1-f172.google.com with SMTP id e3so2378222plt.7
-	for <linux-audit@redhat.com>; Fri, 01 Nov 2019 07:58:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language;
-	bh=MqYpeeUfi/ZJH65J7tiFJkna8NTNhmqQzVRPS+ynhYQ=;
-	b=UBHSEZE29esH+a7/S5e177HFU4rEhAOLGwRvBWy2NGNL2JR0tv+8LDRceOm8pM2qy5
-	kIZoVn0Jr0lcqDiRP3eYvgxeB0FyO6c+uSlj83AcWcUhQkksdxvzMdYY9zM8OVfQDtYw
-	z3to2SIdfzOmxOiydg4f5nCG1p12tyugF6/BZkFN4YQKeG5hRPIwxSgW4H33ySHcEMIO
-	QQ3q79KuioLL3W5DsEL2otZpGMzPN3Kt49UjWMKkCH9CdkUMKHFVMSuNAcsnL3Eq0Ekt
-	vYIvILiXJqFV/6RjSS91XXwT5IgN2bQ6RvXWgNBrTVErijmC8q1tQN5IJbBaBZIyPF+q
-	GMrA==
-X-Gm-Message-State: APjAAAWHtAqwz15mybSRZ0yFQB5wXMr6hsBW+JGd4muuM+5rshp0nDZA
-	nVMNsb/p/g4RpfcRk18H85v/XX94oTo=
-X-Google-Smtp-Source: APXvYqxNJxHLNIHO7/MKSpW3C5i8cW0wMF+RkayhrTV7xJLyUyptvF5Hf7hf27cqrlXMAju8sHikxA==
-X-Received: by 2002:a17:902:36a:: with SMTP id
-	97mr13026852pld.63.1572620289070; 
-	Fri, 01 Nov 2019 07:58:09 -0700 (PDT)
-Received: from [192.168.1.151] ([47.187.53.142])
-	by smtp.gmail.com with ESMTPSA id v1sm9755276pjd.22.2019.11.01.07.58.07
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 01 Nov 2019 07:58:08 -0700 (PDT)
-Subject: Re: [PATCH] audit: set context->dummy even when audit is off
-To: Steve Grubb <sgrubb@redhat.com>, linux-audit@redhat.com
-References: <CAHC9VhTyz7fd+iQaymVXUGFe3ZA5Z_WkJeY_snDYiZ9GP6gCOA@mail.gmail.com>
-	<3063279.ZKBa9cPvsK@x2>
-	<f54be09d-297b-108a-533e-324a04fd1f6d@magitekltd.com>
-	<786313584.jd3umIO2dN@x2>
-From: Lenny Bruzenak <lenny@magitekltd.com>
-Message-ID: <8115d826-9bdf-a7b2-2766-9b55916491ac@magitekltd.com>
-Date: Fri, 1 Nov 2019 09:58:07 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.8.0
+Received: from madcap2.tricolour.ca (ovpn-112-19.phx2.redhat.com [10.3.112.19])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id B445810016E8;
+	Fri,  1 Nov 2019 15:09:30 +0000 (UTC)
+Date: Fri, 1 Nov 2019 11:09:27 -0400
+From: Richard Guy Briggs <rgb@redhat.com>
+To: Steve Grubb <sgrubb@redhat.com>
+Subject: Re: [PATCH ghak90 V7 20/21] audit: add capcontid to set contid
+	outside init_user_ns
+Message-ID: <20191101150927.c5sf3n5ezfg2eano@madcap2.tricolour.ca>
+References: <cover.1568834524.git.rgb@redhat.com>
+	<CAHC9VhRDoX9du4XbCnBtBzsNPMGOsb-TKM1CC+sCL7HP=FuTRQ@mail.gmail.com>
+	<20191030220320.tnwkaj5gbzchcn7j@madcap2.tricolour.ca>
+	<3677995.NTHC7m0fHc@x2>
 MIME-Version: 1.0
-In-Reply-To: <786313584.jd3umIO2dN@x2>
-Content-Language: en-US
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.42]);
-	Fri, 01 Nov 2019 14:58:09 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.42]);
-	Fri, 01 Nov 2019 14:58:09 +0000 (UTC) for IP:'209.85.214.172'
-	DOMAIN:'mail-pl1-f172.google.com'
-	HELO:'mail-pl1-f172.google.com' FROM:'lenny@magitekltd.com' RCPT:''
-X-RedHat-Spam-Score: 0.002  (DKIM_SIGNED, DKIM_VALID, HTML_MESSAGE,
-	RCVD_IN_DNSWL_NONE, RCVD_IN_MSPIKE_H2, SPF_HELO_NONE,
-	SPF_NONE) 209.85.214.172 mail-pl1-f172.google.com 209.85.214.172
-	mail-pl1-f172.google.com <lenny@magitekltd.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.110.42
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <3677995.NTHC7m0fHc@x2>
+User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-loop: linux-audit@redhat.com
+Cc: nhorman@tuxdriver.com, linux-api@vger.kernel.org,
+	containers@lists.linux-foundation.org,
+	LKML <linux-kernel@vger.kernel.org>, dhowells@redhat.com,
+	Linux-Audit Mailing List <linux-audit@redhat.com>,
+	netfilter-devel@vger.kernel.org, ebiederm@xmission.com,
+	simo@redhat.com, netdev@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	Eric Paris <eparis@parisplace.org>, mpatel@redhat.com,
+	Serge Hallyn <serge@hallyn.com>
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -110,96 +77,86 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: Rj_Y65EoPZqe30NENRrhWg-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: Epo3dTUvOK2T9gPRLwyaPQ-1
 X-Mimecast-Spam-Score: 0
-Content-Type: multipart/mixed; boundary="===============0408847708833041239=="
-
-This is a multi-part message in MIME format.
---===============0408847708833041239==
-Content-Type: multipart/alternative;
-	boundary="------------68156D995F683801F109B0D7"
-Content-Language: en-US
-
-This is a multi-part message in MIME format.
---------------68156D995F683801F109B0D7
 Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
-
-On 11/1/19 9:49 AM, Steve Grubb wrote:
-
->> +1 for me, except I would also question why it would even listen, as to
->> me it seems that implies storage.
->>
->> If that's true, I would want to be able to disable it as I do not want
->> audit events stored elsewhere as well.
-> It is true. You get 2 copies, one in the journal and it also relays one t=
-o=20
-> rsyslog. This should fix it:
->
-> systemctl mask systemd-journald-audit.socket
->
-> -Steve
-
-Gotcha; thanks Steve.
-LCB=20
-
---=20
-Lenny Bruzenak
-MagitekLTD
-
-
---------------68156D995F683801F109B0D7
-Content-Type: text/html; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
-
-<html>
-  <head>
-    <meta http-equiv=3D"Content-Type" content=3D"text/html;
-      charset=3Dwindows-1252">
-  </head>
-  <body text=3D"#000000" bgcolor=3D"#FFFFFF">
-    <p>On 11/1/19 9:49 AM, Steve Grubb wrote:<br>
-    </p>
-    <blockquote type=3D"cite" cite=3D"mid:786313584.jd3umIO2dN@x2">
-      <blockquote type=3D"cite" style=3D"color: #000000;">
-        <pre class=3D"moz-quote-pre" wrap=3D"">+1 for me, except I would al=
-so question why it would even listen, as to
-me it seems that implies storage.
-
-If that's true, I would want to be able to disable it as I do not want
-audit events stored elsewhere as well.
-</pre>
-      </blockquote>
-      <pre class=3D"moz-quote-pre" wrap=3D"">It is true. You get 2 copies, =
-one in the journal and it also relays one to=20
-rsyslog. This should fix it:
-
-systemctl mask systemd-journald-audit.socket
-
--Steve
-</pre>
-    </blockquote>
-    <pre class=3D"moz-quote-pre" wrap=3D"">Gotcha; thanks Steve.
-LCB=20
-</pre>
-    <pre class=3D"moz-signature" cols=3D"72">--=20
-Lenny Bruzenak
-MagitekLTD</pre>
-  </body>
-</html>
-
---------------68156D995F683801F109B0D7--
-
---===============0408847708833041239==
-Content-Type: text/plain; charset=WINDOWS-1252
-MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
+
+On 2019-10-31 10:50, Steve Grubb wrote:
+> Hello,
+>=20
+> TLDR;  I see a lot of benefit to switching away from procfs for setting a=
+uid &=20
+> sessionid.
+>=20
+> On Wednesday, October 30, 2019 6:03:20 PM EDT Richard Guy Briggs wrote:
+> > > Also, for the record, removing the audit loginuid from procfs is not
+> > > something to take lightly, if at all; like it or not, it's part of th=
+e
+> > > kernel API.
+>=20
+> It can also be used by tools to iterate processes related to one user or=
+=20
+> session. I use this in my Intrusion Prevention System which will land in=
+=20
+> audit user space at some point in the future.
+>=20
+> > Oh, I'm quite aware of how important this change is and it was discusse=
+d
+> > with Steve Grubb who saw the concern and value of considering such a
+> > disruptive change.
+>=20
+> Actually, I advocated for syscall. I think the gist of Eric's idea was th=
+at /
+> proc is the intersection of many nasty problems. By relying on it, you ca=
+n't=20
+> simplify the API to reduce the complexity. Almost no program actually nee=
+ds=20
+> access to /proc. ps does. But almost everything else is happy without it.=
+ For=20
+> example, when you setup chroot jails, you may have to add /dev/random or =
+/
+> dev/null, but almost never /proc. What does force you to add /proc is any=
+=20
+> entry point daemon like sshd because it needs to set the loginuid. If we=
+=20
+> switch away from /proc, then sshd or crond will no longer /require/ procf=
+s to=20
+> be available which again simplifies the system design.
+>=20
+> > Removing proc support for auid/ses would be a
+> > long-term deprecation if accepted.
+>=20
+> It might need to just be turned into readonly for a while. But then again=
+,=20
+> perhaps auid and session should be part of /proc/<pid>/status? Maybe this=
+ can=20
+> be done independently and ahead of the container work so there is a migra=
+tion=20
+> path for things that read auid or session. TBH, maybe this should have be=
+en=20
+> done from the beginning.
+
+How about making loginuid/contid/capcontid writable only via netlink but
+still provide the /proc interface for reading?  Deprecation of proc can
+be left as a decision for later.  This way sshd/crond/getty don't need
+/proc, but the info is still there for tools that want to read it.
+
+> -Steve
+
+- RGB
+
+--
+Richard Guy Briggs <rgb@redhat.com>
+Sr. S/W Engineer, Kernel Security, Base Operating Systems
+Remote, Ottawa, Red Hat Canada
+IRC: rgb, SunRaycer
+Voice: +1.647.777.2635, Internal: (81) 32635
 
 --
 Linux-audit mailing list
 Linux-audit@redhat.com
 https://www.redhat.com/mailman/listinfo/linux-audit
---===============0408847708833041239==--
 
