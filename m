@@ -1,62 +1,104 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com [205.139.110.120])
-	by mail.lfdr.de (Postfix) with ESMTP id 70FD7EC481
-	for <lists+linux-audit@lfdr.de>; Fri,  1 Nov 2019 15:17:29 +0100 (CET)
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-delivery-1.mimecast.com [207.211.31.120])
+	by mail.lfdr.de (Postfix) with ESMTP id F3A92EC4B9
+	for <lists+linux-audit@lfdr.de>; Fri,  1 Nov 2019 15:29:42 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1572617847;
+	s=mimecast20190719; t=1572618581;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
-	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+	 message-id:message-id:to:to:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=A/cFvcJg+rPh4Udwt0rzvHxh4isKGKlsozhHCfiyrk4=;
-	b=XywiIFmY9w6nct6g+e5PoJ9YaK6Cjc53tiSjEAzxNoaUNqDDhsOEXnZCsPTosz81VWyYKh
-	PmTTigrg446S1OoGqpjqW9ZQoIGFoel9jIDMaN8n5jM66CD63cFfz2AmgU6YFdCgatTmlw
-	D2GoVJd14s7uXsANinPz0ZiN2PENW/I=
+	bh=gOkdttnrKwa11MkJH3OK4VSrpBVe9DIrSgzjdRx9H5Y=;
+	b=bBAT6C4hBZiH7RJRa/gAunvEl2t4DK2EI1Gql/ua1Yw28qvTYJe3+nhT/UuCXc5pWhTjv2
+	zH8FxLFI3Nth/2Xq+0JxPBLiaNPwrSvyXwDvRStjeRP1L/Kr8LhnfMYXrUvVo1q+LlMZPd
+	9BMDibVlglMVdfXQFGgruUAjKkyYfso=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-292-oWXfMkDQPDmRNMXY31J9NA-1; Fri, 01 Nov 2019 10:17:21 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+ us-mta-319-iWDFT2skP8mG4JiBlWzpdA-1; Fri, 01 Nov 2019 10:29:37 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4BEFC81A334;
-	Fri,  1 Nov 2019 14:17:15 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 5C00D63148;
-	Fri,  1 Nov 2019 14:17:14 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E1A231800D67;
+	Fri,  1 Nov 2019 14:29:31 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id A8A605D6A7;
+	Fri,  1 Nov 2019 14:29:30 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 1FBEB4BB65;
-	Fri,  1 Nov 2019 14:17:10 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
-	[10.5.11.13])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id B2EB118034E9;
+	Fri,  1 Nov 2019 14:29:28 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+	[10.5.11.11])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id xA1EH4pp011340 for <linux-audit@listman.util.phx.redhat.com>;
-	Fri, 1 Nov 2019 10:17:04 -0400
+	id xA1EQlpl011728 for <linux-audit@listman.util.phx.redhat.com>;
+	Fri, 1 Nov 2019 10:26:47 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id 6E987608B8; Fri,  1 Nov 2019 14:17:04 +0000 (UTC)
+	id 2EF00600F8; Fri,  1 Nov 2019 14:26:47 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from x2.localnet (ovpn-116-239.phx2.redhat.com [10.3.116.239])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id C2302608D0;
-	Fri,  1 Nov 2019 14:16:58 +0000 (UTC)
-From: Steve Grubb <sgrubb@redhat.com>
-To: linux-audit@redhat.com
+Received: from mx1.redhat.com (ext-mx19.extmail.prod.ext.phx2.redhat.com
+	[10.5.110.48])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 28CB0600D1
+	for <linux-audit@redhat.com>; Fri,  1 Nov 2019 14:26:44 +0000 (UTC)
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com
+	[209.85.210.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 41889307D93A
+	for <linux-audit@redhat.com>; Fri,  1 Nov 2019 14:26:44 +0000 (UTC)
+Received: by mail-pf1-f178.google.com with SMTP id c184so7214918pfb.0
+	for <linux-audit@redhat.com>; Fri, 01 Nov 2019 07:26:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=Xt6DJJYiMH5SDzj4lvVbYJw4NZG1IEk8rRmd8ic00EM=;
+	b=P9MTy91Opi9LxWkWNlxwUmHXgf7jtxv+iQKcCEoHiAPmqV0XCo63HPxFr4A5JsoM7+
+	S2d1E3q0XfoCDjotSRfeu/AakDInROnePF+zE5gnKjuYzd3DTwmZ9XG4fvsYdMpExx9L
+	1Iz6AV0C9352wRs/SlUbCadfhJeEQZndbfFsqO4SugI+2sIv3gA/2tBkiaJuMRI+LTe9
+	4+Ca6APiLy8FVq9udaFAFhvXt+3LMOiyQ7t9cmxFa06vGbq+NP1sJpMz+T/o+0Ip9Mxu
+	1uhLkiRjTNq1vvoUUxdFFTdx3Y7nZPHBbPNLbugu9vpKVBqtI/2DY6tFva4bHx1cWJtO
+	5l5Q==
+X-Gm-Message-State: APjAAAUw+7VfFqkwTXEPKAZJO0PZQdhPm4/E8XWs9MdbTWJ7QyR+0ci2
+	mKsFpBnBFMM9Z5hzgbUmoHVP6Vm4y2E=
+X-Google-Smtp-Source: APXvYqw1IeAc542pKVGrVvPmKetO95z5kF7q3fuhM2zrBQLRpt5YksKdl9Vsdkuli9KOb6adUCLOpg==
+X-Received: by 2002:a63:e009:: with SMTP id e9mr6323745pgh.222.1572618403514; 
+	Fri, 01 Nov 2019 07:26:43 -0700 (PDT)
+Received: from [192.168.1.151] ([47.187.53.142])
+	by smtp.gmail.com with ESMTPSA id g9sm8216400pjl.20.2019.11.01.07.26.42
+	for <linux-audit@redhat.com>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 01 Nov 2019 07:26:42 -0700 (PDT)
 Subject: Re: [PATCH] audit: set context->dummy even when audit is off
-Date: Fri, 01 Nov 2019 10:16:56 -0400
-Message-ID: <3063279.ZKBa9cPvsK@x2>
-Organization: Red Hat
-In-Reply-To: <B63048C4-3158-453B-859A-C5574AACDC36@fb.com>
+To: linux-audit@redhat.com
 References: <CAHC9VhTyz7fd+iQaymVXUGFe3ZA5Z_WkJeY_snDYiZ9GP6gCOA@mail.gmail.com>
 	<CAHC9VhRwRSGa5JSL0=cXxG-oOg9jUve9OEYyTCqTxzr=aMdGxg@mail.gmail.com>
-	<B63048C4-3158-453B-859A-C5574AACDC36@fb.com>
+	<B63048C4-3158-453B-859A-C5574AACDC36@fb.com> <3063279.ZKBa9cPvsK@x2>
+From: Lenny Bruzenak <lenny@magitekltd.com>
+Message-ID: <f54be09d-297b-108a-533e-324a04fd1f6d@magitekltd.com>
+Date: Fri, 1 Nov 2019 09:26:41 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.8.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <3063279.ZKBa9cPvsK@x2>
+Content-Language: en-US
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.48]);
+	Fri, 01 Nov 2019 14:26:44 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.48]);
+	Fri, 01 Nov 2019 14:26:44 +0000 (UTC) for IP:'209.85.210.178'
+	DOMAIN:'mail-pf1-f178.google.com'
+	HELO:'mail-pf1-f178.google.com' FROM:'lenny@magitekltd.com' RCPT:''
+X-RedHat-Spam-Score: 0.004  (DKIM_SIGNED, DKIM_VALID, RCVD_IN_DNSWL_NONE,
+	RCVD_IN_MSPIKE_H3, RCVD_IN_MSPIKE_WL, SPF_HELO_NONE,
+	SPF_NONE) 209.85.210.178 mail-pf1-f178.google.com 209.85.210.178
+	mail-pf1-f178.google.com <lenny@magitekltd.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.110.48
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-loop: linux-audit@redhat.com
-Cc: Kyle McMartin <jkkm@fb.com>, Chris Mason <clm@fb.com>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	Dave Jones <davej@codemonkey.org.uk>
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -70,46 +112,34 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: oWXfMkDQPDmRNMXY31J9NA-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: iWDFT2skP8mG4JiBlWzpdA-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
-On Friday, November 1, 2019 9:24:17 AM EDT Chris Mason wrote:
-> On 31 Oct 2019, at 19:27, Paul Moore wrote:
-> > On Thu, Oct 31, 2019 at 12:40 PM Chris Mason <clm@fb.com> wrote:
-> > [ ... ]
-> > Hi Chris,
-> >=20
-> > This is a rather hasty email as I'm at a conference right now, but I
-> > wanted to convey that I'm not opposed to making sure that the NTP
-> > records obey the audit configuration (that was the original intent
-> > after all), I think it is just that we are all a little confused as to
-> > why you are seeing the NTP records *and*only* the NTP records.
->=20
-> This part is harder to nail down because there's a window during boot
-> where journald has enabled audit but chef hasn't yet run in and turned
-> it off, so we get a lot of logs early and then mostly ntp after that.
+On 11/1/19 9:16 AM, Steve Grubb wrote:
 
-This is the root of the problem. Journald should never turn on audit since =
-it=20
-has no idea if auditd even has rules to load. What if the end user does not=
-=20
-want auditing? By blindly enabling audit without knowing if its wanted, it=
-=20
-causes a system performance hit even with no rules loaded. It would be best=
-=20
-if journald leaves audit alone. If it wants to listen on the multicast=20
-socket, so be it. It should just listen and not try to alter the system.
+> This is the root of the problem. Journald should never turn on audit since it 
+> has no idea if auditd even has rules to load. What if the end user does not 
+> want auditing? By blindly enabling audit without knowing if its wanted, it 
+> causes a system performance hit even with no rules loaded. It would be best 
+> if journald leaves audit alone. If it wants to listen on the multicast 
+> socket, so be it. It should just listen and not try to alter the system.
 
-Back to ntp, it sounds like the ntp record needs to check for audit_enabled=
-=20
-rather than the dummy context.
++1 for me, except I would also question why it would even listen, as to
+me it seems that implies storage.
 
--Steve
+If that's true, I would want to be able to disable it as I do not want
+audit events stored elsewhere as well.
 
+Thx,
 
+LCB
+
+-- 
+Lenny Bruzenak
+MagitekLTD
 
 --
 Linux-audit mailing list
