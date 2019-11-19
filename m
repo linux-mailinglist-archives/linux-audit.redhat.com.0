@@ -1,54 +1,55 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-delivery-1.mimecast.com [205.139.110.120])
-	by mail.lfdr.de (Postfix) with ESMTP id F0504102F49
-	for <lists+linux-audit@lfdr.de>; Tue, 19 Nov 2019 23:27:18 +0100 (CET)
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com [205.139.110.120])
+	by mail.lfdr.de (Postfix) with ESMTP id 1733B102F65
+	for <lists+linux-audit@lfdr.de>; Tue, 19 Nov 2019 23:33:10 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1574202437;
+	s=mimecast20190719; t=1574202789;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=kjTmCf8KdF9uAoMaBC83GEieKUxtvnQ3zkCJqaeNjaQ=;
-	b=E8Pab5SaG/6a3P9wFdbAWnpWnGxjoVAa5wPR2Y+6LUvKXFU95/xIk7wBQUOEFcRRUQGGIF
-	5SfeY3acsQ1R3QNS2cnK1uYakG0ft2Lac3TmDejmHcXeXW+3BRht9lxJIEH80cXl1uCJOO
-	yo6Jk/Aq4rFrU44/QwvhXRXUE1gH4JY=
+	bh=VOH4KBxxPWqNIvUSd597WVBO/zez/I3dURW+U2ZHK2I=;
+	b=BFOk+vU6Fuk31sHx1/XRwmmiAAlwHXgb4pSVnKrKtSdOMqXYM7QVQM/Rknx5jm5hJK6KT/
+	bw73N+WFt2a8meryx5SP6ChUFhZ90Agw6k+bQrfo3ju8gUIpTLC7fMxTv9JpxSR1sn5FN/
+	BHgTQzlA+/Gj0j6poyNZjqIsZdkq2q4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-306-RhALlkV_PbOS8oLDXumrlw-1; Tue, 19 Nov 2019 17:27:15 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+ us-mta-256-_9_ODBiiN1-DiyF-P776VQ-1; Tue, 19 Nov 2019 17:33:07 -0500
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 20785800EBE;
-	Tue, 19 Nov 2019 22:27:11 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id A2913D1FF;
-	Tue, 19 Nov 2019 22:27:09 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DC9B1477;
+	Tue, 19 Nov 2019 22:33:02 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id C36B566D29;
+	Tue, 19 Nov 2019 22:33:01 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 6CA0B4BB65;
-	Tue, 19 Nov 2019 22:27:08 +0000 (UTC)
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id E6BC718089C8;
+	Tue, 19 Nov 2019 22:33:00 +0000 (UTC)
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
 	[10.5.11.15])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id xAJMR2O0009057 for <linux-audit@listman.util.phx.redhat.com>;
-	Tue, 19 Nov 2019 17:27:02 -0500
+	id xAJMWtNQ009353 for <linux-audit@listman.util.phx.redhat.com>;
+	Tue, 19 Nov 2019 17:32:55 -0500
 Received: by smtp.corp.redhat.com (Postfix)
-	id 784B346E92; Tue, 19 Nov 2019 22:27:02 +0000 (UTC)
+	id 0F35E46E8F; Tue, 19 Nov 2019 22:32:55 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from madcap2.tricolour.ca (ovpn-112-14.phx2.redhat.com [10.3.112.14])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id E62215D6B7;
-	Tue, 19 Nov 2019 22:26:56 +0000 (UTC)
-Date: Tue, 19 Nov 2019 17:26:53 -0500
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 8BCA762926;
+	Tue, 19 Nov 2019 22:32:46 +0000 (UTC)
+Date: Tue, 19 Nov 2019 17:32:43 -0500
 From: Richard Guy Briggs <rgb@redhat.com>
-To: Tim Galyean <tgalyean@splunk.com>
-Subject: Re: Auditd SYSCALL argument decoding
-Message-ID: <20191119222653.akgvfahcjfcjvtgf@madcap2.tricolour.ca>
-References: <2B96DB9C-982F-4B8D-94A9-AC08073A55E3@splunk.com>
+To: "Kadirvadivelu, Vezhavendan 1. (EXT - IN/Chennai)"
+	<vezhavendan.1.kadirvadivelu.ext@nokia.com>
+Subject: Re: Security audit rules
+Message-ID: <20191119223243.inqd4yz5dsnr6gpg@madcap2.tricolour.ca>
+References: <AM0PR07MB414818424612036066D01E9BB27B0@AM0PR07MB4148.eurprd07.prod.outlook.com>
 MIME-Version: 1.0
-In-Reply-To: <2B96DB9C-982F-4B8D-94A9-AC08073A55E3@splunk.com>
+In-Reply-To: <AM0PR07MB414818424612036066D01E9BB27B0@AM0PR07MB4148.eurprd07.prod.outlook.com>
 User-Agent: NeoMutt/20180716
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-loop: linux-audit@redhat.com
@@ -66,45 +67,33 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: RhALlkV_PbOS8oLDXumrlw-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: _9_ODBiiN1-DiyF-P776VQ-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
 
-On 2019-11-19 17:24, Tim Galyean wrote:
-> Hello,
+On 2019-11-08 12:52, Kadirvadivelu, Vezhavendan 1. (EXT - IN/Chennai) wrote=
+:
+> Hi,
 >=20
-> As I understand it, long values recorded by auditd are stored as hex enco=
-ded strings. However, when I attempt to decode arguments such as a0 or a1 i=
-n SYSCALL events, they are decoded into special characters instead of ASCII=
-. Are these values encoded differently than PROCTITLE events?
-
-They are unsigned long long integers printed in hexadecimal, which is
-the pointer size on 64-bit architectures.  These are pointers to the
-memory location containing the string, so we don't actually have the
-string value.
-
-> Below is an example log line:
+> In one of the VM I find audit.rules defined under /etc/audit as well as /=
+etc/audit/rules.d.
 >=20
-> type=3DSYSCALL msg=3Daudit(1574182099.559:2002): arch=3Dc000003e syscall=
-=3D59 success=3Dyes exit=3D0 a0=3D55df330a3c10 a1=3D55df330a3c78 a2=3D55df3=
-30a3c90 a3=3D0 items=3D3 ppid=3D29664 pid=3D29678 auid=3D1171 uid=3D0 gid=
-=3D0 euid=3D0 suid=3D0 fsuid=3D0 egid=3D0 sgid=3D0 fsgid=3D0 tty=3D(none) s=
-es=3D170 comm=3D"apt-check" exe=3D"/usr/bin/python3.5" key=3D"rootcmd"
->=20
-> In this example, I am looking to decode a0, a1, and a2. Yes, it seems tha=
-t ausearch can decode these values. However, I am looking to decode them vi=
-a Splunk. What format are these strings encoded in and is there a way to de=
-code these values in any other way other than by using ausearch?
+> What is the significance as well as difference between the files found in=
+ 2 places.
 
-My understanding is that ausearch does not have access to the original
-strings to decode them.  The kernel does have access to the full string
-at the time of the generation of the message, but does not include it in
-the record format due to the lack of knowledge of every syscall format
-to know which ones to decode and due to netlink bandwidth and disk
-storage limits.
+You haven't said what distro you are using.  In more recent distros, the
+rules in rules.d are used by augenrules to populate audit.rules,
+overwriting them.
+
+> Also please let me know what is the correct location where audit.rules ne=
+ed to be places.
+
+Depends on your distro.
+
+> Vezhavendan K
 
 - RGB
 
