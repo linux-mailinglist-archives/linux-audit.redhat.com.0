@@ -1,100 +1,115 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-delivery-1.mimecast.com [205.139.110.120])
-	by mail.lfdr.de (Postfix) with ESMTP id D284C105DCB
-	for <lists+linux-audit@lfdr.de>; Fri, 22 Nov 2019 01:43:15 +0100 (CET)
+Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [207.211.31.81])
+	by mail.lfdr.de (Postfix) with ESMTP id A43C31072BE
+	for <lists+linux-audit@lfdr.de>; Fri, 22 Nov 2019 14:07:52 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1574383392;
+	s=mimecast20190719; t=1574428071;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=KbnVEWVVH7PUSxuXacTs8U1ZIhapz6IRySqhaNPkWfA=;
-	b=iD5/G2E+4iFNTsnSxS149cFGUt5rRvzNCV/lT7I2fxlZ5mCLUu+v6plOhp0g3fSXA5PLuo
-	J8CuYuHAHwTwU6/qGWCJ7vhFGZpDJSuUu+OrvEVy9vzT3PIHV5tttSMfOoyd5freq7wbnf
-	MiUs30HGKvw6a7gLwB3Upnks4dXP89Y=
+	bh=pgIOOGUxDze2y/J5p3lYFSwb4zF4YBZxfhx+xeh7Kok=;
+	b=MpE1fgE/eAMDnPlXADnB/WiDih844b1jVDnQPO7lH7zkdnkYd/vsN2LxTALebWTLLVJ5A8
+	qFJG3TYDYXbkocZSA3lneNvxjCKOs5qhzGHwhGRtKomeRa1pBY0WXR2OQdVe53nbFmbw0x
+	vgdk6Ak/xBbmhIBQhN46fdJUpcAMuJU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-84-Bq2Mg6KYPT2XOoH0BnWg_A-1; Thu, 21 Nov 2019 19:43:10 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+ us-mta-49-i95BKASEPCq35junR5zOUg-1; Fri, 22 Nov 2019 08:07:49 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 70F148018A3;
-	Fri, 22 Nov 2019 00:43:04 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D93E61005513;
+	Fri, 22 Nov 2019 13:07:43 +0000 (UTC)
 Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 74E645E263;
-	Fri, 22 Nov 2019 00:43:01 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 3A67564020;
+	Fri, 22 Nov 2019 13:07:43 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 5568818089C8;
-	Fri, 22 Nov 2019 00:42:57 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
-	[10.11.54.3])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 2EB8918089CF;
+	Fri, 22 Nov 2019 13:07:36 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+	[10.11.54.4])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id xAM0geKs029091 for <linux-audit@listman.util.phx.redhat.com>;
-	Thu, 21 Nov 2019 19:42:40 -0500
+	id xAK4alI4017031 for <linux-audit@listman.util.phx.redhat.com>;
+	Tue, 19 Nov 2019 23:36:47 -0500
 Received: by smtp.corp.redhat.com (Postfix)
-	id 3AB261055394; Fri, 22 Nov 2019 00:42:40 +0000 (UTC)
+	id A80EB2022ACC; Wed, 20 Nov 2019 04:36:47 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
 	(mimecast04.extmail.prod.ext.rdu2.redhat.com [10.11.55.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 362161055530
-	for <linux-audit@redhat.com>; Fri, 22 Nov 2019 00:42:38 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [207.211.31.81])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id A2EE42017F02
+	for <linux-audit@redhat.com>; Wed, 20 Nov 2019 04:36:45 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [207.211.31.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5AFD1101A55E
-	for <linux-audit@redhat.com>; Fri, 22 Nov 2019 00:42:38 +0000 (UTC)
-Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com
-	[209.85.208.193]) (Using TLS) by relay.mimecast.com with ESMTP id
-	us-mta-109-RertVHUkMGSfW-Ox2sr-Lg-1; Thu, 21 Nov 2019 19:42:31 -0500
-Received: by mail-lj1-f193.google.com with SMTP id d5so5336971ljl.4
-	for <linux-audit@redhat.com>; Thu, 21 Nov 2019 16:42:30 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=YzYTuPfhNF+6hAQ8DRw50vXORP/WZWzxXXw+iGKNMpw=;
-	b=etrJlyOVtIjXljEsL4L5i8IgckpdKRfXMwNG7AR/4RZsS0JeEXliaPo6ozPSBtFrzb
-	WN7ZPqy2at9yjrZR1FlDEPwBTHsTHZkcPbclU8UMPY8bB8e3TcW1HzpeMo7MWgywryVE
-	sR7K8zkzuhQOSCqkbJ9392jEHJfu9aXcEwMt+JPIiRyMJjVTtzmfWOR9p70IKw0xrSEo
-	nrcU+2R8XUQPG45AQiWyWIePYwbRqVAcuPz11fSTtsRgJbeMz8VJ5ps8SYY4/D3wV3jL
-	PdNwQsph683BORrR4sdANR299eiCRQ/jh/acxvJtgp5mRr0kSXiTM2LHERbi+aQC+eR5
-	I9cA==
-X-Gm-Message-State: APjAAAUQCtvamgpGZJFP/Uacu1jlP6b2HywLGVcjN1WOP1YOhFMI+uD5
-	j3R+x9W9Ta+SUyua/ujRyWI+FIUAPDZlZ7HjhylWIx8=
-X-Google-Smtp-Source: APXvYqxHINm8pj5hHObN5FfogVwDQsXbF6iabxRdRu8W/YON+dxEFj3FPP1741tdwyk7vPn0EjxORYxieY+pfttr9EM=
-X-Received: by 2002:a2e:970e:: with SMTP id r14mr9681041lji.57.1574383349234; 
-	Thu, 21 Nov 2019 16:42:29 -0800 (PST)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 40D5E101A55E
+	for <linux-audit@redhat.com>; Wed, 20 Nov 2019 04:36:45 +0000 (UTC)
+Received: from EUR02-AM5-obe.outbound.protection.outlook.com
+	(mail-eopbgr00101.outbound.protection.outlook.com [40.107.0.101])
+	(Using TLS) by relay.mimecast.com with ESMTP id
+	us-mta-211-HptME1nnP_6VxeeZlsVtjA-1; Tue, 19 Nov 2019 23:36:40 -0500
+Received: from AM0PR07MB4148.eurprd07.prod.outlook.com (52.133.59.151) by
+	AM0PR07MB4596.eurprd07.prod.outlook.com (52.135.151.145) with Microsoft
+	SMTP
+	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+	15.20.2474.10; Wed, 20 Nov 2019 04:36:38 +0000
+Received: from AM0PR07MB4148.eurprd07.prod.outlook.com
+	([fe80::a8b7:80fe:fd07:1497]) by
+	AM0PR07MB4148.eurprd07.prod.outlook.com
+	([fe80::a8b7:80fe:fd07:1497%4]) with mapi id 15.20.2474.015;
+	Wed, 20 Nov 2019 04:36:38 +0000
+From: "Kadirvadivelu, Vezhavendan 1. (EXT - IN/Chennai)"
+	<vezhavendan.1.kadirvadivelu.ext@nokia.com>
+To: Richard Guy Briggs <rgb@redhat.com>
+Subject: RE: Security audit rules
+Thread-Topic: Security audit rules
+Thread-Index: AdWWMyZTL2zLwTN+QTK6b84pFG3fdgI9hvaAAAyW0tA=
+Date: Wed, 20 Nov 2019 04:36:38 +0000
+Message-ID: <AM0PR07MB4148C22E0204056F7EB36DC7B24F0@AM0PR07MB4148.eurprd07.prod.outlook.com>
+References: <AM0PR07MB414818424612036066D01E9BB27B0@AM0PR07MB4148.eurprd07.prod.outlook.com>
+	<20191119223243.inqd4yz5dsnr6gpg@madcap2.tricolour.ca>
+In-Reply-To: <20191119223243.inqd4yz5dsnr6gpg@madcap2.tricolour.ca>
+Accept-Language: en-IN, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [2405:204:7204:c728:717f:e68:e76d:ffb6]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 8fc5ea50-177a-474e-b016-08d76d733bc8
+x-ms-traffictypediagnostic: AM0PR07MB4596:
+x-microsoft-antispam-prvs: <AM0PR07MB4596FC9C4F050E59BF341903B24F0@AM0PR07MB4596.eurprd07.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:3044;
+x-forefront-prvs: 02272225C5
+x-forefront-antispam-report: SFV:NSPM;
+	SFS:(10019020)(396003)(39860400002)(346002)(376002)(366004)(136003)(13464003)(189003)(199004)(52536014)(25786009)(450100002)(8936002)(2906002)(229853002)(256004)(14444005)(81156014)(7696005)(6916009)(81166006)(3480700005)(86362001)(7116003)(99286004)(76176011)(186003)(4326008)(6246003)(53546011)(6506007)(102836004)(66446008)(64756008)(66556008)(66476007)(478600001)(66946007)(15650500001)(8676002)(74316002)(33656002)(316002)(7736002)(305945005)(76116006)(5660300002)(55016002)(6436002)(9686003)(476003)(486006)(6116002)(71190400001)(71200400001)(46003)(11346002)(14454004)(446003);
+	DIR:OUT; SFP:1102; SCL:1; SRVR:AM0PR07MB4596;
+	H:AM0PR07MB4148.eurprd07.prod.outlook.com; FPR:; SPF:None;
+	LANG:en; PTR:InfoNoRecords; MX:1; A:1;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 3chyK2RinYEHtoROnSnu/issk5TxNYE9DUsTy+ClOZUrRwGwubI9EZqh2GTZM35hWg8F93jDxqyrscShTXK2Bb3PHCLsRJv6e1WslbYfQE4wJMsCEtYEeimYiYW00rC9EZeH0yCHa6aWIEuQeOBe1T5M6R6nmOJjObHNb20cQiFa2o+cucmM5qpIfmUgYtuX9YkyjZG9a+XO3SOn3ErNn8gC/J8QV4D/O4GfwOd2uCh0IqmlXxhPOz+xv+lwpssVrvxUIcxKFJiPZA7tTQvIE1JDtW7nybaNwj5uSEDnK4knJb9Z0Q9gC6Wu6uqh7tSQmQNZye6D3/+7bYRVA4nNLHwGj2tIxMoliYeJLEllIkx1D/3xrCup1WDoisQzK3pGoiLZAFsQFOwiMLQT53iF0ZtAtXWqRzjG7+mr2M+qacSuCcLiiN+AK1CheOu11rrl
+x-ms-exchange-transport-forked: True
 MIME-Version: 1.0
-References: <20191120213816.8186-1-jolsa@kernel.org>
-	<8c928ec4-9e43-3e2a-7005-21f40fcca061@iogearbox.net>
-	<CAADnVQKu-ZgFTaSMH=Q-jMOYYvE32TF2b2hq1=dmDV8wAf18pg@mail.gmail.com>
-	<CAHC9VhQbQoXacbTCNJPGNzFOv30PwLeiWu4ROQFU46=saTeTNQ@mail.gmail.com>
-	<b8a79ac0-a7d3-8d7b-1e31-33f477b30503@iogearbox.net>
-In-Reply-To: <b8a79ac0-a7d3-8d7b-1e31-33f477b30503@iogearbox.net>
-From: Paul Moore <paul@paul-moore.com>
-Date: Thu, 21 Nov 2019 19:42:18 -0500
-Message-ID: <CAHC9VhR7_n9MpoNx8A8QWzNMOZwMG6H6xegdYt5qxAf-xbwXCA@mail.gmail.com>
-Subject: Re: [PATCH] bpf: emit audit messages upon successful prog load and
-	unload
-To: Daniel Borkmann <daniel@iogearbox.net>
-X-MC-Unique: RertVHUkMGSfW-Ox2sr-Lg-1
-X-MC-Unique: Bq2Mg6KYPT2XOoH0BnWg_A-1
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
+X-OriginatorOrg: nokia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8fc5ea50-177a-474e-b016-08d76d733bc8
+X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Nov 2019 04:36:38.6489 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 5d471751-9675-428d-917b-70f44f9630b0
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: pFRXBaxaQXIkizi4c4kDjNIhLz8cuRem5a7Tkwd+QsMrOfjEFGVRsnknoyCQOvLRtOMSFntip1qSmbMZeIVq5V2DNr0VaTFsLj4Y6a+jse0zndT/x3CkI2i3iKAP7Dy3l1Oo5iQXKgjtBaTDOydCuw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR07MB4596
+X-MC-Unique: HptME1nnP_6VxeeZlsVtjA-1
+X-MC-Unique: i95BKASEPCq35junR5zOUg-1
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
 X-MIME-Autoconverted: from quoted-printable to 8bit by
-	lists01.pubmisc.prod.ext.phx2.redhat.com id xAM0geKs029091
+	lists01.pubmisc.prod.ext.phx2.redhat.com id xAK4alI4017031
 X-loop: linux-audit@redhat.com
-Cc: Jiri Benc <jbenc@redhat.com>, Jakub Kicinski <jakub.kicinski@netronome.com>,
-	Network Development <netdev@vger.kernel.org>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Martin KaFai Lau <kafai@fb.com>, linux-audit@redhat.com,
-	Jiri Olsa <jolsa@kernel.org>, David Miller <davem@redhat.com>,
-	Yonghong Song <yhs@fb.com>, bpf <bpf@vger.kernel.org>,
-	Andrii Nakryiko <andriin@fb.com>,
-	Alexei Starovoitov <alexei.starovoitov@gmail.com>
+X-Mailman-Approved-At: Fri, 22 Nov 2019 08:07:21 -0500
+Cc: "linux-audit@redhat.com" <linux-audit@redhat.com>
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -108,101 +123,53 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Nov 21, 2019 at 7:25 PM Daniel Borkmann <daniel@iogearbox.net> wrote:
-> On 11/22/19 12:41 AM, Paul Moore wrote:
-> > On Wed, Nov 20, 2019 at 4:49 PM Alexei Starovoitov
-> > <alexei.starovoitov@gmail.com> wrote:
-> >> On Wed, Nov 20, 2019 at 1:46 PM Daniel Borkmann <daniel@iogearbox.net> wrote:
-> >>> On 11/20/19 10:38 PM, Jiri Olsa wrote:
-> >>>> From: Daniel Borkmann <daniel@iogearbox.net>
-> >>>>
-> >>>> Allow for audit messages to be emitted upon BPF program load and
-> >>>> unload for having a timeline of events. The load itself is in
-> >>>> syscall context, so additional info about the process initiating
-> >>>> the BPF prog creation can be logged and later directly correlated
-> >>>> to the unload event.
-> >>>>
-> >>>> The only info really needed from BPF side is the globally unique
-> >>>> prog ID where then audit user space tooling can query / dump all
-> >>>> info needed about the specific BPF program right upon load event
-> >>>> and enrich the record, thus these changes needed here can be kept
-> >>>> small and non-intrusive to the core.
-> >>>>
-> >>>> Raw example output:
-> >>>>
-> >>>>     # auditctl -D
-> >>>>     # auditctl -a always,exit -F arch=x86_64 -S bpf
-> >>>>     # ausearch --start recent -m 1334
-> >>>>     [...]
-> >>>>     ----
-> >>>>     time->Wed Nov 20 12:45:51 2019
-> >>>>     type=PROCTITLE msg=audit(1574271951.590:8974): proctitle="./test_verifier"
-> >>>>     type=SYSCALL msg=audit(1574271951.590:8974): arch=c000003e syscall=321 success=yes exit=14 a0=5 a1=7ffe2d923e80 a2=78 a3=0 items=0 ppid=742 pid=949 auid=0 uid=0 gid=0 euid=0 suid=0 fsuid=0 egid=0 sgid=0 fsgid=0 tty=pts0 ses=2 comm="test_verifier" exe="/root/bpf-next/tools/testing/selftests/bpf/test_verifier" subj=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023 key=(null)
-> >>>>     type=UNKNOWN[1334] msg=audit(1574271951.590:8974): auid=0 uid=0 gid=0 ses=2 subj=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023 pid=949 comm="test_verifier" exe="/root/bpf-next/tools/testing/selftests/bpf/test_verifier" prog-id=3260 event=LOAD
-> >>>>     ----
-> >>>>     time->Wed Nov 20 12:45:51 2019
-> >>>> type=UNKNOWN[1334] msg=audit(1574271951.590:8975): prog-id=3260 event=UNLOAD
-> >>>>     ----
-> >>>>     [...]
-> >>>>
-> >>>> Signed-off-by: Daniel Borkmann <daniel@iogearbox.net>
-> >>>> Signed-off-by: Jiri Olsa <jolsa@kernel.org>
-> >>>
-> >>> LGTM, thanks for the rebase!
-> >>
-> >> Applied to bpf-next. Thanks!
-> >
-> > [NOTE: added linux-audit to the To/CC line]
-> >
-> > Wait a minute, why was the linux-audit list not CC'd on this?  Why are
-> > you merging a patch into -next that adds to the uapi definition *and*
-> > creates a new audit record while we are at -rc8?
-> >
-> > Aside from that I'm concerned that you are relying on audit userspace
-> > changes that might not be okay; I see the PR below, but I don't see
-> > any comment on it from Steve (it is his audit userspace).  I also
-> > don't see a corresponding test added to the audit-testsuite, which is
-> > a common requirement for new audit functionality (link below).  I'm
-> > also fairly certain we don't want this new BPF record to look like how
-> > you've coded it up in bpf_audit_prog(); duplicating the fields with
-> > audit_log_task() is wrong, you've either already got them via an
-> > associated record (which you get from passing non-NULL as the first
-> > parameter to audit_log_start()), or you don't because there is no
-> > associated syscall/task (which you get from passing NULL as the first
-> > parameter).  Please revert, un-merge, etc. this patch from bpf-next;
-> > it should not go into Linus' tree as written.
->
-> Fair enough, up to you guys. My impression was that this is mainly coming
-> from RHEL use case [0] and given that the original patch was back in Oct
-> 2018 [1] that you've sorted it out by now RH internally and agreed to proceed
-> with this patch for BPF given the rebase + resend ... seems not then. :(
+I am using RHEL7.6 version (Red Hat Enterprise Linux 7 (Maipo)).
 
-For the record, I am not currently employed by RH and thus not part of
-any RH internal discussions.  Although, even when I was, I would still
-bristle at the idea of audit patches going in without CC'ing the audit
-list and getting an ACK from the audit folks.  Internal discussions
-within a company are fine, but the final discussion and debate should
-happen on the public list.
+Regards,
+Vezhavendan K
 
-> Given the change is mostly trivial, are there any major objections for Jiri
-> to follow-up? Otherwise worst case probably easier to revert in net-next.
+-----Original Message-----
+From: Richard Guy Briggs <rgb@redhat.com>=20
+Sent: Wednesday, November 20, 2019 4:03 AM
+To: Kadirvadivelu, Vezhavendan 1. (EXT - IN/Chennai) <vezhavendan.1.kadirva=
+divelu.ext@nokia.com>
+Cc: linux-audit@redhat.com
+Subject: Re: Security audit rules
 
-See my previous response for more info.  However, for starters the use
-of audit_log_task() looks like the wrong thing to do here.  I also
-want to see a test for our test suite so we can catch when someone
-invariably breaks this in future and fix it.
+On 2019-11-08 12:52, Kadirvadivelu, Vezhavendan 1. (EXT - IN/Chennai) wrote=
+:
+> Hi,
+>=20
+> In one of the VM I find audit.rules defined under /etc/audit as well as /=
+etc/audit/rules.d.
+>=20
+> What is the significance as well as difference between the files found in=
+ 2 places.
 
->    [0] slide 11, https://linuxplumbersconf.org/event/4/contributions/460/attachments/244/426/xdp-distro-view.pdf
->    [1] https://lore.kernel.org/netdev/20181004135038.2876-1-daniel@iogearbox.net/
+You haven't said what distro you are using.  In more recent distros, the ru=
+les in rules.d are used by augenrules to populate audit.rules, overwriting =
+them.
 
--- 
-paul moore
-www.paul-moore.com
+> Also please let me know what is the correct location where audit.rules ne=
+ed to be places.
+
+Depends on your distro.
+
+> Vezhavendan K
+
+- RGB
+
+--
+Richard Guy Briggs <rgb@redhat.com>
+Sr. S/W Engineer, Kernel Security, Base Operating Systems Remote, Ottawa, R=
+ed Hat Canada
+IRC: rgb, SunRaycer
+Voice: +1.647.777.2635, Internal: (81) 32635
 
 
 --
