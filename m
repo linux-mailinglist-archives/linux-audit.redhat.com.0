@@ -1,136 +1,97 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com [205.139.110.120])
-	by mail.lfdr.de (Postfix) with ESMTP id 3DCA2103A05
-	for <lists+linux-audit@lfdr.de>; Wed, 20 Nov 2019 13:25:19 +0100 (CET)
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-delivery-1.mimecast.com [205.139.110.120])
+	by mail.lfdr.de (Postfix) with ESMTP id 00506105D4D
+	for <lists+linux-audit@lfdr.de>; Fri, 22 Nov 2019 00:42:35 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1574252718;
+	s=mimecast20190719; t=1574379754;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=v3/P/kCiMzAtVoQYT8/Bn6f3zMjJdUUsIfBZ43ew7P0=;
-	b=hsHFp4qeb8krntd/pWztHN4RbXuk8IZeTyx/h/tfpsH+U6yUl3zXkLa0YRJhRhjUkh6j/7
-	nrt9CtzL5zrV66ppCysTHVjArgNUlUZRD+VbAA3+c2cM/SAt7XsYCdsxuGpHOGf0E1sLU2
-	Xh/WivgrG3Zm7obAak7Veg4ok3TNJ2M=
+	bh=oiD4bxeF8kxiGftPEZGlhYhmI/uGKdT/05VfhuU6CPw=;
+	b=dFMcnn7KVeBhAN9mnY92h0Zm66fvRBpXVL+JOtRjKl7kuhGhUSWuWG1ynEbXgnSOwO2ZGA
+	WroaYJpoocgjaLctDb7LdNaKsAtv6StYSDnuNi4yrrAOp5lSwKldJVRbA7ipe0mO/bVYWL
+	70clav5PUgqvehAZ6ej4WnhXArEGxXQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-208-P-jqchlsPkmB0Mixk0qt_A-1; Wed, 20 Nov 2019 07:25:16 -0500
+ us-mta-412-7ABzCtwDOquyrmOusLTJvQ-1; Thu, 21 Nov 2019 18:42:31 -0500
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5213C107ACC4;
-	Wed, 20 Nov 2019 12:25:10 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 98341107ACC5;
+	Thu, 21 Nov 2019 23:42:24 +0000 (UTC)
 Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id A011E67276;
-	Wed, 20 Nov 2019 12:25:05 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 2145065E85;
+	Thu, 21 Nov 2019 23:42:20 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 91EBC4BB78;
-	Wed, 20 Nov 2019 12:24:49 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
-	[10.11.54.4])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id D54B54BB65;
+	Thu, 21 Nov 2019 23:42:07 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+	[10.11.54.6])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id xAKCOahm031703 for <linux-audit@listman.util.phx.redhat.com>;
-	Wed, 20 Nov 2019 07:24:36 -0500
+	id xALNfnXg027758 for <linux-audit@listman.util.phx.redhat.com>;
+	Thu, 21 Nov 2019 18:41:49 -0500
 Received: by smtp.corp.redhat.com (Postfix)
-	id EFA92200BC1A; Wed, 20 Nov 2019 12:24:35 +0000 (UTC)
+	id 284932157F4C; Thu, 21 Nov 2019 23:41:49 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
-	(mimecast03.extmail.prod.ext.rdu2.redhat.com [10.11.55.19])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id EA9E8206400A
-	for <linux-audit@redhat.com>; Wed, 20 Nov 2019 12:24:33 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [207.211.31.81])
+	(mimecast05.extmail.prod.ext.rdu2.redhat.com [10.11.55.21])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 23FF72157F41
+	for <linux-audit@redhat.com>; Thu, 21 Nov 2019 23:41:47 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [205.139.110.61])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B4D7F801022
-	for <linux-audit@redhat.com>; Wed, 20 Nov 2019 12:24:33 +0000 (UTC)
-IronPort-SDR: doFZr1YsGPCnuoKMWCTwcZrBzUAh1K3awHNO3h++ZtCIKulcF2+owXyu1/kZS2vUo7WAZIi4JE
-	sD3Apy5mAzn28P3+qIO/JXYUL6Hbroz+UxSAbDi2huVwLvlAHhrBWv+vYRRlVAFbK16/ZCx7xn
-	UFaedgIHsCD02MvT+1KSkQhzpG15aMhpFzsDExeCjv2xoKbdnG0V/viv86FpBYDZNQm+9y12Qh
-	IctEe+GP1Xb/pJ+jDUxvgkiPnB2OJGlawQTRf11H8+koflcOa3TMHlkLxOPLy8HynER4cq+k7A
-	oq4=
-IronPort-PHdr: =?us-ascii?q?9a23=3AiJAxIRLMot88kysVRNmcpTZWNBhigK39O0sv0r?=
-	=?us-ascii?q?FitYgeL/TxwZ3uMQTl6Ol3ixeRBMOHsqkC0reO+Pu+EUU7or+5+EgYd5JNUx?=
-	=?us-ascii?q?JXwe43pCcHRPC/NEvgMfTxZDY7FskRHHVs/nW8LFQHUJ2mPw6arXK99yMdFQ?=
-	=?us-ascii?q?viPgRpOOv1BpTSj8Oq3Oyu5pHfeQpFiCezbL9oMRm7rRndusYYjIZjN6081g?=
-	=?us-ascii?q?bHrnxUdupM2GhmP0iTnxHy5sex+J5s7SFdsO8/+sBDTKv3Yb02QaRXAzo6PW?=
-	=?us-ascii?q?814tbrtQTYQguU+nQcSGQWnQFWDAXD8Rr3Q43+sir+tup6xSmaIcj7Rq06VD?=
-	=?us-ascii?q?i+86tmTgLjhTwZPDAl7m7Yls1wjLpaoB2/oRx/35XUa5yROPZnY6/RYc8WSW?=
-	=?us-ascii?q?9HU81MVSJOH5m8YpMPAeQfIOhYs4fzqVgArRS8BAmjGOzhxTBTi3/qxqI61v?=
-	=?us-ascii?q?gtHR3a0AEiGd8FrXTarM/yNKcXSe270qjIzTDeZP1Xwzj97IjJfQ47rvGKQL?=
-	=?us-ascii?q?l9dtbRyUY1GAPBjlSft5bqPzWO2+QWq2ib6/dgVeSsi2I9tw5xpT2vy94qh4?=
-	=?us-ascii?q?LUhYwV0kjJ+CR2zYovJ9C1S1R3bN66HJdKsyyXNpN6Tt0+T2xnoio216EKtJ?=
-	=?us-ascii?q?yhcCQXx5kr2gTTZ+KIfoWI5B/oSfyfLi1ihH1/fbKynxOy8U+9xeLiTsS0y1?=
-	=?us-ascii?q?NKrjZdktnLq3ANywTf6siZRft5+UeswTGP1x3P6u1eIU87i7HbK4I7zr41jJ?=
-	=?us-ascii?q?UTsEDDEjXtmEXuiK+Wa0Mk+uuy5+v7ZbXmo4eQN45yig7gLqQjgs2yDOsiPg?=
-	=?us-ascii?q?UMXGWX4+Sx2KP58UD9QbhGlvg2nbPYsJDeK8QbvKm5AwpN34Y/5BawFTOm0d?=
-	=?us-ascii?q?QGknYdKlJIYwmHj5DtO1HTJvD4Du2zjEirkDdu3/zGJKHuAo3RLnjfl7fsZa?=
-	=?us-ascii?q?1960FGyAou1t9Q/IlZCqsfL/3uWk/+rsDYAgUlPAyzxubtEM992Z8GWWKTHq?=
-	=?us-ascii?q?+ZN7vfsVuJ5uIpPumNa5YZtyzgK/c45v7ukWQ0mUUDcqa03ZsYcmy4Eu56LE?=
-	=?us-ascii?q?WeZHq/yusGRFwWsxQzBMPwlVeIGWpIaGyvVagU/Dw3CIu6S4zEQ9b+rqaG2X?=
-	=?us-ascii?q?KHH5geSWlCG12FFz+8a4qNX+YBYSS6OddljzoHE7OmTtlyhlmVqAbmxu8/fa?=
-	=?us-ascii?q?Lv8SoCuMemjYAtvbeBvAwu9TFyE8WW2n2MSGcxpG4TWjsqx/4g80Fmww3Fyr?=
-	=?us-ascii?q?B8nvpbU91L5/ZZFAw9MM2Uw+97DoX0XQTMNpeMRU29S9qrSTc2UpoqwtAIbk?=
-	=?us-ascii?q?o8U9WvhxzOxWyrVrkSkbGG?=
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: =?us-ascii?q?A2EHAAAGL9VdmGA0TkBlGgEBAQEBAQE?=
-	=?us-ascii?q?BAQMBAQEBEQEBAQICAQEBAYFtAgEBAQELAYIagUYBMSoKhCCQbSWDapVYgWc?=
-	=?us-ascii?q?JBAEBAQotAgEBhEACF4IRJDcGDgIDAQwBAQUBAQEBAQUEAQECEAEBAQEBCAs?=
-	=?us-ascii?q?LBimFSoI7KQGDQgEBAQIBEhERRRACAQgODAImAgICMBUQAgQOBSKDAIJYIKQ?=
-	=?us-ascii?q?ePQIjAUyBBIhUgSqBMoVOgzaBSIEOKAGFGocSgUA/gTgME4JMPoQICgESAR8?=
-	=?us-ascii?q?XFYJkMoIsBJARnh2CNZVPG4I+h2mPbah8gWiBC3FNIxVlAYJBUBEUVoV8Dgm?=
-	=?us-ascii?q?OI0EBATGBKItcgSIBgQ4BAQ?=
-X-IPAS-Result: =?us-ascii?q?A2EHAAAGL9VdmGA0TkBlGgEBAQEBAQEBAQMBAQEBEQEBA?=
-	=?us-ascii?q?QICAQEBAYFtAgEBAQELAYIagUYBMSoKhCCQbSWDapVYgWcJBAEBAQotAgEBh?=
-	=?us-ascii?q?EACF4IRJDcGDgIDAQwBAQUBAQEBAQUEAQECEAEBAQEBCAsLBimFSoI7KQGDQ?=
-	=?us-ascii?q?gEBAQIBEhERRRACAQgODAImAgICMBUQAgQOBSKDAIJYIKQePQIjAUyBBIhUg?=
-	=?us-ascii?q?SqBMoVOgzaBSIEOKAGFGocSgUA/gTgME4JMPoQICgESAR8XFYJkMoIsBJARn?=
-	=?us-ascii?q?h2CNZVPG4I+h2mPbah8gWiBC3FNIxVlAYJBUBEUVoV8DgmOI0EBATGBKItcg?=
-	=?us-ascii?q?SIBgQ4BAQ?=
-X-IronPort-AV: E=Sophos;i="5.69,221,1571702400"; d="scan'208";a="21309445"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from esa2.splunk.iphmx.com (esa2.splunk.iphmx.com
-	[68.232.148.147]) (Using TLS) by relay.mimecast.com with ESMTP id
-	us-mta-425-HL01IC5FMAaoMHERo58a3A-1; Wed, 20 Nov 2019 07:24:29 -0500
-Received: from out.west.mail.splunk.com ([64.78.52.96])
-	by esa2.splunk.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-SHA384;
-	20 Nov 2019 12:24:28 +0000
-Received: from MBX111-W2-CA-3.pexch111.serverpod.net (10.254.185.98) by
-	MBX111-W2-CA-1.pexch111.serverpod.net (10.254.185.94) with Microsoft
-	SMTP Server (TLS) id 15.0.1473.3; Wed, 20 Nov 2019 04:24:26 -0800
-Received: from MBX111-W2-CA-3.pexch111.serverpod.net ([10.254.186.8]) by
-	MBX111-W2-CA-3.pexch111.serverpod.net ([10.254.186.8]) with mapi id
-	15.00.1473.003; Wed, 20 Nov 2019 04:24:26 -0800
-From: Tim Galyean <tgalyean@splunk.com>
-To: Steve Grubb <sgrubb@redhat.com>
-Subject: Re: Auditd SYSCALL argument decoding
-Thread-Topic: Auditd SYSCALL argument decoding
-Thread-Index: AQHVnv4uv74rVgVE+E+5JN6sG+CB66eTmw4AgACC6YA=
-Date: Wed, 20 Nov 2019 12:24:26 +0000
-Message-ID: <D1708E65-33E4-4561-A732-F6ADC42DFC78@splunk.com>
-References: <2B96DB9C-982F-4B8D-94A9-AC08073A55E3@splunk.com>
-	<20191119233412.436030c1@ivy-bridge>
-In-Reply-To: <20191119233412.436030c1@ivy-bridge>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [204.107.141.245]
-Content-ID: <B56D7892A987394599E6D4178EABAA06@pexch111.serverpod.net>
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AA86B80029C
+	for <linux-audit@redhat.com>; Thu, 21 Nov 2019 23:41:46 +0000 (UTC)
+Received: from mail-lj1-f194.google.com (mail-lj1-f194.google.com
+	[209.85.208.194]) (Using TLS) by relay.mimecast.com with ESMTP id
+	us-mta-82-4vylG9fOPW6davCRwmf-Gg-1; Thu, 21 Nov 2019 18:41:44 -0500
+Received: by mail-lj1-f194.google.com with SMTP id n5so5177912ljc.9
+	for <linux-audit@redhat.com>; Thu, 21 Nov 2019 15:41:44 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=U/NYMVfpDgcrOYIDYMCLg/PUSAirJCRUEzzkMLwO8gM=;
+	b=FoAvI0ISVXNAoKsGrwWAWMPinB+TkguI4v9lF/smK7bZTkjUtrv/8pKFptMyLaiRk6
+	AKjTfNvM7+Ojzn2RikOuvGK4jzsFggPTotC0jNJsIadP4dSyYd9XwOG8juj+d1uS80iB
+	zBBpsTABBW7i8BzaIUwptWZb11DT8j/hHjaExeGnuxtzINJZcLikgjBoctQnmlx3tJoz
+	5pteoYopF9p//syagoWGbndC0Xn+oNgGE+lzQnL9FGbX8gmb47TxqT8MFb9aVbXokHD+
+	RsqM4+5GGQzv10u1qn8i59G69SluOtKtQE3zEh3d52EcRKMXoPciiaxdMI8epxCsOfE8
+	lj9Q==
+X-Gm-Message-State: APjAAAUiyMBij5xiCkr/zRXxgNQxb/qrkAR5ypnhe+F/PLt4FMfip6vH
+	DhLkCkxD4T99/eXND+8qmfOwSOJkUQhymkfry36D
+X-Google-Smtp-Source: APXvYqxoUOb+MFtHuWPh2qjo1P+X41fELBJVqTXNUG/wLBCaYpO1NPnnOFQCyDl7kzwpTvntD7FtzWhs00nttRX4zTM=
+X-Received: by 2002:a2e:970e:: with SMTP id r14mr9565457lji.57.1574379702619; 
+	Thu, 21 Nov 2019 15:41:42 -0800 (PST)
 MIME-Version: 1.0
-X-MC-Unique: HL01IC5FMAaoMHERo58a3A-1
-X-MC-Unique: P-jqchlsPkmB0Mixk0qt_A-1
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-X-MIME-Autoconverted: from base64 to 8bit by
-	lists01.pubmisc.prod.ext.phx2.redhat.com id xAKCOahm031703
+References: <20191120213816.8186-1-jolsa@kernel.org>
+	<8c928ec4-9e43-3e2a-7005-21f40fcca061@iogearbox.net>
+	<CAADnVQKu-ZgFTaSMH=Q-jMOYYvE32TF2b2hq1=dmDV8wAf18pg@mail.gmail.com>
+In-Reply-To: <CAADnVQKu-ZgFTaSMH=Q-jMOYYvE32TF2b2hq1=dmDV8wAf18pg@mail.gmail.com>
+From: Paul Moore <paul@paul-moore.com>
+Date: Thu, 21 Nov 2019 18:41:31 -0500
+Message-ID: <CAHC9VhQbQoXacbTCNJPGNzFOv30PwLeiWu4ROQFU46=saTeTNQ@mail.gmail.com>
+Subject: Re: [PATCH] bpf: emit audit messages upon successful prog load and
+	unload
+To: Alexei Starovoitov <alexei.starovoitov@gmail.com>, linux-audit@redhat.com, 
+	Jiri Olsa <jolsa@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>
+X-MC-Unique: 4vylG9fOPW6davCRwmf-Gg-1
+X-MC-Unique: 7ABzCtwDOquyrmOusLTJvQ-1
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+X-MIME-Autoconverted: from quoted-printable to 8bit by
+	lists01.pubmisc.prod.ext.phx2.redhat.com id xALNfnXg027758
 X-loop: linux-audit@redhat.com
-Cc: "linux-audit@redhat.com" <linux-audit@redhat.com>
+Cc: Jakub Kicinski <jakub.kicinski@netronome.com>,
+	Network Development <netdev@vger.kernel.org>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Jiri Benc <jbenc@redhat.com>, David Miller <davem@redhat.com>,
+	Yonghong Song <yhs@fb.com>, bpf <bpf@vger.kernel.org>,
+	Andrii Nakryiko <andriin@fb.com>, Martin KaFai Lau <kafai@fb.com>
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -146,44 +107,87 @@ Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
-VGhhbmsgeW91IGJvdGggZm9yIHRoZSBhZGRpdGlvbmFsIGluZm9ybWF0aW9uLiBUaGlzIHdvdWxk
-IGV4cGxhaW4gd2h5IEkgd2FzIHNlZWluZyB2YWx1ZXMgbGlrZSwgYTA9MHgyNzQ4OWU4LCB3aGVu
-IEkgd2FzIHVzaW5nIC0taW50ZXJwcmV0IHdpdGggYXVzZWFyY2guIAogCgrvu79PbiAxMS8xOS8x
-OSwgNDozNCBQTSwgIlN0ZXZlIEdydWJiIiA8c2dydWJiQHJlZGhhdC5jb20+IHdyb3RlOgoKICAg
-IFstLS0gVGhpcyBlbWFpbCBvcmlnaW5hdGVkIGZyb20gb3V0c2lkZSBvZiB0aGUgb3JnYW5pemF0
-aW9uLiBEbyBub3QgY2xpY2sgbGlua3Mgb3Igb3BlbiBhdHRhY2htZW50cyB1bmxlc3MgeW91IHJl
-Y29nbml6ZSB0aGUgc2VuZGVyIGFuZCBrbm93IHRoZSBjb250ZW50IGlzIHNhZmUuIC0tLV0KICAg
-IAogICAgT24gVHVlLCAxOSBOb3YgMjAxOSAxNzoyNDoyMSArMDAwMAogICAgVGltIEdhbHllYW4g
-PHRnYWx5ZWFuQHNwbHVuay5jb20+IHdyb3RlOgogICAgCiAgICA+IEhlbGxvLAogICAgPiAKICAg
-ID4gQXMgSSB1bmRlcnN0YW5kIGl0LCBsb25nIHZhbHVlcyByZWNvcmRlZCBieSBhdWRpdGQgYXJl
-IHN0b3JlZCBhcyBoZXgKICAgID4gZW5jb2RlZCBzdHJpbmdzLiBIb3dldmVyLCB3aGVuIEkgYXR0
-ZW1wdCB0byBkZWNvZGUgYXJndW1lbnRzIHN1Y2ggYXMKICAgID4gYTAgb3IgYTEgaW4gU1lTQ0FM
-TCBldmVudHMsIHRoZXkgYXJlIGRlY29kZWQgaW50byBzcGVjaWFsIGNoYXJhY3RlcnMKICAgID4g
-aW5zdGVhZCBvZiBBU0NJSS4gQXJlIHRoZXNlIHZhbHVlcyBlbmNvZGVkIGRpZmZlcmVudGx5IHRo
-YW4gUFJPQ1RJVExFCiAgICA+IGV2ZW50cz8KICAgID4gCiAgICA+IEJlbG93IGlzIGFuIGV4YW1w
-bGUgbG9nIGxpbmU6CiAgICA+IAogICAgPiB0eXBlPVNZU0NBTEwgbXNnPWF1ZGl0KDE1NzQxODIw
-OTkuNTU5OjIwMDIpOiBhcmNoPWMwMDAwMDNlIHN5c2NhbGw9NTkKICAgID4gc3VjY2Vzcz15ZXMg
-ZXhpdD0wIGEwPTU1ZGYzMzBhM2MxMCBhMT01NWRmMzMwYTNjNzggYTI9NTVkZjMzMGEzYzkwCiAg
-ICA+IGEzPTAgaXRlbXM9MyBwcGlkPTI5NjY0IHBpZD0yOTY3OCBhdWlkPTExNzEgdWlkPTAgZ2lk
-PTAgZXVpZD0wIHN1aWQ9MAogICAgPiBmc3VpZD0wIGVnaWQ9MCBzZ2lkPTAgZnNnaWQ9MCB0dHk9
-KG5vbmUpIHNlcz0xNzAgY29tbT0iYXB0LWNoZWNrIgogICAgPiBleGU9Ii91c3IvYmluL3B5dGhv
-bjMuNSIga2V5PSJyb290Y21kIgogICAgPiAKICAgID4gSW4gdGhpcyBleGFtcGxlLCBJIGFtIGxv
-b2tpbmcgdG8gZGVjb2RlIGEwLCBhMSwgYW5kIGEyLiBZZXMsIGl0IHNlZW1zCiAgICA+IHRoYXQg
-YXVzZWFyY2ggY2FuIGRlY29kZSB0aGVzZSB2YWx1ZXMuIEhvd2V2ZXIsIEkgYW0gbG9va2luZyB0
-bwogICAgPiBkZWNvZGUgdGhlbSB2aWEgU3BsdW5rLgogICAgCiAgICBQbGVhc2UgaGF2ZSBhdXBh
-cnNlIGRlY29kZSB0aGVtLiBUaGlzIGlzIHdlbGwgbWFpbnRhaW5lZCBhbmQgYWNjdXJhdGUuCiAg
-ICBTb21ldGltZXMgdGhleSBwb2ludCB0byBtZW1vcnkuIFNvbWV0aW1lcyB0aGV5IGhhdmUgbWVh
-bmluZy4gQWxsIG9mCiAgICB0aGlzIGlzIGVuY29kZWQgaW4gdGhlIGF1cGFyc2UgbGlicmFyeS4g
-TGV0IG1lIGtub3cgaWYgeW91IGhhdmUgYW55CiAgICBpc3N1ZXMgZGVjb2RpbmcgYW55dGhpbmcg
-dmlhIGxpYmF1cGFyc2UuCiAgICAKICAgID4gV2hhdCBmb3JtYXQgYXJlIHRoZXNlIHN0cmluZ3Mg
-ZW5jb2RlZCBpbiBhbmQgaXMgdGhlcmUgYSB3YXkgdG8KICAgID4gZGVjb2RlIHRoZXNlIHZhbHVl
-cyBpbiBhbnkgb3RoZXIgd2F5IG90aGVyIHRoYW4gYnkgdXNpbmcgYXVzZWFyY2g/CiAgICAKICAg
-IExpYmF1cGFyc2UgaXMgd2hhdCBhdXNlYXJjaCB1c2VzLiBJdCBoYXMgYWxsIGtub3dsZWRnZSBl
-bmNvZGVkIHdpdGhpbgogICAgaXQuIEl0IGRldGFuZ2xlcyBpbnRlcnR3aW5lZCBldmVudHMgYXMg
-d2VsbCBhcyBub3JtYWwgZXZlbnRzLgogICAgCiAgICAtU3RldmUKICAgIAogICAgCgoKLS0KTGlu
-dXgtYXVkaXQgbWFpbGluZyBsaXN0CkxpbnV4LWF1ZGl0QHJlZGhhdC5jb20KaHR0cHM6Ly93d3cu
-cmVkaGF0LmNvbS9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LWF1ZGl0
+On Wed, Nov 20, 2019 at 4:49 PM Alexei Starovoitov
+<alexei.starovoitov@gmail.com> wrote:
+> On Wed, Nov 20, 2019 at 1:46 PM Daniel Borkmann <daniel@iogearbox.net> wrote:
+> > On 11/20/19 10:38 PM, Jiri Olsa wrote:
+> > > From: Daniel Borkmann <daniel@iogearbox.net>
+> > >
+> > > Allow for audit messages to be emitted upon BPF program load and
+> > > unload for having a timeline of events. The load itself is in
+> > > syscall context, so additional info about the process initiating
+> > > the BPF prog creation can be logged and later directly correlated
+> > > to the unload event.
+> > >
+> > > The only info really needed from BPF side is the globally unique
+> > > prog ID where then audit user space tooling can query / dump all
+> > > info needed about the specific BPF program right upon load event
+> > > and enrich the record, thus these changes needed here can be kept
+> > > small and non-intrusive to the core.
+> > >
+> > > Raw example output:
+> > >
+> > >    # auditctl -D
+> > >    # auditctl -a always,exit -F arch=x86_64 -S bpf
+> > >    # ausearch --start recent -m 1334
+> > >    [...]
+> > >    ----
+> > >    time->Wed Nov 20 12:45:51 2019
+> > >    type=PROCTITLE msg=audit(1574271951.590:8974): proctitle="./test_verifier"
+> > >    type=SYSCALL msg=audit(1574271951.590:8974): arch=c000003e syscall=321 success=yes exit=14 a0=5 a1=7ffe2d923e80 a2=78 a3=0 items=0 ppid=742 pid=949 auid=0 uid=0 gid=0 euid=0 suid=0 fsuid=0 egid=0 sgid=0 fsgid=0 tty=pts0 ses=2 comm="test_verifier" exe="/root/bpf-next/tools/testing/selftests/bpf/test_verifier" subj=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023 key=(null)
+> > >    type=UNKNOWN[1334] msg=audit(1574271951.590:8974): auid=0 uid=0 gid=0 ses=2 subj=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023 pid=949 comm="test_verifier" exe="/root/bpf-next/tools/testing/selftests/bpf/test_verifier" prog-id=3260 event=LOAD
+> > >    ----
+> > >    time->Wed Nov 20 12:45:51 2019
+> > > type=UNKNOWN[1334] msg=audit(1574271951.590:8975): prog-id=3260 event=UNLOAD
+> > >    ----
+> > >    [...]
+> > >
+> > > Signed-off-by: Daniel Borkmann <daniel@iogearbox.net>
+> > > Signed-off-by: Jiri Olsa <jolsa@kernel.org>
+> >
+> > LGTM, thanks for the rebase!
+>
+> Applied to bpf-next. Thanks!
+
+[NOTE: added linux-audit to the To/CC line]
+
+Wait a minute, why was the linux-audit list not CC'd on this?  Why are
+you merging a patch into -next that adds to the uapi definition *and*
+creates a new audit record while we are at -rc8?
+
+Aside from that I'm concerned that you are relying on audit userspace
+changes that might not be okay; I see the PR below, but I don't see
+any comment on it from Steve (it is his audit userspace).  I also
+don't see a corresponding test added to the audit-testsuite, which is
+a common requirement for new audit functionality (link below).  I'm
+also fairly certain we don't want this new BPF record to look like how
+you've coded it up in bpf_audit_prog(); duplicating the fields with
+audit_log_task() is wrong, you've either already got them via an
+associated record (which you get from passing non-NULL as the first
+parameter to audit_log_start()), or you don't because there is no
+associated syscall/task (which you get from passing NULL as the first
+parameter).  Please revert, un-merge, etc. this patch from bpf-next;
+it should not go into Linus' tree as written.
+
+Audit userspace PR:
+* https://github.com/linux-audit/audit-userspace/pull/104
+
+Audit test suite:
+* https://github.com/linux-audit/audit-testsuite
+
+Audit folks, here is a link to the thread in the archives:
+* https://lore.kernel.org/bpf/20191120213816.8186-1-jolsa@kernel.org/T/#u
+
+-- 
+paul moore
+www.paul-moore.com
+
+
+--
+Linux-audit mailing list
+Linux-audit@redhat.com
+https://www.redhat.com/mailman/listinfo/linux-audit
 
