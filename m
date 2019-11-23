@@ -1,52 +1,86 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com [205.139.110.61])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A31B108EE2
-	for <lists+linux-audit@lfdr.de>; Mon, 25 Nov 2019 14:30:38 +0100 (CET)
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com [207.211.31.120])
+	by mail.lfdr.de (Postfix) with ESMTP id 0AB80108EE5
+	for <lists+linux-audit@lfdr.de>; Mon, 25 Nov 2019 14:30:48 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1574688637;
+	s=mimecast20190719; t=1574688645;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=7E4TN/TWE/FeGiUSkLAR6YvRy4USJpACmBQYPeTeVvE=;
-	b=NmEKitldyqTVfmuKTVzzavn+0j8PuoYu93JHOtZGcboFE88i2msNA4x4A1KK4WY/SVNZCR
-	YtUV/UNKGvR+g4gWgRgze7pUNT6d9L0UFKMVQlH54v7aOha4JYtWpIF97MmRrm6YgzswUB
-	AGRTj0ZpYMjaBwy1akGjElzvvu6UMO0=
+	bh=INoLnhinNWD60oBj7518ncS9Ky7MQ4EZPz8zmsT95rY=;
+	b=GB7ujrALVrjErMNSGshUPhqe50x3pC1RT0mvmv1+vUnDSif8Kpmp0SeThjhVGTOI/JjkZo
+	Wz5NxF/w0r3YC80n4679gY5SAGqu/T+RL8XSMPdWcWy49KITsAfMlyAGUO8Uu3EQE+avi6
+	9jTsWVxwKpfo+N46/X2C2KzYE6pZoPc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-432-jgCZTbckMLWAHSKHC4LoTw-1; Mon, 25 Nov 2019 08:30:35 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+ us-mta-103-0n3lS8PYO36R6rb_3pPABw-1; Mon, 25 Nov 2019 08:30:37 -0500
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 189D9800593;
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1FE43107B7E0;
 	Mon, 25 Nov 2019 13:30:31 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id B13E466087;
+Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id B6B4A5C241;
 	Mon, 25 Nov 2019 13:30:30 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 22A364BB78;
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 2285018095FF;
 	Mon, 25 Nov 2019 13:30:25 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
-	[10.5.11.15])
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+	[10.11.54.4])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id xAN8vQ18011861 for <linux-audit@listman.util.phx.redhat.com>;
-	Sat, 23 Nov 2019 03:57:26 -0500
+	id xANI3ptv022584 for <linux-audit@listman.util.phx.redhat.com>;
+	Sat, 23 Nov 2019 13:03:52 -0500
 Received: by smtp.corp.redhat.com (Postfix)
-	id E60885D6A3; Sat, 23 Nov 2019 08:57:26 +0000 (UTC)
+	id BB9BC2038B9C; Sat, 23 Nov 2019 18:03:51 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from krava (ovpn-204-28.brq.redhat.com [10.40.204.28])
-	by smtp.corp.redhat.com (Postfix) with SMTP id 5AA9D5D6A0;
-	Sat, 23 Nov 2019 08:57:19 +0000 (UTC)
-Date: Sat, 23 Nov 2019 09:57:19 +0100
-From: Jiri Olsa <jolsa@redhat.com>
-To: Paul Moore <paul@paul-moore.com>
+Received: from mimecast-mx02.redhat.com
+	(mimecast03.extmail.prod.ext.rdu2.redhat.com [10.11.55.19])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id B6D632038B80
+	for <linux-audit@redhat.com>; Sat, 23 Nov 2019 18:03:49 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+	[207.211.31.120])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 75CB58CB83E
+	for <linux-audit@redhat.com>; Sat, 23 Nov 2019 18:03:49 +0000 (UTC)
+Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
+	[209.85.215.196]) (Using TLS) by relay.mimecast.com with ESMTP id
+	us-mta-417-H5djzkF2N_GeNp2viPL68g-1; Sat, 23 Nov 2019 13:03:47 -0500
+Received: by mail-pg1-f196.google.com with SMTP id k1so5010449pgg.12
+	for <linux-audit@redhat.com>; Sat, 23 Nov 2019 10:03:47 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=b4KazJIdHMahp3tpOcvML7AefY0d0jAOfEKpcKoACHQ=;
+	b=WrZw/L20dFQ2E/BqJVUTkvpQht8AkOt0rXshRZYBlt/BHzNMSxooqFuGUFxD4Cmo2c
+	cHYBdj/yAmzDovMBmW68bF3MDFhUs8SlXsT1vTW+9rMDqdpdHwJ45OLRWuSdTpTRy9Ly
+	zK2xWkJ8Q2gRrEx5X1k9NcbbQ2z3afcq/e8Jr3RFjEWZGD0gw6z9t2t+ErvB4fl1VDPj
+	8yMwt3KMceySjhaDBnE2/Pyp+u96EBaui8chj+sY+bPLkoc7KvbmyYaPIRTd2ob/j/kR
+	cJUPV4/7y/V5ahd+x0u4OXcjJ4bWoww6qT5JiNaX/huuZHrGuCjGD8MLDJp/s9OuY2dM
+	xkqg==
+X-Gm-Message-State: APjAAAVuRT3mY4Kb8WjGa1vnt6IkxQt97wh/3fS9ZKUoWB1YDBWkb/Ch
+	toi8cmf5D6bw456ZaU1IJ13hy5JXILo=
+X-Google-Smtp-Source: APXvYqylczzxoUHlQtIIWwtaPhnuxFWpFB+khkQ+j9Ha3qTgp5tmxdwFACVzBp40ZJK60jhQEGltLA==
+X-Received: by 2002:aa7:9787:: with SMTP id o7mr25130589pfp.120.1574532226636; 
+	Sat, 23 Nov 2019 10:03:46 -0800 (PST)
+Received: from cakuba.netronome.com (c-73-202-202-92.hsd1.ca.comcast.net.
+	[73.202.202.92]) by smtp.gmail.com with ESMTPSA id
+	i13sm2305773pfo.39.2019.11.23.10.03.45
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Sat, 23 Nov 2019 10:03:46 -0800 (PST)
+Date: Sat, 23 Nov 2019 10:03:40 -0800
+From: Jakub Kicinski <jakub.kicinski@netronome.com>
+To: Jiri Olsa <jolsa@redhat.com>
 Subject: Re: [PATCH] bpf: emit audit messages upon successful prog load and
 	unload
-Message-ID: <20191123085719.GA1673@krava>
+Message-ID: <20191123100340.771bfd25@cakuba.netronome.com>
+In-Reply-To: <20191123085719.GA1673@krava>
 References: <20191120213816.8186-1-jolsa@kernel.org>
 	<8c928ec4-9e43-3e2a-7005-21f40fcca061@iogearbox.net>
 	<CAADnVQKu-ZgFTaSMH=Q-jMOYYvE32TF2b2hq1=dmDV8wAf18pg@mail.gmail.com>
@@ -55,17 +89,18 @@ References: <20191120213816.8186-1-jolsa@kernel.org>
 	<CAHC9VhRihMi_d-p+ieXyuVBcGMs80SkypVxF4gLE_s45GKP0dg@mail.gmail.com>
 	<20191122192353.GA2157@krava>
 	<CAHC9VhRi0JtKgHyAOdAJ=_--vL1VbK7BDq1FnRQ_GwW9P4J_zA@mail.gmail.com>
+	<20191123085719.GA1673@krava>
+Organization: Netronome Systems, Ltd.
 MIME-Version: 1.0
-In-Reply-To: <CAHC9VhRi0JtKgHyAOdAJ=_--vL1VbK7BDq1FnRQ_GwW9P4J_zA@mail.gmail.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: H5djzkF2N_GeNp2viPL68g-1
+X-MC-Unique: 0n3lS8PYO36R6rb_3pPABw-1
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
 X-loop: linux-audit@redhat.com
 X-Mailman-Approved-At: Mon, 25 Nov 2019 08:30:17 -0500
-Cc: Jiri Benc <jbenc@redhat.com>, Jakub Kicinski <jakub.kicinski@netronome.com>,
-	Daniel Borkmann <daniel@iogearbox.net>,
+Cc: Alexei, Daniel Borkmann <daniel@iogearbox.net>,
 	Network Development <netdev@vger.kernel.org>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Martin KaFai Lau <kafai@fb.com>, linux-audit@redhat.com,
+	Starovoitov <ast@kernel.org>, Martin KaFai Lau <kafai@fb.com>,
+	Jiri Benc <jbenc@redhat.com>, linux-audit@redhat.com,
 	Jiri Olsa <jolsa@kernel.org>, David Miller <davem@redhat.com>,
 	Yonghong Song <yhs@fb.com>, bpf <bpf@vger.kernel.org>,
 	Andrii Nakryiko <andriin@fb.com>,
@@ -83,98 +118,20 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: jgCZTbckMLWAHSKHC4LoTw-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
 
-On Fri, Nov 22, 2019 at 04:19:55PM -0500, Paul Moore wrote:
-> On Fri, Nov 22, 2019 at 2:24 PM Jiri Olsa <jolsa@redhat.com> wrote:
-> > Paul,
-> > would following output be ok:
-> >
-> >     type=SYSCALL msg=audit(1574445211.897:28015): arch=c000003e syscall=321 success=no exit=-13 a0=5 a1=7fff09ac6c60 a2=78 a3=6 items=0 ppid=1408 pid=9266 auid=1001 uid=0 gid=0 euid=0 suid=0 fsuid=0 egid=0 sgid=0 fsgid=0 tty=pts0 ses=1 comm="test_verifier" exe="/home/jolsa/linux/tools/testing/selftests/bpf/test_verifier" subj=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023 key=(null)ARCH=x86_64 SYSCALL=bpf AUID="jolsa" UID="root" GID="root" EUID="root" SUID="root" FSUID="root" EGID="root" SGID="root" FSGID="root"
-> >     type=PROCTITLE msg=audit(1574445211.897:28015): proctitle="./test_verifier"
-> >     type=BPF msg=audit(1574445211.897:28016): prog-id=8103 event=LOAD
-> >
-> >     type=SYSCALL msg=audit(1574445211.897:28016): arch=c000003e syscall=321 success=yes exit=14 a0=5 a1=7fff09ac6b80 a2=78 a3=0 items=0 ppid=1408 pid=9266 auid=1001 uid=0 gid=0 euid=0 suid=0 fsuid=0 egid=0 sgid=0 fsgid=0 tty=pts0 ses=1 comm="test_verifier" exe="/home/jolsa/linux/tools/testing/selftests/bpf/test_verifier" subj=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023 key=(null)ARCH=x86_64 SYSCALL=bpf AUID="jolsa" UID="root" GID="root" EUID="root" SUID="root" FSUID="root" EGID="root" SGID="root" FSGID="root"
-> >     type=PROCTITLE msg=audit(1574445211.897:28016): proctitle="./test_verifier"
-> >     type=BPF msg=audit(1574445211.897:28017): prog-id=8103 event=UNLOAD
-> 
-> There is some precedence in using "op=" instead of "event=" (an audit
-> "event" is already a thing, using "event=" here might get confusing).
-> I suppose if we are getting really nit-picky you might want to
-> lower-case the LOAD/UNLOAD, but generally Steve cares more about these
-> things than I do.
-> 
-> For reference, we have a searchable database of fields here:
-> * https://github.com/linux-audit/audit-documentation/blob/master/specs/fields/field-dictionary.csv
+On Sat, 23 Nov 2019 09:57:19 +0100, Jiri Olsa wrote:
+> Alexei already asked Dave to revert this in previous email,
+> so that should happen
 
-I'm fine with "op", Daniel, Alexei?
+Reverted in net-next now.
 
-> 
-> > I assume for audit-userspace and audit-testsuite the change will
-> > go in as github PR, right? I have the auditd change ready and will
-> > add test shortly.
-> 
-> You can submit the audit-testsuite either as a GH PR or as a
-> patch(set) to the linux-audit mailing list, both work equally well.  I
-> believe has the same policy for his userspace tools, but I'll let him
-> speak for himself.
-
-ok
-
-> 
-> > diff --git a/include/linux/audit.h b/include/linux/audit.h
-> > index 18925d924c73..c69d2776d197 100644
-> > --- a/include/linux/audit.h
-> > +++ b/include/linux/audit.h
-> > @@ -358,8 +358,6 @@ static inline void audit_ptrace(struct task_struct *t)
-> >                 __audit_ptrace(t);
-> >  }
-> >
-> > -extern void audit_log_task(struct audit_buffer *ab);
-> > -
-> >                                 /* Private API (for audit.c only) */
-> >  extern void __audit_ipc_obj(struct kern_ipc_perm *ipcp);
-> >  extern void __audit_ipc_set_perm(unsigned long qbytes, uid_t uid, gid_t gid, umode_t mode);
-> > @@ -648,8 +646,6 @@ static inline void audit_ntp_log(const struct audit_ntp_data *ad)
-> >  static inline void audit_ptrace(struct task_struct *t)
-> >  { }
-> >
-> > -static inline void audit_log_task(struct audit_buffer *ab)
-> > -{ }
-> >  #define audit_n_rules 0
-> >  #define audit_signals 0
-> >  #endif /* CONFIG_AUDITSYSCALL */
-> > diff --git a/kernel/auditsc.c b/kernel/auditsc.c
-> > index 9bf1045fedfa..4effe01ebbe2 100644
-> > --- a/kernel/auditsc.c
-> > +++ b/kernel/auditsc.c
-> > @@ -2545,7 +2545,7 @@ void __audit_ntp_log(const struct audit_ntp_data *ad)
-> >         audit_log_ntp_val(ad, "adjust", AUDIT_NTP_ADJUST);
-> >  }
-> >
-> > -void audit_log_task(struct audit_buffer *ab)
-> > +static void audit_log_task(struct audit_buffer *ab)
-> 
-> I'm slightly concerned that this is based on top of your other patch
-> which was NACK'ed.  I might not have been clear before, but with the
-> merge window set to open in a few days, and this change affecting the
-> kernel interface (uapi, etc.) and lacking a test, this isn't something
-> that I see as a candidate for the upcoming merge window.  *Please*
-> revert your original patch first; if you think I'm cranky now I can
-> promise I'll be a lot more cranky if I see the original patch in -rc1
-> ;)
-
-no worries, I'm used to cranky ;-)
-Alexei already asked Dave to revert this in previous email,
-so that should happen
-
-thanks,
-jirka
+But this is not really how this should work. You should post a proper
+revert patch to netdev for review, with an explanation in the commit
+message etc.
 
 --
 Linux-audit mailing list
