@@ -1,55 +1,62 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [207.211.31.81])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A58810CA61
-	for <lists+linux-audit@lfdr.de>; Thu, 28 Nov 2019 15:30:48 +0100 (CET)
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-delivery-1.mimecast.com [207.211.31.120])
+	by mail.lfdr.de (Postfix) with ESMTP id 1379510CA62
+	for <lists+linux-audit@lfdr.de>; Thu, 28 Nov 2019 15:30:49 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1574951447;
+	s=mimecast20190719; t=1574951449;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:list-id:list-help:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=3hjsLpxg5PJoBIrd0CRMQXfOkJol3arGKbBlSaxhjxM=;
-	b=f611F4HGFb53ld1cp1SNu6/UayHzM6kA4uNasiLngo3qEuLRJ7uVbs0RbtwsJOoF32Zff1
-	ZHGWmVjhitkFSik/pRsTBMt6k4Wqy18q7BWZDt7BR5IIVcMHRgPlOisCmdpjJcuVMjvldy
-	pksnc1dKSak5fn3edBuFekuP0NI0HPU=
+	bh=D0As6vniPsu2lvGwJBHtJYjeYb1VwZCkY+VaEVjml1k=;
+	b=C8mFEx1TkjXdbcxQoPZDASTOTwYM34NdoHNLaCfKKErLMoMnXcVBGOOntohnt1C0+1smWz
+	RWE7fjcmAnlrJcz3YyA5dZNMjQOq7i/wmQiUZ4OyWuPb5QocyVMeW8Ay/FptasfEHqWsNm
+	YLhBEtxpnHpwrWU6tLzAdvCaYTeRik4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-85-xeo_6jIINfWg4oR-EdFpAA-1; Thu, 28 Nov 2019 09:30:43 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+ us-mta-41--JKGir4KPmqgYLLx82iArw-1; Thu, 28 Nov 2019 09:30:47 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4BE0A107B78F;
-	Thu, 28 Nov 2019 14:30:38 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 104C8600C8;
-	Thu, 28 Nov 2019 14:30:38 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 06EBF101F7CD;
+	Thu, 28 Nov 2019 14:30:42 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id BD0A15D6D6;
+	Thu, 28 Nov 2019 14:30:41 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id A542D4E566;
-	Thu, 28 Nov 2019 14:30:37 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
-	[10.5.11.16])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 47C0D1819AC0;
+	Thu, 28 Nov 2019 14:30:41 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+	[10.5.11.14])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id xAS9GdRR025220 for <linux-audit@listman.util.phx.redhat.com>;
-	Thu, 28 Nov 2019 04:16:39 -0500
+	id xAS9IIdV025330 for <linux-audit@listman.util.phx.redhat.com>;
+	Thu, 28 Nov 2019 04:18:18 -0500
 Received: by smtp.corp.redhat.com (Postfix)
-	id 537D85C28D; Thu, 28 Nov 2019 09:16:39 +0000 (UTC)
+	id F22CC5DA70; Thu, 28 Nov 2019 09:18:17 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from krava.redhat.com (unknown [10.43.17.48])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id C8FD85C1B0;
-	Thu, 28 Nov 2019 09:16:33 +0000 (UTC)
-From: Jiri Olsa <jolsa@kernel.org>
-To: Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>
-Subject: [RFC] bpf: Emit audit messages upon successful prog load and unload
-Date: Thu, 28 Nov 2019 10:16:32 +0100
-Message-Id: <20191128091633.29275-1-jolsa@kernel.org>
+Received: from krava (unknown [10.43.17.48])
+	by smtp.corp.redhat.com (Postfix) with SMTP id B84EE5D9E1;
+	Thu, 28 Nov 2019 09:18:12 +0000 (UTC)
+Date: Thu, 28 Nov 2019 10:18:12 +0100
+From: Jiri Olsa <jolsa@redhat.com>
+To: Jiri Olsa <jolsa@kernel.org>
+Subject: Re: [RFC] bpf: Emit audit messages upon successful prog load and
+	unload
+Message-ID: <20191128091812.GC1209@krava>
+References: <20191128091633.29275-1-jolsa@kernel.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20191128091633.29275-1-jolsa@kernel.org>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-loop: linux-audit@redhat.com
 X-Mailman-Approved-At: Thu, 28 Nov 2019 09:30:15 -0500
-Cc: Jakub Kicinski <jakub.kicinski@netronome.com>, netdev@vger.kernel.org,
+Cc: Jakub Kicinski <jakub.kicinski@netronome.com>,
+	Daniel Borkmann <daniel@iogearbox.net>, netdev@vger.kernel.org,
+	Alexei Starovoitov <ast@kernel.org>,
 	Jiri Benc <jbenc@redhat.com>, linux-audit@redhat.com,
 	David Miller <davem@redhat.com>, Yonghong Song <yhs@fb.com>,
 	bpf@vger.kernel.org, Andrii Nakryiko <andriin@fb.com>,
@@ -67,128 +74,61 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: xeo_6jIINfWg4oR-EdFpAA-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: -JKGir4KPmqgYLLx82iArw-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
-From: Daniel Borkmann <daniel@iogearbox.net>
+On Thu, Nov 28, 2019 at 10:16:32AM +0100, Jiri Olsa wrote:
+> From: Daniel Borkmann <daniel@iogearbox.net>
+> 
+> Allow for audit messages to be emitted upon BPF program load and
+> unload for having a timeline of events. The load itself is in
+> syscall context, so additional info about the process initiating
+> the BPF prog creation can be logged and later directly correlated
+> to the unload event.
+> 
+> The only info really needed from BPF side is the globally unique
+> prog ID where then audit user space tooling can query / dump all
+> info needed about the specific BPF program right upon load event
+> and enrich the record, thus these changes needed here can be kept
+> small and non-intrusive to the core.
+> 
+> Raw example output:
+> 
+>   # auditctl -D
+>   # auditctl -a always,exit -F arch=x86_64 -S bpf
+>   # ausearch --start recent -m 1334
+>   ...
+>   ----
+>   time->Wed Nov 27 16:04:13 2019
+>   type=PROCTITLE msg=audit(1574867053.120:84664): proctitle="./bpf"
+>   type=SYSCALL msg=audit(1574867053.120:84664): arch=c000003e syscall=321   \
+>     success=yes exit=3 a0=5 a1=7ffea484fbe0 a2=70 a3=0 items=0 ppid=7477    \
+>     pid=12698 auid=1001 uid=1001 gid=1001 euid=1001 suid=1001 fsuid=1001    \
+>     egid=1001 sgid=1001 fsgid=1001 tty=pts2 ses=4 comm="bpf"                \
+>     exe="/home/jolsa/auditd/audit-testsuite/tests/bpf/bpf"                  \
+>     subj=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023 key=(null)
+>   type=UNKNOWN[1334] msg=audit(1574867053.120:84664): prog-id=76 op=LOAD
+>   ----
+>   time->Wed Nov 27 16:04:13 2019
+>   type=UNKNOWN[1334] msg=audit(1574867053.120:84665): prog-id=76 op=UNLOAD
+>   ...
+> 
+> Signed-off-by: Daniel Borkmann <daniel@iogearbox.net>
+> Co-developed-by: Jiri Olsa <jolsa@kernel.org>
+> Signed-off-by: Jiri Olsa <jolsa@kernel.org>
 
-Allow for audit messages to be emitted upon BPF program load and
-unload for having a timeline of events. The load itself is in
-syscall context, so additional info about the process initiating
-the BPF prog creation can be logged and later directly correlated
-to the unload event.
+fyi I prepared userspace changes:
+  https://github.com/olsajiri/audit-userspace/commit/3108a81fa8d937f07b4c78be8ae00fcd3d64f94d
+  https://github.com/olsajiri/audit-testsuite/commit/16888ea7f14fa0269feef623d2a96f15f9ea71c9
 
-The only info really needed from BPF side is the globally unique
-prog ID where then audit user space tooling can query / dump all
-info needed about the specific BPF program right upon load event
-and enrich the record, thus these changes needed here can be kept
-small and non-intrusive to the core.
+I'll sumbit github PRs once the kernel change is pulled in
 
-Raw example output:
-
-  # auditctl -D
-  # auditctl -a always,exit -F arch=x86_64 -S bpf
-  # ausearch --start recent -m 1334
-  ...
-  ----
-  time->Wed Nov 27 16:04:13 2019
-  type=PROCTITLE msg=audit(1574867053.120:84664): proctitle="./bpf"
-  type=SYSCALL msg=audit(1574867053.120:84664): arch=c000003e syscall=321   \
-    success=yes exit=3 a0=5 a1=7ffea484fbe0 a2=70 a3=0 items=0 ppid=7477    \
-    pid=12698 auid=1001 uid=1001 gid=1001 euid=1001 suid=1001 fsuid=1001    \
-    egid=1001 sgid=1001 fsgid=1001 tty=pts2 ses=4 comm="bpf"                \
-    exe="/home/jolsa/auditd/audit-testsuite/tests/bpf/bpf"                  \
-    subj=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023 key=(null)
-  type=UNKNOWN[1334] msg=audit(1574867053.120:84664): prog-id=76 op=LOAD
-  ----
-  time->Wed Nov 27 16:04:13 2019
-  type=UNKNOWN[1334] msg=audit(1574867053.120:84665): prog-id=76 op=UNLOAD
-  ...
-
-Signed-off-by: Daniel Borkmann <daniel@iogearbox.net>
-Co-developed-by: Jiri Olsa <jolsa@kernel.org>
-Signed-off-by: Jiri Olsa <jolsa@kernel.org>
----
- include/uapi/linux/audit.h |  1 +
- kernel/bpf/syscall.c       | 27 +++++++++++++++++++++++++++
- 2 files changed, 28 insertions(+)
-
-diff --git a/include/uapi/linux/audit.h b/include/uapi/linux/audit.h
-index c89c6495983d..32a5db900f47 100644
---- a/include/uapi/linux/audit.h
-+++ b/include/uapi/linux/audit.h
-@@ -116,6 +116,7 @@
- #define AUDIT_FANOTIFY		1331	/* Fanotify access decision */
- #define AUDIT_TIME_INJOFFSET	1332	/* Timekeeping offset injected */
- #define AUDIT_TIME_ADJNTPVAL	1333	/* NTP value adjustment */
-+#define AUDIT_BPF		1334	/* BPF subsystem */
- 
- #define AUDIT_AVC		1400	/* SE Linux avc denial or grant */
- #define AUDIT_SELINUX_ERR	1401	/* Internal SE Linux Errors */
-diff --git a/kernel/bpf/syscall.c b/kernel/bpf/syscall.c
-index e3461ec59570..20826aad247c 100644
---- a/kernel/bpf/syscall.c
-+++ b/kernel/bpf/syscall.c
-@@ -23,6 +23,7 @@
- #include <linux/timekeeping.h>
- #include <linux/ctype.h>
- #include <linux/nospec.h>
-+#include <linux/audit.h>
- #include <uapi/linux/btf.h>
- 
- #define IS_FD_ARRAY(map) ((map)->map_type == BPF_MAP_TYPE_PERF_EVENT_ARRAY || \
-@@ -1306,6 +1307,30 @@ static int find_prog_type(enum bpf_prog_type type, struct bpf_prog *prog)
- 	return 0;
- }
- 
-+enum bpf_audit {
-+	BPF_AUDIT_LOAD,
-+	BPF_AUDIT_UNLOAD,
-+};
-+
-+static const char * const bpf_audit_str[] = {
-+	[BPF_AUDIT_LOAD]   = "LOAD",
-+	[BPF_AUDIT_UNLOAD] = "UNLOAD",
-+};
-+
-+static void bpf_audit_prog(const struct bpf_prog *prog, enum bpf_audit op)
-+{
-+	struct audit_buffer *ab;
-+
-+	if (audit_enabled == AUDIT_OFF)
-+		return;
-+	ab = audit_log_start(audit_context(), GFP_ATOMIC, AUDIT_BPF);
-+	if (unlikely(!ab))
-+		return;
-+	audit_log_format(ab, "prog-id=%u op=%s",
-+			 prog->aux->id, bpf_audit_str[op]);
-+	audit_log_end(ab);
-+}
-+
- int __bpf_prog_charge(struct user_struct *user, u32 pages)
- {
- 	unsigned long memlock_limit = rlimit(RLIMIT_MEMLOCK) >> PAGE_SHIFT;
-@@ -1421,6 +1446,7 @@ static void __bpf_prog_put(struct bpf_prog *prog, bool do_idr_lock)
- {
- 	if (atomic64_dec_and_test(&prog->aux->refcnt)) {
- 		perf_event_bpf_event(prog, PERF_BPF_EVENT_PROG_UNLOAD, 0);
-+		bpf_audit_prog(prog, BPF_AUDIT_UNLOAD);
- 		/* bpf_prog_free_id() must be called first */
- 		bpf_prog_free_id(prog, do_idr_lock);
- 		__bpf_prog_put_noref(prog, true);
-@@ -1830,6 +1856,7 @@ static int bpf_prog_load(union bpf_attr *attr, union bpf_attr __user *uattr)
- 	 */
- 	bpf_prog_kallsyms_add(prog);
- 	perf_event_bpf_event(prog, PERF_BPF_EVENT_PROG_LOAD, 0);
-+	bpf_audit_prog(prog, BPF_AUDIT_LOAD);
- 
- 	err = bpf_prog_new_fd(prog);
- 	if (err < 0)
--- 
-2.23.0
+thanks,
+jirka
 
 --
 Linux-audit mailing list
