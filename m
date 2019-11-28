@@ -1,113 +1,59 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [205.139.110.61])
-	by mail.lfdr.de (Postfix) with ESMTP id 5548710CA60
-	for <lists+linux-audit@lfdr.de>; Thu, 28 Nov 2019 15:30:46 +0100 (CET)
+Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [207.211.31.81])
+	by mail.lfdr.de (Postfix) with ESMTP id 2A58810CA61
+	for <lists+linux-audit@lfdr.de>; Thu, 28 Nov 2019 15:30:48 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1574951445;
+	s=mimecast20190719; t=1574951447;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=v6Ks56zXMYf5eObRDCQnr/bp8y4acR2i2wfKwrKUu14=;
-	b=gYoFt1BpYA87pT9wxqFfvK6E3mmtTnU5uVBwXsUPGfjO6yDiRGUrMAZCmDBju6xdN5Pkqg
-	WlIiHxhR8jsat9cWhYJ9DLM6IMRtZYsf3XJSLBduh5YiWe6spXrXF+mngHlZCm1O09aQmT
-	LLctFfvaY1Eqmz93DjDTqiWyVttWInE=
+	bh=3hjsLpxg5PJoBIrd0CRMQXfOkJol3arGKbBlSaxhjxM=;
+	b=f611F4HGFb53ld1cp1SNu6/UayHzM6kA4uNasiLngo3qEuLRJ7uVbs0RbtwsJOoF32Zff1
+	ZHGWmVjhitkFSik/pRsTBMt6k4Wqy18q7BWZDt7BR5IIVcMHRgPlOisCmdpjJcuVMjvldy
+	pksnc1dKSak5fn3edBuFekuP0NI0HPU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-28-UCaU2wCfNuyaUuQa0Q7GXA-1; Thu, 28 Nov 2019 09:30:40 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+ us-mta-85-xeo_6jIINfWg4oR-EdFpAA-1; Thu, 28 Nov 2019 09:30:43 -0500
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A1FAF102313D;
-	Thu, 28 Nov 2019 14:30:35 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 035A95D9E2;
-	Thu, 28 Nov 2019 14:30:35 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4BE0A107B78F;
+	Thu, 28 Nov 2019 14:30:38 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 104C8600C8;
+	Thu, 28 Nov 2019 14:30:38 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 9E90A1819AC0;
-	Thu, 28 Nov 2019 14:30:29 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
-	[10.11.54.5])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id A542D4E566;
+	Thu, 28 Nov 2019 14:30:37 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+	[10.5.11.16])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id xARH4xPZ010103 for <linux-audit@listman.util.phx.redhat.com>;
-	Wed, 27 Nov 2019 12:04:59 -0500
+	id xAS9GdRR025220 for <linux-audit@listman.util.phx.redhat.com>;
+	Thu, 28 Nov 2019 04:16:39 -0500
 Received: by smtp.corp.redhat.com (Postfix)
-	id B3798ED177; Wed, 27 Nov 2019 17:04:59 +0000 (UTC)
+	id 537D85C28D; Thu, 28 Nov 2019 09:16:39 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from mimecast-mx02.redhat.com
-	(mimecast03.extmail.prod.ext.rdu2.redhat.com [10.11.55.19])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id AEEBCC6902
-	for <linux-audit@redhat.com>; Wed, 27 Nov 2019 17:04:57 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [205.139.110.61])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 66FE08D3FFE
-	for <linux-audit@redhat.com>; Wed, 27 Nov 2019 17:04:57 +0000 (UTC)
-X-EEMSG-check-017: 34319957|UPDC19PA21_ESA_OUT03.csd.disa.mil
-X-IronPort-AV: E=Sophos;i="5.69,250,1571702400"; d="scan'208";a="34319957"
-Received: from UPDC19PA21.eemsg.mail.mil (UPDC19PA21.eemsg.mail.mil
-	[214.24.27.196]) (Using TLS) by relay.mimecast.com with ESMTP id
-	us-mta-12-yeZk1r7jMjmCX8fyYrSyew-1; Wed, 27 Nov 2019 12:04:54 -0500
-Received: from emsm-gh1-uea11.ncsc.mil ([214.29.60.3])
-	by UPDC19PA21.eemsg.mail.mil with ESMTP/TLS/DHE-RSA-AES256-SHA256;
-	27 Nov 2019 17:04:49 +0000
-X-IronPort-AV: E=Sophos;i="5.69,250,1571702400"; d="scan'208";a="36092306"
-IronPort-PHdr: =?us-ascii?q?9a23=3AapskcxcspfQBru6ThmObAw8tlGMj4u6mDksu8p?=
-	=?us-ascii?q?Mizoh2WeGdxc26bBGN2/xhgRfzUJnB7Loc0qyK6vumADJdqsfd+Fk5M7V0Hy?=
-	=?us-ascii?q?cfjssXmwFySOWkMmbcaMDQUiohAc5ZX0Vk9XzoeWJcGcL5ekGA6ibqtW1aFR?=
-	=?us-ascii?q?rwLxd6KfroEYDOkcu3y/qy+5rOaAlUmTaxe7x/IAi4oAnLq8UbgItvJqk1xx?=
-	=?us-ascii?q?bGv3BFZ/lYyWR0KFyJgh3y/N2w/Jlt8yRRv/Iu6ctNWrjkcqo7ULJVEi0oP3?=
-	=?us-ascii?q?g668P3uxbDSxCP5mYHXWUNjhVIGQnF4wrkUZr3ryD3q/By2CiePc3xULA0RT?=
-	=?us-ascii?q?Gv5LplRRP0lCsKMSMy/2/Nisx0kalVvhSvqRJiyILQeY2YNP5zcqbbcNgHR2?=
-	=?us-ascii?q?ROQ9xRWjRBDI2icoUBAekPM+FXoIfyvFYCsRizCBOwCO711jNEmnn71rA63e?=
-	=?us-ascii?q?Q7FgHG2RQtEc8SsHvKtNX1NLkdUeaox6fVyDXMdfdW2TPj54nIbxsspuqMUq?=
-	=?us-ascii?q?9rccfK1UkuFx/KjlWXqYD/OTOVzf4Cv3KU7+pnS+KikmgqoBxyrDi33sogl4?=
-	=?us-ascii?q?bEi40Pxl3E6Cl12pg5KNKmREJhfNKpFoZbuTuAOItsWMwiRnlluCM9yrIbp5?=
-	=?us-ascii?q?G2ZDMKyJE7xx7HbPyHbpSI7grjVOmPJTd4g2poeK6liBao8Eig1/b8WtO10F?=
-	=?us-ascii?q?ZMoCpFlcLMuW4R2BDJ9siGSudy/kem2TqV0QDc9vpELlwumareKp4hxqY8lp?=
-	=?us-ascii?q?sVsUvdAi/7gFj6gaCZe0k++uWk9v7rbqvpq5OCLYN4lxnyMqE0lcy+BeQ4PB?=
-	=?us-ascii?q?IOX2+e+emkz73s4Fb5Ta5Wjvw2jqbZsJfaKd4dpq6iGQBZyIkj6xGhDzu+yt?=
-	=?us-ascii?q?QXgWEHLE5ZeBKAl4XpPkvBIOzkDfe/nVutnjhryOrcPr37HJrNMmTDnazufb?=
-	=?us-ascii?q?Z67E5cxw4zws5F651IDbEBJer5WlXtu9zAEh85Lwu0zv7lCNV40YMeQ3iPAq?=
-	=?us-ascii?q?6CMK7Jt1+H/OcvLPeNZIMPvzb9Mfcl7eb0jXAlgV8dYbWp3ZwPZXCgBPtmPk?=
-	=?us-ascii?q?GZbGH0gtgbDGcKuhMyTOntiF2FSz5ceWy+UL475jE+EIimF5vMRpixgLyd2y?=
-	=?us-ascii?q?e2BplWZmFAClCRHnbkbp+LW+oRZyKTPs9siSYEWqa8RI8hzx6uqBX2xKZgLu?=
-	=?us-ascii?q?rR4icYr47s1MBp5+3PkhE/7Th0D8Wb02GQQGB4h3gISCEq06Biu0x9y0uD0K?=
-	=?us-ascii?q?hhj/xdEtxc+u5JUgMkOpPH0ex6BM79WhjbcteKVlmmWNOmDi81Tt4rxN8OeU?=
-	=?us-ascii?q?l9Ec24jh/fxyqqH6MVl7uTCZwv7K3c23nxJ8Bgy3fJz6QhkVYmTdVVNWG8ha?=
-	=?us-ascii?q?5w6RLTB4jXnEWdjaqqcr4c3CGevFuEmHGDuEBeTR5YT6rIRzYca1HQoNC/4V?=
-	=?us-ascii?q?nNHJG0DrFyCRdM0c6PLONxb9TtiVhXDKP4NM/2f3O6m2D2Aw2BgLyLcty5KC?=
-	=?us-ascii?q?0mwCzBBR1cwEgo9nGcOF17W3as?=
-X-IPAS-Result: =?us-ascii?q?A2CqAgDiq95d/wHyM5BlHAEBAQEBBwEBEQEEBAEBgX6Bb?=
-	=?us-ascii?q?wWBbSASKo0ukXeRRAkBAQEBAQEBAQEbHAEBhECCJjgTAhABAQEEAQEBAQEFA?=
-	=?us-ascii?q?wEBbIVDgjspgxwLAUaBUYJjP4JTJbQyM4kagUiBNoc9gzuBOHmBB4ERNoMbh?=
-	=?us-ascii?q?DWGAgSNFBWKAHSWHII3gjmTEQwbgkCMKYs2qm0igVgrCAIYCCEPgydQERSGV?=
-	=?us-ascii?q?BeOQSMDMIt9ASQHghQBAQ?=
-Received: from tarius.tycho.ncsc.mil (HELO tarius.infosec.tycho.ncsc.mil)
-	([144.51.242.1])
-	by emsm-gh1-uea11.NCSC.MIL with ESMTP; 27 Nov 2019 17:04:48 +0000
-Received: from moss-pluto.infosec.tycho.ncsc.mil (moss-pluto [192.168.25.131])
-	by tarius.infosec.tycho.ncsc.mil (8.14.7/8.14.4) with ESMTP id
-	xARH4gO5064133; Wed, 27 Nov 2019 12:04:42 -0500
-From: Stephen Smalley <sds@tycho.nsa.gov>
-To: selinux@vger.kernel.org
-Subject: [RFC PATCH v2] security,lockdown,selinux: implement SELinux lockdown
-Date: Wed, 27 Nov 2019 12:04:36 -0500
-Message-Id: <20191127170436.4237-1-sds@tycho.nsa.gov>
+Received: from krava.redhat.com (unknown [10.43.17.48])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id C8FD85C1B0;
+	Thu, 28 Nov 2019 09:16:33 +0000 (UTC)
+From: Jiri Olsa <jolsa@kernel.org>
+To: Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>
+Subject: [RFC] bpf: Emit audit messages upon successful prog load and unload
+Date: Thu, 28 Nov 2019 10:16:32 +0100
+Message-Id: <20191128091633.29275-1-jolsa@kernel.org>
 MIME-Version: 1.0
-X-MC-Unique: yeZk1r7jMjmCX8fyYrSyew-1
-X-MC-Unique: UCaU2wCfNuyaUuQa0Q7GXA-1
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-X-MIME-Autoconverted: from quoted-printable to 8bit by
-	lists01.pubmisc.prod.ext.phx2.redhat.com id xARH4xPZ010103
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-loop: linux-audit@redhat.com
 X-Mailman-Approved-At: Thu, 28 Nov 2019 09:30:15 -0500
-Cc: matthewgarrett@google.com, jmorris@namei.org,
-	linux-security-module@vger.kernel.org, linux-audit@redhat.com,
-	Stephen Smalley <sds@tycho.nsa.gov>
+Cc: Jakub Kicinski <jakub.kicinski@netronome.com>, netdev@vger.kernel.org,
+	Jiri Benc <jbenc@redhat.com>, linux-audit@redhat.com,
+	David Miller <davem@redhat.com>, Yonghong Song <yhs@fb.com>,
+	bpf@vger.kernel.org, Andrii Nakryiko <andriin@fb.com>,
+	Martin KaFai Lau <kafai@fb.com>
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -121,248 +67,128 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: xeo_6jIINfWg4oR-EdFpAA-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-Implement a SELinux hook for lockdown.  If the lockdown module is also
-enabled, then a denial by the lockdown module will take precedence over
-SELinux, so SELinux can only further restrict lockdown decisions.
-The SELinux hook only distinguishes at the granularity of integrity
-versus confidentiality similar to the lockdown module, but includes the
-full lockdown reason as part of the audit record as a hint in diagnosing
-what triggered the denial.  To support this auditing, move the
-lockdown_reasons[] string array from being private to the lockdown
-module to the security framework so that it can be used by the lsm audit
-code and so that it is always available even when the lockdown module
-is disabled.
+From: Daniel Borkmann <daniel@iogearbox.net>
 
-Note that the SELinux implementation allows the integrity and
-confidentiality reasons to be controlled independently from one another.
-Thus, in an SELinux policy, one could allow operations that specify
-an integrity reason while blocking operations that specify a
-confidentiality reason. The SELinux hook implementation is
-stricter than the lockdown module in validating the provided reason value.
+Allow for audit messages to be emitted upon BPF program load and
+unload for having a timeline of events. The load itself is in
+syscall context, so additional info about the process initiating
+the BPF prog creation can be logged and later directly correlated
+to the unload event.
 
-Sample AVC audit output from denials:
-avc:  denied  { integrity } for pid=3402 comm="fwupd"
- lockdown_reason="/dev/mem,kmem,port" scontext=system_u:system_r:fwupd_t:s0
- tcontext=system_u:system_r:fwupd_t:s0 tclass=lockdown permissive=0
+The only info really needed from BPF side is the globally unique
+prog ID where then audit user space tooling can query / dump all
+info needed about the specific BPF program right upon load event
+and enrich the record, thus these changes needed here can be kept
+small and non-intrusive to the core.
 
-avc:  denied  { confidentiality } for pid=4628 comm="cp"
- lockdown_reason="/proc/kcore access"
- scontext=unconfined_u:unconfined_r:test_lockdown_integrity_t:s0-s0:c0.c1023
- tcontext=unconfined_u:unconfined_r:test_lockdown_integrity_t:s0-s0:c0.c1023
- tclass=lockdown permissive=0
+Raw example output:
 
-Signed-off-by: Stephen Smalley <sds@tycho.nsa.gov>
+  # auditctl -D
+  # auditctl -a always,exit -F arch=x86_64 -S bpf
+  # ausearch --start recent -m 1334
+  ...
+  ----
+  time->Wed Nov 27 16:04:13 2019
+  type=PROCTITLE msg=audit(1574867053.120:84664): proctitle="./bpf"
+  type=SYSCALL msg=audit(1574867053.120:84664): arch=c000003e syscall=321   \
+    success=yes exit=3 a0=5 a1=7ffea484fbe0 a2=70 a3=0 items=0 ppid=7477    \
+    pid=12698 auid=1001 uid=1001 gid=1001 euid=1001 suid=1001 fsuid=1001    \
+    egid=1001 sgid=1001 fsgid=1001 tty=pts2 ses=4 comm="bpf"                \
+    exe="/home/jolsa/auditd/audit-testsuite/tests/bpf/bpf"                  \
+    subj=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023 key=(null)
+  type=UNKNOWN[1334] msg=audit(1574867053.120:84664): prog-id=76 op=LOAD
+  ----
+  time->Wed Nov 27 16:04:13 2019
+  type=UNKNOWN[1334] msg=audit(1574867053.120:84665): prog-id=76 op=UNLOAD
+  ...
+
+Signed-off-by: Daniel Borkmann <daniel@iogearbox.net>
+Co-developed-by: Jiri Olsa <jolsa@kernel.org>
+Signed-off-by: Jiri Olsa <jolsa@kernel.org>
 ---
- include/linux/lsm_audit.h           |  2 ++
- include/linux/security.h            |  2 ++
- security/lockdown/lockdown.c        | 24 -----------------------
- security/lsm_audit.c                |  5 +++++
- security/security.c                 | 30 +++++++++++++++++++++++++++++
- security/selinux/hooks.c            | 30 +++++++++++++++++++++++++++++
- security/selinux/include/classmap.h |  2 ++
- 7 files changed, 71 insertions(+), 24 deletions(-)
+ include/uapi/linux/audit.h |  1 +
+ kernel/bpf/syscall.c       | 27 +++++++++++++++++++++++++++
+ 2 files changed, 28 insertions(+)
 
-diff --git a/include/linux/lsm_audit.h b/include/linux/lsm_audit.h
-index 915330abf6e5..99d629fd9944 100644
---- a/include/linux/lsm_audit.h
-+++ b/include/linux/lsm_audit.h
-@@ -74,6 +74,7 @@ struct common_audit_data {
- #define LSM_AUDIT_DATA_FILE	12
- #define LSM_AUDIT_DATA_IBPKEY	13
- #define LSM_AUDIT_DATA_IBENDPORT 14
-+#define LSM_AUDIT_DATA_LOCKDOWN 15
- 	union 	{
- 		struct path path;
- 		struct dentry *dentry;
-@@ -93,6 +94,7 @@ struct common_audit_data {
- 		struct file *file;
- 		struct lsm_ibpkey_audit *ibpkey;
- 		struct lsm_ibendport_audit *ibendport;
-+		int reason;
- 	} u;
- 	/* this union contains LSM specific data */
- 	union {
-diff --git a/include/linux/security.h b/include/linux/security.h
-index a8d59d612d27..df7a4d293fe8 100644
---- a/include/linux/security.h
-+++ b/include/linux/security.h
-@@ -125,6 +125,8 @@ enum lockdown_reason {
- 	LOCKDOWN_CONFIDENTIALITY_MAX,
- };
+diff --git a/include/uapi/linux/audit.h b/include/uapi/linux/audit.h
+index c89c6495983d..32a5db900f47 100644
+--- a/include/uapi/linux/audit.h
++++ b/include/uapi/linux/audit.h
+@@ -116,6 +116,7 @@
+ #define AUDIT_FANOTIFY		1331	/* Fanotify access decision */
+ #define AUDIT_TIME_INJOFFSET	1332	/* Timekeeping offset injected */
+ #define AUDIT_TIME_ADJNTPVAL	1333	/* NTP value adjustment */
++#define AUDIT_BPF		1334	/* BPF subsystem */
  
-+extern const char *const lockdown_reasons[LOCKDOWN_CONFIDENTIALITY_MAX+1];
-+
- /* These functions are in security/commoncap.c */
- extern int cap_capable(const struct cred *cred, struct user_namespace *ns,
- 		       int cap, unsigned int opts);
-diff --git a/security/lockdown/lockdown.c b/security/lockdown/lockdown.c
-index 8a10b43daf74..5a952617a0eb 100644
---- a/security/lockdown/lockdown.c
-+++ b/security/lockdown/lockdown.c
-@@ -16,30 +16,6 @@
+ #define AUDIT_AVC		1400	/* SE Linux avc denial or grant */
+ #define AUDIT_SELINUX_ERR	1401	/* Internal SE Linux Errors */
+diff --git a/kernel/bpf/syscall.c b/kernel/bpf/syscall.c
+index e3461ec59570..20826aad247c 100644
+--- a/kernel/bpf/syscall.c
++++ b/kernel/bpf/syscall.c
+@@ -23,6 +23,7 @@
+ #include <linux/timekeeping.h>
+ #include <linux/ctype.h>
+ #include <linux/nospec.h>
++#include <linux/audit.h>
+ #include <uapi/linux/btf.h>
  
- static enum lockdown_reason kernel_locked_down;
- 
--static const char *const lockdown_reasons[LOCKDOWN_CONFIDENTIALITY_MAX+1] = {
--	[LOCKDOWN_NONE] = "none",
--	[LOCKDOWN_MODULE_SIGNATURE] = "unsigned module loading",
--	[LOCKDOWN_DEV_MEM] = "/dev/mem,kmem,port",
--	[LOCKDOWN_KEXEC] = "kexec of unsigned images",
--	[LOCKDOWN_HIBERNATION] = "hibernation",
--	[LOCKDOWN_PCI_ACCESS] = "direct PCI access",
--	[LOCKDOWN_IOPORT] = "raw io port access",
--	[LOCKDOWN_MSR] = "raw MSR access",
--	[LOCKDOWN_ACPI_TABLES] = "modifying ACPI tables",
--	[LOCKDOWN_PCMCIA_CIS] = "direct PCMCIA CIS storage",
--	[LOCKDOWN_TIOCSSERIAL] = "reconfiguration of serial port IO",
--	[LOCKDOWN_MODULE_PARAMETERS] = "unsafe module parameters",
--	[LOCKDOWN_MMIOTRACE] = "unsafe mmio",
--	[LOCKDOWN_DEBUGFS] = "debugfs access",
--	[LOCKDOWN_INTEGRITY_MAX] = "integrity",
--	[LOCKDOWN_KCORE] = "/proc/kcore access",
--	[LOCKDOWN_KPROBES] = "use of kprobes",
--	[LOCKDOWN_BPF_READ] = "use of bpf to read kernel RAM",
--	[LOCKDOWN_PERF] = "unsafe use of perf",
--	[LOCKDOWN_TRACEFS] = "use of tracefs",
--	[LOCKDOWN_CONFIDENTIALITY_MAX] = "confidentiality",
--};
--
- static const enum lockdown_reason lockdown_levels[] = {LOCKDOWN_NONE,
- 						 LOCKDOWN_INTEGRITY_MAX,
- 						 LOCKDOWN_CONFIDENTIALITY_MAX};
-diff --git a/security/lsm_audit.c b/security/lsm_audit.c
-index e40874373f2b..2d2bf49016f4 100644
---- a/security/lsm_audit.c
-+++ b/security/lsm_audit.c
-@@ -27,6 +27,7 @@
- #include <linux/dccp.h>
- #include <linux/sctp.h>
- #include <linux/lsm_audit.h>
-+#include <linux/security.h>
- 
- /**
-  * ipv4_skb_to_auditdata : fill auditdata from skb
-@@ -425,6 +426,10 @@ static void dump_common_audit_data(struct audit_buffer *ab,
- 				 a->u.ibendport->dev_name,
- 				 a->u.ibendport->port);
- 		break;
-+	case LSM_AUDIT_DATA_LOCKDOWN:
-+		audit_log_format(ab, " lockdown_reason=");
-+		audit_log_string(ab, lockdown_reasons[a->u.reason]);
-+		break;
- 	} /* switch (a->type) */
+ #define IS_FD_ARRAY(map) ((map)->map_type == BPF_MAP_TYPE_PERF_EVENT_ARRAY || \
+@@ -1306,6 +1307,30 @@ static int find_prog_type(enum bpf_prog_type type, struct bpf_prog *prog)
+ 	return 0;
  }
  
-diff --git a/security/security.c b/security/security.c
-index 1bc000f834e2..f439c1102b1a 100644
---- a/security/security.c
-+++ b/security/security.c
-@@ -35,6 +35,36 @@
- #define LSM_COUNT (__end_lsm_info - __start_lsm_info)
- #define EARLY_LSM_COUNT (__end_early_lsm_info - __start_early_lsm_info)
- 
-+/*
-+ * These are descriptions of the reasons that can be passed to the
-+ * security_locked_down() LSM hook. Placing this array here allows
-+ * all security modules to use the same descriptions for auditing
-+ * purposes.
-+ */
-+const char *const lockdown_reasons[LOCKDOWN_CONFIDENTIALITY_MAX+1] = {
-+	[LOCKDOWN_NONE] = "none",
-+	[LOCKDOWN_MODULE_SIGNATURE] = "unsigned module loading",
-+	[LOCKDOWN_DEV_MEM] = "/dev/mem,kmem,port",
-+	[LOCKDOWN_KEXEC] = "kexec of unsigned images",
-+	[LOCKDOWN_HIBERNATION] = "hibernation",
-+	[LOCKDOWN_PCI_ACCESS] = "direct PCI access",
-+	[LOCKDOWN_IOPORT] = "raw io port access",
-+	[LOCKDOWN_MSR] = "raw MSR access",
-+	[LOCKDOWN_ACPI_TABLES] = "modifying ACPI tables",
-+	[LOCKDOWN_PCMCIA_CIS] = "direct PCMCIA CIS storage",
-+	[LOCKDOWN_TIOCSSERIAL] = "reconfiguration of serial port IO",
-+	[LOCKDOWN_MODULE_PARAMETERS] = "unsafe module parameters",
-+	[LOCKDOWN_MMIOTRACE] = "unsafe mmio",
-+	[LOCKDOWN_DEBUGFS] = "debugfs access",
-+	[LOCKDOWN_INTEGRITY_MAX] = "integrity",
-+	[LOCKDOWN_KCORE] = "/proc/kcore access",
-+	[LOCKDOWN_KPROBES] = "use of kprobes",
-+	[LOCKDOWN_BPF_READ] = "use of bpf to read kernel RAM",
-+	[LOCKDOWN_PERF] = "unsafe use of perf",
-+	[LOCKDOWN_TRACEFS] = "use of tracefs",
-+	[LOCKDOWN_CONFIDENTIALITY_MAX] = "confidentiality",
++enum bpf_audit {
++	BPF_AUDIT_LOAD,
++	BPF_AUDIT_UNLOAD,
 +};
 +
- struct security_hook_heads security_hook_heads __lsm_ro_after_init;
- static BLOCKING_NOTIFIER_HEAD(blocking_lsm_notifier_chain);
- 
-diff --git a/security/selinux/hooks.c b/security/selinux/hooks.c
-index 36e531b91df2..ca8a9d1b3ffd 100644
---- a/security/selinux/hooks.c
-+++ b/security/selinux/hooks.c
-@@ -6799,6 +6799,34 @@ static void selinux_bpf_prog_free(struct bpf_prog_aux *aux)
- }
- #endif
- 
-+static int selinux_lockdown(enum lockdown_reason what)
++static const char * const bpf_audit_str[] = {
++	[BPF_AUDIT_LOAD]   = "LOAD",
++	[BPF_AUDIT_UNLOAD] = "UNLOAD",
++};
++
++static void bpf_audit_prog(const struct bpf_prog *prog, enum bpf_audit op)
 +{
-+	struct common_audit_data ad;
-+	u32 sid = current_sid();
-+	int invalid_reason = (what <= LOCKDOWN_NONE) ||
-+			     (what == LOCKDOWN_INTEGRITY_MAX) ||
-+			     (what >= LOCKDOWN_CONFIDENTIALITY_MAX);
++	struct audit_buffer *ab;
 +
-+	if (WARN(invalid_reason, "Invalid lockdown reason")) {
-+		audit_log(audit_context(),
-+			  GFP_ATOMIC, AUDIT_SELINUX_ERR,
-+			  "lockdown_reason=invalid");
-+		return -EINVAL;
-+	}
-+
-+	ad.type = LSM_AUDIT_DATA_LOCKDOWN;
-+	ad.u.reason = what;
-+
-+	if (what <= LOCKDOWN_INTEGRITY_MAX)
-+		return avc_has_perm(&selinux_state,
-+				    sid, sid, SECCLASS_LOCKDOWN,
-+				    LOCKDOWN__INTEGRITY, &ad);
-+	else
-+		return avc_has_perm(&selinux_state,
-+				    sid, sid, SECCLASS_LOCKDOWN,
-+				    LOCKDOWN__CONFIDENTIALITY, &ad);
++	if (audit_enabled == AUDIT_OFF)
++		return;
++	ab = audit_log_start(audit_context(), GFP_ATOMIC, AUDIT_BPF);
++	if (unlikely(!ab))
++		return;
++	audit_log_format(ab, "prog-id=%u op=%s",
++			 prog->aux->id, bpf_audit_str[op]);
++	audit_log_end(ab);
 +}
 +
- struct lsm_blob_sizes selinux_blob_sizes __lsm_ro_after_init = {
- 	.lbs_cred = sizeof(struct task_security_struct),
- 	.lbs_file = sizeof(struct file_security_struct),
-@@ -7042,6 +7070,8 @@ static struct security_hook_list selinux_hooks[] __lsm_ro_after_init = {
- 	LSM_HOOK_INIT(bpf_map_free_security, selinux_bpf_map_free),
- 	LSM_HOOK_INIT(bpf_prog_free_security, selinux_bpf_prog_free),
- #endif
-+
-+	LSM_HOOK_INIT(locked_down, selinux_lockdown),
- };
+ int __bpf_prog_charge(struct user_struct *user, u32 pages)
+ {
+ 	unsigned long memlock_limit = rlimit(RLIMIT_MEMLOCK) >> PAGE_SHIFT;
+@@ -1421,6 +1446,7 @@ static void __bpf_prog_put(struct bpf_prog *prog, bool do_idr_lock)
+ {
+ 	if (atomic64_dec_and_test(&prog->aux->refcnt)) {
+ 		perf_event_bpf_event(prog, PERF_BPF_EVENT_PROG_UNLOAD, 0);
++		bpf_audit_prog(prog, BPF_AUDIT_UNLOAD);
+ 		/* bpf_prog_free_id() must be called first */
+ 		bpf_prog_free_id(prog, do_idr_lock);
+ 		__bpf_prog_put_noref(prog, true);
+@@ -1830,6 +1856,7 @@ static int bpf_prog_load(union bpf_attr *attr, union bpf_attr __user *uattr)
+ 	 */
+ 	bpf_prog_kallsyms_add(prog);
+ 	perf_event_bpf_event(prog, PERF_BPF_EVENT_PROG_LOAD, 0);
++	bpf_audit_prog(prog, BPF_AUDIT_LOAD);
  
- static __init int selinux_init(void)
-diff --git a/security/selinux/include/classmap.h b/security/selinux/include/classmap.h
-index 32e9b03be3dd..594c32febcd8 100644
---- a/security/selinux/include/classmap.h
-+++ b/security/selinux/include/classmap.h
-@@ -244,6 +244,8 @@ struct security_class_mapping secclass_map[] = {
- 	  {"map_create", "map_read", "map_write", "prog_load", "prog_run"} },
- 	{ "xdp_socket",
- 	  { COMMON_SOCK_PERMS, NULL } },
-+	{ "lockdown",
-+	  { "integrity", "confidentiality", NULL } },
- 	{ NULL }
-   };
- 
+ 	err = bpf_prog_new_fd(prog);
+ 	if (err < 0)
 -- 
 2.23.0
-
 
 --
 Linux-audit mailing list
