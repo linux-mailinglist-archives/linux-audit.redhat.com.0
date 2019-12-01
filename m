@@ -1,98 +1,80 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [207.211.31.81])
-	by mail.lfdr.de (Postfix) with ESMTP id 9968A10DE05
-	for <lists+linux-audit@lfdr.de>; Sat, 30 Nov 2019 16:28:31 +0100 (CET)
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com [207.211.31.81])
+	by mail.lfdr.de (Postfix) with ESMTP id E063710F274
+	for <lists+linux-audit@lfdr.de>; Mon,  2 Dec 2019 22:57:42 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1575127710;
+	s=mimecast20190719; t=1575323861;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=V724SVH8gvHRoG/YlfUcss6iwlIbkLx5AAFtnG+f1fs=;
-	b=A09BO2AFxbwkTRM+nFQXXlHddO6+Dd8cs0gnd3x9aHfSXHsj6V9HNnQEZY4VMfI+1isEvg
-	ufncH6mt/ETmM+FrXaFxrESq9hNgGidOJ+TqMM4TkrLjRHBf8o/MpWTejCd8zyIGd9NAcS
-	WcrKgy2iujA+y4KTrampi5/fA/HcMPI=
+	bh=jI/4iHQvTsRZxqhuoRdBGJu4KHb9vef349LWZBJhPTU=;
+	b=cm0F9QY2fsMPGZsO1WMWG7wpfviL7X/eckPabWk65VGykWBh9hNIvxDB+b3vqanq+46CVb
+	sUlzAZ2wQPdIhzJxuz8LzUz4Sy24XYwBOajup2xS4MqXi7bj6QY1aQc9sfHsQoIB2ovpxH
+	+2bqTr4+M22BQfb5kj5QbLxCrSyocSM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-9-e-761S9HOkqLMlBA497_1A-1; Sat, 30 Nov 2019 10:28:28 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+ us-mta-371-JtbkcMb0MsyV53AgpNSdBQ-1; Mon, 02 Dec 2019 16:57:39 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 81B2C184CAB3;
-	Sat, 30 Nov 2019 15:28:22 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 749375C290;
-	Sat, 30 Nov 2019 15:28:21 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 208E8800D4E;
+	Mon,  2 Dec 2019 21:57:32 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 33DA567E63;
+	Mon,  2 Dec 2019 21:57:31 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 08ED71809567;
-	Sat, 30 Nov 2019 15:28:13 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
-	[10.11.54.5])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 7349A4EDAD;
+	Mon,  2 Dec 2019 21:57:25 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+	[10.11.54.6])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id xAU27pxQ016389 for <linux-audit@listman.util.phx.redhat.com>;
-	Fri, 29 Nov 2019 21:07:51 -0500
+	id xB11jwD7032049 for <linux-audit@listman.util.phx.redhat.com>;
+	Sat, 30 Nov 2019 20:45:58 -0500
 Received: by smtp.corp.redhat.com (Postfix)
-	id 5EA0212EC20; Sat, 30 Nov 2019 02:07:51 +0000 (UTC)
+	id 65E3A2166B29; Sun,  1 Dec 2019 01:45:58 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
-	(mimecast05.extmail.prod.ext.rdu2.redhat.com [10.11.55.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 5A86B13AF7F
-	for <linux-audit@redhat.com>; Sat, 30 Nov 2019 02:07:49 +0000 (UTC)
+	(mimecast02.extmail.prod.ext.rdu2.redhat.com [10.11.55.18])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 616FD2166B27
+	for <linux-audit@redhat.com>; Sun,  1 Dec 2019 01:45:56 +0000 (UTC)
 Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
 	[207.211.31.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2C9308012BC
-	for <linux-audit@redhat.com>; Sat, 30 Nov 2019 02:07:49 +0000 (UTC)
-Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
-	[209.85.210.193]) (Using TLS) by relay.mimecast.com with ESMTP id
-	us-mta-215-DrqnFZVpPLyo36pxsFdjuA-1; Fri, 29 Nov 2019 21:07:45 -0500
-Received: by mail-pf1-f193.google.com with SMTP id l22so3049803pff.9
-	for <linux-audit@redhat.com>; Fri, 29 Nov 2019 18:07:44 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=QudVKO8PpHDY0QPRDjrLS+45fBA9fe2WvpbxZI2jQhM=;
-	b=ZbnLDYMaeWxhXqsfyiCR0Pvje3I8O7xlpoel8DE/rPtg1ciaU4infOVOc+phmhsR05
-	fTCRprI7Tq57FLrWoLTggFlqx99kUQytOaSOyBThAR+fO6rH1erzcHEHPsewhowTnGJy
-	VU+SkEcFbqKA1xJuePNl87JvHMiL6DPN0p5lKSkRzuX/7k9XCytY0EZjpuZXCnZmqlw6
-	GechPglBhML9iFS7r9K3l4EJXcoIQkHz2i3gTi/jXXM7Crz6jO72mVcSITgj9b/tHMgS
-	sQczTNrmw/w2najDpQUpkE9Xrv33fF8NFHDnDrS0zbmxm61p3DadH7aL9DY/RPRNGeta
-	1QvA==
-X-Gm-Message-State: APjAAAUSR+KlJvKttmxxTb7B7mUVf20E1ZK/07EVDd2EoUuBbzy7OmN3
-	Lqgw4aN91MkXrwUdbEYtfQvLfg==
-X-Google-Smtp-Source: APXvYqxvrL7gQ4UHvGl0OH80nFnpTXbY9LyocxTQJ8pHkSe9LnSm6z/+3DuUedz0z8nb/MsLQYnEYQ==
-X-Received: by 2002:aa7:87c5:: with SMTP id i5mr59616561pfo.60.1575079664078; 
-	Fri, 29 Nov 2019 18:07:44 -0800 (PST)
-Received: from localhost ([2620:15c:6:12:9c46:e0da:efbf:69cc])
-	by smtp.gmail.com with ESMTPSA id
-	s22sm15478745pjr.5.2019.11.29.18.07.43
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 29 Nov 2019 18:07:43 -0800 (PST)
-Date: Fri, 29 Nov 2019 21:07:42 -0500
-From: Joel Fernandes <joel@joelfernandes.org>
-To: Amol Grover <frextrite@gmail.com>
-Subject: Re: [PATCH v2] kernel: audit.c: Add __rcu notation to RCU pointer
-Message-ID: <20191130020742.GF157739@google.com>
-References: <20191128153203.GA23803@workstation-kernel-dev>
-MIME-Version: 1.0
-In-Reply-To: <20191128153203.GA23803@workstation-kernel-dev>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-MC-Unique: DrqnFZVpPLyo36pxsFdjuA-1
-X-MC-Unique: e-761S9HOkqLMlBA497_1A-1
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 050318001EB
+	for <linux-audit@redhat.com>; Sun,  1 Dec 2019 01:45:56 +0000 (UTC)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99]) (Using TLS)
+	by relay.mimecast.com with ESMTP id us-mta-257-2D-lV7BiO82AwAzOkUkPRA-1;
+	Sat, 30 Nov 2019 20:45:54 -0500
+Subject: Re: [GIT PULL] Audit patches for v5.5
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <CAHC9VhRnN4yWO0So+u4Ktm1N8EpAbe+W1AGPXU-U7Bd7cPBv7g@mail.gmail.com>
+References: <CAHC9VhRnN4yWO0So+u4Ktm1N8EpAbe+W1AGPXU-U7Bd7cPBv7g@mail.gmail.com>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <CAHC9VhRnN4yWO0So+u4Ktm1N8EpAbe+W1AGPXU-U7Bd7cPBv7g@mail.gmail.com>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/pcmoore/audit.git
+	tags/audit-pr-20191126
+X-PR-Tracked-Commit-Id: c34c78dfc1fc68a1f5403f996de8ca62f298d7b2
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 3b805ca177a24ff78b466ca73febe8466c67ea61
+Message-Id: <157516442058.28955.13379032546958515249.pr-tracker-bot@kernel.org>
+Date: Sun, 01 Dec 2019 01:40:20 +0000
+To: Paul Moore <paul@paul-moore.com>
+X-MC-Unique: 2D-lV7BiO82AwAzOkUkPRA-1
+X-MC-Unique: JtbkcMb0MsyV53AgpNSdBQ-1
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
 X-MIME-Autoconverted: from quoted-printable to 8bit by
-	lists01.pubmisc.prod.ext.phx2.redhat.com id xAU27pxQ016389
+	lists01.pubmisc.prod.ext.phx2.redhat.com id xB11jwD7032049
 X-loop: linux-audit@redhat.com
-X-Mailman-Approved-At: Sat, 30 Nov 2019 10:28:00 -0500
-Cc: linux-kernel@vger.kernel.org, linux-audit@redhat.com,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-kernel-mentees@lists.linuxfoundation.org
+X-Mailman-Approved-At: Mon, 02 Dec 2019 16:57:16 -0500
+Cc: linux-audit@redhat.com, Linus Torvalds <torvalds@linux-foundation.org>,
+	linux-kernel@vger.kernel.org
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -104,65 +86,26 @@ List-Post: <mailto:linux-audit@redhat.com>
 List-Help: <mailto:linux-audit-request@redhat.com?subject=help>
 List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
+MIME-Version: 1.0
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
 
-On Thu, Nov 28, 2019 at 09:02:03PM +0530, Amol Grover wrote:
-> add __rcu notation to RCU protected global pointer auditd_conn
+The pull request you sent on Tue, 26 Nov 2019 16:33:51 -0500:
 
-Again, please use proper punctuation and captilization. This is unacceptable.
-Please put more effort into changelog.
+> git://git.kernel.org/pub/scm/linux/kernel/git/pcmoore/audit.git tags/audit-pr-20191126
 
-Otherwise the patch diff itself looks good to me, with the above nit
-corrected, you could add my tag to the next revision:
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/3b805ca177a24ff78b466ca73febe8466c67ea61
 
-Reviewed-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+Thank you!
 
-thanks,
-
- - Joel
-
-> 
-> Fixes multiple instances of sparse error:
-> error: incompatible types in comparison expression
-> (different address spaces)
-> 
-> Signed-off-by: Amol Grover <frextrite@gmail.com>
-> ---
-> v2:
-> - fix erroneous RCU pointer initialization
-> 
->  kernel/audit.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/kernel/audit.c b/kernel/audit.c
-> index da8dc0db5bd3..ff7cfc61f53d 100644
-> --- a/kernel/audit.c
-> +++ b/kernel/audit.c
-> @@ -102,12 +102,13 @@ struct audit_net {
->   * This struct is RCU protected; you must either hold the RCU lock for reading
->   * or the associated spinlock for writing.
->   */
-> -static struct auditd_connection {
-> +struct auditd_connection {
->  	struct pid *pid;
->  	u32 portid;
->  	struct net *net;
->  	struct rcu_head rcu;
-> -} *auditd_conn = NULL;
-> +};
-> +static struct auditd_connection __rcu *auditd_conn;
->  static DEFINE_SPINLOCK(auditd_conn_lock);
->  
->  /* If audit_rate_limit is non-zero, limit the rate of sending audit records
-> -- 
-> 2.24.0
-> 
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.wiki.kernel.org/userdoc/prtracker
 
 
 --
