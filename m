@@ -1,96 +1,92 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-delivery-1.mimecast.com [205.139.110.120])
-	by mail.lfdr.de (Postfix) with ESMTP id 05D4F10F311
-	for <lists+linux-audit@lfdr.de>; Tue,  3 Dec 2019 00:01:00 +0100 (CET)
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com [205.139.110.61])
+	by mail.lfdr.de (Postfix) with ESMTP id 3499610F35C
+	for <lists+linux-audit@lfdr.de>; Tue,  3 Dec 2019 00:25:05 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1575327659;
+	s=mimecast20190719; t=1575329103;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=M4ay6HznONfC7kTbknfOUFJRIUpr3k7me0boBKW/ql4=;
-	b=PIV0WmZEefLASN0elcJMt0jgLgx2g7OStVj+BkUzPP/EqnPHph7Kz+OVGNs6m1FwAWTvmq
-	jAYCbn+/XPxEqD2BlERFQUJgkOknEXYJF5BYQm4juSgUHP3/bouiIe5kzyF/KTbiJWQmGK
-	qxRg0IgEL3yHtOacFzXct01TrUQLMjg=
+	bh=QfdnnSZwgglFuDQqVM+uqnqpf8g3kxsi7DGrRpv+cdI=;
+	b=VvTSNeC6nClL5za2BGeGligifuIhB4EJ61hNmB4q8DzUmtKRxdGh4XVDOl2X6fwdq2XSNT
+	3Kgq0PJ/D5O0Q21MvqYRizmNzFpN7UbAPBflgwNuU9P9PI3P3CCV5QBtJ3Pz1D8iPFSgBp
+	0Wvs6zw63FfyzWLNn8s9jVjtuTGuimM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-42-WB_dfIWANgmQCmGD2c2oXw-1; Mon, 02 Dec 2019 18:00:57 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+ us-mta-24-j9v5zSBtPNW-nAVTl0dMAg-1; Mon, 02 Dec 2019 18:25:01 -0500
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2A6C8DB22;
-	Mon,  2 Dec 2019 23:00:51 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CABE71005502;
+	Mon,  2 Dec 2019 23:24:56 +0000 (UTC)
 Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id A5F8D5DA2C;
-	Mon,  2 Dec 2019 23:00:48 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 98E1F1081314;
+	Mon,  2 Dec 2019 23:24:55 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id CF3AC4EA71;
-	Mon,  2 Dec 2019 23:00:43 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
-	[10.11.54.3])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 1836C4EA71;
+	Mon,  2 Dec 2019 23:24:53 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+	[10.11.54.5])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id xB2N0Wua023421 for <linux-audit@listman.util.phx.redhat.com>;
-	Mon, 2 Dec 2019 18:00:32 -0500
+	id xB2NOkiL024830 for <linux-audit@listman.util.phx.redhat.com>;
+	Mon, 2 Dec 2019 18:24:46 -0500
 Received: by smtp.corp.redhat.com (Postfix)
-	id 7E35C1094F0C; Mon,  2 Dec 2019 23:00:32 +0000 (UTC)
+	id 00E12ED164; Mon,  2 Dec 2019 23:24:46 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
-	(mimecast04.extmail.prod.ext.rdu2.redhat.com [10.11.55.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 78D111094F0B
-	for <linux-audit@redhat.com>; Mon,  2 Dec 2019 23:00:30 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
-	[207.211.31.120])
+	(mimecast01.extmail.prod.ext.rdu2.redhat.com [10.11.55.17])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id F0F41ED162
+	for <linux-audit@redhat.com>; Mon,  2 Dec 2019 23:24:43 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [205.139.110.61])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E1C2810131A7
-	for <linux-audit@redhat.com>; Mon,  2 Dec 2019 23:00:29 +0000 (UTC)
-Received: from mail-lf1-f67.google.com (mail-lf1-f67.google.com
-	[209.85.167.67]) (Using TLS) by relay.mimecast.com with ESMTP id
-	us-mta-13-zasiVwZrM3m8pDR9UUxtnQ-1; Mon, 02 Dec 2019 18:00:28 -0500
-Received: by mail-lf1-f67.google.com with SMTP id b15so1245689lfc.4
-	for <linux-audit@redhat.com>; Mon, 02 Dec 2019 15:00:27 -0800 (PST)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 99F63905998
+	for <linux-audit@redhat.com>; Mon,  2 Dec 2019 23:24:43 +0000 (UTC)
+Received: from mail-lj1-f194.google.com (mail-lj1-f194.google.com
+	[209.85.208.194]) (Using TLS) by relay.mimecast.com with ESMTP id
+	us-mta-414-QBHJv_yROEuDQ6sLIuhfkQ-1; Mon, 02 Dec 2019 18:24:41 -0500
+Received: by mail-lj1-f194.google.com with SMTP id h23so1481917ljc.8
+	for <linux-audit@redhat.com>; Mon, 02 Dec 2019 15:24:41 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=PwQrFv0qE39Z6AMGqk24ch6f5YGVUIl38q/H8NtbwdQ=;
-	b=gG/8F+L8NkqI8XYsDb2n7wDBWS/bCM2p2B1S46omgLd06Q6mOEnAt0l0rRho1DQa7w
-	bLZnVriKdz/xQmSQeTwvsxXlBnC0K0y4141du7FoPpxzohchJygI4TtwuxbWXKQt8e9Y
-	5DLbygS88HsEHxBFHhlksbOZdSSOHsFPdp6zXItMdne3si1vRZPGcZxeaVo+vwavqu0L
-	L8TkMQzjty9EUTQb5HlmPeL/flZmSBxbrAuv6p1HLJu7D/+VJ/0KpP+8QYO5VjVmw5IA
-	EFgrcnXJMHD1waJ++kJaHDQFaiSCs9nDulFniSWZdRiUWcrD9SAesAxdY+PiwW4lGrEO
-	2lIg==
-X-Gm-Message-State: APjAAAVeJLjaj0OUJ2+l0FlsEU3Y5Ik3YXiw8UsQaFQZBSKbRqb/gk2w
-	h4GfK8RHsf9/vZXVwgc+YeDnJQGKzKNDDeewXKcq
-X-Google-Smtp-Source: APXvYqwAASv9sx4uk88WgOrQWrHIZ31Yso3wS72CLdnuEcxMBTfmJk88MCa1DSZFQTcUxhuzuTB9D+Axh2H2Qpd0vkk=
-X-Received: by 2002:a19:6553:: with SMTP id c19mr837129lfj.158.1575327625976; 
-	Mon, 02 Dec 2019 15:00:25 -0800 (PST)
+	bh=AzQ+1A7+ETKD73tFjtgF7MkvN8fC39GSMBwN2Sm2LGs=;
+	b=CAIANoFY4SsiOLFZojzVjWWf2ee9UO10hNBwR83kbMMG0SUW7EioI8jANSQtUWUUsv
+	lAi5lFSY8v9SGn4q1a3yWpen3taSp199tZj9y50fiy9XXeUk72rtMT9eRn8XRVxTA3Ro
+	2+uUT0lyKSVHdJ+MzPKWfKHs8FaZPtV1++LNyoSVeNf9elrGCS7BuFJTZykt3LKrBvY4
+	+0KNg3G4VcogdPWzeknmMLLvuX39IUucYPYiR3aQPkGKf4NEUn+Fz5Dj9rOKZqgWCm3t
+	ezQCE7S3Aw6oac3cIzxujJr78v3rcmQfWBCDv42oFicsvpjtt0vxLi1zQrnpzMhAllXn
+	wMDg==
+X-Gm-Message-State: APjAAAWZUidkDUTc/LEw1P5u0uzu6F5hanGd4aDit6In17qYsLnwU8WJ
+	e9cX7++deg0xT0rkHg84YGQq2hXJ6uCo9re3V99f
+X-Google-Smtp-Source: APXvYqykUQo2KP90VW0MNxkrGcDGJ4i6AJcEymHsB4IKVcZLiqRu7unrYT+Jeupmhlc8Z/8+gCMxFOuX8RJXtya79Bc=
+X-Received: by 2002:a2e:970e:: with SMTP id r14mr712772lji.57.1575329080094;
+	Mon, 02 Dec 2019 15:24:40 -0800 (PST)
 MIME-Version: 1.0
-References: <20191128091633.29275-1-jolsa@kernel.org>
-In-Reply-To: <20191128091633.29275-1-jolsa@kernel.org>
+References: <20191201183347.18122-1-frextrite@gmail.com>
+	<20191202211915.GF17234@google.com>
+In-Reply-To: <20191202211915.GF17234@google.com>
 From: Paul Moore <paul@paul-moore.com>
-Date: Mon, 2 Dec 2019 18:00:14 -0500
-Message-ID: <CAHC9VhQ7zkXdz1V5hQ8PN68-NnCn56TjKA0wCL6ZjHy9Up8fuQ@mail.gmail.com>
-Subject: Re: [RFC] bpf: Emit audit messages upon successful prog load and
-	unload
-To: Jiri Olsa <jolsa@kernel.org>
-X-MC-Unique: zasiVwZrM3m8pDR9UUxtnQ-1
-X-MC-Unique: WB_dfIWANgmQCmGD2c2oXw-1
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
+Date: Mon, 2 Dec 2019 18:24:29 -0500
+Message-ID: <CAHC9VhTTS43aKQojtoBRRipP7TwhaVnK7DAqpFN0J0_FNLY+sw@mail.gmail.com>
+Subject: Re: [PATCH v3] kernel: audit.c: Add __rcu annotation to RCU pointer
+To: Joel Fernandes <joel@joelfernandes.org>
+X-MC-Unique: QBHJv_yROEuDQ6sLIuhfkQ-1
+X-MC-Unique: j9v5zSBtPNW-nAVTl0dMAg-1
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
 X-MIME-Autoconverted: from quoted-printable to 8bit by
-	lists01.pubmisc.prod.ext.phx2.redhat.com id xB2N0Wua023421
+	lists01.pubmisc.prod.ext.phx2.redhat.com id xB2NOkiL024830
 X-loop: linux-audit@redhat.com
-Cc: Jakub Kicinski <jakub.kicinski@netronome.com>,
-	Daniel Borkmann <daniel@iogearbox.net>, netdev@vger.kernel.org,
-	Alexei Starovoitov <ast@kernel.org>,
-	Jiri Benc <jbenc@redhat.com>, linux-audit@redhat.com,
-	David Miller <davem@redhat.com>, Yonghong Song <yhs@fb.com>,
-	bpf@vger.kernel.org, Andrii Nakryiko <andriin@fb.com>,
-	Martin KaFai Lau <kafai@fb.com>
+Cc: paulmck@kernel.org, Amol Grover <frextrite@gmail.com>,
+	linux-kernel@vger.kernel.org, rcu@vger.kernel.org,
+	linux-audit@redhat.com, Shuah Khan <skhan@linuxfoundation.org>,
+	linux-kernel-mentees@lists.linuxfoundation.org, rostedt@kernel.org
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -104,128 +100,74 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-On Thu, Nov 28, 2019 at 4:16 AM Jiri Olsa <jolsa@kernel.org> wrote:
-> From: Daniel Borkmann <daniel@iogearbox.net>
+On Mon, Dec 2, 2019 at 4:19 PM Joel Fernandes <joel@joelfernandes.org> wrote:
+> Good idea to CC the following on RCU patches:
+> Paul McKenney
+> Steven Rostedt
+> (Any others on the RCU maintainers list).
+> And, the list: rcu@vger.kernel.org
 >
-> Allow for audit messages to be emitted upon BPF program load and
-> unload for having a timeline of events. The load itself is in
-> syscall context, so additional info about the process initiating
-> the BPF prog creation can be logged and later directly correlated
-> to the unload event.
->
-> The only info really needed from BPF side is the globally unique
-> prog ID where then audit user space tooling can query / dump all
-> info needed about the specific BPF program right upon load event
-> and enrich the record, thus these changes needed here can be kept
-> small and non-intrusive to the core.
->
-> Raw example output:
->
->   # auditctl -D
->   # auditctl -a always,exit -F arch=x86_64 -S bpf
->   # ausearch --start recent -m 1334
->   ...
->   ----
->   time->Wed Nov 27 16:04:13 2019
->   type=PROCTITLE msg=audit(1574867053.120:84664): proctitle="./bpf"
->   type=SYSCALL msg=audit(1574867053.120:84664): arch=c000003e syscall=321   \
->     success=yes exit=3 a0=5 a1=7ffea484fbe0 a2=70 a3=0 items=0 ppid=7477    \
->     pid=12698 auid=1001 uid=1001 gid=1001 euid=1001 suid=1001 fsuid=1001    \
->     egid=1001 sgid=1001 fsgid=1001 tty=pts2 ses=4 comm="bpf"                \
->     exe="/home/jolsa/auditd/audit-testsuite/tests/bpf/bpf"                  \
->     subj=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023 key=(null)
->   type=UNKNOWN[1334] msg=audit(1574867053.120:84664): prog-id=76 op=LOAD
->   ----
->   time->Wed Nov 27 16:04:13 2019
->   type=UNKNOWN[1334] msg=audit(1574867053.120:84665): prog-id=76 op=UNLOAD
->   ...
->
-> Signed-off-by: Daniel Borkmann <daniel@iogearbox.net>
-> Co-developed-by: Jiri Olsa <jolsa@kernel.org>
-> Signed-off-by: Jiri Olsa <jolsa@kernel.org>
-> ---
->  include/uapi/linux/audit.h |  1 +
->  kernel/bpf/syscall.c       | 27 +++++++++++++++++++++++++++
->  2 files changed, 28 insertions(+)
+> Could anyone Ack the patch? Looks safe and straight forward.
 
-Hi all, sorry for the delay; the merge window in combination with the
-holiday in the US bumped this back a bit.  Small comments inline below
-...
+FWIW, this looks reasonable to me, but I don't see this as a critical
+fix that needs to go in during the merge window.  Unless I see any
+objections, I'll plan on merging this into audit/next once the merge
+window closes.
 
-> --- a/kernel/bpf/syscall.c
-> +++ b/kernel/bpf/syscall.c
-> @@ -23,6 +23,7 @@
->  #include <linux/timekeeping.h>
->  #include <linux/ctype.h>
->  #include <linux/nospec.h>
-> +#include <linux/audit.h>
->  #include <uapi/linux/btf.h>
->
->  #define IS_FD_ARRAY(map) ((map)->map_type == BPF_MAP_TYPE_PERF_EVENT_ARRAY || \
-> @@ -1306,6 +1307,30 @@ static int find_prog_type(enum bpf_prog_type type, struct bpf_prog *prog)
->         return 0;
->  }
->
-> +enum bpf_audit {
-> +       BPF_AUDIT_LOAD,
-> +       BPF_AUDIT_UNLOAD,
-> +};
-> +
-> +static const char * const bpf_audit_str[] = {
-> +       [BPF_AUDIT_LOAD]   = "LOAD",
-> +       [BPF_AUDIT_UNLOAD] = "UNLOAD",
-> +};
-> +
-> +static void bpf_audit_prog(const struct bpf_prog *prog, enum bpf_audit op)
-> +{
-> +       struct audit_buffer *ab;
-> +
-> +       if (audit_enabled == AUDIT_OFF)
-> +               return;
+> On Mon, Dec 02, 2019 at 12:03:48AM +0530, Amol Grover wrote:
+> > Add __rcu annotation to RCU-protected global pointer auditd_conn.
+> >
+> > auditd_conn is an RCU-protected global pointer,i.e., accessed
+> > via RCU methods rcu_dereference() and rcu_assign_pointer(),
+> > hence it must be annotated with __rcu for sparse to report
+> > warnings/errors correctly.
+> >
+> > Fix multiple instances of the sparse error:
+> > error: incompatible types in comparison expression
+> > (different address spaces)
+> >
+> > Reviewed-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+> > Signed-off-by: Amol Grover <frextrite@gmail.com>
+> > ---
+> > v3:
+> > - update changelog to be more descriptive
+> >
+> > v2:
+> > - fix erroneous RCU pointer initialization
+> >
+> >  kernel/audit.c | 5 +++--
+> >  1 file changed, 3 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/kernel/audit.c b/kernel/audit.c
+> > index da8dc0db5bd3..ff7cfc61f53d 100644
+> > --- a/kernel/audit.c
+> > +++ b/kernel/audit.c
+> > @@ -102,12 +102,13 @@ struct audit_net {
+> >   * This struct is RCU protected; you must either hold the RCU lock for reading
+> >   * or the associated spinlock for writing.
+> >   */
+> > -static struct auditd_connection {
+> > +struct auditd_connection {
+> >       struct pid *pid;
+> >       u32 portid;
+> >       struct net *net;
+> >       struct rcu_head rcu;
+> > -} *auditd_conn = NULL;
+> > +};
+> > +static struct auditd_connection __rcu *auditd_conn;
+> >  static DEFINE_SPINLOCK(auditd_conn_lock);
+> >
+> >  /* If audit_rate_limit is non-zero, limit the rate of sending audit records
+> > --
+> > 2.24.0
+> >
 
-I think you would probably also want to check the results of
-audit_dummy_context() here as well, see all the various audit_XXX()
-functions in include/linux/audit.h as an example.  You'll see a
-pattern similar to the following:
 
-static inline void audit_foo(...)
-{
-  if (unlikely(!audit_dummy_context()))
-    __audit_foo(...)
-}
-
-> +       ab = audit_log_start(audit_context(), GFP_ATOMIC, AUDIT_BPF);
-> +       if (unlikely(!ab))
-> +               return;
-> +       audit_log_format(ab, "prog-id=%u op=%s",
-> +                        prog->aux->id, bpf_audit_str[op]);
-
-Is it worth putting some checks in here to make sure that you don't
-blow past the end of the bpf_audit_str array?
-
-> +       audit_log_end(ab);
-> +}
-
-The audit record format looks much better now, thank you.  Although I
-do wonder if you want bpf_audit_prog() to live in kernel/bpf/syscall.c
-or in kernel/auditsc.c?  There is plenty of precedence for moving it
-into auditsc.c and defining a no-op version for when
-CONFIG_AUDITSYSCALL is not enabled, but I personally don't feel that
-strongly about either option.  I just wanted to mention this in case
-you weren't already aware.
-
-If you do keep it in syscall.c, I don't think there is a need to
-implement a no-op version dependent on CONFIG_AUDITSYSCALL; that will
-just clutter the code.
-
-If you do move it to auditsc.c please change the name to
-audit_bpf()/__audit_bpf() so it matches the other functions; if you
-keep it in syscall.c you can name it whatever you like :)
 
 --
 paul moore
