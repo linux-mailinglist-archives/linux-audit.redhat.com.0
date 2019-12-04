@@ -1,60 +1,90 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com [207.211.31.81])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F92A110009
-	for <lists+linux-audit@lfdr.de>; Tue,  3 Dec 2019 15:20:53 +0100 (CET)
+Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [207.211.31.81])
+	by mail.lfdr.de (Postfix) with ESMTP id 658BE1121A4
+	for <lists+linux-audit@lfdr.de>; Wed,  4 Dec 2019 03:54:23 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1575382852;
+	s=mimecast20190719; t=1575428062;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=3ZYUHJlSHXX8yJYRfZwcStGvWY+7jBVu3Q94ZPq11U0=;
-	b=LKhbMcjFUj8bUZSzli6m53MwXXJswjSHlCgyou5pHXFw+m8rWBpzgG3rBuGLnwUuh3kHqP
-	yBAj+6w25qkW/RsMQQA/Ng1F2vFUW5LbDwGZ575jQAbkgGob5rD4Cu1Ypp/8XblPDJs09m
-	8/WmypbyVd6HntUnzOzy+vETneoUjSw=
+	bh=j8ospNeXycMWB2QkxtKB+A10hJ5WcUu0sQg/kDQLmnE=;
+	b=KCjDB0sXas0XIamVPR1EBaSIi9Sx1/zWCzOHeUjYnnbU93bqwQeyYTq4UyccHJG+gI0nGo
+	0ENcvqXyuUh1Fh7LW5e2xFxkzCoYmd+8aUDK0uF4/82sxR/0+DK46ExP4hRPUy7gO1HL/F
+	TOZI+PJweoA1X+sYxLCQWwvc4xb5OQk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-325-Oaaar3WPP3q9bnXNpGqDYg-1; Tue, 03 Dec 2019 09:20:50 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+ us-mta-103-YmqSXhYRPF-R9s4E4dfhzQ-1; Tue, 03 Dec 2019 21:54:20 -0500
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 388F218B5F6A;
-	Tue,  3 Dec 2019 14:20:45 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 41CB8107ACC4;
+	Wed,  4 Dec 2019 02:54:14 +0000 (UTC)
 Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 83E1760C80;
-	Tue,  3 Dec 2019 14:20:44 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 3265D1001925;
+	Wed,  4 Dec 2019 02:54:09 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 024CA5BBFB;
-	Tue,  3 Dec 2019 14:20:40 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
-	[10.5.11.12])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id CED9E5B41F;
+	Wed,  4 Dec 2019 02:54:02 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+	[10.11.54.3])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id xB39chAZ001657 for <linux-audit@listman.util.phx.redhat.com>;
-	Tue, 3 Dec 2019 04:38:43 -0500
+	id xB42rXXf005843 for <linux-audit@listman.util.phx.redhat.com>;
+	Tue, 3 Dec 2019 21:53:33 -0500
 Received: by smtp.corp.redhat.com (Postfix)
-	id 26AAA60C81; Tue,  3 Dec 2019 09:38:43 +0000 (UTC)
+	id 71B09104135A; Wed,  4 Dec 2019 02:53:33 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from krava (unknown [10.43.17.48])
-	by smtp.corp.redhat.com (Postfix) with SMTP id 06D0060C05;
-	Tue,  3 Dec 2019 09:38:37 +0000 (UTC)
-Date: Tue, 3 Dec 2019 10:38:37 +0100
-From: Jiri Olsa <jolsa@redhat.com>
-To: Paul Moore <paul@paul-moore.com>
-Subject: Re: [RFC] bpf: Emit audit messages upon successful prog load and
-	unload
-Message-ID: <20191203093837.GC17468@krava>
+Received: from mimecast-mx02.redhat.com
+	(mimecast02.extmail.prod.ext.rdu2.redhat.com [10.11.55.18])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 6C7FF1041359
+	for <linux-audit@redhat.com>; Wed,  4 Dec 2019 02:53:31 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [207.211.31.81])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 891C3906E28
+	for <linux-audit@redhat.com>; Wed,  4 Dec 2019 02:53:31 +0000 (UTC)
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
+	[209.85.167.42]) (Using TLS) by relay.mimecast.com with ESMTP id
+	us-mta-277-P4o2STB4NIOCVbrrLWAUyw-1; Tue, 03 Dec 2019 21:53:29 -0500
+Received: by mail-lf1-f42.google.com with SMTP id 9so3331444lfq.10
+	for <linux-audit@redhat.com>; Tue, 03 Dec 2019 18:53:29 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=uR+pT65soPzjqJ67S48glzTfhGJEKMDDLWprJm5r4mY=;
+	b=V5lgUmbXz6rvGJ+l2y8ESxxdflfgbFxTZ9M/MsSmcunTLDaKbiky+dQg8yjQZg/vSG
+	z4R5ZXAe954NUqy3Wmc1ebwrDiO8NF9cOnz2Zkz50Vq+HQmBCznhvOmWL/VEnrS8VW45
+	8W+8av1pK8NWsSHCC6Ym5t4WOTHdm6T8kVbjW4c7GWRmVCbDzuND6afRH/u85neEWSuI
+	9iFWl0PgTqaG61x3Gf0zg1T7Iinp8wmFBn4UyxkXxnmHAZkIjYTN1NdyteDX4weYEJVa
+	XFkwO1uJ5Qnpe3dWjmdk6zTxfipB1Hk7fW4No+/Uokv/Z7pOYg8CugSm/XFKPPm9t1HS
+	Uo3Q==
+X-Gm-Message-State: APjAAAXp/zAJHSszv/ExEgLmV7+WwesYK3sTbdxnSYNQ432jw4N54Gt+
+	gDPvlx/MEGyuaAEFXzUAh+9yhrHv4+hNtD+Ifp6H
+X-Google-Smtp-Source: APXvYqxC2jCV69k21E2WvCNty27MXD7mqixisctmZLTFJfdlz1LwQeP4SH3ptOANsNEsWPDaO4sPYI3Qqt1vdi3PFGA=
+X-Received: by 2002:ac2:424d:: with SMTP id m13mr619905lfl.13.1575428007737;
+	Tue, 03 Dec 2019 18:53:27 -0800 (PST)
+MIME-Version: 1.0
 References: <20191128091633.29275-1-jolsa@kernel.org>
 	<CAHC9VhQ7zkXdz1V5hQ8PN68-NnCn56TjKA0wCL6ZjHy9Up8fuQ@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAHC9VhQ7zkXdz1V5hQ8PN68-NnCn56TjKA0wCL6ZjHy9Up8fuQ@mail.gmail.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+	<20191203093837.GC17468@krava>
+In-Reply-To: <20191203093837.GC17468@krava>
+From: Paul Moore <paul@paul-moore.com>
+Date: Tue, 3 Dec 2019 21:53:16 -0500
+Message-ID: <CAHC9VhRhMhsRPj1D2TY3O=Nc6Rx9=o1-Z5ZMjrCepfFY6VtdbQ@mail.gmail.com>
+Subject: Re: [RFC] bpf: Emit audit messages upon successful prog load and
+	unload
+To: Jiri Olsa <jolsa@redhat.com>
+X-MC-Unique: P4o2STB4NIOCVbrrLWAUyw-1
+X-MC-Unique: YmqSXhYRPF-R9s4E4dfhzQ-1
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
+X-MIME-Autoconverted: from quoted-printable to 8bit by
+	lists01.pubmisc.prod.ext.phx2.redhat.com id xB42rXXf005843
 X-loop: linux-audit@redhat.com
-X-Mailman-Approved-At: Tue, 03 Dec 2019 09:20:34 -0500
 Cc: Jakub Kicinski <jakub.kicinski@netronome.com>,
 	Daniel Borkmann <daniel@iogearbox.net>, netdev@vger.kernel.org,
 	Alexei Starovoitov <ast@kernel.org>,
@@ -75,162 +105,108 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: Oaaar3WPP3q9bnXNpGqDYg-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
 
-On Mon, Dec 02, 2019 at 06:00:14PM -0500, Paul Moore wrote:
-> On Thu, Nov 28, 2019 at 4:16 AM Jiri Olsa <jolsa@kernel.org> wrote:
-> > From: Daniel Borkmann <daniel@iogearbox.net>
-> >
-> > Allow for audit messages to be emitted upon BPF program load and
-> > unload for having a timeline of events. The load itself is in
-> > syscall context, so additional info about the process initiating
-> > the BPF prog creation can be logged and later directly correlated
-> > to the unload event.
-> >
-> > The only info really needed from BPF side is the globally unique
-> > prog ID where then audit user space tooling can query / dump all
-> > info needed about the specific BPF program right upon load event
-> > and enrich the record, thus these changes needed here can be kept
-> > small and non-intrusive to the core.
-> >
-> > Raw example output:
-> >
-> >   # auditctl -D
-> >   # auditctl -a always,exit -F arch=x86_64 -S bpf
-> >   # ausearch --start recent -m 1334
-> >   ...
-> >   ----
-> >   time->Wed Nov 27 16:04:13 2019
-> >   type=PROCTITLE msg=audit(1574867053.120:84664): proctitle="./bpf"
-> >   type=SYSCALL msg=audit(1574867053.120:84664): arch=c000003e syscall=321   \
-> >     success=yes exit=3 a0=5 a1=7ffea484fbe0 a2=70 a3=0 items=0 ppid=7477    \
-> >     pid=12698 auid=1001 uid=1001 gid=1001 euid=1001 suid=1001 fsuid=1001    \
-> >     egid=1001 sgid=1001 fsgid=1001 tty=pts2 ses=4 comm="bpf"                \
-> >     exe="/home/jolsa/auditd/audit-testsuite/tests/bpf/bpf"                  \
-> >     subj=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023 key=(null)
-> >   type=UNKNOWN[1334] msg=audit(1574867053.120:84664): prog-id=76 op=LOAD
-> >   ----
-> >   time->Wed Nov 27 16:04:13 2019
-> >   type=UNKNOWN[1334] msg=audit(1574867053.120:84665): prog-id=76 op=UNLOAD
-> >   ...
-> >
-> > Signed-off-by: Daniel Borkmann <daniel@iogearbox.net>
-> > Co-developed-by: Jiri Olsa <jolsa@kernel.org>
-> > Signed-off-by: Jiri Olsa <jolsa@kernel.org>
-> > ---
-> >  include/uapi/linux/audit.h |  1 +
-> >  kernel/bpf/syscall.c       | 27 +++++++++++++++++++++++++++
-> >  2 files changed, 28 insertions(+)
-> 
-> Hi all, sorry for the delay; the merge window in combination with the
-> holiday in the US bumped this back a bit.  Small comments inline below
+On Tue, Dec 3, 2019 at 4:38 AM Jiri Olsa <jolsa@redhat.com> wrote:
+> On Mon, Dec 02, 2019 at 06:00:14PM -0500, Paul Moore wrote:
+> > On Thu, Nov 28, 2019 at 4:16 AM Jiri Olsa <jolsa@kernel.org> wrote:
 
-np, thanks for review
+...
 
-> ...
-> 
-> > --- a/kernel/bpf/syscall.c
-> > +++ b/kernel/bpf/syscall.c
-> > @@ -23,6 +23,7 @@
-> >  #include <linux/timekeeping.h>
-> >  #include <linux/ctype.h>
-> >  #include <linux/nospec.h>
-> > +#include <linux/audit.h>
-> >  #include <uapi/linux/btf.h>
+> > > --- a/kernel/bpf/syscall.c
+> > > +++ b/kernel/bpf/syscall.c
+> > > @@ -23,6 +23,7 @@
+> > >  #include <linux/timekeeping.h>
+> > >  #include <linux/ctype.h>
+> > >  #include <linux/nospec.h>
+> > > +#include <linux/audit.h>
+> > >  #include <uapi/linux/btf.h>
+> > >
+> > >  #define IS_FD_ARRAY(map) ((map)->map_type == BPF_MAP_TYPE_PERF_EVENT_ARRAY || \
+> > > @@ -1306,6 +1307,30 @@ static int find_prog_type(enum bpf_prog_type type, struct bpf_prog *prog)
+> > >         return 0;
+> > >  }
+> > >
+> > > +enum bpf_audit {
+> > > +       BPF_AUDIT_LOAD,
+> > > +       BPF_AUDIT_UNLOAD,
+> > > +};
+> > > +
+> > > +static const char * const bpf_audit_str[] = {
+> > > +       [BPF_AUDIT_LOAD]   = "LOAD",
+> > > +       [BPF_AUDIT_UNLOAD] = "UNLOAD",
+> > > +};
+> > > +
+> > > +static void bpf_audit_prog(const struct bpf_prog *prog, enum bpf_audit op)
+> > > +{
+> > > +       struct audit_buffer *ab;
+> > > +
+> > > +       if (audit_enabled == AUDIT_OFF)
+> > > +               return;
 > >
-> >  #define IS_FD_ARRAY(map) ((map)->map_type == BPF_MAP_TYPE_PERF_EVENT_ARRAY || \
-> > @@ -1306,6 +1307,30 @@ static int find_prog_type(enum bpf_prog_type type, struct bpf_prog *prog)
-> >         return 0;
-> >  }
+> > I think you would probably also want to check the results of
+> > audit_dummy_context() here as well, see all the various audit_XXX()
+> > functions in include/linux/audit.h as an example.  You'll see a
+> > pattern similar to the following:
 > >
-> > +enum bpf_audit {
-> > +       BPF_AUDIT_LOAD,
-> > +       BPF_AUDIT_UNLOAD,
-> > +};
-> > +
-> > +static const char * const bpf_audit_str[] = {
-> > +       [BPF_AUDIT_LOAD]   = "LOAD",
-> > +       [BPF_AUDIT_UNLOAD] = "UNLOAD",
-> > +};
-> > +
-> > +static void bpf_audit_prog(const struct bpf_prog *prog, enum bpf_audit op)
-> > +{
-> > +       struct audit_buffer *ab;
-> > +
-> > +       if (audit_enabled == AUDIT_OFF)
-> > +               return;
-> 
-> I think you would probably also want to check the results of
-> audit_dummy_context() here as well, see all the various audit_XXX()
-> functions in include/linux/audit.h as an example.  You'll see a
-> pattern similar to the following:
-> 
-> static inline void audit_foo(...)
+> > static inline void audit_foo(...)
+> > {
+> >   if (unlikely(!audit_dummy_context()))
+> >     __audit_foo(...)
+> > }
+>
+> bpf_audit_prog might be called outside of syscall context for UNLOAD event,
+> so that would prevent it from being stored
+
+Okay, right.  More on this below ...
+
+> I can see audit_log_start checks on value of audit_context() that we pass in,
+
+The check in audit_log_start() is for a different reason; it checks
+the passed context to see if it should associate the record with
+others in the same event, e.g. PATH records associated with the
+matching SYSCALL record.  This way all the associated records show up
+as part of the same event (as defined by the audit timestamp).
+
+> should we check for audit_dummy_context just for load event? like:
+>
+>
+> static void bpf_audit_prog(const struct bpf_prog *prog, enum bpf_audit op)
 > {
->   if (unlikely(!audit_dummy_context()))
->     __audit_foo(...)
+>         struct audit_buffer *ab;
+>
+>         if (audit_enabled == AUDIT_OFF)
+>                 return;
+>         if (op == BPF_AUDIT_LOAD && audit_dummy_context())
+>                 return;
+>         ab = audit_log_start(audit_context(), GFP_ATOMIC, AUDIT_BPF);
+>         if (unlikely(!ab))
+>                 return;
+>         ...
 > }
 
-bpf_audit_prog might be called outside of syscall context for UNLOAD event,
-so that would prevent it from being stored
+Ignoring the dummy context for a minute, there is likely a larger
+issue here with using audit_context() when bpf_audit_prog() is called
+outside of a syscall, e.g. BPF_AUDIT_UNLOAD.  In this case we likely
+shouldn't be taking the audit context from the current task, we
+shouldn't be taking it from anywhere, it should be NULL.
 
-I can see audit_log_start checks on value of audit_context() that we pass in,
-should we check for audit_dummy_context just for load event? like:
+As far as the dummy context is concerned, you might want to skip the
+dummy context check since you can only do that on the LOAD side, which
+means that depending on the system's configuration you could end up
+with a number of unbalanced LOAD/UNLOAD events.  The downside is that
+you are always going to get the BPF audit records on systemd based
+systems, since they ignore the admin's audit configuration and always
+enable audit (yes, we've tried to get systemd to change, they don't
+seem to care).
 
+-- 
+paul moore
+www.paul-moore.com
 
-static void bpf_audit_prog(const struct bpf_prog *prog, enum bpf_audit op)
-{
-        struct audit_buffer *ab;
-
-        if (audit_enabled == AUDIT_OFF)
-                return;
-        if (op == BPF_AUDIT_LOAD && audit_dummy_context())
-                return;
-        ab = audit_log_start(audit_context(), GFP_ATOMIC, AUDIT_BPF);
-        if (unlikely(!ab))
-                return;
-	...
-}
-
-
-> 
-> > +       ab = audit_log_start(audit_context(), GFP_ATOMIC, AUDIT_BPF);
-> > +       if (unlikely(!ab))
-> > +               return;
-> > +       audit_log_format(ab, "prog-id=%u op=%s",
-> > +                        prog->aux->id, bpf_audit_str[op]);
-> 
-> Is it worth putting some checks in here to make sure that you don't
-> blow past the end of the bpf_audit_str array?
-> 
-> > +       audit_log_end(ab);
-> > +}
-> 
-> The audit record format looks much better now, thank you.  Although I
-> do wonder if you want bpf_audit_prog() to live in kernel/bpf/syscall.c
-> or in kernel/auditsc.c?  There is plenty of precedence for moving it
-> into auditsc.c and defining a no-op version for when
-> CONFIG_AUDITSYSCALL is not enabled, but I personally don't feel that
-> strongly about either option.  I just wanted to mention this in case
-> you weren't already aware.
-> 
-> If you do keep it in syscall.c, I don't think there is a need to
-> implement a no-op version dependent on CONFIG_AUDITSYSCALL; that will
-> just clutter the code.
-> 
-> If you do move it to auditsc.c please change the name to
-> audit_bpf()/__audit_bpf() so it matches the other functions; if you
-> keep it in syscall.c you can name it whatever you like :)
-
-ok, so far I think we'll keep it kernel/bpf/syscall.c
-
-thanks,
-jirka
 
 --
 Linux-audit mailing list
