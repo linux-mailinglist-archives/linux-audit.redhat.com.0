@@ -1,85 +1,95 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com [207.211.31.120])
-	by mail.lfdr.de (Postfix) with ESMTP id C2DE111704C
-	for <lists+linux-audit@lfdr.de>; Mon,  9 Dec 2019 16:23:27 +0100 (CET)
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com [205.139.110.120])
+	by mail.lfdr.de (Postfix) with ESMTP id 6794C11776B
+	for <lists+linux-audit@lfdr.de>; Mon,  9 Dec 2019 21:31:56 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1575905006;
+	s=mimecast20190719; t=1575923515;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=fG9BwJMrL3k5dGWFl/pO3jbYANFWJcxXGkMtjVOK80c=;
-	b=jTFQbufnTB5Bm0zDzjkc70kk2zD800U9Gl89uzBiLVZMgk/BL3XNpdMGtRUY280Q3tX7hZ
-	8Qop61jpQHDQ2j+AoNDrzQarNhD6fwwbY5da/1VtqFqExwVcTCaQOEdYMvgzL2KdZdUTeL
-	1JssUtTwSIYf7bfvSV6jgHiTuxFCckE=
+	bh=sGtrYclKVkfTqWowzkvR/apQS9Q+vWaDv3gBhVaf5Y0=;
+	b=Ao2c1DcfRhP0elcCh8OnJITE7bF72lgBefuvMIrLRlfR7PKEB8WG+LnA8+Jh1PxgjNNoSV
+	HNOXEuU85i5rnNCwcnTdqKZB6o/Yr0bc+GMdIS1VYoTmRzBteRTO++fuLh+mnVtN59bCF6
+	eZz6IPmt6WKHq/M08eIfMKdqCCPoBZ8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-335-3xen45UyP2KZIDy74JEdJA-1; Mon, 09 Dec 2019 10:23:23 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+ us-mta-140-fpkTpjv4MsSzG_n2fUEyMA-1; Mon, 09 Dec 2019 15:31:53 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 76A58DC4E;
-	Mon,  9 Dec 2019 15:23:18 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 941B71001902;
-	Mon,  9 Dec 2019 15:23:17 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C990218A8C87;
+	Mon,  9 Dec 2019 20:31:47 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 79F52194BB;
+	Mon,  9 Dec 2019 20:31:43 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id E5ACC1803C38;
-	Mon,  9 Dec 2019 15:23:15 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
-	[10.11.54.6])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id E7FE765D2B;
+	Mon,  9 Dec 2019 20:31:38 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+	[10.11.54.5])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id xB9CFkvp021762 for <linux-audit@listman.util.phx.redhat.com>;
-	Mon, 9 Dec 2019 07:15:47 -0500
+	id xB9KVR5n031028 for <linux-audit@listman.util.phx.redhat.com>;
+	Mon, 9 Dec 2019 15:31:27 -0500
 Received: by smtp.corp.redhat.com (Postfix)
-	id BA0DB2166B2B; Mon,  9 Dec 2019 12:15:46 +0000 (UTC)
+	id 0CF28D95FE; Mon,  9 Dec 2019 20:31:27 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
-	(mimecast06.extmail.prod.ext.rdu2.redhat.com [10.11.55.22])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id B559D2166B29
-	for <linux-audit@redhat.com>; Mon,  9 Dec 2019 12:15:44 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [207.211.31.81])
+	(mimecast01.extmail.prod.ext.rdu2.redhat.com [10.11.55.17])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 07ED8D95F2
+	for <linux-audit@redhat.com>; Mon,  9 Dec 2019 20:31:24 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+	[207.211.31.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 627DB18E976B
-	for <linux-audit@redhat.com>; Mon,  9 Dec 2019 12:15:44 +0000 (UTC)
-Received: from www62.your-server.de (www62.your-server.de [213.133.104.62])
-	(Using TLS) by relay.mimecast.com with ESMTP id
-	us-mta-361-SW2bByJKNmiGkerL1QxI-A-1; Mon, 09 Dec 2019 07:15:40 -0500
-Received: from [2001:1620:665:0:5795:5b0a:e5d5:5944] (helo=localhost)
-	by www62.your-server.de with esmtpsa
-	(TLSv1.2:DHE-RSA-AES256-GCM-SHA384:256) (Exim 4.89_1)
-	(envelope-from <daniel@iogearbox.net>)
-	id 1ieHww-0005Ut-0M; Mon, 09 Dec 2019 13:15:38 +0100
-Date: Mon, 9 Dec 2019 13:15:37 +0100
-From: Daniel Borkmann <daniel@iogearbox.net>
-To: Jiri Olsa <jolsa@kernel.org>
-Subject: Re: [PATCHv3] bpf: Emit audit messages upon successful prog load and
-	unload
-Message-ID: <20191209121537.GA14170@linux.fritz.box>
-References: <20191206214934.11319-1-jolsa@kernel.org>
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CB6EB900182
+	for <linux-audit@redhat.com>; Mon,  9 Dec 2019 20:31:24 +0000 (UTC)
+Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com
+	[209.85.208.195]) (Using TLS) by relay.mimecast.com with ESMTP id
+	us-mta-283-l9ckXBTGMtijN8Dgvizqzg-1; Mon, 09 Dec 2019 15:31:22 -0500
+Received: by mail-lj1-f195.google.com with SMTP id z17so17137184ljk.13
+	for <linux-audit@redhat.com>; Mon, 09 Dec 2019 12:31:21 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=RtSnkh/bQ3nRcwbPWyDEoC5sS6sTfNQ61n5WXag4RSg=;
+	b=dPJk/79wHYcEn83TqAdxmXcSs5SWsJiULXC+QrT8y8tvTxLbw0fB9HF5X7SeTtt9R0
+	1TNx+VUXZrXtsh/rUotHhCeQAch9+iNv6/YVxiVp9RXi0ZRknrHiXbVzVvatuEI8KuhS
+	x+VBC6P39pc6D0eE0MQLwdQu/bHIeVbJAom9mtGbWuHLauSUO7b9F8rFyrQjKezcyp+3
+	1dVxIuPHgtjQa/QiDevKPFYIfY+Mjg//Xyteb2stDvliQRJmYFTEh/bGCFK5gOlh3RNF
+	rfBGkcrM5HUI8k1ay597DF0f2Spb7e6bDruH/wNvvtiffENhSHCRu6SqRmuY/RIKk9aQ
+	WmOw==
+X-Gm-Message-State: APjAAAWdSu6p8j6I38dTAcdF6mtmhOtoFLbIB23CAVFMPc55rkdx2lQj
+	EjfjnuAsMrDzjOIFOpMT+IlRKaT4ZFZTNj90o+4d
+X-Google-Smtp-Source: APXvYqwNuaM3T1RoYDtFsytt5qY7kCFzvkm2V35m9l8RLEbT2lVNz1KT7NTjE2alakRLWdNQcQZBGT6GCrkypO1NLyE=
+X-Received: by 2002:a2e:9d9a:: with SMTP id c26mr686698ljj.225.1575923480292; 
+	Mon, 09 Dec 2019 12:31:20 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20191206214934.11319-1-jolsa@kernel.org>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Authenticated-Sender: daniel@iogearbox.net
-X-Virus-Scanned: Clear (ClamAV 0.101.4/25658/Mon Dec  9 10:47:26 2019)
-X-MC-Unique: SW2bByJKNmiGkerL1QxI-A-1
-X-MC-Unique: 3xen45UyP2KZIDy74JEdJA-1
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+References: <20191201183347.18122-1-frextrite@gmail.com>
+	<20191202211915.GF17234@google.com>
+	<CAHC9VhTTS43aKQojtoBRRipP7TwhaVnK7DAqpFN0J0_FNLY+sw@mail.gmail.com>
+	<20191202233458.GN17234@google.com>
+In-Reply-To: <20191202233458.GN17234@google.com>
+From: Paul Moore <paul@paul-moore.com>
+Date: Mon, 9 Dec 2019 15:31:09 -0500
+Message-ID: <CAHC9VhSLM=MBXEXiwG+in1+WrTvVpSJxm+eYH51xRfMkoCafBA@mail.gmail.com>
+Subject: Re: [PATCH v3] kernel: audit.c: Add __rcu annotation to RCU pointer
+To: Joel Fernandes <joel@joelfernandes.org>
+X-MC-Unique: l9ckXBTGMtijN8Dgvizqzg-1
+X-MC-Unique: fpkTpjv4MsSzG_n2fUEyMA-1
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
 X-MIME-Autoconverted: from quoted-printable to 8bit by
-	lists01.pubmisc.prod.ext.phx2.redhat.com id xB9CFkvp021762
+	lists01.pubmisc.prod.ext.phx2.redhat.com id xB9KVR5n031028
 X-loop: linux-audit@redhat.com
-X-Mailman-Approved-At: Mon, 09 Dec 2019 10:22:37 -0500
-Cc: Jakub Kicinski <jakub.kicinski@netronome.com>, netdev@vger.kernel.org,
-	Alexei Starovoitov <ast@kernel.org>,
-	Jiri Benc <jbenc@redhat.com>, linux-audit@redhat.com,
-	David Miller <davem@redhat.com>, Yonghong Song <yhs@fb.com>,
-	bpf@vger.kernel.org, Andrii Nakryiko <andriin@fb.com>,
-	Martin KaFai Lau <kafai@fb.com>
+Cc: paulmck@kernel.org, Amol Grover <frextrite@gmail.com>,
+	linux-kernel@vger.kernel.org, rcu@vger.kernel.org,
+	linux-audit@redhat.com, Shuah Khan <skhan@linuxfoundation.org>,
+	linux-kernel-mentees@lists.linuxfoundation.org, rostedt@kernel.org
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -93,57 +103,34 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
 
-On Fri, Dec 06, 2019 at 10:49:34PM +0100, Jiri Olsa wrote:
-> From: Daniel Borkmann <daniel@iogearbox.net>
-> 
-> Allow for audit messages to be emitted upon BPF program load and
-> unload for having a timeline of events. The load itself is in
-> syscall context, so additional info about the process initiating
-> the BPF prog creation can be logged and later directly correlated
-> to the unload event.
-> 
-> The only info really needed from BPF side is the globally unique
-> prog ID where then audit user space tooling can query / dump all
-> info needed about the specific BPF program right upon load event
-> and enrich the record, thus these changes needed here can be kept
-> small and non-intrusive to the core.
-> 
-> Raw example output:
-> 
->   # auditctl -D
->   # auditctl -a always,exit -F arch=x86_64 -S bpf
->   # ausearch --start recent -m 1334
->   ...
->   ----
->   time->Wed Nov 27 16:04:13 2019
->   type=PROCTITLE msg=audit(1574867053.120:84664): proctitle="./bpf"
->   type=SYSCALL msg=audit(1574867053.120:84664): arch=c000003e syscall=321   \
->     success=yes exit=3 a0=5 a1=7ffea484fbe0 a2=70 a3=0 items=0 ppid=7477    \
->     pid=12698 auid=1001 uid=1001 gid=1001 euid=1001 suid=1001 fsuid=1001    \
->     egid=1001 sgid=1001 fsgid=1001 tty=pts2 ses=4 comm="bpf"                \
->     exe="/home/jolsa/auditd/audit-testsuite/tests/bpf/bpf"                  \
->     subj=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023 key=(null)
->   type=UNKNOWN[1334] msg=audit(1574867053.120:84664): prog-id=76 op=LOAD
->   ----
->   time->Wed Nov 27 16:04:13 2019
->   type=UNKNOWN[1334] msg=audit(1574867053.120:84665): prog-id=76 op=UNLOAD
->   ...
-> 
-> Signed-off-by: Daniel Borkmann <daniel@iogearbox.net>
-> Co-developed-by: Jiri Olsa <jolsa@kernel.org>
-> Signed-off-by: Jiri Olsa <jolsa@kernel.org>
+On Mon, Dec 2, 2019 at 6:35 PM Joel Fernandes <joel@joelfernandes.org> wrote:
+> On Mon, Dec 02, 2019 at 06:24:29PM -0500, Paul Moore wrote:
+> > On Mon, Dec 2, 2019 at 4:19 PM Joel Fernandes <joel@joelfernandes.org> wrote:
+> > > Good idea to CC the following on RCU patches:
+> > > Paul McKenney
+> > > Steven Rostedt
+> > > (Any others on the RCU maintainers list).
+> > > And, the list: rcu@vger.kernel.org
+> > >
+> > > Could anyone Ack the patch? Looks safe and straight forward.
+> >
+> > FWIW, this looks reasonable to me, but I don't see this as a critical
+> > fix that needs to go in during the merge window.  Unless I see any
+> > objections, I'll plan on merging this into audit/next once the merge
+> > window closes.
+>
+> Sounds good, thanks!
 
-Paul, Steve, given the merge window is closed by now, does this version look
-okay to you for proceeding to merge into bpf-next?
+FYI, it's in audit/next now.  Thanks again.
 
-Thanks,
-Daniel
+-- 
+paul moore
+www.paul-moore.com
 
 
 --
