@@ -1,66 +1,52 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-delivery-1.mimecast.com [207.211.31.120])
-	by mail.lfdr.de (Postfix) with ESMTP id 7157E11BA55
-	for <lists+linux-audit@lfdr.de>; Wed, 11 Dec 2019 18:30:24 +0100 (CET)
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com [207.211.31.81])
+	by mail.lfdr.de (Postfix) with ESMTP id 6D5D911B974
+	for <lists+linux-audit@lfdr.de>; Wed, 11 Dec 2019 18:00:28 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1576085423;
+	s=mimecast20190719; t=1576083627;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=if8onCDBBRBbaxxBk1hp1PwUy8yrJGu4mylRExRmvrg=;
-	b=F9YcT9O+g/jZsXVtIVgRCiQzuIDCimXCDmqSfzVXm9YakkeL1Htq6hkcE+RBG3BduonaYe
-	LQEtndfUzfD/qrBiOWEDgpDVG+DcO45x8wk8EC0MWYefieSd1uCA3821UBqaDMOPl+sIiF
-	znhC6lyZU5kDi+/acWcrsdjx9a6Ec4I=
+	bh=enrYUC9tX0y2lpGmTg79357BUxatRmF1E/IPYtmGAe0=;
+	b=hurCg/mHeMsyGvAJatrXYrYNkFiSszlHCUzxaaPAg7bswL8R3aQz6OrumYuL+Vo4q63/J0
+	sjOStKLDU1kipYcVxhA681wanz/S7I7J1GtCeMaBCQWFNhzCnPY6LrRNEG57OeRIL4x46H
+	RuGnRf39kxTrS2O72ACtYw9NuchkZUc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-261-NG3oLSo7MveCL7k7Bg2ryg-1; Wed, 11 Dec 2019 12:30:21 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+ us-mta-407-sFrz_Z96PmGYgnhfF3VfGw-1; Wed, 11 Dec 2019 12:00:25 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A2BCD1800D45;
-	Wed, 11 Dec 2019 17:30:15 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 51885190D34E;
+	Wed, 11 Dec 2019 17:00:17 +0000 (UTC)
 Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 87F0066074;
-	Wed, 11 Dec 2019 17:30:13 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id EDF4519C6A;
+	Wed, 11 Dec 2019 17:00:15 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 4B12583715;
-	Wed, 11 Dec 2019 17:30:09 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
-	[10.11.54.6])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id B625783718;
+	Wed, 11 Dec 2019 17:00:11 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+	[10.5.11.13])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id xBBH6lMd009173 for <linux-audit@listman.util.phx.redhat.com>;
-	Wed, 11 Dec 2019 12:06:47 -0500
+	id xBBGu8fj028235 for <linux-audit@listman.util.phx.redhat.com>;
+	Wed, 11 Dec 2019 11:56:09 -0500
 Received: by smtp.corp.redhat.com (Postfix)
-	id 462402166B28; Wed, 11 Dec 2019 17:06:47 +0000 (UTC)
+	id F01B467646; Wed, 11 Dec 2019 16:56:08 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from mimecast-mx02.redhat.com
-	(mimecast04.extmail.prod.ext.rdu2.redhat.com [10.11.55.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 3DF902166B2C
-	for <linux-audit@redhat.com>; Wed, 11 Dec 2019 17:06:41 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [205.139.110.61])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B8A251017A09
-	for <linux-audit@redhat.com>; Wed, 11 Dec 2019 17:06:41 +0000 (UTC)
-Received: from www62.your-server.de (www62.your-server.de [213.133.104.62])
-	(Using TLS) by relay.mimecast.com with ESMTP id
-	us-mta-326-hao3sNvZMqyEfbTBPhVMrg-1; Wed, 11 Dec 2019 12:06:38 -0500
-Received: from [2001:1620:665:0:5795:5b0a:e5d5:5944] (helo=localhost)
-	by www62.your-server.de with esmtpsa
-	(TLSv1.2:DHE-RSA-AES256-GCM-SHA384:256) (Exim 4.89_1)
-	(envelope-from <daniel@iogearbox.net>)
-	id 1if59U-0008Ab-2Z; Wed, 11 Dec 2019 17:47:52 +0100
-Date: Wed, 11 Dec 2019 17:47:51 +0100
-From: Daniel Borkmann <daniel@iogearbox.net>
+Received: from krava (unknown [10.43.17.106])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 68AEC66074;
+	Wed, 11 Dec 2019 16:56:03 +0000 (UTC)
+Date: Wed, 11 Dec 2019 17:56:00 +0100
+From: Jiri Olsa <jolsa@redhat.com>
 To: Paul Moore <paul@paul-moore.com>
 Subject: Re: [PATCHv3] bpf: Emit audit messages upon successful prog load and
 	unload
-Message-ID: <20191211164751.GA31590@linux.fritz.box>
+Message-ID: <20191211165600.GG25474@krava>
 References: <20191206214934.11319-1-jolsa@kernel.org>
 	<20191209121537.GA14170@linux.fritz.box>
 	<CAHC9VhQdOGTj1HT1cwvAdE1sRpzk5mC+oHQLHgJFa3vXEij+og@mail.gmail.com>
@@ -72,23 +58,16 @@ References: <20191206214934.11319-1-jolsa@kernel.org>
 	<CAHC9VhQqiD7BBGwLYuQVySG84iwR9MJh8GZuTU3xCBm7GLn8hw@mail.gmail.com>
 MIME-Version: 1.0
 In-Reply-To: <CAHC9VhQqiD7BBGwLYuQVySG84iwR9MJh8GZuTU3xCBm7GLn8hw@mail.gmail.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Authenticated-Sender: daniel@iogearbox.net
-X-Virus-Scanned: Clear (ClamAV 0.101.4/25660/Wed Dec 11 10:47:07 2019)
-X-MC-Unique: hao3sNvZMqyEfbTBPhVMrg-1
-X-MC-Unique: NG3oLSo7MveCL7k7Bg2ryg-1
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-X-MIME-Autoconverted: from quoted-printable to 8bit by
-	lists01.pubmisc.prod.ext.phx2.redhat.com id xBBH6lMd009173
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-loop: linux-audit@redhat.com
-X-Mailman-Approved-At: Wed, 11 Dec 2019 12:29:57 -0500
-Cc: Andrii Nakryiko <andriin@fb.com>,
-	Jakub Kicinski <jakub.kicinski@netronome.com>,
-	netdev@vger.kernel.org, Alexei Starovoitov <ast@kernel.org>,
+X-Mailman-Approved-At: Wed, 11 Dec 2019 12:00:00 -0500
+Cc: Jakub Kicinski <jakub.kicinski@netronome.com>,
+	Daniel Borkmann <daniel@iogearbox.net>, netdev@vger.kernel.org,
+	Alexei Starovoitov <ast@kernel.org>,
 	Jiri Benc <jbenc@redhat.com>, linux-audit@redhat.com,
 	Jiri Olsa <jolsa@kernel.org>, David Miller <davem@redhat.com>,
 	Yonghong Song <yhs@fb.com>, bpf@vger.kernel.org,
-	Jiri Olsa <jolsa@redhat.com>, Martin KaFai Lau <kafai@fb.com>
+	Andrii Nakryiko <andriin@fb.com>, Martin KaFai Lau <kafai@fb.com>
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -102,7 +81,8 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: sFrz_Z96PmGYgnhfF3VfGw-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
@@ -189,8 +169,10 @@ On Wed, Dec 11, 2019 at 11:21:33AM -0500, Paul Moore wrote:
 > 
 > (also, go ahead and submit that PR for audit-testsuite - thanks!)
 
-Perfect, thanks for all your help! Applied to bpf-next.
+https://github.com/linux-audit/audit-testsuite/pull/90
 
+thanks,
+jirka
 
 --
 Linux-audit mailing list
