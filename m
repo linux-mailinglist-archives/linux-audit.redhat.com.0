@@ -1,96 +1,71 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [205.139.110.61])
-	by mail.lfdr.de (Postfix) with ESMTP id F0EB6123343
-	for <lists+linux-audit@lfdr.de>; Tue, 17 Dec 2019 18:16:47 +0100 (CET)
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com [205.139.110.120])
+	by mail.lfdr.de (Postfix) with ESMTP id 1206B123539
+	for <lists+linux-audit@lfdr.de>; Tue, 17 Dec 2019 19:46:21 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1576603005;
+	s=mimecast20190719; t=1576608380;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
-	 message-id:message-id:to:to:cc:mime-version:mime-version:
+	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=MZn7I9WbWfhNTyr37q81ujTRL54ZZUWzZHHNeB/cEyc=;
-	b=HiCJGjSqIlpwq8e3eUGpYUseHSTxRxcsF/FEjeQ1D1U112dH9fFWfQGZrcgSn2/4FglGst
-	75C4BEWczFSbsiq27gBB2evuNovLkE0ArixpDQ9PGKWiOHwD+ZfekLUADVgByOD9xtnLAi
-	o40b6+y0741zA5GQ3jTGjIhCWLOla+k=
+	bh=ySvjoDrZOxHtmRodjFvlrKZh6PXjT1fz6DcdJxF5VHg=;
+	b=KYEZu9SjIgfKkseUAtnEByRTeJqRIhZaatvdQqS8rxFjfwuFY19YCj3t+1PuuZScirJ8tN
+	t1ZsEZ2t37gTKZrD344iT6easWGwKg07ugn4N7V+mrXuzhk6ecIHRXu1wttgNFS0lnCGCY
+	SuBJIgu7vG/nGuo42dMVokuj5Jzd0a8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-350-9JKnisI8Pi-fMOJ1CZH3wg-1; Tue, 17 Dec 2019 12:16:43 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+ us-mta-130-9qGFlOxUOXWodf3AVmCjig-1; Tue, 17 Dec 2019 13:46:18 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5608E800596;
-	Tue, 17 Dec 2019 17:16:37 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D9E29107ACE3;
+	Tue, 17 Dec 2019 18:46:12 +0000 (UTC)
 Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id F04517C839;
-	Tue, 17 Dec 2019 17:16:35 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 172B768871;
+	Tue, 17 Dec 2019 18:46:10 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id E35DC104905;
-	Tue, 17 Dec 2019 17:16:32 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
-	[10.11.54.4])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id DA55B104871;
+	Tue, 17 Dec 2019 18:46:05 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+	[10.5.11.16])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id xBHHGPhh031329 for <linux-audit@listman.util.phx.redhat.com>;
-	Tue, 17 Dec 2019 12:16:26 -0500
+	id xBHIjvZ4001686 for <linux-audit@listman.util.phx.redhat.com>;
+	Tue, 17 Dec 2019 13:45:57 -0500
 Received: by smtp.corp.redhat.com (Postfix)
-	id 894D42026D69; Tue, 17 Dec 2019 17:16:25 +0000 (UTC)
+	id 3C9005C554; Tue, 17 Dec 2019 18:45:57 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from mimecast-mx02.redhat.com
-	(mimecast01.extmail.prod.ext.rdu2.redhat.com [10.11.55.17])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 82F45215AB18
-	for <linux-audit@redhat.com>; Tue, 17 Dec 2019 17:16:23 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
-	[205.139.110.120])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 75058800561
-	for <linux-audit@redhat.com>; Tue, 17 Dec 2019 17:16:23 +0000 (UTC)
-IronPort-SDR: 5DPBjl8f6Ai070mg/xvarr/6v/LgYdAJmayDkwn1swnJEZXKDx1Td41L597Foy4cqym8Mw+ls3
-	y4FyFl2QBuAitVEGjzqtmak2Ar2LUGYTDMniw4PRTFYOz1LSd3w0HX/Y4Fxa/3y+6c51SpBZS6
-	q5P84tJqnx8EWeUYzyy9UG3ZMGViv1cUkmZtx/VZnb4xBnRUhzYKoGmrw7jGtIPljRLycfxFHd
-	1wOFZuuxndmuaeUjUIhQSlSUg9cm+eJt+7PvXVwvDtEwLPShxSbGi6fAR6ryq66cxIfo+lZAop
-	oPG571kFn+MDsPfmJuU0PTEK
-X-IronPort-AV: E=Sophos;i="5.69,326,1571695200"; d="scan'208";a="16033651"
-X-MGA-submission: =?us-ascii?q?MDFIu2BeOWpdbHj4uhs/WK4VMM+J6PoOcWFvMy?=
-	=?us-ascii?q?Ry7/Z4fGXRNXpRoE/bnWbNwXAdG3HBqn3sNCut49bVJDst30qANXgg61?=
-	=?us-ascii?q?1Pl1moMUgaBT/OBFFxf084o4AVyR17XTDDpJHm2pznMpABd5CjAMlNnz?=
-	=?us-ascii?q?X4?=
-Received: from smarthost4.atos.net (smtppost.atos.net [193.56.114.177])
-	(Using TLS) by relay.mimecast.com with ESMTP id
-	us-mta-20-O_njRsJuMzeDIrKN6q4Dzw-1; Tue, 17 Dec 2019 12:16:19 -0500
-Received: from unknown (HELO DEFTHW99ETQMSX.ww931.my-it-solutions.net)
-	([10.86.142.98])
-	by smarthost4.atos.net with ESMTP/TLS/ECDHE-RSA-AES256-SHA384;
-	17 Dec 2019 18:16:17 +0100
-Received: from DEERLM99EX7MSX.ww931.my-it-solutions.net ([169.254.9.235]) by
-	DEFTHW99ETQMSX.ww931.my-it-solutions.net ([10.86.142.98]) with mapi id
-	14.03.0468.000; Tue, 17 Dec 2019 18:16:14 +0100
-From: "MAUPERTUIS, PHILIPPE" <philippe.maupertuis@equensworldline.com>
-To: Steve Grubb <sgrubb@redhat.com>, "linux-audit@redhat.com"
-	<linux-audit@redhat.com>
-Subject: RE: Matching SSHD information in audit logs
-Thread-Topic: Matching SSHD information in audit logs
-Thread-Index: AQHVtOV13PlsP4nH70erLKQkhh+u/Ke+ib9Q
-Date: Tue, 17 Dec 2019 17:16:14 +0000
-Message-ID: <5F4EE10832231F4F921A255C1D95429822D170@DEERLM99EX7MSX.ww931.my-it-solutions.net>
-References: <5F4EE10832231F4F921A255C1D95429822CB57@DEERLM99EX7MSX.ww931.my-it-solutions.net>
-	<2177815.HFh0nK17a1@x2>
-In-Reply-To: <2177815.HFh0nK17a1@x2>
-Accept-Language: en-US
-Content-Language: fr-FR
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.86.142.14]
+Received: from madcap2.tricolour.ca (ovpn-112-28.phx2.redhat.com [10.3.112.28])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 27F125C1C3;
+	Tue, 17 Dec 2019 18:45:43 +0000 (UTC)
+Date: Tue, 17 Dec 2019 13:45:41 -0500
+From: Richard Guy Briggs <rgb@redhat.com>
+To: Paul Moore <paul@paul-moore.com>
+Subject: Re: [PATCH ghak90 V7 06/21] audit: contid limit of 32k imposed to
+	avoid DoS
+Message-ID: <20191217184541.tagssqt4zujbanf6@madcap2.tricolour.ca>
+References: <cover.1568834524.git.rgb@redhat.com>
+	<230e91cd3e50a3d8015daac135c24c4c58cf0a21.1568834524.git.rgb@redhat.com>
+	<20190927125142.GA25764@hmswarspite.think-freely.org>
+	<CAHC9VhRbSUCB0OZorC4+y+5uJDR5uMXdRn2LOTYGu2gcFJSrcA@mail.gmail.com>
+	<20191024212335.y4ou7g4tsxnotvnk@madcap2.tricolour.ca>
+	<CAHC9VhTrKVQNvTPoX5xdx-TUX_ukpMv2tNFFqLa2Njs17GuQMg@mail.gmail.com>
 MIME-Version: 1.0
-X-MC-Unique: O_njRsJuMzeDIrKN6q4Dzw-1
-X-MC-Unique: 9JKnisI8Pi-fMOJ1CZH3wg-1
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-X-MIME-Autoconverted: from quoted-printable to 8bit by
-	lists01.pubmisc.prod.ext.phx2.redhat.com id xBHHGPhh031329
+In-Reply-To: <CAHC9VhTrKVQNvTPoX5xdx-TUX_ukpMv2tNFFqLa2Njs17GuQMg@mail.gmail.com>
+User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-loop: linux-audit@redhat.com
+Cc: Neil Horman <nhorman@tuxdriver.com>, linux-api@vger.kernel.org,
+	containers@lists.linux-foundation.org,
+	LKML <linux-kernel@vger.kernel.org>, dhowells@redhat.com,
+	Linux-Audit Mailing List <linux-audit@redhat.com>,
+	netfilter-devel@vger.kernel.org, ebiederm@xmission.com,
+	simo@redhat.com, netdev@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	Eric Paris <eparis@parisplace.org>, mpatel@redhat.com,
+	Serge Hallyn <serge@hallyn.com>
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -104,110 +79,121 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: 9qGFlOxUOXWodf3AVmCjig-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
-
-
-> -----Message d'origine-----
-> De : Steve Grubb [mailto:sgrubb@redhat.com]
-> Envoy=E9 : mardi 17 d=E9cembre 2019 15:21
-> =C0 : linux-audit@redhat.com
-> Cc : MAUPERTUIS, PHILIPPE
-> Objet : Re: Matching SSHD information in audit logs
->
-> On Tuesday, December 17, 2019 5:57:53 AM EST MAUPERTUIS, PHILIPPE
-> wrote:
-> > Hi,
-> > When setting the SSHD log level to verbose as recommended by the CIS, I
-> get
-> > the following in the secure log : Dec 17 11:32:29 myserver sshd[8456]:
-> > Connection from xx.xx.xx.xx port 44090 on xx.xx.xx.xx port 22 Dec 17
-> > 11:32:30 myserver sshd[8456]: Accepted key RSA SHA256: qhpzQKKbwaX8
-> found
-> > at /usr/bin/sss_ssh_authorizedkeys:1 Dec 17 11:32:30 myserver
-> sshd[8456]:
-> > Postponed publickey for myuser from xx.xx.xx.xx port 44090 ssh2
-> [preauth]
-> > Dec 17 11:32:30 myserver sshd[8456]: Accepted key RSA SHA256:
-> qhpzQKKbwaX8
-> > found at /usr/bin/sss_ssh_authorizedkeys:1 Dec 17 11:32:30 myserver
-> > sshd[8456]: Accepted publickey for myuser from xx.xx.xx.xx port 44090
-> > ssh2: RSA SHA256: qhpzQKKbwaX8 Dec 17 11:32:30 myserver sshd[8456]:
-> > pam_unix(sshd:session): session opened for user myuser by (uid=3D0) Dec=
- 17
-> > 11:32:31 myserver sshd[8456]: User child is on pid 8460
-> > Dec 17 11:32:31 myserver sshd[8460]: Starting session: shell on pts/4 f=
-or
-> > myuser from xx.xx.xx.xx port 44090 id 0
+On 2019-11-08 12:49, Paul Moore wrote:
+> On Thu, Oct 24, 2019 at 5:23 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> > On 2019-10-10 20:38, Paul Moore wrote:
+> > > On Fri, Sep 27, 2019 at 8:52 AM Neil Horman <nhorman@tuxdriver.com> wrote:
+> > > > On Wed, Sep 18, 2019 at 09:22:23PM -0400, Richard Guy Briggs wrote:
+> > > > > Set an arbitrary limit on the number of audit container identifiers to
+> > > > > limit abuse.
+> > > > >
+> > > > > Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
+> > > > > ---
+> > > > >  kernel/audit.c | 8 ++++++++
+> > > > >  kernel/audit.h | 4 ++++
+> > > > >  2 files changed, 12 insertions(+)
+> > > > >
+> > > > > diff --git a/kernel/audit.c b/kernel/audit.c
+> > > > > index 53d13d638c63..329916534dd2 100644
+> > > > > --- a/kernel/audit.c
+> > > > > +++ b/kernel/audit.c
+> > >
+> > > ...
+> > >
+> > > > > @@ -2465,6 +2472,7 @@ int audit_set_contid(struct task_struct *task, u64 contid)
+> > > > >                               newcont->owner = current;
+> > > > >                               refcount_set(&newcont->refcount, 1);
+> > > > >                               list_add_rcu(&newcont->list, &audit_contid_hash[h]);
+> > > > > +                             audit_contid_count++;
+> > > > >                       } else {
+> > > > >                               rc = -ENOMEM;
+> > > > >                               goto conterror;
+> > > > > diff --git a/kernel/audit.h b/kernel/audit.h
+> > > > > index 162de8366b32..543f1334ba47 100644
+> > > > > --- a/kernel/audit.h
+> > > > > +++ b/kernel/audit.h
+> > > > > @@ -219,6 +219,10 @@ static inline int audit_hash_contid(u64 contid)
+> > > > >       return (contid & (AUDIT_CONTID_BUCKETS-1));
+> > > > >  }
+> > > > >
+> > > > > +extern int audit_contid_count;
+> > > > > +
+> > > > > +#define AUDIT_CONTID_COUNT   1 << 16
+> > > > > +
+> > > >
+> > > > Just to ask the question, since it wasn't clear in the changelog, what
+> > > > abuse are you avoiding here?  Ostensibly you should be able to create as
+> > > > many container ids as you have space for, and the simple creation of
+> > > > container ids doesn't seem like the resource strain I would be concerned
+> > > > about here, given that an orchestrator can still create as many
+> > > > containers as the system will otherwise allow, which will consume
+> > > > significantly more ram/disk/etc.
+> > >
+> > > I've got a similar question.  Up to this point in the patchset, there
+> > > is a potential issue of hash bucket chain lengths and traversing them
+> > > with a spinlock held, but it seems like we shouldn't be putting an
+> > > arbitrary limit on audit container IDs unless we have a good reason
+> > > for it.  If for some reason we do want to enforce a limit, it should
+> > > probably be a tunable value like a sysctl, or similar.
 > >
-> > What are the corresponding events in audit ?
->
-> I don't think anyone has ever tried to map between syslog and audit. I al=
-so
-> think that CIS maybe doesn't understand audit and how it works. For quite
-> some time, there has been a requirement to log any key lifecycle in the a=
-udit
-> logs. This means that the DH key exchange and the session keys get logged
-> when they are created and when they are destroyed. Also, pam logs the
-> session
-> beginning and end. And sshd logs any keys that it accepts. So, I think th=
-e
-> information is there if one wanted or needed to map between them. But it
-> should be unnecessary. I'm not sure what CIS is looking for in syslog.
-> Because if there is something important in syslog that is not in the audi=
-t
-> logs, I'd like to know what it is.
->
->
-> > My main concern is with the bold line which indicates how the public ke=
-y
-> > was granted
->
-> That should also be in the audit logs.
-I find in the audit log which key has been accepted but not that it has bee=
-n accepted due to /usr/bin/sss_ssh_authorizedkeys (and not a local authoriz=
-ed_keys file).
-In the USER_AUTH message I can see a field grantors=3Dauth-key but I don't =
-know how to interpret it.
-I had a look at https://github.com/linux-audit/audit-documentation/blob/mas=
-ter/specs/fields/field-dictionary.csv but grantor is not mentioned there
-I didn't other fields as well :
->From SOFTWARE_UPDATE the fields sw, sw_type, key_enforce are not listed.
-The page https://github.com/linux-audit/audit-documentation/blob/master/spe=
-cs/messages/message-dictionary.csv doesn't mention the type SOFTWARE_UPDATE
-Maybe I am looking at the wrong place, Where should I look ?
->
->
-> > Could you point me to a documentation showing which events a ssh login
-> > would generate ?
->
-> To my knowledge, there is no document that singles out what a sshd login
-> should look like. There are documents that explain what the record type a=
-re.
-> And you should be able to isolate them by ausearch -x sshd.
->
-What I missed was this ausearch -x sshd which gives me the events
+> > Can you separate and clarify the concerns here?
+> 
+> "Why are you doing this?" is about as simple as I can pose the question.
 
-> -Steve
->
-Philippe
-equensWorldline is a registered trade mark and trading name owned by the Wo=
-rldline Group through its holding company.
-This e-mail and the documents attached are confidential and intended solely=
- for the addressee. If you receive this e-mail in error, you are not author=
-ized to copy, disclose, use or retain it. Please notify the sender immediat=
-ely and delete this email from your systems. As emails may be intercepted, =
-amended or lost, they are not secure. EquensWorldline and the Worldline Gro=
-up therefore can accept no liability for any errors or their content. Altho=
-ugh equensWorldline and the Worldline Group endeavours to maintain a virus-=
-free network, we do not warrant that this transmission is virus-free and ca=
-n accept no liability for any damages resulting from any virus transmitted.=
- The risks are deemed to be accepted by everyone who communicates with eque=
-nsWorldline and the Worldline Group by email
+It was more of a concern for total system resources, primarily memory,
+but this is self-limiting and an arbitrary concern.
 
+The other limit of depth of nesting has different concerns that arise
+depending on how reporting is done.
+
+> > I plan to move this patch to the end of the patchset and make it
+> > optional, possibly adding a tuning mechanism.  Like the migration from
+> > /proc to netlink for loginuid/sessionid/contid/capcontid, this was Eric
+> > Biederman's concern and suggested mitigation.
+> 
+> Okay, let's just drop it.  I *really* don't like this approach of
+> tossing questionable stuff at the end of the patchset; I get why you
+> are doing it, but I think we really need to focus on keeping this
+> changeset small.  If the number of ACIDs (heh) become unwieldy the
+> right solution is to improve the algorithms/structures, if we can't do
+> that for some reason, *then* we can fall back to a limiting knob in a
+> latter release.
+
+Ok, I've dropped it.  There are mitigations in place for large numbers
+of contids and it can be limited later without breaking anything.
+
+> > As for the first issue of the bucket chain length traversal while
+> > holding the list spin-lock, would you prefer to use the rcu lock to
+> > traverse the list and then only hold the spin-lock when modifying the
+> > list, and possibly even make the spin-lock more fine-grained per list?
+> 
+> Until we have a better idea of how this is going to be used, I think
+> it's okay for now.  It's also internal to the kernel so we can change
+> it at any time.  My comments about the locking/structs was only to try
+> and think of some reason why one might want to limit the number of
+> ACIDs since neither you or Eric provided any reasoning that I could
+> see.
+
+I've switched to using an rcu read lock on the list traversal and
+spin-lock on list update.
+
+> paul moore
+
+- RGB
+
+--
+Richard Guy Briggs <rgb@redhat.com>
+Sr. S/W Engineer, Kernel Security, Base Operating Systems
+Remote, Ottawa, Red Hat Canada
+IRC: rgb, SunRaycer
+Voice: +1.647.777.2635, Internal: (81) 32635
 
 --
 Linux-audit mailing list
