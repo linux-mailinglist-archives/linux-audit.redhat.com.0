@@ -1,85 +1,84 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-delivery-1.mimecast.com [207.211.31.120])
-	by mail.lfdr.de (Postfix) with ESMTP id 6586212D284
-	for <lists+linux-audit@lfdr.de>; Mon, 30 Dec 2019 18:22:07 +0100 (CET)
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com [207.211.31.120])
+	by mail.lfdr.de (Postfix) with ESMTP id D5E5D12D2B4
+	for <lists+linux-audit@lfdr.de>; Mon, 30 Dec 2019 18:29:42 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1577726525;
+	s=mimecast20190719; t=1577726981;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:mime-version:mime-version:
 	 content-type:content-type:list-id:list-help:list-unsubscribe:
-	 list-subscribe:list-post; bh=at+v83XiIte5pK8USVQvhgf7R99iJJc/nI/EV5CxjmQ=;
-	b=RoMcbhccRydIRz/NZS9S7SDKL+fuiXkPAKesol9LMmsJnJfhFLp+R3v2pi/23yPBw131RE
-	8yViqBNmP3GEnGMlSpkoPYa7WJh7mon2kWXsU//ao0eiHDL7c++QwH+OvVE+K123bpcsj5
-	S9VWnpo9xwK5tfF2bRlnztcIh6nrTWc=
+	 list-subscribe:list-post; bh=vNRan89O6cDvP4Qt6E7612UKscJ5iNW16eeUYw5Ug3o=;
+	b=XN4+QjGniF9D7u7MfWY1/hdOkh4BEjEpxD64O0OEmmEZIBAVRLyUxVwfCaeiYhD4bLvUse
+	g1mjvcVdsyLY5iah9yWLVnTvrUj/R1iEnysr0w2YAu0VjQJSaCaUtSFawdTio9Zpn+mljQ
+	Rvt2TJjjLUbPC7Tj2XO00+KIp/RlLro=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-343-3CtoJ3XzNzKofy3x2rETmw-1; Mon, 30 Dec 2019 12:22:02 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+ us-mta-375-FvjkkVAyN3Wg2VxboEOdWw-1; Mon, 30 Dec 2019 12:29:39 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9622E801E6C;
-	Mon, 30 Dec 2019 17:21:53 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id E4BB65D9E1;
-	Mon, 30 Dec 2019 17:21:49 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8C0E118031C4;
+	Mon, 30 Dec 2019 17:29:33 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id EBE4F60BE1;
+	Mon, 30 Dec 2019 17:29:32 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 8966A4E196;
-	Mon, 30 Dec 2019 17:21:41 +0000 (UTC)
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 0DD6C18089CD;
+	Mon, 30 Dec 2019 17:29:30 +0000 (UTC)
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
 	[10.11.54.5])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id xBUHLPDw003383 for <linux-audit@listman.util.phx.redhat.com>;
-	Mon, 30 Dec 2019 12:21:26 -0500
+	id xBUHTLOw003529 for <linux-audit@listman.util.phx.redhat.com>;
+	Mon, 30 Dec 2019 12:29:22 -0500
 Received: by smtp.corp.redhat.com (Postfix)
-	id BEB726C35D; Mon, 30 Dec 2019 17:21:25 +0000 (UTC)
+	id B68116D9C9; Mon, 30 Dec 2019 17:29:21 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
-	(mimecast01.extmail.prod.ext.rdu2.redhat.com [10.11.55.17])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id B8F106D9CA
-	for <linux-audit@redhat.com>; Mon, 30 Dec 2019 17:21:23 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
-	[207.211.31.120])
+	(mimecast03.extmail.prod.ext.rdu2.redhat.com [10.11.55.19])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id B0ED46D9C7
+	for <linux-audit@redhat.com>; Mon, 30 Dec 2019 17:29:19 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [205.139.110.61])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5221185A318
-	for <linux-audit@redhat.com>; Mon, 30 Dec 2019 17:21:23 +0000 (UTC)
-IronPort-SDR: UraBFIpRcAydY6Wr+uZJ0yDj2xCGiJFvkc7ghxxEq6aRuWlG8Qd6roRxzmVilV/TBakIPC8kkD
-	pJcR9u4XNBfxIytfoj93rmCKyEY52wdrTf95iy8+QJwTzSS+oNYQ2m24WSizd9FF5c0s61eNYa
-	LqWgjUYwQN6RMnqEN5Ev1WqlWzedhv7iu6jJDXio2vt8Fm/NB91QMMhWuTEh3Sn3eD/XZEUNc8
-	UL6MFmXzgPhvx4m0LnbQkdBgB/qAC7kMwYVD0uS7zWxEMzvJLlUQDVj4+j0Xs+RgEHGqmOsFrV
-	dHKwgFrgZgJXnDqoUaNXSgC+
-X-IronPort-AV: E=Sophos;i="5.69,376,1571695200"; d="scan'208,217";a="18804236"
-X-MGA-submission: =?us-ascii?q?MDGRMd7ITPjivSUTjhUF36K6HbE6ggixoHbGP0?=
-	=?us-ascii?q?frqJSvwHC2d/3ulnEzLjAjsYSx5GDFLKkYi0iOVGMry9iuzbsHAd6bh8?=
-	=?us-ascii?q?TUKper9AjwhSdPoO4GceNtCzYprfhqdeBIweMyJXMCFrXzz8VencU6RD?=
-	=?us-ascii?q?vZ?=
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 197348D7726
+	for <linux-audit@redhat.com>; Mon, 30 Dec 2019 17:29:19 +0000 (UTC)
+IronPort-SDR: sDdgjbG8jLM/qbATFmaf30YdJFGHSgW/HGZolWHbXIhhws8jcKTweiHQcNY2riKpxZwd3b0jtI
+	3nYgdct8FkdNNaSfNj0fDSqvKmgpl1gvA+Fe37rOLsl4rbDUuOem09xNo3SUioFMXYW2gmFOj0
+	jJIDWWuOs8Vr4U0ERkW5Xh1ONCuD6XmSUR4DoFC1PDItNHI9k4xhhHt/pXgEYbv7S9EvCuS0B7
+	xVC1a+Kyo6E4cMRe3yajxoUvCNKHClCv7jGtxJYP0S1ZhOjxPN0m6IAUxV4ANXc/7xtTDtsaq0
+	XiXP64ulIDMGSVIYMUTQnX1x
+X-IronPort-AV: E=Sophos;i="5.69,376,1571695200"; d="scan'208,217";a="18805405"
+X-MGA-submission: =?us-ascii?q?MDEZAWXIp+Cl+RvAapiwu/PRJR23nWeYN9fuvW?=
+	=?us-ascii?q?VSHf0TwiR8BRYCZsITZVy4yUyCLpt/n654gOIgkO5r6cdElJX1GQXhl6?=
+	=?us-ascii?q?qLgrr/cvm+DwaVYB5Q1ejf+/3pny0aeUE1+d2m5PaCNo8RP1PX7P7Byi?=
+	=?us-ascii?q?iV?=
 Received: from smarthost2.atos.net (smtppost.atos.net [193.56.114.177])
 	(Using TLS) by relay.mimecast.com with ESMTP id
-	us-mta-341-Dg3yE4aHPtygW1IEJoyLhQ-1; Mon, 30 Dec 2019 12:21:19 -0500
-Received: from unknown (HELO DEERLM99ETTMSX.ww931.my-it-solutions.net)
-	([10.86.142.105])
+	us-mta-406-noL7jzEjNdWBTQ9sOhwAng-1; Mon, 30 Dec 2019 12:29:16 -0500
+Received: from unknown (HELO DEFTHW99ETVMSX.ww931.my-it-solutions.net)
+	([10.86.142.50])
 	by smarthost2.atos.net with ESMTP/TLS/ECDHE-RSA-AES256-SHA384;
-	30 Dec 2019 18:21:17 +0100
+	30 Dec 2019 18:29:15 +0100
 Received: from DEERLM99EX7MSX.ww931.my-it-solutions.net ([169.254.9.149]) by
-	DEERLM99ETTMSX.ww931.my-it-solutions.net ([10.86.142.105]) with mapi id
-	14.03.0468.000; Mon, 30 Dec 2019 18:21:16 +0100
+	DEFTHW99ETVMSX.ww931.my-it-solutions.net ([10.92.32.93]) with mapi id
+	14.03.0468.000; Mon, 30 Dec 2019 18:29:13 +0100
 From: "MAUPERTUIS, PHILIPPE" <philippe.maupertuis@equensworldline.com>
 To: "linux-audit@redhat.com" <linux-audit@redhat.com>
-Subject: Config_change events
-Thread-Topic: Config_change events
-Thread-Index: AdW/NH2islZPGikuS8yNNIA+jMIbkA==
-Date: Mon, 30 Dec 2019 17:21:15 +0000
-Message-ID: <5F4EE10832231F4F921A255C1D954298251E24@DEERLM99EX7MSX.ww931.my-it-solutions.net>
+Subject: USER_MGMT  event
+Thread-Topic: USER_MGMT  event
+Thread-Index: AdW/Ne3RocIDKekYRQSxKeXWlP620A==
+Date: Mon, 30 Dec 2019 17:29:13 +0000
+Message-ID: <5F4EE10832231F4F921A255C1D954298252E49@DEERLM99EX7MSX.ww931.my-it-solutions.net>
 Accept-Language: en-US
 Content-Language: fr-FR
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 x-originating-ip: [10.86.142.14]
 MIME-Version: 1.0
-X-MC-Unique: Dg3yE4aHPtygW1IEJoyLhQ-1
-X-MC-Unique: 3CtoJ3XzNzKofy3x2rETmw-1
+X-MC-Unique: noL7jzEjNdWBTQ9sOhwAng-1
+X-MC-Unique: FvjkkVAyN3Wg2VxboEOdWw-1
 X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
 X-loop: linux-audit@redhat.com
 X-BeenThere: linux-audit@redhat.com
@@ -95,36 +94,30 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
-Content-Type: multipart/mixed; boundary="===============2801996860096950851=="
+Content-Type: multipart/mixed; boundary="===============1390589196761576269=="
 
---===============2801996860096950851==
+--===============1390589196761576269==
 Content-Language: fr-FR
 Content-Type: multipart/alternative;
-	boundary="_000_5F4EE10832231F4F921A255C1D954298251E24DEERLM99EX7MSXww9_"
+	boundary="_000_5F4EE10832231F4F921A255C1D954298252E49DEERLM99EX7MSXww9_"
 
---_000_5F4EE10832231F4F921A255C1D954298251E24DEERLM99EX7MSXww9_
+--_000_5F4EE10832231F4F921A255C1D954298252E49DEERLM99EX7MSXww9_
 Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
 
 Hi,
-When I issue a service auditd restart, I get the following events :
-[root@xxxxxxxx ~]# ausearch -k 10.5.5-modification-audit -ts recent --forma=
-t raw
-node=3Dxxxxxxxx type=3DCONFIG_CHANGE msg=3Daudit(1577725960.912:8745):  aui=
-d=3D4294967295 ses=3D4294967295 op=3Dremove_rule key=3D"10.5.5-modification=
--audit" list=3D4 res=3D1AUID=3D"unset"
-node=3Dxxxxxxxx type=3DCONFIG_CHANGE msg=3Daudit(1577725960.947:8777):  aui=
-d=3D4294967295 ses=3D4294967295 op=3Dadd_rule key=3D"10.5.5-modification-au=
-dit" list=3D4 res=3D1AUID=3D"unset"
+On a RHEL8 server, when playing around with usermod and  chsh, I noticed th=
+at
+usermod -c 'root@xxx' root generates a user_mgmt event
+But
+chsh -s /usr/bin/tlog-rec-session root didn't.
+Is that the expected behavior ?
+I was expecting an event for both.
+Should I open a ticket at redhat for this ?
 
-How can I link this event to the daemon_start daemon_end events ?
-How can I trace the CONFIG_CHANGE events to a user action ?
-Are the Daemon_start and daemon_end events specifically linked to auditd ?
-
-Thanks for the clarification
-
+Regards
 Philippe
 
 equensWorldline is a registered trade mark and trading name owned by the Wo=
@@ -141,7 +134,7 @@ n accept no liability for any damages resulting from any virus transmitted.=
  The risks are deemed to be accepted by everyone who communicates with eque=
 nsWorldline and the Worldline Group by email
 
---_000_5F4EE10832231F4F921A255C1D954298251E24DEERLM99EX7MSXww9_
+--_000_5F4EE10832231F4F921A255C1D954298252E49DEERLM99EX7MSXww9_
 Content-Type: text/html; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
 
@@ -235,30 +228,22 @@ div.WordSection1
 </head>
 <body lang=3D"FR" link=3D"blue" vlink=3D"purple">
 <div class=3D"WordSection1">
-<p class=3D"MsoNormal"><span lang=3D"EN-US">Hi,<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">When I issue a service auditd r=
-estart, I get the following events :<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">[root@xxxxxxxx ~]# ausearch -k =
-10.5.5-modification-audit -ts recent --format raw<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">node=3Dxxxxxxxx type=3DCONFIG_C=
-HANGE msg=3Daudit(1577725960.912:8745):&nbsp; auid=3D4294967295 ses=3D42949=
-67295 op=3Dremove_rule key=3D&quot;10.5.5-modification-audit&quot; list=3D4=
- res=3D1AUID=3D&quot;unset&quot;<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">node=3Dxxxxxxxx type=3DCONFIG_C=
-HANGE msg=3Daudit(1577725960.947:8777):&nbsp; auid=3D4294967295 ses=3D42949=
-67295 op=3Dadd_rule key=3D&quot;10.5.5-modification-audit&quot; list=3D4 re=
-s=3D1AUID=3D&quot;unset&quot;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">Hi, <o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">On a RHEL8 server, when playing=
+ around with usermod and &nbsp;chsh, I noticed that<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">usermod -c &#8216;root@xxx&#821=
+7; root generates a user_mgmt event<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">But <o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">chsh -s /usr/bin/tlog-rec-sessi=
+on root didn&#8217;t.<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">Is that the expected behavior ?=
+<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">I was expecting an event for bo=
+th.<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">Should I open a ticket at redha=
+t for this ?<o:p></o:p></span></p>
 <p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">How can I link this event to th=
-e daemon_start daemon_end events ?<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">How can I trace the CONFIG_CHAN=
-GE events to a user action ?<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">Are the Daemon_start and daemon=
-_end events specifically linked to auditd ?<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">Thanks for the clarification<o:=
-p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">Regards<o:p></o:p></span></p>
 <p class=3D"MsoNormal"><span lang=3D"EN-US">Philippe<o:p></o:p></span></p>
 </div>
 <p>equensWorldline is a registered trade mark and trading name owned by the=
@@ -280,9 +265,9 @@ with equensWorldline and the Worldline
 </body>
 </html>
 
---_000_5F4EE10832231F4F921A255C1D954298251E24DEERLM99EX7MSXww9_--
+--_000_5F4EE10832231F4F921A255C1D954298252E49DEERLM99EX7MSXww9_--
 
---===============2801996860096950851==
+--===============1390589196761576269==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -292,5 +277,5 @@ Content-Disposition: inline
 Linux-audit mailing list
 Linux-audit@redhat.com
 https://www.redhat.com/mailman/listinfo/linux-audit
---===============2801996860096950851==--
+--===============1390589196761576269==--
 
