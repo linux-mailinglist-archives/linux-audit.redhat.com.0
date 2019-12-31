@@ -2,53 +2,53 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com [205.139.110.120])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D8D812DBA6
-	for <lists+linux-audit@lfdr.de>; Tue, 31 Dec 2019 20:59:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B7F6812DBA8
+	for <lists+linux-audit@lfdr.de>; Tue, 31 Dec 2019 20:59:12 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1577822348;
+	s=mimecast20190719; t=1577822351;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=4sjFUJL7vi4twXXk48nv8ZIDJMxU0d17dWq+CyavYaI=;
-	b=Ch7kjSbFxJ0dlOGxvKzvvnRE5TUhOWV5lf7zoCRt+95dg5Zi2R6AGrCtGzcBVIDnyAyqyO
-	yfDibug5BclDBvAC8KSRh2Be1Y6Pv0fwJJn/dz5e0LFnaKW8Tx+Rzz8KWvPmtybSZcANfe
-	huzA3iiE77oNgc4k2Koh0ThuYaF5+SQ=
+	bh=c0Zs79rDEb5bMLpTJM//X5EugpL2c4jFKKWgz9q2L60=;
+	b=a45cVYhGy7gDWd4XwNlfplhFed89BhfRa/2U3pCpkymd5EXgrZUAnk90Xk9rHOK3Xkq/+K
+	B61GoMRWKG8o4RU+Zie5d3Y5FxwNfgGHajUbwQxkggua1nNVcRxhd9bKtxzwzLTN7TcFAo
+	yxsb2RVf6Hjz6frPPzIxqxO/0CDiNPc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-358-0g4tgFepM7y9TedFtXiaNA-1; Tue, 31 Dec 2019 14:59:06 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+ us-mta-172-_Veas2MuPs6S_bDKwsFjRQ-1; Tue, 31 Dec 2019 14:59:09 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C776618031E0;
-	Tue, 31 Dec 2019 19:59:01 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7A02E801E66;
+	Tue, 31 Dec 2019 19:59:04 +0000 (UTC)
 Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 8E74160579;
-	Tue, 31 Dec 2019 19:59:01 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 58D41271AC;
+	Tue, 31 Dec 2019 19:59:04 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 18D351809567;
-	Tue, 31 Dec 2019 19:59:01 +0000 (UTC)
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 21C2418089CD;
+	Tue, 31 Dec 2019 19:59:04 +0000 (UTC)
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
 	[10.5.11.12])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id xBVJwwRd000368 for <linux-audit@listman.util.phx.redhat.com>;
-	Tue, 31 Dec 2019 14:58:58 -0500
+	id xBVJx18w000378 for <linux-audit@listman.util.phx.redhat.com>;
+	Tue, 31 Dec 2019 14:59:01 -0500
 Received: by smtp.corp.redhat.com (Postfix)
-	id 6A54460FC1; Tue, 31 Dec 2019 19:58:58 +0000 (UTC)
+	id 69E2560FC5; Tue, 31 Dec 2019 19:59:01 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from madcap2.tricolour.ca (ovpn-112-15.phx2.redhat.com [10.3.112.15])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id A292C60BEC;
-	Tue, 31 Dec 2019 19:58:55 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id C0E4460BEC;
+	Tue, 31 Dec 2019 19:58:58 +0000 (UTC)
 From: Richard Guy Briggs <rgb@redhat.com>
 To: containers@lists.linux-foundation.org,
 	Linux-Audit Mailing List <linux-audit@redhat.com>,
 	LKML <linux-kernel@vger.kernel.org>
-Subject: [PATCH ghau51/ghau40 v8 01/14] AUDIT_CONTAINER_OP message type basic
+Subject: [PATCH ghau51/ghau40 v8 02/14] AUDIT_CONTAINER_ID message type basic
 	support
-Date: Tue, 31 Dec 2019 14:58:08 -0500
-Message-Id: <1577822301-19760-2-git-send-email-rgb@redhat.com>
+Date: Tue, 31 Dec 2019 14:58:09 -0500
+Message-Id: <1577822301-19760-3-git-send-email-rgb@redhat.com>
 In-Reply-To: <1577822301-19760-1-git-send-email-rgb@redhat.com>
 References: <1577822301-19760-1-git-send-email-rgb@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
@@ -69,16 +69,15 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 MIME-Version: 1.0
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: 0g4tgFepM7y9TedFtXiaNA-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: _Veas2MuPs6S_bDKwsFjRQ-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
 This defines the message number for the audit container identifier
-registration record should the kernel headers not be up to date, gives
-the record number a name for printing and allows the record to be
-interpreted since it is in the 1000 range like AUDIT_LOGIN.
+information record should the kernel headers not be up to date and gives
+the record number a name for printing.
 
 See: https://github.com/linux-audit/audit-userspace/issues/51
 See: https://github.com/linux-audit/audit-kernel/issues/90
@@ -88,48 +87,35 @@ Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
 ---
  lib/libaudit.h    | 4 ++++
  lib/msg_typetab.h | 1 +
- lib/netlink.c     | 1 +
- 3 files changed, 6 insertions(+)
+ 2 files changed, 5 insertions(+)
 
 diff --git a/lib/libaudit.h b/lib/libaudit.h
-index 0eea55faabd1..a5fef424d3ae 100644
+index a5fef424d3ae..ee56e7c158c7 100644
 --- a/lib/libaudit.h
 +++ b/lib/libaudit.h
-@@ -246,6 +246,10 @@ extern "C" {
- #define AUDIT_GET_FEATURE       1019    /* Get which features are enabled */
+@@ -298,6 +298,10 @@ extern "C" {
+ #define AUDIT_BPF		1334 /* BPF load/unload */
  #endif
  
-+#ifndef AUDIT_CONTAINER_OP
-+#define AUDIT_CONTAINER_OP	1020    /* Container creation notice */
++#ifndef AUDIT_CONTAINER_ID
++#define AUDIT_CONTAINER_ID	1335 /* Container ID */
 +#endif
 +
- #ifndef AUDIT_MMAP
- #define AUDIT_MMAP		1323 /* Descriptor and flags in mmap */
+ #ifndef AUDIT_MAC_CALIPSO_ADD
+ #define AUDIT_MAC_CALIPSO_ADD	1418 /* NetLabel: add CALIPSO DOI entry */
  #endif
 diff --git a/lib/msg_typetab.h b/lib/msg_typetab.h
-index 81b1ea51c69b..56c5bb18f706 100644
+index 56c5bb18f706..a11f761e8990 100644
 --- a/lib/msg_typetab.h
 +++ b/lib/msg_typetab.h
-@@ -44,6 +44,7 @@ _S(AUDIT_LOGIN,                      "LOGIN"                         )
- //_S(AUDIT_TTY_SET,                    "TTY_SET"                       )
- //_S(AUDIT_SET_FEATURE,                "SET_FEATURE"                   )
- //_S(AUDIT_GET_FEATURE,                "GET_FEATURE"                   )
-+_S(AUDIT_CONTAINER_OP,               "CONTAINER_OP"                  )
- _S(AUDIT_USER_AUTH,                  "USER_AUTH"                     )
- _S(AUDIT_USER_ACCT,                  "USER_ACCT"                     )
- _S(AUDIT_USER_MGMT,                  "USER_MGMT"                     )
-diff --git a/lib/netlink.c b/lib/netlink.c
-index 5b2028fda7e8..caa963b1ddb2 100644
---- a/lib/netlink.c
-+++ b/lib/netlink.c
-@@ -184,6 +184,7 @@ static int adjust_reply(struct audit_reply *rep, int len)
- 			break;
- 		case AUDIT_USER:
- 		case AUDIT_LOGIN:
-+		case AUDIT_CONTAINER_OP:
- 		case AUDIT_KERNEL:
- 		case AUDIT_FIRST_USER_MSG...AUDIT_LAST_USER_MSG:
- 		case AUDIT_FIRST_USER_MSG2...AUDIT_LAST_USER_MSG2:
+@@ -127,6 +127,7 @@ _S(AUDIT_FANOTIFY,                   "FANOTIFY"                      )
+ _S(AUDIT_TIME_INJOFFSET,             "TIME_INJOFFSET"                )
+ _S(AUDIT_TIME_ADJNTPVAL,             "TIME_ADJNTPVAL"                )
+ _S(AUDIT_BPF,                        "BPF"                           )
++_S(AUDIT_CONTAINER_ID,               "CONTAINER_ID"                  )
+ _S(AUDIT_AVC,                        "AVC"                           )
+ _S(AUDIT_SELINUX_ERR,                "SELINUX_ERR"                   )
+ _S(AUDIT_AVC_PATH,                   "AVC_PATH"                      )
 -- 
 1.8.3.1
 
