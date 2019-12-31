@@ -1,86 +1,58 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com [207.211.31.120])
-	by mail.lfdr.de (Postfix) with ESMTP id D5E5D12D2B4
-	for <lists+linux-audit@lfdr.de>; Mon, 30 Dec 2019 18:29:42 +0100 (CET)
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-delivery-1.mimecast.com [207.211.31.120])
+	by mail.lfdr.de (Postfix) with ESMTP id B18D412DB4D
+	for <lists+linux-audit@lfdr.de>; Tue, 31 Dec 2019 20:50:14 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1577726981;
+	s=mimecast20190719; t=1577821813;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
-	 message-id:message-id:to:to:cc:mime-version:mime-version:
-	 content-type:content-type:list-id:list-help:list-unsubscribe:
-	 list-subscribe:list-post; bh=vNRan89O6cDvP4Qt6E7612UKscJ5iNW16eeUYw5Ug3o=;
-	b=XN4+QjGniF9D7u7MfWY1/hdOkh4BEjEpxD64O0OEmmEZIBAVRLyUxVwfCaeiYhD4bLvUse
-	g1mjvcVdsyLY5iah9yWLVnTvrUj/R1iEnysr0w2YAu0VjQJSaCaUtSFawdTio9Zpn+mljQ
-	Rvt2TJjjLUbPC7Tj2XO00+KIp/RlLro=
+	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+	 content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:list-id:list-help:
+	 list-unsubscribe:list-subscribe:list-post;
+	bh=e2phABJzasBJTmeYssOxuES5pCUhJn5e7PbhFpqFepw=;
+	b=UdvAS5vGYywsainV/7C7zkpyftBKeT47aYjfwqbsd505xbdWyhW5EM6QikfsQUgqCoF9zG
+	GhTNNWaopfkR/psxSFynxWHcbWI55+IeXHDfPhewuLttXHKeZJ7kmk4bD5FROavMfMcEMd
+	/bEl9WlOvMj6utfaCbOfTrM3AlrWQcI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-375-FvjkkVAyN3Wg2VxboEOdWw-1; Mon, 30 Dec 2019 12:29:39 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+ us-mta-289-27hx68-NM2SE5fF6OHXIIw-1; Tue, 31 Dec 2019 14:50:11 -0500
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8C0E118031C4;
-	Mon, 30 Dec 2019 17:29:33 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id EBE4F60BE1;
-	Mon, 30 Dec 2019 17:29:32 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BC1E3800EBF;
+	Tue, 31 Dec 2019 19:50:04 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 280C75C3FD;
+	Tue, 31 Dec 2019 19:50:02 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 0DD6C18089CD;
-	Mon, 30 Dec 2019 17:29:30 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
-	[10.11.54.5])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id CBFF6819F6;
+	Tue, 31 Dec 2019 19:49:51 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+	[10.5.11.13])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id xBUHTLOw003529 for <linux-audit@listman.util.phx.redhat.com>;
-	Mon, 30 Dec 2019 12:29:22 -0500
+	id xBVJncko032078 for <linux-audit@listman.util.phx.redhat.com>;
+	Tue, 31 Dec 2019 14:49:38 -0500
 Received: by smtp.corp.redhat.com (Postfix)
-	id B68116D9C9; Mon, 30 Dec 2019 17:29:21 +0000 (UTC)
+	id 5160782086; Tue, 31 Dec 2019 19:49:38 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from mimecast-mx02.redhat.com
-	(mimecast03.extmail.prod.ext.rdu2.redhat.com [10.11.55.19])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id B0ED46D9C7
-	for <linux-audit@redhat.com>; Mon, 30 Dec 2019 17:29:19 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [205.139.110.61])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 197348D7726
-	for <linux-audit@redhat.com>; Mon, 30 Dec 2019 17:29:19 +0000 (UTC)
-IronPort-SDR: sDdgjbG8jLM/qbATFmaf30YdJFGHSgW/HGZolWHbXIhhws8jcKTweiHQcNY2riKpxZwd3b0jtI
-	3nYgdct8FkdNNaSfNj0fDSqvKmgpl1gvA+Fe37rOLsl4rbDUuOem09xNo3SUioFMXYW2gmFOj0
-	jJIDWWuOs8Vr4U0ERkW5Xh1ONCuD6XmSUR4DoFC1PDItNHI9k4xhhHt/pXgEYbv7S9EvCuS0B7
-	xVC1a+Kyo6E4cMRe3yajxoUvCNKHClCv7jGtxJYP0S1ZhOjxPN0m6IAUxV4ANXc/7xtTDtsaq0
-	XiXP64ulIDMGSVIYMUTQnX1x
-X-IronPort-AV: E=Sophos;i="5.69,376,1571695200"; d="scan'208,217";a="18805405"
-X-MGA-submission: =?us-ascii?q?MDEZAWXIp+Cl+RvAapiwu/PRJR23nWeYN9fuvW?=
-	=?us-ascii?q?VSHf0TwiR8BRYCZsITZVy4yUyCLpt/n654gOIgkO5r6cdElJX1GQXhl6?=
-	=?us-ascii?q?qLgrr/cvm+DwaVYB5Q1ejf+/3pny0aeUE1+d2m5PaCNo8RP1PX7P7Byi?=
-	=?us-ascii?q?iV?=
-Received: from smarthost2.atos.net (smtppost.atos.net [193.56.114.177])
-	(Using TLS) by relay.mimecast.com with ESMTP id
-	us-mta-406-noL7jzEjNdWBTQ9sOhwAng-1; Mon, 30 Dec 2019 12:29:16 -0500
-Received: from unknown (HELO DEFTHW99ETVMSX.ww931.my-it-solutions.net)
-	([10.86.142.50])
-	by smarthost2.atos.net with ESMTP/TLS/ECDHE-RSA-AES256-SHA384;
-	30 Dec 2019 18:29:15 +0100
-Received: from DEERLM99EX7MSX.ww931.my-it-solutions.net ([169.254.9.149]) by
-	DEFTHW99ETVMSX.ww931.my-it-solutions.net ([10.92.32.93]) with mapi id
-	14.03.0468.000; Mon, 30 Dec 2019 18:29:13 +0100
-From: "MAUPERTUIS, PHILIPPE" <philippe.maupertuis@equensworldline.com>
-To: "linux-audit@redhat.com" <linux-audit@redhat.com>
-Subject: USER_MGMT  event
-Thread-Topic: USER_MGMT  event
-Thread-Index: AdW/Ne3RocIDKekYRQSxKeXWlP620A==
-Date: Mon, 30 Dec 2019 17:29:13 +0000
-Message-ID: <5F4EE10832231F4F921A255C1D954298252E49@DEERLM99EX7MSX.ww931.my-it-solutions.net>
-Accept-Language: en-US
-Content-Language: fr-FR
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.86.142.14]
-MIME-Version: 1.0
-X-MC-Unique: noL7jzEjNdWBTQ9sOhwAng-1
-X-MC-Unique: FvjkkVAyN3Wg2VxboEOdWw-1
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+Received: from madcap2.tricolour.ca (ovpn-112-15.phx2.redhat.com [10.3.112.15])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 9CD2981C0A;
+	Tue, 31 Dec 2019 19:49:26 +0000 (UTC)
+From: Richard Guy Briggs <rgb@redhat.com>
+To: containers@lists.linux-foundation.org, linux-api@vger.kernel.org,
+	Linux-Audit Mailing List <linux-audit@redhat.com>,
+	linux-fsdevel@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+	netdev@vger.kernel.org, netfilter-devel@vger.kernel.org
+Subject: [PATCH ghak90 V8 00/16] audit: implement container identifier
+Date: Tue, 31 Dec 2019 14:48:13 -0500
+Message-Id: <cover.1577736799.git.rgb@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-loop: linux-audit@redhat.com
+Cc: nhorman@tuxdriver.com, Richard Guy Briggs <rgb@redhat.com>,
+	dhowells@redhat.com, ebiederm@xmission.com, simo@redhat.com,
+	eparis@parisplace.org, mpatel@redhat.com, serge@hallyn.com
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -92,190 +64,354 @@ List-Post: <mailto:linux-audit@redhat.com>
 List-Help: <mailto:linux-audit-request@redhat.com?subject=help>
 List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
+MIME-Version: 1.0
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: 27hx68-NM2SE5fF6OHXIIw-1
 X-Mimecast-Spam-Score: 0
-Content-Type: multipart/mixed; boundary="===============1390589196761576269=="
-
---===============1390589196761576269==
-Content-Language: fr-FR
-Content-Type: multipart/alternative;
-	boundary="_000_5F4EE10832231F4F921A255C1D954298252E49DEERLM99EX7MSXww9_"
-
---_000_5F4EE10832231F4F921A255C1D954298252E49DEERLM99EX7MSXww9_
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
-
-Hi,
-On a RHEL8 server, when playing around with usermod and  chsh, I noticed th=
-at
-usermod -c 'root@xxx' root generates a user_mgmt event
-But
-chsh -s /usr/bin/tlog-rec-session root didn't.
-Is that the expected behavior ?
-I was expecting an event for both.
-Should I open a ticket at redhat for this ?
-
-Regards
-Philippe
-
-equensWorldline is a registered trade mark and trading name owned by the Wo=
-rldline Group through its holding company.
-This e-mail and the documents attached are confidential and intended solely=
- for the addressee. If you receive this e-mail in error, you are not author=
-ized to copy, disclose, use or retain it. Please notify the sender immediat=
-ely and delete this email from your systems. As emails may be intercepted, =
-amended or lost, they are not secure. EquensWorldline and the Worldline Gro=
-up therefore can accept no liability for any errors or their content. Altho=
-ugh equensWorldline and the Worldline Group endeavours to maintain a virus-=
-free network, we do not warrant that this transmission is virus-free and ca=
-n accept no liability for any damages resulting from any virus transmitted.=
- The risks are deemed to be accepted by everyone who communicates with eque=
-nsWorldline and the Worldline Group by email
-
---_000_5F4EE10832231F4F921A255C1D954298252E49DEERLM99EX7MSXww9_
-Content-Type: text/html; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
-osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:x=3D"urn:schemas-microsoft-com:office:excel" xmlns:p=3D"urn:schemas-m=
-icrosoft-com:office:powerpoint" xmlns:a=3D"urn:schemas-microsoft-com:office=
-:access" xmlns:dt=3D"uuid:C2F41010-65B3-11d1-A29F-00AA00C14882" xmlns:s=3D"=
-uuid:BDC6E3F0-6DA3-11d1-A2A3-00AA00C14882" xmlns:rs=3D"urn:schemas-microsof=
-t-com:rowset" xmlns:z=3D"#RowsetSchema" xmlns:b=3D"urn:schemas-microsoft-co=
-m:office:publisher" xmlns:ss=3D"urn:schemas-microsoft-com:office:spreadshee=
-t" xmlns:c=3D"urn:schemas-microsoft-com:office:component:spreadsheet" xmlns=
-:odc=3D"urn:schemas-microsoft-com:office:odc" xmlns:oa=3D"urn:schemas-micro=
-soft-com:office:activation" xmlns:html=3D"http://www.w3.org/TR/REC-html40" =
-xmlns:q=3D"http://schemas.xmlsoap.org/soap/envelope/" xmlns:rtc=3D"http://m=
-icrosoft.com/officenet/conferencing" xmlns:D=3D"DAV:" xmlns:Repl=3D"http://=
-schemas.microsoft.com/repl/" xmlns:mt=3D"http://schemas.microsoft.com/share=
-point/soap/meetings/" xmlns:x2=3D"http://schemas.microsoft.com/office/excel=
-/2003/xml" xmlns:ppda=3D"http://www.passport.com/NameSpace.xsd" xmlns:ois=
-=3D"http://schemas.microsoft.com/sharepoint/soap/ois/" xmlns:dir=3D"http://=
-schemas.microsoft.com/sharepoint/soap/directory/" xmlns:ds=3D"http://www.w3=
-.org/2000/09/xmldsig#" xmlns:dsp=3D"http://schemas.microsoft.com/sharepoint=
-/dsp" xmlns:udc=3D"http://schemas.microsoft.com/data/udc" xmlns:xsd=3D"http=
-://www.w3.org/2001/XMLSchema" xmlns:sub=3D"http://schemas.microsoft.com/sha=
-repoint/soap/2002/1/alerts/" xmlns:ec=3D"http://www.w3.org/2001/04/xmlenc#"=
- xmlns:sp=3D"http://schemas.microsoft.com/sharepoint/" xmlns:sps=3D"http://=
-schemas.microsoft.com/sharepoint/soap/" xmlns:xsi=3D"http://www.w3.org/2001=
-/XMLSchema-instance" xmlns:udcs=3D"http://schemas.microsoft.com/data/udc/so=
-ap" xmlns:udcxf=3D"http://schemas.microsoft.com/data/udc/xmlfile" xmlns:udc=
-p2p=3D"http://schemas.microsoft.com/data/udc/parttopart" xmlns:wf=3D"http:/=
-/schemas.microsoft.com/sharepoint/soap/workflow/" xmlns:dsss=3D"http://sche=
-mas.microsoft.com/office/2006/digsig-setup" xmlns:dssi=3D"http://schemas.mi=
-crosoft.com/office/2006/digsig" xmlns:mdssi=3D"http://schemas.openxmlformat=
-s.org/package/2006/digital-signature" xmlns:mver=3D"http://schemas.openxmlf=
-ormats.org/markup-compatibility/2006" xmlns:m=3D"http://schemas.microsoft.c=
-om/office/2004/12/omml" xmlns:mrels=3D"http://schemas.openxmlformats.org/pa=
-ckage/2006/relationships" xmlns:spwp=3D"http://microsoft.com/sharepoint/web=
-partpages" xmlns:ex12t=3D"http://schemas.microsoft.com/exchange/services/20=
-06/types" xmlns:ex12m=3D"http://schemas.microsoft.com/exchange/services/200=
-6/messages" xmlns:pptsl=3D"http://schemas.microsoft.com/sharepoint/soap/Sli=
-deLibrary/" xmlns:spsl=3D"http://microsoft.com/webservices/SharePointPortal=
-Server/PublishedLinksService" xmlns:Z=3D"urn:schemas-microsoft-com:" xmlns:=
-tax=3D"http://schemas.microsoft.com/sharepoint/taxonomy/soap/" xmlns:tns=3D=
-"http://schemas.microsoft.com/sharepoint/soap/recordsrepository/" xmlns:sps=
-up=3D"http://microsoft.com/webservices/SharePointPortalServer/UserProfileSe=
-rvice" xmlns:mml=3D"http://www.w3.org/1998/Math/MathML" xmlns:st=3D"&#1;" x=
-mlns=3D"http://www.w3.org/TR/REC-html40">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
->
-<meta name=3D"Generator" content=3D"Microsoft Word 14 (filtered medium)">
-<style><!--
-/* Font Definitions */
-@font-face
-=09{font-family:Calibri;
-=09panose-1:2 15 5 2 2 2 4 3 2 4;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-=09{margin:0cm;
-=09margin-bottom:.0001pt;
-=09font-size:11.0pt;
-=09font-family:"Calibri","sans-serif";
-=09mso-fareast-language:EN-US;}
-a:link, span.MsoHyperlink
-=09{mso-style-priority:99;
-=09color:blue;
-=09text-decoration:underline;}
-a:visited, span.MsoHyperlinkFollowed
-=09{mso-style-priority:99;
-=09color:purple;
-=09text-decoration:underline;}
-span.EmailStyle17
-=09{mso-style-type:personal-compose;
-=09font-family:"Calibri","sans-serif";
-=09color:windowtext;}
-.MsoChpDefault
-=09{mso-style-type:export-only;
-=09font-family:"Calibri","sans-serif";
-=09mso-fareast-language:EN-US;}
-@page WordSection1
-=09{size:612.0pt 792.0pt;
-=09margin:70.85pt 70.85pt 70.85pt 70.85pt;}
-div.WordSection1
-=09{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]-->
-</head>
-<body lang=3D"FR" link=3D"blue" vlink=3D"purple">
-<div class=3D"WordSection1">
-<p class=3D"MsoNormal"><span lang=3D"EN-US">Hi, <o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">On a RHEL8 server, when playing=
- around with usermod and &nbsp;chsh, I noticed that<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">usermod -c &#8216;root@xxx&#821=
-7; root generates a user_mgmt event<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">But <o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">chsh -s /usr/bin/tlog-rec-sessi=
-on root didn&#8217;t.<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">Is that the expected behavior ?=
-<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">I was expecting an event for bo=
-th.<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">Should I open a ticket at redha=
-t for this ?<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">Regards<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">Philippe<o:p></o:p></span></p>
-</div>
-<p>equensWorldline is a registered trade mark and trading name owned by the=
- Worldline Group through its holding company.<br>
-This e-mail and the documents attached are confidential and intended solely=
- for the addressee. If you receive this e-mail in error, you are not author=
-ized to copy, disclose, use or retain it. Please notify the sender immediat=
-ely and delete this email from your
- systems. As emails may be intercepted, amended or lost, they are not secur=
-e. EquensWorldline and the Worldline Group therefore can accept no liabilit=
-y for any errors or their content. Although equensWorldline and the Worldli=
-ne Group endeavours to maintain
- a virus-free network, we do not warrant that this transmission is virus-fr=
-ee and can accept no liability for any damages resulting from any virus tra=
-nsmitted. The risks are deemed to be accepted by everyone who communicates =
-with equensWorldline and the Worldline
- Group by email<br>
-</p>
-</body>
-</html>
-
---_000_5F4EE10832231F4F921A255C1D954298252E49DEERLM99EX7MSXww9_--
-
---===============1390589196761576269==
 Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+
+Implement kernel audit container identifier.
+
+This patchset is an eighth based on the proposal document (V4) posted:
+	https://www.redhat.com/archives/linux-audit/2019-September/msg00052.html
+
+The first patch was the last patch from ghak81 that was absorbed into
+this patchset since its primary justification is the rest of this
+patchset.
+
+The second patch implements the proc fs write to set the audit container
+identifier of a process, emitting an AUDIT_CONTAINER_OP record to
+announce the registration of that audit container identifier on that
+process.  This patch requires userspace support for record acceptance
+and proper type display.
+
+The third implements reading the audit container identifier from the
+proc filesystem for debugging.  This patch wasn't planned for upstream
+inclusion but is starting to become more likely.
+
+The fourth converts over from a simple u64 to a list member that includes
+owner information to check for descendancy, allow process injection into
+a container and prevent id reuse by other orchestrators.
+
+The fifth logs the drop of an audit container identifier once all tasks
+using that audit container identifier have exited.
+
+The 6th implements the auxiliary record AUDIT_CONTAINER_ID if an audit
+container identifier is associated with an event.  This patch requires
+userspace support for proper type display.
+
+The 7th adds audit daemon signalling provenance through audit_sig_info2.
+
+The 8th creates a local audit context to be able to bind a standalone
+record with a locally created auxiliary record.
+
+The 9th patch adds audit container identifier records to the user
+standalone records.
+
+The 10th adds audit container identifier filtering to the exit,
+exclude and user lists.  This patch adds the AUDIT_CONTID field and
+requires auditctl userspace support for the --contid option.
+
+The 11th adds network namespace audit container identifier labelling
+based on member tasks' audit container identifier labels which supports
+standalone netfilter records that don't have a task context and lists
+each container to which that net namespace belongs.
+
+The 12th checks that the target is a descendant for nesting and
+refactors to avoid a duplicate of the copied function.
+
+The 13th adds tracking and reporting for container nesting.  
+This enables kernel filtering and userspace searches of nested audit
+container identifiers.
+
+The 14th checks and clamps the nesting depth of containers while the
+15th checks and clamps the total number of audit container identifiers
+sharing one network namespace.  The combination of these two pararmeters
+prevents the overflow of the contid field in CONTAINER_* records.
+
+The 16th adds a mechanism to allow a process to be designated as a
+container orchestrator/engine in non-init user namespaces.
+
+
+Example: Set an audit container identifier of 123456 to the "sleep" task:
+
+  sleep 2&
+  child=$!
+  echo 123456 > /proc/$child/audit_containerid; echo $?
+  ausearch -ts recent -m container_op
+  echo child:$child contid:$( cat /proc/$child/audit_containerid)
+
+This should produce a record such as:
+
+  type=CONTAINER_OP msg=audit(2018-06-06 12:39:29.636:26949) : op=set opid=2209 contid=123456 old-contid=18446744073709551615
+
+
+Example: Set a filter on an audit container identifier 123459 on /tmp/tmpcontainerid:
+
+  contid=123459
+  key=tmpcontainerid
+  auditctl -a exit,always -F dir=/tmp -F perm=wa -F contid=$contid -F key=$key
+  perl -e "sleep 1; open(my \$tmpfile, '>', \"/tmp/$key\"); close(\$tmpfile);" &
+  child=$!
+  echo $contid > /proc/$child/audit_containerid
+  sleep 2
+  ausearch -i -ts recent -k $key
+  auditctl -d exit,always -F dir=/tmp -F perm=wa -F contid=$contid -F key=$key
+  rm -f /tmp/$key
+
+This should produce an event such as:
+
+  type=CONTAINER_ID msg=audit(2018-06-06 12:46:31.707:26953) : contid=123459
+  type=PROCTITLE msg=audit(2018-06-06 12:46:31.707:26953) : proctitle=perl -e sleep 1; open(my $tmpfile, '>', "/tmp/tmpcontainerid"); close($tmpfile);
+  type=PATH msg=audit(2018-06-06 12:46:31.707:26953) : item=1 name=/tmp/tmpcontainerid inode=25656 dev=00:26 mode=file,644 ouid=root ogid=root rdev=00:00 obj=unconfined_u:object_r:user_tmp_t:s0 nametype=CREATE cap_fp=none cap_fi=none cap_fe=0 cap_fver=0
+  type=PATH msg=audit(2018-06-06 12:46:31.707:26953) : item=0 name=/tmp/ inode=8985 dev=00:26 mode=dir,sticky,777 ouid=root ogid=root rdev=00:00 obj=system_u:object_r:tmp_t:s0 nametype=PARENT cap_fp=none cap_fi=none cap_fe=0 cap_fver=0
+  type=CWD msg=audit(2018-06-06 12:46:31.707:26953) : cwd=/root
+  type=SYSCALL msg=audit(2018-06-06 12:46:31.707:26953) : arch=x86_64 syscall=openat success=yes exit=3 a0=0xffffffffffffff9c a1=0x5621f2b81900 a2=O_WRONLY|O_CREAT|O_TRUNC a3=0x1b6 items=2 ppid=628 pid=2232 auid=root uid=root gid=root euid=root suid=root fsuid=root egid=root sgid=root fsgid=root tty=ttyS0 ses=1 comm=perl exe=/usr/bin/perl subj=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023 key=tmpcontainerid
+
+Example: Test multiple containers on one netns:
+
+  sleep 5 &
+  child1=$!
+  containerid1=123451
+  echo $containerid1 > /proc/$child1/audit_containerid
+  sleep 5 &
+  child2=$!
+  containerid2=123452
+  echo $containerid2 > /proc/$child2/audit_containerid
+  iptables -I INPUT -i lo -p icmp --icmp-type echo-request -j AUDIT --type accept
+  iptables -I INPUT  -t mangle -i lo -p icmp --icmp-type echo-request -j MARK --set-mark 0x12345555
+  sleep 1;
+  bash -c "ping -q -c 1 127.0.0.1 >/dev/null 2>&1"
+  sleep 1;
+  ausearch -i -m NETFILTER_PKT -ts boot|grep mark=0x12345555
+  ausearch -i -m NETFILTER_PKT -ts boot|grep contid=|grep $containerid1|grep $containerid2
+
+This should produce an event such as:
+
+  type=NETFILTER_PKT msg=audit(03/15/2019 14:16:13.369:244) : mark=0x12345555 saddr=127.0.0.1 daddr=127.0.0.1 proto=icmp
+  type=CONTAINER_ID msg=audit(03/15/2019 14:16:13.369:244) : contid=123452,123451
+
+
+Includes the last patch of https://github.com/linux-audit/audit-kernel/issues/81
+Please see the github audit kernel issue for the main feature:
+  https://github.com/linux-audit/audit-kernel/issues/90
+and the kernel filter code:
+  https://github.com/linux-audit/audit-kernel/issues/91
+and the network support:
+  https://github.com/linux-audit/audit-kernel/issues/92
+Please see the github audit userspace issue for supporting record types:
+  https://github.com/linux-audit/audit-userspace/issues/51
+and filter code:
+  https://github.com/linux-audit/audit-userspace/issues/40
+Please see the github audit testsuiite issue for the test case:
+  https://github.com/linux-audit/audit-testsuite/issues/64
+  https://github.com/rgbriggs/audit-testsuite/tree/ghat64-contid
+  https://githu.com/linux-audit/audit-testsuite/pull/91
+Please see the github audit wiki for the feature overview:
+  https://github.com/linux-audit/audit-kernel/wiki/RFE-Audit-Container-ID
+
+The code is also posted at:
+  git://toccata2.tricolour.ca/linux-2.6-rgb.git ghak90-audit-containerID.v8
+
+Changelog:
+v8
+- rebase on v5.5-rc1 audit/next
+- remove subject attrs in CONTAINER_OP record
+- group audit_contid_list_lock with audit_contid_hash
+- in audit_{set,log}_contid(), break out of loop after finding target
+- use target var to size kmalloc
+- rework audit_cont_owner() to bool audit_contid_isowner() and move to where used
+- create static void audit_cont_hold(struct audit_contobj *cont) { refcount_inc(&cont->refcount); }
+- rename audit_cont{,_*} refs to audit_contobj{,_*}
+- prefix special local functions with _ [audit_contobj*()]
+- protect contid list traversals with rcu_read_lock() and updates with audit_contid_list_lock
+- protect real_parent in audit_contid_depth() with rcu_dereference
+- give new contid field nesting format in patch description
+- squash task_is_descendant()
+- squash support for NETFILTER_PKT into network namespaces
+- limit nesting depth based on record length overflow, bandwidth and storage
+- implent control for audit container identifier nesting depth limit
+- make room for audit_bpf patches (bump CONTAINER_ID to 1335)
+- squash proc interface into capcontid
+- remove netlink access to loginuid/sessionid/contid/capcontid
+- delete 32k contid limit patch
+- document potential overlap between signal delivery and contid reuse
+- document audit_contobj_list_lock coverage
+- document disappearing orch task injection limitation
+- limit the number of containers that can be associated with a network namespace
+- implent control for audit container identifier netns count limit 
+
+v7
+- remove BUG() in audit_comparator64()
+- rebase on v5.2-rc1 audit/next
+- resolve merge conflict with ghak111 (signal_info regardless syscall)
+- resolve merge conflict with ghak73 (audit_field_valid)
+- resolve merge conflict with ghak64 (saddr_fam filter)
+- resolve merge conflict with ghak10 (ntp audit) change AUDIT_CONTAINER_ID from 1332 to 1334
+- rebase on v5.3-rc1 audit/next
+- track container owner
+- only permit setting contid of descendants for nesting
+- track drop of contid and permit reuse
+- track and report container nesting
+- permit filtering on any nested contid
+- set/get contid and loginuid/sessionid via netlink
+- implement capcontid to enable orchestrators in non-init user
+  namespaces
+- limit number of containers
+- limit depth of container nesting
+
+v6
+- change TMPBUFLEN from 11 to 21 to cover the decimal value of contid
+  u64 (nhorman)
+- fix bug overwriting ctx in struct audit_sig_info, move cid above
+  ctx[0] (nhorman)
+- fix bug skipping remaining fields and not advancing bufp when copying
+  out contid in audit_krule_to_data (omosnacec)
+- add acks, tidy commit descriptions, other formatting fixes (checkpatch
+  wrong on audit_log_lost)
+- cast ull for u64 prints
+- target_cid tracking was moved from the ptrace/signal patch to
+  container_op
+- target ptrace and signal records were moved from the ptrace/signal
+  patch to container_id
+- auditd signaller tracking was moved to a new AUDIT_SIGNAL_INFO2
+  request and record
+- ditch unnecessary list_empty() checks
+- check for null net and aunet in audit_netns_contid_add()
+- swap CONTAINER_OP contid/old-contid order to ease parsing
+
+v5
+- address loginuid and sessionid syscall scope in ghak104
+- address audit_context in CONFIG_AUDIT vs CONFIG_AUDITSYSCALL in ghak105
+- remove tty patch, addressed in ghak106
+- rebase on audit/next v5.0-rc1
+  w/ghak59/ghak104/ghak103/ghak100/ghak107/ghak105/ghak106/ghak105sup
+- update CONTAINER_ID to CONTAINER_OP in patch description
+- move audit_context in audit_task_info to CONFIG_AUDITSYSCALL
+- move audit_alloc() and audit_free() out of CONFIG_AUDITSYSCALL and into
+  CONFIG_AUDIT and create audit_{alloc,free}_syscall
+- use plain kmem_cache_alloc() rather than kmem_cache_zalloc() in audit_alloc()
+- fix audit_get_contid() declaration type error
+- move audit_set_contid() from auditsc.c to audit.c
+- audit_log_contid() returns void
+- audit_log_contid() handed contid rather than tsk
+- switch from AUDIT_CONTAINER to AUDIT_CONTAINER_ID for aux record
+- move audit_log_contid(tsk/contid) & audit_contid_set(tsk)/audit_contid_valid(contid)
+- switch from tsk to current
+- audit_alloc_local() calls audit_log_lost() on failure to allocate a context
+- add AUDIT_USER* non-syscall contid record
+- cosmetic cleanup double parens, goto out on err
+- ditch audit_get_ns_contid_list_lock(), fix aunet lock race
+- switch from all-cpu read spinlock to rcu, keep spinlock for write
+- update audit_alloc_local() to use ktime_get_coarse_real_ts64()
+- add nft_log support
+- add call from do_exit() in audit_free() to remove contid from netns
+- relegate AUDIT_CONTAINER ref= field (was op=) to debug patch
+
+v4
+- preface set with ghak81:"collect audit task parameters"
+- add shallyn and sgrubb acks
+- rename feature bitmap macro
+- rename cid_valid() to audit_contid_valid()
+- rename AUDIT_CONTAINER_ID to AUDIT_CONTAINER_OP
+- delete audit_get_contid_list() from headers
+- move work into inner if, delete "found"
+- change netns contid list function names
+- move exports for audit_log_contid audit_alloc_local audit_free_context to non-syscall patch
+- list contids CSV
+- pass in gfp flags to audit_alloc_local() (fix audit_alloc_context callers)
+- use "local" in lieu of abusing in_syscall for auditsc_get_stamp()
+- read_lock(&tasklist_lock) around children and thread check
+- task_lock(tsk) should be taken before first check of tsk->audit
+- add spin lock to contid list in aunet
+- restrict /proc read to CAP_AUDIT_CONTROL
+- remove set again prohibition and inherited flag
+- delete contidion spelling fix from patchset, send to netdev/linux-wireless
+
+v3
+- switched from containerid in task_struct to audit_task_info (depends on ghak81)
+- drop INVALID_CID in favour of only AUDIT_CID_UNSET
+- check for !audit_task_info, throw -ENOPROTOOPT on set
+- changed -EPERM to -EEXIST for parent check
+- return AUDIT_CID_UNSET if !audit_enabled
+- squash child/thread check patch into AUDIT_CONTAINER_ID patch
+- changed -EPERM to -EBUSY for child check
+- separate child and thread checks, use -EALREADY for latter
+- move addition of op= from ptrace/signal patch to AUDIT_CONTAINER patch
+- fix && to || bashism in ptrace/signal patch
+- uninline and export function for audit_free_context()
+- drop CONFIG_CHANGE, FEATURE_CHANGE, ANOM_ABEND, ANOM_SECCOMP patches
+- move audit_enabled check (xt_AUDIT)
+- switched from containerid list in struct net to net_generic's struct audit_net
+- move containerid list iteration into audit (xt_AUDIT)
+- create function to move namespace switch into audit
+- switched /proc/PID/ entry from containerid to audit_containerid
+- call kzalloc with GFP_ATOMIC on in_atomic() in audit_alloc_context()
+- call kzalloc with GFP_ATOMIC on in_atomic() in audit_log_container_info()
+- use xt_net(par) instead of sock_net(skb->sk) to get net
+- switched record and field names: initial CONTAINER_ID, aux CONTAINER, field CONTID
+- allow to set own contid
+- open code audit_set_containerid
+- add contid inherited flag
+- ccontainerid and pcontainerid eliminated due to inherited flag
+- change name of container list funcitons
+- rename containerid to contid
+- convert initial container record to syscall aux
+- fix spelling mistake of contidion in net/rfkill/core.c to avoid contid name collision
+
+v2
+- add check for children and threads
+- add network namespace container identifier list
+- add NETFILTER_PKT audit container identifier logging
+- patch description and documentation clean-up and example
+- reap unused ppid
+
+Richard Guy Briggs (16):
+  audit: collect audit task parameters
+  audit: add container id
+  audit: read container ID of a process
+  audit: convert to contid list to check for orch/engine ownership
+  audit: log drop of contid on exit of last task
+  audit: log container info of syscalls
+  audit: add contid support for signalling the audit daemon
+  audit: add support for non-syscall auxiliary records
+  audit: add containerid support for user records
+  audit: add containerid filtering
+  audit: add support for containerid to network namespaces
+  audit: contid check descendancy and nesting
+  audit: track container nesting
+  audit: check contid depth and add limit config param
+  audit: check contid count per netns and add config param limit
+  audit: add capcontid to set contid outside init_user_ns
+
+ fs/proc/base.c              | 112 +++++++-
+ include/linux/audit.h       | 140 +++++++++-
+ include/linux/nsproxy.h     |   2 +-
+ include/linux/sched.h       |  10 +-
+ include/uapi/linux/audit.h  |  14 +-
+ init/init_task.c            |   3 +-
+ init/main.c                 |   2 +
+ kernel/audit.c              | 626 +++++++++++++++++++++++++++++++++++++++++++-
+ kernel/audit.h              |  29 ++
+ kernel/auditfilter.c        |  61 +++++
+ kernel/auditsc.c            |  91 +++++--
+ kernel/fork.c               |  11 +-
+ kernel/nsproxy.c            |  27 +-
+ kernel/sched/core.c         |  33 +++
+ net/netfilter/nft_log.c     |  11 +-
+ net/netfilter/xt_AUDIT.c    |  11 +-
+ security/selinux/nlmsgtab.c |   1 +
+ security/yama/yama_lsm.c    |  33 ---
+ 18 files changed, 1115 insertions(+), 102 deletions(-)
+
+-- 
+1.8.3.1
 
 --
 Linux-audit mailing list
 Linux-audit@redhat.com
 https://www.redhat.com/mailman/listinfo/linux-audit
---===============1390589196761576269==--
 
