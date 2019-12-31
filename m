@@ -1,64 +1,57 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com [207.211.31.120])
-	by mail.lfdr.de (Postfix) with ESMTP id 235D912DBA0
-	for <lists+linux-audit@lfdr.de>; Tue, 31 Dec 2019 20:53:12 +0100 (CET)
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com [205.139.110.120])
+	by mail.lfdr.de (Postfix) with ESMTP id E212812DBA7
+	for <lists+linux-audit@lfdr.de>; Tue, 31 Dec 2019 20:59:11 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1577821991;
+	s=mimecast20190719; t=1577822350;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:in-reply-to:references:references:references:
-	 list-id:list-help:list-unsubscribe:list-subscribe:list-post;
-	bh=nVSuGTQ/lrF45qWfzABsmjQGvc4oQUls8nDMfxts0XY=;
-	b=Yorq+Srb/ROvBYBFQYg2hYWB3W7lIjw0nyi2CO3IrSEXAjp2/rNdqDN6XyUTy6zehfsD7e
-	GfnON3k72vs8JebjrndyaFNtsknWkm39ZCIRbCQcUySwAZEFmt4ShPpD70Ns/XSMs+oVMK
-	PPsvoQ2ixsZCiSbzvQSmpHC/hdofA8Y=
+	 content-transfer-encoding:content-transfer-encoding:list-id:list-help:
+	 list-unsubscribe:list-subscribe:list-post;
+	bh=ZR1xsIut/bjbjqUilj40F3Y+dy/AKfUDNEjSY5r8N8s=;
+	b=BhBvDn3OrgiJbFY5ltP2H/XFe+OWZ0qyX8wkMiDEZuJx3CZt4wTWlqsqy5vw93vB5CX97F
+	rSAj3PPk07ja8Kl7p4Ge/b6IWZapbr74zGaxkOvoOCkxUdxTAoWppXgFM0+PVq7ZRfJs55
+	q3icKP/sg6znScjouC4W/PsoUPSKMwo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-304-7CRQYErBMHWlk38mZWpiIg-1; Tue, 31 Dec 2019 14:51:47 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+ us-mta-44-GsULy1G2MAm3NMmogywudA-1; Tue, 31 Dec 2019 14:59:06 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4F9CA800D54;
-	Tue, 31 Dec 2019 19:51:43 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 547D7800EB8;
+	Tue, 31 Dec 2019 19:59:01 +0000 (UTC)
 Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 26EDC5C3FD;
-	Tue, 31 Dec 2019 19:51:43 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 0BADE5D9E1;
+	Tue, 31 Dec 2019 19:59:01 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id E5F44819C9;
-	Tue, 31 Dec 2019 19:51:42 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
-	[10.5.11.13])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 589C9819C9;
+	Tue, 31 Dec 2019 19:59:00 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+	[10.5.11.12])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id xBVJpeKw032539 for <linux-audit@listman.util.phx.redhat.com>;
-	Tue, 31 Dec 2019 14:51:40 -0500
+	id xBVJwtor000357 for <linux-audit@listman.util.phx.redhat.com>;
+	Tue, 31 Dec 2019 14:58:55 -0500
 Received: by smtp.corp.redhat.com (Postfix)
-	id 2D23A82A07; Tue, 31 Dec 2019 19:51:40 +0000 (UTC)
+	id 435EC60E3E; Tue, 31 Dec 2019 19:58:55 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from madcap2.tricolour.ca (ovpn-112-15.phx2.redhat.com [10.3.112.15])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 9D66167673;
-	Tue, 31 Dec 2019 19:51:35 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 0ED3660BEC;
+	Tue, 31 Dec 2019 19:58:47 +0000 (UTC)
 From: Richard Guy Briggs <rgb@redhat.com>
-To: containers@lists.linux-foundation.org, linux-api@vger.kernel.org,
+To: containers@lists.linux-foundation.org,
 	Linux-Audit Mailing List <linux-audit@redhat.com>,
-	linux-fsdevel@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-	netdev@vger.kernel.org, netfilter-devel@vger.kernel.org
-Subject: [PATCH ghak90 V8 16/16] audit: add capcontid to set contid outside
-	init_user_ns
-Date: Tue, 31 Dec 2019 14:48:29 -0500
-Message-Id: <5941671b6b6b5de28ab2cc80e72f288cf83291d5.1577736799.git.rgb@redhat.com>
-In-Reply-To: <cover.1577736799.git.rgb@redhat.com>
-References: <cover.1577736799.git.rgb@redhat.com>
-In-Reply-To: <cover.1577736799.git.rgb@redhat.com>
-References: <cover.1577736799.git.rgb@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+	LKML <linux-kernel@vger.kernel.org>
+Subject: [PATCH ghau51/ghau40 v8 00/14] add support for audit container
+	identifier
+Date: Tue, 31 Dec 2019 14:58:07 -0500
+Message-Id: <1577822301-19760-1-git-send-email-rgb@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-loop: linux-audit@redhat.com
-Cc: nhorman@tuxdriver.com, Richard Guy Briggs <rgb@redhat.com>,
-	dhowells@redhat.com, ebiederm@xmission.com, simo@redhat.com,
-	eparis@parisplace.org, mpatel@redhat.com, serge@hallyn.com
+Cc: nhorman@redhat.com, Richard Guy Briggs <rgb@redhat.com>,
+	eparis@parisplace.org, mpatel@redhat.com
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -73,207 +66,166 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 MIME-Version: 1.0
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: 7CRQYErBMHWlk38mZWpiIg-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: GsULy1G2MAm3NMmogywudA-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-Provide a mechanism similar to CAP_AUDIT_CONTROL to explicitly give a
-process in a non-init user namespace the capability to set audit
-container identifiers.
+Add support for audit kernel container identifiers to userspace tools.
 
-Provide /proc/$PID/audit_capcontid interface to capcontid.
-Valid values are: 1==enabled, 0==disabled
+The first and second add new record types.  The third adds filter
+support.  The fourth and 5th start to add search support.
 
-Report this action in message type AUDIT_SET_CAPCONTID 1022 with fields
-opid= capcontid= old-capcontid=
+The 6th is to read the calling process' audit container identifier from
+the /proc filesystem matching the kernel /proc read patch.
 
-Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
----
- fs/proc/base.c             | 55 ++++++++++++++++++++++++++++++++++++++++++++++
- include/linux/audit.h      | 14 ++++++++++++
- include/uapi/linux/audit.h |  1 +
- kernel/audit.c             | 35 +++++++++++++++++++++++++++++
- 4 files changed, 105 insertions(+)
+The 7th is to fix signal support and the 8th is to learn the audit
+container identifier of the process that signals the audit daemon.
 
-diff --git a/fs/proc/base.c b/fs/proc/base.c
-index 26091800180c..283ef8e006e7 100644
---- a/fs/proc/base.c
-+++ b/fs/proc/base.c
-@@ -1360,6 +1360,59 @@ static ssize_t proc_contid_write(struct file *file, const char __user *buf,
- 	.write		= proc_contid_write,
- 	.llseek		= generic_file_llseek,
- };
-+
-+static ssize_t proc_capcontid_read(struct file *file, char __user *buf,
-+				  size_t count, loff_t *ppos)
-+{
-+	struct inode *inode = file_inode(file);
-+	struct task_struct *task = get_proc_task(inode);
-+	ssize_t length;
-+	char tmpbuf[TMPBUFLEN];
-+
-+	if (!task)
-+		return -ESRCH;
-+	/* if we don't have caps, reject */
-+	if (!capable(CAP_AUDIT_CONTROL) && !audit_get_capcontid(current))
-+		return -EPERM;
-+	length = scnprintf(tmpbuf, TMPBUFLEN, "%u", audit_get_capcontid(task));
-+	put_task_struct(task);
-+	return simple_read_from_buffer(buf, count, ppos, tmpbuf, length);
-+}
-+
-+static ssize_t proc_capcontid_write(struct file *file, const char __user *buf,
-+				   size_t count, loff_t *ppos)
-+{
-+	struct inode *inode = file_inode(file);
-+	u32 capcontid;
-+	int rv;
-+	struct task_struct *task = get_proc_task(inode);
-+
-+	if (!task)
-+		return -ESRCH;
-+	if (*ppos != 0) {
-+		/* No partial writes. */
-+		put_task_struct(task);
-+		return -EINVAL;
-+	}
-+
-+	rv = kstrtou32_from_user(buf, count, 10, &capcontid);
-+	if (rv < 0) {
-+		put_task_struct(task);
-+		return rv;
-+	}
-+
-+	rv = audit_set_capcontid(task, capcontid);
-+	put_task_struct(task);
-+	if (rv < 0)
-+		return rv;
-+	return count;
-+}
-+
-+static const struct file_operations proc_capcontid_operations = {
-+	.read		= proc_capcontid_read,
-+	.write		= proc_capcontid_write,
-+	.llseek		= generic_file_llseek,
-+};
- #endif
- 
- #ifdef CONFIG_FAULT_INJECTION
-@@ -3121,6 +3174,7 @@ static int proc_stack_depth(struct seq_file *m, struct pid_namespace *ns,
- 	REG("loginuid",   S_IWUSR|S_IRUGO, proc_loginuid_operations),
- 	REG("sessionid",  S_IRUGO, proc_sessionid_operations),
- 	REG("audit_containerid", S_IWUSR|S_IRUSR, proc_contid_operations),
-+	REG("audit_capcontainerid", S_IWUSR|S_IRUSR|S_IRUSR, proc_capcontid_operations),
- #endif
- #ifdef CONFIG_FAULT_INJECTION
- 	REG("make-it-fail", S_IRUGO|S_IWUSR, proc_fault_inject_operations),
-@@ -3522,6 +3576,7 @@ static int proc_tid_comm_permission(struct inode *inode, int mask)
- 	REG("loginuid",  S_IWUSR|S_IRUGO, proc_loginuid_operations),
- 	REG("sessionid",  S_IRUGO, proc_sessionid_operations),
- 	REG("audit_containerid", S_IWUSR|S_IRUSR, proc_contid_operations),
-+	REG("audit_capcontainerid", S_IWUSR|S_IRUSR|S_IRUSR, proc_capcontid_operations),
- #endif
- #ifdef CONFIG_FAULT_INJECTION
- 	REG("make-it-fail", S_IRUGO|S_IWUSR, proc_fault_inject_operations),
-diff --git a/include/linux/audit.h b/include/linux/audit.h
-index 28b9c7cd86a6..62c453306c2a 100644
---- a/include/linux/audit.h
-+++ b/include/linux/audit.h
-@@ -116,6 +116,7 @@ struct audit_task_info {
- 	kuid_t			loginuid;
- 	unsigned int		sessionid;
- 	struct audit_contobj	*cont;
-+	u32			capcontid;
- #ifdef CONFIG_AUDITSYSCALL
- 	struct audit_context	*ctx;
- #endif
-@@ -224,6 +225,14 @@ static inline unsigned int audit_get_sessionid(struct task_struct *tsk)
- 	return tsk->audit->sessionid;
- }
- 
-+static inline u32 audit_get_capcontid(struct task_struct *tsk)
-+{
-+	if (!tsk->audit)
-+		return 0;
-+	return tsk->audit->capcontid;
-+}
-+
-+extern int audit_set_capcontid(struct task_struct *tsk, u32 enable);
- extern int audit_set_contid(struct task_struct *tsk, u64 contid);
- 
- static inline u64 audit_get_contid(struct task_struct *tsk)
-@@ -305,6 +314,11 @@ static inline unsigned int audit_get_sessionid(struct task_struct *tsk)
- 	return AUDIT_SID_UNSET;
- }
- 
-+static inline u32 audit_get_capcontid(struct task_struct *tsk)
-+{
-+	return 0;
-+}
-+
- static inline u64 audit_get_contid(struct task_struct *tsk)
- {
- 	return AUDIT_CID_UNSET;
-diff --git a/include/uapi/linux/audit.h b/include/uapi/linux/audit.h
-index 2844d78cd7af..01251e6dcec0 100644
---- a/include/uapi/linux/audit.h
-+++ b/include/uapi/linux/audit.h
-@@ -73,6 +73,7 @@
- #define AUDIT_GET_FEATURE	1019	/* Get which features are enabled */
- #define AUDIT_CONTAINER_OP	1020	/* Define the container id and info */
- #define AUDIT_SIGNAL_INFO2	1021	/* Get info auditd signal sender */
-+#define AUDIT_SET_CAPCONTID	1022	/* Set cap_contid of a task */
- 
- #define AUDIT_FIRST_USER_MSG	1100	/* Userspace messages mostly uninteresting to kernel */
- #define AUDIT_USER_AVC		1107	/* We filter this differently */
-diff --git a/kernel/audit.c b/kernel/audit.c
-index 1287f0b63757..1c22dd084ae8 100644
---- a/kernel/audit.c
-+++ b/kernel/audit.c
-@@ -2698,6 +2698,41 @@ static bool audit_contid_isowner(struct task_struct *tsk)
- 	return false;
- }
- 
-+int audit_set_capcontid(struct task_struct *task, u32 enable)
-+{
-+	u32 oldcapcontid;
-+	int rc = 0;
-+	struct audit_buffer *ab;
-+
-+	if (!task->audit)
-+		return -ENOPROTOOPT;
-+	oldcapcontid = audit_get_capcontid(task);
-+	/* if task is not descendant, block */
-+	if (task == current)
-+		rc = -EBADSLT;
-+	else if (!task_is_descendant(current, task))
-+		rc = -EXDEV;
-+	else if (current_user_ns() == &init_user_ns) {
-+		if (!capable(CAP_AUDIT_CONTROL) && !audit_get_capcontid(current))
-+			rc = -EPERM;
-+	}
-+	if (!rc)
-+		task->audit->capcontid = enable;
-+
-+	if (!audit_enabled)
-+		return rc;
-+
-+	ab = audit_log_start(audit_context(), GFP_KERNEL, AUDIT_SET_CAPCONTID);
-+	if (!ab)
-+		return rc;
-+
-+	audit_log_format(ab,
-+			 "opid=%d capcontid=%u old-capcontid=%u",
-+			 task_tgid_nr(task), enable, oldcapcontid);
-+	audit_log_end(ab);
-+	return rc;
-+}
-+
- /*
-  * audit_set_contid - set current task's audit contid
-  * @task: target task
+The 9th is a touch up to allow the contid field to be interpreted as a
+CSV list.
+
+The 10th and 11th add audit contid list support to ausearch.
+
+The 12th and 13th add support to auditctl for setting the limits for nesting
+depth and netns contid counts to prevent overflowing the contid text
+fields in CONTAINER_* records.
+
+The last adds audit library support to allow a process to give
+permission to a container orchestrator in a non-init user namespace via
+audit netlink messages.
+
+See: https://github.com/linux-audit/audit-userspace/issues/51
+See: https://github.com/linux-audit/audit-userspace/issues/40
+See: https://github.com/linux-audit/audit-kernel/issues/90
+See: https://github.com/linux-audit/audit-kernel/issues/91
+See: https://github.com/linux-audit/audit-testsuite/issues/64
+  https://githu.com/linux-audit/audit-testsuite/pull/91
+  https://github.com/rgbriggs/audit-testsuite/tree/ghat64-contid
+See: https://github.com/linux-audit/audit-kernel/wiki/RFE-Audit-Container-ID
+
+A repo of the code is here:
+  git@github.com:rgbriggs/audit-userspace.git ghau40-containerid-filter.v8
+And test rpms built from it are here:
+  people.redhat.com/~rbriggs/ghak90/git-47ad4ca
+
+Changelog:
+v8
+- renumber contid records and drop netlink contid set/get support
+- remove subject attributes from parse_container_op()
+- fix audit_request_signal_info.3 manpage
+- add manpage for audit_set_capcontid()
+- implement clist for contid list search
+- rebase on audit_bpf patches (bump CONTAINER_ID to 1335)
+- implement control for audit container identifier nesting depth limit with manpage
+- implent control for audit container identifier netns count limit with manpage
+
+v7
+- rebase on ghau90 and touchup
+- rebase on ghak10 support (change AUDIT_CONTAINER_ID to 1334)
+- render type contid as a CSV
+- switch from /proc to audit netlink to set/get contid, auid/sessionid
+- add support for capcontid
+
+v6
+- auditd signaller tracking was moved to a new AUDIT_SIGNAL_INFO2
+  request and record
+- swap CONTAINER_OP contid/old-contid to ease parsing
+- add to auparse
+
+v5
+- updated aux record from AUDIT_CONTAINER to AUDIT_CONTAINER_ID
+- add AUDIT_CONTAINER_ID to normalization
+- rebase on AUDIT_ANOM_LINK and AUDIT_MAC_CALIPSO_ADD
+
+v4
+- change from AUDIT_CONTAINER_ID to AUDIT_CONTAINER_OP
+- change from AUDIT_FEATURE_BITMAP_CONTAINERID_FILTER to
+  AUDIT_FEATURE_BITMAP_CONTAINERID
+- change from event_container_id to event_contid internally
+- change from container_id to contid and event_container_id to
+  event_contid internally
+- change command line option from --container-id to --contid
+
+v3
+- change from AUDIT_CONTAINER to AUDIT_CONTAINER_ID
+- change from AUDIT_CONTAINER_INFO to AUDIT_CONTAINER
+- change from AUDIT_CONTAINERID to AUDIT_CONTID
+- update github issue refs
+- add audit_get_containerid
+- change event_container_id default value
+- add --containerid to ausearch options help text
+- update ausearch parser and error codes
+
+v2
+- rebase on UINT_MAX patch
+- add patches for AUDIT_CONTAINER, AUDIT_CONTAINER_INFO, ausearch,
+  normalization
+
+Richard Guy Briggs (14):
+  AUDIT_CONTAINER_OP message type basic support
+  AUDIT_CONTAINER_ID message type basic support
+  auditctl: add support for AUDIT_CONTID filter
+  add ausearch containerid support
+  start normalization containerid support
+  libaudit: add support to get the task audit container identifier
+  signal_info: only print context if it is available.
+  add support for audit_signal_info2
+  contid: interpret correctly CONTAINER_ID contid field csv
+  ausearch: convert contid to comma/carrat-sep list
+  ausearch: convert contid to comma/carrat-sep cnode/clist
+  auditctl: add a config parameter to limit the contid nesting depth
+  auditctl: add a config parameter to limit the contid netns count
+  libaudit: add support to get and set capcontid on a task
+
+ auparse/auditd-config.c             |   1 +
+ auparse/auparse-defs.h              |   3 +-
+ auparse/interpret.c                 |  10 ++
+ auparse/normalize_record_map.h      |   2 +
+ auparse/typetab.h                   |   2 +
+ bindings/python/auparse_python.c    |   1 +
+ configure.ac                        |   2 +
+ docs/Makefile.am                    |   6 +-
+ docs/audit_get_capcontid.3          |  25 ++++
+ docs/audit_get_containerid.3        |  25 ++++
+ docs/audit_request_signal_info.3    |  11 ++
+ docs/audit_set_capcontid.3          |  24 ++++
+ docs/audit_set_contid_depth_limit.3 |  26 ++++
+ docs/audit_set_contid_netns_limit.3 |  25 ++++
+ docs/auditctl.8                     |   9 ++
+ lib/fieldtab.h                      |   1 +
+ lib/libaudit.c                      | 230 ++++++++++++++++++++++++++++++++++--
+ lib/libaudit.h                      |  36 ++++++
+ lib/msg_typetab.h                   |   4 +
+ lib/netlink.c                       |   5 +
+ src/Makefile.am                     |   6 +-
+ src/auditctl-listing.c              |  29 +++++
+ src/auditctl.c                      |  66 +++++++++++
+ src/auditd-config.c                 |   1 +
+ src/auditd-config.h                 |   1 +
+ src/auditd-event.c                  |  28 ++++-
+ src/auditd-reconfig.c               |  25 ++--
+ src/auditd.c                        |   3 +-
+ src/aureport-options.c              |   1 +
+ src/ausearch-contid.c               | 171 +++++++++++++++++++++++++++
+ src/ausearch-contid.h               |  61 ++++++++++
+ src/ausearch-llist.c                |   6 +
+ src/ausearch-llist.h                |   2 +
+ src/ausearch-match.c                |  35 ++++++
+ src/ausearch-options.c              |  77 +++++++++++-
+ src/ausearch-options.h              |   2 +
+ src/ausearch-parse.c                | 131 ++++++++++++++++++++
+ src/ausearch-report.c               |   6 +-
+ 38 files changed, 1068 insertions(+), 31 deletions(-)
+ create mode 100644 docs/audit_get_capcontid.3
+ create mode 100644 docs/audit_get_containerid.3
+ create mode 100644 docs/audit_set_capcontid.3
+ create mode 100644 docs/audit_set_contid_depth_limit.3
+ create mode 100644 docs/audit_set_contid_netns_limit.3
+ create mode 100644 src/ausearch-contid.c
+ create mode 100644 src/ausearch-contid.h
+
 -- 
 1.8.3.1
 
