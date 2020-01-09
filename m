@@ -1,109 +1,92 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-delivery-1.mimecast.com [207.211.31.120])
-	by mail.lfdr.de (Postfix) with ESMTP id EFC08134861
-	for <lists+linux-audit@lfdr.de>; Wed,  8 Jan 2020 17:47:51 +0100 (CET)
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com [207.211.31.120])
+	by mail.lfdr.de (Postfix) with ESMTP id CAAC4135240
+	for <lists+linux-audit@lfdr.de>; Thu,  9 Jan 2020 05:43:48 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1578502070;
-	h=from:from:sender:sender:reply-to:reply-to:subject:subject:date:date:
+	s=mimecast20190719; t=1578545027;
+	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=YdEbhAifBM7jyGmBnmS4WNALOrLAWSpT4jSapzIdwS0=;
-	b=L1mTW1FXN+HSu5hEYXGeyJuBSRuZeLvaeh3yReyJH33Cb6W4Noe+Bq17MWGK8LXjbGFI0Z
-	7GSZQz2niFE5yZrL3K016HsknCfXuotZ/dhaxnVArF58xmcTiGHJ8B3SSL7oaAcQipXvQ0
-	ntoGEmDAPN4UtV2U/OSgIzv6qZulpjU=
+	bh=xAJH2/ZW2Ue2dfUCFBpgyVmadHOnKNJYPABMaNOZ+YI=;
+	b=hnYl7ML56BeFLNqEzuriDsIMetlGlRDqHlKr+bv8Nq54r8JdSVtsw3nKqxgoS3G/Qax9Aa
+	AZ6CXUg01VMU4V6621gBg1//7Tz15kDXmN5C9SbbOcxhcWyNR/s2mbMG/Yjdohc9ng5hij
+	2tY8AHFqA3xL7BscFlP89sV97yyPmcI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-77-znzOUGZLMvmgAsEYlUY5tg-1; Wed, 08 Jan 2020 11:47:49 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+ us-mta-363-VRpxPXkLMOOxNHWB1lCNPg-1; Wed, 08 Jan 2020 23:43:46 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1BB2D18B9FD3;
-	Wed,  8 Jan 2020 16:47:42 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5D3E110054E3;
+	Thu,  9 Jan 2020 04:43:38 +0000 (UTC)
 Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 21EF75C21A;
-	Wed,  8 Jan 2020 16:47:40 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 5FA777BA39;
+	Thu,  9 Jan 2020 04:43:34 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 8A71581C94;
-	Wed,  8 Jan 2020 16:47:33 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
-	[10.11.54.6])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 717D0503B4;
+	Thu,  9 Jan 2020 04:43:27 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+	[10.11.54.3])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 008GlLL7013204 for <linux-audit@listman.util.phx.redhat.com>;
-	Wed, 8 Jan 2020 11:47:22 -0500
+	id 0094hFnS032655 for <linux-audit@listman.util.phx.redhat.com>;
+	Wed, 8 Jan 2020 23:43:16 -0500
 Received: by smtp.corp.redhat.com (Postfix)
-	id AD04F2166B28; Wed,  8 Jan 2020 16:47:21 +0000 (UTC)
+	id D33BB1014272; Thu,  9 Jan 2020 04:43:15 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
-	(mimecast06.extmail.prod.ext.rdu2.redhat.com [10.11.55.22])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id A72E02166B27
-	for <linux-audit@redhat.com>; Wed,  8 Jan 2020 16:47:19 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
-	[205.139.110.120])
+	(mimecast02.extmail.prod.ext.rdu2.redhat.com [10.11.55.18])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id CE11C1014252
+	for <linux-audit@redhat.com>; Thu,  9 Jan 2020 04:43:13 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [207.211.31.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E0ED51801903
-	for <linux-audit@redhat.com>; Wed,  8 Jan 2020 16:47:18 +0000 (UTC)
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65]) (Using TLS) by relay.mimecast.com with ESMTP id
-	us-mta-420-r1oZPoYUMhSndDTJbGgllA-1; Wed, 08 Jan 2020 11:47:15 -0500
-Received: by mail-wm1-f65.google.com with SMTP id p17so3250634wmb.0
-	for <linux-audit@redhat.com>; Wed, 08 Jan 2020 08:47:14 -0800 (PST)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D02358028B8
+	for <linux-audit@redhat.com>; Thu,  9 Jan 2020 04:43:13 +0000 (UTC)
+Received: from mail-lf1-f68.google.com (mail-lf1-f68.google.com
+	[209.85.167.68]) (Using TLS) by relay.mimecast.com with ESMTP id
+	us-mta-163-Rtoy_ilWMXuOWWve_a68Aw-1; Wed, 08 Jan 2020 23:43:11 -0500
+Received: by mail-lf1-f68.google.com with SMTP id b15so4173336lfc.4
+	for <linux-audit@redhat.com>; Wed, 08 Jan 2020 20:43:11 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:reply-to:subject:to:cc:references:from
-	:organization:message-id:date:user-agent:mime-version:in-reply-to
-	:content-language:content-transfer-encoding;
-	bh=ODlM0CIKkuqbvn6TyFqbyKvykYoCZutfBb6M9KByNfE=;
-	b=pC5bZhEG9ez5HZEFSeL6T8Sm4UI3QOMmepu9r6XZMwgd6Km40jZBlJd2JyBE2WjIE1
-	dvEfaBD+PHoLEeHIj7IqSFR+yVoBXijLRWs1S3p/U0sS0E9qYVtWW7KfBzPEasIRqCOm
-	t3TglVlnXU1LlmrPEQ9zPQPp16pcAGd1338nXi1iB9NBtBZWD26r51jaJ98nrzi9HT1i
-	G90kV9quMo0SunlR6AVNb3huhGqc6jbhS5KPRnth1+GtABUl1/vz9ol360bkMKCY2cJY
-	HV1PRrXSvtbBfKsBecZLkkNvk96Jv4L5N9CWhaViLXwFcRLTr4p9dtdVuucCssIzuDzk
-	3I+A==
-X-Gm-Message-State: APjAAAWKm43I5FeMuWgHYOhlevvOwCOwBM9XuuPAoIgaDca1mhKG4Yi+
-	xs/Hhqc8kK561tAyDx552+VkJQ==
-X-Google-Smtp-Source: APXvYqwZeX/npX9kHmTB5Cavy4RpYUSbhK4sKOk4mLYZ4U3ylpICSKaWpvMvA+XXctckGNlnulHp4g==
-X-Received: by 2002:a7b:c949:: with SMTP id i9mr4939006wml.131.1578502033588; 
-	Wed, 08 Jan 2020 08:47:13 -0800 (PST)
-Received: from ?IPv6:2a01:e0a:410:bb00:2427:34d:af57:5d8?
-	([2a01:e0a:410:bb00:2427:34d:af57:5d8])
-	by smtp.gmail.com with ESMTPSA id
-	p15sm4156718wma.40.2020.01.08.08.47.11
-	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Wed, 08 Jan 2020 08:47:12 -0800 (PST)
-Subject: Re: [PATCH ghak25 v2 1/9] netfilter: normalize x_table function
-	declarations
-To: Richard Guy Briggs <rgb@redhat.com>,
-	Linux-Audit Mailing List <linux-audit@redhat.com>,
-	LKML <linux-kernel@vger.kernel.org>, netfilter-devel@vger.kernel.org
-References: <cover.1577830902.git.rgb@redhat.com>
-	<194bdc565d548a14e12357a7c1a594605b7fdf0f.1577830902.git.rgb@redhat.com>
-From: Nicolas Dichtel <nicolas.dichtel@6wind.com>
-Organization: 6WIND
-Message-ID: <f8ee5829-f094-96b8-40c2-b0278f93fb03@6wind.com>
-Date: Wed, 8 Jan 2020 17:47:11 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
-	Thunderbird/68.2.2
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=j9yFszG1JOZvJRzKzSmKKoF4lMV2ZExx1PoVnXyp4hs=;
+	b=e7/CIdrRrfFW4l97OT1qygw8FBI+eYhjs/povK7UHAp3r68O9ke+HGIUE6ow/xIvHM
+	iVKRLo+lYEplDK2bJBBIh1TqJDzx5LGHuqmHzW0RKSp4p9Be70T0FDGi8HXTreJiPqec
+	vxUvmcwROYZt9svBAzdb+38GvGVo0GO7uceCNCpAoAy+zTEHTOq79lLcKDOUh5ZhIMD5
+	CugypmJj/R8XRliwivKbAiLegoD6tVNBc/S+q1kXoZv3Nn0WF5S2+gyikNYX2o9JpxEx
+	0Om2m9gucbnFitolcCNuklJ4iumpiKVF64ylOkJ83crmMuKJd9YhH5IO/Qy6NPBGoPH9
+	BhYQ==
+X-Gm-Message-State: APjAAAUHugv711yFUtqHep2BdmF8n/b10x4Fsg9uVkCjQXxrv/OZVs4k
+	zrtu5hoHk3Rs55vb2hNB2/RzCwOayLhmNexDLa4m
+X-Google-Smtp-Source: APXvYqxsVnRdMRAULWgaG82y7mszx0ySjCj3NoeSAV/UfEcfLlFQ6PW1oKB4kJkxUegovD66h496lKPv+p7KzmI7Ie8=
+X-Received: by 2002:a19:ae04:: with SMTP id f4mr5066467lfc.64.1578544989938;
+	Wed, 08 Jan 2020 20:43:09 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <194bdc565d548a14e12357a7c1a594605b7fdf0f.1577830902.git.rgb@redhat.com>
-Content-Language: en-US
-X-MC-Unique: r1oZPoYUMhSndDTJbGgllA-1
-X-MC-Unique: znzOUGZLMvmgAsEYlUY5tg-1
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+References: <9515137.CPG8BucVjl@x2>
+In-Reply-To: <9515137.CPG8BucVjl@x2>
+From: Paul Moore <paul@paul-moore.com>
+Date: Wed, 8 Jan 2020 23:42:58 -0500
+Message-ID: <CAHC9VhQK3OG9p7O86T+O8snqNyiBh8uwTJC_52VVHiM_YpahtQ@mail.gmail.com>
+Subject: Re: [PATCH 1/1] audit: CONFIG_CHANGE don't log internal bookkeeping
+	as an event
+To: Steve Grubb <sgrubb@redhat.com>
+X-MC-Unique: Rtoy_ilWMXuOWWve_a68Aw-1
+X-MC-Unique: VRpxPXkLMOOxNHWB1lCNPg-1
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
 X-MIME-Autoconverted: from quoted-printable to 8bit by
-	lists01.pubmisc.prod.ext.phx2.redhat.com id 008GlLL7013204
+	lists01.pubmisc.prod.ext.phx2.redhat.com id 0094hFnS032655
 X-loop: linux-audit@redhat.com
-Cc: fw@strlen.de, ebiederm@xmission.com, twoerner@redhat.com,
-	eparis@parisplace.org, tgraf@infradead.org
+Cc: linux-audit@redhat.com
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
-Reply-To: nicolas.dichtel@6wind.com
 List-Id: Linux Audit Discussion <linux-audit.redhat.com>
 List-Unsubscribe: <https://www.redhat.com/mailman/options/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=unsubscribe>
@@ -114,23 +97,70 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
-TGUgMDYvMDEvMjAyMCDDoCAxOTo1NCwgUmljaGFyZCBHdXkgQnJpZ2dzIGEgw6ljcml0wqA6Cj4g
-R2l0IGNvbnRleHQgZGlmZnMgd2VyZSBiZWluZyBwcm9kdWNlZCB3aXRoIHVuaGVscGZ1bCBkZWNs
-YXJhdGlvbiB0eXBlcwo+IGluIHRoZSBwbGFjZSBvZiBmdW5jdGlvbiBuYW1lcyB0byBoZWxwIGlk
-ZW50aWZ5IHRoZSBmdW5jaXRvbiBpbiB3aGljaAo+IGNoYW5nZXMgd2VyZSBtYWRlLgpKdXN0IGZv
-ciBteSBpbmZvcm1hdGlvbiwgaG93IGRvIHlvdSByZXByb2R1Y2UgdGhhdD8gV2l0aCBhICdnaXQg
-ZGlmZic/Cgo+IAo+IE5vcm1hbGl6ZSB4X3RhYmxlIGZ1bmN0aW9uIGRlY2xhcmF0aW9ucyBzbyB0
-aGF0IGdpdCBjb250ZXh0IGRpZmYKPiBmdW5jdGlvbiBsYWJlbHMgd29yayBhcyBleHBlY3RlZC4K
-PiAKW3NuaXBdCj4gCj4gLS0gCj4gMS44LjMuMQpnaXQgdjEuOC4zLjEgaXMgc2V2ZW4geWVhcnMg
-b2xkOgpodHRwczovL2dpdGh1Yi5jb20vZ2l0L2dpdC9yZWxlYXNlcy90YWcvdjEuOC4zLjEKCkkg
-ZG9uJ3Qgc2VlIGFueSBwcm9ibGVtcyB3aXRoIGdpdCB2Mi4yNC4gTm90IHN1cmUgdGhhdCB0aGUg
-cGF0Y2ggYnJpbmdzIGFueQpoZWxwZnVsIHZhbHVlIGV4Y2VwdCBjb21wbGljYXRpbmcgYmFja3Bv
-cnRzLgoKUmVnYXJkcywKTmljb2xhcwoKCi0tCkxpbnV4LWF1ZGl0IG1haWxpbmcgbGlzdApMaW51
-eC1hdWRpdEByZWRoYXQuY29tCmh0dHBzOi8vd3d3LnJlZGhhdC5jb20vbWFpbG1hbi9saXN0aW5m
-by9saW51eC1hdWRpdA==
+On Wed, Jan 8, 2020 at 8:37 AM Steve Grubb <sgrubb@redhat.com> wrote:
+>
+> Common Criteria calls out for any action that modifies the audit trail to
+> be recorded. That usually is interpreted to mean insertion or removal of
+> rules. It is not required to log modification of the inode information
+> since the watch is still in effect. Additionally, if the rule is a never
+> rule and the underlying file is one they do not want events for, they
+> get an event for this bookkeeping update against their wishes.
+>
+> Since no device/inode info is logged at insertion and no device/inode
+> information is logged on update, there is nothing meaningful being
+> communicated to the admin by the CONFIG_CHANGE updated_rules event. One
+> can assume that the rule was not "modified" because it is still watching
+> the intended target. If the device or inode cannot be resolved, then
+> audit_panic is called which is sufficient.
+>
+> The correct resolution is to drop logging config_update events since
+> the watch is still in effect but just on another unknown inode.
+>
+> Signed-off-by: Steve Grubb <sgrubb@redhat.com>
+> ---
+>  kernel/audit_watch.c | 2 --
+>  1 file changed, 2 deletions(-)
+>
+> diff --git a/kernel/audit_watch.c b/kernel/audit_watch.c
+> index 4508d5e0cf69..8a8fd732ff6d 100644
+> --- a/kernel/audit_watch.c
+> +++ b/kernel/audit_watch.c
+> @@ -302,8 +302,6 @@ static void audit_update_watch(struct audit_parent
+> *parent,
+
+It looks like your mail client is mangling your patch such that it
+can't be applied directly from the mail you sent (look at the line
+above).  Granted this patch is trivial and easily applied by hand but
+I think it would be good for you Steve to get the experience in
+sending kernel patches properly, please try it again.
+
+If you are unfamiliar with how to do it, I would suggest looking at
+Documentation/process/submitting-patches.rst and
+Documentation/process/email-clients.rst in the kernel source tree.
+
+>                         if (oentry->rule.exe)
+>                                 audit_remove_mark(oentry->rule.exe);
+>
+> -                       audit_watch_log_rule_change(r, owatch, "updated_rules");
+> -
+>                         call_rcu(&oentry->rcu, audit_free_rule_rcu);
+>                 }
+>
+> --
+> 2.24.1
+
+-- 
+paul moore
+www.paul-moore.com
+
+
+--
+Linux-audit mailing list
+Linux-audit@redhat.com
+https://www.redhat.com/mailman/listinfo/linux-audit
 
