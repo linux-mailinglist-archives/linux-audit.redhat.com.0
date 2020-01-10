@@ -1,9 +1,9 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [207.211.31.81])
-	by mail.lfdr.de (Postfix) with ESMTP id 03A8C13775E
-	for <lists+linux-audit@lfdr.de>; Fri, 10 Jan 2020 20:40:55 +0100 (CET)
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com [205.139.110.61])
+	by mail.lfdr.de (Postfix) with ESMTP id 485F913775F
+	for <lists+linux-audit@lfdr.de>; Fri, 10 Jan 2020 20:40:56 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
 	s=mimecast20190719; t=1578685254;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
@@ -18,34 +18,35 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
 	q8jeSozlNskSfV2/k2Rj8hOLaDTlXrA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-189-4YyBixSQP3Kg81EOtZVsrQ-1; Fri, 10 Jan 2020 14:40:52 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+ us-mta-392-IwOe3dYdOSO-U-Hhry-5Qg-1; Fri, 10 Jan 2020 14:40:52 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E1032800D4C;
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 827EA800D48;
 	Fri, 10 Jan 2020 19:40:47 +0000 (UTC)
 Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id BC51D60C84;
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 5D8639A84;
 	Fri, 10 Jan 2020 19:40:46 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id D58A1503D3;
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id D5484503BA;
 	Fri, 10 Jan 2020 19:40:38 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
-	[10.11.54.3])
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+	[10.11.54.4])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 00AJePg9006389 for <linux-audit@listman.util.phx.redhat.com>;
-	Fri, 10 Jan 2020 14:40:26 -0500
+	id 00AJeOVs006383 for <linux-audit@listman.util.phx.redhat.com>;
+	Fri, 10 Jan 2020 14:40:24 -0500
 Received: by smtp.corp.redhat.com (Postfix)
-	id D3D8210A9F84; Fri, 10 Jan 2020 19:40:25 +0000 (UTC)
+	id E92F620316DF; Fri, 10 Jan 2020 19:40:23 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
-	(mimecast02.extmail.prod.ext.rdu2.redhat.com [10.11.55.18])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id CED5810A9F89
+	(mimecast05.extmail.prod.ext.rdu2.redhat.com [10.11.55.21])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id E44302026D67
 	for <linux-audit@redhat.com>; Fri, 10 Jan 2020 19:40:22 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [207.211.31.81])
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+	[207.211.31.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0A4DE803B4E
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 14998802E44
 	for <linux-audit@redhat.com>; Fri, 10 Jan 2020 19:40:22 +0000 (UTC)
 X-YMail-OSG: YOYwdwUVM1mAkhv0uA0Bs8FCVZKcL3unUIOVrJLdc19rBxw_7kFiJV3KYB0DBb7
 	9.o.fwmDY969GNYtRNkB1lejAnyfMpgubJimC1g00LiavX3zYgo_C_KPAGRsp8u5g4xhhc5lzn7J
@@ -69,7 +70,7 @@ X-YMail-OSG: YOYwdwUVM1mAkhv0uA0Bs8FCVZKcL3unUIOVrJLdc19rBxw_7kFiJV3KYB0DBb7
 	4sGUn38AfqzQ56jRUCuIJxLxU8V6eiszCRtex
 Received: from sonic306-8.consmr.mail.bf2.yahoo.com
 	(sonic306-8.consmr.mail.bf2.yahoo.com [74.6.132.47]) (Using TLS) by
-	relay.mimecast.com with ESMTP id us-mta-39-CuJjh-OkMsyGfb6A3Qachw-1;
+	relay.mimecast.com with ESMTP id us-mta-29-n4JDjOdHPMK7dS0UW3SOJA-1;
 	Fri, 10 Jan 2020 14:40:20 -0500
 Received: from sonic.gate.mail.ne1.yahoo.com by
 	sonic306.consmr.mail.bf2.yahoo.com with HTTP;
@@ -138,11 +139,11 @@ User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
 MIME-Version: 1.0
 In-Reply-To: <1578587607.5147.63.camel@linux.ibm.com>
 Content-Language: en-US
-X-MC-Unique: CuJjh-OkMsyGfb6A3Qachw-1
-X-MC-Unique: 4YyBixSQP3Kg81EOtZVsrQ-1
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
+X-MC-Unique: n4JDjOdHPMK7dS0UW3SOJA-1
+X-MC-Unique: IwOe3dYdOSO-U-Hhry-5Qg-1
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
 X-MIME-Autoconverted: from quoted-printable to 8bit by
-	lists01.pubmisc.prod.ext.phx2.redhat.com id 00AJePg9006389
+	lists01.pubmisc.prod.ext.phx2.redhat.com id 00AJeOVs006383
 X-loop: linux-audit@redhat.com
 Cc: john.johansen@canonical.com,
 	"linux-audit@redhat.com" <linux-audit@redhat.com>,
@@ -160,7 +161,7 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
