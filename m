@@ -2,121 +2,148 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [207.211.31.81])
-	by mail.lfdr.de (Postfix) with ESMTP id A81161361DE
-	for <lists+linux-audit@lfdr.de>; Thu,  9 Jan 2020 21:36:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 03A8C13775E
+	for <lists+linux-audit@lfdr.de>; Fri, 10 Jan 2020 20:40:55 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1578602178;
+	s=mimecast20190719; t=1578685254;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
-	 list-unsubscribe:list-subscribe:list-post;
-	bh=DyODycdB3/pJDuQ822i0qwwT+kE5WKdNgeEAR9l1Ky0=;
-	b=HNDt7KRDU4rQAWQmuIY8Lw2fzsZy8OpuAsG9QS4ADHs6xdNx4FCfzkNgfmM+4n3AxG4TbC
-	bi82TZzZc+f/oOZq5GQj4SdBJ1wO0aRj201lLXbdbiXE8FhDxJHFbRKXGSPngHgzxTEWrI
-	kgpRbSyf/eNknif4rZPj0X3aeGfW3BY=
+	 list-unsubscribe:list-subscribe:list-post:openpgp:openpgp:autocrypt:autocrypt;
+	bh=kDNSsAk6bahw8m5opL65JsYYWoMjWFYKdXR5TYT91jw=;
+	b=Xiwr2vO9FZBpglWVTrUECpwyLshUmAT/cH6b1iaWblQdQP+a9EoxFdCmN+ashm7bAcrl92
+	NcEiu9i10UnkXahgsGyiNIIu6+0jG/kn6EXvGFy+gO86vUtu7EsVkvM61AagXs3WyazmUJ
+	q8jeSozlNskSfV2/k2Rj8hOLaDTlXrA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-371-G3svYH2tPn-BlGo6ks7-yg-1; Thu, 09 Jan 2020 15:36:16 -0500
+ us-mta-189-4YyBixSQP3Kg81EOtZVsrQ-1; Fri, 10 Jan 2020 14:40:52 -0500
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 717BC911A4;
-	Thu,  9 Jan 2020 20:36:09 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E1032800D4C;
+	Fri, 10 Jan 2020 19:40:47 +0000 (UTC)
 Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 9C71560C85;
-	Thu,  9 Jan 2020 20:36:04 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id BC51D60C84;
+	Fri, 10 Jan 2020 19:40:46 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 1AC06503C2;
-	Thu,  9 Jan 2020 20:35:55 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
-	[10.11.54.6])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id D58A1503D3;
+	Fri, 10 Jan 2020 19:40:38 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+	[10.11.54.3])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 009GXg1s012790 for <linux-audit@listman.util.phx.redhat.com>;
-	Thu, 9 Jan 2020 11:33:42 -0500
+	id 00AJePg9006389 for <linux-audit@listman.util.phx.redhat.com>;
+	Fri, 10 Jan 2020 14:40:26 -0500
 Received: by smtp.corp.redhat.com (Postfix)
-	id 5F9DF2166B2B; Thu,  9 Jan 2020 16:33:42 +0000 (UTC)
+	id D3D8210A9F84; Fri, 10 Jan 2020 19:40:25 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
-	(mimecast01.extmail.prod.ext.rdu2.redhat.com [10.11.55.17])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 59F602166B28
-	for <linux-audit@redhat.com>; Thu,  9 Jan 2020 16:33:40 +0000 (UTC)
+	(mimecast02.extmail.prod.ext.rdu2.redhat.com [10.11.55.18])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id CED5810A9F89
+	for <linux-audit@redhat.com>; Fri, 10 Jan 2020 19:40:22 +0000 (UTC)
 Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [207.211.31.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F23DE8E6820
-	for <linux-audit@redhat.com>; Thu,  9 Jan 2020 16:33:39 +0000 (UTC)
-Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
-	[148.163.158.5]) (Using TLS) by relay.mimecast.com with ESMTP id
-	us-mta-319-Q-NQEFNjPnSER_1buW-lMg-1; Thu, 09 Jan 2020 11:33:38 -0500
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
-	009GNSO7096612
-	for <linux-audit@redhat.com>; Thu, 9 Jan 2020 11:33:37 -0500
-Received: from e06smtp03.uk.ibm.com (e06smtp03.uk.ibm.com [195.75.94.99])
-	by mx0a-001b2d01.pphosted.com with ESMTP id 2xe3j8ueaj-1
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <linux-audit@redhat.com>; Thu, 09 Jan 2020 11:33:37 -0500
-Received: from localhost
-	by e06smtp03.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use
-	Only! Violators will be prosecuted
-	for <linux-audit@redhat.com> from <zohar@linux.ibm.com>;
-	Thu, 9 Jan 2020 16:33:36 -0000
-Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
-	by e06smtp03.uk.ibm.com (192.168.101.133) with IBM ESMTP SMTP Gateway:
-	Authorized Use Only! Violators will be prosecuted; 
-	(version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-	Thu, 9 Jan 2020 16:33:30 -0000
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
-	[9.149.105.59])
-	by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with
-	ESMTP id 009GXT0b40698010
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=OK); Thu, 9 Jan 2020 16:33:29 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id A49CBA4055;
-	Thu,  9 Jan 2020 16:33:29 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 52DFFA404D;
-	Thu,  9 Jan 2020 16:33:28 +0000 (GMT)
-Received: from localhost.localdomain (unknown [9.85.153.42])
-	by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-	Thu,  9 Jan 2020 16:33:28 +0000 (GMT)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0A4DE803B4E
+	for <linux-audit@redhat.com>; Fri, 10 Jan 2020 19:40:22 +0000 (UTC)
+X-YMail-OSG: YOYwdwUVM1mAkhv0uA0Bs8FCVZKcL3unUIOVrJLdc19rBxw_7kFiJV3KYB0DBb7
+	9.o.fwmDY969GNYtRNkB1lejAnyfMpgubJimC1g00LiavX3zYgo_C_KPAGRsp8u5g4xhhc5lzn7J
+	DmJeD6Ui4ecxZKaQQnGQtDUrC0jfwscFJXxme4ky8K4iaxxdbWSdeSFxhWAI9MsHyjySN_XohYYk
+	GpM58P2guy6byBwp4J3i2hhiaRY0FcmA2UtS9LS54NYuz5RuFNmXtWJCLiAygnKQ5IY6bft0rNIC
+	kb4wvZwqYP7NztHtUSIKfgI7kjpcS5h5zvx9Mh8y8.LuEfwrwAoujFHlPsDskE1y4dJu_I6p.vqB
+	YF1aG29D.Z.8v0kOkkBZzybGGxdOn3WZXXL335zE.S7fa0msYGHa5cgZ5T39kHpEsJ1Cm9SuplZN
+	yf5ctqR9lk5aEb315xZkOZEYJNrnyd1hTAd2KGt2NAkGrQEdreHuL1_B1Vna3pHslSGWDV8t5WXz
+	OBXZmIVwXX8o_FFrkCSZOkxNKuCUJoNNKJf4MbVJ0KKsoVlcMBHh5ViqMuemhwg6VoyxqoU4X2cP
+	BfdCb5xvCfgpZw6d9by6TH1nIad33t4Vj03j4SZpYPO3jTxI_4y3MQqEyxR8x8HQBeHVZJbQUnEu
+	yRLVTYiBYg5P1ZE5qA5QgXkN.C3HP.S8rTTkqI61jM3stkRWNEU7pn_5TvfqRGZxD.3779qJ9dg.
+	DVXwAd2o4TbfKmGtfiUeEM7MOHmQF1ZeqIEfZyVdMsHwFJAvuXtw9umGI4N7L0F.BSF3rjbr_wmQ
+	fbDFrVFa5VXi9hh7_rEycBowqt2xlpPZ4N0x04VnemN7TrGFCmVjn8fjGkNQkPR7vXp3sv_1sKdA
+	bMDHO4XrVAXNKi._dkRLhoV_KesBA.4UxFm9p.543zOHlk9rb8wOHvWQjGm8LUI4tSn0SPuMoraQ
+	_Yio2TqmfSTKm0UpmwWhl0RJ431JzFwlcvKR3QPrRpR.kA3U88N97bnH4qPeu_M4vvIxuN7AU1Wr
+	op8wxjGHCTkCfYG9mm6dY46ZxnniRNa8Xhb_EKT0ngX07eD6vsFU3zjbTudoG749PuZTOhW4Ad.3
+	GwpXGbIo2SYBkiK.HvDoVI90rX9D7hKJxg9qVTFl2lg_K4LbAVvnIlBGgUvmZz7FkAm3HmUzECdd
+	p10DPLgeoFV2SJ.plSucteN63jNANXJ0d9Rs7Kd6G_KwfHhgESrmwgBkKqCkodDT0v_8pa2Ot8IH
+	pY4.lJrfUcrWFlr4lfUXDEX_m8GfojE8_jyMS7VA.1YYpojgN2KDd8ck9Uj5MBobOX2YdJnN_7L1
+	k3D4FB97iYhFfKQB67xvux74vfMdL2Mx50AcxyKkJ038k5bhNK3B0pGxyzlRrNYVzelQvnfAw1IM
+	4sGUn38AfqzQ56jRUCuIJxLxU8V6eiszCRtex
+Received: from sonic306-8.consmr.mail.bf2.yahoo.com
+	(sonic306-8.consmr.mail.bf2.yahoo.com [74.6.132.47]) (Using TLS) by
+	relay.mimecast.com with ESMTP id us-mta-39-CuJjh-OkMsyGfb6A3Qachw-1;
+	Fri, 10 Jan 2020 14:40:20 -0500
+Received: from sonic.gate.mail.ne1.yahoo.com by
+	sonic306.consmr.mail.bf2.yahoo.com with HTTP;
+	Fri, 10 Jan 2020 19:40:19 +0000
+Received: by smtp410.mail.gq1.yahoo.com (Oath Hermes SMTP Server) with ESMTPA
+	ID 914338581e9972fab9bf8856862b4e8a; 
+	Fri, 10 Jan 2020 19:40:14 +0000 (UTC)
 Subject: Re: [PATCH v13 26/25] Audit: Multiple LSM support in audit rules
-From: Mimi Zohar <zohar@linux.ibm.com>
-To: Casey Schaufler <casey@schaufler-ca.com>, casey.schaufler@intel.com,
+To: Mimi Zohar <zohar@linux.ibm.com>, casey.schaufler@intel.com,
 	jmorris@namei.org, linux-security-module@vger.kernel.org,
 	selinux@vger.kernel.org
-Date: Thu, 09 Jan 2020 11:33:27 -0500
-In-Reply-To: <ee5e4cea-b6c1-fa12-30de-8fc9007d69e9@schaufler-ca.com>
 References: <20191224235939.7483-1-casey.ref@schaufler-ca.com>
 	<20191224235939.7483-1-casey@schaufler-ca.com>
 	<ee5e4cea-b6c1-fa12-30de-8fc9007d69e9@schaufler-ca.com>
-Mime-Version: 1.0
-X-TM-AS-GCONF: 00
-x-cbid: 20010916-0012-0000-0000-0000037BF9E3
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 20010916-0013-0000-0000-000021B81BDA
-Message-Id: <1578587607.5147.63.camel@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
-	definitions=2020-01-09_03:2020-01-09,
-	2020-01-09 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
-	clxscore=1011
-	priorityscore=1501 mlxscore=0 phishscore=0 adultscore=0 bulkscore=0
-	lowpriorityscore=0 malwarescore=0 spamscore=0 impostorscore=0
-	suspectscore=0 mlxlogscore=999 classifier=spam adjust=0 reason=mlx
-	scancount=1 engine=8.12.0-1910280000 definitions=main-2001090140
-X-MIME-Autoconverted: from 8bit to quoted-printable by
-	mx0a-001b2d01.pphosted.com id 009GNSO7096612
-X-MC-Unique: Q-NQEFNjPnSER_1buW-lMg-1
-X-MC-Unique: G3svYH2tPn-BlGo6ks7-yg-1
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+	<1578587607.5147.63.camel@linux.ibm.com>
+From: Casey Schaufler <casey@schaufler-ca.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=casey@schaufler-ca.com; keydata=
+	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
+	abzjfg==
+Message-ID: <e6945c33-a540-9d0a-ba71-3602b8e38154@schaufler-ca.com>
+Date: Fri, 10 Jan 2020 11:40:13 -0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+	Thunderbird/60.9.1
+MIME-Version: 1.0
+In-Reply-To: <1578587607.5147.63.camel@linux.ibm.com>
+Content-Language: en-US
+X-MC-Unique: CuJjh-OkMsyGfb6A3Qachw-1
+X-MC-Unique: 4YyBixSQP3Kg81EOtZVsrQ-1
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
 X-MIME-Autoconverted: from quoted-printable to 8bit by
-	lists01.pubmisc.prod.ext.phx2.redhat.com id 009GXg1s012790
+	lists01.pubmisc.prod.ext.phx2.redhat.com id 00AJePg9006389
 X-loop: linux-audit@redhat.com
-X-Mailman-Approved-At: Thu, 09 Jan 2020 15:35:44 -0500
 Cc: john.johansen@canonical.com,
 	"linux-audit@redhat.com" <linux-audit@redhat.com>,
 	linux-integrity@vger.kernel.org, sds@tycho.nsa.gov
@@ -138,18 +165,21 @@ X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 
-SGkgQ2FzZXksCgpPbiBGcmksIDIwMjAtMDEtMDMgYXQgMTA6NTMgLTA4MDAsIENhc2V5IFNjaGF1
-ZmxlciB3cm90ZToKPiBXaXRoIG11bHRpcGxlIHBvc3NpYmxlIHNlY3VyaXR5IG1vZHVsZXMgc3Vw
-cG9ydGluZyBhdWRpdCBydWxlCj4gaXQgaXMgbmVjZXNzYXJ5IHRvIGtlZXAgc2VwYXJhdGUgZGF0
-YSBmb3IgZWFjaCBtb2R1bGUgaW4gdGhlCj4gYXVkaXQgcnVsZXMuIFRoaXMgYWZmZWN0cyBJTUEg
-YXMgd2VsbCwgYXMgaXQgcmUtdXNlcyB0aGUgYXVkaXQKPiBydWxlIGxpc3QgbWVjaGFuaXNtcy4K
-CldoaWxlIHJldmlld2luZyB0aGlzIHBhdGNoLCBJIHJlYWxpemVkIHRoZXJlIHdhcyBhIGJ1ZyBp
-biB0aGUgYmFzZSBJTUEKY29kZS4gwqBXaXRoIEphbm5lJ3MgYnVnIGZpeCwgdGhhdCBoZSBqdXN0
-IHBvc3RlZCwgSSB0aGluayB0aGlzIHBhdGNoCmNhbiBub3cgYmUgc2ltcGxpZmllZC4KCk15IG1h
-aW4gY29uY2VybiBpcyB0aGUgbnVtYmVyIG9mIHdhcm5pbmcgbWVzc2FnZXMgdGhhdCB3aWxsIGJl
-CmdlbmVyYXRlZC4gwqBBbnkgdGltZSBhIG5ldyBMU00gcG9saWN5IGlzIGxvYWRlZCwgdGhlIGxh
-YmVscyB3aWxsIGJlCnJlLWV2YXVsYXRlZCB3aGV0aGVyIG9yIG5vdCB0aGV5IGFyZSBhcHBsaWNh
-YmxlIHRvIHRoZSBwYXJ0aWN1bGFyIExTTSwKY2F1c2luZyB1bm5lY2Vzc2FyeSB3YXJuaW5ncy4K
-Ck1pbWkKCgotLQpMaW51eC1hdWRpdCBtYWlsaW5nIGxpc3QKTGludXgtYXVkaXRAcmVkaGF0LmNv
+T24gMS85LzIwMjAgODozMyBBTSwgTWltaSBab2hhciB3cm90ZToKPiBIaSBDYXNleSwKPgo+IE9u
+IEZyaSwgMjAyMC0wMS0wMyBhdCAxMDo1MyAtMDgwMCwgQ2FzZXkgU2NoYXVmbGVyIHdyb3RlOgo+
+PiBXaXRoIG11bHRpcGxlIHBvc3NpYmxlIHNlY3VyaXR5IG1vZHVsZXMgc3VwcG9ydGluZyBhdWRp
+dCBydWxlCj4+IGl0IGlzIG5lY2Vzc2FyeSB0byBrZWVwIHNlcGFyYXRlIGRhdGEgZm9yIGVhY2gg
+bW9kdWxlIGluIHRoZQo+PiBhdWRpdCBydWxlcy4gVGhpcyBhZmZlY3RzIElNQSBhcyB3ZWxsLCBh
+cyBpdCByZS11c2VzIHRoZSBhdWRpdAo+PiBydWxlIGxpc3QgbWVjaGFuaXNtcy4KPiBXaGlsZSBy
+ZXZpZXdpbmcgdGhpcyBwYXRjaCwgSSByZWFsaXplZCB0aGVyZSB3YXMgYSBidWcgaW4gdGhlIGJh
+c2UgSU1BCj4gY29kZS4gwqBXaXRoIEphbm5lJ3MgYnVnIGZpeCwgdGhhdCBoZSBqdXN0IHBvc3Rl
+ZCwgSSB0aGluayB0aGlzIHBhdGNoCj4gY2FuIG5vdyBiZSBzaW1wbGlmaWVkLgoKSG93IGFuZCB3
+aGVuIGRvIHlvdSBwbGFuIHRvIGdldCBKYW5uZSdzIGZpeCBpbj8gSXQncyBsb29raW5nIGxpa2UK
+c3RhY2tpbmcgd29uJ3QgYmUgaW4gZm9yIDUuNi4KCj4gTXkgbWFpbiBjb25jZXJuIGlzIHRoZSBu
+dW1iZXIgb2Ygd2FybmluZyBtZXNzYWdlcyB0aGF0IHdpbGwgYmUKPiBnZW5lcmF0ZWQuIMKgQW55
+IHRpbWUgYSBuZXcgTFNNIHBvbGljeSBpcyBsb2FkZWQsIHRoZSBsYWJlbHMgd2lsbCBiZQo+IHJl
+LWV2YXVsYXRlZCB3aGV0aGVyIG9yIG5vdCB0aGV5IGFyZSBhcHBsaWNhYmxlIHRvIHRoZSBwYXJ0
+aWN1bGFyIExTTSwKPiBjYXVzaW5nIHVubmVjZXNzYXJ5IHdhcm5pbmdzLgoKVWhnLiAKCj4KPiBN
+aW1pCj4KCgotLQpMaW51eC1hdWRpdCBtYWlsaW5nIGxpc3QKTGludXgtYXVkaXRAcmVkaGF0LmNv
 bQpodHRwczovL3d3dy5yZWRoYXQuY29tL21haWxtYW4vbGlzdGluZm8vbGludXgtYXVkaXQ=
 
