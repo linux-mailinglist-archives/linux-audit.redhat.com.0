@@ -1,89 +1,89 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com [205.139.110.120])
-	by mail.lfdr.de (Postfix) with ESMTP id D86BD145DE0
-	for <lists+linux-audit@lfdr.de>; Wed, 22 Jan 2020 22:28:47 +0100 (CET)
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com [207.211.31.81])
+	by mail.lfdr.de (Postfix) with ESMTP id 44E0E145DF2
+	for <lists+linux-audit@lfdr.de>; Wed, 22 Jan 2020 22:29:39 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1579728526;
+	s=mimecast20190719; t=1579728578;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=b/pajJMLil8NFllVZYRPVjdmcpBHo+qCKIqg7btXWJ8=;
-	b=ZqJpHKFtvA1wGezra09a/hTDinh1VPNm9IgGmv/5bdMgZRW+oDHR5tQnHf/Jiy1+4bkFFG
-	1WE3NmvJUe3Esc8Yd4zDI7TzYDBQlCAnyZ1k2UQDa1ArHUE59UdgcBM4ayS1t/DgRcENPg
-	HxLCsYDT0y0VF+HX/3dNnngTXHfmHW4=
+	bh=NQLtePyQYVjErF/SwM+gAZS/9WsQhv69NmhoCx4leRU=;
+	b=TyL2gZKuWa+oCvipNViJ/gnP5VdgQadhBgYJ+qfNpK+FnyIwTMnWXGzkC1zp04bIQSTIl9
+	bFLXZHeu0e4y9Jc47zgspju0FGGHLHmXptvvH9PYosAd+JTOGEHhwY8C4wqXQ/Us+gAZCq
+	fGVt9PM1eUGkxt8GjZcAk/r3GREWozo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-368-xEhvZ-gEP1-ERAPoVBFu7w-1; Wed, 22 Jan 2020 16:28:44 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+ us-mta-25-53YzJkqXOkCAvzJBTPuKxw-1; Wed, 22 Jan 2020 16:29:36 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A8DEB8017CC;
-	Wed, 22 Jan 2020 21:28:39 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B56571137844;
+	Wed, 22 Jan 2020 21:29:29 +0000 (UTC)
 Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 340FA845A5;
-	Wed, 22 Jan 2020 21:28:39 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 8F9BB86C54;
+	Wed, 22 Jan 2020 21:29:29 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id C0A1B870B4;
-	Wed, 22 Jan 2020 21:28:37 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
-	[10.11.54.4])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 4C379870B3;
+	Wed, 22 Jan 2020 21:29:29 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+	[10.11.54.5])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 00MLSXLt003495 for <linux-audit@listman.util.phx.redhat.com>;
-	Wed, 22 Jan 2020 16:28:34 -0500
+	id 00MLTQQT003608 for <linux-audit@listman.util.phx.redhat.com>;
+	Wed, 22 Jan 2020 16:29:26 -0500
 Received: by smtp.corp.redhat.com (Postfix)
-	id D4AED2026D67; Wed, 22 Jan 2020 21:28:33 +0000 (UTC)
+	id 240AF10750C; Wed, 22 Jan 2020 21:29:26 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
-	(mimecast06.extmail.prod.ext.rdu2.redhat.com [10.11.55.22])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id CFC692037E43
-	for <linux-audit@redhat.com>; Wed, 22 Jan 2020 21:28:31 +0000 (UTC)
+	(mimecast05.extmail.prod.ext.rdu2.redhat.com [10.11.55.21])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 16C66100D79
+	for <linux-audit@redhat.com>; Wed, 22 Jan 2020 21:29:15 +0000 (UTC)
 Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
-	[205.139.110.120])
+	[207.211.31.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6FDFF1800F29
-	for <linux-audit@redhat.com>; Wed, 22 Jan 2020 21:28:31 +0000 (UTC)
-Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com
-	[209.85.208.196]) (Using TLS) by relay.mimecast.com with ESMTP id
-	us-mta-104-lPUyRBuJO8aFzGk48iFy9A-1; Wed, 22 Jan 2020 16:28:28 -0500
-Received: by mail-lj1-f196.google.com with SMTP id q8so678169ljj.11
-	for <linux-audit@redhat.com>; Wed, 22 Jan 2020 13:28:28 -0800 (PST)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A982A8047C7
+	for <linux-audit@redhat.com>; Wed, 22 Jan 2020 21:29:12 +0000 (UTC)
+Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com
+	[209.85.208.193]) (Using TLS) by relay.mimecast.com with ESMTP id
+	us-mta-347-ZyQ9xyYVMiyDX1hqxK0tsQ-1; Wed, 22 Jan 2020 16:29:10 -0500
+Received: by mail-lj1-f193.google.com with SMTP id m26so664280ljc.13
+	for <linux-audit@redhat.com>; Wed, 22 Jan 2020 13:29:09 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=yryeoDudvvVBVjLIWUT7Qspa9cODolKNnOJTJo0W59s=;
-	b=MBzOs8TG36f5GdwLKjUJ9UvdHBowsu99DqqYP1r76yEHT7D1/oBWS8iBbHP+bLm4PP
-	YLKU5BHKqeBsCjCuGM93ddt0eZ1dRFV9Y2Y3glmYMOvtp1YmBtM6C6oIC6evMx2G+Bu1
-	hYpeE8Q85hzrMMczbYci+rwPokbPMLqlwgOMqk0waDh5lHfddCvD21GUTIjMJDiCthvI
-	BSxbDwpa5drUnlVII3/jr95h5IlgupVGq2HfDM7g8WrWOb93ug/ieycO8Ups396RSqLL
-	RI4Ieq9yfEoWnYrmCtnSjk36G9oVK45GBrLfkt70ay/oHXF7pc6xm03d2d05aXpOjfPQ
-	t2iw==
-X-Gm-Message-State: APjAAAUDU92umD1W3aWFOB3IjTea4j/VblZGFeRD3OABUih1vuTLsoTI
-	/r0VUYN/vJI00QYfnXCvsQGQ/FRct+GLZsfeytnQ
-X-Google-Smtp-Source: APXvYqytpK2WymEiSfK8I2a6UuKsyuVHMmGosxklKTzxBk+yqkYU0o/zTyXD7HwnnsZGXSRkCPgx2ifkK/nPI1GIE80=
-X-Received: by 2002:a2e:5357:: with SMTP id t23mr21084406ljd.227.1579728507143;
-	Wed, 22 Jan 2020 13:28:27 -0800 (PST)
+	bh=znKmNqKr9gQDPfmrmtDejwJ1HslDiuzLboL4qUqmh40=;
+	b=DHWJ+9jQD2EeytRuDkov7h1IrimmIwX/O+6ja7CuDXkQ5vfqaD6VMidtGCIbPO5mN9
+	bROQijzuQhH5TH+Q5WsjF4wE+Z2OtFpiE2s72+Dx2mpjlYRap3uLCGqey9HbmIZYQmf3
+	q7J7MTUnFoL1xYlZngEW2G67L7cKqzApb9NcnV9uaYSTgs1TO3/Ne3R/V7qGugtRMls6
+	9XUDxd5rNIFlQGukdmH5kmdpGOf0GyBQb9muwj9TW1Gwv2Ct0Xegg6023UHJZTz2/Seo
+	LY8D60wTMwAS6iPuvyouUvjjcngjCd7nRbUoOq8CgX0VXEZCaDIeBPEcL0QqUq6HM4vE
+	SF3Q==
+X-Gm-Message-State: APjAAAVmV8+9rVIrrlGv58uQQn4jFHghUbB1BVRMtt0970npYebUdXAB
+	xvveI62mYBUIdIvc2Po8WCU0WNzyTsbUyzJeeBmh
+X-Google-Smtp-Source: APXvYqwNba8ProlqYi+98kL7VZ17yOmxtTEHhSWsRlLym5CCBD8UqFSuw3B9hkfCZhhRvoe+Scem/yZ0v/+v52re61A=
+X-Received: by 2002:a2e:9196:: with SMTP id f22mr21784742ljg.18.1579728548032; 
+	Wed, 22 Jan 2020 13:29:08 -0800 (PST)
 MIME-Version: 1.0
 References: <cover.1577736799.git.rgb@redhat.com>
-	<a911acf0b209c05dc156fb6b57f9da45778747ce.1577736799.git.rgb@redhat.com>
-In-Reply-To: <a911acf0b209c05dc156fb6b57f9da45778747ce.1577736799.git.rgb@redhat.com>
+	<2954ed671a7622ddf3abdb8854dbba2ad13e9f33.1577736799.git.rgb@redhat.com>
+In-Reply-To: <2954ed671a7622ddf3abdb8854dbba2ad13e9f33.1577736799.git.rgb@redhat.com>
 From: Paul Moore <paul@paul-moore.com>
-Date: Wed, 22 Jan 2020 16:28:16 -0500
-Message-ID: <CAHC9VhRRW2fFcgBs-R_BZ7ZWCP5wsXA9DB1RUM=QeKj2xZkS2Q@mail.gmail.com>
-Subject: Re: [PATCH ghak90 V8 04/16] audit: convert to contid list to check
-	for orch/engine ownership
+Date: Wed, 22 Jan 2020 16:28:57 -0500
+Message-ID: <CAHC9VhRw3Fj9-hi+Vj8JJb_GXM4B9N5hRXa9H6aQkuuFqJJ15w@mail.gmail.com>
+Subject: Re: [PATCH ghak90 V8 11/16] audit: add support for containerid to
+	network namespaces
 To: Richard Guy Briggs <rgb@redhat.com>
-X-MC-Unique: lPUyRBuJO8aFzGk48iFy9A-1
-X-MC-Unique: xEhvZ-gEP1-ERAPoVBFu7w-1
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+X-MC-Unique: ZyQ9xyYVMiyDX1hqxK0tsQ-1
+X-MC-Unique: 53YzJkqXOkCAvzJBTPuKxw-1
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
 X-MIME-Autoconverted: from quoted-printable to 8bit by
-	lists01.pubmisc.prod.ext.phx2.redhat.com id 00MLSXLt003495
+	lists01.pubmisc.prod.ext.phx2.redhat.com id 00MLTQQT003608
 X-loop: linux-audit@redhat.com
 Cc: nhorman@tuxdriver.com, linux-api@vger.kernel.org,
 	containers@lists.linux-foundation.org,
@@ -106,272 +106,200 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-On Tue, Dec 31, 2019 at 2:50 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+On Tue, Dec 31, 2019 at 2:51 PM Richard Guy Briggs <rgb@redhat.com> wrote:
 >
-> Store the audit container identifier in a refcounted kernel object that
-> is added to the master list of audit container identifiers.  This will
-> allow multiple container orchestrators/engines to work on the same
-> machine without danger of inadvertantly re-using an existing identifier.
-> It will also allow an orchestrator to inject a process into an existing
-> container by checking if the original container owner is the one
-> injecting the task.  A hash table list is used to optimize searches.
+> This also adds support to qualify NETFILTER_PKT records.
 >
+> Audit events could happen in a network namespace outside of a task
+> context due to packets received from the net that trigger an auditing
+> rule prior to being associated with a running task.  The network
+> namespace could be in use by multiple containers by association to the
+> tasks in that network namespace.  We still want a way to attribute
+> these events to any potential containers.  Keep a list per network
+> namespace to track these audit container identifiiers.
+>
+> Add/increment the audit container identifier on:
+> - initial setting of the audit container identifier via /proc
+> - clone/fork call that inherits an audit container identifier
+> - unshare call that inherits an audit container identifier
+> - setns call that inherits an audit container identifier
+> Delete/decrement the audit container identifier on:
+> - an inherited audit container identifier dropped when child set
+> - process exit
+> - unshare call that drops a net namespace
+> - setns call that drops a net namespace
+>
+> Add audit container identifier auxiliary record(s) to NETFILTER_PKT
+> event standalone records.  Iterate through all potential audit container
+> identifiers associated with a network namespace.
+>
+> Please see the github audit kernel issue for contid net support:
+>   https://github.com/linux-audit/audit-kernel/issues/92
+> Please see the github audit testsuiite issue for the test case:
+>   https://github.com/linux-audit/audit-testsuite/issues/64
+> Please see the github audit wiki for the feature overview:
+>   https://github.com/linux-audit/audit-kernel/wiki/RFE-Audit-Container-ID
 > Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
+> Acked-by: Neil Horman <nhorman@tuxdriver.com>
+> Reviewed-by: Ondrej Mosnacek <omosnace@redhat.com>
 > ---
->  include/linux/audit.h | 14 ++++++--
->  kernel/audit.c        | 98 ++++++++++++++++++++++++++++++++++++++++++++++++---
->  kernel/audit.h        |  8 +++++
->  3 files changed, 112 insertions(+), 8 deletions(-)
+>  include/linux/audit.h    |  24 +++++++++
+>  kernel/audit.c           | 132 ++++++++++++++++++++++++++++++++++++++++++++++-
+>  kernel/nsproxy.c         |   4 ++
+>  net/netfilter/nft_log.c  |  11 +++-
+>  net/netfilter/xt_AUDIT.c |  11 +++-
+>  5 files changed, 176 insertions(+), 6 deletions(-)
 
 ...
 
 > diff --git a/include/linux/audit.h b/include/linux/audit.h
-> index a045b34ecf44..0e6dbe943ae4 100644
+> index 5531d37a4226..ed8d5b74758d 100644
 > --- a/include/linux/audit.h
 > +++ b/include/linux/audit.h
-> @@ -94,10 +94,18 @@ struct audit_ntp_data {
->  struct audit_ntp_data {};
->  #endif
+> @@ -12,6 +12,7 @@
+>  #include <linux/sched.h>
+>  #include <linux/ptrace.h>
+>  #include <uapi/linux/audit.h>
+> +#include <linux/refcount.h>
 >
-> +struct audit_contobj {
+>  #define AUDIT_INO_UNSET ((unsigned long)-1)
+>  #define AUDIT_DEV_UNSET ((dev_t)-1)
+> @@ -121,6 +122,13 @@ struct audit_task_info {
+>
+>  extern struct audit_task_info init_struct_audit;
+>
+> +struct audit_contobj_netns {
 > +       struct list_head        list;
 > +       u64                     id;
-> +       struct task_struct      *owner;
+
+Since we now track audit container IDs in their own structure, why not
+link directly to the audit container ID object (and bump the
+refcount)?
+
 > +       refcount_t              refcount;
 > +       struct rcu_head         rcu;
 > +};
 > +
->  struct audit_task_info {
->         kuid_t                  loginuid;
->         unsigned int            sessionid;
-> -       u64                     contid;
-> +       struct audit_contobj    *cont;
->  #ifdef CONFIG_AUDITSYSCALL
->         struct audit_context    *ctx;
->  #endif
-> @@ -203,9 +211,9 @@ static inline unsigned int audit_get_sessionid(struct task_struct *tsk)
+>  extern int is_audit_feature_set(int which);
 >
->  static inline u64 audit_get_contid(struct task_struct *tsk)
->  {
-> -       if (!tsk->audit)
-> +       if (!tsk->audit || !tsk->audit->cont)
->                 return AUDIT_CID_UNSET;
-> -       return tsk->audit->contid;
-> +       return tsk->audit->cont->id;
+>  extern int __init audit_register_class(int class, unsigned *list);
+> @@ -225,6 +233,12 @@ static inline u64 audit_get_contid(struct task_struct *tsk)
 >  }
+>
+>  extern void audit_log_container_id(struct audit_context *context, u64 contid);
+> +extern void audit_netns_contid_add(struct net *net, u64 contid);
+> +extern void audit_netns_contid_del(struct net *net, u64 contid);
+> +extern void audit_switch_task_namespaces(struct nsproxy *ns,
+> +                                        struct task_struct *p);
+> +extern void audit_log_netns_contid_list(struct net *net,
+> +                                       struct audit_context *context);
 >
 >  extern u32 audit_enabled;
+>
+> @@ -297,6 +311,16 @@ static inline u64 audit_get_contid(struct task_struct *tsk)
+>
+>  static inline void audit_log_container_id(struct audit_context *context, u64 contid)
+>  { }
+> +static inline void audit_netns_contid_add(struct net *net, u64 contid)
+> +{ }
+> +static inline void audit_netns_contid_del(struct net *net, u64 contid)
+> +{ }
+> +static inline void audit_switch_task_namespaces(struct nsproxy *ns,
+> +                                               struct task_struct *p)
+> +{ }
+> +static inline void audit_log_netns_contid_list(struct net *net,
+> +                                              struct audit_context *context)
+> +{ }
+>
+>  #define audit_enabled AUDIT_OFF
+>
 > diff --git a/kernel/audit.c b/kernel/audit.c
-> index 2d7707426b7d..4bab20f5f781 100644
+> index d4e6eafe5644..f7a8d3288ca0 100644
 > --- a/kernel/audit.c
 > +++ b/kernel/audit.c
-> @@ -212,6 +218,31 @@ void __init audit_task_init(void)
->                                              0, SLAB_PANIC, NULL);
->  }
+> @@ -59,6 +59,7 @@
+>  #include <linux/freezer.h>
+>  #include <linux/pid_namespace.h>
+>  #include <net/netns/generic.h>
+> +#include <net/net_namespace.h>
 >
-> +static struct audit_contobj *_audit_contobj(struct task_struct *tsk)
-> +{
-> +       if (!tsk->audit)
-> +               return NULL;
-> +       return tsk->audit->cont;
-
-It seems like it would be safer to grab a reference here (e.g.
-_audit_contobj_hold(...)), yes?  Or are you confident we will never
-have tsk go away while the caller is holding on to the returned audit
-container ID object?
-
-> +}
-> +
-> +/* audit_contobj_list_lock must be held by caller unless new */
-> +static void _audit_contobj_hold(struct audit_contobj *cont)
-> +{
-> +       refcount_inc(&cont->refcount);
-> +}
-
-If we are going to call the matching decrement function "_put" it
-seems like we might want to call the function about "_get".  Further,
-we can also have it return an audit_contobj pointer in case the caller
-needs to do an assignment as well (which seems typical if you need to
-bump the refcount):
-
-  _audit_contobj_get(audit_contobj *cont)
-  {
-    if (cont)
-      refcount_inc(cont);
-    return cont;
-  }
-
-> +/* audit_contobj_list_lock must be held by caller */
-> +static void _audit_contobj_put(struct audit_contobj *cont)
-> +{
-> +       if (!cont)
-> +               return;
-> +       if (refcount_dec_and_test(&cont->refcount)) {
-> +               put_task_struct(cont->owner);
-> +               list_del_rcu(&cont->list);
-> +               kfree_rcu(cont, rcu);
-> +       }
-> +}
-> +
+>  #include "audit.h"
+>
+> @@ -86,9 +87,13 @@
 >  /**
->   * audit_alloc - allocate an audit info block for a task
->   * @tsk: task
-> @@ -232,7 +263,11 @@ int audit_alloc(struct task_struct *tsk)
->         }
->         info->loginuid = audit_get_loginuid(current);
->         info->sessionid = audit_get_sessionid(current);
-> -       info->contid = audit_get_contid(current);
-> +       spin_lock(&audit_contobj_list_lock);
-> +       info->cont = _audit_contobj(current);
-> +       if (info->cont)
-> +               _audit_contobj_hold(info->cont);
-> +       spin_unlock(&audit_contobj_list_lock);
-
-If we are taking a spinlock in order to bump the refcount, does it
-really need to be a refcount_t or can we just use a normal integer?
-In RCU protected lists a spinlock is usually used to protect
-adds/removes to the list, not the content of individual list items.
-
-My guess is you probably want to use the spinlock as described above
-(list add/remove protection) and manipulate the refcount_t inside a
-RCU read lock protected region.
-
->         tsk->audit = info;
+>   * struct audit_net - audit private network namespace data
+>   * @sk: communication socket
+> + * @contid_list: audit container identifier list
+> + * @contid_list_lock audit container identifier list lock
+>   */
+>  struct audit_net {
+>         struct sock *sk;
+> +       struct list_head contid_list;
+> +       spinlock_t contid_list_lock;
+>  };
 >
->         ret = audit_alloc_syscall(tsk);
-> @@ -267,6 +302,9 @@ void audit_free(struct task_struct *tsk)
+>  /**
+> @@ -305,8 +310,11 @@ struct audit_task_info init_struct_audit = {
+>  void audit_free(struct task_struct *tsk)
+>  {
+>         struct audit_task_info *info = tsk->audit;
+> +       struct nsproxy *ns = tsk->nsproxy;
+>
+>         audit_free_syscall(tsk);
+> +       if (ns)
+> +               audit_netns_contid_del(ns->net_ns, audit_get_contid(tsk));
 >         /* Freeing the audit_task_info struct must be performed after
 >          * audit_log_exit() due to need for loginuid and sessionid.
 >          */
-> +       spin_lock(&audit_contobj_list_lock);
-> +       _audit_contobj_put(tsk->audit->cont);
-> +       spin_unlock(&audit_contobj_list_lock);
-
-This is another case of refcount_t vs normal integer in a spinlock
-protected region.
-
->         info = tsk->audit;
->         tsk->audit = NULL;
->         kmem_cache_free(audit_task_cache, info);
-> @@ -2365,6 +2406,9 @@ int audit_signal_info(int sig, struct task_struct *t)
->   *
->   * Returns 0 on success, -EPERM on permission failure.
->   *
-> + * If the original container owner goes away, no task injection is
-> + * possible to an existing container.
-> + *
->   * Called (set) from fs/proc/base.c::proc_contid_write().
->   */
->  int audit_set_contid(struct task_struct *task, u64 contid)
-> @@ -2381,9 +2425,12 @@ int audit_set_contid(struct task_struct *task, u64 contid)
->         }
->         oldcontid = audit_get_contid(task);
->         read_lock(&tasklist_lock);
-> -       /* Don't allow the audit containerid to be unset */
-> +       /* Don't allow the contid to be unset */
->         if (!audit_contid_valid(contid))
->                 rc = -EINVAL;
-> +       /* Don't allow the contid to be set to the same value again */
-> +       else if (contid == oldcontid) {
-> +               rc = -EADDRINUSE;
-
-First, is that brace a typo?  It looks like it.  Did this compile?
-
-Second, can you explain why (re)setting the audit container ID to the
-same value is something we need to prohibit?  I'm guessing it has
-something to do with explicitly set vs inherited, but I don't want to
-assume too much about your thinking behind this.
-
-If it is "set vs inherited", would allowing an orchestrator to
-explicitly "set" an inherited audit container ID provide some level or
-protection against moving the task?
-
->         /* if we don't have caps, reject */
->         else if (!capable(CAP_AUDIT_CONTROL))
->                 rc = -EPERM;
-> @@ -2396,8 +2443,49 @@ int audit_set_contid(struct task_struct *task, u64 contid)
->         else if (audit_contid_set(task))
->                 rc = -ECHILD;
->         read_unlock(&tasklist_lock);
-> -       if (!rc)
-> -               task->audit->contid = contid;
-> +       if (!rc) {
-> +               struct audit_contobj *oldcont = _audit_contobj(task);
-> +               struct audit_contobj *cont = NULL, *newcont = NULL;
-> +               int h = audit_hash_contid(contid);
-> +
-> +               rcu_read_lock();
-> +               list_for_each_entry_rcu(cont, &audit_contid_hash[h], list)
-> +                       if (cont->id == contid) {
-> +                               /* task injection to existing container */
-> +                               if (current == cont->owner) {
-
-Do we have any protection against the task pointed to by cont->owner
-going away and a new task with the same current pointer value (no
-longer the legitimate audit container ID owner) manipulating the
-target task's audit container ID?
-
-> +                                       spin_lock(&audit_contobj_list_lock);
-> +                                       _audit_contobj_hold(cont);
-> +                                       spin_unlock(&audit_contobj_list_lock);
-
-More of the recount_t vs integer/spinlock question.
-
-> +                                       newcont = cont;
-> +                               } else {
-> +                                       rc = -ENOTUNIQ;
-> +                                       goto conterror;
-> +                               }
-> +                               break;
-> +                       }
-> +               if (!newcont) {
-> +                       newcont = kmalloc(sizeof(*newcont), GFP_ATOMIC);
-> +                       if (newcont) {
-> +                               INIT_LIST_HEAD(&newcont->list);
-> +                               newcont->id = contid;
-> +                               get_task_struct(current);
-> +                               newcont->owner = current;
-
-newcont->owner = get_task_struct(current);
-
-(This is what I was talking about above with returning the struct
-pointer in the _get/_hold function)
-
-> +                               refcount_set(&newcont->refcount, 1);
-> +                               spin_lock(&audit_contobj_list_lock);
-> +                               list_add_rcu(&newcont->list, &audit_contid_hash[h]);
-> +                               spin_unlock(&audit_contobj_list_lock);
-
-I think we might have a problem where multiple tasks could race adding
-the same audit container ID and since there is no check inside the
-spinlock protected region we could end up adding multiple instances of
-the same audit container ID, yes?
-
-> +                       } else {
-> +                               rc = -ENOMEM;
-> +                               goto conterror;
-> +                       }
-> +               }
-> +               task->audit->cont = newcont;
-> +               spin_lock(&audit_contobj_list_lock);
-> +               _audit_contobj_put(oldcont);
-> +               spin_unlock(&audit_contobj_list_lock);
-
-More of the refcount_t/integer/spinlock question.
-
-
-> +conterror:
-> +               rcu_read_unlock();
-> +       }
->         task_unlock(task);
+> @@ -409,6 +417,120 @@ static struct sock *audit_get_sk(const struct net *net)
+>         return aunet->sk;
+>  }
 >
->         if (!audit_enabled)
+> +void audit_netns_contid_add(struct net *net, u64 contid)
+> +{
+> +       struct audit_net *aunet;
+> +       struct list_head *contid_list;
+> +       struct audit_contobj_netns *cont;
+> +
+> +       if (!net)
+> +               return;
+> +       if (!audit_contid_valid(contid))
+> +               return;
+> +       aunet = net_generic(net, audit_net_id);
+> +       if (!aunet)
+> +               return;
+> +       contid_list = &aunet->contid_list;
+> +       rcu_read_lock();
+> +       list_for_each_entry_rcu(cont, contid_list, list)
+> +               if (cont->id == contid) {
+> +                       spin_lock(&aunet->contid_list_lock);
+> +                       refcount_inc(&cont->refcount);
+> +                       spin_unlock(&aunet->contid_list_lock);
+> +                       goto out;
+> +               }
+> +       cont = kmalloc(sizeof(*cont), GFP_ATOMIC);
+> +       if (cont) {
+> +               INIT_LIST_HEAD(&cont->list);
+> +               cont->id = contid;
+> +               refcount_set(&cont->refcount, 1);
+> +               spin_lock(&aunet->contid_list_lock);
+> +               list_add_rcu(&cont->list, contid_list);
+> +               spin_unlock(&aunet->contid_list_lock);
+> +       }
+> +out:
+> +       rcu_read_unlock();
+> +}
+
+See my comments about refcount_t, spinlocks, and list manipulation
+races from earlier in the patchset; the same thing applies to the
+function above.
+
 
 --
 paul moore
