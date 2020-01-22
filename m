@@ -1,97 +1,92 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com [205.139.110.61])
-	by mail.lfdr.de (Postfix) with ESMTP id 28035145E11
-	for <lists+linux-audit@lfdr.de>; Wed, 22 Jan 2020 22:31:14 +0100 (CET)
+Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [207.211.31.81])
+	by mail.lfdr.de (Postfix) with ESMTP id 4BE3F145EB6
+	for <lists+linux-audit@lfdr.de>; Wed, 22 Jan 2020 23:40:54 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1579728672;
+	s=mimecast20190719; t=1579732853;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=yP3dm+bbDt2ymU95jgmPdCDZGCnkIhpr81g4X5hgti0=;
-	b=atV06B7u7ajXbPw7xc6KvOj5VDOkUNBLb1AIlJGUW44sF5Xei1kP41jFihi86IEsXOSf2F
-	ADbv/ojuI9AhSjUOpBoZTV1Ub8+rtAAyHhT7dkqaCK25nsA+0BuKMA9M0dVyMXTueLa4M2
-	mg/DN6nERJD/3AJcaj2WWejgXKCXLeI=
+	bh=MUwpfwAovfOOTHEhCayo1foMb13OCane/m+YsYPRkkQ=;
+	b=gFkGPy9xLWbP1oA0Tc/8o0SQNZRVfxSMjRc1Vm1xir7DYlQo/s7CxS5iS14hd+XFe1SRgW
+	SgN85gOWIgeFpYPg21hZura8783qzmhrKo+L+c1Jh1Piu+im+cwL/g7mUQaz6nw9PNEpRU
+	DNd7GNjZAyDcJT1QQXgf7C0+zsoXGsk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-138-hFSSx1i9OYyrOaH_QcGD_A-1; Wed, 22 Jan 2020 16:31:06 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+ us-mta-289-iDEbVm_vOw-0LG6UbC636g-1; Wed, 22 Jan 2020 17:40:51 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2D8F8DB64;
-	Wed, 22 Jan 2020 21:30:57 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9BE351882CC0;
+	Wed, 22 Jan 2020 22:40:45 +0000 (UTC)
 Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 0C7465DA60;
-	Wed, 22 Jan 2020 21:30:57 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 171F7A4B60;
+	Wed, 22 Jan 2020 22:40:41 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id C6E9D18089CE;
-	Wed, 22 Jan 2020 21:30:56 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
-	[10.11.54.6])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 0F9B31809567;
+	Wed, 22 Jan 2020 22:40:34 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+	[10.11.54.3])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 00MLTTNk003640 for <linux-audit@listman.util.phx.redhat.com>;
-	Wed, 22 Jan 2020 16:29:29 -0500
+	id 00MMeRtZ007708 for <linux-audit@listman.util.phx.redhat.com>;
+	Wed, 22 Jan 2020 17:40:28 -0500
 Received: by smtp.corp.redhat.com (Postfix)
-	id F22572166B28; Wed, 22 Jan 2020 21:29:28 +0000 (UTC)
+	id C1CF5109E734; Wed, 22 Jan 2020 22:40:27 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
-	(mimecast06.extmail.prod.ext.rdu2.redhat.com [10.11.55.22])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id ED33F2166B27
-	for <linux-audit@redhat.com>; Wed, 22 Jan 2020 21:29:26 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [205.139.110.61])
+	(mimecast01.extmail.prod.ext.rdu2.redhat.com [10.11.55.17])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id BD0C7109E733
+	for <linux-audit@redhat.com>; Wed, 22 Jan 2020 22:40:25 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [207.211.31.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 73BB318E6C69
-	for <linux-audit@redhat.com>; Wed, 22 Jan 2020 21:29:20 +0000 (UTC)
-Received: from mail-lj1-f194.google.com (mail-lj1-f194.google.com
-	[209.85.208.194]) (Using TLS) by relay.mimecast.com with ESMTP id
-	us-mta-202-isLs4YcEOjCN2lg7CXhmAA-1; Wed, 22 Jan 2020 16:29:18 -0500
-Received: by mail-lj1-f194.google.com with SMTP id a13so687559ljm.10
-	for <linux-audit@redhat.com>; Wed, 22 Jan 2020 13:29:18 -0800 (PST)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AD99E85A33B
+	for <linux-audit@redhat.com>; Wed, 22 Jan 2020 22:40:25 +0000 (UTC)
+Received: from mail-lf1-f67.google.com (mail-lf1-f67.google.com
+	[209.85.167.67]) (Using TLS) by relay.mimecast.com with ESMTP id
+	us-mta-429-iLtMlTwbMECqUPy3VR4IyQ-1; Wed, 22 Jan 2020 17:40:23 -0500
+Received: by mail-lf1-f67.google.com with SMTP id 9so825283lfq.10
+	for <linux-audit@redhat.com>; Wed, 22 Jan 2020 14:40:23 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=0IWzoSHaF7JN7KzmRnEKXue37+ElHpTL6tvjAuEiiiE=;
-	b=CAqOSJ5g6sga/WA1GcNi27IBFWW2HPQ0/pb7dT++ohp6wjyBp82mKR5yAAltxRuoJA
-	TeJ+tQ/wzYijM+emOX4biLNh9aqZ3kidJToSvdUji0Y/FFtzeGvo9LXWknaPSVxrNRXw
-	JoemqcAKBu8HlXXUHsGn/c76yNuxcZDf7yofr0R27GaFzVfjtDKtCyZuEXcMHqdYk8A8
-	yi1T4lJBqx4J7JFtVebp6rnkepv6e4zFukLAH8F/HRieHtReT2BgsEiRUwA4cN4/Zr3D
-	E1R8RgWOW9i+O+B4fHbmfXTDzEgOp+CE3B7EBDqqpTLutVZ8xwapv1ODyl9FwGTjyq0W
-	cVYA==
-X-Gm-Message-State: APjAAAUsfWH94fUN0RhxrC8EZ9JI7Hhj1MmMg1sfZKw2u6EKgKAgNCyT
-	C6Bk3fhlP0x11jhnf7e7tVQ4PasmjRHhALjcxUfy
-X-Google-Smtp-Source: APXvYqyJPHhr26PhrZ+pA9b8pTPEHYf1WFuy5Ob3gcESY7hxuJ6vYnDhzK5W1Ro4odt+SPVTOx5x/cd75TN9sGtuTYo=
-X-Received: by 2002:a2e:5357:: with SMTP id t23mr21086243ljd.227.1579728556739;
-	Wed, 22 Jan 2020 13:29:16 -0800 (PST)
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=cFI2KS3YTe8YnCNUCd4DQaJDpcrlKps9GUI04jPWB2g=;
+	b=ijgl5U8LoluclfcjdbZ5Dd0DfaQA++VJQazIxS969fjCF0cp02/o+uwT/gUJ2vRYy+
+	SwGISOE06imoSdYQgM4ax0895XlmFU52fKNu5qxI8a3U+/jacMI8dxs3h8lhPbvFkaIn
+	i++0Ine1ykMufM3p9C3Y2FAG9MY4LFYE0jqh5UdSLQjOmydR/FY9K4MIbXxDwvu0gAiy
+	16LKJ8UZScCIjC6Qk/qa+Vu9K8xWsqLUZQ/5xrYxZOM9HmteI0p1gTcDmmVHHrm0a6Ba
+	thLOJzyMAAcKQ1svdZSgcdwtCZOk6rFTDdp1C6lxKAaTqeucTBcK4trQ1WckOKP/Kuva
+	gDLA==
+X-Gm-Message-State: APjAAAUrPG/ce47Y9+Nb5AoeX2nH1WcLARXCInL0chtG/Tvhioonam37
+	XGgYm6Fz0n9yJd1bVbuCIB1G17xIytoY1WY3dt0m
+X-Google-Smtp-Source: APXvYqyexK+Tm0pUv/Rts6z5RtpWCOoQZNqh1gBcQARMjG6p1JR3DHk+wKmOp+F3fMZEQ2xOa8PN30ml9t6FPOELb6c=
+X-Received: by 2002:a05:6512:3ac:: with SMTP id
+	v12mr3007208lfp.205.1579732822163; 
+	Wed, 22 Jan 2020 14:40:22 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1577736799.git.rgb@redhat.com>
-	<cfbb80a08fc770dd0dcf6dac6ff307a80d877c3f.1577736799.git.rgb@redhat.com>
-In-Reply-To: <cfbb80a08fc770dd0dcf6dac6ff307a80d877c3f.1577736799.git.rgb@redhat.com>
+References: <ca70ee17d85860aa599e0001a75d639d819de7ae.1579292286.git.rgb@redhat.com>
+In-Reply-To: <ca70ee17d85860aa599e0001a75d639d819de7ae.1579292286.git.rgb@redhat.com>
 From: Paul Moore <paul@paul-moore.com>
-Date: Wed, 22 Jan 2020 16:29:05 -0500
-Message-ID: <CAHC9VhT1+mx_tVzyXD=UBqagqYgAFjZ=X1A6oBiMvjVCn8=V-w@mail.gmail.com>
-Subject: Re: [PATCH ghak90 V8 12/16] audit: contid check descendancy and
-	nesting
+Date: Wed, 22 Jan 2020 17:40:10 -0500
+Message-ID: <CAHC9VhR9p+aOTzv7g-ujuMsMtLvOZKkoKJWsthZnj38rzJe1TA@mail.gmail.com>
+Subject: Re: [PATCH ghak28 V4] audit: log audit netlink multicast bind and
+	unbind events
 To: Richard Guy Briggs <rgb@redhat.com>
-X-MC-Unique: isLs4YcEOjCN2lg7CXhmAA-1
-X-MC-Unique: hFSSx1i9OYyrOaH_QcGD_A-1
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+X-MC-Unique: iLtMlTwbMECqUPy3VR4IyQ-1
+X-MC-Unique: iDEbVm_vOw-0LG6UbC636g-1
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
 X-MIME-Autoconverted: from quoted-printable to 8bit by
-	lists01.pubmisc.prod.ext.phx2.redhat.com id 00MLTTNk003640
+	lists01.pubmisc.prod.ext.phx2.redhat.com id 00MMeRtZ007708
 X-loop: linux-audit@redhat.com
-Cc: nhorman@tuxdriver.com, linux-api@vger.kernel.org,
-	containers@lists.linux-foundation.org,
-	LKML <linux-kernel@vger.kernel.org>, dhowells@redhat.com,
+Cc: nhorman@redhat.com, LKML <linux-kernel@vger.kernel.org>,
 	Linux-Audit Mailing List <linux-audit@redhat.com>,
-	netfilter-devel@vger.kernel.org, ebiederm@xmission.com,
-	simo@redhat.com, netdev@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	Eric Paris <eparis@parisplace.org>, mpatel@redhat.com,
-	Serge Hallyn <serge@hallyn.com>
+	Eric Paris <eparis@parisplace.org>
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -105,102 +100,119 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-On Tue, Dec 31, 2019 at 2:51 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+On Fri, Jan 17, 2020 at 3:21 PM Richard Guy Briggs <rgb@redhat.com> wrote:
 >
-> Require the target task to be a descendant of the container
-> orchestrator/engine.
+> Log information about programs connecting to and disconnecting from the
+> audit netlink multicast socket. This is needed so that during
+> investigations a security officer can tell who or what had access to the
+> audit trail.  This helps to meet the FAU_SAR.2 requirement for Common
+> Criteria.  Here is the systemd startup event:
 >
-> You would only change the audit container ID from one set or inherited
-> value to another if you were nesting containers.
+> type=UNKNOWN[1335] msg=audit(2020-01-17 10:30:33.731:6) : pid=1 uid=root auid=unset tty=(none) ses=unset subj=kernel comm=systemd exe=/usr/lib/systemd/systemd nl-mcgrp=1 op=connect res=yes
 >
-> If changing the contid, the container orchestrator/engine must be a
-> descendant and not same orchestrator as the one that set it so it is not
-> possible to change the contid of another orchestrator's container.
+> And the events from the test suite:
 >
-> Since the task_is_descendant() function is used in YAMA and in audit,
-> remove the duplication and pull the function into kernel/core/sched.c
+> type=PROCTITLE msg=audit(2020-01-17 10:36:24.050:294) : proctitle=/usr/bin/perl -w amcast_joinpart/test
+> type=SOCKADDR msg=audit(2020-01-17 10:36:24.050:294) : saddr={ saddr_fam=netlink nlnk-fam=16 nlnk-pid=0 }
+> type=SYSCALL msg=audit(2020-01-17 10:36:24.050:294) : arch=x86_64 syscall=bind success=yes exit=0 a0=0x7 a1=0x55d65cb79090 a2=0xc a3=0x0 items=0 ppid=671 pid=674 auid=root uid=root gid=root euid=root suid=root fsuid=root egid=root sgid=root fsgid=root tty=ttyS0 ses=3 comm=perl exe=/usr/bin/perl subj=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023 key=(null)
+> type=UNKNOWN[1335] msg=audit(2020-01-17 10:36:24.050:294) : pid=674 uid=root auid=root tty=ttyS0 ses=3 subj=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023 comm=perl exe=/usr/bin/perl nl-mcgrp=1 op=connect res=yes
+>
+> type=UNKNOWN[1335] msg=audit(2020-01-17 10:36:24.051:295) : pid=674 uid=root auid=root tty=ttyS0 ses=3 subj=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023 comm=perl exe=/usr/bin/perl nl-mcgrp=1 op=disconnect res=yes
+>
+> Please see the upstream issue tracker:
+>   https://github.com/linux-audit/audit-kernel/issues/28
+>   https://github.com/linux-audit/audit-kernel/wiki/RFE-Audit-Multicast-Socket-Join-Part
+>   https://github.com/rgbriggs/audit-testsuite/compare/ghak28-mcast-part-join
 >
 > Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
+>
 > ---
->  include/linux/sched.h    |  3 +++
->  kernel/audit.c           | 44 ++++++++++++++++++++++++++++++++++++--------
->  kernel/sched/core.c      | 33 +++++++++++++++++++++++++++++++++
->  security/yama/yama_lsm.c | 33 ---------------------------------
->  4 files changed, 72 insertions(+), 41 deletions(-)
-
-...
-
+> Note: msg type 1334 was skipped due to BPF accepted in another tree.
+> Note: v5 due to previous 2014-10-07, 2015-07-23, 2016-11-30, 2017-10-13
+> Note: subj attrs included due to missing syscall record for systemd (audit=1)
+> Note: tried refactor of subj attrs, but this is yet another new order.
+> ---
+>  include/uapi/linux/audit.h |  1 +
+>  kernel/audit.c             | 48 ++++++++++++++++++++++++++++++++++++++++++----
+>  2 files changed, 45 insertions(+), 4 deletions(-)
+>
+> diff --git a/include/uapi/linux/audit.h b/include/uapi/linux/audit.h
+> index 3ad935527177..67fb24472dc2 100644
+> --- a/include/uapi/linux/audit.h
+> +++ b/include/uapi/linux/audit.h
+> @@ -116,6 +116,7 @@
+>  #define AUDIT_FANOTIFY         1331    /* Fanotify access decision */
+>  #define AUDIT_TIME_INJOFFSET   1332    /* Timekeeping offset injected */
+>  #define AUDIT_TIME_ADJNTPVAL   1333    /* NTP value adjustment */
+> +#define AUDIT_EVENT_LISTENER   1335    /* Task joined multicast read socket */
+>
+>  #define AUDIT_AVC              1400    /* SE Linux avc denial or grant */
+>  #define AUDIT_SELINUX_ERR      1401    /* Internal SE Linux Errors */
 > diff --git a/kernel/audit.c b/kernel/audit.c
-> index f7a8d3288ca0..ef8e07524c46 100644
+> index 17b0d523afb3..478259f3fa53 100644
 > --- a/kernel/audit.c
 > +++ b/kernel/audit.c
-> @@ -2603,22 +2610,43 @@ int audit_set_contid(struct task_struct *task, u64 contid)
->         oldcontid = audit_get_contid(task);
->         read_lock(&tasklist_lock);
->         /* Don't allow the contid to be unset */
-> -       if (!audit_contid_valid(contid))
-> +       if (!audit_contid_valid(contid)) {
->                 rc = -EINVAL;
-> +               goto unlock;
-> +       }
->         /* Don't allow the contid to be set to the same value again */
-> -       else if (contid == oldcontid) {
-> +       if (contid == oldcontid) {
->                 rc = -EADDRINUSE;
-> +               goto unlock;
-> +       }
->         /* if we don't have caps, reject */
-> -       else if (!capable(CAP_AUDIT_CONTROL))
-> +       if (!capable(CAP_AUDIT_CONTROL)) {
->                 rc = -EPERM;
-> -       /* if task has children or is not single-threaded, deny */
-> -       else if (!list_empty(&task->children))
-> +               goto unlock;
-> +       }
-> +       /* if task has children, deny */
-> +       if (!list_empty(&task->children)) {
->                 rc = -EBUSY;
-> -       else if (!(thread_group_leader(task) && thread_group_empty(task)))
-> +               goto unlock;
-> +       }
-> +       /* if task is not single-threaded, deny */
-> +       if (!(thread_group_leader(task) && thread_group_empty(task))) {
->                 rc = -EALREADY;
-> -       /* if contid is already set, deny */
-> -       else if (audit_contid_set(task))
-> +               goto unlock;
-> +       }
+> @@ -1520,20 +1520,60 @@ static void audit_receive(struct sk_buff  *skb)
+>         audit_ctl_unlock();
+>  }
+>
+> +/* Log information about who is connecting to the audit multicast socket */
+> +static void audit_log_multicast_bind(int group, const char *op, int err)
+> +{
+> +       const struct cred *cred;
+> +       struct tty_struct *tty;
+> +       char comm[sizeof(current->comm)];
+> +       struct audit_buffer *ab;
+> +
+> +       if (!audit_enabled)
+> +               return;
+> +
+> +       ab = audit_log_start(audit_context(), GFP_KERNEL, AUDIT_EVENT_LISTENER);
+> +       if (!ab)
+> +               return;
+> +
+> +       cred = current_cred();
+> +       tty = audit_get_tty();
+> +       audit_log_format(ab, "pid=%u uid=%u auid=%u tty=%s ses=%u",
+> +                        task_pid_nr(current),
+> +                        from_kuid(&init_user_ns, cred->uid),
+> +                        from_kuid(&init_user_ns, audit_get_loginuid(current)),
+> +                        tty ? tty_name(tty) : "(none)",
+> +                        audit_get_sessionid(current));
 
-It seems like the if/else-if conversion above should be part of an
-earlier patchset.
+Don't we already get all of that information as part of the syscall record?
 
-> +       /* if task is not descendant, block */
-> +       if (task == current) {
-> +               rc = -EBADSLT;
-> +               goto unlock;
-> +       }
-> +       if (!task_is_descendant(current, task)) {
-> +               rc = -EXDEV;
-> +               goto unlock;
-> +       }
+> +       audit_put_tty(tty);
+> +       audit_log_task_context(ab); /* subj= */
 
-I understand you are trying to provide a unique error code for each
-failure case, but this is getting silly.  Let's group the descendent
-checks under the same error code.
+Also part of the syscall record.
 
-> +       /* only allow contid setting again if nesting */
-> +       if (audit_contid_set(task) && audit_contid_isowner(task))
->                 rc = -ECHILD;
+> +       audit_log_format(ab, " comm=");
+> +       audit_log_untrustedstring(ab, get_task_comm(comm, current));
 
-Should that be "!audit_contid_isowner()"?
+Again.
 
---
+> +       audit_log_d_path_exe(ab, current->mm); /* exe= */
+
+Again.
+
+> +       audit_log_format(ab, " nl-mcgrp=%d op=%s res=%d", group, op, !err);
+
+This part is new ;)
+
+> +       audit_log_end(ab);
+> +}
+
+I'm pretty sure these are the same arguments I made when Steve posted
+a prior version of this patch.
+
+-- 
 paul moore
 www.paul-moore.com
 
