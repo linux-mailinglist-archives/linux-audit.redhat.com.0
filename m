@@ -1,97 +1,70 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com [207.211.31.120])
-	by mail.lfdr.de (Postfix) with ESMTP id 100E714716E
-	for <lists+linux-audit@lfdr.de>; Thu, 23 Jan 2020 20:07:53 +0100 (CET)
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com [205.139.110.120])
+	by mail.lfdr.de (Postfix) with ESMTP id 8B543147252
+	for <lists+linux-audit@lfdr.de>; Thu, 23 Jan 2020 21:05:04 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1579806473;
+	s=mimecast20190719; t=1579809903;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=CwkyrPdBSI6hKrYURY24UTpuJ9sRcnW2zAm3VJk5GQY=;
-	b=NIZgCvuc7T4eVrzl6H4wLUpULlfOKBCz1i2NrFSbmifnKngFaLO1zjwX4rcVhBpbENG7Bn
-	TnO5sH1SZWqBUfFk0jM7FAb2fa6HZQHDL4xLHvHhv+M6PBOi0arRgLzEURwGGFhBVIV5DS
-	4QyCJ+06379lhPGxrrBurTv+yaq3JRQ=
+	bh=nfryOd56spTgFtH5sf1LN4F8tqcRIOiHVzmi1tp5IOU=;
+	b=Q1WjzPpS2aDk1nC2Lvs+0d3zL/zWsabxteEFkUN2pckJzNJOSV/u98ydEv1NOU43bpS7nC
+	AHly9s0GFYkbVTp4I1m/x2xkgKrR849NaNBrkHCFDZpeIsUNtV/j5NzeckpfPLmld0MMlI
+	N1PUrTdywawA6cubrQ7acgYXU2j/CCE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-359-hNQLyMMlM-CGNaKIiX-afA-1; Thu, 23 Jan 2020 14:07:50 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+ us-mta-420-fDTfOqZKNgyZ3_xHZS03Sw-1; Thu, 23 Jan 2020 15:05:00 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B6DC41005510;
-	Thu, 23 Jan 2020 19:07:43 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A60591882CC9;
+	Thu, 23 Jan 2020 20:04:54 +0000 (UTC)
 Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 8FCD587EED;
-	Thu, 23 Jan 2020 19:07:43 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 9CADC196AE;
+	Thu, 23 Jan 2020 20:04:53 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 355C71803C33;
-	Thu, 23 Jan 2020 19:07:42 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
-	[10.11.54.3])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 4B7441803C32;
+	Thu, 23 Jan 2020 20:04:49 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+	[10.5.11.16])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 00NJ7ZoM026128 for <linux-audit@listman.util.phx.redhat.com>;
-	Thu, 23 Jan 2020 14:07:35 -0500
+	id 00NK4QKw030030 for <linux-audit@listman.util.phx.redhat.com>;
+	Thu, 23 Jan 2020 15:04:26 -0500
 Received: by smtp.corp.redhat.com (Postfix)
-	id 4D3C1105546E; Thu, 23 Jan 2020 19:07:35 +0000 (UTC)
+	id DA9345C28D; Thu, 23 Jan 2020 20:04:26 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from mimecast-mx02.redhat.com
-	(mimecast06.extmail.prod.ext.rdu2.redhat.com [10.11.55.22])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 489341055462
-	for <linux-audit@redhat.com>; Thu, 23 Jan 2020 19:07:33 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [207.211.31.81])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 548F318AE970
-	for <linux-audit@redhat.com>; Thu, 23 Jan 2020 19:07:33 +0000 (UTC)
-Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com
-	[209.85.208.196]) (Using TLS) by relay.mimecast.com with ESMTP id
-	us-mta-159-EoogPeuNNt-sPNRVjDXSsQ-1; Thu, 23 Jan 2020 14:07:30 -0500
-Received: by mail-lj1-f196.google.com with SMTP id h23so4849730ljc.8
-	for <linux-audit@redhat.com>; Thu, 23 Jan 2020 11:07:29 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=i2Gpo6Tm+7T8oQ/Qs3f0OF4BTKoIqiuFY7JyzM5sw7E=;
-	b=d01n6DB1fUVGSUQoFoRWbb2xUhKMaCZ9u5OQobNokQ7w98cgKIQYOYbK1Zw3XEOj4a
-	WqD76QvFXyQKWt3thdVuGOnBQaiCyedfb0jTbVZFhBPp1dXJox4YD/FMixDGa6sH2Cv6
-	Obuv67bgQlKPjwDnFNG7vDFbCb8dpodxctAiktSWjkZwYRmnJR8ibxhaqi8VDhDH9Sy7
-	GJ7580jR1gvx9fk+xziCx3cBMZe5VsRiOOEYxgctC3+JxtUl0s2bZsbsBnZynTN35nV/
-	Lwx3sUO3uikrMYl3olc1oi6t+wpJ0MrIALa/IOlZOzsKnjsPLe3l4/1WWg02VXpavisG
-	7TGQ==
-X-Gm-Message-State: APjAAAUamrU1BLJUJcGi31+3VImto7i/4xGEhgILP7S9X/SkQzt+WL5j
-	nnkDFKOd3Squd2ZDKWvZ9JwnKWvIanrC2dJT3Ge3
-X-Google-Smtp-Source: APXvYqzcSZmT95hcvF6oSAGXmUIpmo4HprR3bKDc4fX7RZkHAw8c0XOeWvZ394TijbjLtjNN/GTYQ9LdZVy1am5x/To=
-X-Received: by 2002:a2e:9b03:: with SMTP id u3mr39960lji.87.1579806448528;
-	Thu, 23 Jan 2020 11:07:28 -0800 (PST)
+Received: from madcap2.tricolour.ca (ovpn-112-12.phx2.redhat.com [10.3.112.12])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id E05405C1B2;
+	Thu, 23 Jan 2020 20:04:15 +0000 (UTC)
+Date: Thu, 23 Jan 2020 15:04:12 -0500
+From: Richard Guy Briggs <rgb@redhat.com>
+To: Paul Moore <paul@paul-moore.com>
+Subject: Re: [PATCH ghak90 V8 07/16] audit: add contid support for signalling
+	the audit daemon
+Message-ID: <20200123200412.j2aucdp3cvk57prw@madcap2.tricolour.ca>
+References: <cover.1577736799.git.rgb@redhat.com>
+	<7d7933d742fdf4a94c84b791906a450b16f2e81f.1577736799.git.rgb@redhat.com>
+	<CAHC9VhSuwJGryfrBfzxG01zwb-O_7dbjS0x0a3w-XjcNuYSAcg@mail.gmail.com>
+	<20200123162918.b3jbed7tbvr2sf2p@madcap2.tricolour.ca>
+	<CAHC9VhTusiQoudB8G5jjDFyM9WxBUAjZ6_X35ywJ063Jb75dQA@mail.gmail.com>
 MIME-Version: 1.0
-References: <ca70ee17d85860aa599e0001a75d639d819de7ae.1579292286.git.rgb@redhat.com>
-	<CAHC9VhR9p+aOTzv7g-ujuMsMtLvOZKkoKJWsthZnj38rzJe1TA@mail.gmail.com>
-	<20200122230742.7vwtvmhhjerray5f@madcap2.tricolour.ca>
-	<CAHC9VhTcv9E8DUDJ2Y-PzXmU0_+ufVydbPB3Q_Fhb8-7TUZMmg@mail.gmail.com>
-	<20200123161349.z55l2dd7qsyhoxbn@madcap2.tricolour.ca>
-	<CAHC9VhTEfZXCV6TwJ4KOoDCea3x5i85_gBmMi=cygGG9OQCGOQ@mail.gmail.com>
-	<20200123185149.sr4b4u4s2ec7renc@madcap2.tricolour.ca>
-In-Reply-To: <20200123185149.sr4b4u4s2ec7renc@madcap2.tricolour.ca>
-From: Paul Moore <paul@paul-moore.com>
-Date: Thu, 23 Jan 2020 14:07:17 -0500
-Message-ID: <CAHC9VhSPwfNqqoMid+bHRa-XTj4b+DbE6+ov8=MsCxMBuHbjWg@mail.gmail.com>
-Subject: Re: [PATCH ghak28 V4] audit: log audit netlink multicast bind and
-	unbind events
-To: Richard Guy Briggs <rgb@redhat.com>
-X-MC-Unique: EoogPeuNNt-sPNRVjDXSsQ-1
-X-MC-Unique: hNQLyMMlM-CGNaKIiX-afA-1
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
-X-MIME-Autoconverted: from quoted-printable to 8bit by
-	lists01.pubmisc.prod.ext.phx2.redhat.com id 00NJ7ZoM026128
+In-Reply-To: <CAHC9VhTusiQoudB8G5jjDFyM9WxBUAjZ6_X35ywJ063Jb75dQA@mail.gmail.com>
+User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-loop: linux-audit@redhat.com
-Cc: Eric Paris <eparis@parisplace.org>, nhorman@redhat.com,
+Cc: nhorman@tuxdriver.com, linux-api@vger.kernel.org,
+	containers@lists.linux-foundation.org,
+	LKML <linux-kernel@vger.kernel.org>, dhowells@redhat.com,
 	Linux-Audit Mailing List <linux-audit@redhat.com>,
-	LKML <linux-kernel@vger.kernel.org>
+	netfilter-devel@vger.kernel.org, ebiederm@xmission.com,
+	simo@redhat.com, netdev@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	Eric Paris <eparis@parisplace.org>, mpatel@redhat.com,
+	Serge Hallyn <serge@hallyn.com>
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -105,92 +78,119 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: fDTfOqZKNgyZ3_xHZS03Sw-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
-On Thu, Jan 23, 2020 at 1:52 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> On 2020-01-23 11:57, Paul Moore wrote:
-> > On Thu, Jan 23, 2020 at 11:14 AM Richard Guy Briggs <rgb@redhat.com> wrote:
-> > > On 2020-01-23 09:32, Paul Moore wrote:
-> > > > On Wed, Jan 22, 2020 at 6:07 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> > > > > On 2020-01-22 17:40, Paul Moore wrote:
-> > > > > > On Fri, Jan 17, 2020 at 3:21 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+On 2020-01-23 12:09, Paul Moore wrote:
+> On Thu, Jan 23, 2020 at 11:29 AM Richard Guy Briggs <rgb@redhat.com> wrote:
+> > On 2020-01-22 16:28, Paul Moore wrote:
+> > > On Tue, Dec 31, 2019 at 2:50 PM Richard Guy Briggs <rgb@redhat.com> wrote:
 > > > >
-> > > > ...
+> > > > Add audit container identifier support to the action of signalling the
+> > > > audit daemon.
 > > > >
-> > > > > > > diff --git a/kernel/audit.c b/kernel/audit.c
-> > > > > > > index 17b0d523afb3..478259f3fa53 100644
-> > > > > > > --- a/kernel/audit.c
-> > > > > > > +++ b/kernel/audit.c
-> > > > > > > @@ -1520,20 +1520,60 @@ static void audit_receive(struct sk_buff  *skb)
-> > > > > > >         audit_ctl_unlock();
-> > > > > > >  }
-> > > > > > >
-> > > > > > > +/* Log information about who is connecting to the audit multicast socket */
-> > > > > > > +static void audit_log_multicast_bind(int group, const char *op, int err)
-> > > > > > > +{
-> > > > > > > +       const struct cred *cred;
-> > > > > > > +       struct tty_struct *tty;
-> > > > > > > +       char comm[sizeof(current->comm)];
-> > > > > > > +       struct audit_buffer *ab;
-> > > > > > > +
-> > > > > > > +       if (!audit_enabled)
-> > > > > > > +               return;
-> > > > > > > +
-> > > > > > > +       ab = audit_log_start(audit_context(), GFP_KERNEL, AUDIT_EVENT_LISTENER);
-> > > > > > > +       if (!ab)
-> > > > > > > +               return;
-> > > > > > > +
-> > > > > > > +       cred = current_cred();
-> > > > > > > +       tty = audit_get_tty();
-> > > > > > > +       audit_log_format(ab, "pid=%u uid=%u auid=%u tty=%s ses=%u",
-> > > > > > > +                        task_pid_nr(current),
-> > > > > > > +                        from_kuid(&init_user_ns, cred->uid),
-> > > > > > > +                        from_kuid(&init_user_ns, audit_get_loginuid(current)),
-> > > > > > > +                        tty ? tty_name(tty) : "(none)",
-> > > > > > > +                        audit_get_sessionid(current));
-> > > > > >
-> > > > > > Don't we already get all of that information as part of the syscall record?
-> > > > >
-> > > > > Yes.  However, the syscall record isn't always present.  One example is
-> > > > > systemd, shown above.
+> > > > Since this would need to add an element to the audit_sig_info struct,
+> > > > a new record type AUDIT_SIGNAL_INFO2 was created with a new
+> > > > audit_sig_info2 struct.  Corresponding support is required in the
+> > > > userspace code to reflect the new record request and reply type.
+> > > > An older userspace won't break since it won't know to request this
+> > > > record type.
 > > > >
-> > > > Assuming that the system supports syscall auditing, the absence of a
-> > > > syscall record is a configuration choice made by the admin.  If the
-> > > > system doesn't support syscall auditing the obvious "fix" is to do the
-> > > > work to enable syscall auditing on that platform ... but now we're
-> > > > starting to get off topic.
+> > > > Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
+> > > > ---
+> > > >  include/linux/audit.h       |  7 +++++++
+> > > >  include/uapi/linux/audit.h  |  1 +
+> > > >  kernel/audit.c              | 35 +++++++++++++++++++++++++++++++++++
+> > > >  kernel/audit.h              |  1 +
+> > > >  security/selinux/nlmsgtab.c |  1 +
+> > > >  5 files changed, 45 insertions(+)
 > > >
-> > > Well, the system did spit out a syscall record with the example above,
-> > > so it has support for syscall auditing.
+> > > ...
 > > >
-> > > I'm testing on f30 with an upstream kernel, the standard 30-stig ruleset and
-> > > with kernel command line audit=1.  What else is needed to support a syscall
-> > > record on systemd before any audit rules have been put in place?  We may still
-> > > have a bug here that affects early process auditing.  What am I missing?
+> > > > diff --git a/kernel/audit.c b/kernel/audit.c
+> > > > index 0871c3e5d6df..51159c94041c 100644
+> > > > --- a/kernel/audit.c
+> > > > +++ b/kernel/audit.c
+> > > > @@ -126,6 +126,14 @@ struct auditd_connection {
+> > > >  kuid_t         audit_sig_uid = INVALID_UID;
+> > > >  pid_t          audit_sig_pid = -1;
+> > > >  u32            audit_sig_sid = 0;
+> > > > +/* Since the signal information is stored in the record buffer at the
+> > > > + * time of the signal, but not retrieved until later, there is a chance
+> > > > + * that the last process in the container could terminate before the
+> > > > + * signal record is delivered.  In this circumstance, there is a chance
+> > > > + * the orchestrator could reuse the audit container identifier, causing
+> > > > + * an overlap of audit records that refer to the same audit container
+> > > > + * identifier, but a different container instance.  */
+> > > > +u64            audit_sig_cid = AUDIT_CID_UNSET;
 > > >
-> > > If we can get that sorted out, we don't need subject attributes in this record.
+> > > I believe we could prevent the case mentioned above by taking an
+> > > additional reference to the audit container ID object when the signal
+> > > information is collected, dropping it only after the signal
+> > > information is collected by userspace or another process signals the
+> > > audit daemon.  Yes, it would block that audit container ID from being
+> > > reused immediately, but since we are talking about one number out of
+> > > 2^64 that seems like a reasonable tradeoff.
 > >
-> > It looks like some debugging is in order.  There must be some sort of
-> > action initiated by userspace which is causing the multicast
-> > "op=connect", right?  Find out what that is and why it isn't
-> > generating a syscall record (maybe it's not a syscall? I don't know
-> > what systemd is doing here).
->
-> One clue is that subj=kernel and auid, ttye and ses are unset, despite
-> the rest checking out:
->         pid=1 uid=root auid=unset tty=(none) ses=unset subj=kernel comm=systemd exe=/usr/lib/systemd/systemd
+> > I had thought that through and should have been more explicit about that
+> > situation when I documented it.  We could do that, but then the syscall
+> > records would be connected with the call from auditd on shutdown to
+> > request that signal information, rather than the exit of that last
+> > process that was using that container.  This strikes me as misleading.
+> > Is that really what we want?
+> 
+>  ???
+> 
+> I think one of us is not understanding the other; maybe it's me, maybe
+> it's you, maybe it's both of us.
+> 
+> Anyway, here is what I was trying to convey with my original comment
+> ... When we record the audit container ID in audit_signal_info() we
+> take an extra reference to the audit container ID object so that it
+> will not disappear (and get reused) until after we respond with an
+> AUDIT_SIGNAL_INFO2.  In audit_receive_msg() when we do the
+> AUDIT_SIGNAL_INFO2 processing we drop the extra reference we took in
+> audit_signal_info().  Unless I'm missing some other change you made,
+> this *shouldn't* affect the syscall records, all it does is preserve
+> the audit container ID object in the kernel's ACID store so it doesn't
+> get reused.
 
-Does Fedora use systemd in its initramfs (I'm guessing the answer is
-"yes")?  If so, I wonder if that is the source of this record.
+This is exactly what I had understood.  I hadn't considered the extra
+details below in detail due to my original syscall concern, but they
+make sense.
 
--- 
-paul moore
-www.paul-moore.com
+The syscall I refer to is the one connected with the drop of the
+audit container identifier by the last process that was in that
+container in patch 5/16.  The production of this record is contingent on
+the last ref in a contobj being dropped.  So if it is due to that ref
+being maintained by audit_signal_info() until the AUDIT_SIGNAL_INFO2
+record it fetched, then it will appear that the fetch action closed the
+container rather than the last process in the container to exit.
 
+Does this make sense?
+
+> (We do need to do some extra housekeeping in audit_signal_info() to
+> deal with the case where nobody asks for AUDIT_SIGNAL_INFO2 -
+> basically if audit_sig_cid is not NULL we should drop a reference
+> before assigning it a new object pointer, and of course we would need
+> to set audit_sig_cid to NULL in audit_receive_msg() after sending it
+> up to userspace and dropping the extra ref.)
+> 
+> paul moore
+
+- RGB
+
+--
+Richard Guy Briggs <rgb@redhat.com>
+Sr. S/W Engineer, Kernel Security, Base Operating Systems
+Remote, Ottawa, Red Hat Canada
+IRC: rgb, SunRaycer
+Voice: +1.647.777.2635, Internal: (81) 32635
 
 --
 Linux-audit mailing list
