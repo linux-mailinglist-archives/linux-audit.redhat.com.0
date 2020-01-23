@@ -1,68 +1,68 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-delivery-1.mimecast.com [205.139.110.120])
-	by mail.lfdr.de (Postfix) with ESMTP id 7D3F8147275
-	for <lists+linux-audit@lfdr.de>; Thu, 23 Jan 2020 21:16:09 +0100 (CET)
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-delivery-1.mimecast.com [207.211.31.120])
+	by mail.lfdr.de (Postfix) with ESMTP id 84C671472E9
+	for <lists+linux-audit@lfdr.de>; Thu, 23 Jan 2020 22:03:17 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1579810568;
+	s=mimecast20190719; t=1579813396;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=A7BHqu8VaWb6zmvZNR0B75nb8Ct7uco+zWiCE+/EKjc=;
-	b=JIeGThO45ET0n2aQbpue88RGMF3gLUgpRRJKeOcYZ9G5nZ5ME2ySlDBRMMebyrSCObvPSW
-	alWwlbJ6E85GgBpFRW/NHuQ1nxmClexkx8bINWDquVMfrLEK7hEHuzbLfngNJAfrlrVSAJ
-	kjWwNPsn/6epo6+pHZm5PW+dh5IylAo=
+	bh=GTGxRjn56vf+/gn0t91HIXu73vcU3p++dvvXo7t1FFo=;
+	b=eHIRx+sRvmtCmth0EzLgtlQUlD/MW974B7pen7YtKqt5ZB6Tw2RiXqFdzTlPIURUNU6Nka
+	3xZfOhMh1ZbWONOPPgMR3bzetuGTm+cMPIupT4tPP3cdAJ+OWf2iQDy6Kx9rgjAGGLkqY1
+	8Y0ywDFJHIA98Bm0C4Qvrie1PNfWlBQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-276-ei1X8jmIO3SYYV2Tk07IqA-1; Thu, 23 Jan 2020 15:16:01 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+ us-mta-133-XzqgLjkFMlaVqIYfP-WfOw-1; Thu, 23 Jan 2020 16:03:13 -0500
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A6729107ACCA;
-	Thu, 23 Jan 2020 20:15:56 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 1A4165C1B2;
-	Thu, 23 Jan 2020 20:15:56 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 54489A0CCC;
+	Thu, 23 Jan 2020 21:03:05 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 95F228575F;
+	Thu, 23 Jan 2020 21:03:03 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 0918C1803C33;
-	Thu, 23 Jan 2020 20:15:54 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
-	[10.5.11.16])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 4ECBE85942;
+	Thu, 23 Jan 2020 21:03:02 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+	[10.5.11.11])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 00NKFnqa031154 for <linux-audit@listman.util.phx.redhat.com>;
-	Thu, 23 Jan 2020 15:15:50 -0500
+	id 00NL2sRR001588 for <linux-audit@listman.util.phx.redhat.com>;
+	Thu, 23 Jan 2020 16:02:54 -0500
 Received: by smtp.corp.redhat.com (Postfix)
-	id EE0905C28D; Thu, 23 Jan 2020 20:15:49 +0000 (UTC)
+	id D193A85757; Thu, 23 Jan 2020 21:02:54 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from madcap2.tricolour.ca (ovpn-112-12.phx2.redhat.com [10.3.112.12])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 380BB5C1B2;
-	Thu, 23 Jan 2020 20:15:44 +0000 (UTC)
-Date: Thu, 23 Jan 2020 15:15:41 -0500
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 467D281207;
+	Thu, 23 Jan 2020 21:02:43 +0000 (UTC)
+Date: Thu, 23 Jan 2020 16:02:40 -0500
 From: Richard Guy Briggs <rgb@redhat.com>
 To: Paul Moore <paul@paul-moore.com>
-Subject: Re: [PATCH ghak28 V4] audit: log audit netlink multicast bind and
-	unbind events
-Message-ID: <20200123201541.emtse6l5wrnrpqgc@madcap2.tricolour.ca>
-References: <ca70ee17d85860aa599e0001a75d639d819de7ae.1579292286.git.rgb@redhat.com>
-	<CAHC9VhR9p+aOTzv7g-ujuMsMtLvOZKkoKJWsthZnj38rzJe1TA@mail.gmail.com>
-	<20200122230742.7vwtvmhhjerray5f@madcap2.tricolour.ca>
-	<CAHC9VhTcv9E8DUDJ2Y-PzXmU0_+ufVydbPB3Q_Fhb8-7TUZMmg@mail.gmail.com>
-	<20200123161349.z55l2dd7qsyhoxbn@madcap2.tricolour.ca>
-	<CAHC9VhTEfZXCV6TwJ4KOoDCea3x5i85_gBmMi=cygGG9OQCGOQ@mail.gmail.com>
-	<20200123185149.sr4b4u4s2ec7renc@madcap2.tricolour.ca>
-	<CAHC9VhSPwfNqqoMid+bHRa-XTj4b+DbE6+ov8=MsCxMBuHbjWg@mail.gmail.com>
+Subject: Re: [PATCH ghak90 V8 12/16] audit: contid check descendancy and
+	nesting
+Message-ID: <20200123210240.sq64tptjm3ds7xss@madcap2.tricolour.ca>
+References: <cover.1577736799.git.rgb@redhat.com>
+	<cfbb80a08fc770dd0dcf6dac6ff307a80d877c3f.1577736799.git.rgb@redhat.com>
+	<CAHC9VhT1+mx_tVzyXD=UBqagqYgAFjZ=X1A6oBiMvjVCn8=V-w@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <CAHC9VhSPwfNqqoMid+bHRa-XTj4b+DbE6+ov8=MsCxMBuHbjWg@mail.gmail.com>
+In-Reply-To: <CAHC9VhT1+mx_tVzyXD=UBqagqYgAFjZ=X1A6oBiMvjVCn8=V-w@mail.gmail.com>
 User-Agent: NeoMutt/20180716
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-loop: linux-audit@redhat.com
-Cc: Eric Paris <eparis@parisplace.org>, nhorman@redhat.com,
+Cc: nhorman@tuxdriver.com, linux-api@vger.kernel.org,
+	containers@lists.linux-foundation.org,
+	LKML <linux-kernel@vger.kernel.org>, dhowells@redhat.com,
 	Linux-Audit Mailing List <linux-audit@redhat.com>,
-	LKML <linux-kernel@vger.kernel.org>
+	netfilter-devel@vger.kernel.org, ebiederm@xmission.com,
+	simo@redhat.com, netdev@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	Eric Paris <eparis@parisplace.org>, mpatel@redhat.com,
+	Serge Hallyn <serge@hallyn.com>
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -76,101 +76,125 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: ei1X8jmIO3SYYV2Tk07IqA-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: XzqgLjkFMlaVqIYfP-WfOw-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Content-Disposition: inline
 
-On 2020-01-23 14:07, Paul Moore wrote:
-> On Thu, Jan 23, 2020 at 1:52 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> > On 2020-01-23 11:57, Paul Moore wrote:
-> > > On Thu, Jan 23, 2020 at 11:14 AM Richard Guy Briggs <rgb@redhat.com> wrote:
-> > > > On 2020-01-23 09:32, Paul Moore wrote:
-> > > > > On Wed, Jan 22, 2020 at 6:07 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> > > > > > On 2020-01-22 17:40, Paul Moore wrote:
-> > > > > > > On Fri, Jan 17, 2020 at 3:21 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> > > > >
-> > > > > ...
-> > > > >
-> > > > > > > > diff --git a/kernel/audit.c b/kernel/audit.c
-> > > > > > > > index 17b0d523afb3..478259f3fa53 100644
-> > > > > > > > --- a/kernel/audit.c
-> > > > > > > > +++ b/kernel/audit.c
-> > > > > > > > @@ -1520,20 +1520,60 @@ static void audit_receive(struct sk_buff  *skb)
-> > > > > > > >         audit_ctl_unlock();
-> > > > > > > >  }
-> > > > > > > >
-> > > > > > > > +/* Log information about who is connecting to the audit multicast socket */
-> > > > > > > > +static void audit_log_multicast_bind(int group, const char *op, int err)
-> > > > > > > > +{
-> > > > > > > > +       const struct cred *cred;
-> > > > > > > > +       struct tty_struct *tty;
-> > > > > > > > +       char comm[sizeof(current->comm)];
-> > > > > > > > +       struct audit_buffer *ab;
-> > > > > > > > +
-> > > > > > > > +       if (!audit_enabled)
-> > > > > > > > +               return;
-> > > > > > > > +
-> > > > > > > > +       ab = audit_log_start(audit_context(), GFP_KERNEL, AUDIT_EVENT_LISTENER);
-> > > > > > > > +       if (!ab)
-> > > > > > > > +               return;
-> > > > > > > > +
-> > > > > > > > +       cred = current_cred();
-> > > > > > > > +       tty = audit_get_tty();
-> > > > > > > > +       audit_log_format(ab, "pid=%u uid=%u auid=%u tty=%s ses=%u",
-> > > > > > > > +                        task_pid_nr(current),
-> > > > > > > > +                        from_kuid(&init_user_ns, cred->uid),
-> > > > > > > > +                        from_kuid(&init_user_ns, audit_get_loginuid(current)),
-> > > > > > > > +                        tty ? tty_name(tty) : "(none)",
-> > > > > > > > +                        audit_get_sessionid(current));
-> > > > > > >
-> > > > > > > Don't we already get all of that information as part of the syscall record?
-> > > > > >
-> > > > > > Yes.  However, the syscall record isn't always present.  One example is
-> > > > > > systemd, shown above.
-> > > > >
-> > > > > Assuming that the system supports syscall auditing, the absence of a
-> > > > > syscall record is a configuration choice made by the admin.  If the
-> > > > > system doesn't support syscall auditing the obvious "fix" is to do the
-> > > > > work to enable syscall auditing on that platform ... but now we're
-> > > > > starting to get off topic.
-> > > >
-> > > > Well, the system did spit out a syscall record with the example above,
-> > > > so it has support for syscall auditing.
-> > > >
-> > > > I'm testing on f30 with an upstream kernel, the standard 30-stig ruleset and
-> > > > with kernel command line audit=1.  What else is needed to support a syscall
-> > > > record on systemd before any audit rules have been put in place?  We may still
-> > > > have a bug here that affects early process auditing.  What am I missing?
-> > > >
-> > > > If we can get that sorted out, we don't need subject attributes in this record.
-> > >
-> > > It looks like some debugging is in order.  There must be some sort of
-> > > action initiated by userspace which is causing the multicast
-> > > "op=connect", right?  Find out what that is and why it isn't
-> > > generating a syscall record (maybe it's not a syscall? I don't know
-> > > what systemd is doing here).
+On 2020-01-22 16:29, Paul Moore wrote:
+> On Tue, Dec 31, 2019 at 2:51 PM Richard Guy Briggs <rgb@redhat.com> wrote:
 > >
-> > One clue is that subj=kernel and auid, ttye and ses are unset, despite
-> > the rest checking out:
-> >         pid=1 uid=root auid=unset tty=(none) ses=unset subj=kernel comm=systemd exe=/usr/lib/systemd/systemd
+> > Require the target task to be a descendant of the container
+> > orchestrator/engine.
+> >
+> > You would only change the audit container ID from one set or inherited
+> > value to another if you were nesting containers.
+> >
+> > If changing the contid, the container orchestrator/engine must be a
+> > descendant and not same orchestrator as the one that set it so it is not
+> > possible to change the contid of another orchestrator's container.
+> >
+> > Since the task_is_descendant() function is used in YAMA and in audit,
+> > remove the duplication and pull the function into kernel/core/sched.c
+> >
+> > Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
+> > ---
+> >  include/linux/sched.h    |  3 +++
+> >  kernel/audit.c           | 44 ++++++++++++++++++++++++++++++++++++--------
+> >  kernel/sched/core.c      | 33 +++++++++++++++++++++++++++++++++
+> >  security/yama/yama_lsm.c | 33 ---------------------------------
+> >  4 files changed, 72 insertions(+), 41 deletions(-)
 > 
-> Does Fedora use systemd in its initramfs (I'm guessing the answer is
-> "yes")?  If so, I wonder if that is the source of this record.
+> ...
+> 
+> > diff --git a/kernel/audit.c b/kernel/audit.c
+> > index f7a8d3288ca0..ef8e07524c46 100644
+> > --- a/kernel/audit.c
+> > +++ b/kernel/audit.c
+> > @@ -2603,22 +2610,43 @@ int audit_set_contid(struct task_struct *task, u64 contid)
+> >         oldcontid = audit_get_contid(task);
+> >         read_lock(&tasklist_lock);
+> >         /* Don't allow the contid to be unset */
+> > -       if (!audit_contid_valid(contid))
+> > +       if (!audit_contid_valid(contid)) {
+> >                 rc = -EINVAL;
+> > +               goto unlock;
+> > +       }
+> >         /* Don't allow the contid to be set to the same value again */
+> > -       else if (contid == oldcontid) {
+> > +       if (contid == oldcontid) {
+> >                 rc = -EADDRINUSE;
+> > +               goto unlock;
+> > +       }
+> >         /* if we don't have caps, reject */
+> > -       else if (!capable(CAP_AUDIT_CONTROL))
+> > +       if (!capable(CAP_AUDIT_CONTROL)) {
+> >                 rc = -EPERM;
+> > -       /* if task has children or is not single-threaded, deny */
+> > -       else if (!list_empty(&task->children))
+> > +               goto unlock;
+> > +       }
+> > +       /* if task has children, deny */
+> > +       if (!list_empty(&task->children)) {
+> >                 rc = -EBUSY;
+> > -       else if (!(thread_group_leader(task) && thread_group_empty(task)))
+> > +               goto unlock;
+> > +       }
+> > +       /* if task is not single-threaded, deny */
+> > +       if (!(thread_group_leader(task) && thread_group_empty(task))) {
+> >                 rc = -EALREADY;
+> > -       /* if contid is already set, deny */
+> > -       else if (audit_contid_set(task))
+> > +               goto unlock;
+> > +       }
+> 
+> It seems like the if/else-if conversion above should be part of an
+> earlier patchset.
 
-Asking around, I got: "yes, dracut uses systemd these days"
+I had considered that, but it wasn't obvious where that conversion
+should happen since it wasn't necessary earlier and is now.  I can move
+it earlier if you feel strongly about it.
 
-So, yes, that is the source of this record.
+> > +       /* if task is not descendant, block */
+> > +       if (task == current) {
+> > +               rc = -EBADSLT;
+> > +               goto unlock;
+> > +       }
+> > +       if (!task_is_descendant(current, task)) {
+> > +               rc = -EXDEV;
+> > +               goto unlock;
+> > +       }
+> 
+> I understand you are trying to provide a unique error code for each
+> failure case, but this is getting silly.  Let's group the descendent
+> checks under the same error code.
 
-So if there is no syscall associated with that record, it appears we
-need those subject attributes.
+Ok.  I was trying to provide more information for debugging for me and
+for users.
 
-Next question, why do the other records generated from the test not
-automatically trigger a syscall record when audit=1 on the kernel
-command line?
+> > +       /* only allow contid setting again if nesting */
+> > +       if (audit_contid_set(task) && audit_contid_isowner(task))
+> >                 rc = -ECHILD;
+> 
+> Should that be "!audit_contid_isowner()"?
+
+No.  If the contid is already set on this task and if it is the same
+orchestrator that already owns this one, then block it since the same
+orchestrator is not allowed to set it again.  Another orchestrator that
+has been shown by previous tests to be a descendant of the orchestrator
+that already owns this one would be permitted.
+
+Now that I say this explicitly, it appears I need another test to check:
+
+	/* only allow contid setting again if nesting */
+	if (audit_contid_set(task) && ( audit_contid_isowner(task) || !task_is_descendant(_audit_contobj(task)->owner, current) ))
+		rc = -ECHILD;
+
+So we're back to audit_contobj_owner() like in the previous patchset
+that would make this cleaner.
 
 > paul moore
 
