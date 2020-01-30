@@ -1,59 +1,59 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-delivery-1.mimecast.com [207.211.31.120])
-	by mail.lfdr.de (Postfix) with ESMTP id 3093914E048
-	for <lists+linux-audit@lfdr.de>; Thu, 30 Jan 2020 18:54:35 +0100 (CET)
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com [205.139.110.61])
+	by mail.lfdr.de (Postfix) with ESMTP id A560514E337
+	for <lists+linux-audit@lfdr.de>; Thu, 30 Jan 2020 20:28:35 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1580406874;
+	s=mimecast20190719; t=1580412514;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=noeh0LlgMY9+zClNF3+wpQcim4raQonpL5XrI+ptp6w=;
-	b=O24Du4rlu1i1MMO4qhNlFKIRT35EOVKo1Ye/3s1TI6Y3bccjF4T2zzbwIrFClunaEzfgPn
-	u9ZXbVfdhQaY0Gs6Kneu3YJqTemYqKXzf5u3zk00RfnmR6yUtU3iWPqC4huIuXrU1Y0l57
-	ruVilK7rHbkFLULGAk3Mxh7hJ+yXXtE=
+	bh=6DXeIOzuljI3J3h+jXlffDwlqnU0555/CMYQ25ixwhM=;
+	b=iG0LNZ0XCHX64mjeO6KrQYyZjBGO5kqj+0jJjytUjRsCjH1kElnT5GFlEN0ohCdLrD4u/v
+	rqxKA0ye8H1LFCndPH7Hj/lgeHZCBTrj1u67YCDVAPyOSnSwajnw53mUAc+XVem2Ug3o85
+	kAagugxdcXAnyWtADOpsa69aXPIKObE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-115-nxs91AviOXeAkehhmltjpw-1; Thu, 30 Jan 2020 12:54:31 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+ us-mta-438-jr_EJRymOWiM7JoaL_ZS-g-1; Thu, 30 Jan 2020 14:28:32 -0500
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AE0061005510;
-	Thu, 30 Jan 2020 17:54:23 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7207B18CA246;
+	Thu, 30 Jan 2020 19:28:25 +0000 (UTC)
 Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 67C26CFCF;
-	Thu, 30 Jan 2020 17:54:21 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 5C1015C1B2;
+	Thu, 30 Jan 2020 19:28:22 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 8A73518089C8;
-	Thu, 30 Jan 2020 17:54:14 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
-	[10.5.11.16])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id CEABD18089CD;
+	Thu, 30 Jan 2020 19:28:17 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+	[10.5.11.23])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 00UHs0XZ003988 for <linux-audit@listman.util.phx.redhat.com>;
-	Thu, 30 Jan 2020 12:54:00 -0500
+	id 00UJS77k006795 for <linux-audit@listman.util.phx.redhat.com>;
+	Thu, 30 Jan 2020 14:28:07 -0500
 Received: by smtp.corp.redhat.com (Postfix)
-	id 328195C557; Thu, 30 Jan 2020 17:54:00 +0000 (UTC)
+	id 8B83DCFCE; Thu, 30 Jan 2020 19:28:07 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from madcap2.tricolour.ca (ovpn-112-16.rdu2.redhat.com
 	[10.10.112.16])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 4AE0B5C1B2;
-	Thu, 30 Jan 2020 17:53:48 +0000 (UTC)
-Date: Thu, 30 Jan 2020 12:53:46 -0500
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 8AC9219488;
+	Thu, 30 Jan 2020 19:27:56 +0000 (UTC)
+Date: Thu, 30 Jan 2020 14:27:53 -0500
 From: Richard Guy Briggs <rgb@redhat.com>
 To: Paul Moore <paul@paul-moore.com>
-Subject: Re: [PATCH ghak90 V8 02/16] audit: add container id
-Message-ID: <20200130175346.4ds4dursrarwv4x6@madcap2.tricolour.ca>
+Subject: Re: [PATCH ghak90 V8 13/16] audit: track container nesting
+Message-ID: <20200130192753.n7jjrshbhrczjzoe@madcap2.tricolour.ca>
 References: <cover.1577736799.git.rgb@redhat.com>
-	<70ad50e69185c50843d5e14462f1c4f03655d503.1577736799.git.rgb@redhat.com>
-	<CAHC9VhTKE_3bOXs+UcpKDQhatKH92uY3Hy=JA4sXXVGOC0ek8A@mail.gmail.com>
+	<6452955c1e038227a5cd169f689f3fd3db27513f.1577736799.git.rgb@redhat.com>
+	<CAHC9VhRkH=YEjAY6dJJHSp934grHnf=O4RiqLu3U8DzdVQOZkg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <CAHC9VhTKE_3bOXs+UcpKDQhatKH92uY3Hy=JA4sXXVGOC0ek8A@mail.gmail.com>
+In-Reply-To: <CAHC9VhRkH=YEjAY6dJJHSp934grHnf=O4RiqLu3U8DzdVQOZkg@mail.gmail.com>
 User-Agent: NeoMutt/20180716
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-loop: linux-audit@redhat.com
 Cc: nhorman@tuxdriver.com, linux-api@vger.kernel.org,
 	containers@lists.linux-foundation.org,
@@ -76,172 +76,173 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: nxs91AviOXeAkehhmltjpw-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: jr_EJRymOWiM7JoaL_ZS-g-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Content-Disposition: inline
 
-On 2020-01-22 16:28, Paul Moore wrote:
-> On Tue, Dec 31, 2019 at 2:49 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+On 2020-01-22 16:29, Paul Moore wrote:
+> On Tue, Dec 31, 2019 at 2:51 PM Richard Guy Briggs <rgb@redhat.com> wrote:
 > >
-> > Implement the proc fs write to set the audit container identifier of a
-> > process, emitting an AUDIT_CONTAINER_OP record to document the event.
+> > Track the parent container of a container to be able to filter and
+> > report nesting.
 > >
-> > This is a write from the container orchestrator task to a proc entry of
-> > the form /proc/PID/audit_containerid where PID is the process ID of the
-> > newly created task that is to become the first task in a container, or
-> > an additional task added to a container.
-> >
-> > The write expects up to a u64 value (unset: 18446744073709551615).
-> >
-> > The writer must have capability CAP_AUDIT_CONTROL.
-> >
-> > This will produce a record such as this:
-> >   type=CONTAINER_OP msg=audit(2018-06-06 12:39:29.636:26949) : op=set opid=2209 contid=123456 old-contid=18446744073709551615
-> >
-> > The "op" field indicates an initial set.  The "opid" field is the
-> > object's PID, the process being "contained".  New and old audit
-> > container identifier values are given in the "contid" fields.
-> >
-> > It is not permitted to unset the audit container identifier.
-> > A child inherits its parent's audit container identifier.
-> >
-> > Please see the github audit kernel issue for the main feature:
-> >   https://github.com/linux-audit/audit-kernel/issues/90
-> > Please see the github audit userspace issue for supporting additions:
-> >   https://github.com/linux-audit/audit-userspace/issues/51
-> > Please see the github audit testsuiite issue for the test case:
-> >   https://github.com/linux-audit/audit-testsuite/issues/64
-> > Please see the github audit wiki for the feature overview:
-> >   https://github.com/linux-audit/audit-kernel/wiki/RFE-Audit-Container-ID
-> >
-> > Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
-> > Acked-by: Serge Hallyn <serge@hallyn.com>
-> > Acked-by: Steve Grubb <sgrubb@redhat.com>
-> > Acked-by: Neil Horman <nhorman@tuxdriver.com>
-> > Reviewed-by: Ondrej Mosnacek <omosnace@redhat.com>
+> > Now that we have a way to track and check the parent container of a
+> > container, modify the contid field format to be able to report that
+> > nesting using a carrat ("^") separator to indicate nesting.  The
+> > original field format was "contid=<contid>" for task-associated records
+> > and "contid=<contid>[,<contid>[...]]" for network-namespace-associated
+> > records.  The new field format is
+> > "contid=<contid>[^<contid>[...]][,<contid>[...]]".
+> 
+> Let's make sure we always use a comma as a separator, even when
+> recording the parent information, for example:
+> "contid=<contid>[,^<contid>[...]][,<contid>[...]]"
+
+The intent here is to clearly indicate and separate nesting from
+parallel use of several containers by one netns.  If we do away with
+that distinction, then we lose that inheritance accountability and
+should really run the list through a "uniq" function to remove the
+produced redundancies.  This clear inheritance is something Steve was
+looking for since tracking down individual events/records to show that
+inheritance was not aways feasible due to rolled logs or search effort.
+
 > > Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
 > > ---
-> >  fs/proc/base.c             | 36 ++++++++++++++++++++++++++++
-> >  include/linux/audit.h      | 25 ++++++++++++++++++++
-> >  include/uapi/linux/audit.h |  2 ++
-> >  kernel/audit.c             | 58 ++++++++++++++++++++++++++++++++++++++++++++++
-> >  kernel/audit.h             |  1 +
-> >  kernel/auditsc.c           |  4 ++++
-> >  6 files changed, 126 insertions(+)
+> >  include/linux/audit.h |  1 +
+> >  kernel/audit.c        | 53 +++++++++++++++++++++++++++++++++++++++++++--------
+> >  kernel/audit.h        |  1 +
+> >  kernel/auditfilter.c  | 17 ++++++++++++++++-
+> >  kernel/auditsc.c      |  2 +-
+> >  5 files changed, 64 insertions(+), 10 deletions(-)
 > 
 > ...
 > 
 > > diff --git a/kernel/audit.c b/kernel/audit.c
-> > index 397f8fb4836a..2d7707426b7d 100644
+> > index ef8e07524c46..68be59d1a89b 100644
 > > --- a/kernel/audit.c
 > > +++ b/kernel/audit.c
-> > @@ -2356,6 +2358,62 @@ int audit_signal_info(int sig, struct task_struct *t)
-> >         return audit_signal_info_syscall(t);
+> 
+> > @@ -492,6 +493,7 @@ void audit_switch_task_namespaces(struct nsproxy *ns, struct task_struct *p)
+> >                 audit_netns_contid_add(new->net_ns, contid);
 > >  }
 > >
-> > +/*
-> > + * audit_set_contid - set current task's audit contid
-> > + * @task: target task
-> > + * @contid: contid value
-> > + *
-> > + * Returns 0 on success, -EPERM on permission failure.
-> > + *
-> > + * Called (set) from fs/proc/base.c::proc_contid_write().
-> > + */
-> > +int audit_set_contid(struct task_struct *task, u64 contid)
+> > +void audit_log_contid(struct audit_buffer *ab, u64 contid);
+> 
+> If we need a forward declaration, might as well just move it up near
+> the top of the file with the rest of the declarations.
+
+Ok.
+
+> > +void audit_log_contid(struct audit_buffer *ab, u64 contid)
 > > +{
-> > +       u64 oldcontid;
-> > +       int rc = 0;
-> > +       struct audit_buffer *ab;
-> > +
-> > +       task_lock(task);
-> > +       /* Can't set if audit disabled */
-> > +       if (!task->audit) {
-> > +               task_unlock(task);
-> > +               return -ENOPROTOOPT;
+> > +       struct audit_contobj *cont = NULL, *prcont = NULL;
+> > +       int h;
+> 
+> It seems safer to pass the audit container ID object and not the u64.
+
+It would also be faster, but in some places it isn't available such as
+for ptrace and signal targets.  This also links back to the drop record
+refcounts to hold onto the contobj until process exit, or signal
+delivery.
+
+What we could do is to supply two potential parameters, a contobj and/or
+a contid, and have it use the contobj if it is valid, otherwise, use the
+contid, as is done for names and paths supplied to audit_log_name().
+
+> > +       if (!audit_contid_valid(contid)) {
+> > +               audit_log_format(ab, "%llu", contid);
+> 
+> Do we really want to print (u64)-1 here?  Since this is a known
+> invalid number, would "?" be a better choice?
+
+I'll defer to Steve here.  "?" would be one character vs 20 for (u64)-1.
+I don't expect there to be that many records containing (u64)-1, but it
+would also make them visually easier to pick out if that is a factor.
+
+> > +               return;
 > > +       }
-> > +       oldcontid = audit_get_contid(task);
-> > +       read_lock(&tasklist_lock);
-> > +       /* Don't allow the audit containerid to be unset */
-> > +       if (!audit_contid_valid(contid))
-> > +               rc = -EINVAL;
-> > +       /* if we don't have caps, reject */
-> > +       else if (!capable(CAP_AUDIT_CONTROL))
-> > +               rc = -EPERM;
-> > +       /* if task has children or is not single-threaded, deny */
-> > +       else if (!list_empty(&task->children))
-> > +               rc = -EBUSY;
-> > +       else if (!(thread_group_leader(task) && thread_group_empty(task)))
-> > +               rc = -EALREADY;
+> > +       h = audit_hash_contid(contid);
+> > +       rcu_read_lock();
+> > +       list_for_each_entry_rcu(cont, &audit_contid_hash[h], list)
+> > +               if (cont->id == contid) {
+> > +                       prcont = cont;
 > 
-> [NOTE: there is a bigger issue below which I think is going to require
-> a respin/fixup of this patch so I'm going to take the opportunity to
-> do a bit more bikeshedding ;)]
+> Why not just pull the code below into the body of this if statement?
+> It all needs to be done under the RCU read lock anyway and the code
+> would read much better this way.
+
+Ok.
+
+> > +                       break;
+> > +               }
+> > +       if (!prcont) {
+> > +               audit_log_format(ab, "%llu", contid);
+> > +               goto out;
+> > +       }
+> > +       while (prcont) {
+> > +               audit_log_format(ab, "%llu", prcont->id);
+> > +               prcont = prcont->parent;
+> > +               if (prcont)
+> > +                       audit_log_format(ab, "^");
 > 
-> It seems like we could combine both the thread/children checks under a
-> single -EBUSY return value.  In both cases the caller should be able
-> to determine if the target process is multi-threaded for has spawned
-> children, yes?  FWIW, my motivation for this question is that
-> -EALREADY seems like a poor choice here.
-
-Fair enough.
-
-> > +       /* if contid is already set, deny */
-> > +       else if (audit_contid_set(task))
-> > +               rc = -ECHILD;
+> In the interest of limiting the number of calls to audit_log_format(),
+> how about something like the following:
 > 
-> Does -EEXIST make more sense here?
+>   audit_log_format("%llu", cont);
+>   iter = cont->parent;
+>   while (iter) {
+>     if (iter->parent)
+>       audit_log_format("^%llu,", iter);
+>     else
+>       audit_log_format("^%llu", iter);
+>     iter = iter->parent;
+>   }
 
-Perhaps.  I don't feel strongly about it, but none of these error codes
-were intended for this use and should not overlap with other errors from
-writing to /proc.
+Ok.
 
-> > +       read_unlock(&tasklist_lock);
-> > +       if (!rc)
-> > +               task->audit->contid = contid;
-> > +       task_unlock(task);
-> > +
-> > +       if (!audit_enabled)
-> > +               return rc;
-> > +
-> > +       ab = audit_log_start(audit_context(), GFP_KERNEL, AUDIT_CONTAINER_OP);
-> > +       if (!ab)
-> > +               return rc;
-> > +
-> > +       audit_log_format(ab,
-> > +                        "op=set opid=%d contid=%llu old-contid=%llu",
-> > +                        task_tgid_nr(task), contid, oldcontid);
-> > +       audit_log_end(ab);
-> 
-> Assuming audit is enabled we always emit the record above, even if we
-> were not actually able to set the Audit Container ID (ACID); this
-> seems wrong to me.  I think the proper behavior would be to either add
-> a "res=" field to indicate success/failure or only emit the record
-> when we actually change a task's ACID.  Considering the impact that
-> the ACID value will potentially have on the audit stream, it seems
-> like always logging the record and including a "res=" field may be the
-> safer choice.
-
-This record should be accompanied by a syscall record (and eventually
-possibly a CONTAINER_ID record of the orchestrator, if it is already in
-a container).  The syscall record has a res= field that already gives
-this result.
-
-> > +       return rc;
+> > +       }
+> > +out:
+> > +       rcu_read_unlock();
 > > +}
 > > +
-> >  /**
-> >   * audit_log_end - end one audit record
-> >   * @ab: the audit_buffer
+> >  /*
+> >   * audit_log_container_id - report container info
+> >   * @context: task or local context for record
 > 
-> --
+> ...
+> 
+> > @@ -2705,9 +2741,10 @@ int audit_set_contid(struct task_struct *task, u64 contid)
+> >         if (!ab)
+> >                 return rc;
+> >
+> > -       audit_log_format(ab,
+> > -                        "op=set opid=%d contid=%llu old-contid=%llu",
+> > -                        task_tgid_nr(task), contid, oldcontid);
+> > +       audit_log_format(ab, "op=set opid=%d contid=", task_tgid_nr(task));
+> > +       audit_log_contid(ab, contid);
+> > +       audit_log_format(ab, " old-contid=");
+> > +       audit_log_contid(ab, oldcontid);
+> 
+> This is an interesting case where contid and old-contid are going to
+> be largely the same, only the first (current) ID is going to be
+> different; do we want to duplicate all of those IDs?
+
+At first when I read your comment, I thought we could just take contid
+and drop oldcontid, but if it fails, we still want all the information,
+so given the way I've set up the search code in userspace, listing only
+the newest contid in the contid field and all the rest in oldcontid
+could be a good compromise.
+
+> >         audit_log_end(ab);
+> >         return rc;
+> >  }
+> > @@ -2723,9 +2760,9 @@ void audit_log_container_drop(void)
+> 
 > paul moore
-> www.paul-moore.com
-> 
 
 - RGB
 
