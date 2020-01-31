@@ -1,68 +1,95 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com [205.139.110.61])
-	by mail.lfdr.de (Postfix) with ESMTP id A560514E337
-	for <lists+linux-audit@lfdr.de>; Thu, 30 Jan 2020 20:28:35 +0100 (CET)
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com [207.211.31.120])
+	by mail.lfdr.de (Postfix) with ESMTP id 7254514E770
+	for <lists+linux-audit@lfdr.de>; Fri, 31 Jan 2020 04:18:37 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1580412514;
+	s=mimecast20190719; t=1580440716;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=6DXeIOzuljI3J3h+jXlffDwlqnU0555/CMYQ25ixwhM=;
-	b=iG0LNZ0XCHX64mjeO6KrQYyZjBGO5kqj+0jJjytUjRsCjH1kElnT5GFlEN0ohCdLrD4u/v
-	rqxKA0ye8H1LFCndPH7Hj/lgeHZCBTrj1u67YCDVAPyOSnSwajnw53mUAc+XVem2Ug3o85
-	kAagugxdcXAnyWtADOpsa69aXPIKObE=
+	bh=iLTCL5mFXCEygH9Ofq77LQ5j42XzhgqgL2OG2g39mZ4=;
+	b=fdZrzS5ld95mQQ/mjBUsr2vcd8pzB8bMEgiXQyDlHKhDAQXUPS3dfnooHNC/2ONmQbvGWk
+	6SmmTOHt8koQwG3ucxI3Eyrjuk0+InKF3E8lOH46yNcNgdvyCtxUS6qwHGeznyg44Ha1fY
+	+H6+uqVyh05Wn4797rR4NKqzIfjIykM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-438-jr_EJRymOWiM7JoaL_ZS-g-1; Thu, 30 Jan 2020 14:28:32 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+ us-mta-9-GPhg8WUhNJirG7atnLF8zg-1; Thu, 30 Jan 2020 22:18:34 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7207B18CA246;
-	Thu, 30 Jan 2020 19:28:25 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D64271083012;
+	Fri, 31 Jan 2020 03:18:28 +0000 (UTC)
 Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 5C1015C1B2;
-	Thu, 30 Jan 2020 19:28:22 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 9D8905DA75;
+	Fri, 31 Jan 2020 03:18:27 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id CEABD18089CD;
-	Thu, 30 Jan 2020 19:28:17 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
-	[10.5.11.23])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 296AC18089CF;
+	Fri, 31 Jan 2020 03:18:20 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+	[10.11.54.4])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 00UJS77k006795 for <linux-audit@listman.util.phx.redhat.com>;
-	Thu, 30 Jan 2020 14:28:07 -0500
+	id 00V3Hl8Y019762 for <linux-audit@listman.util.phx.redhat.com>;
+	Thu, 30 Jan 2020 22:17:47 -0500
 Received: by smtp.corp.redhat.com (Postfix)
-	id 8B83DCFCE; Thu, 30 Jan 2020 19:28:07 +0000 (UTC)
+	id 28C002033955; Fri, 31 Jan 2020 03:17:47 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from madcap2.tricolour.ca (ovpn-112-16.rdu2.redhat.com
-	[10.10.112.16])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 8AC9219488;
-	Thu, 30 Jan 2020 19:27:56 +0000 (UTC)
-Date: Thu, 30 Jan 2020 14:27:53 -0500
-From: Richard Guy Briggs <rgb@redhat.com>
-To: Paul Moore <paul@paul-moore.com>
-Subject: Re: [PATCH ghak90 V8 13/16] audit: track container nesting
-Message-ID: <20200130192753.n7jjrshbhrczjzoe@madcap2.tricolour.ca>
-References: <cover.1577736799.git.rgb@redhat.com>
-	<6452955c1e038227a5cd169f689f3fd3db27513f.1577736799.git.rgb@redhat.com>
-	<CAHC9VhRkH=YEjAY6dJJHSp934grHnf=O4RiqLu3U8DzdVQOZkg@mail.gmail.com>
+Received: from mimecast-mx02.redhat.com
+	(mimecast04.extmail.prod.ext.rdu2.redhat.com [10.11.55.20])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 2392B2093CE3
+	for <linux-audit@redhat.com>; Fri, 31 Jan 2020 03:17:45 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [205.139.110.61])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F1F7C1011A09
+	for <linux-audit@redhat.com>; Fri, 31 Jan 2020 03:17:44 +0000 (UTC)
+Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com
+	[209.85.208.65]) (Using TLS) by relay.mimecast.com with ESMTP id
+	us-mta-60-riaZgxVHOUaj9h_n4HEhYg-1; Thu, 30 Jan 2020 22:17:43 -0500
+Received: by mail-ed1-f65.google.com with SMTP id g19so6193118eds.11
+	for <linux-audit@redhat.com>; Thu, 30 Jan 2020 19:17:42 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=oIg4izJ3dY0xBGHn3X1cuTzljmHGk0vFwMx8ad4w19E=;
+	b=CJW4r9v6aUOEjGBfXUmBof9CZeqry8wObcXhBDel+9PyC+yK0I0pQC8nB3H815mddM
+	VI8KbB5os/9yFDxrXclDqpUqzb0JpZ8c2zGomsCEBzH2S8PLDl1KNFPh1gSJXzeJ6LUd
+	vcYPm2FuFtTLVJLFwG15evUoYmgtKEm97nC2zTH1Q6G9C3yj3cE53xyIc+TaXuuuJDR6
+	IR+/0QOS2fAMo7xlbEbQq4RwhonIikazniE0PPgJWw/QvIrI2vslnfzJPZahwILrvBK5
+	quKYPAj97e26Pd/MKKOn4XJKUwrm1FCBh64KIR2f3Mi8cYv1NZh9OZXxGGkExptu2f5F
+	hUQQ==
+X-Gm-Message-State: APjAAAXBBy3DqhgpZkrSbAaHJs2cC/vJFwKDfBlIT1kiOgDCHhm2zdCg
+	8bhquT+hN9H29EJs9kK1X7Mjnvl4OUxm6ve8kExs
+X-Google-Smtp-Source: APXvYqzzdWfnLzyByQcFVGmQCzqJhEsT1dBRVturw9d61zDsL2ZmJkMBe/HXMeV5fccEH2eEGkyfWfY/Ux/vDgbn3ec=
+X-Received: by 2002:a17:906:9352:: with SMTP id
+	p18mr6813461ejw.95.1580440661314; 
+	Thu, 30 Jan 2020 19:17:41 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAHC9VhRkH=YEjAY6dJJHSp934grHnf=O4RiqLu3U8DzdVQOZkg@mail.gmail.com>
-User-Agent: NeoMutt/20180716
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+References: <cover.1577830902.git.rgb@redhat.com>
+	<194bdc565d548a14e12357a7c1a594605b7fdf0f.1577830902.git.rgb@redhat.com>
+In-Reply-To: <194bdc565d548a14e12357a7c1a594605b7fdf0f.1577830902.git.rgb@redhat.com>
+From: Paul Moore <paul@paul-moore.com>
+Date: Thu, 30 Jan 2020 22:17:30 -0500
+Message-ID: <CAHC9VhT9T-UMnu6bWdd733XB6QaP+Sm3KWhdy828RN_FVWBMmw@mail.gmail.com>
+Subject: Re: [PATCH ghak25 v2 1/9] netfilter: normalize x_table function
+	declarations
+To: Richard Guy Briggs <rgb@redhat.com>
+X-MC-Unique: riaZgxVHOUaj9h_n4HEhYg-1
+X-MC-Unique: GPhg8WUhNJirG7atnLF8zg-1
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+X-MIME-Autoconverted: from quoted-printable to 8bit by
+	lists01.pubmisc.prod.ext.phx2.redhat.com id 00V3Hl8Y019762
 X-loop: linux-audit@redhat.com
-Cc: nhorman@tuxdriver.com, linux-api@vger.kernel.org,
-	containers@lists.linux-foundation.org,
-	LKML <linux-kernel@vger.kernel.org>, dhowells@redhat.com,
+Cc: fw@strlen.de, LKML <linux-kernel@vger.kernel.org>,
 	Linux-Audit Mailing List <linux-audit@redhat.com>,
 	netfilter-devel@vger.kernel.org, ebiederm@xmission.com,
-	simo@redhat.com, netdev@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	Eric Paris <eparis@parisplace.org>, mpatel@redhat.com,
-	Serge Hallyn <serge@hallyn.com>
+	twoerner@redhat.com, Eric Paris <eparis@parisplace.org>,
+	tgraf@infradead.org
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -76,182 +103,36 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: jr_EJRymOWiM7JoaL_ZS-g-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
 
-On 2020-01-22 16:29, Paul Moore wrote:
-> On Tue, Dec 31, 2019 at 2:51 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> >
-> > Track the parent container of a container to be able to filter and
-> > report nesting.
-> >
-> > Now that we have a way to track and check the parent container of a
-> > container, modify the contid field format to be able to report that
-> > nesting using a carrat ("^") separator to indicate nesting.  The
-> > original field format was "contid=<contid>" for task-associated records
-> > and "contid=<contid>[,<contid>[...]]" for network-namespace-associated
-> > records.  The new field format is
-> > "contid=<contid>[^<contid>[...]][,<contid>[...]]".
-> 
-> Let's make sure we always use a comma as a separator, even when
-> recording the parent information, for example:
-> "contid=<contid>[,^<contid>[...]][,<contid>[...]]"
+On Mon, Jan 6, 2020 at 1:54 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> Git context diffs were being produced with unhelpful declaration types
+> in the place of function names to help identify the funciton in which
+                                                      ^^^^^^^^
+                                                      function
+> changes were made.
+>
+> Normalize x_table function declarations so that git context diff
+> function labels work as expected.
+>
+> Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
+> ---
+>  net/netfilter/x_tables.c | 43 ++++++++++++++++++-------------------------
+>  1 file changed, 18 insertions(+), 25 deletions(-)
 
-The intent here is to clearly indicate and separate nesting from
-parallel use of several containers by one netns.  If we do away with
-that distinction, then we lose that inheritance accountability and
-should really run the list through a "uniq" function to remove the
-produced redundancies.  This clear inheritance is something Steve was
-looking for since tracking down individual events/records to show that
-inheritance was not aways feasible due to rolled logs or search effort.
-
-> > Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
-> > ---
-> >  include/linux/audit.h |  1 +
-> >  kernel/audit.c        | 53 +++++++++++++++++++++++++++++++++++++++++++--------
-> >  kernel/audit.h        |  1 +
-> >  kernel/auditfilter.c  | 17 ++++++++++++++++-
-> >  kernel/auditsc.c      |  2 +-
-> >  5 files changed, 64 insertions(+), 10 deletions(-)
-> 
-> ...
-> 
-> > diff --git a/kernel/audit.c b/kernel/audit.c
-> > index ef8e07524c46..68be59d1a89b 100644
-> > --- a/kernel/audit.c
-> > +++ b/kernel/audit.c
-> 
-> > @@ -492,6 +493,7 @@ void audit_switch_task_namespaces(struct nsproxy *ns, struct task_struct *p)
-> >                 audit_netns_contid_add(new->net_ns, contid);
-> >  }
-> >
-> > +void audit_log_contid(struct audit_buffer *ab, u64 contid);
-> 
-> If we need a forward declaration, might as well just move it up near
-> the top of the file with the rest of the declarations.
-
-Ok.
-
-> > +void audit_log_contid(struct audit_buffer *ab, u64 contid)
-> > +{
-> > +       struct audit_contobj *cont = NULL, *prcont = NULL;
-> > +       int h;
-> 
-> It seems safer to pass the audit container ID object and not the u64.
-
-It would also be faster, but in some places it isn't available such as
-for ptrace and signal targets.  This also links back to the drop record
-refcounts to hold onto the contobj until process exit, or signal
-delivery.
-
-What we could do is to supply two potential parameters, a contobj and/or
-a contid, and have it use the contobj if it is valid, otherwise, use the
-contid, as is done for names and paths supplied to audit_log_name().
-
-> > +       if (!audit_contid_valid(contid)) {
-> > +               audit_log_format(ab, "%llu", contid);
-> 
-> Do we really want to print (u64)-1 here?  Since this is a known
-> invalid number, would "?" be a better choice?
-
-I'll defer to Steve here.  "?" would be one character vs 20 for (u64)-1.
-I don't expect there to be that many records containing (u64)-1, but it
-would also make them visually easier to pick out if that is a factor.
-
-> > +               return;
-> > +       }
-> > +       h = audit_hash_contid(contid);
-> > +       rcu_read_lock();
-> > +       list_for_each_entry_rcu(cont, &audit_contid_hash[h], list)
-> > +               if (cont->id == contid) {
-> > +                       prcont = cont;
-> 
-> Why not just pull the code below into the body of this if statement?
-> It all needs to be done under the RCU read lock anyway and the code
-> would read much better this way.
-
-Ok.
-
-> > +                       break;
-> > +               }
-> > +       if (!prcont) {
-> > +               audit_log_format(ab, "%llu", contid);
-> > +               goto out;
-> > +       }
-> > +       while (prcont) {
-> > +               audit_log_format(ab, "%llu", prcont->id);
-> > +               prcont = prcont->parent;
-> > +               if (prcont)
-> > +                       audit_log_format(ab, "^");
-> 
-> In the interest of limiting the number of calls to audit_log_format(),
-> how about something like the following:
-> 
->   audit_log_format("%llu", cont);
->   iter = cont->parent;
->   while (iter) {
->     if (iter->parent)
->       audit_log_format("^%llu,", iter);
->     else
->       audit_log_format("^%llu", iter);
->     iter = iter->parent;
->   }
-
-Ok.
-
-> > +       }
-> > +out:
-> > +       rcu_read_unlock();
-> > +}
-> > +
-> >  /*
-> >   * audit_log_container_id - report container info
-> >   * @context: task or local context for record
-> 
-> ...
-> 
-> > @@ -2705,9 +2741,10 @@ int audit_set_contid(struct task_struct *task, u64 contid)
-> >         if (!ab)
-> >                 return rc;
-> >
-> > -       audit_log_format(ab,
-> > -                        "op=set opid=%d contid=%llu old-contid=%llu",
-> > -                        task_tgid_nr(task), contid, oldcontid);
-> > +       audit_log_format(ab, "op=set opid=%d contid=", task_tgid_nr(task));
-> > +       audit_log_contid(ab, contid);
-> > +       audit_log_format(ab, " old-contid=");
-> > +       audit_log_contid(ab, oldcontid);
-> 
-> This is an interesting case where contid and old-contid are going to
-> be largely the same, only the first (current) ID is going to be
-> different; do we want to duplicate all of those IDs?
-
-At first when I read your comment, I thought we could just take contid
-and drop oldcontid, but if it fails, we still want all the information,
-so given the way I've set up the search code in userspace, listing only
-the newest contid in the contid field and all the rest in oldcontid
-could be a good compromise.
-
-> >         audit_log_end(ab);
-> >         return rc;
-> >  }
-> > @@ -2723,9 +2760,9 @@ void audit_log_container_drop(void)
-> 
-> paul moore
-
-- RGB
+Considering that this patch is a style change in code outside of
+audit, and we want to merge this via the audit tree, I think it is
+best if you drop the style changes from this patchset.  You can always
+submit them later to the netfilter developers.
 
 --
-Richard Guy Briggs <rgb@redhat.com>
-Sr. S/W Engineer, Kernel Security, Base Operating Systems
-Remote, Ottawa, Red Hat Canada
-IRC: rgb, SunRaycer
-Voice: +1.647.777.2635, Internal: (81) 32635
+paul moore
+www.paul-moore.com
+
 
 --
 Linux-audit mailing list
