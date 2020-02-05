@@ -1,91 +1,95 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com [205.139.110.120])
-	by mail.lfdr.de (Postfix) with ESMTP id 3B872153B26
-	for <lists+linux-audit@lfdr.de>; Wed,  5 Feb 2020 23:41:24 +0100 (CET)
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com [205.139.110.61])
+	by mail.lfdr.de (Postfix) with ESMTP id BE05B153B66
+	for <lists+linux-audit@lfdr.de>; Wed,  5 Feb 2020 23:51:06 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1580942483;
+	s=mimecast20190719; t=1580943065;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=LabfwLpt7KFZXpVXZ5p7p7aZPjfT1UlWlpj9CzDsnpw=;
-	b=Eag7oEHGHProy6G/TUHTt2lcetQL/1VeGgfdo9iCdskeIWDgRwcd0kEUlpd6mCxBRqxipK
-	FE9iZ74al6Vd/mQsGLTWnHaQJuz1xup6lB1B53n7IWb4IjTt03bu88GSFnwHwpOyOMvuSx
-	cH/oG8SuOT0lO2diU6GJCvc19Vt9wF8=
+	bh=dOhn8IGx0j0VtKyaFy7lKQF0QGYEk1dNSd6e3evO3hE=;
+	b=iyzck+AHIEf/xes5kfD40aR4FqkZ+NpDE9VdEadO8FThh0MwHejpTwLKP7P7PliT/upRTK
+	XwiY6jYD19jZeLeRZXPe1CduyNS02y+kLyOMo2SckUerZ83verHmDBlWmt+pIrq+8MGcEL
+	qFGadyxFLYRFeX4EDlcFV5Kp4S7K2aY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-16--4O628m0NwGq3fAt9JCMlw-1; Wed, 05 Feb 2020 17:41:20 -0500
+ us-mta-64-fIv2meoJMsyqlt3yRNsZJw-1; Wed, 05 Feb 2020 17:51:03 -0500
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C76C1800D54;
-	Wed,  5 Feb 2020 22:41:13 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 157AEF6DE;
-	Wed,  5 Feb 2020 22:41:10 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3BF768024D7;
+	Wed,  5 Feb 2020 22:50:58 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id D2121F6DE;
+	Wed,  5 Feb 2020 22:50:57 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 00F2B85CD1;
-	Wed,  5 Feb 2020 22:41:05 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
-	[10.11.54.5])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 26D9518089CD;
+	Wed,  5 Feb 2020 22:50:56 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+	[10.11.54.3])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 015MerPV028137 for <linux-audit@listman.util.phx.redhat.com>;
-	Wed, 5 Feb 2020 17:40:54 -0500
+	id 015Momdf028411 for <linux-audit@listman.util.phx.redhat.com>;
+	Wed, 5 Feb 2020 17:50:48 -0500
 Received: by smtp.corp.redhat.com (Postfix)
-	id BD267F77B4; Wed,  5 Feb 2020 22:40:53 +0000 (UTC)
+	id 6481410A85AE; Wed,  5 Feb 2020 22:50:48 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
-	(mimecast06.extmail.prod.ext.rdu2.redhat.com [10.11.55.22])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id B8833F4975
-	for <linux-audit@redhat.com>; Wed,  5 Feb 2020 22:40:52 +0000 (UTC)
+	(mimecast01.extmail.prod.ext.rdu2.redhat.com [10.11.55.17])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 5FD5310A859A
+	for <linux-audit@redhat.com>; Wed,  5 Feb 2020 22:50:46 +0000 (UTC)
 Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
-	[205.139.110.120])
+	[207.211.31.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E531018AE95B
-	for <linux-audit@redhat.com>; Wed,  5 Feb 2020 22:40:51 +0000 (UTC)
-Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com
-	[209.85.208.65]) (Using TLS) by relay.mimecast.com with ESMTP id
-	us-mta-234-EybXzIQkPrGfqCAZo3Gv1w-1; Wed, 05 Feb 2020 17:40:49 -0500
-Received: by mail-ed1-f65.google.com with SMTP id j17so3848938edp.3
-	for <linux-audit@redhat.com>; Wed, 05 Feb 2020 14:40:48 -0800 (PST)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E80FF805A82
+	for <linux-audit@redhat.com>; Wed,  5 Feb 2020 22:50:45 +0000 (UTC)
+Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com
+	[209.85.208.67]) (Using TLS) by relay.mimecast.com with ESMTP id
+	us-mta-9-lLtNemdtM1WKH2yjXW9pEg-1; Wed, 05 Feb 2020 17:50:40 -0500
+Received: by mail-ed1-f67.google.com with SMTP id p23so3858107edr.5
+	for <linux-audit@redhat.com>; Wed, 05 Feb 2020 14:50:40 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=8xXG1QtEMIn8V9gNjRgmErq86awhNCCbmdyeTvn2xh4=;
-	b=NgqDXW4LZ25ijXSjnx6PaVAAD87Aw78DKfW9emHhnNTbOEEIOm4uXNSV4Io6broUEP
-	wqqwQEZOgoPY+RqerSfgift4vXLF3InRUr0TufQEPqt7JM4QXXrl3q/Tvs7bTDaV9rnM
-	p7EPcPvecfYoiSBf7vY9EEZeB7Wd7ZrYeQDLqqo/Vm19gMcHQ7Jov1hH30S3ixnG4QAa
-	2chk2zXtaBdYrQLQIdWNHRsgbkL788yQp1EheXjNJdrM4haVJBobSz68ANhejYdak8SV
-	cDIGz0Z9Kjz+PRldu8lxA6OpXnPshj9WzTMxGUgOLG8abvFw23/nW0XA5OkowJC0X/uU
-	r/gg==
-X-Gm-Message-State: APjAAAVJlvsltdPGti9XeF0fsFyLgIYviw2k/t7UjjG4Pvm8/1x5vBUf
-	a6+lsGLR5jhsvkPZIu8t2WLYcTTvaGNRKd2FpQx3
-X-Google-Smtp-Source: APXvYqyVmzGVk7l0HXNY4hEqVOGOlb69aaI9jrvMLTASMwXkrAFjGVXWNm6juE48f6syGPPLenhCV6x6YfwAuvnC2Wk=
-X-Received: by 2002:a50:a7a5:: with SMTP id i34mr396051edc.128.1580942447650; 
-	Wed, 05 Feb 2020 14:40:47 -0800 (PST)
+	bh=oCUytS6g641J3tcs63EguLa4i9YrPYhugF9NrBFVt0A=;
+	b=jiPqSxW4UEmNr9S23UD257/DHXbaBAojZD6BTSTVmr2oaFokq8VmIpv1++6g8f6fGx
+	MZZjO4SV0xEH65THln4biSbcreepbddWtqs/Fz5kATzTPCXUFkgnXjNExqvbwbcAWSrs
+	4b5RQD5RA4SGl1sXuH677sNdS4btV2Hj5EFSnzdMSNeh575Qf5kc2/pRN15HaLw1EJ6h
+	D30Q9yysz3U+Pq8lEq6DU9ohBOeuHQfFJjjF7S3+QACZXIWyuJGgzc+UcQgv4layJxDz
+	9N5EaaYMBm5jt5hNBN2KN+vAAEKMWJrSmlOULnJZyauIQPrPdkpSqLSMQrB17Uh+7sC3
+	bdgw==
+X-Gm-Message-State: APjAAAVtOS79l8elKXi1tWG9eNbwc3Qy2tYTC0+cdpYV6kRPiyZ/YlB0
+	a/2+Hfli4jHsBH43vSGgPJfYimRwYlcpSLoR4eSo
+X-Google-Smtp-Source: APXvYqzArv8aqc17G9clMFHzJDgoR01sfKnB5zKeGqYBAG7/zDEtsAzGFNzwSV4GXWYxeN77WLmoVFV8Kzp5Z7nAVys=
+X-Received: by 2002:a50:fd15:: with SMTP id i21mr422196eds.12.1580943039631;
+	Wed, 05 Feb 2020 14:50:39 -0800 (PST)
 MIME-Version: 1.0
 References: <cover.1577736799.git.rgb@redhat.com>
-	<a911acf0b209c05dc156fb6b57f9da45778747ce.1577736799.git.rgb@redhat.com>
-	<CAHC9VhRRW2fFcgBs-R_BZ7ZWCP5wsXA9DB1RUM=QeKj2xZkS2Q@mail.gmail.com>
-	<20200204225148.io3ayosk4efz2qii@madcap2.tricolour.ca>
-In-Reply-To: <20200204225148.io3ayosk4efz2qii@madcap2.tricolour.ca>
+	<7d7933d742fdf4a94c84b791906a450b16f2e81f.1577736799.git.rgb@redhat.com>
+	<CAHC9VhSuwJGryfrBfzxG01zwb-O_7dbjS0x0a3w-XjcNuYSAcg@mail.gmail.com>
+	<20200123162918.b3jbed7tbvr2sf2p@madcap2.tricolour.ca>
+	<CAHC9VhTusiQoudB8G5jjDFyM9WxBUAjZ6_X35ywJ063Jb75dQA@mail.gmail.com>
+	<20200123200412.j2aucdp3cvk57prw@madcap2.tricolour.ca>
+	<CAHC9VhQ2_MQdGAT6Pda9FRe6s0y4JC1XUQenpr-VJiyq9M_CBw@mail.gmail.com>
+	<20200204231454.oxa7pyvuxbj466fj@madcap2.tricolour.ca>
+In-Reply-To: <20200204231454.oxa7pyvuxbj466fj@madcap2.tricolour.ca>
 From: Paul Moore <paul@paul-moore.com>
-Date: Wed, 5 Feb 2020 17:40:36 -0500
-Message-ID: <CAHC9VhQSZDt4KyFmc9TtLvKgziMCkPzRWdwa71Juo=LZRygfVA@mail.gmail.com>
-Subject: Re: [PATCH ghak90 V8 04/16] audit: convert to contid list to check
-	for orch/engine ownership
+Date: Wed, 5 Feb 2020 17:50:28 -0500
+Message-ID: <CAHC9VhQquokw+7UOU=G0SsD35UdgmfysVKCGCE87JVaoTkbisg@mail.gmail.com>
+Subject: Re: [PATCH ghak90 V8 07/16] audit: add contid support for signalling
+	the audit daemon
 To: Richard Guy Briggs <rgb@redhat.com>
-X-MC-Unique: EybXzIQkPrGfqCAZo3Gv1w-1
-X-MC-Unique: -4O628m0NwGq3fAt9JCMlw-1
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+X-MC-Unique: lLtNemdtM1WKH2yjXW9pEg-1
+X-MC-Unique: fIv2meoJMsyqlt3yRNsZJw-1
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
 X-MIME-Autoconverted: from quoted-printable to 8bit by
-	lists01.pubmisc.prod.ext.phx2.redhat.com id 015MerPV028137
+	lists01.pubmisc.prod.ext.phx2.redhat.com id 015Momdf028411
 X-loop: linux-audit@redhat.com
 Cc: nhorman@tuxdriver.com, linux-api@vger.kernel.org,
 	containers@lists.linux-foundation.org,
@@ -114,130 +118,153 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-On Tue, Feb 4, 2020 at 5:52 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> On 2020-01-22 16:28, Paul Moore wrote:
-> > On Tue, Dec 31, 2019 at 2:50 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+On Tue, Feb 4, 2020 at 6:15 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> On 2020-01-23 16:35, Paul Moore wrote:
+> > On Thu, Jan 23, 2020 at 3:04 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> > > On 2020-01-23 12:09, Paul Moore wrote:
+> > > > On Thu, Jan 23, 2020 at 11:29 AM Richard Guy Briggs <rgb@redhat.com> wrote:
+> > > > > On 2020-01-22 16:28, Paul Moore wrote:
+> > > > > > On Tue, Dec 31, 2019 at 2:50 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> > > > > > >
+> > > > > > > Add audit container identifier support to the action of signalling the
+> > > > > > > audit daemon.
+> > > > > > >
+> > > > > > > Since this would need to add an element to the audit_sig_info struct,
+> > > > > > > a new record type AUDIT_SIGNAL_INFO2 was created with a new
+> > > > > > > audit_sig_info2 struct.  Corresponding support is required in the
+> > > > > > > userspace code to reflect the new record request and reply type.
+> > > > > > > An older userspace won't break since it won't know to request this
+> > > > > > > record type.
+> > > > > > >
+> > > > > > > Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
+> > > > > > > ---
+> > > > > > >  include/linux/audit.h       |  7 +++++++
+> > > > > > >  include/uapi/linux/audit.h  |  1 +
+> > > > > > >  kernel/audit.c              | 35 +++++++++++++++++++++++++++++++++++
+> > > > > > >  kernel/audit.h              |  1 +
+> > > > > > >  security/selinux/nlmsgtab.c |  1 +
+> > > > > > >  5 files changed, 45 insertions(+)
+> > > > > >
+> > > > > > ...
+> > > > > >
+> > > > > > > diff --git a/kernel/audit.c b/kernel/audit.c
+> > > > > > > index 0871c3e5d6df..51159c94041c 100644
+> > > > > > > --- a/kernel/audit.c
+> > > > > > > +++ b/kernel/audit.c
+> > > > > > > @@ -126,6 +126,14 @@ struct auditd_connection {
+> > > > > > >  kuid_t         audit_sig_uid = INVALID_UID;
+> > > > > > >  pid_t          audit_sig_pid = -1;
+> > > > > > >  u32            audit_sig_sid = 0;
+> > > > > > > +/* Since the signal information is stored in the record buffer at the
+> > > > > > > + * time of the signal, but not retrieved until later, there is a chance
+> > > > > > > + * that the last process in the container could terminate before the
+> > > > > > > + * signal record is delivered.  In this circumstance, there is a chance
+> > > > > > > + * the orchestrator could reuse the audit container identifier, causing
+> > > > > > > + * an overlap of audit records that refer to the same audit container
+> > > > > > > + * identifier, but a different container instance.  */
+> > > > > > > +u64            audit_sig_cid = AUDIT_CID_UNSET;
+> > > > > >
+> > > > > > I believe we could prevent the case mentioned above by taking an
+> > > > > > additional reference to the audit container ID object when the signal
+> > > > > > information is collected, dropping it only after the signal
+> > > > > > information is collected by userspace or another process signals the
+> > > > > > audit daemon.  Yes, it would block that audit container ID from being
+> > > > > > reused immediately, but since we are talking about one number out of
+> > > > > > 2^64 that seems like a reasonable tradeoff.
+> > > > >
+> > > > > I had thought that through and should have been more explicit about that
+> > > > > situation when I documented it.  We could do that, but then the syscall
+> > > > > records would be connected with the call from auditd on shutdown to
+> > > > > request that signal information, rather than the exit of that last
+> > > > > process that was using that container.  This strikes me as misleading.
+> > > > > Is that really what we want?
+> > > >
+> > > >  ???
+> > > >
+> > > > I think one of us is not understanding the other; maybe it's me, maybe
+> > > > it's you, maybe it's both of us.
+> > > >
+> > > > Anyway, here is what I was trying to convey with my original comment
+> > > > ... When we record the audit container ID in audit_signal_info() we
+> > > > take an extra reference to the audit container ID object so that it
+> > > > will not disappear (and get reused) until after we respond with an
+> > > > AUDIT_SIGNAL_INFO2.  In audit_receive_msg() when we do the
+> > > > AUDIT_SIGNAL_INFO2 processing we drop the extra reference we took in
+> > > > audit_signal_info().  Unless I'm missing some other change you made,
+> > > > this *shouldn't* affect the syscall records, all it does is preserve
+> > > > the audit container ID object in the kernel's ACID store so it doesn't
+> > > > get reused.
 > > >
-> > > Store the audit container identifier in a refcounted kernel object that
-> > > is added to the master list of audit container identifiers.  This will
-> > > allow multiple container orchestrators/engines to work on the same
-> > > machine without danger of inadvertantly re-using an existing identifier.
-> > > It will also allow an orchestrator to inject a process into an existing
-> > > container by checking if the original container owner is the one
-> > > injecting the task.  A hash table list is used to optimize searches.
+> > > This is exactly what I had understood.  I hadn't considered the extra
+> > > details below in detail due to my original syscall concern, but they
+> > > make sense.
 > > >
-> > > Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
-> > > ---
-> > >  include/linux/audit.h | 14 ++++++--
-> > >  kernel/audit.c        | 98 ++++++++++++++++++++++++++++++++++++++++++++++++---
-> > >  kernel/audit.h        |  8 +++++
-> > >  3 files changed, 112 insertions(+), 8 deletions(-)
-
-...
-
-> > > @@ -232,7 +263,11 @@ int audit_alloc(struct task_struct *tsk)
-> > >         }
-> > >         info->loginuid = audit_get_loginuid(current);
-> > >         info->sessionid = audit_get_sessionid(current);
-> > > -       info->contid = audit_get_contid(current);
-> > > +       spin_lock(&audit_contobj_list_lock);
-> > > +       info->cont = _audit_contobj(current);
-> > > +       if (info->cont)
-> > > +               _audit_contobj_hold(info->cont);
-> > > +       spin_unlock(&audit_contobj_list_lock);
+> > > The syscall I refer to is the one connected with the drop of the
+> > > audit container identifier by the last process that was in that
+> > > container in patch 5/16.  The production of this record is contingent on
+> > > the last ref in a contobj being dropped.  So if it is due to that ref
+> > > being maintained by audit_signal_info() until the AUDIT_SIGNAL_INFO2
+> > > record it fetched, then it will appear that the fetch action closed the
+> > > container rather than the last process in the container to exit.
+> > >
+> > > Does this make sense?
 > >
-> > If we are taking a spinlock in order to bump the refcount, does it
-> > really need to be a refcount_t or can we just use a normal integer?
-> > In RCU protected lists a spinlock is usually used to protect
-> > adds/removes to the list, not the content of individual list items.
+> > More so than your original reply, at least to me anyway.
 > >
-> > My guess is you probably want to use the spinlock as described above
-> > (list add/remove protection) and manipulate the refcount_t inside a
-> > RCU read lock protected region.
->
-> Ok, I guess it could be an integer if it were protected by the spinlock,
-> but I think you've guessed my intent, so let us keep it as a refcount
-> and tighten the spinlock scope and use rcu read locking to protect _get
-> and _put in _alloc, _free, and later on when protecting the network
-> namespace contobj lists.  This should reduce potential contention for
-> the spinlock to one location over fewer lines of code in that place
-> while speeding up updates and slightly simplifying code in the others.
-
-If it helps, you should be able to find plenty of rcu/spinlock
-protected list examples in the kernel code.  It might be a good idea
-if you spent some time looking at those implementations first to get
-an idea of how it is usually done.
-
-> > > @@ -2381,9 +2425,12 @@ int audit_set_contid(struct task_struct *task, u64 contid)
-> > >         }
-> > >         oldcontid = audit_get_contid(task);
-> > >         read_lock(&tasklist_lock);
-> > > -       /* Don't allow the audit containerid to be unset */
-> > > +       /* Don't allow the contid to be unset */
-> > >         if (!audit_contid_valid(contid))
-> > >                 rc = -EINVAL;
-> > > +       /* Don't allow the contid to be set to the same value again */
-> > > +       else if (contid == oldcontid) {
-> > > +               rc = -EADDRINUSE;
+> > It makes sense that the audit container ID wouldn't be marked as
+> > "dead" since it would still be very much alive and available for use
+> > by the orchestrator, the question is if that is desirable or not.  I
+> > think the answer to this comes down the preserving the correctness of
+> > the audit log.
 > >
-> > First, is that brace a typo?  It looks like it.  Did this compile?
+> > If the audit container ID reported by AUDIT_SIGNAL_INFO2 has been
+> > reused then I think there is a legitimate concern that the audit log
+> > is not correct, and could be misleading.  If we solve that by grabbing
+> > an extra reference, then there could also be some confusion as
+> > userspace considers a container to be "dead" while the audit container
+> > ID still exists in the kernel, and the kernel generated audit
+> > container ID death record will not be generated until much later (and
+> > possibly be associated with a different event, but that could be
+> > solved by unassociating the container death record).
 >
-> Yes, it was fixed in the later patch that restructured the if
-> statements.
+> How does syscall association of the death record with AUDIT_SIGNAL_INFO2
+> possibly get associated with another event?  Or is the syscall
+> association with the fetch for the AUDIT_SIGNAL_INFO2 the other event?
 
-Generic reminder that each patch should compile and function on it's
-own without the need for any follow-up patches.  I know Richard is
-already aware of that, and this was a mistake that slipped through the
-cracks; this reminder is more for those who may be lurking on the
-list.
+The issue is when does the audit container ID "die".  If it is when
+the last task in the container exits, then the death record will be
+associated when the task's exit.  If the audit container ID lives on
+until the last reference of it in the audit logs, including the
+SIGNAL_INFO2 message, the death record will be associated with the
+related SIGNAL_INFO2 syscalls, or perhaps unassociated depending on
+the details of the syscalls/netlink.
 
-> > Second, can you explain why (re)setting the audit container ID to the
-> > same value is something we need to prohibit?  I'm guessing it has
-> > something to do with explicitly set vs inherited, but I don't want to
-> > assume too much about your thinking behind this.
+> Another idea might be to bump the refcount in audit_signal_info() but
+> mark tht contid as dead so it can't be reused if we are concerned that
+> the dead contid be reused?
+
+Ooof.  Yes, maybe, but that would be ugly.
+
+> There is still the problem later that the reported contid is incomplete
+> compared to the rest of the contid reporting cycle wrt nesting since
+> AUDIT_SIGNAL_INFO2 will need to be more complex w/2 variable length
+> fields to accommodate a nested contid list.
+
+Do we really care about the full nested audit container ID list in the
+SIGNAL_INFO2 record?
+
+> >  Of the two
+> > approaches, I think the latter is safer in that it preserves the
+> > correctness of the audit log, even though it could result in a delay
+> > of the container death record.
 >
-> It made the refcounting more complicated later, and besides, the
-> prohibition on setting the contid again if it is already set would catch
-> this case, so I'll remove it in this patch and ensure this action
-> doesn't cause a problem in later patches.
->
-> > If it is "set vs inherited", would allowing an orchestrator to
-> > explicitly "set" an inherited audit container ID provide some level or
-> > protection against moving the task?
->
-> I can't see it helping prevent this since later descendancy checks will
-> stop this move anyways.
+> I prefer the former since it strongly indicates last task in the
+> container.  The AUDIT_SIGNAL_INFO2 msg has the pid and other subject
+> attributes and the contid to strongly link the responsible party.
 
-That's what I thought, but I was just trying to think of any reason
-why you felt this might have been useful since it was in the patch.
-If it's in the patch I tend to fall back on the idea that it must have
-served a purpose ;)
-
-> > > @@ -2396,8 +2443,49 @@ int audit_set_contid(struct task_struct *task, u64 contid)
-> > >         else if (audit_contid_set(task))
-> > >                 rc = -ECHILD;
-> > >         read_unlock(&tasklist_lock);
-> > > -       if (!rc)
-> > > -               task->audit->contid = contid;
-> > > +       if (!rc) {
-> > > +               struct audit_contobj *oldcont = _audit_contobj(task);
-> > > +               struct audit_contobj *cont = NULL, *newcont = NULL;
-> > > +               int h = audit_hash_contid(contid);
-> > > +
-> > > +               rcu_read_lock();
-> > > +               list_for_each_entry_rcu(cont, &audit_contid_hash[h], list)
-> > > +                       if (cont->id == contid) {
-> > > +                               /* task injection to existing container */
-> > > +                               if (current == cont->owner) {
-> >
-> > Do we have any protection against the task pointed to by cont->owner
-> > going away and a new task with the same current pointer value (no
-> > longer the legitimate audit container ID owner) manipulating the
-> > target task's audit container ID?
->
-> Yes, the get_task_struct() call below.
-
-Gotcha.
+Steve is the only one who really tracks the security certifications
+that are relevant to audit, see what the certification requirements
+have to say and we can revisit this.
 
 -- 
 paul moore
