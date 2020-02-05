@@ -1,60 +1,91 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com [207.211.31.120])
-	by mail.lfdr.de (Postfix) with ESMTP id 7514E15242A
-	for <lists+linux-audit@lfdr.de>; Wed,  5 Feb 2020 01:40:59 +0100 (CET)
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com [205.139.110.120])
+	by mail.lfdr.de (Postfix) with ESMTP id 3B872153B26
+	for <lists+linux-audit@lfdr.de>; Wed,  5 Feb 2020 23:41:24 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1580863258;
+	s=mimecast20190719; t=1580942483;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=YqvgbY9adjYGuaDI6LULe82bMUwH2zkT7wuZOL9UdUM=;
-	b=Nd0WoKi45/Sqz5yPl/5LsaVFVQyp55+BT2bZhgiWueKLOXmrtg33/vUaEysePH0NCommd6
-	t4ySobOi+0uY8foN4gimci7fM02t1rcpTcS07FCTmEguiEYG8dzzMCE4ZSr/TFIF0s/Yz9
-	JGEsJq1RqO36gRWxq98uKgKejeNOl2g=
+	bh=LabfwLpt7KFZXpVXZ5p7p7aZPjfT1UlWlpj9CzDsnpw=;
+	b=Eag7oEHGHProy6G/TUHTt2lcetQL/1VeGgfdo9iCdskeIWDgRwcd0kEUlpd6mCxBRqxipK
+	FE9iZ74al6Vd/mQsGLTWnHaQJuz1xup6lB1B53n7IWb4IjTt03bu88GSFnwHwpOyOMvuSx
+	cH/oG8SuOT0lO2diU6GJCvc19Vt9wF8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-337-MY6gUPqzO7K_obJDokWkxw-1; Tue, 04 Feb 2020 19:40:56 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+ us-mta-16--4O628m0NwGq3fAt9JCMlw-1; Wed, 05 Feb 2020 17:41:20 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3894F1084438;
-	Wed,  5 Feb 2020 00:40:51 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 62F2F8DC0A;
-	Wed,  5 Feb 2020 00:40:47 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C76C1800D54;
+	Wed,  5 Feb 2020 22:41:13 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 157AEF6DE;
+	Wed,  5 Feb 2020 22:41:10 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 152011809567;
-	Wed,  5 Feb 2020 00:40:40 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
-	[10.5.11.11])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 00F2B85CD1;
+	Wed,  5 Feb 2020 22:41:05 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+	[10.11.54.5])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 0150dj2R017565 for <linux-audit@listman.util.phx.redhat.com>;
-	Tue, 4 Feb 2020 19:39:45 -0500
+	id 015MerPV028137 for <linux-audit@listman.util.phx.redhat.com>;
+	Wed, 5 Feb 2020 17:40:54 -0500
 Received: by smtp.corp.redhat.com (Postfix)
-	id 015F684DB8; Wed,  5 Feb 2020 00:39:45 +0000 (UTC)
+	id BD267F77B4; Wed,  5 Feb 2020 22:40:53 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from madcap2.tricolour.ca (ovpn-112-16.rdu2.redhat.com
-	[10.10.112.16])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id BD3A9811F8;
-	Wed,  5 Feb 2020 00:39:33 +0000 (UTC)
-Date: Tue, 4 Feb 2020 19:39:30 -0500
-From: Richard Guy Briggs <rgb@redhat.com>
-To: Paul Moore <paul@paul-moore.com>
-Subject: Re: [PATCH ghak90 V8 16/16] audit: add capcontid to set contid
-	outside init_user_ns
-Message-ID: <20200205003930.2efpm4tvrisgmj4t@madcap2.tricolour.ca>
-References: <cover.1577736799.git.rgb@redhat.com>
-	<5941671b6b6b5de28ab2cc80e72f288cf83291d5.1577736799.git.rgb@redhat.com>
-	<CAHC9VhQYXQp+C0EHwLuW50yUenfH4KF1xKQdS=bn_OzHfnFmmg@mail.gmail.com>
+Received: from mimecast-mx02.redhat.com
+	(mimecast06.extmail.prod.ext.rdu2.redhat.com [10.11.55.22])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id B8833F4975
+	for <linux-audit@redhat.com>; Wed,  5 Feb 2020 22:40:52 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+	[205.139.110.120])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E531018AE95B
+	for <linux-audit@redhat.com>; Wed,  5 Feb 2020 22:40:51 +0000 (UTC)
+Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com
+	[209.85.208.65]) (Using TLS) by relay.mimecast.com with ESMTP id
+	us-mta-234-EybXzIQkPrGfqCAZo3Gv1w-1; Wed, 05 Feb 2020 17:40:49 -0500
+Received: by mail-ed1-f65.google.com with SMTP id j17so3848938edp.3
+	for <linux-audit@redhat.com>; Wed, 05 Feb 2020 14:40:48 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=8xXG1QtEMIn8V9gNjRgmErq86awhNCCbmdyeTvn2xh4=;
+	b=NgqDXW4LZ25ijXSjnx6PaVAAD87Aw78DKfW9emHhnNTbOEEIOm4uXNSV4Io6broUEP
+	wqqwQEZOgoPY+RqerSfgift4vXLF3InRUr0TufQEPqt7JM4QXXrl3q/Tvs7bTDaV9rnM
+	p7EPcPvecfYoiSBf7vY9EEZeB7Wd7ZrYeQDLqqo/Vm19gMcHQ7Jov1hH30S3ixnG4QAa
+	2chk2zXtaBdYrQLQIdWNHRsgbkL788yQp1EheXjNJdrM4haVJBobSz68ANhejYdak8SV
+	cDIGz0Z9Kjz+PRldu8lxA6OpXnPshj9WzTMxGUgOLG8abvFw23/nW0XA5OkowJC0X/uU
+	r/gg==
+X-Gm-Message-State: APjAAAVJlvsltdPGti9XeF0fsFyLgIYviw2k/t7UjjG4Pvm8/1x5vBUf
+	a6+lsGLR5jhsvkPZIu8t2WLYcTTvaGNRKd2FpQx3
+X-Google-Smtp-Source: APXvYqyVmzGVk7l0HXNY4hEqVOGOlb69aaI9jrvMLTASMwXkrAFjGVXWNm6juE48f6syGPPLenhCV6x6YfwAuvnC2Wk=
+X-Received: by 2002:a50:a7a5:: with SMTP id i34mr396051edc.128.1580942447650; 
+	Wed, 05 Feb 2020 14:40:47 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAHC9VhQYXQp+C0EHwLuW50yUenfH4KF1xKQdS=bn_OzHfnFmmg@mail.gmail.com>
-User-Agent: NeoMutt/20180716
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+References: <cover.1577736799.git.rgb@redhat.com>
+	<a911acf0b209c05dc156fb6b57f9da45778747ce.1577736799.git.rgb@redhat.com>
+	<CAHC9VhRRW2fFcgBs-R_BZ7ZWCP5wsXA9DB1RUM=QeKj2xZkS2Q@mail.gmail.com>
+	<20200204225148.io3ayosk4efz2qii@madcap2.tricolour.ca>
+In-Reply-To: <20200204225148.io3ayosk4efz2qii@madcap2.tricolour.ca>
+From: Paul Moore <paul@paul-moore.com>
+Date: Wed, 5 Feb 2020 17:40:36 -0500
+Message-ID: <CAHC9VhQSZDt4KyFmc9TtLvKgziMCkPzRWdwa71Juo=LZRygfVA@mail.gmail.com>
+Subject: Re: [PATCH ghak90 V8 04/16] audit: convert to contid list to check
+	for orch/engine ownership
+To: Richard Guy Briggs <rgb@redhat.com>
+X-MC-Unique: EybXzIQkPrGfqCAZo3Gv1w-1
+X-MC-Unique: -4O628m0NwGq3fAt9JCMlw-1
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+X-MIME-Autoconverted: from quoted-printable to 8bit by
+	lists01.pubmisc.prod.ext.phx2.redhat.com id 015MerPV028137
 X-loop: linux-audit@redhat.com
 Cc: nhorman@tuxdriver.com, linux-api@vger.kernel.org,
 	containers@lists.linux-foundation.org,
@@ -77,229 +108,141 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: MY6gUPqzO7K_obJDokWkxw-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
 
-On 2020-01-22 16:29, Paul Moore wrote:
-> On Tue, Dec 31, 2019 at 2:51 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+On Tue, Feb 4, 2020 at 5:52 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> On 2020-01-22 16:28, Paul Moore wrote:
+> > On Tue, Dec 31, 2019 at 2:50 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> > >
+> > > Store the audit container identifier in a refcounted kernel object that
+> > > is added to the master list of audit container identifiers.  This will
+> > > allow multiple container orchestrators/engines to work on the same
+> > > machine without danger of inadvertantly re-using an existing identifier.
+> > > It will also allow an orchestrator to inject a process into an existing
+> > > container by checking if the original container owner is the one
+> > > injecting the task.  A hash table list is used to optimize searches.
+> > >
+> > > Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
+> > > ---
+> > >  include/linux/audit.h | 14 ++++++--
+> > >  kernel/audit.c        | 98 ++++++++++++++++++++++++++++++++++++++++++++++++---
+> > >  kernel/audit.h        |  8 +++++
+> > >  3 files changed, 112 insertions(+), 8 deletions(-)
+
+...
+
+> > > @@ -232,7 +263,11 @@ int audit_alloc(struct task_struct *tsk)
+> > >         }
+> > >         info->loginuid = audit_get_loginuid(current);
+> > >         info->sessionid = audit_get_sessionid(current);
+> > > -       info->contid = audit_get_contid(current);
+> > > +       spin_lock(&audit_contobj_list_lock);
+> > > +       info->cont = _audit_contobj(current);
+> > > +       if (info->cont)
+> > > +               _audit_contobj_hold(info->cont);
+> > > +       spin_unlock(&audit_contobj_list_lock);
 > >
-> > Provide a mechanism similar to CAP_AUDIT_CONTROL to explicitly give a
-> > process in a non-init user namespace the capability to set audit
-> > container identifiers.
+> > If we are taking a spinlock in order to bump the refcount, does it
+> > really need to be a refcount_t or can we just use a normal integer?
+> > In RCU protected lists a spinlock is usually used to protect
+> > adds/removes to the list, not the content of individual list items.
 > >
-> > Provide /proc/$PID/audit_capcontid interface to capcontid.
-> > Valid values are: 1==enabled, 0==disabled
-> 
-> It would be good to be more explicit about "enabled" and "disabled" in
-> the commit description.  For example, which setting allows the target
-> task to set audit container IDs of it's children processes?
+> > My guess is you probably want to use the spinlock as described above
+> > (list add/remove protection) and manipulate the refcount_t inside a
+> > RCU read lock protected region.
+>
+> Ok, I guess it could be an integer if it were protected by the spinlock,
+> but I think you've guessed my intent, so let us keep it as a refcount
+> and tighten the spinlock scope and use rcu read locking to protect _get
+> and _put in _alloc, _free, and later on when protecting the network
+> namespace contobj lists.  This should reduce potential contention for
+> the spinlock to one location over fewer lines of code in that place
+> while speeding up updates and slightly simplifying code in the others.
 
-Ok...
+If it helps, you should be able to find plenty of rcu/spinlock
+protected list examples in the kernel code.  It might be a good idea
+if you spent some time looking at those implementations first to get
+an idea of how it is usually done.
 
-> > Report this action in message type AUDIT_SET_CAPCONTID 1022 with fields
-> > opid= capcontid= old-capcontid=
+> > > @@ -2381,9 +2425,12 @@ int audit_set_contid(struct task_struct *task, u64 contid)
+> > >         }
+> > >         oldcontid = audit_get_contid(task);
+> > >         read_lock(&tasklist_lock);
+> > > -       /* Don't allow the audit containerid to be unset */
+> > > +       /* Don't allow the contid to be unset */
+> > >         if (!audit_contid_valid(contid))
+> > >                 rc = -EINVAL;
+> > > +       /* Don't allow the contid to be set to the same value again */
+> > > +       else if (contid == oldcontid) {
+> > > +               rc = -EADDRINUSE;
 > >
-> > Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
-> > ---
-> >  fs/proc/base.c             | 55 ++++++++++++++++++++++++++++++++++++++++++++++
-> >  include/linux/audit.h      | 14 ++++++++++++
-> >  include/uapi/linux/audit.h |  1 +
-> >  kernel/audit.c             | 35 +++++++++++++++++++++++++++++
-> >  4 files changed, 105 insertions(+)
-> 
-> ...
-> 
-> > diff --git a/fs/proc/base.c b/fs/proc/base.c
-> > index 26091800180c..283ef8e006e7 100644
-> > --- a/fs/proc/base.c
-> > +++ b/fs/proc/base.c
-> > @@ -1360,6 +1360,59 @@ static ssize_t proc_contid_write(struct file *file, const char __user *buf,
-> >         .write          = proc_contid_write,
-> >         .llseek         = generic_file_llseek,
-> >  };
-> > +
-> > +static ssize_t proc_capcontid_read(struct file *file, char __user *buf,
-> > +                                 size_t count, loff_t *ppos)
-> > +{
-> > +       struct inode *inode = file_inode(file);
-> > +       struct task_struct *task = get_proc_task(inode);
-> > +       ssize_t length;
-> > +       char tmpbuf[TMPBUFLEN];
-> > +
-> > +       if (!task)
-> > +               return -ESRCH;
-> > +       /* if we don't have caps, reject */
-> > +       if (!capable(CAP_AUDIT_CONTROL) && !audit_get_capcontid(current))
-> > +               return -EPERM;
-> > +       length = scnprintf(tmpbuf, TMPBUFLEN, "%u", audit_get_capcontid(task));
-> > +       put_task_struct(task);
-> > +       return simple_read_from_buffer(buf, count, ppos, tmpbuf, length);
-> > +}
-> > +
-> > +static ssize_t proc_capcontid_write(struct file *file, const char __user *buf,
-> > +                                  size_t count, loff_t *ppos)
-> > +{
-> > +       struct inode *inode = file_inode(file);
-> > +       u32 capcontid;
-> > +       int rv;
-> > +       struct task_struct *task = get_proc_task(inode);
-> > +
-> > +       if (!task)
-> > +               return -ESRCH;
-> > +       if (*ppos != 0) {
-> > +               /* No partial writes. */
-> > +               put_task_struct(task);
-> > +               return -EINVAL;
-> > +       }
-> > +
-> > +       rv = kstrtou32_from_user(buf, count, 10, &capcontid);
-> > +       if (rv < 0) {
-> > +               put_task_struct(task);
-> > +               return rv;
-> > +       }
-> > +
-> > +       rv = audit_set_capcontid(task, capcontid);
-> > +       put_task_struct(task);
-> > +       if (rv < 0)
-> > +               return rv;
-> > +       return count;
-> > +}
-> > +
-> > +static const struct file_operations proc_capcontid_operations = {
-> > +       .read           = proc_capcontid_read,
-> > +       .write          = proc_capcontid_write,
-> > +       .llseek         = generic_file_llseek,
-> > +};
-> >  #endif
+> > First, is that brace a typo?  It looks like it.  Did this compile?
+>
+> Yes, it was fixed in the later patch that restructured the if
+> statements.
+
+Generic reminder that each patch should compile and function on it's
+own without the need for any follow-up patches.  I know Richard is
+already aware of that, and this was a mistake that slipped through the
+cracks; this reminder is more for those who may be lurking on the
+list.
+
+> > Second, can you explain why (re)setting the audit container ID to the
+> > same value is something we need to prohibit?  I'm guessing it has
+> > something to do with explicitly set vs inherited, but I don't want to
+> > assume too much about your thinking behind this.
+>
+> It made the refcounting more complicated later, and besides, the
+> prohibition on setting the contid again if it is already set would catch
+> this case, so I'll remove it in this patch and ensure this action
+> doesn't cause a problem in later patches.
+>
+> > If it is "set vs inherited", would allowing an orchestrator to
+> > explicitly "set" an inherited audit container ID provide some level or
+> > protection against moving the task?
+>
+> I can't see it helping prevent this since later descendancy checks will
+> stop this move anyways.
+
+That's what I thought, but I was just trying to think of any reason
+why you felt this might have been useful since it was in the patch.
+If it's in the patch I tend to fall back on the idea that it must have
+served a purpose ;)
+
+> > > @@ -2396,8 +2443,49 @@ int audit_set_contid(struct task_struct *task, u64 contid)
+> > >         else if (audit_contid_set(task))
+> > >                 rc = -ECHILD;
+> > >         read_unlock(&tasklist_lock);
+> > > -       if (!rc)
+> > > -               task->audit->contid = contid;
+> > > +       if (!rc) {
+> > > +               struct audit_contobj *oldcont = _audit_contobj(task);
+> > > +               struct audit_contobj *cont = NULL, *newcont = NULL;
+> > > +               int h = audit_hash_contid(contid);
+> > > +
+> > > +               rcu_read_lock();
+> > > +               list_for_each_entry_rcu(cont, &audit_contid_hash[h], list)
+> > > +                       if (cont->id == contid) {
+> > > +                               /* task injection to existing container */
+> > > +                               if (current == cont->owner) {
 > >
-> >  #ifdef CONFIG_FAULT_INJECTION
-> > @@ -3121,6 +3174,7 @@ static int proc_stack_depth(struct seq_file *m, struct pid_namespace *ns,
-> >         REG("loginuid",   S_IWUSR|S_IRUGO, proc_loginuid_operations),
-> >         REG("sessionid",  S_IRUGO, proc_sessionid_operations),
-> >         REG("audit_containerid", S_IWUSR|S_IRUSR, proc_contid_operations),
-> > +       REG("audit_capcontainerid", S_IWUSR|S_IRUSR|S_IRUSR, proc_capcontid_operations),
-> >  #endif
-> >  #ifdef CONFIG_FAULT_INJECTION
-> >         REG("make-it-fail", S_IRUGO|S_IWUSR, proc_fault_inject_operations),
-> > @@ -3522,6 +3576,7 @@ static int proc_tid_comm_permission(struct inode *inode, int mask)
-> >         REG("loginuid",  S_IWUSR|S_IRUGO, proc_loginuid_operations),
-> >         REG("sessionid",  S_IRUGO, proc_sessionid_operations),
-> >         REG("audit_containerid", S_IWUSR|S_IRUSR, proc_contid_operations),
-> > +       REG("audit_capcontainerid", S_IWUSR|S_IRUSR|S_IRUSR, proc_capcontid_operations),
-> >  #endif
-> >  #ifdef CONFIG_FAULT_INJECTION
-> >         REG("make-it-fail", S_IRUGO|S_IWUSR, proc_fault_inject_operations),
-> > diff --git a/include/linux/audit.h b/include/linux/audit.h
-> > index 28b9c7cd86a6..62c453306c2a 100644
-> > --- a/include/linux/audit.h
-> > +++ b/include/linux/audit.h
-> > @@ -116,6 +116,7 @@ struct audit_task_info {
-> >         kuid_t                  loginuid;
-> >         unsigned int            sessionid;
-> >         struct audit_contobj    *cont;
-> > +       u32                     capcontid;
-> 
-> Where is the code change that actually uses this to enforce the
-> described policy on setting an audit container ID?
+> > Do we have any protection against the task pointed to by cont->owner
+> > going away and a new task with the same current pointer value (no
+> > longer the legitimate audit container ID owner) manipulating the
+> > target task's audit container ID?
+>
+> Yes, the get_task_struct() call below.
 
-Oops, lost in shuffle of refactorisation when dumping the netlink code in
-favour of /proc.
+Gotcha.
 
-> > diff --git a/include/uapi/linux/audit.h b/include/uapi/linux/audit.h
-> > index 2844d78cd7af..01251e6dcec0 100644
-> > --- a/include/uapi/linux/audit.h
-> > +++ b/include/uapi/linux/audit.h
-> > @@ -73,6 +73,7 @@
-> >  #define AUDIT_GET_FEATURE      1019    /* Get which features are enabled */
-> >  #define AUDIT_CONTAINER_OP     1020    /* Define the container id and info */
-> >  #define AUDIT_SIGNAL_INFO2     1021    /* Get info auditd signal sender */
-> > +#define AUDIT_SET_CAPCONTID    1022    /* Set cap_contid of a task */
-> >
-> >  #define AUDIT_FIRST_USER_MSG   1100    /* Userspace messages mostly uninteresting to kernel */
-> >  #define AUDIT_USER_AVC         1107    /* We filter this differently */
-> > diff --git a/kernel/audit.c b/kernel/audit.c
-> > index 1287f0b63757..1c22dd084ae8 100644
-> > --- a/kernel/audit.c
-> > +++ b/kernel/audit.c
-> > @@ -2698,6 +2698,41 @@ static bool audit_contid_isowner(struct task_struct *tsk)
-> >         return false;
-> >  }
-> >
-> > +int audit_set_capcontid(struct task_struct *task, u32 enable)
-> > +{
-> > +       u32 oldcapcontid;
-> > +       int rc = 0;
-> > +       struct audit_buffer *ab;
-> > +
-> > +       if (!task->audit)
-> > +               return -ENOPROTOOPT;
-> > +       oldcapcontid = audit_get_capcontid(task);
-> > +       /* if task is not descendant, block */
-> > +       if (task == current)
-> > +               rc = -EBADSLT;
-> > +       else if (!task_is_descendant(current, task))
-> > +               rc = -EXDEV;
-> 
-> See my previous comments about error code sanity.
+-- 
+paul moore
+www.paul-moore.com
 
-I'll go with EXDEV.
-
-> > +       else if (current_user_ns() == &init_user_ns) {
-> > +               if (!capable(CAP_AUDIT_CONTROL) && !audit_get_capcontid(current))
-> > +                       rc = -EPERM;
-> 
-> I think we just want to use ns_capable() in the context of the current
-> userns to check CAP_AUDIT_CONTROL, yes?  Something like this ...
-
-I thought we had firmly established in previous discussion that
-CAP_AUDIT_CONTROL in anything other than init_user_ns was completely irrelevant
-and untrustable.
-
->   if (current_user_ns() != &init_user_ns) {
->     if (!ns_capable(CAP_AUDIT_CONTROL) || !audit_get_capcontid())
->       rc = -EPERM;
->   } else if (!capable(CAP_AUDIT_CONTROL))
->     rc = -EPERM;
-> 
-> > +       }
-> > +       if (!rc)
-> > +               task->audit->capcontid = enable;
-> > +
-> > +       if (!audit_enabled)
-> > +               return rc;
-> > +
-> > +       ab = audit_log_start(audit_context(), GFP_KERNEL, AUDIT_SET_CAPCONTID);
-> > +       if (!ab)
-> > +               return rc;
-> > +
-> > +       audit_log_format(ab,
-> > +                        "opid=%d capcontid=%u old-capcontid=%u",
-> > +                        task_tgid_nr(task), enable, oldcapcontid);
-> > +       audit_log_end(ab);
-> 
-> My prior comments about recording the success/failure, or not emitting
-> the record on failure, seem relevant here too.
-
-It should be recorded in the syscall record.
-
-> > +       return rc;
-> > +}
-> 
-> paul moore
-
-- RGB
-
---
-Richard Guy Briggs <rgb@redhat.com>
-Sr. S/W Engineer, Kernel Security, Base Operating Systems
-Remote, Ottawa, Red Hat Canada
-IRC: rgb, SunRaycer
-Voice: +1.647.777.2635, Internal: (81) 32635
 
 --
 Linux-audit mailing list
