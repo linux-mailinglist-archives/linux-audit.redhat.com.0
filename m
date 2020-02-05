@@ -1,91 +1,92 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-delivery-1.mimecast.com [205.139.110.120])
-	by mail.lfdr.de (Postfix) with ESMTP id 20683153B70
-	for <lists+linux-audit@lfdr.de>; Wed,  5 Feb 2020 23:52:07 +0100 (CET)
+Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [207.211.31.81])
+	by mail.lfdr.de (Postfix) with ESMTP id BDA0F153B85
+	for <lists+linux-audit@lfdr.de>; Wed,  5 Feb 2020 23:58:08 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1580943125;
+	s=mimecast20190719; t=1580943487;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=tTDC8lGWWcTv/SowVQqRSoSHLjke9Ca+2A0N28rgjz8=;
-	b=fUR2uAsOOpsexceWu4rOOH4C0JkquR6iGMObqAC0/5NrqGn/fYUeWrwxZcxQ5vao8oJr10
-	cG31NVA9LwTQLP/i3MX2rWvwOxNvWz7HRBdcEi83aF7Z6UllJe2nUz3zvPMOO5xaty6MHF
-	dYeslkO8JYjTcZlIycloCtxuWwG4fjo=
+	bh=3+346zzXBbH8+tv3lhTv1vH9nbmDZ3/sB4UxEVeLL0M=;
+	b=BmnysLWMNiNOvSofUIN3zGHG68UhEMSNjKrxUNFon/S//NxsW+Rb1GL8GAXiorSw6NL0fI
+	OjsUEVJFg7QD7iZo/jGi5LudcIu+o6PZbN1rNX/ZtINFfOmaILYcpbsTbwm7RSEkfuS/vI
+	YcpzaBIz7EacTrpRW4RHiqFFuOVFpQQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-152-rUWMjzanM2-tqEoUfVNr1A-1; Wed, 05 Feb 2020 17:52:03 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+ us-mta-417-jZ2Gn4EHMSSC7_iOKzAdZQ-1; Wed, 05 Feb 2020 17:58:05 -0500
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1150018A8CBF;
-	Wed,  5 Feb 2020 22:51:58 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6535E107BA97;
+	Wed,  5 Feb 2020 22:58:00 +0000 (UTC)
 Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 874D4859D2;
-	Wed,  5 Feb 2020 22:51:53 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id DC3445C1B0;
+	Wed,  5 Feb 2020 22:57:59 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id C4B0A18089C8;
-	Wed,  5 Feb 2020 22:51:52 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
-	[10.11.54.6])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id D2B7918089CD;
+	Wed,  5 Feb 2020 22:57:58 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+	[10.11.54.3])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 015Mpl9j028453 for <linux-audit@listman.util.phx.redhat.com>;
-	Wed, 5 Feb 2020 17:51:47 -0500
+	id 015Mv8vM028587 for <linux-audit@listman.util.phx.redhat.com>;
+	Wed, 5 Feb 2020 17:57:08 -0500
 Received: by smtp.corp.redhat.com (Postfix)
-	id 2A0B12166B28; Wed,  5 Feb 2020 22:51:47 +0000 (UTC)
+	id DF3A810A859A; Wed,  5 Feb 2020 22:57:07 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
-	(mimecast05.extmail.prod.ext.rdu2.redhat.com [10.11.55.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 2606A2166B27
-	for <linux-audit@redhat.com>; Wed,  5 Feb 2020 22:51:44 +0000 (UTC)
+	(mimecast03.extmail.prod.ext.rdu2.redhat.com [10.11.55.19])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id DA7AB10A8594
+	for <linux-audit@redhat.com>; Wed,  5 Feb 2020 22:57:05 +0000 (UTC)
 Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
-	[207.211.31.120])
+	[205.139.110.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 96186900823
-	for <linux-audit@redhat.com>; Wed,  5 Feb 2020 22:51:44 +0000 (UTC)
-Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com
-	[209.85.208.67]) (Using TLS) by relay.mimecast.com with ESMTP id
-	us-mta-349-NX3Tsk5vN_2de7GMLG9DcA-1; Wed, 05 Feb 2020 17:51:42 -0500
-Received: by mail-ed1-f67.google.com with SMTP id m8so3818229edi.13
-	for <linux-audit@redhat.com>; Wed, 05 Feb 2020 14:51:42 -0800 (PST)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 685E28032A8
+	for <linux-audit@redhat.com>; Wed,  5 Feb 2020 22:57:05 +0000 (UTC)
+Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com
+	[209.85.208.66]) (Using TLS) by relay.mimecast.com with ESMTP id
+	us-mta-312-nxjLqnbpMLOsy16ctyn7wA-1; Wed, 05 Feb 2020 17:57:00 -0500
+Received: by mail-ed1-f66.google.com with SMTP id r21so3896236edq.0
+	for <linux-audit@redhat.com>; Wed, 05 Feb 2020 14:57:00 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=KkJqADdzREDp4wpCa3aAuBXzYy2a7dWtxmQqACuBiLA=;
-	b=QTNnZUS7/MCtS9rpKDOqQHSNY1YjFSBR+/SAlAu7BOSNVhRI+Cv75QoZdqlANygijj
-	q8G/2WWSjTE0IsFYNLvJtWgcsiDwlT2ZnjHfvDEyJXp2tiRmQbh5mTn4GbHqiWagIPW5
-	2ezPmL7Q4g4ro+CiKAVTrVZhOq4vRrc/Ys/AGDffbombHmUZupOEuXXv8qtG2fTJpFh9
-	Zg7aKiS4h79KhVsw3CrdGsy3IITOHpIeJVgxrlOZ+g3UI7nPt+EtXDKZ1WOQDqUHMrDY
-	71GSAqgV14BehzjwgomNEFzDlOc584hRV7fUS3OleFqVCc9ZjUSq8TfPI8GTvu1RHRq/
-	LnXw==
-X-Gm-Message-State: APjAAAXAq3Yr81evtJdNXRGNzytPnbyxdmdJI3mb/81jPUPkO8julIpo
-	aQImi4DDY1cKn70cj6iaXjSzA3uvybvaH7B2iLv7
-X-Google-Smtp-Source: APXvYqz2aK9JflWz0zHltcgH6zygcn9lbVHxrjU8/1oDrOSsvKKPYicMl7ZrYmjGxJ5ErI7H2IQMPuhpOBJ/wakZNE8=
-X-Received: by 2002:a50:e108:: with SMTP id h8mr394067edl.196.1580943101124;
-	Wed, 05 Feb 2020 14:51:41 -0800 (PST)
+	bh=Amzhmy9xv9aiOonSPr+eThtNwsfLtl5zGLSppwlbgNs=;
+	b=EIEkW13WK5IcQ7PZd67zDalhW3dTHpRzYyk0M5Uom+SSgg4Tvoa6Q81DuzC8tx18dY
+	YaiHBzkXyXkOk9sA0rDrlFpjqBWxHPQQQnI9TbVt8kJWeoks7SPIhW8vp/PRidhznkmS
+	RYlxF+9erhGi1nboecZFle5NaP/pGcnUWKXSUheNLsedYOUrGXBnoI0QRTswV24QQIzq
+	9Hzodk4tLOz+O2BhiNzj418KbAWswXsljULGJ8zsc9MIsFZx4x4u8M/w0nqbjxnP0jB6
+	/sMTQYY7KZeRofPRi0d2e4Irm6vn1AUUAtmepl+fSjO8ePCUeeL1S4uUHGDrhPkRO0SW
+	SAxA==
+X-Gm-Message-State: APjAAAUxTLaYRYFzVrEZ0If0+v9wJypiF6Y9+E9KB/cHBSugMD9uRQNl
+	eIVg9LQV/7A+c4lWGuPJ728NH/S/By8UY1IKm0IP
+X-Google-Smtp-Source: APXvYqyinVfnH51DI0L2SrSFONQ5jPWbqu4SEEJkGSvze4nkV8Nj8TjI5cDCggcgijMU0lqRKjn1C1Mv8js0mEJYleE=
+X-Received: by 2002:a17:906:19d0:: with SMTP id
+	h16mr350075ejd.70.1580943419104; 
+	Wed, 05 Feb 2020 14:56:59 -0800 (PST)
 MIME-Version: 1.0
 References: <cover.1577736799.git.rgb@redhat.com>
-	<2954ed671a7622ddf3abdb8854dbba2ad13e9f33.1577736799.git.rgb@redhat.com>
-	<CAHC9VhRw3Fj9-hi+Vj8JJb_GXM4B9N5hRXa9H6aQkuuFqJJ15w@mail.gmail.com>
-	<20200204234258.uwaqk3s3c42fxews@madcap2.tricolour.ca>
-In-Reply-To: <20200204234258.uwaqk3s3c42fxews@madcap2.tricolour.ca>
+	<5941671b6b6b5de28ab2cc80e72f288cf83291d5.1577736799.git.rgb@redhat.com>
+	<CAHC9VhQYXQp+C0EHwLuW50yUenfH4KF1xKQdS=bn_OzHfnFmmg@mail.gmail.com>
+	<20200205003930.2efpm4tvrisgmj4t@madcap2.tricolour.ca>
+In-Reply-To: <20200205003930.2efpm4tvrisgmj4t@madcap2.tricolour.ca>
 From: Paul Moore <paul@paul-moore.com>
-Date: Wed, 5 Feb 2020 17:51:30 -0500
-Message-ID: <CAHC9VhT0NELsrEeTmX15GaZ1SE-qZiQmz9-WweRGWRPcGN5EmA@mail.gmail.com>
-Subject: Re: [PATCH ghak90 V8 11/16] audit: add support for containerid to
-	network namespaces
+Date: Wed, 5 Feb 2020 17:56:48 -0500
+Message-ID: <CAHC9VhSsfBbfYmqLoR=QBgF5_VwbA8Dqqz97MjqwwJ6Jq6fHwA@mail.gmail.com>
+Subject: Re: [PATCH ghak90 V8 16/16] audit: add capcontid to set contid
+	outside init_user_ns
 To: Richard Guy Briggs <rgb@redhat.com>
-X-MC-Unique: NX3Tsk5vN_2de7GMLG9DcA-1
-X-MC-Unique: rUWMjzanM2-tqEoUfVNr1A-1
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+X-MC-Unique: nxjLqnbpMLOsy16ctyn7wA-1
+X-MC-Unique: jZ2Gn4EHMSSC7_iOKzAdZQ-1
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
 X-MIME-Autoconverted: from quoted-printable to 8bit by
-	lists01.pubmisc.prod.ext.phx2.redhat.com id 015Mpl9j028453
+	lists01.pubmisc.prod.ext.phx2.redhat.com id 015Mv8vM028587
 X-loop: linux-audit@redhat.com
 Cc: nhorman@tuxdriver.com, linux-api@vger.kernel.org,
 	containers@lists.linux-foundation.org,
@@ -108,87 +109,95 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-On Tue, Feb 4, 2020 at 6:43 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> On 2020-01-22 16:28, Paul Moore wrote:
+On Tue, Feb 4, 2020 at 7:39 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> On 2020-01-22 16:29, Paul Moore wrote:
 > > On Tue, Dec 31, 2019 at 2:51 PM Richard Guy Briggs <rgb@redhat.com> wrote:
 > > >
-> > > This also adds support to qualify NETFILTER_PKT records.
+> > > Provide a mechanism similar to CAP_AUDIT_CONTROL to explicitly give a
+> > > process in a non-init user namespace the capability to set audit
+> > > container identifiers.
 > > >
-> > > Audit events could happen in a network namespace outside of a task
-> > > context due to packets received from the net that trigger an auditing
-> > > rule prior to being associated with a running task.  The network
-> > > namespace could be in use by multiple containers by association to the
-> > > tasks in that network namespace.  We still want a way to attribute
-> > > these events to any potential containers.  Keep a list per network
-> > > namespace to track these audit container identifiiers.
-> > >
-> > > Add/increment the audit container identifier on:
-> > > - initial setting of the audit container identifier via /proc
-> > > - clone/fork call that inherits an audit container identifier
-> > > - unshare call that inherits an audit container identifier
-> > > - setns call that inherits an audit container identifier
-> > > Delete/decrement the audit container identifier on:
-> > > - an inherited audit container identifier dropped when child set
-> > > - process exit
-> > > - unshare call that drops a net namespace
-> > > - setns call that drops a net namespace
-> > >
-> > > Add audit container identifier auxiliary record(s) to NETFILTER_PKT
-> > > event standalone records.  Iterate through all potential audit container
-> > > identifiers associated with a network namespace.
-> > >
-> > > Please see the github audit kernel issue for contid net support:
-> > >   https://github.com/linux-audit/audit-kernel/issues/92
-> > > Please see the github audit testsuiite issue for the test case:
-> > >   https://github.com/linux-audit/audit-testsuite/issues/64
-> > > Please see the github audit wiki for the feature overview:
-> > >   https://github.com/linux-audit/audit-kernel/wiki/RFE-Audit-Container-ID
-> > > Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
-> > > Acked-by: Neil Horman <nhorman@tuxdriver.com>
-> > > Reviewed-by: Ondrej Mosnacek <omosnace@redhat.com>
-> > > ---
-> > >  include/linux/audit.h    |  24 +++++++++
-> > >  kernel/audit.c           | 132 ++++++++++++++++++++++++++++++++++++++++++++++-
-> > >  kernel/nsproxy.c         |   4 ++
-> > >  net/netfilter/nft_log.c  |  11 +++-
-> > >  net/netfilter/xt_AUDIT.c |  11 +++-
-> > >  5 files changed, 176 insertions(+), 6 deletions(-)
+> > > Provide /proc/$PID/audit_capcontid interface to capcontid.
+> > > Valid values are: 1==enabled, 0==disabled
 > >
-> > ...
-> >
-> > > diff --git a/include/linux/audit.h b/include/linux/audit.h
-> > > index 5531d37a4226..ed8d5b74758d 100644
-> > > --- a/include/linux/audit.h
-> > > +++ b/include/linux/audit.h
-> > > @@ -12,6 +12,7 @@
-> > >  #include <linux/sched.h>
-> > >  #include <linux/ptrace.h>
-> > >  #include <uapi/linux/audit.h>
-> > > +#include <linux/refcount.h>
-> > >
-> > >  #define AUDIT_INO_UNSET ((unsigned long)-1)
-> > >  #define AUDIT_DEV_UNSET ((dev_t)-1)
-> > > @@ -121,6 +122,13 @@ struct audit_task_info {
-> > >
-> > >  extern struct audit_task_info init_struct_audit;
-> > >
-> > > +struct audit_contobj_netns {
-> > > +       struct list_head        list;
-> > > +       u64                     id;
-> >
-> > Since we now track audit container IDs in their own structure, why not
-> > link directly to the audit container ID object (and bump the
-> > refcount)?
+> > It would be good to be more explicit about "enabled" and "disabled" in
+> > the commit description.  For example, which setting allows the target
+> > task to set audit container IDs of it's children processes?
 >
-> Ok, I've done this but at first I had doubts about the complexity.
+> Ok...
+>
+> > > Report this action in message type AUDIT_SET_CAPCONTID 1022 with fields
+> > > opid= capcontid= old-capcontid=
+> > >
+> > > Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
+> > > ---
+> > >  fs/proc/base.c             | 55 ++++++++++++++++++++++++++++++++++++++++++++++
+> > >  include/linux/audit.h      | 14 ++++++++++++
+> > >  include/uapi/linux/audit.h |  1 +
+> > >  kernel/audit.c             | 35 +++++++++++++++++++++++++++++
+> > >  4 files changed, 105 insertions(+)
 
-Yes, it will be more complex, but it should be much safer.
+...
+
+> > > diff --git a/kernel/audit.c b/kernel/audit.c
+> > > index 1287f0b63757..1c22dd084ae8 100644
+> > > --- a/kernel/audit.c
+> > > +++ b/kernel/audit.c
+> > > @@ -2698,6 +2698,41 @@ static bool audit_contid_isowner(struct task_struct *tsk)
+> > >         return false;
+> > >  }
+> > >
+> > > +int audit_set_capcontid(struct task_struct *task, u32 enable)
+> > > +{
+> > > +       u32 oldcapcontid;
+> > > +       int rc = 0;
+> > > +       struct audit_buffer *ab;
+> > > +
+> > > +       if (!task->audit)
+> > > +               return -ENOPROTOOPT;
+> > > +       oldcapcontid = audit_get_capcontid(task);
+> > > +       /* if task is not descendant, block */
+> > > +       if (task == current)
+> > > +               rc = -EBADSLT;
+> > > +       else if (!task_is_descendant(current, task))
+> > > +               rc = -EXDEV;
+> >
+> > See my previous comments about error code sanity.
+>
+> I'll go with EXDEV.
+>
+> > > +       else if (current_user_ns() == &init_user_ns) {
+> > > +               if (!capable(CAP_AUDIT_CONTROL) && !audit_get_capcontid(current))
+> > > +                       rc = -EPERM;
+> >
+> > I think we just want to use ns_capable() in the context of the current
+> > userns to check CAP_AUDIT_CONTROL, yes?  Something like this ...
+>
+> I thought we had firmly established in previous discussion that
+> CAP_AUDIT_CONTROL in anything other than init_user_ns was completely irrelevant
+> and untrustable.
+
+In the case of a container with multiple users, and multiple
+applications, one being a nested orchestrator, it seems relevant to
+allow that container to control which of it's processes are able to
+exercise CAP_AUDIT_CONTROL.  Granted, we still want to control it
+within the overall host, e.g. the container in question must be
+allowed to run a nested orchestrator, but allowing the container
+itself to provide it's own granularity seems like the right thing to
+do.
+
+> >   if (current_user_ns() != &init_user_ns) {
+> >     if (!ns_capable(CAP_AUDIT_CONTROL) || !audit_get_capcontid())
+> >       rc = -EPERM;
+> >   } else if (!capable(CAP_AUDIT_CONTROL))
+> >     rc = -EPERM;
+> >
 
 -- 
 paul moore
