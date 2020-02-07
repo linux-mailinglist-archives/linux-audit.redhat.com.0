@@ -1,112 +1,60 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com [205.139.110.120])
-	by mail.lfdr.de (Postfix) with ESMTP id 02175155D6B
-	for <lists+linux-audit@lfdr.de>; Fri,  7 Feb 2020 19:11:30 +0100 (CET)
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com [205.139.110.61])
+	by mail.lfdr.de (Postfix) with ESMTP id D8C2E155E8B
+	for <lists+linux-audit@lfdr.de>; Fri,  7 Feb 2020 20:15:27 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1581099089;
+	s=mimecast20190719; t=1581102926;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=ImDeV8ChCNIsIC//JOZRqjxMb9scmdy5tvJDNDsihvs=;
-	b=LwxSyLwpe0hhaqoZ7hPHqv6bhMhQEdOp5Tabc49gwjesrT0JQnFI+RhpsrxpI9h1oXIjM4
-	2wKIoe+IcuQoo5tlNYDs0J7cFx19bAtr33DXHPMtg1MydMuxSSOaDAIPuv5gsarcVwzq7U
-	DouED4lMxGtKZ00fYsvMpGWyjHtaDjw=
+	bh=ablPLezFxe4jfJFjo3NWiOaO59SgrHN2D5VAMLW7uzU=;
+	b=Uf7n50MY0CQ40zq9jbSy8XoiphqltmhO3CVzhC4eIjhpEqmb1cBmimJ1UNfSpGnaYCU2dz
+	kyVCNpypEaH9MLEqsxW34GGEuCGrFVgCCE9GErxcjyd5/lQju7tVHzfoHzVBfe9wwFreaS
+	bjW8PvvPOU4FfPNlUxz6xohdXckv5DQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-32-Vk9P5eXbOBeP6duM5pmAeg-1; Fri, 07 Feb 2020 13:11:27 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+ us-mta-200-IO4w4_AOMkCGyu42c9FqMg-1; Fri, 07 Feb 2020 14:15:24 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EEB7C1857341;
-	Fri,  7 Feb 2020 18:11:22 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id CA13A87B1C;
-	Fri,  7 Feb 2020 18:11:22 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9193A1137842;
+	Fri,  7 Feb 2020 19:15:16 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 84B6060BEC;
+	Fri,  7 Feb 2020 19:15:14 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 8AFDB866C0;
-	Fri,  7 Feb 2020 18:11:22 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
-	[10.11.54.4])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id E57F21803C32;
+	Fri,  7 Feb 2020 19:15:07 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+	[10.5.11.11])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 017I8RlU013407 for <linux-audit@listman.util.phx.redhat.com>;
-	Fri, 7 Feb 2020 13:08:27 -0500
+	id 017JEuI0015804 for <linux-audit@listman.util.phx.redhat.com>;
+	Fri, 7 Feb 2020 14:14:56 -0500
 Received: by smtp.corp.redhat.com (Postfix)
-	id 148C32049CB5; Fri,  7 Feb 2020 18:08:27 +0000 (UTC)
+	id 1D51A84DB4; Fri,  7 Feb 2020 19:14:56 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from mimecast-mx02.redhat.com
-	(mimecast01.extmail.prod.ext.rdu2.redhat.com [10.11.55.17])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 0F4F62049CBD
-	for <linux-audit@redhat.com>; Fri,  7 Feb 2020 18:08:24 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
-	[205.139.110.120])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7C6348EFB33
-	for <linux-audit@redhat.com>; Fri,  7 Feb 2020 18:08:24 +0000 (UTC)
-Received: from mail-pj1-f67.google.com (mail-pj1-f67.google.com
-	[209.85.216.67]) (Using TLS) by relay.mimecast.com with ESMTP id
-	us-mta-78-Hw66hcpVNpeZ7jl45QU3Qw-1; Fri, 07 Feb 2020 13:08:20 -0500
-Received: by mail-pj1-f67.google.com with SMTP id d5so1217946pjz.5;
-	Fri, 07 Feb 2020 10:08:19 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=6dJnmRISnXhx/tid8L3bkFndKLLLawXzGhi1aYEmqBI=;
-	b=iG6BwJgBARyMag+Vb2WV1gP6XFOWQjvEJDRIZmdIyksdFLIC16zheWoWW3TFl1a4Hs
-	pBm3Y6FKyNY6we9mSihVRVAebMCzRNXpn9xvSSDSyIQAV/0KmDs/lhQ+EzIY51g/WgIq
-	7tGhR1GThCoyseB3sxWB8eCTf8/xYd0JdLmJsooSe11L1rvl1IzlZbYSY99h3y0zkhtb
-	eJB8SKaTQQ1shfU/0HJMe+50iqwWZN5ch4Zkmze8wVWcaxc5wUCvWmwTtYdgPGi/JBkm
-	lVZQbYoGsNOeXFIpkK5jRKPZWHm74Wxs5M1CfWncOifLS9DIVvsRQlcUhRZJX6HCeL9z
-	v4Fw==
-X-Gm-Message-State: APjAAAVCcCkQhN5m/4lM6tfwK1yqY3wbpKiSy8fpXnJLV/QyvxK8tg60
-	DjJHo+BXjQUW9SMCocD592bBClCJiEdCEQ==
-X-Google-Smtp-Source: APXvYqym2YQSzc5+DaUKX0EDmz+UD0MoeyQVJEc9evlzGvMkuEWZiJSglWMQzb2WBkKyVuAow9dRtw==
-X-Received: by 2002:a17:902:a616:: with SMTP id
-	u22mr10769740plq.173.1581098898305; 
-	Fri, 07 Feb 2020 10:08:18 -0800 (PST)
-Received: from localhost.localdomain ([103.211.17.120])
-	by smtp.googlemail.com with ESMTPSA id
-	gx18sm3088795pjb.8.2020.02.07.10.08.13
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 07 Feb 2020 10:08:17 -0800 (PST)
-From: Amol Grover <frextrite@gmail.com>
-To: Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, 
-	Mel Gorman <mgorman@suse.de>, James Morris <jamorris@linux.microsoft.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Peter Zijlstra <peterz@infradead.org>, Jann Horn <jannh@google.com>,
-	David Howells <dhowells@redhat.com>, Shakeel Butt <shakeelb@google.com>,
-	"Eric W . Biederman" <ebiederm@xmission.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Paul Moore <paul@paul-moore.com>, Eric Paris <eparis@redhat.com>
-Subject: [PATCH 3/3] auditsc: Do not use RCU primitive to read from cred
-	pointer
-Date: Fri,  7 Feb 2020 23:35:05 +0530
-Message-Id: <20200207180504.4200-3-frextrite@gmail.com>
-In-Reply-To: <20200207180504.4200-1-frextrite@gmail.com>
-References: <20200207180504.4200-1-frextrite@gmail.com>
+Received: from x2.localnet (ovpn-116-155.phx2.redhat.com [10.3.116.155])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id A9AC089A9C;
+	Fri,  7 Feb 2020 19:14:52 +0000 (UTC)
+From: Steve Grubb <sgrubb@redhat.com>
+To: linux-audit@redhat.com
+Subject: Re: audisp-remote
+Date: Fri, 07 Feb 2020 14:14:52 -0500
+Message-ID: <2537219.Lru4QqDhYW@x2>
+Organization: Red Hat
+In-Reply-To: <5F4EE10832231F4F921A255C1D95429829B091@DEERLM99EX7MSX.ww931.my-it-solutions.net>
+References: <5F4EE10832231F4F921A255C1D95429829B091@DEERLM99EX7MSX.ww931.my-it-solutions.net>
 MIME-Version: 1.0
-X-MC-Unique: Hw66hcpVNpeZ7jl45QU3Qw-1
-X-MC-Unique: Vk9P5eXbOBeP6duM5pmAeg-1
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-MIME-Autoconverted: from quoted-printable to 8bit by
-	lists01.pubmisc.prod.ext.phx2.redhat.com id 017I8RlU013407
+	lists01.pubmisc.prod.ext.phx2.redhat.com id 017JEuI0015804
 X-loop: linux-audit@redhat.com
-X-Mailman-Approved-At: Fri, 07 Feb 2020 13:10:51 -0500
-Cc: "Paul E . McKenney" <paulmck@kernel.org>, Amol Grover <frextrite@gmail.com>,
-	linux-kernel@vger.kernel.org,
-	Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>,
-	linux-audit@redhat.com, Joel Fernandes <joel@joelfernandes.org>,
-	linux-kernel-mentees@lists.linuxfoundation.org
+Cc: "MAUPERTUIS, PHILIPPE" <philippe.maupertuis@equensworldline.com>
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -120,88 +68,59 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: IO4w4_AOMkCGyu42c9FqMg-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-task_struct::cred is only used task-synchronously and does
-not require any RCU locks, hence, rcu_dereference_check is
-not required to read from it.
-
-Suggested-by: Jann Horn <jannh@google.com>
-Co-developed-by: Joel Fernandes (Google) <joel@joelfernandes.org>
-Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
-Signed-off-by: Amol Grover <frextrite@gmail.com>
----
- kernel/auditsc.c | 15 +++++----------
- 1 file changed, 5 insertions(+), 10 deletions(-)
-
-diff --git a/kernel/auditsc.c b/kernel/auditsc.c
-index 4effe01ebbe2..d3510513cdd1 100644
---- a/kernel/auditsc.c
-+++ b/kernel/auditsc.c
-@@ -430,24 +430,19 @@ static int audit_field_compare(struct task_struct *tsk,
- /* Determine if any context name data matches a rule's watch data */
- /* Compare a task_struct with an audit_rule.  Return 1 on match, 0
-  * otherwise.
-- *
-- * If task_creation is true, this is an explicit indication that we are
-- * filtering a task rule at task creation time.  This and tsk == current are
-- * the only situations where tsk->cred may be accessed without an rcu read lock.
-  */
- static int audit_filter_rules(struct task_struct *tsk,
- 			      struct audit_krule *rule,
- 			      struct audit_context *ctx,
- 			      struct audit_names *name,
--			      enum audit_state *state,
--			      bool task_creation)
-+			      enum audit_state *state)
- {
- 	const struct cred *cred;
- 	int i, need_sid = 1;
- 	u32 sid;
- 	unsigned int sessionid;
- 
--	cred = rcu_dereference_check(tsk->cred, tsk == current || task_creation);
-+	cred = tsk->cred;
- 
- 	for (i = 0; i < rule->field_count; i++) {
- 		struct audit_field *f = &rule->fields[i];
-@@ -745,7 +740,7 @@ static enum audit_state audit_filter_task(struct task_struct *tsk, char **key)
- 	rcu_read_lock();
- 	list_for_each_entry_rcu(e, &audit_filter_list[AUDIT_FILTER_TASK], list) {
- 		if (audit_filter_rules(tsk, &e->rule, NULL, NULL,
--				       &state, true)) {
-+				       &state)) {
- 			if (state == AUDIT_RECORD_CONTEXT)
- 				*key = kstrdup(e->rule.filterkey, GFP_ATOMIC);
- 			rcu_read_unlock();
-@@ -791,7 +786,7 @@ static enum audit_state audit_filter_syscall(struct task_struct *tsk,
- 	list_for_each_entry_rcu(e, list, list) {
- 		if (audit_in_mask(&e->rule, ctx->major) &&
- 		    audit_filter_rules(tsk, &e->rule, ctx, NULL,
--				       &state, false)) {
-+				       &state)) {
- 			rcu_read_unlock();
- 			ctx->current_state = state;
- 			return state;
-@@ -815,7 +810,7 @@ static int audit_filter_inode_name(struct task_struct *tsk,
- 
- 	list_for_each_entry_rcu(e, list, list) {
- 		if (audit_in_mask(&e->rule, ctx->major) &&
--		    audit_filter_rules(tsk, &e->rule, ctx, n, &state, false)) {
-+		    audit_filter_rules(tsk, &e->rule, ctx, n, &state)) {
- 			ctx->current_state = state;
- 			return 1;
- 		}
--- 
-2.24.1
-
-
---
-Linux-audit mailing list
-Linux-audit@redhat.com
-https://www.redhat.com/mailman/listinfo/linux-audit
+T24gRnJpZGF5LCBGZWJydWFyeSA3LCAyMDIwIDU6MDI6MDEgQU0gRVNUIE1BVVBFUlRVSVMsIFBI
+SUxJUFBFIHdyb3RlOgo+IEFwYXJ0IHRoZSBtYW4gcGFnZXMsIEkgZGlkbuKAmXQgZmluZCBhbnl0
+aGluZyB1c2VmdWwgcmVsYXRpbmcgdG8KPiBhdWRpc3AtcmVtb3RlLiBJIGFtIHNlYXJjaGluZyBp
+bmZvcm1hdGlvbiBvbiBob3cgaXQgc2NhbGVzID8gSXMgdGhlcmUgYW55Cj4gcGVyZm9ybWFuY2Ug
+aXNzdWUgPyBIb3cgdG8gdXNlIGl0IGluIGEgbGFyZ2UgZW52aXJvbm1lbnQgPwoKSXQgaXMgcmVh
+bGx5IGRlc2lnbmVkIGZvciBzbWFsbGVyIGRlcGxveW1lbnRzLiBJZiB5b3UgaGF2ZSAxMCBvciBz
+byBzeXN0ZW1zLCAKaXQgc2hvdWxkIGRvIE9LLiBJIGhhdmUgbm90IHRlc3RlZCBsb2FkIGhhbmRs
+aW5nIG9mIHRoZSBkYWVtb24gdmlhIG5ldHdvcmsgCnNvdXJjZXMuIEJ1dCBoYXZlIHRlc3RlZCB0
+aGUgYWJpbGl0eSB0byB3cml0ZSBsb2dzIGFuZCBpdHMgdmVyeSBmYXN0LiBGYXN0IAplbm91Z2gg
+dG8gZmlsbCB5b3VyIGhhcmQgZHJpdmUgaW4gYSBtaW51dGUgb3Igc28uCgo+IE1vc3Qgb2Ygd2hh
+dCBJIGZvdW5kIGRhdGVkIGEgbG9uZyB0aW1lIGFnbyBhbmQgbWFpbmx5IHNhaWQgdXNlIHJzeXNs
+b2cKPiBpbnN0ZWFkLiBJdCBzZWVtcyB0aGF0IGNlbnRyYWxpemluZyB0aGUgbWVzc2FnZXMgdGhy
+b3VnaCByc3lzbG9nIGlzIGZhcgo+IG1vcmUgcG9wdWxhci4gSXMgYXVkaXNwLXJlbW90ZSByZWFs
+bHkgdXNlZCA/CgpGb3Igc21hbGwgZGVwbG95bWVudHMgc3VyZS4gSWYgeW91IHJlYWxseSBoYXZl
+IGEgbG90LCB0aGVuIHlvdSBwcm9iYWJseSAKc2hvdWxkIHVzZSBzb21lIGtpbmQgb2Ygc3Vic3lz
+dGVtIGRlc2lnbmVkIHRvIGhhbmRsZSBsYXJnZSBhbW91bnRzIG9mIGRhdGEuIApFTEssIGdyYXls
+b2csIHNwbHVuayBhcmUgYWxsIGEgY291cGxlIHRoYXQgY29tZSB0byBtaW5kLiBJIGFsc28gc3Vz
+cGVjdCB5b3UgCndhbnQgYXVkaXQgZGF0YSBjb3JyZWxhdGVkIHdpdGggb3RoZXIgYXBwbGljYXRp
+b24gaW5mb3JtYXRpb24uCgpUaGUgbWFpbiBpc3N1ZXMgYXQgc2NhbGUgYXJlIGxvZyBtYW5hZ2Vt
+ZW50LCBzZWFyY2hpbmcsIGFuZCBhbGVydGluZy4gVGhlc2UgCmFyZSBhbGwgcHJvYmxlbXMgdGhh
+dCBvbmUgcGVyc29uIGhhY2tpbmcgb24gc3BhcmUgdGltZSBjYW4ndCByZWFsbHkgYWNoaWV2ZSAK
+d2VsbC4gSWYgd2UgaGFkIGEgc3Ryb25nZXIgY29tbXVuaXR5IHdpdGggbW9yZSBwYXJ0aWNpcGFu
+dHMsIHdlIHByb2JhYmx5IAp3b3VsZCBoYXZlIGJldHRlciBhbmQgbmljZXIgdG9vbHMuCgo+IFRo
+ZSBtYW4gcGFnZSByZWFkIDoKPiAgICAgICAgdGNwX21heF9wZXJfYWRkcgo+ICAgICAgICAgICAg
+ICAgVGhpcyAgaXMgIGEgIG51bWVyaWMgIHZhbHVlICB3aGljaCAgaW5kaWNhdGVzICBob3cgbWFu
+eQo+IGNvbmN1cnJlbnQgY29ubmVjdGlvbnMgZnJvbSBvbmUgSVAgYWRkcmVzcyBpcyBhbGxvd2Vk
+LiAgVGhlIGRlZmF1bHQgaXMgMQo+IGFuZCB0aGUgbWF4aW11bSBpcyAxMDI0LiBTZXR0aW5nIHRo
+aXMgdG9vIGxhcmdlIG1heSBhbGxvdyBmb3IgYSBEZW5pYWwgb2YKPiBTZXJ2aWNlIGF0dGFjayBv
+biAgdGhlICBsb2figJAgZ2luZyAgc2VydmVyLiAgQWxzbyAgbm90ZSAgdGhhdCB0aGUga2VybmVs
+Cj4gaGFzIGFuIGludGVybmFsIG1heGltdW0gdGhhdCB3aWxsIGV2ZW50dWFsbHkgcHJldmVudCB0
+aGlzIGV2ZW4gaWYgYXVkaXRkCj4gYWxsb3dzIGl0IGJ5IGNvbmZpZy4gVGhlIGRlZmF1bHQgc2hv
+dWxkIGJlIGFkZXF1YXRlIGluIG1vc3QgY2FzZXMgdW5sZXNzIGEKPiBjdXN0b20gd3JpdHRlbiBy
+ZWNvdmVyeSBzY3JpcHQgIHJ1bnMgIHRvIGZvcndhcmQgdW5zZW50IGV2ZW50cy4gSW4gdGhpcwo+
+IGNhc2UgeW91IHdvdWxkIGluY3JlYXNlIHRoZSBudW1iZXIgb25seSBsYXJnZSBlbm91Z2ggdG8g
+bGV0IGl0IGluIHRvby4KPiBXaGVyZSBjb3VsZCBJIGZpbmQgYW4gZXhhbXBsZSBvZiByZWNvdmVy
+eSBzY3JpcHQgPwo+IENvdWxkIGl0IGJlIGEgd2F5IHRvIGluamVjdCB0aGUgYXVkaXQgbWVzc2Fn
+ZSBpbiBhdWRpdGQgYWZ0ZXIgaGF2aW5nCj4gcmVjZWl2aW5nIHRoZW0gdmlhIHJzeXNsb2cgPyBU
+aGlzIG1pZ2h0IGJlIHVzZWZ1bCBqdXN0IGJlY2F1c2UsIGJ5IGRlZmF1bHQKPiBhdXNlYXJjaCBp
+biBhbGwgYXZhaWxhYmxlIGxvZ3MgYW5kIHRoZSAtaWYgcGFyYW1ldGVyIGFjY2VwdHMgb25seSBv
+bmUKPiBmaWxlLgoKSSB0aGluayB5b3UgY2FuIGluamVjdCBsb2dzIGJ5IAoKYXVzZWFyY2ggLS1z
+dGFydCBYWFggLS1yYXcgfCBhdWRpc3AtcmVtb3RlCgoKPiBNYXliZSBteSBsYWNrIG9mIGtub3ds
+ZWRnZSBhYm91dCBhdWRpdGQgbGVhZHMgbWUgdG8gd3JpdGUgcnViYmlzaC4KPiBJZiBzbywgcGxl
+YXNlIGRpcmVjdCBtZSB0byB3aGVyZSBJIGNhbiBmaW5kIGhvdyB0byBtYW5hZ2UgYW5kIHVzZSBh
+dWRpdAo+IGxvZ3MgYWZ0ZXIgY2VudHJhbGl6aW5nIHRoZW0uIE5vdCBvbmx5IGtlZXBpbmcgdGhl
+bSBidXQgIGFjdXR1YWxseSB1c2luZwo+IHRoZW0uCgpUaGVyZSBtYXkgYmUgb3RoZXJzIGluIHRo
+ZSBjb21tdW5pdHkgdGhhdCBjYW4gb2ZmZXIgc29tZSBpbnNpZ2h0IGhlcmUuCgotU3RldmUKCgoK
+LS0KTGludXgtYXVkaXQgbWFpbGluZyBsaXN0CkxpbnV4LWF1ZGl0QHJlZGhhdC5jb20KaHR0cHM6
+Ly93d3cucmVkaGF0LmNvbS9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LWF1ZGl0
 
