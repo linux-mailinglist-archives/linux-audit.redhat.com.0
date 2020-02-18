@@ -1,102 +1,56 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com [207.211.31.120])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C3B215CDAF
-	for <lists+linux-audit@lfdr.de>; Thu, 13 Feb 2020 23:00:00 +0100 (CET)
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-delivery-1.mimecast.com [207.211.31.120])
+	by mail.lfdr.de (Postfix) with ESMTP id DA881163386
+	for <lists+linux-audit@lfdr.de>; Tue, 18 Feb 2020 21:53:46 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1581631199;
+	s=mimecast20190719; t=1582059225;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:list-id:list-help:
+	 content-transfer-encoding:content-transfer-encoding:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=TlWFCzOZelznAlJm9UV2C1gNfTBIaTCzp6otcpSXtlA=;
-	b=MYE239vwzWJ5SNi+AlMZbil8Ao85Ud8ehmcLxeVRYAneZwNtDXLIQEcfpPLJ/RGAIiTHxy
-	VRiKAy28jY91p9Rm3kDe07VdrYhsiZM2d/RZ/D13HsIGEl+I6k0QRvKvWjZZyFRkMNM+26
-	RS2QRmN66R8aS+f1dQ/UdG/YSS4rg4M=
+	bh=RVsSfwNYxo3bgeydxv1wPpEqH84A5RJMrIcUJQ3yHSA=;
+	b=JBd1y+4JQHShW7R597GvHbnxfixUu41IF4GxihEGeeZktn912Gux5jHc8J6T2ALsN589XY
+	Xn0JbAWRwxCKqwYgMU2dlNusKCMp64Lr4KZ7djo4V9Cnub2Sg5y7UYwgm0i3rcWAcfJxBL
+	F7Xxzc9Xg+Gl4WNK3rarp19xYBzyPF8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-43-L_1QhGnsM1u0PCD13IG86g-1; Thu, 13 Feb 2020 16:59:57 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+ us-mta-311-HNVbNy1lPg2IXH2vM5Rchw-1; Tue, 18 Feb 2020 15:53:43 -0500
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B239D8017DF;
-	Thu, 13 Feb 2020 21:59:51 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1B8D8800D53;
+	Tue, 18 Feb 2020 20:53:37 +0000 (UTC)
 Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id C822289F3C;
-	Thu, 13 Feb 2020 21:59:50 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 4B614100164D;
+	Tue, 18 Feb 2020 20:53:34 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 9B37918089CF;
-	Thu, 13 Feb 2020 21:59:49 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
-	[10.11.54.5])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id E44B318089C8;
+	Tue, 18 Feb 2020 20:53:29 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+	[10.5.11.16])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 01DLxEMM007368 for <linux-audit@listman.util.phx.redhat.com>;
-	Thu, 13 Feb 2020 16:59:14 -0500
+	id 01IKqSrt017114 for <linux-audit@listman.util.phx.redhat.com>;
+	Tue, 18 Feb 2020 15:52:28 -0500
 Received: by smtp.corp.redhat.com (Postfix)
-	id 2CDEA120ED3; Thu, 13 Feb 2020 21:59:14 +0000 (UTC)
+	id F3C815C3FA; Tue, 18 Feb 2020 20:52:27 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from mimecast-mx02.redhat.com
-	(mimecast04.extmail.prod.ext.rdu2.redhat.com [10.11.55.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 2832C120ECC
-	for <linux-audit@redhat.com>; Thu, 13 Feb 2020 21:59:12 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
-	[207.211.31.120])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F1D551011E08
-	for <linux-audit@redhat.com>; Thu, 13 Feb 2020 21:59:11 +0000 (UTC)
-Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com
-	[209.85.208.67]) (Using TLS) by relay.mimecast.com with ESMTP id
-	us-mta-149-0FOYx_4ZNPuoY7DcN5EAHw-1; Thu, 13 Feb 2020 16:59:09 -0500
-Received: by mail-ed1-f67.google.com with SMTP id p23so8720996edr.5
-	for <linux-audit@redhat.com>; Thu, 13 Feb 2020 13:59:08 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=dR96Ls041PGles0WWTgdxsFA4gswjPBr2dNrlkBSuNQ=;
-	b=AztIcOJos6SRCN9PO+plJ6oy2l8il50IKVnB7Akp46iglKgdKtVQZivVCpVKyPizIO
-	rE8mnBd/gvh+s9LptbThb8XwLkCqRsQoRrmxgEk0wviyeW0X+O/RqPt+7veGQcxCiNKu
-	HOVBVf0YXo0l4+MknOmZfk68tLoC2HaAycKhBAM2A5RwvA8cmDEOVzv5mOYzLojljHau
-	CxZ7bhyvgaeYVMvDBMjPXQG9i7lc8kSAdA2h4MjUNH7astEsm1oHHQ+81TN4KaHbjdeU
-	vV6jneQtGaNdw4TLJHlSjNXNtBiCd0QpFRDzBp79eOzQbbBsAk9sT1Jg8ycfx5Svh2m3
-	lL4Q==
-X-Gm-Message-State: APjAAAXjLbFWBdCYXrltyCV9s26u83hXgx95Mtfobc40tPMHz1CUc86S
-	TZIoqkStpGmL5kpurLNmc6907BExJRuM8wAXE12o
-X-Google-Smtp-Source: APXvYqwJlC4P1+vTqQ7auzlqHDyoqi32fnbka+h4eFFK4GnrJSQwBwYPSRpLTAitL/ZfvrnPR1P7gUIIEptxDZxCT9E=
-X-Received: by 2002:a50:a7a5:: with SMTP id i34mr17484612edc.128.1581631147637;
-	Thu, 13 Feb 2020 13:59:07 -0800 (PST)
-MIME-Version: 1.0
-References: <cover.1577736799.git.rgb@redhat.com>
-	<5941671b6b6b5de28ab2cc80e72f288cf83291d5.1577736799.git.rgb@redhat.com>
-	<CAHC9VhQYXQp+C0EHwLuW50yUenfH4KF1xKQdS=bn_OzHfnFmmg@mail.gmail.com>
-	<20200205003930.2efpm4tvrisgmj4t@madcap2.tricolour.ca>
-	<CAHC9VhSsfBbfYmqLoR=QBgF5_VwbA8Dqqz97MjqwwJ6Jq6fHwA@mail.gmail.com>
-	<20200206125135.u4dmybkmvxfgui2b@madcap2.tricolour.ca>
-In-Reply-To: <20200206125135.u4dmybkmvxfgui2b@madcap2.tricolour.ca>
-From: Paul Moore <paul@paul-moore.com>
-Date: Thu, 13 Feb 2020 16:58:56 -0500
-Message-ID: <CAHC9VhT8RsFtmqD22p_NxJaqoAg+do9mX45Luw9fEkr+nQjvxg@mail.gmail.com>
-Subject: Re: [PATCH ghak90 V8 16/16] audit: add capcontid to set contid
-	outside init_user_ns
-To: Richard Guy Briggs <rgb@redhat.com>
-X-MC-Unique: 0FOYx_4ZNPuoY7DcN5EAHw-1
-X-MC-Unique: L_1QhGnsM1u0PCD13IG86g-1
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-X-MIME-Autoconverted: from quoted-printable to 8bit by
-	lists01.pubmisc.prod.ext.phx2.redhat.com id 01DLxEMM007368
+Received: from madcap2.tricolour.ca (ovpn-112-16.rdu2.redhat.com
+	[10.10.112.16])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 42AEB5C54A;
+	Tue, 18 Feb 2020 20:52:18 +0000 (UTC)
+From: Richard Guy Briggs <rgb@redhat.com>
+To: Linux-Audit Mailing List <linux-audit@redhat.com>,
+	LKML <linux-kernel@vger.kernel.org>
+Subject: [PATCH ghak28 V6] audit: log audit netlink multicast bind and unbind
+	events
+Date: Tue, 18 Feb 2020 15:51:40 -0500
+Message-Id: <857c76090363b6316a89d292cf9cccd0db54c079.1582058914.git.rgb@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-loop: linux-audit@redhat.com
-Cc: nhorman@tuxdriver.com, linux-api@vger.kernel.org,
-	containers@lists.linux-foundation.org,
-	LKML <linux-kernel@vger.kernel.org>, dhowells@redhat.com,
-	Linux-Audit Mailing List <linux-audit@redhat.com>,
-	netfilter-devel@vger.kernel.org, ebiederm@xmission.com,
-	simo@redhat.com, netdev@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	Eric Paris <eparis@parisplace.org>, mpatel@redhat.com,
-	Serge Hallyn <serge@hallyn.com>
+Cc: Richard Guy Briggs <rgb@redhat.com>, eparis@parisplace.org
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -108,134 +62,135 @@ List-Post: <mailto:linux-audit@redhat.com>
 List-Help: <mailto:linux-audit-request@redhat.com?subject=help>
 List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
+MIME-Version: 1.0
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: HNVbNy1lPg2IXH2vM5Rchw-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-On Thu, Feb 6, 2020 at 7:52 AM Richard Guy Briggs <rgb@redhat.com> wrote:
-> On 2020-02-05 17:56, Paul Moore wrote:
-> > On Tue, Feb 4, 2020 at 7:39 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> > > On 2020-01-22 16:29, Paul Moore wrote:
-> > > > On Tue, Dec 31, 2019 at 2:51 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> > > > >
-> > > > > Provide a mechanism similar to CAP_AUDIT_CONTROL to explicitly give a
-> > > > > process in a non-init user namespace the capability to set audit
-> > > > > container identifiers.
-> > > > >
-> > > > > Provide /proc/$PID/audit_capcontid interface to capcontid.
-> > > > > Valid values are: 1==enabled, 0==disabled
-> > > >
-> > > > It would be good to be more explicit about "enabled" and "disabled" in
-> > > > the commit description.  For example, which setting allows the target
-> > > > task to set audit container IDs of it's children processes?
-> > >
-> > > Ok...
-> > >
-> > > > > Report this action in message type AUDIT_SET_CAPCONTID 1022 with fields
-> > > > > opid= capcontid= old-capcontid=
-> > > > >
-> > > > > Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
-> > > > > ---
-> > > > >  fs/proc/base.c             | 55 ++++++++++++++++++++++++++++++++++++++++++++++
-> > > > >  include/linux/audit.h      | 14 ++++++++++++
-> > > > >  include/uapi/linux/audit.h |  1 +
-> > > > >  kernel/audit.c             | 35 +++++++++++++++++++++++++++++
-> > > > >  4 files changed, 105 insertions(+)
-> >
-> > ...
-> >
-> > > > > diff --git a/kernel/audit.c b/kernel/audit.c
-> > > > > index 1287f0b63757..1c22dd084ae8 100644
-> > > > > --- a/kernel/audit.c
-> > > > > +++ b/kernel/audit.c
-> > > > > @@ -2698,6 +2698,41 @@ static bool audit_contid_isowner(struct task_struct *tsk)
-> > > > >         return false;
-> > > > >  }
-> > > > >
-> > > > > +int audit_set_capcontid(struct task_struct *task, u32 enable)
-> > > > > +{
-> > > > > +       u32 oldcapcontid;
-> > > > > +       int rc = 0;
-> > > > > +       struct audit_buffer *ab;
-> > > > > +
-> > > > > +       if (!task->audit)
-> > > > > +               return -ENOPROTOOPT;
-> > > > > +       oldcapcontid = audit_get_capcontid(task);
-> > > > > +       /* if task is not descendant, block */
-> > > > > +       if (task == current)
-> > > > > +               rc = -EBADSLT;
-> > > > > +       else if (!task_is_descendant(current, task))
-> > > > > +               rc = -EXDEV;
-> > > >
-> > > > See my previous comments about error code sanity.
-> > >
-> > > I'll go with EXDEV.
-> > >
-> > > > > +       else if (current_user_ns() == &init_user_ns) {
-> > > > > +               if (!capable(CAP_AUDIT_CONTROL) && !audit_get_capcontid(current))
-> > > > > +                       rc = -EPERM;
-> > > >
-> > > > I think we just want to use ns_capable() in the context of the current
-> > > > userns to check CAP_AUDIT_CONTROL, yes?  Something like this ...
-> > >
-> > > I thought we had firmly established in previous discussion that
-> > > CAP_AUDIT_CONTROL in anything other than init_user_ns was completely irrelevant
-> > > and untrustable.
-> >
-> > In the case of a container with multiple users, and multiple
-> > applications, one being a nested orchestrator, it seems relevant to
-> > allow that container to control which of it's processes are able to
-> > exercise CAP_AUDIT_CONTROL.  Granted, we still want to control it
-> > within the overall host, e.g. the container in question must be
-> > allowed to run a nested orchestrator, but allowing the container
-> > itself to provide it's own granularity seems like the right thing to
-> > do.
->
-> Looking back to discussion on the v6 patch 2/10 (2019-05-30 15:29 Paul
-> Moore[1], 2019-07-08 14:05 RGB[2]) , it occurs to me that the
-> ns_capable(CAP_AUDIT_CONTROL) application was dangerous since there was
-> no parental accountability in storage or reporting.  Now that is in
-> place, it does seem a bit more reasonable to allow it, but I'm still not
-> clear on why we would want both mechanisms now.  I don't understand what
-> the last line in that email meant: "We would probably still want a
-> ns_capable(CAP_AUDIT_CONTROL) restriction in this case."  Allow
-> ns_capable(CAP_AUDIT_CONTROL) to govern these actions, or restrict
-> ns_capable(CAP_AUDIT_CONTROL) from being used to govern these actions?
->
-> If an unprivileged user has been given capcontid to be able run their
-> own container orchestrator/engine and spawns a user namespace with
-> CAP_AUDIT_CONTROL, what matters is capcontid, and not CAP_AUDIT_CONTROL.
-> I could see needing CAP_AUDIT_CONTROL *in addition* to capcontid to give
-> it finer grained control, but since capcontid would have to be given to
-> each process explicitly anways, I don't see the point.
->
-> If that unprivileged user had not been given capcontid,
-> giving itself or one of its descendants CAP_AUDIT_CONTROL should not let
-> it jump into the game all of a sudden unless the now chained audit
-> container identifiers are deemed accountable enough.  And then now we
-> need those hard limits on container depth and network namespace
-> container membership.
+Log information about programs connecting to and disconnecting from the
+audit netlink multicast socket. This is needed so that during
+investigations a security officer can tell who or what had access to the
+audit trail.  This helps to meet the FAU_SAR.2 requirement for Common
+Criteria.  Here is the systemd startup event:
 
-Perhaps I'm not correctly understanding what you are trying to do with
-this patchset, but my current understanding is that you are trying to
-use capcontid to control which child audit container IDs (ACIDs) are
-allowed to manage their own ACIDs.  Further, I believe that the
-capcontid setting operates at a per-ACID level, meaning there is no
-provision for the associated container to further restrict that
-ability, i.e. no access control granularity below the ACID level.  My
-thinking is that ns_capable(CAP_AUDIT_CONTROL) could be used within an
-ACID to increase the granularity of the access controls so that only
-privileged processes running inside the ACID would be able to manage
-the ACIDs.  Does that make sense?
+type=PROCTITLE msg=audit(2020-02-18 15:26:50.775:10) : proctitle=/init
+type=SYSCALL msg=audit(2020-02-18 15:26:50.775:10) : arch=x86_64 syscall=bind success=yes exit=0 a0=0x19 a1=0x55645c369b70 a2=0xc a3=0x7fff9fedec24 items=0 ppid=0 pid=1 auid=unset uid=root gid=root euid=root suid=root fsuid=root egid=root sgid=root fsgid=root tty=(none) ses=unset comm=systemd exe=/usr/lib/systemd/systemd subj=kernel key=(null)
+type=UNKNOWN[1335] msg=audit(2020-02-18 15:26:50.775:10) : pid=1 uid=root auid=unset tty=(none) ses=unset subj=kernel comm=systemd exe=/usr/lib/systemd/systemd nl-mcgrp=1 op=connect res=yes
 
+And the events from the test suite:
+
+type=PROCTITLE msg=audit(2020-02-18 15:28:01.594:307) : proctitle=/usr/bin/perl -w amcast_joinpart/test
+type=SOCKADDR msg=audit(2020-02-18 15:28:01.594:307) : saddr={ saddr_fam=netlink nlnk-fam=16 nlnk-pid=0 }
+type=SYSCALL msg=audit(2020-02-18 15:28:01.594:307) : arch=x86_64 syscall=bind success=yes exit=0 a0=0x7 a1=0x558ebc428be0 a2=0xc a3=0x0 items=0 ppid=642 pid=645 auid=root uid=root gid=root euid=root suid=root fsuid=root egid=root sgid=root fsgid=root tty=ttyS0 ses=1 comm=perl exe=/usr/bin/perl subj=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023 key=(null)
+type=UNKNOWN[1335] msg=audit(2020-02-18 15:28:01.594:307) : pid=645 uid=root auid=root tty=ttyS0 ses=1 subj=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023 comm=perl exe=/usr/bin/perl nl-mcgrp=1 op=connect res=yes
+
+type=UNKNOWN[1335] msg=audit(2020-01-17 10:36:24.051:295) : pid=674 uid=root auid=root tty=ttyS0 ses=3 subj=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023 comm=perl exe=/usr/bin/perl nl-mcgrp=1 op=disconnect res=yes
+
+Please see the upstream issue tracker:
+  https://github.com/linux-audit/audit-kernel/issues/28
+  https://github.com/linux-audit/audit-kernel/wiki/RFE-Audit-Multicast-Socket-Join-Part
+  https://github.com/rgbriggs/audit-testsuite/compare/ghak28-mcast-part-join
+
+Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
+
+---
+Note: msg type 1334 was skipped due to BPF accepted in another tree.
+Note: v5 due to previous 2014-10-07, 2015-07-23, 2016-11-30, 2017-10-13
+Note: subj attrs included due to missing syscall record for systemd (audit=1)
+Note: tried refactor of subj attrs, but this is yet another new order.
+---
+ include/uapi/linux/audit.h |  1 +
+ kernel/audit.c             | 48 ++++++++++++++++++++++++++++++++++++++++++----
+ 2 files changed, 45 insertions(+), 4 deletions(-)
+
+diff --git a/include/uapi/linux/audit.h b/include/uapi/linux/audit.h
+index a534d71e689a..9b6a973f4cc3 100644
+--- a/include/uapi/linux/audit.h
++++ b/include/uapi/linux/audit.h
+@@ -117,6 +117,7 @@
+ #define AUDIT_TIME_INJOFFSET	1332	/* Timekeeping offset injected */
+ #define AUDIT_TIME_ADJNTPVAL	1333	/* NTP value adjustment */
+ #define AUDIT_BPF		1334	/* BPF subsystem */
++#define AUDIT_EVENT_LISTENER	1335	/* Task joined multicast read socket */
+ 
+ #define AUDIT_AVC		1400	/* SE Linux avc denial or grant */
+ #define AUDIT_SELINUX_ERR	1401	/* Internal SE Linux Errors */
+diff --git a/kernel/audit.c b/kernel/audit.c
+index 17b0d523afb3..478259f3fa53 100644
+--- a/kernel/audit.c
++++ b/kernel/audit.c
+@@ -1520,20 +1520,60 @@ static void audit_receive(struct sk_buff  *skb)
+ 	audit_ctl_unlock();
+ }
+ 
++/* Log information about who is connecting to the audit multicast socket */
++static void audit_log_multicast_bind(int group, const char *op, int err)
++{
++	const struct cred *cred;
++	struct tty_struct *tty;
++	char comm[sizeof(current->comm)];
++	struct audit_buffer *ab;
++
++	if (!audit_enabled)
++		return;
++
++	ab = audit_log_start(audit_context(), GFP_KERNEL, AUDIT_EVENT_LISTENER);
++	if (!ab)
++		return;
++
++	cred = current_cred();
++	tty = audit_get_tty();
++	audit_log_format(ab, "pid=%u uid=%u auid=%u tty=%s ses=%u",
++			 task_pid_nr(current),
++			 from_kuid(&init_user_ns, cred->uid),
++			 from_kuid(&init_user_ns, audit_get_loginuid(current)),
++			 tty ? tty_name(tty) : "(none)",
++			 audit_get_sessionid(current));
++	audit_put_tty(tty);
++	audit_log_task_context(ab); /* subj= */
++	audit_log_format(ab, " comm=");
++	audit_log_untrustedstring(ab, get_task_comm(comm, current));
++	audit_log_d_path_exe(ab, current->mm); /* exe= */
++	audit_log_format(ab, " nl-mcgrp=%d op=%s res=%d", group, op, !err);
++	audit_log_end(ab);
++}
++
+ /* Run custom bind function on netlink socket group connect or bind requests. */
+-static int audit_bind(struct net *net, int group)
++static int audit_multicast_bind(struct net *net, int group)
+ {
++	int err = 0;
++
+ 	if (!capable(CAP_AUDIT_READ))
+-		return -EPERM;
++		err = -EPERM;
++	audit_log_multicast_bind(group, "connect", err);
++	return err;
++}
+ 
+-	return 0;
++static void audit_multicast_unbind(struct net *net, int group)
++{
++	audit_log_multicast_bind(group, "disconnect", 0);
+ }
+ 
+ static int __net_init audit_net_init(struct net *net)
+ {
+ 	struct netlink_kernel_cfg cfg = {
+ 		.input	= audit_receive,
+-		.bind	= audit_bind,
++		.bind	= audit_multicast_bind,
++		.unbind	= audit_multicast_unbind,
+ 		.flags	= NL_CFG_F_NONROOT_RECV,
+ 		.groups	= AUDIT_NLGRP_MAX,
+ 	};
 -- 
-paul moore
-www.paul-moore.com
-
+1.8.3.1
 
 --
 Linux-audit mailing list
