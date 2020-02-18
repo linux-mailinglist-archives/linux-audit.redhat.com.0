@@ -1,61 +1,71 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com [207.211.31.81])
-	by mail.lfdr.de (Postfix) with ESMTP id 76C9816347F
-	for <lists+linux-audit@lfdr.de>; Tue, 18 Feb 2020 22:12:48 +0100 (CET)
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-delivery-1.mimecast.com [205.139.110.120])
+	by mail.lfdr.de (Postfix) with ESMTP id 4DAA01634C9
+	for <lists+linux-audit@lfdr.de>; Tue, 18 Feb 2020 22:24:14 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1582060367;
+	s=mimecast20190719; t=1582061053;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=mqYvQENTgNAlxoNIymfMjvx/3Q4ZYrjA0WKAg4np7oE=;
-	b=NRqocMcN9jJ+EpwMECnoR/jhItIygmaG0Ct9mc1QVtsqAAr8g6UDNdXJsTB0iOmuLC65Ww
-	+6H46GjptsDDfJrsIRL7WdnakJADvTxvkUMexFgQOH8sCodBN3lhHFYeEQKg/hyc8s1C37
-	uxZo/qxuyqIGtLb8TBIpmtbB5XouXFM=
+	bh=A15goifcim5gSpn8vnlMj2Xx+qR9aCtcxabDY+h9EQA=;
+	b=adhZvX8V5f6ABwU7eKe4d2Iaiidi/yAvp20LnUhKfLqiEIOUTIhTNIbI3dIjrxXLM4vjn0
+	VANzjK7io3Evt9vTU2/p5J74DqKstdUJLLsca/jvJ5pVGFtnsc2UVO+2YFGQKiaHb4DIK9
+	NAMSoGwmkpyZtqbwGCFxAMJ0DVhuvJY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-175-xDcyxqrhOR24Hn_wQxCPhw-1; Tue, 18 Feb 2020 16:12:43 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+ us-mta-236-_6iIbXHcPy6CWlx9ZGC5jg-1; Tue, 18 Feb 2020 16:24:05 -0500
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 627DA800D55;
-	Tue, 18 Feb 2020 21:12:37 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 9C5EB5C1B0;
-	Tue, 18 Feb 2020 21:12:36 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E68A313EA;
+	Tue, 18 Feb 2020 21:23:59 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 6703D85735;
+	Tue, 18 Feb 2020 21:23:59 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id A24531809567;
-	Tue, 18 Feb 2020 21:12:35 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
-	[10.5.11.15])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 4A82335AF5;
+	Tue, 18 Feb 2020 21:23:58 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+	[10.5.11.16])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 01ILCTqT018493 for <linux-audit@listman.util.phx.redhat.com>;
-	Tue, 18 Feb 2020 16:12:29 -0500
+	id 01ILNq73019335 for <linux-audit@listman.util.phx.redhat.com>;
+	Tue, 18 Feb 2020 16:23:52 -0500
 Received: by smtp.corp.redhat.com (Postfix)
-	id 1D7D21BC6D; Tue, 18 Feb 2020 21:12:29 +0000 (UTC)
+	id 751DB5C3FA; Tue, 18 Feb 2020 21:23:52 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from madcap2.tricolour.ca (ovpn-112-16.rdu2.redhat.com
 	[10.10.112.16])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 975725C13B;
-	Tue, 18 Feb 2020 21:12:21 +0000 (UTC)
-Date: Tue, 18 Feb 2020 16:12:19 -0500
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id CDCF85C1B0;
+	Tue, 18 Feb 2020 21:23:45 +0000 (UTC)
+Date: Tue, 18 Feb 2020 16:23:43 -0500
 From: Richard Guy Briggs <rgb@redhat.com>
-To: Linux-Audit Mailing List <linux-audit@redhat.com>,
-	LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH ghak28 V6] audit: log audit netlink multicast bind and
+To: Paul Moore <paul@paul-moore.com>
+Subject: Re: [PATCH ghak28 V4] audit: log audit netlink multicast bind and
 	unbind events
-Message-ID: <20200218211219.scmmx3yut3mukzc6@madcap2.tricolour.ca>
-References: <857c76090363b6316a89d292cf9cccd0db54c079.1582058914.git.rgb@redhat.com>
+Message-ID: <20200218212343.7wnbcupwzbo2b4td@madcap2.tricolour.ca>
+References: <ca70ee17d85860aa599e0001a75d639d819de7ae.1579292286.git.rgb@redhat.com>
+	<CAHC9VhR9p+aOTzv7g-ujuMsMtLvOZKkoKJWsthZnj38rzJe1TA@mail.gmail.com>
+	<20200122230742.7vwtvmhhjerray5f@madcap2.tricolour.ca>
+	<CAHC9VhTcv9E8DUDJ2Y-PzXmU0_+ufVydbPB3Q_Fhb8-7TUZMmg@mail.gmail.com>
+	<20200123161349.z55l2dd7qsyhoxbn@madcap2.tricolour.ca>
+	<CAHC9VhTEfZXCV6TwJ4KOoDCea3x5i85_gBmMi=cygGG9OQCGOQ@mail.gmail.com>
+	<20200123185149.sr4b4u4s2ec7renc@madcap2.tricolour.ca>
+	<CAHC9VhSPwfNqqoMid+bHRa-XTj4b+DbE6+ov8=MsCxMBuHbjWg@mail.gmail.com>
+	<20200123201541.emtse6l5wrnrpqgc@madcap2.tricolour.ca>
+	<CAHC9VhQxRGCzmJB0p06_4k8cwyWOz1j=DCOYjLqGvDVNpMoYfA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <857c76090363b6316a89d292cf9cccd0db54c079.1582058914.git.rgb@redhat.com>
+In-Reply-To: <CAHC9VhQxRGCzmJB0p06_4k8cwyWOz1j=DCOYjLqGvDVNpMoYfA@mail.gmail.com>
 User-Agent: NeoMutt/20180716
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-loop: linux-audit@redhat.com
-Cc: eparis@parisplace.org
+Cc: Eric Paris <eparis@parisplace.org>, nhorman@redhat.com,
+	Linux-Audit Mailing List <linux-audit@redhat.com>,
+	LKML <linux-kernel@vger.kernel.org>
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -69,139 +79,112 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: xDcyxqrhOR24Hn_wQxCPhw-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: _6iIbXHcPy6CWlx9ZGC5jg-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Content-Disposition: inline
 
-On 2020-02-18 15:51, Richard Guy Briggs wrote:
-> Log information about programs connecting to and disconnecting from the
-> audit netlink multicast socket. This is needed so that during
-> investigations a security officer can tell who or what had access to the
-> audit trail.  This helps to meet the FAU_SAR.2 requirement for Common
-> Criteria.  Here is the systemd startup event:
+On 2020-01-23 16:45, Paul Moore wrote:
+> On Thu, Jan 23, 2020 at 3:15 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> > On 2020-01-23 14:07, Paul Moore wrote:
+> > > On Thu, Jan 23, 2020 at 1:52 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> > > > On 2020-01-23 11:57, Paul Moore wrote:
+> > > > > On Thu, Jan 23, 2020 at 11:14 AM Richard Guy Briggs <rgb@redhat.com> wrote:
+> > > > > > On 2020-01-23 09:32, Paul Moore wrote:
+> > > > > > > On Wed, Jan 22, 2020 at 6:07 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> > > > > > > > On 2020-01-22 17:40, Paul Moore wrote:
+> > > > > > > > > On Fri, Jan 17, 2020 at 3:21 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> > > > > > >
+> > > > > > > ...
+> > > > > > >
+> > > > > > > > > > diff --git a/kernel/audit.c b/kernel/audit.c
+> > > > > > > > > > index 17b0d523afb3..478259f3fa53 100644
+> > > > > > > > > > --- a/kernel/audit.c
+> > > > > > > > > > +++ b/kernel/audit.c
+> > > > > > > > > > @@ -1520,20 +1520,60 @@ static void audit_receive(struct sk_buff  *skb)
+> > > > > > > > > >         audit_ctl_unlock();
+> > > > > > > > > >  }
+> > > > > > > > > >
+> > > > > > > > > > +/* Log information about who is connecting to the audit multicast socket */
+> > > > > > > > > > +static void audit_log_multicast_bind(int group, const char *op, int err)
+> > > > > > > > > > +{
+> > > > > > > > > > +       const struct cred *cred;
+> > > > > > > > > > +       struct tty_struct *tty;
+> > > > > > > > > > +       char comm[sizeof(current->comm)];
+> > > > > > > > > > +       struct audit_buffer *ab;
+> > > > > > > > > > +
+> > > > > > > > > > +       if (!audit_enabled)
+> > > > > > > > > > +               return;
+> > > > > > > > > > +
+> > > > > > > > > > +       ab = audit_log_start(audit_context(), GFP_KERNEL, AUDIT_EVENT_LISTENER);
+> > > > > > > > > > +       if (!ab)
+> > > > > > > > > > +               return;
+> > > > > > > > > > +
+> > > > > > > > > > +       cred = current_cred();
+> > > > > > > > > > +       tty = audit_get_tty();
+> > > > > > > > > > +       audit_log_format(ab, "pid=%u uid=%u auid=%u tty=%s ses=%u",
+> > > > > > > > > > +                        task_pid_nr(current),
+> > > > > > > > > > +                        from_kuid(&init_user_ns, cred->uid),
+> > > > > > > > > > +                        from_kuid(&init_user_ns, audit_get_loginuid(current)),
+> > > > > > > > > > +                        tty ? tty_name(tty) : "(none)",
+> > > > > > > > > > +                        audit_get_sessionid(current));
+> > > > > > > > >
+> > > > > > > > > Don't we already get all of that information as part of the syscall record?
+> > > > > > > >
+> > > > > > > > Yes.  However, the syscall record isn't always present.  One example is
+> > > > > > > > systemd, shown above.
+> > > > > > >
+> > > > > > > Assuming that the system supports syscall auditing, the absence of a
+> > > > > > > syscall record is a configuration choice made by the admin.  If the
+> > > > > > > system doesn't support syscall auditing the obvious "fix" is to do the
+> > > > > > > work to enable syscall auditing on that platform ... but now we're
+> > > > > > > starting to get off topic.
+> > > > > >
+> > > > > > Well, the system did spit out a syscall record with the example above,
+> > > > > > so it has support for syscall auditing.
+> > > > > >
+> > > > > > I'm testing on f30 with an upstream kernel, the standard 30-stig ruleset and
+> > > > > > with kernel command line audit=1.  What else is needed to support a syscall
+> > > > > > record on systemd before any audit rules have been put in place?  We may still
+> > > > > > have a bug here that affects early process auditing.  What am I missing?
+> > > > > >
+> > > > > > If we can get that sorted out, we don't need subject attributes in this record.
+> > > > >
+> > > > > It looks like some debugging is in order.  There must be some sort of
+> > > > > action initiated by userspace which is causing the multicast
+> > > > > "op=connect", right?  Find out what that is and why it isn't
+> > > > > generating a syscall record (maybe it's not a syscall? I don't know
+> > > > > what systemd is doing here).
+> > > >
+> > > > One clue is that subj=kernel and auid, ttye and ses are unset, despite
+> > > > the rest checking out:
+> > > >         pid=1 uid=root auid=unset tty=(none) ses=unset subj=kernel comm=systemd exe=/usr/lib/systemd/systemd
+> > >
+> > > Does Fedora use systemd in its initramfs (I'm guessing the answer is
+> > > "yes")?  If so, I wonder if that is the source of this record.
+> >
+> > Asking around, I got: "yes, dracut uses systemd these days"
+> >
+> > So, yes, that is the source of this record.
+> >
+> > So if there is no syscall associated with that record, it appears we
+> > need those subject attributes.
 > 
-> type=PROCTITLE msg=audit(2020-02-18 15:26:50.775:10) : proctitle=/init
-> type=SYSCALL msg=audit(2020-02-18 15:26:50.775:10) : arch=x86_64 syscall=bind success=yes exit=0 a0=0x19 a1=0x55645c369b70 a2=0xc a3=0x7fff9fedec24 items=0 ppid=0 pid=1 auid=unset uid=root gid=root euid=root suid=root fsuid=root egid=root sgid=root fsgid=root tty=(none) ses=unset comm=systemd exe=/usr/lib/systemd/systemd subj=kernel key=(null)
-> type=UNKNOWN[1335] msg=audit(2020-02-18 15:26:50.775:10) : pid=1 uid=root auid=unset tty=(none) ses=unset subj=kernel comm=systemd exe=/usr/lib/systemd/systemd nl-mcgrp=1 op=connect res=yes
-> 
-> And the events from the test suite:
-> 
-> type=PROCTITLE msg=audit(2020-02-18 15:28:01.594:307) : proctitle=/usr/bin/perl -w amcast_joinpart/test
-> type=SOCKADDR msg=audit(2020-02-18 15:28:01.594:307) : saddr={ saddr_fam=netlink nlnk-fam=16 nlnk-pid=0 }
-> type=SYSCALL msg=audit(2020-02-18 15:28:01.594:307) : arch=x86_64 syscall=bind success=yes exit=0 a0=0x7 a1=0x558ebc428be0 a2=0xc a3=0x0 items=0 ppid=642 pid=645 auid=root uid=root gid=root euid=root suid=root fsuid=root egid=root sgid=root fsgid=root tty=ttyS0 ses=1 comm=perl exe=/usr/bin/perl subj=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023 key=(null)
-> type=UNKNOWN[1335] msg=audit(2020-02-18 15:28:01.594:307) : pid=645 uid=root auid=root tty=ttyS0 ses=1 subj=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023 comm=perl exe=/usr/bin/perl nl-mcgrp=1 op=connect res=yes
-> 
-> type=UNKNOWN[1335] msg=audit(2020-01-17 10:36:24.051:295) : pid=674 uid=root auid=root tty=ttyS0 ses=3 subj=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023 comm=perl exe=/usr/bin/perl nl-mcgrp=1 op=disconnect res=yes
-> 
-> Please see the upstream issue tracker:
->   https://github.com/linux-audit/audit-kernel/issues/28
->   https://github.com/linux-audit/audit-kernel/wiki/RFE-Audit-Multicast-Socket-Join-Part
->   https://github.com/rgbriggs/audit-testsuite/compare/ghak28-mcast-part-join
-> 
-> Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
+> Well, I'm fairly certain that the record in question was the result of
+> a syscall made by systemd, the question is why was it not recorded?
+> That is something that needs to be answered.
 
-This was slightly premature.  I had intended to send the ghak120 (norule
-missing accompanying) patch first to start a discussion.  The results
-above are depending on that patch.
+The answer is in the ghak120 patch just posted.  See:
+	https://github.com/linux-audit/audit-kernel/issues/120
 
-> ---
-> Note: msg type 1334 was skipped due to BPF accepted in another tree.
-> Note: v5 due to previous 2014-10-07, 2015-07-23, 2016-11-30, 2017-10-13
-> Note: subj attrs included due to missing syscall record for systemd (audit=1)
-> Note: tried refactor of subj attrs, but this is yet another new order.
-> ---
->  include/uapi/linux/audit.h |  1 +
->  kernel/audit.c             | 48 ++++++++++++++++++++++++++++++++++++++++++----
->  2 files changed, 45 insertions(+), 4 deletions(-)
-> 
-> diff --git a/include/uapi/linux/audit.h b/include/uapi/linux/audit.h
-> index a534d71e689a..9b6a973f4cc3 100644
-> --- a/include/uapi/linux/audit.h
-> +++ b/include/uapi/linux/audit.h
-> @@ -117,6 +117,7 @@
->  #define AUDIT_TIME_INJOFFSET	1332	/* Timekeeping offset injected */
->  #define AUDIT_TIME_ADJNTPVAL	1333	/* NTP value adjustment */
->  #define AUDIT_BPF		1334	/* BPF subsystem */
-> +#define AUDIT_EVENT_LISTENER	1335	/* Task joined multicast read socket */
->  
->  #define AUDIT_AVC		1400	/* SE Linux avc denial or grant */
->  #define AUDIT_SELINUX_ERR	1401	/* Internal SE Linux Errors */
-> diff --git a/kernel/audit.c b/kernel/audit.c
-> index 17b0d523afb3..478259f3fa53 100644
-> --- a/kernel/audit.c
-> +++ b/kernel/audit.c
-> @@ -1520,20 +1520,60 @@ static void audit_receive(struct sk_buff  *skb)
->  	audit_ctl_unlock();
->  }
->  
-> +/* Log information about who is connecting to the audit multicast socket */
-> +static void audit_log_multicast_bind(int group, const char *op, int err)
-> +{
-> +	const struct cred *cred;
-> +	struct tty_struct *tty;
-> +	char comm[sizeof(current->comm)];
-> +	struct audit_buffer *ab;
-> +
-> +	if (!audit_enabled)
-> +		return;
-> +
-> +	ab = audit_log_start(audit_context(), GFP_KERNEL, AUDIT_EVENT_LISTENER);
-> +	if (!ab)
-> +		return;
-> +
-> +	cred = current_cred();
-> +	tty = audit_get_tty();
-> +	audit_log_format(ab, "pid=%u uid=%u auid=%u tty=%s ses=%u",
-> +			 task_pid_nr(current),
-> +			 from_kuid(&init_user_ns, cred->uid),
-> +			 from_kuid(&init_user_ns, audit_get_loginuid(current)),
-> +			 tty ? tty_name(tty) : "(none)",
-> +			 audit_get_sessionid(current));
-> +	audit_put_tty(tty);
-> +	audit_log_task_context(ab); /* subj= */
-> +	audit_log_format(ab, " comm=");
-> +	audit_log_untrustedstring(ab, get_task_comm(comm, current));
-> +	audit_log_d_path_exe(ab, current->mm); /* exe= */
-> +	audit_log_format(ab, " nl-mcgrp=%d op=%s res=%d", group, op, !err);
-> +	audit_log_end(ab);
-> +}
-> +
->  /* Run custom bind function on netlink socket group connect or bind requests. */
-> -static int audit_bind(struct net *net, int group)
-> +static int audit_multicast_bind(struct net *net, int group)
->  {
-> +	int err = 0;
-> +
->  	if (!capable(CAP_AUDIT_READ))
-> -		return -EPERM;
-> +		err = -EPERM;
-> +	audit_log_multicast_bind(group, "connect", err);
-> +	return err;
-> +}
->  
-> -	return 0;
-> +static void audit_multicast_unbind(struct net *net, int group)
-> +{
-> +	audit_log_multicast_bind(group, "disconnect", 0);
->  }
->  
->  static int __net_init audit_net_init(struct net *net)
->  {
->  	struct netlink_kernel_cfg cfg = {
->  		.input	= audit_receive,
-> -		.bind	= audit_bind,
-> +		.bind	= audit_multicast_bind,
-> +		.unbind	= audit_multicast_unbind,
->  		.flags	= NL_CFG_F_NONROOT_RECV,
->  		.groups	= AUDIT_NLGRP_MAX,
->  	};
-> -- 
-> 1.8.3.1
-> 
+As for the drop, well it appears that more than one termination records
+are asynchronous (due to rcu locking) and will not have a directly
+attributable syscall.  This applies to this issue and to ghak25.
+
+> paul moore
 
 - RGB
 
