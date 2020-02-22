@@ -1,97 +1,88 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [207.211.31.81])
-	by mail.lfdr.de (Postfix) with ESMTP id 58D31168AB9
-	for <lists+linux-audit@lfdr.de>; Sat, 22 Feb 2020 01:06:36 +0100 (CET)
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-delivery-1.mimecast.com [207.211.31.120])
+	by mail.lfdr.de (Postfix) with ESMTP id EFF84168BD1
+	for <lists+linux-audit@lfdr.de>; Sat, 22 Feb 2020 02:47:23 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1582329995;
+	s=mimecast20190719; t=1582336043;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:mime-version:mime-version:
 	 content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:list-id:list-help:
+	 content-transfer-encoding:content-transfer-encoding:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=+q3dtdoU5mmYe34duAMylmgBrmcYirkS+ld2aoZ7c5s=;
-	b=AUwzzyBMPe9pnFrasCSZZZ7FKgTzaIBMTvQlLyllXMEDgOVMcGJox+8bw906jEUrYhqolZ
-	jPzpHwc0vkyh6x56tBI6EPOlM/7je7TVH11yljBAkWXLTtmEBO4jeiZ7GPsmOrIfkFY8S1
-	W4ZN95sHn26BYdmx34NMLbErLkCUnwA=
+	bh=GvZSY6MgJ4H9yazwlaMiK63L0IyEUHFW3MXSnC/Gidg=;
+	b=SXKctIGzCf7u9Py0+fxPSLFdqtvFG6AhPfJtokzpWUlPpu15fe6TLWSgvgw4HCkUpsw/+7
+	L20mDyLvnNMrxGt9m3jhgvazDe428CnzOQj0HBiGXQ0qc+PawqGzc/iVGqQ3LU4VxpuEkA
+	etPFhg4r4FbMUubihU6fzTO51o8FInQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-257-C5e9hpjYMXm8RzwY_RyB-A-1; Fri, 21 Feb 2020 19:06:31 -0500
-X-MC-Unique: C5e9hpjYMXm8RzwY_RyB-A-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+ us-mta-121-g0U4AlIDMA6x4vqCp_XrRw-1; Fri, 21 Feb 2020 20:47:21 -0500
+X-MC-Unique: g0U4AlIDMA6x4vqCp_XrRw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 29E0E801E67;
-	Sat, 22 Feb 2020 00:06:26 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 04CCB1001925;
-	Sat, 22 Feb 2020 00:06:26 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 79905800D50;
+	Sat, 22 Feb 2020 01:47:13 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id ED1939051B;
+	Sat, 22 Feb 2020 01:47:10 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id B8CCD860C7;
-	Sat, 22 Feb 2020 00:06:25 +0000 (UTC)
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 11FFD1809567;
+	Sat, 22 Feb 2020 01:47:04 +0000 (UTC)
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
 	[10.11.54.5])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 01M06L6m001779 for <linux-audit@listman.util.phx.redhat.com>;
-	Fri, 21 Feb 2020 19:06:22 -0500
+	id 01M1DKhD005148 for <linux-audit@listman.util.phx.redhat.com>;
+	Fri, 21 Feb 2020 20:13:20 -0500
 Received: by smtp.corp.redhat.com (Postfix)
-	id BEEE9165435; Sat, 22 Feb 2020 00:06:21 +0000 (UTC)
+	id 64D3D165440; Sat, 22 Feb 2020 01:13:20 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
-	(mimecast06.extmail.prod.ext.rdu2.redhat.com [10.11.55.22])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id BADA7165444
-	for <linux-audit@redhat.com>; Sat, 22 Feb 2020 00:06:19 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
-	[207.211.31.120])
+	(mimecast01.extmail.prod.ext.rdu2.redhat.com [10.11.55.17])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 6097516544A
+	for <linux-audit@redhat.com>; Sat, 22 Feb 2020 01:13:18 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [205.139.110.61])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 467D6185A790
-	for <linux-audit@redhat.com>; Sat, 22 Feb 2020 00:06:19 +0000 (UTC)
-Received: from sonic309-28.consmr.mail.ne1.yahoo.com
-	(sonic309-28.consmr.mail.ne1.yahoo.com [66.163.184.154]) (Using TLS) by
-	relay.mimecast.com with ESMTP id us-mta-29-TCEVpdLdMkCzrzvA4OZjcg-1;
-	Fri, 21 Feb 2020 19:06:17 -0500
-X-MC-Unique: TCEVpdLdMkCzrzvA4OZjcg-1
-X-YMail-OSG: Ae2cbUwVM1kDeztWjlHYjLAWcB3mT_8Wz7oEYO__8oopL9ihN7ftmuq1gzekNvF
-	z9w0D_MDnr12ML3J1QqJ4aRDxMEPsoG9tV4Z6pJ8Cq1cEeeIyzCRIKPEfQyTRAmgEq.fzpCkE_Pp
-	CdiiXMMQzTK5f9b3TH6QMpNl2Z4OyHJkZ.mi.OUIiaGB383oUFFSHKhwxSPa7YErDLp3LdTC.hiY
-	V9l3N95YzniUnobC7BxCNNpW8KJGpBVuDIb9ZDrzHt8meIMOkDt2Cd23PKcsfWkozFEincIWOZj2
-	M59eeqP4XNz1A_9g1w_K9fmDPxs6b9cpLhxdJJ8Jt15OI_Wxc.yCSNzdJwX60QL9h1fEw1TP3h4l
-	xy42uMh_F4Y7mmvfgF0.HCA3JFiqIv0uT1VwVnske_og2uOK.1mtuw6VonTKJP7RIJF.eujI05OB
-	BrhW4wOOK1mZ9Khq54PSoXbYmXlOglubPaCkbYh_hp6aXAyNdJqiIpDn1VyyE9rYPdXqpv9mRQmR
-	RshliKLgjxkf_6M9UFYr7IJdmYlxvdhUooI1xVDb9EQO93TGSX8xY3XPkdPjkpEB5D_ryeunjAGJ
-	i6ywysGJ5A8DKrb1Em7J7CdmSWPlZcTNwtXPpQAyWwFiRaqpxtANxWvL__8WBDWEFA_6nVsLHnvV
-	oR6eGh86zZmpI4.QixejTCMfnqDW5zLP2mrkjoH5pNzVLLnGczSC6vZxhBWSu5t6eNH.KsS2c_8D
-	LNaAN_gbuItjrvPYSQkn2JCDZplsa753GJnuk1QCEU39XLRKWhqiq.8Ky1mvCz0paMQaE5KFuInI
-	zUqcIJKKbRLWLWqS0nawl0IN6UKtEaWPqIwAhzYQKBGSSAyEY5CfCfHP2V7vCq5.vJY.IgEFmGFS
-	ZwgOUlVJflfCRsLthxdJA938tKtpr3bahaw0Yo7UykgoIeTQTaYGTunSfz69NKPB4XSY2DFcJSX0
-	i7tg.LW_8u_W.5XeYYJHhLHIAj4DbrSykeewa00O4ciuQs9gk063fhE_ff07lehOeu05GJAMoxBO
-	mbilq6MEDvns4rHp105TV.YojOrUHtwBEkZ8gS9YQwlIhHqJ6eLCGMBkcxCPsNZzMBgv89K_XfWE
-	Rxlh_ZskxZGbjzl5FRWWl3WNUsiV1Nl1TOq6pduiNJ9uQaDNQRSdtYenA3CBfa02SjqD1JIZSfMo
-	PQP7akopDyZ5rTudpzHIAduru5JvwFR2LX2lzSNIStsKmaydZCFJQeumx87yt7elxDC9NcMqlqti
-	zpJOS2EJscPtuhGSeV7UTXyFJuAYS8wiEDdOHw9awnc4bkL0XXYBAk9Y.kiDTa.b7XHlLjprqLuk
-	e8pm7elocbm0oxHxEp_CWRGInWGvQ7FSAUfzMKW522yuQiJivnFgjqt6N98.FB9_lYcGbr7CeLe8
-	hVUpaShACt74tm79bddoK7A--
-Received: from sonic.gate.mail.ne1.yahoo.com by
-	sonic309.consmr.mail.ne1.yahoo.com with HTTP;
-	Sat, 22 Feb 2020 00:06:16 +0000
-Received: by smtp414.mail.ne1.yahoo.com (Oath Hermes SMTP Server) with ESMTPA
-	ID 0e706714352d04af1a6921209e6db81a; 
-	Sat, 22 Feb 2020 00:06:10 +0000 (UTC)
-From: Casey Schaufler <casey@schaufler-ca.com>
-To: casey.schaufler@intel.com, linux-audit@redhat.com
-Subject: [PATCH v15 21/23] Audit: Include object data for all security modules
-Date: Fri, 21 Feb 2020 16:04:07 -0800
-Message-Id: <20200222000407.110158-14-casey@schaufler-ca.com>
-In-Reply-To: <20200222000407.110158-1-casey@schaufler-ca.com>
-References: <20200222000407.110158-1-casey@schaufler-ca.com>
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F180985A304
+	for <linux-audit@redhat.com>; Sat, 22 Feb 2020 01:13:17 +0000 (UTC)
+Received: from mail-il1-f198.google.com (mail-il1-f198.google.com
+	[209.85.166.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+	us-mta-254-neNW1ELaMLGfEbfRBB5c0g-1; Fri, 21 Feb 2020 20:13:13 -0500
+X-MC-Unique: neNW1ELaMLGfEbfRBB5c0g-1
+Received: by mail-il1-f198.google.com with SMTP id u14so4429567ilq.15
+	for <linux-audit@redhat.com>; Fri, 21 Feb 2020 17:13:13 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+	bh=6eLAPqtZ8c5EdwJf7EVWvvnHhrg/3kPG4gMqHFy5v4A=;
+	b=swzbwxwO2YaXiegdXwzg4nfbP/Plxsj+BllMFM22VrvlPfQ0derYe5aTMEKpNMPmdS
+	XrvF3FAc3VSXKkMdX3Zusdb8eK4ORVZG2DPI4ENNPw90VlYoeVdINebaMVo0W4MYlrfR
+	jyIruZHQQWaIowvWvnDYDNJ1GsUSyXcLcRNBhAu/oBvFz6AJyFZQ7YCbmIXZuE061ZfW
+	EV15AJ4SEL/EfDEyyW8IvHg9zBKyIuHeqExFY+wf56uTHrkmSpTPp66fEGOhk7RIAovN
+	jI1gLHdowb9OLcb7tmVX4JImePibcgvebbldlOKzMF4QB4gtiFj3x5qaTHd+/CCpPQew
+	4pTw==
+X-Gm-Message-State: APjAAAUuUqXMjJbkH/V8Sm5NNEWMVcupULlJ6IAo7S26iRrIcNOUZHjd
+	vaxAjbnzK3SJqwx/OPagBe+rhqmXjzhgtR/s4JdYrF4NakTR
+X-Google-Smtp-Source: APXvYqzbaMogp/HG01MNtFex4blRaUgwqV4zRTvObvGHWAiNFmsEDRlx2xNtXRh0TW9qSQF6PSZLllmHa9ms9GXF7vKm0O5NRTl6
 MIME-Version: 1.0
+X-Received: by 2002:a6b:740c:: with SMTP id s12mr36894580iog.108.1582333992768;
+	Fri, 21 Feb 2020 17:13:12 -0800 (PST)
+Date: Fri, 21 Feb 2020 17:13:12 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000008e18fb059f1fd725@google.com>
+Subject: kernel BUG at arch/x86/mm/physaddr.c:LINE! (4)
+From: syzbot <syzbot+1f4d90ead370d72e450b@syzkaller.appspotmail.com>
+To: eparis@redhat.com, linux-audit@redhat.com, linux-kernel@vger.kernel.org,
+	netdev@vger.kernel.org, paul@paul-moore.com,
+	syzkaller-bugs@googlegroups.com
 X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
 X-MIME-Autoconverted: from quoted-printable to 8bit by
-	lists01.pubmisc.prod.ext.phx2.redhat.com id 01M06L6m001779
+	lists01.pubmisc.prod.ext.phx2.redhat.com id 01M1DKhD005148
 X-loop: linux-audit@redhat.com
+X-Mailman-Approved-At: Fri, 21 Feb 2020 20:46:52 -0500
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -105,243 +96,103 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-When there is more than one context displaying security
-module extend what goes into the audit record by supplimenting
-the "obj=" with an "obj_<lsm>=" for each such security
-module.
+Hello,
 
-Acked-by: Stephen Smalley <sds@tycho.nsa.gov>
-Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
-Cc:linux-audit@redhat.com
+syzbot found the following crash on:
+
+HEAD commit:    36a44bcd Merge branch 'bnxt_en-shutdown-and-kexec-kdump-re..
+git tree:       net
+console output: https://syzkaller.appspot.com/x/log.txt?x=12524265e00000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=768cc3d3e277cc16
+dashboard link: https://syzkaller.appspot.com/bug?extid=1f4d90ead370d72e450b
+compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=123d9de9e00000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1648fe09e00000
+
+IMPORTANT: if you fix the bug, please add the following tag to the commit:
+Reported-by: syzbot+1f4d90ead370d72e450b@syzkaller.appspotmail.com
+
+------------[ cut here ]------------
+kernel BUG at arch/x86/mm/physaddr.c:28!
+invalid opcode: 0000 [#1] PREEMPT SMP KASAN
+CPU: 1 PID: 9873 Comm: syz-executor039 Not tainted 5.6.0-rc1-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+RIP: 0010:__phys_addr+0xb3/0x120 arch/x86/mm/physaddr.c:28
+Code: 09 4c 89 e3 31 ff 48 d3 eb 48 89 de e8 36 e2 40 00 48 85 db 75 0f e8 8c e0 40 00 4c 89 e0 5b 41 5c 41 5d 5d c3 e8 7d e0 40 00 <0f> 0b e8 76 e0 40 00 48 c7 c0 10 50 a7 89 48 ba 00 00 00 00 00 fc
+RSP: 0018:ffffc90005b47490 EFLAGS: 00010093
+RAX: ffff8880944f4600 RBX: 0000000002777259 RCX: ffffffff8134ad32
+RDX: 0000000000000000 RSI: ffffffff8134ad93 RDI: 0000000000000006
+RBP: ffffc90005b474a8 R08: ffff8880944f4600 R09: ffffed1015d2707c
+R10: ffffed1015d2707b R11: ffff8880ae9383db R12: 0000778002777259
+R13: 0000000082777259 R14: ffff88809a765000 R15: 0000000000000010
+FS:  0000000001436880(0000) GS:ffff8880ae900000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00000000200004c0 CR3: 0000000096da8000 CR4: 00000000001406e0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ virt_to_head_page include/linux/mm.h:721 [inline]
+ virt_to_cache mm/slab.h:472 [inline]
+ kfree+0x7b/0x2c0 mm/slab.c:3749
+ audit_free_lsm_field kernel/auditfilter.c:76 [inline]
+ audit_free_rule kernel/auditfilter.c:91 [inline]
+ audit_data_to_entry+0xb7b/0x25f0 kernel/auditfilter.c:603
+ audit_rule_change+0x6b5/0x1130 kernel/auditfilter.c:1130
+ audit_receive_msg+0xda5/0x28b0 kernel/audit.c:1368
+ audit_receive+0x114/0x230 kernel/audit.c:1513
+ netlink_unicast_kernel net/netlink/af_netlink.c:1303 [inline]
+ netlink_unicast+0x59e/0x7e0 net/netlink/af_netlink.c:1329
+ netlink_sendmsg+0x91c/0xea0 net/netlink/af_netlink.c:1918
+ sock_sendmsg_nosec net/socket.c:652 [inline]
+ sock_sendmsg+0xd7/0x130 net/socket.c:672
+ ____sys_sendmsg+0x753/0x880 net/socket.c:2343
+ ___sys_sendmsg+0x100/0x170 net/socket.c:2397
+ __sys_sendmsg+0x105/0x1d0 net/socket.c:2430
+ __do_sys_sendmsg net/socket.c:2439 [inline]
+ __se_sys_sendmsg net/socket.c:2437 [inline]
+ __x64_sys_sendmsg+0x78/0xb0 net/socket.c:2437
+ do_syscall_64+0xfa/0x790 arch/x86/entry/common.c:294
+ entry_SYSCALL_64_after_hwframe+0x49/0xbe
+RIP: 0033:0x4401a9
+Code: 18 89 d0 c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 0f 83 fb 13 fc ff c3 66 2e 0f 1f 84 00 00 00 00
+RSP: 002b:00007ffd66553d28 EFLAGS: 00000246 ORIG_RAX: 000000000000002e
+RAX: ffffffffffffffda RBX: 00000000004002c8 RCX: 00000000004401a9
+RDX: 0000000000000000 RSI: 00000000200004c0 RDI: 0000000000000003
+RBP: 00000000006ca018 R08: 0000000000000000 R09: 00000000004002c8
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000401a30
+R13: 0000000000401ac0 R14: 0000000000000000 R15: 0000000000000000
+Modules linked in:
+---[ end trace 1e4db35053a9d748 ]---
+RIP: 0010:__phys_addr+0xb3/0x120 arch/x86/mm/physaddr.c:28
+Code: 09 4c 89 e3 31 ff 48 d3 eb 48 89 de e8 36 e2 40 00 48 85 db 75 0f e8 8c e0 40 00 4c 89 e0 5b 41 5c 41 5d 5d c3 e8 7d e0 40 00 <0f> 0b e8 76 e0 40 00 48 c7 c0 10 50 a7 89 48 ba 00 00 00 00 00 fc
+RSP: 0018:ffffc90005b47490 EFLAGS: 00010093
+RAX: ffff8880944f4600 RBX: 0000000002777259 RCX: ffffffff8134ad32
+RDX: 0000000000000000 RSI: ffffffff8134ad93 RDI: 0000000000000006
+RBP: ffffc90005b474a8 R08: ffff8880944f4600 R09: ffffed1015d2707c
+R10: ffffed1015d2707b R11: ffff8880ae9383db R12: 0000778002777259
+R13: 0000000082777259 R14: ffff88809a765000 R15: 0000000000000010
+FS:  0000000001436880(0000) GS:ffff8880ae900000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00000000200004c0 CR3: 0000000096da8000 CR4: 00000000001406e0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+
+
 ---
- kernel/audit.h   |   4 +-
- kernel/auditsc.c | 106 ++++++++++++++++++++++++-----------------------
- 2 files changed, 56 insertions(+), 54 deletions(-)
+This bug is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/kernel/audit.h b/kernel/audit.h
-index f65f516913c6..9a26ba213f6a 100644
---- a/kernel/audit.h
-+++ b/kernel/audit.h
-@@ -78,7 +78,7 @@ struct audit_names {
- 	kuid_t			uid;
- 	kgid_t			gid;
- 	dev_t			rdev;
--	u32			osid;
-+	struct lsmblob		oblob;
- 	struct audit_cap_data	fcap;
- 	unsigned int		fcap_ver;
- 	unsigned char		type;		/* record type */
-@@ -152,7 +152,7 @@ struct audit_context {
- 			kuid_t			uid;
- 			kgid_t			gid;
- 			umode_t			mode;
--			u32			osid;
-+			struct lsmblob		oblob;
- 			int			has_perm;
- 			uid_t			perm_uid;
- 			gid_t			perm_gid;
-diff --git a/kernel/auditsc.c b/kernel/auditsc.c
-index 68ae5fa843c1..7dab48661e31 100644
---- a/kernel/auditsc.c
-+++ b/kernel/auditsc.c
-@@ -659,7 +659,6 @@ static int audit_filter_rules(struct task_struct *tsk,
- 			if (f->lsm_isset) {
- 				/* Find files that match */
- 				if (name) {
--					lsmblob_init(&blob, name->osid);
- 					result = security_audit_rule_match(
- 								&blob,
- 								f->type,
-@@ -667,7 +666,6 @@ static int audit_filter_rules(struct task_struct *tsk,
- 								f->lsm_rules);
- 				} else if (ctx) {
- 					list_for_each_entry(n, &ctx->names_list, list) {
--						lsmblob_init(&blob, name->osid);
- 						if (security_audit_rule_match(
- 								&blob,
- 								f->type,
-@@ -681,8 +679,7 @@ static int audit_filter_rules(struct task_struct *tsk,
- 				/* Find ipc objects that match */
- 				if (!ctx || ctx->type != AUDIT_IPC)
- 					break;
--				lsmblob_init(&blob, ctx->ipc.osid);
--				if (security_audit_rule_match(&blob,
-+				if (security_audit_rule_match(&ctx->ipc.oblob,
- 							      f->type, f->op,
- 							      f->lsm_rules))
- 					++result;
-@@ -956,13 +953,57 @@ static inline void audit_free_context(struct audit_context *context)
- 	kfree(context);
- }
- 
-+static int audit_log_object_context(struct audit_buffer *ab,
-+				    struct lsmblob *blob)
-+{
-+	struct lsmcontext context;
-+	const char *lsm;
-+	int i;
-+
-+	/*
-+	 * None of the installed modules have object labels.
-+	 */
-+	if (security_lsm_slot_name(0) == NULL)
-+		return 0;
-+
-+	if (blob->secid[0] != 0) {
-+		if (security_secid_to_secctx(blob, &context, 0)) {
-+			audit_log_format(ab, " obj=?");
-+			return 1;
-+		}
-+		audit_log_format(ab, " obj=%s", context.context);
-+		security_release_secctx(&context);
-+	}
-+
-+	/*
-+	 * Don't do anything more unless there is more than one LSM
-+	 * with a security context to report.
-+	 */
-+	if (security_lsm_slot_name(1) == NULL)
-+		return 0;
-+
-+	for (i = 0; i < LSMBLOB_ENTRIES; i++) {
-+		lsm = security_lsm_slot_name(i);
-+		if (lsm == NULL)
-+			break;
-+		if (blob->secid[i] == 0)
-+			continue;
-+		if (security_secid_to_secctx(blob, &context, i)) {
-+			audit_log_format(ab, " obj_%s=?", lsm);
-+			continue;
-+		}
-+		audit_log_format(ab, " obj_%s=%s", lsm, context.context);
-+		security_release_secctx(&context);
-+	}
-+	return 0;
-+}
-+
- static int audit_log_pid_context(struct audit_context *context, pid_t pid,
- 				 kuid_t auid, kuid_t uid,
- 				 unsigned int sessionid,
- 				 struct lsmblob *blob, char *comm)
- {
- 	struct audit_buffer *ab;
--	struct lsmcontext lsmctx;
- 	int rc = 0;
- 
- 	ab = audit_log_start(context, GFP_KERNEL, AUDIT_OBJ_PID);
-@@ -972,15 +1013,7 @@ static int audit_log_pid_context(struct audit_context *context, pid_t pid,
- 	audit_log_format(ab, "opid=%d oauid=%d ouid=%d oses=%d", pid,
- 			 from_kuid(&init_user_ns, auid),
- 			 from_kuid(&init_user_ns, uid), sessionid);
--	if (lsmblob_is_set(blob)) {
--		if (security_secid_to_secctx(blob, &lsmctx, LSMBLOB_FIRST)) {
--			audit_log_format(ab, " obj=(none)");
--			rc = 1;
--		} else {
--			audit_log_format(ab, " obj=%s", lsmctx.context);
--			security_release_secctx(&lsmctx);
--		}
--	}
-+	rc = audit_log_object_context(ab, blob);
- 	audit_log_format(ab, " ocomm=");
- 	audit_log_untrustedstring(ab, comm);
- 	audit_log_end(ab);
-@@ -1207,26 +1240,14 @@ static void show_special(struct audit_context *context, int *call_panic)
- 				context->socketcall.args[i]);
- 		break; }
- 	case AUDIT_IPC: {
--		u32 osid = context->ipc.osid;
-+		struct lsmblob *oblob = & context->ipc.oblob;
- 
- 		audit_log_format(ab, "ouid=%u ogid=%u mode=%#ho",
- 				 from_kuid(&init_user_ns, context->ipc.uid),
- 				 from_kgid(&init_user_ns, context->ipc.gid),
- 				 context->ipc.mode);
--		if (osid) {
--			struct lsmcontext lsmcxt;
--			struct lsmblob blob;
--
--			lsmblob_init(&blob, osid);
--			if (security_secid_to_secctx(&blob, &lsmcxt,
--						     LSMBLOB_FIRST)) {
--				audit_log_format(ab, " osid=%u", osid);
--				*call_panic = 1;
--			} else {
--				audit_log_format(ab, " obj=%s", lsmcxt.context);
--				security_release_secctx(&lsmcxt);
--			}
--		}
-+		if (audit_log_object_context(ab, oblob))
-+			*call_panic = 1;
- 		if (context->ipc.has_perm) {
- 			audit_log_end(ab);
- 			ab = audit_log_start(context, GFP_KERNEL,
-@@ -1366,20 +1387,8 @@ static void audit_log_name(struct audit_context *context, struct audit_names *n,
- 				 from_kgid(&init_user_ns, n->gid),
- 				 MAJOR(n->rdev),
- 				 MINOR(n->rdev));
--	if (n->osid != 0) {
--		struct lsmblob blob;
--		struct lsmcontext lsmctx;
--
--		lsmblob_init(&blob, n->osid);
--		if (security_secid_to_secctx(&blob, &lsmctx, LSMBLOB_FIRST)) {
--			audit_log_format(ab, " osid=%u", n->osid);
--			if (call_panic)
--				*call_panic = 2;
--		} else {
--			audit_log_format(ab, " obj=%s", lsmctx.context);
--			security_release_secctx(&lsmctx);
--		}
--	}
-+	if (audit_log_object_context(ab, &n->oblob) && call_panic)
-+		*call_panic = 2;
- 
- 	/* log the audit_names record type */
- 	switch (n->type) {
-@@ -1929,17 +1938,13 @@ static void audit_copy_inode(struct audit_names *name,
- 			     const struct dentry *dentry,
- 			     struct inode *inode, unsigned int flags)
- {
--	struct lsmblob blob;
--
- 	name->ino   = inode->i_ino;
- 	name->dev   = inode->i_sb->s_dev;
- 	name->mode  = inode->i_mode;
- 	name->uid   = inode->i_uid;
- 	name->gid   = inode->i_gid;
- 	name->rdev  = inode->i_rdev;
--	security_inode_getsecid(inode, &blob);
--	/* scaffolding until osid is updated */
--	name->osid = blob.secid[0];
-+	security_inode_getsecid(inode, &name->oblob);
- 	if (flags & AUDIT_INODE_NOEVAL) {
- 		name->fcap_ver = -1;
- 		return;
-@@ -2285,14 +2290,11 @@ void __audit_mq_getsetattr(mqd_t mqdes, struct mq_attr *mqstat)
- void __audit_ipc_obj(struct kern_ipc_perm *ipcp)
- {
- 	struct audit_context *context = audit_context();
--	struct lsmblob blob;
- 	context->ipc.uid = ipcp->uid;
- 	context->ipc.gid = ipcp->gid;
- 	context->ipc.mode = ipcp->mode;
- 	context->ipc.has_perm = 0;
--	security_ipc_getsecid(ipcp, &blob);
--	/* scaffolding on the [0] - change "osid" to a lsmblob */
--	context->ipc.osid = blob.secid[0];
-+	security_ipc_getsecid(ipcp, &context->ipc.oblob);
- 	context->type = AUDIT_IPC;
- }
- 
--- 
-2.24.1
+syzbot will keep track of this bug report. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+syzbot can test patches for this bug, for details see:
+https://goo.gl/tpsmEJ#testing-patches
 
 
 --
