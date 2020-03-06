@@ -1,90 +1,88 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [207.211.31.81])
-	by mail.lfdr.de (Postfix) with ESMTP id 7CFFE17C768
-	for <lists+linux-audit@lfdr.de>; Fri,  6 Mar 2020 21:56:13 +0100 (CET)
+Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [207.211.31.81])
+	by mail.lfdr.de (Postfix) with ESMTP id E6D1317C815
+	for <lists+linux-audit@lfdr.de>; Fri,  6 Mar 2020 23:02:48 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1583528172;
+	s=mimecast20190719; t=1583532167;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=e0RXFdJyz2eros6T/Ab4lVYYAmuOrsGCeJ29ntOAci4=;
-	b=b1cPco2AQubp6dyrWhUxNUxW1Qg0xJs59JCOKNHXZLbKRjdxyns/sc013c4/N0aR2CeHLV
-	bgBSct6o486E/kd44KlSAVm1VkhL1fgRAR+MkfNzDEIDSooPusoGVmBN+bk3bk3pcrzMbK
-	Bycv+M5lE9EmTprO8NRiO+Bu6N/QdDg=
+	bh=nRfOj/Tmhuay+VG7cELC7T4cN10zbT0ztwXJun/4nC4=;
+	b=DAsdhavVpuNEZq9zvVSNhzfhSJioqUHamld7z7Z3r3R1Qnv0wF8WND+RZ1GArEZOept8Zj
+	QzKQ7GrQqklif/Kgr554QlRrQlTvasPivN99xLTz6VBO589myTwd1PI7z7Z3TwQzozvE84
+	zPCcEnSvnXCNFZAxfbeHwhPRyMC1QKM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-397-r-csOdsENO60a_2LaARxyA-1; Fri, 06 Mar 2020 15:56:10 -0500
-X-MC-Unique: r-csOdsENO60a_2LaARxyA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+ us-mta-269-NNXIAiGbN6ir1ILOIYkzqQ-1; Fri, 06 Mar 2020 17:02:45 -0500
+X-MC-Unique: NNXIAiGbN6ir1ILOIYkzqQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2AB7318A8C82;
-	Fri,  6 Mar 2020 20:56:04 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D1BE0800D5F;
+	Fri,  6 Mar 2020 22:02:38 +0000 (UTC)
 Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 7F19291D97;
-	Fri,  6 Mar 2020 20:56:01 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 5872963769;
+	Fri,  6 Mar 2020 22:02:35 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 346D284484;
-	Fri,  6 Mar 2020 20:55:56 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
-	[10.11.54.5])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id B0C7484484;
+	Fri,  6 Mar 2020 22:02:27 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+	[10.11.54.3])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 026KtfpO006494 for <linux-audit@listman.util.phx.redhat.com>;
-	Fri, 6 Mar 2020 15:55:41 -0500
+	id 026M2GFP009109 for <linux-audit@listman.util.phx.redhat.com>;
+	Fri, 6 Mar 2020 17:02:16 -0500
 Received: by smtp.corp.redhat.com (Postfix)
-	id 991531649C7; Fri,  6 Mar 2020 20:55:41 +0000 (UTC)
+	id DF3EA10054E8; Fri,  6 Mar 2020 22:02:15 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
 	(mimecast06.extmail.prod.ext.rdu2.redhat.com [10.11.55.22])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 94CB91649C8
-	for <linux-audit@redhat.com>; Fri,  6 Mar 2020 20:55:38 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id DA44610054EC
+	for <linux-audit@redhat.com>; Fri,  6 Mar 2020 22:02:14 +0000 (UTC)
 Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
 	[205.139.110.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DB49D185A793
-	for <linux-audit@redhat.com>; Fri,  6 Mar 2020 20:55:38 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E403F185A790
+	for <linux-audit@redhat.com>; Fri,  6 Mar 2020 22:02:13 +0000 (UTC)
 Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com
 	[209.85.208.66]) (Using TLS) by relay.mimecast.com with ESMTP id
-	us-mta-418-iGAzrselMamdYnMV3WAcIg-1; Fri, 06 Mar 2020 15:55:36 -0500
-X-MC-Unique: iGAzrselMamdYnMV3WAcIg-1
-Received: by mail-ed1-f66.google.com with SMTP id g19so4039643eds.11
-	for <linux-audit@redhat.com>; Fri, 06 Mar 2020 12:55:36 -0800 (PST)
+	us-mta-24-Uce6J4HZOG2e4gmWcS0EJw-1; Fri, 06 Mar 2020 17:02:11 -0500
+X-MC-Unique: Uce6J4HZOG2e4gmWcS0EJw-1
+Received: by mail-ed1-f66.google.com with SMTP id n18so4218714edw.9
+	for <linux-audit@redhat.com>; Fri, 06 Mar 2020 14:02:11 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=HXklg5udbwgb5zR0Xtaep74c0PStoW6hshKSPDA1cy4=;
-	b=LFnAbvsTDK6yY3/WCQoJrMXsO+1Q1JYQMRW1Y65kc6GuZsHl8kxwYvqacomvD7L/fC
-	hgcLLQWmgjQy25TlvboOnhLVFXmdvYR6mJsAnNDuQXK3epPaQy1JmTTlvf+Jrt7vNfeH
-	r509EtlmsG9M4dFSf87i0QwE0IxjngzkOO6hPPtG5RwL2RV9f7teiwfcYYCm9syrUI1V
-	5QFRog3DsoVMFEVj5XUCDxYZ6fhYVtT7k1521BURApsIxwPeMJIoxPNiM/aHmkxCZKeJ
-	p9v3YAKDKIVGxPBnovAM2YginKod4zNCg5tnHuDAmuELdHV9uh6Bt6QJB4IoyzfXMBob
-	P34g==
-X-Gm-Message-State: ANhLgQ2w5wfrarZk/eFP8AjM6Z4nS29qiPLxsOJMYOZTWrzqnbOEeNYE
-	kY0ArcNoZNh8az4zxYxXHkB8YTOL7Nz0muF/8LBLO5g=
-X-Google-Smtp-Source: ADFU+vvFuRsWiVfztHVjsoN0QooOjvoLXVSOJAfAZ4rYpQ0y6e0jZcKTyOe9nFIO9mnYNkePyPW8rIdBxnQfrrKr4rw=
-X-Received: by 2002:a17:906:52c9:: with SMTP id
-	w9mr4762420ejn.70.1583528135186; 
-	Fri, 06 Mar 2020 12:55:35 -0800 (PST)
+	bh=HzPUZJAVxDVYH1/pNMUBKUbIHs86eyxTlSPN0MyH/0M=;
+	b=tcqzLrePXNsdxNZ3dUp6dF7DJoNY2Dq/qSUyf+DSK3TC0LdbbDuAn37aeSJ3YVYfw9
+	QUxg0AZtww5bSIFvsr7Jwe1z+x5aqfYeMKvqqsva0Lj1DaJaOPM+sLKmmyCWLq8BnXy1
+	ED4JWRsi9UmyUIURnbK5q549Oa1bEALG2crx8GDj633Qk40TO/ktQ44cSBL1KKNQNvki
+	vwIpbfuiFKRrMpxkZYU4O726lOvAqwrLNGl94wLNohwNYc9dPYDRy1r58jUr28Hy6pg4
+	3U8aFk6x9LLQcWSe1cMZ/iYEEuxzZCArq3alOQU0y7bE91O/HpsBhlj477Lfzy5mb9UA
+	zU2w==
+X-Gm-Message-State: ANhLgQ0OD4wPlZKziTdg+51UaVp4WQu3alkCUsRGr8xt7H4/mYy3YsDg
+	EiALqOotjf9Rdb4VGdi98/mH9odm1uW5KXxt0ZTt
+X-Google-Smtp-Source: ADFU+vvm7Azaw2iO1JtaDolOzs615exRLHA8lAkgaNseGNtbM28pjBqetkDFxnFAZgGhaCHHRD+JbemucZ5BroQN5T4=
+X-Received: by 2002:aa7:d6c4:: with SMTP id x4mr5156684edr.135.1583532130078; 
+	Fri, 06 Mar 2020 14:02:10 -0800 (PST)
 MIME-Version: 1.0
 References: <20200222000407.110158-1-casey@schaufler-ca.com>
-	<20200222000407.110158-3-casey@schaufler-ca.com>
-In-Reply-To: <20200222000407.110158-3-casey@schaufler-ca.com>
+	<20200222000407.110158-4-casey@schaufler-ca.com>
+In-Reply-To: <20200222000407.110158-4-casey@schaufler-ca.com>
 From: Paul Moore <paul@paul-moore.com>
-Date: Fri, 6 Mar 2020 15:55:24 -0500
-Message-ID: <CAHC9VhTMNYWrwWNdS6NjL3ZF+4+BsNB-hAKRE759_bunajOOGg@mail.gmail.com>
-Subject: Re: [PATCH v15 02/23] LSM: Create and manage the lsmblob data
-	structure.
+Date: Fri, 6 Mar 2020 17:01:59 -0500
+Message-ID: <CAHC9VhS+3K-AAzo2Z9iYTCx6wax0h2_grXayULDWsCFKezf8Jg@mail.gmail.com>
+Subject: Re: [PATCH v15 03/23] LSM: Use lsmblob in security_audit_rule_match
 To: Casey Schaufler <casey@schaufler-ca.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
 X-MIME-Autoconverted: from quoted-printable to 8bit by
-	lists01.pubmisc.prod.ext.phx2.redhat.com id 026KtfpO006494
+	lists01.pubmisc.prod.ext.phx2.redhat.com id 026M2GFP009109
 X-loop: linux-audit@redhat.com
 Cc: casey.schaufler@intel.com, linux-audit@redhat.com
 X-BeenThere: linux-audit@redhat.com
@@ -100,63 +98,72 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-On Fri, Feb 21, 2020 at 7:05 PM Casey Schaufler <casey@schaufler-ca.com> wrote:
+On Fri, Feb 21, 2020 at 7:04 PM Casey Schaufler <casey@schaufler-ca.com> wrote:
 >
-> When more than one security module is exporting data to
-> audit and networking sub-systems a single 32 bit integer
-> is no longer sufficient to represent the data. Add a
-> structure to be used instead.
+> Change the secid parameter of security_audit_rule_match
+> to a lsmblob structure pointer. Pass the entry from the
+> lsmblob structure for the approprite slot to the LSM hook.
 >
-> The lsmblob structure is currently an array of
-> u32 "secids". There is an entry for each of the
-> security modules built into the system that would
-> use secids if active. The system assigns the module
-> a "slot" when it registers hooks. If modules are
-> compiled in but not registered there will be unused
-> slots.
+> Change the users of security_audit_rule_match to use the
+> lsmblob instead of a u32. In some cases this requires a
+> temporary conversion using lsmblob_init() that will go
+> away when other interfaces get converted.
 >
-> A new lsm_id structure, which contains the name
-> of the LSM and its slot number, is created. There
-> is an instance for each LSM, which assigns the name
-> and passes it to the infrastructure to set the slot.
->
-> The audit rules data is expanded to use an array of
-> security module data rather than a single instance.
-> Because IMA uses the audit rule functions it is
-> affected as well.
->
+> Reviewed-by: Kees Cook <keescook@chromium.org>
+> Reviewed-by: John Johansen <john.johansen@canonical.com>
+> Acked-by: Stephen Smalley <sds@tycho.nsa.gov>
 > Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
 > ---
->  include/linux/audit.h               |  4 +-
->  include/linux/lsm_hooks.h           | 12 ++++-
->  include/linux/security.h            | 66 ++++++++++++++++++++++++--
->  kernel/auditfilter.c                | 27 ++++++-----
->  kernel/auditsc.c                    | 12 ++---
->  security/apparmor/lsm.c             |  7 ++-
->  security/commoncap.c                |  7 ++-
->  security/integrity/ima/ima_policy.c | 34 +++++++++-----
->  security/loadpin/loadpin.c          |  8 +++-
->  security/lockdown/lockdown.c        |  7 ++-
->  security/safesetid/lsm.c            |  8 +++-
->  security/security.c                 | 72 ++++++++++++++++++++++++-----
->  security/selinux/hooks.c            |  8 +++-
->  security/smack/smack_lsm.c          |  7 ++-
->  security/tomoyo/tomoyo.c            |  8 +++-
->  security/yama/yama_lsm.c            |  7 ++-
->  16 files changed, 238 insertions(+), 56 deletions(-)
+>  include/linux/security.h            |  7 ++++---
+>  kernel/auditfilter.c                |  6 ++++--
+>  kernel/auditsc.c                    | 14 ++++++++++----
+>  security/integrity/ima/ima.h        |  4 ++--
+>  security/integrity/ima/ima_policy.c |  7 +++++--
+>  security/security.c                 |  8 +++++---
+>  6 files changed, 30 insertions(+), 16 deletions(-)
 
-Heads-up that there is likely to be some merge fuzz in
-kernel/auditfilter.c; I just had to fix some of the code you are
-touching (it is in Linus' tree).  The merge should be trivial, but if
-you are uncertain let me know.
+...
 
-Acked-by: Paul Moore <paul@paul-moore.com>
+> diff --git a/kernel/auditfilter.c b/kernel/auditfilter.c
+> index 3a44abf4fced..509eb21eff7f 100644
+> --- a/kernel/auditfilter.c
+> +++ b/kernel/auditfilter.c
+> @@ -1327,6 +1327,7 @@ int audit_filter(int msgtype, unsigned int listtype)
+>                         struct audit_field *f = &e->rule.fields[i];
+>                         pid_t pid;
+>                         u32 sid;
+> +                       struct lsmblob blob;
+>
+>                         switch (f->type) {
+>                         case AUDIT_PID:
+> @@ -1357,8 +1358,9 @@ int audit_filter(int msgtype, unsigned int listtype)
+>                         case AUDIT_SUBJ_CLR:
+>                                 if (f->lsm_isset) {
+>                                         security_task_getsecid(current, &sid);
+> -                                       result = security_audit_rule_match(sid,
+> -                                                  f->type, f->op,
+> +                                       lsmblob_init(&blob, sid);
+> +                                       result = security_audit_rule_match(
+> +                                                  &blob, f->type, f->op,
+>                                                    f->lsm_rules);
+
+Unless I'm mistaken this patch is almost exclusively the following pattern:
+
+  lsmblob_init(blob, sid);
+  security_audit_rule_match(blob, ...);
+
+... which means we are assigning every array member in @blob the same
+value of "sid" and then sending that into the LSM where each LSM is
+going to then have to index into that array, to all get the same
+value, and then do their match.  I'm assuming this will make more
+sense as I progress through the rest of the patchset, but right now it
+seems like we could get by just fine with a u32 here.
 
 -- 
 paul moore
