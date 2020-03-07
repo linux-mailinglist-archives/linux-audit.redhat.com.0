@@ -2,88 +2,87 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com [207.211.31.120])
-	by mail.lfdr.de (Postfix) with ESMTP id 1C6B717CA41
-	for <lists+linux-audit@lfdr.de>; Sat,  7 Mar 2020 02:22:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 74E7617CA82
+	for <lists+linux-audit@lfdr.de>; Sat,  7 Mar 2020 02:36:39 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1583544132;
+	s=mimecast20190719; t=1583544998;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=FujUDTOc7PQNJa+IQhYBMNxWNK0SWXdgoymOZSLOLOI=;
-	b=RsIzVMBpgkAvR3wczR1Pp2hz3RuIwy9OVbuv7M0XNa9W1kVhpyGTbGdLvLQjATReS+r2pX
-	i2Pf6KfDWZ/YMDndXuNG7/uWqUZZeQMIgq/KmKcXKxWRnSl/rSI4UGnrWiUwAGkAjYqtYz
-	IuvSHZj2hTeT7INWZk5HW/xSuaW1sLQ=
+	bh=O9tiIL07wTnGPVBoofWmDaKPiKV55pYHEAxfUo+uNf8=;
+	b=G3ZzuCXxBUzeWt/sFe+kc4ou98goKAh1KbSu/xVPchDTg2iVFrwkgwyBaA4EPHT+oZnd4z
+	HKI3oiIVe3618kEi9phwTsxLALeibIDzCOJQvY6oaGOvYGVJhYjrb/2AxgbcfMfKxYQeaX
+	RnWue+fmbCQJMSTX7V/lPzq9wpIFzao=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-171-DH0dCNGSPamMI8IrrK-baw-1; Fri, 06 Mar 2020 20:22:10 -0500
-X-MC-Unique: DH0dCNGSPamMI8IrrK-baw-1
+ us-mta-453-14KXSkEgPL-l6WUcq-Bvjg-1; Fri, 06 Mar 2020 20:36:36 -0500
+X-MC-Unique: 14KXSkEgPL-l6WUcq-Bvjg-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BD7CD13F6;
-	Sat,  7 Mar 2020 01:22:04 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 519FD5D9CD;
-	Sat,  7 Mar 2020 01:22:04 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 305F8100550E;
+	Sat,  7 Mar 2020 01:36:31 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 375C85D9CD;
+	Sat,  7 Mar 2020 01:36:30 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 2B14084481;
-	Sat,  7 Mar 2020 01:22:02 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
-	[10.11.54.6])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id A957A18089C8;
+	Sat,  7 Mar 2020 01:36:28 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+	[10.11.54.4])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 0271LtYJ015335 for <linux-audit@listman.util.phx.redhat.com>;
-	Fri, 6 Mar 2020 20:21:55 -0500
+	id 0271aMTV015649 for <linux-audit@listman.util.phx.redhat.com>;
+	Fri, 6 Mar 2020 20:36:22 -0500
 Received: by smtp.corp.redhat.com (Postfix)
-	id 9D6D42166B2B; Sat,  7 Mar 2020 01:21:55 +0000 (UTC)
+	id 096D32033955; Sat,  7 Mar 2020 01:36:22 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
-	(mimecast06.extmail.prod.ext.rdu2.redhat.com [10.11.55.22])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 98B3C2166B28
-	for <linux-audit@redhat.com>; Sat,  7 Mar 2020 01:21:53 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
-	[205.139.110.120])
+	(mimecast03.extmail.prod.ext.rdu2.redhat.com [10.11.55.19])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 0451E2026D68
+	for <linux-audit@redhat.com>; Sat,  7 Mar 2020 01:36:19 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [207.211.31.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BAFC1185A78E
-	for <linux-audit@redhat.com>; Sat,  7 Mar 2020 01:21:53 +0000 (UTC)
-Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com
-	[209.85.208.67]) (Using TLS) by relay.mimecast.com with ESMTP id
-	us-mta-300-X6uQpKPVMkG2QT15IHrOJA-1; Fri, 06 Mar 2020 20:21:51 -0500
-X-MC-Unique: X6uQpKPVMkG2QT15IHrOJA-1
-Received: by mail-ed1-f67.google.com with SMTP id e25so4662118edq.5
-	for <linux-audit@redhat.com>; Fri, 06 Mar 2020 17:21:51 -0800 (PST)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 78BB2800658
+	for <linux-audit@redhat.com>; Sat,  7 Mar 2020 01:36:19 +0000 (UTC)
+Received: from mail-ed1-f68.google.com (mail-ed1-f68.google.com
+	[209.85.208.68]) (Using TLS) by relay.mimecast.com with ESMTP id
+	us-mta-177--cSFvXPZM2yjLMcEUcKX6Q-1; Fri, 06 Mar 2020 20:36:17 -0500
+X-MC-Unique: -cSFvXPZM2yjLMcEUcKX6Q-1
+Received: by mail-ed1-f68.google.com with SMTP id m13so4679304edb.6
+	for <linux-audit@redhat.com>; Fri, 06 Mar 2020 17:36:16 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=qLDYqd4/kBCYuBoU5oYwk4X7oDvS0U8ta6JolcDtoNw=;
-	b=CDNfwlgjGvAEKw2jNEH0vTB8LFnEUlMAhYgRbzHkbwLFALnFmdqS9XQgMtKdTy6LhF
-	xPcxLZzaWjcU7ItuOU0lqs5aX/hMZhHT7WtIC7IwseRAPlCpoqkerwCFCGWTv1X4anQQ
-	av5zB3Wqf57xsKKF9ijXDaahKv6iSGn8N4hGFKb8BOiaDP3hOO/nkgsvO0VgBFYqdV3s
-	wbBXmexiiKUr18RynMRhDh4RWabBfHlbGM2+uRfkJzRuQwD5Tgr4HBf5k3L0mFZeQjCv
-	aAYtaH1R1beD0JEaDZekNqrhIGfxrQ80HNE/mpLZucvviC0BgqlkTB/tP7T3n1nyVLrw
-	gq+w==
-X-Gm-Message-State: ANhLgQ17eYhJXRHK40msQ2EvBfYjKC2NxK9h/qTFzqaRS/jAb+KQsgy+
-	J/LjlO4Rd1EBYvpwP0snSSW+l1DINJYzl/yLoD2f
-X-Google-Smtp-Source: ADFU+vuJmiN8rY58PLm/ER6NlhHnbjDLWWj4S+HEVRHY/lacHtW9exeEeon5376wqztPDSqA76OGxjPEj8AMdOzKyBc=
-X-Received: by 2002:a17:906:52c9:: with SMTP id
-	w9mr5541580ejn.70.1583544110257; 
-	Fri, 06 Mar 2020 17:21:50 -0800 (PST)
+	bh=rWZeQej+r+kbKlYKnSuKAgl98kSl0oK3lI1u5tJ0hnI=;
+	b=dHLar9Q1jptMcjHhLZS4sNg9W7GmQlzBtyIeIY5xE8rrN5i0Uc+FZzZ462w+sA80vT
+	4WpCanM3e8aYophGDQFwCJGJUjIrJiDQtEeim2kD/8WkHrDIxAxZzl0F2iGsAJGdeHZ+
+	mkSBqbF8QvQMQgstn6hEtT7rFEf6BO3qtbWsQuTVBKk9B8Yx93NipE6ZGIVy3gmVFmM8
+	gnfwGnH6O7l4kTX8mNjnLUn6wiqOegoS3VxpqgcTEUE8fCbO2SYrZUZoh33NbWNeFeFy
+	D97DBPMUbkscA3uuRUFrgdnM+goRnFiwRf9nOit93DwpXcPXd6A8To+1PaSPviTW4u2m
+	+s4w==
+X-Gm-Message-State: ANhLgQ0Vc9R5GI/7FbhmklUu8h7nYXk4jakcxAdF4YOkS0eiqzEleIig
+	LS5AKAdX2bTaWjkDuBhiZoVwx1sNmYZkpWZv2UNkFXc=
+X-Google-Smtp-Source: ADFU+vvAiDOULucCwwG8hI3+7IPofXrz3Vdkc+fdR+CGaU1IhSNB/w+uTCY0M2tFGsPWIAfRo4Qwxq+bVCeIrDyymYI=
+X-Received: by 2002:a17:906:370a:: with SMTP id
+	d10mr5583142ejc.281.1583544975650; 
+	Fri, 06 Mar 2020 17:36:15 -0800 (PST)
 MIME-Version: 1.0
 References: <20200222000407.110158-1-casey@schaufler-ca.com>
-	<20200222000407.110158-6-casey@schaufler-ca.com>
-In-Reply-To: <20200222000407.110158-6-casey@schaufler-ca.com>
+	<20200222000407.110158-9-casey@schaufler-ca.com>
+In-Reply-To: <20200222000407.110158-9-casey@schaufler-ca.com>
 From: Paul Moore <paul@paul-moore.com>
-Date: Fri, 6 Mar 2020 20:21:39 -0500
-Message-ID: <CAHC9VhTkE2bK258NQsQuZeUJd1MO53HvWDsAbqPCAT+AvEBOMQ@mail.gmail.com>
-Subject: Re: [PATCH v15 08/23] LSM: Use lsmblob in security_ipc_getsecid
+Date: Fri, 6 Mar 2020 20:36:04 -0500
+Message-ID: <CAHC9VhSxEUrYow60OY6GXK1t4jb9O80ZYtR3U+AvaBUdxTTLFQ@mail.gmail.com>
+Subject: Re: [PATCH v15 11/23] LSM: Use lsmblob in security_cred_getsecid
 To: Casey Schaufler <casey@schaufler-ca.com>
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
 X-MIME-Autoconverted: from quoted-printable to 8bit by
-	lists01.pubmisc.prod.ext.phx2.redhat.com id 0271LtYJ015335
+	lists01.pubmisc.prod.ext.phx2.redhat.com id 0271aMTV015649
 X-loop: linux-audit@redhat.com
 Cc: casey.schaufler@intel.com, linux-audit@redhat.com
 X-BeenThere: linux-audit@redhat.com
@@ -107,26 +106,51 @@ Content-Transfer-Encoding: 7bit
 
 On Fri, Feb 21, 2020 at 7:05 PM Casey Schaufler <casey@schaufler-ca.com> wrote:
 >
-> There may be more than one LSM that provides IPC data
-> for auditing. Change security_ipc_getsecid() to fill in
-> a lsmblob structure instead of the u32 secid. The
-> audit data structure containing the secid will be updated
-> later, so there is a bit of scaffolding here.
-
-"updated later", that's better, thank you.  If I can go even a step
-further, it would be really nice if you could provide a brief
-explanation, a sentence or two is okay, on what you intended it to be
-when it is done in this patchset/iteration.
-
+> Change the security_cred_getsecid() interface to fill in a
+> lsmblob instead of a u32 secid. The associated data elements
+> in the audit sub-system are changed from a secid to a lsmblob
+> to accommodate multiple possible LSM audit users.
+>
 > Reviewed-by: Kees Cook <keescook@chromium.org>
 > Reviewed-by: John Johansen <john.johansen@canonical.com>
 > Acked-by: Stephen Smalley <sds@tycho.nsa.gov>
 > Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
+> cc: linux-integrity@vger.kernel.org
 > ---
->  include/linux/security.h |  7 ++++---
->  kernel/auditsc.c         |  5 ++++-
->  security/security.c      | 12 +++++++++---
->  3 files changed, 17 insertions(+), 7 deletions(-)
+>  include/linux/security.h          |  2 +-
+>  kernel/audit.c                    | 19 +++++++-----------
+>  kernel/audit.h                    |  5 +++--
+>  kernel/auditsc.c                  | 33 +++++++++++--------------------
+>  security/integrity/ima/ima_main.c |  8 ++++----
+>  security/security.c               | 12 ++++++++---
+>  6 files changed, 36 insertions(+), 43 deletions(-)
+
+There is some undefined scaffolding in the IMA section, but I'll leave
+that to Mimi if she cares or not.  One small suggestion below, but I'm
+okay if you ignore that, it's pretty minor.
+
+Acked-by: Paul Moore <paul@paul-moore.com>
+
+> diff --git a/kernel/auditsc.c b/kernel/auditsc.c
+> index b55e66c2451d..d52ae228ad3d 100644
+> --- a/kernel/auditsc.c
+> +++ b/kernel/auditsc.c
+> @@ -1733,7 +1732,7 @@ void __audit_syscall_exit(int success, long return_code)
+>         context->aux = NULL;
+>         context->aux_pids = NULL;
+>         context->target_pid = 0;
+> -       context->target_sid = 0;
+> +       lsmblob_init(&context->target_lsm, 0);
+
+Would it be worth having a "lsmblob_unset(struct lsmblob *)" for
+situations such as these?  Even if right now it is just a wrapper
+around "lsmblob_init(blob, 0)" I think it might have some
+futureproofing value in case the struct grows additional fields and is
+no longer tightly packed.
+
+>         context->sockaddr_len = 0;
+>         context->type = 0;
+>         context->fds[0] = -1;
 
 -- 
 paul moore
