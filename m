@@ -2,89 +2,147 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from us-smtp-delivery-1.mimecast.com (us-smtp-delivery-1.mimecast.com [207.211.31.120])
-	by mail.lfdr.de (Postfix) with ESMTP id B81C117CAF9
-	for <lists+linux-audit@lfdr.de>; Sat,  7 Mar 2020 03:32:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AD0F517E57F
+	for <lists+linux-audit@lfdr.de>; Mon,  9 Mar 2020 18:15:58 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1583548329;
+	s=mimecast20190719; t=1583774157;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
-	 list-unsubscribe:list-subscribe:list-post;
-	bh=5YvKIbb5fdzcRg3XBIAvKQRMaRkaNdybybOHbSe0pHU=;
-	b=TKZvU2UcE2iqrsmmSkonirtMJyxYCqsvB7fLPZkaNKFeat/Lyi0VvFrmHng5HyPGYh27qo
-	aMF5QrUzkUBXCMZfPKGP1DBTZWYW3wQ8F4YH9klBuGXl1gaP7M7SR0QUU14JNs0HchE0Xo
-	j3WHbatODCz43V4STDk1jlpPzGRo13o=
+	 list-unsubscribe:list-subscribe:list-post:autocrypt:autocrypt;
+	bh=Udgfb2Q87A4HSM/6L+2N7RWc7L4Q79XYOCwMOgi5gGw=;
+	b=XQl1dzeurgdHQy3jzCd4Tw7V8KVAovNxm6qKbpYu2ZhDDWk9G0UK7d/OWcxlEliViw2Bxo
+	Y/leFXw1DV2X+J+b/CkxVaVMcthj+XID/6jNkjYuP8ximf85jFIHR+y5TCcIewwYrF4b8W
+	OWn+UD6XyXu0yvynZvdvEa4BZz/UmCc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-473-UtaKsOZMNAa1A3mmNz1GLQ-1; Fri, 06 Mar 2020 21:32:07 -0500
-X-MC-Unique: UtaKsOZMNAa1A3mmNz1GLQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+ us-mta-305-lt6nbgmUMKmFG-fywtucpQ-1; Mon, 09 Mar 2020 13:15:55 -0400
+X-MC-Unique: lt6nbgmUMKmFG-fywtucpQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 056FB800D53;
-	Sat,  7 Mar 2020 02:32:02 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 4F2D98AC45;
-	Sat,  7 Mar 2020 02:32:01 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 29129DBA5;
+	Mon,  9 Mar 2020 17:15:49 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 89CE810021B2;
+	Mon,  9 Mar 2020 17:15:48 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 198FD84481;
-	Sat,  7 Mar 2020 02:31:57 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
-	[10.11.54.4])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 9BCB518089CD;
+	Mon,  9 Mar 2020 17:15:47 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+	[10.11.54.5])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 0272VnPD017018 for <linux-audit@listman.util.phx.redhat.com>;
-	Fri, 6 Mar 2020 21:31:50 -0500
+	id 029HFQSa022827 for <linux-audit@listman.util.phx.redhat.com>;
+	Mon, 9 Mar 2020 13:15:26 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id BBE912022EA5; Sat,  7 Mar 2020 02:31:49 +0000 (UTC)
+	id 056476F9FC; Mon,  9 Mar 2020 17:15:26 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
-	(mimecast02.extmail.prod.ext.rdu2.redhat.com [10.11.55.18])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id B6FBF2026D68
-	for <linux-audit@redhat.com>; Sat,  7 Mar 2020 02:31:47 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [205.139.110.61])
+	(mimecast04.extmail.prod.ext.rdu2.redhat.com [10.11.55.20])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 010626D9CA
+	for <linux-audit@redhat.com>; Mon,  9 Mar 2020 17:15:22 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [205.139.110.61])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1B6C98007AC
-	for <linux-audit@redhat.com>; Sat,  7 Mar 2020 02:31:47 +0000 (UTC)
-Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com
-	[209.85.208.67]) (Using TLS) by relay.mimecast.com with ESMTP id
-	us-mta-84-SbISoAcOOhqP2LCzTyg8kg-1; Fri, 06 Mar 2020 21:31:44 -0500
-X-MC-Unique: SbISoAcOOhqP2LCzTyg8kg-1
-Received: by mail-ed1-f67.google.com with SMTP id m25so4772180edq.8
-	for <linux-audit@redhat.com>; Fri, 06 Mar 2020 18:31:44 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=64EvP1pT7B1uhF91j79RNrnsWnOcEOYc8XujllSJgbM=;
-	b=F0yZc76qGEBvcIVec9m+fjlYs4Iez1JgPMEHNNXJrZlCSVg54hb0aEglcfmhQ0gkUe
-	bxgwEKq18lTl2+cGjJlxK3uJ256TYizWMvyPEQUhbvzrPTQ8g5CtuOQbm/35xwA7Bnw/
-	/50us1uKJBwBk2MJ81xi9lkDhW5RwdGhvldEvfgpbw3UPly2tXiXxWZ5hE+eLRSt9ijA
-	AAyOVZxddjnIcr7gBtOg1Tsy9qts6LgWey8upLJN4A3m6//I0mG022sTyuqTK+rpcaxR
-	sihC6ae4a/QuxK49P8Kj1j75lpoZjo1v2gZfx1IY8+fKV7Jnf5NwCkTfLdCRhkeneUEY
-	YeXw==
-X-Gm-Message-State: ANhLgQ0ooWAK1rqdOiBOen7XcXoq8oFBeMw06Z0ehP4YffC27xTPWVQv
-	4/kAGGZKACcierbt+b2nYZytBBvXZqVfSmRI/n0a
-X-Google-Smtp-Source: ADFU+vuNmXM7kRV5tQ4h2jCNr8NhaRgF8kB7wCVcSVj3yrA1pazMC1EJWDiaximajNd+ddPVO2+DEf6w/7ms74V02Ek=
-X-Received: by 2002:a50:e108:: with SMTP id h8mr5996766edl.196.1583548303498; 
-	Fri, 06 Mar 2020 18:31:43 -0800 (PST)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D7992101A55A
+	for <linux-audit@redhat.com>; Mon,  9 Mar 2020 17:15:22 +0000 (UTC)
+Received: from sonic310-30.consmr.mail.ne1.yahoo.com
+	(sonic310-30.consmr.mail.ne1.yahoo.com [66.163.186.211]) (Using TLS) by
+	relay.mimecast.com with ESMTP id us-mta-292-aPBXPaE-MhGllt6w90wflA-1;
+	Mon, 09 Mar 2020 13:15:20 -0400
+X-MC-Unique: aPBXPaE-MhGllt6w90wflA-1
+X-YMail-OSG: N1X132AVM1nWBsptGXyLmeUElVxcvapvN4vfalJWb.0EgUG9QiovgRpJ4GXse_r
+	ZQHDvGh2crblbhWNV1.l77drxlZqa_bneOFXT2lAOL1ZeTGYDAvZSKs4EQInh6621TRLhg0PxyI9
+	gyvphjsiOmiKZLQLOydKoCN0X3lkR3QdPshEJYdUy7CLx7xWbGYFUwra5jePOiAcjRji4nb_9.0W
+	p_fO2EpCIiGYdT7S1k2oYKsDDizQvL0hTpNu4QnLewDPi8fBn_hmrZ6Ogkwi9Az3MetS0Dgzlm8B
+	NId8ybIaflP_T2tl5gyIz7pGsQzNSHHOtKChT2VxFNARmPUDTnheNKrv0plLzkTu0V4YP4.Ci3Cf
+	ADa62UR4nH654Qo6rQEXUK.1S0xApGGcUfdu_csTSLt0j.tryFifGKSutSuzdoImrot0fELWRYjP
+	RZ9uIlkizWor4nHAdTTCM24xmDj1W8KK9ZeGoG2BM7d_KwXcnTwvlxsDld9d6V48rhuKwVIhPYzC
+	1NKuzNIgTjUgyBW8MbgSH9Z.aFhlHuQbHlEsMVvDGB3_fkQhiNr.I7J3qZ850VWR6o7us4TKrROM
+	8HZt4sZlhLFGoa4ZdDn.BiNJ6ez8QB63rjh529v8BvmrSWShD.ZvCWN0ATHer6vTcySbhf6ORwnu
+	KElawYhfmZK5_l0HYQj5SSqwKb58PB42UKCv.vZ76tpBESYG_sw9VqWQqfHckdWSRh1wwx3V75qq
+	0V24WOjaVHZ5RuCsdRekkOa.fPX1isjNdwwXaA4Oc8jCzkhgpUgWKIufIxEbcIUyjGysr1b2kUuZ
+	wDkfKrCfN8Uhm0tSqoFXuBJk9_QIc4ou37P.a0Sk2rIyzhVrgeNjfy1DZsU33gk55JQs2HaIi5cN
+	ESv_WHtUVlWUtOu.OaInwfpGGVtfdeJJ6aSkyrp9NSvEBNHudfXaheNE4WXTlzCcXZaOQdVmGjoU
+	E_1fWHQBwGRcO7FW317el1sDnUPEg2A1U6fH3l7.K5AV7DYErcRvKopalhZb_6ptVgYgxY9ukq55
+	BcyeOhP0uVhMuWvjC.eRf9m7gXglcJ5KtJ62m8sfs4Jb9ZnNuwkR6n.VMnB4lVhZygKquWnVH90m
+	.yD24AjRDUFnfQjToP1.zUjNF2mZlw0Rp6GwldWO.gsqol2UyZPUD6ndAZNHsvzdsvYgMoobkm3_
+	3YWZ0RoAz.EVpA8h9SGoGBvlAB3WSDyU2VoCQP4H3N_EqzR9gY2VSIub7ozD.GDBhrO.8Kvjbb3I
+	kfTwzocFQsFzQzyYhnoPT2KJg0L8hjL68VLqNkIuHgXCt.HWFP6RYfr3pXBjQE3iaz8fxy0YiJG0
+	wS7Ma.unlbOtSGZFUVRA.Mdk2R5uWevzqgywqWedrLBJvSrspgeSmvub5cwc5bFqDKz2K_zz8m.M
+	Y1oQFrhlXcIqpYquDPLA-
+Received: from sonic.gate.mail.ne1.yahoo.com by
+	sonic310.consmr.mail.ne1.yahoo.com with HTTP;
+	Mon, 9 Mar 2020 17:15:19 +0000
+Received: by smtp423.mail.ne1.yahoo.com (Oath Hermes SMTP Server) with ESMTPA
+	ID bcdbd41b1ca4b8d23f1ed7df729f5abb; 
+	Mon, 09 Mar 2020 17:15:16 +0000 (UTC)
+Subject: Re: [PATCH v15 00/23] LSM: Module stacking for AppArmor
+To: Steve Grubb <sgrubb@redhat.com>
+References: <20200222000407.110158-1-casey.ref@schaufler-ca.com>
+	<853ac380-2132-febe-fda0-ff0a0a74d480@schaufler-ca.com>
+	<658202b8-c257-e74f-1769-af40cb2325ab@schaufler-ca.com>
+	<52786936.4IqQbOQo6H@x2>
+From: Casey Schaufler <casey@schaufler-ca.com>
+Autocrypt: addr=casey@schaufler-ca.com; keydata=
+	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
+	abzjfg==
+Message-ID: <2f2695b5-dad9-9207-27a4-3786dff29c04@schaufler-ca.com>
+Date: Mon, 9 Mar 2020 10:15:14 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+	Thunderbird/68.5.0
 MIME-Version: 1.0
-References: <20200222000407.110158-1-casey@schaufler-ca.com>
-	<20200222000407.110158-14-casey@schaufler-ca.com>
-In-Reply-To: <20200222000407.110158-14-casey@schaufler-ca.com>
-From: Paul Moore <paul@paul-moore.com>
-Date: Fri, 6 Mar 2020 21:31:32 -0500
-Message-ID: <CAHC9VhSrjdzL_4s1kPvuc6PxOQi5LmsxRaW10pYjDM2_nbstJw@mail.gmail.com>
-Subject: Re: [PATCH v15 21/23] Audit: Include object data for all security
-	modules
-To: Casey Schaufler <casey@schaufler-ca.com>
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+In-Reply-To: <52786936.4IqQbOQo6H@x2>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
 X-MIME-Autoconverted: from quoted-printable to 8bit by
-	lists01.pubmisc.prod.ext.phx2.redhat.com id 0272VnPD017018
+	lists01.pubmisc.prod.ext.phx2.redhat.com id 029HFQSa022827
 X-loop: linux-audit@redhat.com
-Cc: casey.schaufler@intel.com, linux-audit@redhat.com
+Cc: Richard Guy Briggs <rgb@redhat.com>, James Morris <jmorris@namei.org>,
+	linux-audit@redhat.com, casey.schaufler@intel.com
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -98,125 +156,70 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-On Fri, Feb 21, 2020 at 7:06 PM Casey Schaufler <casey@schaufler-ca.com> wrote:
+On 3/6/2020 9:14 AM, Steve Grubb wrote:
+> On Tuesday, March 3, 2020 12:22:31 PM EST Casey Schaufler wrote:
+>> On 2/27/2020 9:29 AM, Casey Schaufler wrote:
+>>> On 2/21/2020 4:03 PM, Casey Schaufler wrote:
+>>>> Resending the audit related patches to the audit list,
+>>>> as there have been problems with the CC lists.
+>>> There's an awful lot of interaction between the module stacking
+>>> and the audit sub-system. I have not gotten much feedback about
+>>> the audit changes recently, but I can't bring myself to think
+>>> this means there aren't any concerns. Before I start pushing for
+>>> the stacking to get pulled I would really appreciate either ACKs
+>>> or meaningful comments from the audit community. I can see that
+>>> there's a lot going on in the audit sub-system, and appreciate
+>>> that priorities may be elsewhere.
+>>>
+>>> Thank you.
+>> I have to start pushing on this series. If the audit community
+>> hasn't any additional feedback, I'll take it that what's here is
+>> acceptable and move my lobbying efforts elsewhere.
+> There is a limit in user space that may cause problems.
+
+Oh my.
+
+> MAX_AUDIT_MESSAGE_LENGTH    8970 // PATH_MAX*2+CONTEXT_SIZE*2+11+256+1
 >
-> When there is more than one context displaying security
-> module extend what goes into the audit record by supplimenting
-> the "obj=" with an "obj_<lsm>=" for each such security
-> module.
->
-> Acked-by: Stephen Smalley <sds@tycho.nsa.gov>
-> Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
-> Cc:linux-audit@redhat.com
-> ---
->  kernel/audit.h   |   4 +-
->  kernel/auditsc.c | 106 ++++++++++++++++++++++++-----------------------
->  2 files changed, 56 insertions(+), 54 deletions(-)
+> This has been in place for years. This is designed to hand the AUDIT_PATH 
+> record which can have PATH_MAX * 2 for name field, then it has 11 bytes set 
+> aside for other fields, then 256 bytes to handle the largest possible SELinux 
+> label. So, if we are agoing to stab other LSM's into the object identifier, 
+> how big is it? Do you have a max size that everyone has to fit into?
 
-...
+We already have a potential problem here. This implicitly limits
+the size of a label for all security modules. While we don't have
+a problem for any of the existing modules, it reasonable to assume
+that some module some day may want more than that. We have a dearth
+of documentation on what security modules can and can't do, including
+limits like this.
 
-> diff --git a/kernel/auditsc.c b/kernel/auditsc.c
-> index 68ae5fa843c1..7dab48661e31 100644
-> --- a/kernel/auditsc.c
-> +++ b/kernel/auditsc.c
-> @@ -956,13 +953,57 @@ static inline void audit_free_context(struct audit_context *context)
->         kfree(context);
->  }
->
-> +static int audit_log_object_context(struct audit_buffer *ab,
-> +                                   struct lsmblob *blob)
-> +{
-> +       struct lsmcontext context;
-> +       const char *lsm;
-> +       int i;
-> +
-> +       /*
-> +        * None of the installed modules have object labels.
-> +        */
-> +       if (security_lsm_slot_name(0) == NULL)
-> +               return 0;
-> +
-> +       if (blob->secid[0] != 0) {
-> +               if (security_secid_to_secctx(blob, &context, 0)) {
-> +                       audit_log_format(ab, " obj=?");
-> +                       return 1;
-> +               }
-> +               audit_log_format(ab, " obj=%s", context.context);
-> +               security_release_secctx(&context);
-> +       }
-> +
-> +       /*
-> +        * Don't do anything more unless there is more than one LSM
-> +        * with a security context to report.
-> +        */
-> +       if (security_lsm_slot_name(1) == NULL)
-> +               return 0;
-> +
-> +       for (i = 0; i < LSMBLOB_ENTRIES; i++) {
-> +               lsm = security_lsm_slot_name(i);
-> +               if (lsm == NULL)
-> +                       break;
-> +               if (blob->secid[i] == 0)
-> +                       continue;
-> +               if (security_secid_to_secctx(blob, &context, i)) {
-> +                       audit_log_format(ab, " obj_%s=?", lsm);
-> +                       continue;
-> +               }
-> +               audit_log_format(ab, " obj_%s=%s", lsm, context.context);
-> +               security_release_secctx(&context);
-> +       }
-> +       return 0;
-> +}
-> +
->  static int audit_log_pid_context(struct audit_context *context, pid_t pid,
->                                  kuid_t auid, kuid_t uid,
->                                  unsigned int sessionid,
->                                  struct lsmblob *blob, char *comm)
->  {
->         struct audit_buffer *ab;
-> -       struct lsmcontext lsmctx;
->         int rc = 0;
->
->         ab = audit_log_start(context, GFP_KERNEL, AUDIT_OBJ_PID);
-> @@ -972,15 +1013,7 @@ static int audit_log_pid_context(struct audit_context *context, pid_t pid,
->         audit_log_format(ab, "opid=%d oauid=%d ouid=%d oses=%d", pid,
->                          from_kuid(&init_user_ns, auid),
->                          from_kuid(&init_user_ns, uid), sessionid);
-> -       if (lsmblob_is_set(blob)) {
-> -               if (security_secid_to_secctx(blob, &lsmctx, LSMBLOB_FIRST)) {
-> -                       audit_log_format(ab, " obj=(none)");
-> -                       rc = 1;
-> -               } else {
-> -                       audit_log_format(ab, " obj=%s", lsmctx.context);
-> -                       security_release_secctx(&lsmctx);
-> -               }
-> -       }
-> +       rc = audit_log_object_context(ab, blob);
->         audit_log_format(ab, " ocomm=");
->         audit_log_untrustedstring(ab, comm);
->         audit_log_end(ab);
+> Changing this constant in user space is not something that you set and are 
+> done. Everything will need recompiling.
 
-I realized you don't hang around linux-audit (why would anyone want to
-do that?!) so let me tell you one of my most hated mantras: "new audit
-fields MUST go at the end of the audit record".  The "MUST" is in all
-caps because either I'm being clever and reusing some IETF RFC
-concepts, or I'm tired of arguing this point and feel like
-capitalization is the best I can do for stress relief; maybe it is a
-combination of the two.  Feel free to pick whichever reason you find
-most pleasing.
+Unfortunate, but hardly a surprise. I can see that having a MAX_AUDIT_MESSAGE_LENGTH
+is going to require some finagling regardless of what value it has.
 
-Either way, the "obj=" field should stay where it is, but the
-"obj_XXX=" fields need to find their way to the end of the record.
+> And one other question, no field names are changing because of this are they?
 
--- 
-paul moore
-www.paul-moore.com
+No field names change. subj= and obj= remain as they are.
+subj_selinux=, obj_smack= and the like are added.
+
+> And if a distribution has only 1 LSM, will anyone notice a change in format?
+
+No. Explicit steps are taken to ensure that the new fields are produced only
+if there's more than one active security module.
+
+> -Steve
+
+Thanks for the response. I'll be making more comments based on Paul's feedback.
+
 
 
 --
