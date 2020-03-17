@@ -2,52 +2,53 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from us-smtp-delivery-74.mimecast.com (us-smtp-delivery-74.mimecast.com [63.128.21.74])
-	by mail.lfdr.de (Postfix) with ESMTP id DABA8189064
-	for <lists+linux-audit@lfdr.de>; Tue, 17 Mar 2020 22:31:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CF42C189069
+	for <lists+linux-audit@lfdr.de>; Tue, 17 Mar 2020 22:31:51 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1584480702;
+	s=mimecast20190719; t=1584480710;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:in-reply-to:references:references:references:
 	 list-id:list-help:list-unsubscribe:list-subscribe:list-post;
-	bh=qPP8LJg3J7CPibopiE95uq8eWe2fAaF97jOe+X3ztkQ=;
-	b=jJ3ksKBJfsEN9EEkrxCq9XLqSgxrvGXgU3gayq2JLhi+HXJ8+NnLMpE/PiJzmSMFi5IXq4
-	siAKZI0bNmlu91LiG0HMs86BP5aJv0EDRyC8s9FRWBuPI4B7tqT0+5p3fBJ0Dh1DVVuFN5
-	gCLcxE458voS1LXcgFdxISmnkzHo4CE=
+	bh=9wGfNYGrsuu6P7OuByGE6f91yycQRvEoYvbjiKa0sys=;
+	b=LdYhDQiSrBpSd5xx/mMTsgEnwO3RBIRxIG64peL66Y97E4dYf0xXCB3cmjNf3kWeUjaQBA
+	zWFqSATiJ9sXlPAPthncG18LoXfO1NSNJbxNLNx7QCG10QRMM+/gI0Fv57B7Q6X0yplxvU
+	i22SeIl4iXZnZZt9v/jkoa5MYquowLU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-390-39ssiAHYMOeCLuK-58cvLg-1; Tue, 17 Mar 2020 17:31:40 -0400
-X-MC-Unique: 39ssiAHYMOeCLuK-58cvLg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+ us-mta-200-Wy5Ztrw3PJaUO7Df1qxt6A-1; Tue, 17 Mar 2020 17:31:48 -0400
+X-MC-Unique: Wy5Ztrw3PJaUO7Df1qxt6A-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F06B218C35A1;
-	Tue, 17 Mar 2020 21:31:35 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 124B8800D5E;
+	Tue, 17 Mar 2020 21:31:43 +0000 (UTC)
 Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id BB3057E32A;
-	Tue, 17 Mar 2020 21:31:35 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id DC3A119C4F;
+	Tue, 17 Mar 2020 21:31:42 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 74D9E18089CD;
-	Tue, 17 Mar 2020 21:31:35 +0000 (UTC)
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 9703C18089CE;
+	Tue, 17 Mar 2020 21:31:42 +0000 (UTC)
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
 	[10.5.11.23])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 02HLVXPt019392 for <linux-audit@listman.util.phx.redhat.com>;
-	Tue, 17 Mar 2020 17:31:33 -0400
+	id 02HLVdPW019406 for <linux-audit@listman.util.phx.redhat.com>;
+	Tue, 17 Mar 2020 17:31:39 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id 3760819756; Tue, 17 Mar 2020 21:31:33 +0000 (UTC)
+	id A2DC719C70; Tue, 17 Mar 2020 21:31:39 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from madcap2.tricolour.ca (unknown [10.36.110.5])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 5C0DA19C58;
-	Tue, 17 Mar 2020 21:31:21 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id D506F19C4F;
+	Tue, 17 Mar 2020 21:31:33 +0000 (UTC)
 From: Richard Guy Briggs <rgb@redhat.com>
 To: Linux-Audit Mailing List <linux-audit@redhat.com>,
 	LKML <linux-kernel@vger.kernel.org>, netfilter-devel@vger.kernel.org
-Subject: [PATCH ghak25 v3 2/3] netfilter: add audit table unregister actions
-Date: Tue, 17 Mar 2020 17:30:23 -0400
-Message-Id: <1715b217352ea7c920e97308cef59306ab63dd88.1584480281.git.rgb@redhat.com>
+Subject: [PATCH ghak25 v3 3/3] audit: add subj creds to NETFILTER_CFG record
+	to cover async unregister
+Date: Tue, 17 Mar 2020 17:30:24 -0400
+Message-Id: <13ef49b2f111723106d71c1bdeedae09d9b300d8.1584480281.git.rgb@redhat.com>
 In-Reply-To: <cover.1584480281.git.rgb@redhat.com>
 References: <cover.1584480281.git.rgb@redhat.com>
 In-Reply-To: <cover.1584480281.git.rgb@redhat.com>
@@ -70,77 +71,59 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 MIME-Version: 1.0
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-Audit the action of unregistering ebtables and x_tables.
+Some table unregister actions seem to be initiated by the kernel to
+garbage collect unused tables that are not initiated by any userspace
+actions.  It was found to be necessary to add the subject credentials to
+cover this case to reveal the source of these actions.  A sample record:
 
-See: https://github.com/linux-audit/audit-kernel/issues/44
+  type=NETFILTER_CFG msg=audit(2020-03-11 21:25:21.491:269) : table=nat family=bridge entries=0 op=unregister pid=153 uid=root auid=unset tty=(none) ses=unset subj=system_u:system_r:kernel_t:s0 comm=kworker/u4:2 exe=(null)
+
 Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
 ---
- include/linux/audit.h           | 1 +
- kernel/auditsc.c                | 5 +++--
- net/bridge/netfilter/ebtables.c | 2 ++
- net/netfilter/x_tables.c        | 2 ++
- 4 files changed, 8 insertions(+), 2 deletions(-)
+ kernel/auditsc.c | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-diff --git a/include/linux/audit.h b/include/linux/audit.h
-index f4aed2b9be8d..17427c41cc29 100644
---- a/include/linux/audit.h
-+++ b/include/linux/audit.h
-@@ -97,6 +97,7 @@ struct audit_ntp_data {
- enum audit_nfcfgop {
- 	AUDIT_XT_OP_REGISTER,
- 	AUDIT_XT_OP_REPLACE,
-+	AUDIT_XT_OP_UNREGISTER,
- };
- 
- extern int is_audit_feature_set(int which);
 diff --git a/kernel/auditsc.c b/kernel/auditsc.c
-index f4e342125dd9..dbb056feccb9 100644
+index dbb056feccb9..6c233076dfb7 100644
 --- a/kernel/auditsc.c
 +++ b/kernel/auditsc.c
-@@ -136,8 +136,9 @@ struct audit_nfcfgop_tab {
- };
+@@ -2557,12 +2557,30 @@ void __audit_log_nfcfg(const char *name, u8 af, unsigned int nentries,
+ 		       enum audit_nfcfgop op)
+ {
+ 	struct audit_buffer *ab;
++	const struct cred *cred;
++	struct tty_struct *tty;
++	char comm[sizeof(current->comm)];
  
- const struct audit_nfcfgop_tab audit_nfcfgs[] = {
--	{ AUDIT_XT_OP_REGISTER,	"register"	},
--	{ AUDIT_XT_OP_REPLACE,	"replace"	},
-+	{ AUDIT_XT_OP_REGISTER,		"register"	},
-+	{ AUDIT_XT_OP_REPLACE,		"replace"	},
-+	{ AUDIT_XT_OP_UNREGISTER,	"unregister"	},
- };
- 
- static int audit_match_perm(struct audit_context *ctx, int mask)
-diff --git a/net/bridge/netfilter/ebtables.c b/net/bridge/netfilter/ebtables.c
-index 55f9409c3ee0..b3a2e6ea516c 100644
---- a/net/bridge/netfilter/ebtables.c
-+++ b/net/bridge/netfilter/ebtables.c
-@@ -1124,6 +1124,8 @@ static void __ebt_unregister_table(struct net *net, struct ebt_table *table)
- 	mutex_lock(&ebt_mutex);
- 	list_del(&table->list);
- 	mutex_unlock(&ebt_mutex);
-+	audit_log_nfcfg(table->name, AF_BRIDGE, table->private->nentries,
-+		        AUDIT_XT_OP_UNREGISTER);
- 	EBT_ENTRY_ITERATE(table->private->entries, table->private->entries_size,
- 			  ebt_cleanup_entry, net, NULL);
- 	if (table->private->nentries)
-diff --git a/net/netfilter/x_tables.c b/net/netfilter/x_tables.c
-index db5cbcf43748..e43720a7783b 100644
---- a/net/netfilter/x_tables.c
-+++ b/net/netfilter/x_tables.c
-@@ -1472,6 +1472,8 @@ void *xt_unregister_table(struct xt_table *table)
- 	private = table->private;
- 	list_del(&table->list);
- 	mutex_unlock(&xt[table->af].mutex);
-+	audit_log_nfcfg(table->name, table->af, private->number,
-+		        AUDIT_XT_OP_UNREGISTER);
- 	kfree(table);
- 
- 	return private;
+ 	ab = audit_log_start(audit_context(), GFP_KERNEL, AUDIT_NETFILTER_CFG);
+ 	if (!ab)
+ 		return;
+ 	audit_log_format(ab, "table=%s family=%u entries=%u op=%s",
+ 			 name, af, nentries, audit_nfcfgs[op].s);
++
++	cred = current_cred();
++	tty = audit_get_tty();
++	audit_log_format(ab, " pid=%u uid=%u auid=%u tty=%s ses=%u",
++			 task_pid_nr(current),
++			 from_kuid(&init_user_ns, cred->uid),
++			 from_kuid(&init_user_ns, audit_get_loginuid(current)),
++			 tty ? tty_name(tty) : "(none)",
++			 audit_get_sessionid(current));
++	audit_put_tty(tty);
++	audit_log_task_context(ab); /* subj= */
++	audit_log_format(ab, " comm=");
++	audit_log_untrustedstring(ab, get_task_comm(comm, current));
++	audit_log_d_path_exe(ab, current->mm); /* exe= */
++
+ 	audit_log_end(ab);
+ }
+ EXPORT_SYMBOL_GPL(__audit_log_nfcfg);
 -- 
 1.8.3.1
 
