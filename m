@@ -2,62 +2,98 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from us-smtp-delivery-74.mimecast.com (us-smtp-delivery-74.mimecast.com [63.128.21.74])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A8B5189CA7
-	for <lists+linux-audit@lfdr.de>; Wed, 18 Mar 2020 14:12:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CE1CD189FE6
+	for <lists+linux-audit@lfdr.de>; Wed, 18 Mar 2020 16:46:07 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1584537132;
+	s=mimecast20190719; t=1584546366;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=/9P1KjLm0bmwdEMkTQbOWqFC8e9P9q+lgg72OVhtuvY=;
-	b=fTZGGDcRm1bYCbT/b9sQxDCXnOyhNaklX1uaYlhGU+4sbi+D8B3s54aVeQDKFWctwrlyPx
-	bc3RfmUY4cOSmW81VRO4Zh8Ud0G1sLIO1HYyIaqiX5Jt/IqP97edEEw5B37rhRKGGKfsIT
-	XpIkCu8IP8hj8YGEuRPqTFH3W0E+7tI=
+	bh=uSVbd5i1WN7qogSzUMIMofph0Q2MHp97kXPCiWW0aoQ=;
+	b=Ra1ULYjjMRYnLCbPX69SVXtxvHIq4YtTZyDROnbujUW0No4NDhyWhQAMYhxpwpzp+NS6+Q
+	HSB172TijOxOd7m5wQo1b4g8YnuPywfly47QToKQ01AcPtvz62K3lyfhZemKBLQttKKZw2
+	o7zfWlLmJfPyQjjG3MjKN1c97A77eOE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-408-UtZmZ3eVOGimIY03GrQs-g-1; Wed, 18 Mar 2020 09:12:09 -0400
-X-MC-Unique: UtZmZ3eVOGimIY03GrQs-g-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+ us-mta-302-L3O4-BQFMd6V0kje-H2AAg-1; Wed, 18 Mar 2020 11:46:04 -0400
+X-MC-Unique: L3O4-BQFMd6V0kje-H2AAg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AEFED18A5508;
-	Wed, 18 Mar 2020 13:12:01 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 220B61001DDE;
-	Wed, 18 Mar 2020 13:12:00 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B498F18B9FC1;
+	Wed, 18 Mar 2020 15:45:57 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 08B835C1A0;
+	Wed, 18 Mar 2020 15:45:55 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 260D486FF9;
-	Wed, 18 Mar 2020 13:11:54 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
-	[10.5.11.23])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id D4FDC18034E9;
+	Wed, 18 Mar 2020 15:45:50 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+	[10.11.54.3])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 02IDBha6015352 for <linux-audit@listman.util.phx.redhat.com>;
-	Wed, 18 Mar 2020 09:11:43 -0400
+	id 02IFBkDx020642 for <linux-audit@listman.util.phx.redhat.com>;
+	Wed, 18 Mar 2020 11:11:46 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id 2433F19C58; Wed, 18 Mar 2020 13:11:43 +0000 (UTC)
+	id 4FEF41069282; Wed, 18 Mar 2020 15:11:46 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from madcap2.tricolour.ca (unknown [10.36.110.5])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id E94AC19C6A;
-	Wed, 18 Mar 2020 13:11:33 +0000 (UTC)
-Date: Wed, 18 Mar 2020 09:11:28 -0400
-From: Richard Guy Briggs <rgb@redhat.com>
-To: Linux-Audit Mailing List <linux-audit@redhat.com>,
-	LKML <linux-kernel@vger.kernel.org>, netfilter-devel@vger.kernel.org
-Subject: Re: [PATCH ghak25 v3 3/3] audit: add subj creds to NETFILTER_CFG
-	record to cover async unregister
-Message-ID: <20200318131128.axyddgotzck7cit2@madcap2.tricolour.ca>
-References: <cover.1584480281.git.rgb@redhat.com>
-	<13ef49b2f111723106d71c1bdeedae09d9b300d8.1584480281.git.rgb@redhat.com>
+Received: from mimecast-mx02.redhat.com
+	(mimecast01.extmail.prod.ext.rdu2.redhat.com [10.11.55.17])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 4B3E21005E53
+	for <linux-audit@redhat.com>; Wed, 18 Mar 2020 15:11:44 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+	[207.211.31.120])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 018DD907792
+	for <linux-audit@redhat.com>; Wed, 18 Mar 2020 15:11:44 +0000 (UTC)
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com
+	[209.85.160.174]) (Using TLS) by relay.mimecast.com with ESMTP id
+	us-mta-357-ERMlNymXN2eoAGSaxAcQxA-1; Wed, 18 Mar 2020 11:11:41 -0400
+X-MC-Unique: ERMlNymXN2eoAGSaxAcQxA-1
+Received: by mail-qt1-f174.google.com with SMTP id l20so20946051qtp.4
+	for <linux-audit@redhat.com>; Wed, 18 Mar 2020 08:11:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:date:from:to:cc:subject:message-id
+	:mail-followup-to:references:mime-version:content-disposition
+	:in-reply-to;
+	bh=cBYW0UwDlFqu6Mtk8zs15gpSjZXGrnPCv8HSY8PeaT0=;
+	b=AhLHjSlna1MS3M8LqtfLIU40LG5l2lZ48Nw3DHvQKMZX6rMqlhJNpC6kAwT8PGZ28P
+	uey1JKuiljmAuUjcEGvxlNcT1FLc6qrMJJQ2af9CU8AphXj+UlflxASClp6a4ni8TpPm
+	5t102PL+YzxK9cUL2pgbXQLXxg/88omdHo+vCTfgFbzTfqL5AKM7bULZix72gPGFuhRG
+	V4V0wpPNLl5U1AKYD8ZsC2cA3QM2qadw1utcqcPw8Z2h+F7dn2OtzeQk9KQ7wu+Enwef
+	oeS5I1gYWbLTvdMybVA6On4bfeKG0gXz30lLnGJ2CBkLZe2evMgvfNuydsFQW3+jsoXS
+	OxfA==
+X-Gm-Message-State: ANhLgQ2ccCjx0dHDXiIjpgRVKNT8WAM0MwIw88DxoF/EL+hFePRGIjR6
+	3smGjTb3eMvVl8ErghxlBNTlXw==
+X-Google-Smtp-Source: ADFU+vvUA72DBxyNp4q1pMyzL84thCC7GSkB4NfFgcsfz3Whg9bCEaA9sHL3dUFzLZZ257AFmZgX8g==
+X-Received: by 2002:ac8:6f58:: with SMTP id n24mr4820237qtv.63.1584544299759; 
+	Wed, 18 Mar 2020 08:11:39 -0700 (PDT)
+Received: from chatter.i7.local (107-179-243-71.cpe.teksavvy.com.
+	[107.179.243.71]) by smtp.gmail.com with ESMTPSA id
+	k66sm4275984qke.10.2020.03.18.08.11.38
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Wed, 18 Mar 2020 08:11:38 -0700 (PDT)
+Date: Wed, 18 Mar 2020 11:11:36 -0400
+From: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+To: Paul Moore <paul@paul-moore.com>
+Subject: Re: Looking for help testing patch attestation
+Message-ID: <20200318151136.kfjf6sdkjikptuwj@chatter.i7.local>
+Mail-Followup-To: Paul Moore <paul@paul-moore.com>, selinux@vger.kernel.org,
+	linux-audit@redhat.com
+References: <20200317221237.vrkru2kdc63zq3vi@chatter.i7.local>
+	<CAHC9VhTF8MH7UodKLGmAmMNzUeh-68W92pivnBgJfGhWV5F7HQ@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <13ef49b2f111723106d71c1bdeedae09d9b300d8.1584480281.git.rgb@redhat.com>
-User-Agent: NeoMutt/20180716
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <CAHC9VhTF8MH7UodKLGmAmMNzUeh-68W92pivnBgJfGhWV5F7HQ@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
+X-MIME-Autoconverted: from quoted-printable to 8bit by
+	lists01.pubmisc.prod.ext.phx2.redhat.com id 02IFBkDx020642
 X-loop: linux-audit@redhat.com
-Cc: twoerner@redhat.com, eparis@parisplace.org, fw@strlen.de,
-	ebiederm@xmission.com, tgraf@infradead.org
+X-Mailman-Approved-At: Wed, 18 Mar 2020 11:45:42 -0400
+Cc: selinux@vger.kernel.org, linux-audit@redhat.com
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -71,84 +107,60 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Content-Disposition: inline
 
-On 2020-03-17 17:30, Richard Guy Briggs wrote:
-> Some table unregister actions seem to be initiated by the kernel to
-> garbage collect unused tables that are not initiated by any userspace
-> actions.  It was found to be necessary to add the subject credentials to
-> cover this case to reveal the source of these actions.  A sample record:
-> 
->   type=NETFILTER_CFG msg=audit(2020-03-11 21:25:21.491:269) : table=nat family=bridge entries=0 op=unregister pid=153 uid=root auid=unset tty=(none) ses=unset subj=system_u:system_r:kernel_t:s0 comm=kworker/u4:2 exe=(null)
+On Tue, Mar 17, 2020 at 06:51:38PM -0400, Paul Moore wrote:
+> You might want to extend this test to the LSM list as well.  I'm
+> refraining from CC'ing them on this email because I don't want to
+> spoil your beta test rollout, but I think it would be a good thing to
+> do.
 
-Given the precedent set by bpf unload, I'd really rather drop this patch
-that adds subject credentials.
+I'll do that, thanks! I'll also loop in kernel-hardening folks.
 
-Similarly with ghak25's subject credentials, but they were already
-present and that would change an existing record format, so it isn't
-quite as justifiable in that case.
+> Speaking as the person who merges patches for both the SELinux and
+> audit kernel subsystems, I look at every patch I merge; I don't
+> blindly merge patches (even from certain "trusted" individuals).
+> Simply put, I've always considered that to be part of the job.  While
+> the patch attestation could provide some assurance about who created
+> the patch (assuming a reasonable web-of-trust), and that it hadn't
+> been tampered with, I feel it is more important to review correctness
+> than it is to guarantee provenance.  If you ever develop a tool which
+> can help with the correctness part, I'll gladly jump to the front of
+> the line to test that one! ;)
 
-> Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
-> ---
->  kernel/auditsc.c | 18 ++++++++++++++++++
->  1 file changed, 18 insertions(+)
-> 
-> diff --git a/kernel/auditsc.c b/kernel/auditsc.c
-> index dbb056feccb9..6c233076dfb7 100644
-> --- a/kernel/auditsc.c
-> +++ b/kernel/auditsc.c
-> @@ -2557,12 +2557,30 @@ void __audit_log_nfcfg(const char *name, u8 af, unsigned int nentries,
->  		       enum audit_nfcfgop op)
->  {
->  	struct audit_buffer *ab;
-> +	const struct cred *cred;
-> +	struct tty_struct *tty;
-> +	char comm[sizeof(current->comm)];
->  
->  	ab = audit_log_start(audit_context(), GFP_KERNEL, AUDIT_NETFILTER_CFG);
->  	if (!ab)
->  		return;
->  	audit_log_format(ab, "table=%s family=%u entries=%u op=%s",
->  			 name, af, nentries, audit_nfcfgs[op].s);
-> +
-> +	cred = current_cred();
-> +	tty = audit_get_tty();
-> +	audit_log_format(ab, " pid=%u uid=%u auid=%u tty=%s ses=%u",
-> +			 task_pid_nr(current),
-> +			 from_kuid(&init_user_ns, cred->uid),
-> +			 from_kuid(&init_user_ns, audit_get_loginuid(current)),
-> +			 tty ? tty_name(tty) : "(none)",
-> +			 audit_get_sessionid(current));
-> +	audit_put_tty(tty);
-> +	audit_log_task_context(ab); /* subj= */
-> +	audit_log_format(ab, " comm=");
-> +	audit_log_untrustedstring(ab, get_task_comm(comm, current));
-> +	audit_log_d_path_exe(ab, current->mm); /* exe= */
-> +
->  	audit_log_end(ab);
->  }
->  EXPORT_SYMBOL_GPL(__audit_log_nfcfg);
-> -- 
-> 1.8.3.1
-> 
-> --
-> Linux-audit mailing list
-> Linux-audit@redhat.com
-> https://www.redhat.com/mailman/listinfo/linux-audit
+Yes I understand -- I view this as an auxiliary feature that helps 
+maintainers in their duties, but certainly doesn't aim to replace due 
+diligence. I am most worried about the following scenario:
 
-- RGB
+1. a maintainer receives a long series of patches that arrives into 
+   their inbox
+2. they carefully review the patches and decide to merge them
+3. they use "b4 am" to grab that patch series from lore.kernel.org
+4. however, the archive has been manipulated and returns patches 
+   containing malicious edits, which get merged because the maintainer 
+   assumes that what "b4 am" returns is the same as what they reviewed
 
---
-Richard Guy Briggs <rgb@redhat.com>
-Sr. S/W Engineer, Kernel Security, Base Operating Systems
-Remote, Ottawa, Red Hat Canada
-IRC: rgb, SunRaycer
-Voice: +1.647.777.2635, Internal: (81) 32635
+Cryptographic attestations helps hedge against this scenario by removing 
+any implicit trust from the centralized system like lore.kernel.org (or 
+patchwork.kernel.org, for that matter).
+
+> Having said that, I'm happy to see work going into tools like this,
+> and at some point I'll look into adding it into my workflow for an
+> extra level of safety (although I'm on the fence about making it
+> mandatory for submissions).  Sorry to disappoint, but I'm probably not
+> the best test monkey right now.
+
+All good, this is why I'm casting the net wide looking for initial 
+adopters. :)
+
+Best regards,
+Konstantin
+
 
 --
 Linux-audit mailing list
