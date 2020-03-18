@@ -1,99 +1,105 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-delivery-74.mimecast.com (us-smtp-delivery-74.mimecast.com [63.128.21.74])
-	by mail.lfdr.de (Postfix) with ESMTP id CE1CD189FE6
-	for <lists+linux-audit@lfdr.de>; Wed, 18 Mar 2020 16:46:07 +0100 (CET)
+Received: from us-smtp-delivery-74.mimecast.com (us-smtp-delivery-74.mimecast.com [216.205.24.74])
+	by mail.lfdr.de (Postfix) with ESMTP id DE11318A4D4
+	for <lists+linux-audit@lfdr.de>; Wed, 18 Mar 2020 21:57:37 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1584546366;
+	s=mimecast20190719; t=1584565057;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=uSVbd5i1WN7qogSzUMIMofph0Q2MHp97kXPCiWW0aoQ=;
-	b=Ra1ULYjjMRYnLCbPX69SVXtxvHIq4YtTZyDROnbujUW0No4NDhyWhQAMYhxpwpzp+NS6+Q
-	HSB172TijOxOd7m5wQo1b4g8YnuPywfly47QToKQ01AcPtvz62K3lyfhZemKBLQttKKZw2
-	o7zfWlLmJfPyQjjG3MjKN1c97A77eOE=
+	bh=RqlYhTteM4b+m50K5rjyZvbPYuPSJJuxUI+dda7Tg/8=;
+	b=TOellEWdz2LYc1YYLspWASBz3YTQpr+vJcHCW7gSkXW0TPCXr3CMTxbpQKFTPdrUImZ1cY
+	Ingze4G029+E3oz9LnddxJW0ZU03HDXzjrl1lK1BmY1Mdab/lCdfHdzRkcIzEA/Pu7ShUF
+	UGLuYwD1MTo5AWmfGYDRQMBU02JDfbg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-302-L3O4-BQFMd6V0kje-H2AAg-1; Wed, 18 Mar 2020 11:46:04 -0400
-X-MC-Unique: L3O4-BQFMd6V0kje-H2AAg-1
+ us-mta-307-s7OOVGhLMzW0Aj_5NGgs1Q-1; Wed, 18 Mar 2020 16:57:34 -0400
+X-MC-Unique: s7OOVGhLMzW0Aj_5NGgs1Q-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B498F18B9FC1;
-	Wed, 18 Mar 2020 15:45:57 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 08B835C1A0;
-	Wed, 18 Mar 2020 15:45:55 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CD3ED13EA;
+	Wed, 18 Mar 2020 20:57:27 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 047C5BBBC1;
+	Wed, 18 Mar 2020 20:57:23 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id D4FDC18034E9;
-	Wed, 18 Mar 2020 15:45:50 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
-	[10.11.54.3])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 1E46C87011;
+	Wed, 18 Mar 2020 20:57:18 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+	[10.11.54.6])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 02IFBkDx020642 for <linux-audit@listman.util.phx.redhat.com>;
-	Wed, 18 Mar 2020 11:11:46 -0400
+	id 02IKv5nY005851 for <linux-audit@listman.util.phx.redhat.com>;
+	Wed, 18 Mar 2020 16:57:05 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id 4FEF41069282; Wed, 18 Mar 2020 15:11:46 +0000 (UTC)
+	id 6E7542166B28; Wed, 18 Mar 2020 20:57:05 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
-	(mimecast01.extmail.prod.ext.rdu2.redhat.com [10.11.55.17])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 4B3E21005E53
-	for <linux-audit@redhat.com>; Wed, 18 Mar 2020 15:11:44 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
-	[207.211.31.120])
+	(mimecast03.extmail.prod.ext.rdu2.redhat.com [10.11.55.19])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 691FD2166AE4
+	for <linux-audit@redhat.com>; Wed, 18 Mar 2020 20:57:02 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [207.211.31.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 018DD907792
-	for <linux-audit@redhat.com>; Wed, 18 Mar 2020 15:11:44 +0000 (UTC)
-Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com
-	[209.85.160.174]) (Using TLS) by relay.mimecast.com with ESMTP id
-	us-mta-357-ERMlNymXN2eoAGSaxAcQxA-1; Wed, 18 Mar 2020 11:11:41 -0400
-X-MC-Unique: ERMlNymXN2eoAGSaxAcQxA-1
-Received: by mail-qt1-f174.google.com with SMTP id l20so20946051qtp.4
-	for <linux-audit@redhat.com>; Wed, 18 Mar 2020 08:11:41 -0700 (PDT)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B402C8CC924
+	for <linux-audit@redhat.com>; Wed, 18 Mar 2020 20:57:02 +0000 (UTC)
+Received: from mail-ed1-f68.google.com (mail-ed1-f68.google.com
+	[209.85.208.68]) (Using TLS) by relay.mimecast.com with ESMTP id
+	us-mta-459-g8DHZ7b8OFmmYXhiMFL0TQ-1; Wed, 18 Mar 2020 16:56:59 -0400
+X-MC-Unique: g8DHZ7b8OFmmYXhiMFL0TQ-1
+Received: by mail-ed1-f68.google.com with SMTP id a43so10825424edf.6
+	for <linux-audit@redhat.com>; Wed, 18 Mar 2020 13:56:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id
-	:mail-followup-to:references:mime-version:content-disposition
-	:in-reply-to;
-	bh=cBYW0UwDlFqu6Mtk8zs15gpSjZXGrnPCv8HSY8PeaT0=;
-	b=AhLHjSlna1MS3M8LqtfLIU40LG5l2lZ48Nw3DHvQKMZX6rMqlhJNpC6kAwT8PGZ28P
-	uey1JKuiljmAuUjcEGvxlNcT1FLc6qrMJJQ2af9CU8AphXj+UlflxASClp6a4ni8TpPm
-	5t102PL+YzxK9cUL2pgbXQLXxg/88omdHo+vCTfgFbzTfqL5AKM7bULZix72gPGFuhRG
-	V4V0wpPNLl5U1AKYD8ZsC2cA3QM2qadw1utcqcPw8Z2h+F7dn2OtzeQk9KQ7wu+Enwef
-	oeS5I1gYWbLTvdMybVA6On4bfeKG0gXz30lLnGJ2CBkLZe2evMgvfNuydsFQW3+jsoXS
-	OxfA==
-X-Gm-Message-State: ANhLgQ2ccCjx0dHDXiIjpgRVKNT8WAM0MwIw88DxoF/EL+hFePRGIjR6
-	3smGjTb3eMvVl8ErghxlBNTlXw==
-X-Google-Smtp-Source: ADFU+vvUA72DBxyNp4q1pMyzL84thCC7GSkB4NfFgcsfz3Whg9bCEaA9sHL3dUFzLZZ257AFmZgX8g==
-X-Received: by 2002:ac8:6f58:: with SMTP id n24mr4820237qtv.63.1584544299759; 
-	Wed, 18 Mar 2020 08:11:39 -0700 (PDT)
-Received: from chatter.i7.local (107-179-243-71.cpe.teksavvy.com.
-	[107.179.243.71]) by smtp.gmail.com with ESMTPSA id
-	k66sm4275984qke.10.2020.03.18.08.11.38
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 18 Mar 2020 08:11:38 -0700 (PDT)
-Date: Wed, 18 Mar 2020 11:11:36 -0400
-From: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-To: Paul Moore <paul@paul-moore.com>
-Subject: Re: Looking for help testing patch attestation
-Message-ID: <20200318151136.kfjf6sdkjikptuwj@chatter.i7.local>
-Mail-Followup-To: Paul Moore <paul@paul-moore.com>, selinux@vger.kernel.org,
-	linux-audit@redhat.com
-References: <20200317221237.vrkru2kdc63zq3vi@chatter.i7.local>
-	<CAHC9VhTF8MH7UodKLGmAmMNzUeh-68W92pivnBgJfGhWV5F7HQ@mail.gmail.com>
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=g4AW1divsHMPr3pCP4CdP4Cl7K8Ooaeq6pBA6GUaETQ=;
+	b=GZtVzHkrMbKEaWbuzBKOdvWCd2QGBPVRzC4kIn02e8ymTfVvIa/LyRc51TuuAic2za
+	C+pLFzsR7gz6IsVU3jgUTfS96qRCZajnkilOKTZ+hY7LsR6Je/w2X1k1H4pr6J+FSZhw
+	hYIDkg0iS/xszZxUqZNOIR1XvRFNOrnuyYqNCWt61uKO817NvCw68W6Ms9oMO+pRugKt
+	zIR8Je7ORBwmWbk53Rk2i6iFQOA23aANsdD7kBuzwfTeu+xBmcbwKgfbmzJz1v+KnGrf
+	8yTFW4NXnhQTGHYy6IQhtLkuZThQnaBgVXdzvknwKdcGeF3qVUA/b+YAy67UqKn5X0Ex
+	9UEA==
+X-Gm-Message-State: ANhLgQ0IKinmt2CA2eSxA80YGSk/gTEfsyxoq/YpF0lK66nVAwZOFTDV
+	LE/jqLBno22Xul+6j4aDLXtXegh2peP54JRaU5dm
+X-Google-Smtp-Source: ADFU+vufKN/Y6D0NZVHBfHqWGsUn/HVoc7DCLKs6yGElrUkdM/dJMEcsEF5RKrrMdJTSmw7tnsN+cSFDtag+WxqrPu4=
+X-Received: by 2002:a17:906:7b8d:: with SMTP id
+	s13mr120333ejo.77.1584565017755; 
+	Wed, 18 Mar 2020 13:56:57 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAHC9VhTF8MH7UodKLGmAmMNzUeh-68W92pivnBgJfGhWV5F7HQ@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
+References: <cover.1577736799.git.rgb@redhat.com>
+	<20200204231454.oxa7pyvuxbj466fj@madcap2.tricolour.ca>
+	<CAHC9VhQquokw+7UOU=G0SsD35UdgmfysVKCGCE87JVaoTkbisg@mail.gmail.com>
+	<3142237.YMNxv0uec1@x2>
+	<CAHC9VhTiCHQbp2SwK0Xb1QgpUZxOQ26JKKPsVGT0ZvMqx28oPQ@mail.gmail.com>
+	<CAHC9VhS09b_fM19tn7pHZzxfyxcHnK+PJx80Z9Z1hn8-==4oLA@mail.gmail.com>
+	<20200312193037.2tb5f53yeisfq4ta@madcap2.tricolour.ca>
+	<CAHC9VhQoVOzy_b9W6h+kmizKr1rPkC4cy5aYoKT2i0ZgsceNDg@mail.gmail.com>
+	<20200313185900.y44yvrfm4zxa5lfk@madcap2.tricolour.ca>
+In-Reply-To: <20200313185900.y44yvrfm4zxa5lfk@madcap2.tricolour.ca>
+From: Paul Moore <paul@paul-moore.com>
+Date: Wed, 18 Mar 2020 16:56:46 -0400
+Message-ID: <CAHC9VhR2zCCE5bjH75rSwfLC7TJGFj4RBnrtcOoUiqVp9q5TaA@mail.gmail.com>
+Subject: Re: [PATCH ghak90 V8 07/16] audit: add contid support for signalling
+	the audit daemon
+To: Richard Guy Briggs <rgb@redhat.com>
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
 X-MIME-Autoconverted: from quoted-printable to 8bit by
-	lists01.pubmisc.prod.ext.phx2.redhat.com id 02IFBkDx020642
+	lists01.pubmisc.prod.ext.phx2.redhat.com id 02IKv5nY005851
 X-loop: linux-audit@redhat.com
-X-Mailman-Approved-At: Wed, 18 Mar 2020 11:45:42 -0400
-Cc: selinux@vger.kernel.org, linux-audit@redhat.com
+Cc: nhorman@tuxdriver.com, linux-api@vger.kernel.org,
+	containers@lists.linux-foundation.org,
+	LKML <linux-kernel@vger.kernel.org>, dhowells@redhat.com,
+	linux-audit@redhat.com, netfilter-devel@vger.kernel.org,
+	ebiederm@xmission.com, simo@redhat.com, netdev@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	Eric Paris <eparis@parisplace.org>, mpatel@redhat.com,
+	Serge Hallyn <serge@hallyn.com>
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -112,54 +118,63 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
 
-On Tue, Mar 17, 2020 at 06:51:38PM -0400, Paul Moore wrote:
-> You might want to extend this test to the LSM list as well.  I'm
-> refraining from CC'ing them on this email because I don't want to
-> spoil your beta test rollout, but I think it would be a good thing to
-> do.
+On Fri, Mar 13, 2020 at 2:59 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> On 2020-03-13 12:29, Paul Moore wrote:
+> > On Thu, Mar 12, 2020 at 3:30 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> > > On 2020-02-13 16:44, Paul Moore wrote:
+> > > > This is a bit of a thread-hijack, and for that I apologize, but
+> > > > another thought crossed my mind while thinking about this issue
+> > > > further ... Once we support multiple auditd instances, including the
+> > > > necessary record routing and duplication/multiple-sends (the host
+> > > > always sees *everything*), we will likely need to find a way to "trim"
+> > > > the audit container ID (ACID) lists we send in the records.  The
+> > > > auditd instance running on the host/initns will always see everything,
+> > > > so it will want the full container ACID list; however an auditd
+> > > > instance running inside a container really should only see the ACIDs
+> > > > of any child containers.
+> > >
+> > > Agreed.  This should be easy to check and limit, preventing an auditd
+> > > from seeing any contid that is a parent of its own contid.
+> > >
+> > > > For example, imagine a system where the host has containers 1 and 2,
+> > > > each running an auditd instance.  Inside container 1 there are
+> > > > containers A and B.  Inside container 2 there are containers Y and Z.
+> > > > If an audit event is generated in container Z, I would expect the
+> > > > host's auditd to see a ACID list of "1,Z" but container 1's auditd
+> > > > should only see an ACID list of "Z".  The auditd running in container
+> > > > 2 should not see the record at all (that will be relatively
+> > > > straightforward).  Does that make sense?  Do we have the record
+> > > > formats properly designed to handle this without too much problem (I'm
+> > > > not entirely sure we do)?
+> > >
+> > > I completely agree and I believe we have record formats that are able to
+> > > handle this already.
+> >
+> > I'm not convinced we do.  What about the cases where we have a field
+> > with a list of audit container IDs?  How do we handle that?
+>
+> I don't understand the problem.  (I think you crossed your 1/2 vs
+> A/B/Y/Z in your example.) ...
 
-I'll do that, thanks! I'll also loop in kernel-hardening folks.
+It looks like I did, sorry about that.
 
-> Speaking as the person who merges patches for both the SELinux and
-> audit kernel subsystems, I look at every patch I merge; I don't
-> blindly merge patches (even from certain "trusted" individuals).
-> Simply put, I've always considered that to be part of the job.  While
-> the patch attestation could provide some assurance about who created
-> the patch (assuming a reasonable web-of-trust), and that it hadn't
-> been tampered with, I feel it is more important to review correctness
-> than it is to guarantee provenance.  If you ever develop a tool which
-> can help with the correctness part, I'll gladly jump to the front of
-> the line to test that one! ;)
+> ... Clarifying the example above, if as you
+> suggest an event happens in container Z, the hosts's auditd would report
+>         Z,^2
+> and the auditd in container 2 would report
+>         Z,^2
+> but if there were another auditd running in container Z it would report
+>         Z
+> while the auditd in container 1 or A/B would see nothing.
 
-Yes I understand -- I view this as an auxiliary feature that helps 
-maintainers in their duties, but certainly doesn't aim to replace due 
-diligence. I am most worried about the following scenario:
+Yes.  My concern is how do we handle this to minimize duplicating and
+rewriting the records?  It isn't so much about the format, although
+the format is a side effect.
 
-1. a maintainer receives a long series of patches that arrives into 
-   their inbox
-2. they carefully review the patches and decide to merge them
-3. they use "b4 am" to grab that patch series from lore.kernel.org
-4. however, the archive has been manipulated and returns patches 
-   containing malicious edits, which get merged because the maintainer 
-   assumes that what "b4 am" returns is the same as what they reviewed
-
-Cryptographic attestations helps hedge against this scenario by removing 
-any implicit trust from the centralized system like lore.kernel.org (or 
-patchwork.kernel.org, for that matter).
-
-> Having said that, I'm happy to see work going into tools like this,
-> and at some point I'll look into adding it into my workflow for an
-> extra level of safety (although I'm on the fence about making it
-> mandatory for submissions).  Sorry to disappoint, but I'm probably not
-> the best test monkey right now.
-
-All good, this is why I'm casting the net wide looking for initial 
-adopters. :)
-
-Best regards,
-Konstantin
+-- 
+paul moore
+www.paul-moore.com
 
 
 --
