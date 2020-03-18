@@ -2,95 +2,95 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from us-smtp-delivery-74.mimecast.com (us-smtp-delivery-74.mimecast.com [216.205.24.74])
-	by mail.lfdr.de (Postfix) with ESMTP id DE11318A4D4
-	for <lists+linux-audit@lfdr.de>; Wed, 18 Mar 2020 21:57:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 953C318A578
+	for <lists+linux-audit@lfdr.de>; Wed, 18 Mar 2020 22:02:02 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1584565057;
+	s=mimecast20190719; t=1584565321;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=RqlYhTteM4b+m50K5rjyZvbPYuPSJJuxUI+dda7Tg/8=;
-	b=TOellEWdz2LYc1YYLspWASBz3YTQpr+vJcHCW7gSkXW0TPCXr3CMTxbpQKFTPdrUImZ1cY
-	Ingze4G029+E3oz9LnddxJW0ZU03HDXzjrl1lK1BmY1Mdab/lCdfHdzRkcIzEA/Pu7ShUF
-	UGLuYwD1MTo5AWmfGYDRQMBU02JDfbg=
+	bh=ONg/+At+TYVQABxPSh8lRz7St5XXAVAqR0s4RZqvEzQ=;
+	b=J/P3evMgqLVnZe1rJJUbv9gcSwO626frNNcgdkUj+Bttm2wV6cLCk8rD7coRpCROqGA8Ga
+	VBM0ivAcM0X+Zv6RCoQiF4oXqgAhhYT+J9uSD49bzo9Bs/Be7cRe+iElRAeH73qkBlXnOV
+	C3JXUzB4sQYT4MrTIW9A/TgaPydaJm4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-307-s7OOVGhLMzW0Aj_5NGgs1Q-1; Wed, 18 Mar 2020 16:57:34 -0400
-X-MC-Unique: s7OOVGhLMzW0Aj_5NGgs1Q-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+ us-mta-101-jCPCEaXbNLCeamgxi-0bbA-1; Wed, 18 Mar 2020 17:01:55 -0400
+X-MC-Unique: jCPCEaXbNLCeamgxi-0bbA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CD3ED13EA;
-	Wed, 18 Mar 2020 20:57:27 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7677C477;
+	Wed, 18 Mar 2020 21:01:50 +0000 (UTC)
 Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 047C5BBBC1;
-	Wed, 18 Mar 2020 20:57:23 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 267AA19757;
+	Wed, 18 Mar 2020 21:01:50 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 1E46C87011;
-	Wed, 18 Mar 2020 20:57:18 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
-	[10.11.54.6])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 65F7A87013;
+	Wed, 18 Mar 2020 21:01:49 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+	[10.11.54.4])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 02IKv5nY005851 for <linux-audit@listman.util.phx.redhat.com>;
-	Wed, 18 Mar 2020 16:57:05 -0400
+	id 02IL1hob006027 for <linux-audit@listman.util.phx.redhat.com>;
+	Wed, 18 Mar 2020 17:01:43 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id 6E7542166B28; Wed, 18 Mar 2020 20:57:05 +0000 (UTC)
+	id 294692022EA5; Wed, 18 Mar 2020 21:01:43 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
-	(mimecast03.extmail.prod.ext.rdu2.redhat.com [10.11.55.19])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 691FD2166AE4
-	for <linux-audit@redhat.com>; Wed, 18 Mar 2020 20:57:02 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [207.211.31.81])
+	(mimecast06.extmail.prod.ext.rdu2.redhat.com [10.11.55.22])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 24A162022EAD
+	for <linux-audit@redhat.com>; Wed, 18 Mar 2020 21:01:40 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+	[207.211.31.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B402C8CC924
-	for <linux-audit@redhat.com>; Wed, 18 Mar 2020 20:57:02 +0000 (UTC)
-Received: from mail-ed1-f68.google.com (mail-ed1-f68.google.com
-	[209.85.208.68]) (Using TLS) by relay.mimecast.com with ESMTP id
-	us-mta-459-g8DHZ7b8OFmmYXhiMFL0TQ-1; Wed, 18 Mar 2020 16:56:59 -0400
-X-MC-Unique: g8DHZ7b8OFmmYXhiMFL0TQ-1
-Received: by mail-ed1-f68.google.com with SMTP id a43so10825424edf.6
-	for <linux-audit@redhat.com>; Wed, 18 Mar 2020 13:56:58 -0700 (PDT)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D12A7185A78E
+	for <linux-audit@redhat.com>; Wed, 18 Mar 2020 21:01:40 +0000 (UTC)
+Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com
+	[209.85.208.65]) (Using TLS) by relay.mimecast.com with ESMTP id
+	us-mta-413-aJFZ1A4TMau0HWooyuJ9pA-1; Wed, 18 Mar 2020 17:01:38 -0400
+X-MC-Unique: aJFZ1A4TMau0HWooyuJ9pA-1
+Received: by mail-ed1-f65.google.com with SMTP id b21so22290326edy.9
+	for <linux-audit@redhat.com>; Wed, 18 Mar 2020 14:01:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=g4AW1divsHMPr3pCP4CdP4Cl7K8Ooaeq6pBA6GUaETQ=;
-	b=GZtVzHkrMbKEaWbuzBKOdvWCd2QGBPVRzC4kIn02e8ymTfVvIa/LyRc51TuuAic2za
-	C+pLFzsR7gz6IsVU3jgUTfS96qRCZajnkilOKTZ+hY7LsR6Je/w2X1k1H4pr6J+FSZhw
-	hYIDkg0iS/xszZxUqZNOIR1XvRFNOrnuyYqNCWt61uKO817NvCw68W6Ms9oMO+pRugKt
-	zIR8Je7ORBwmWbk53Rk2i6iFQOA23aANsdD7kBuzwfTeu+xBmcbwKgfbmzJz1v+KnGrf
-	8yTFW4NXnhQTGHYy6IQhtLkuZThQnaBgVXdzvknwKdcGeF3qVUA/b+YAy67UqKn5X0Ex
-	9UEA==
-X-Gm-Message-State: ANhLgQ0IKinmt2CA2eSxA80YGSk/gTEfsyxoq/YpF0lK66nVAwZOFTDV
-	LE/jqLBno22Xul+6j4aDLXtXegh2peP54JRaU5dm
-X-Google-Smtp-Source: ADFU+vufKN/Y6D0NZVHBfHqWGsUn/HVoc7DCLKs6yGElrUkdM/dJMEcsEF5RKrrMdJTSmw7tnsN+cSFDtag+WxqrPu4=
-X-Received: by 2002:a17:906:7b8d:: with SMTP id
-	s13mr120333ejo.77.1584565017755; 
-	Wed, 18 Mar 2020 13:56:57 -0700 (PDT)
+	bh=h1JVSDR71Ka3PM04u0ramfobv1CKoUTWgjm5qfW2CV8=;
+	b=dxIpKNKEFNO5g/97FCXzXHlUKiikqwqVjTIIowciMGy9hrhPkJkbiqRnaOshjDVA1x
+	IcnG8vbldyprr2LCKZsc0asQNSct2KW6WpNjv5JE+w3cB/7BqTYvsFgb6LmXAkrn/8pw
+	/3kvliwMWXJgr0/EdhVZ9AOjZMTIzOEJjZDgQiE9PgknjQdXqZHilFI6+lKIE/uhvgZq
+	H5ClPPcsD5QXF3CZ3+gbrfheFfsKwVVLgmwcfFy9yrNYYA41S2A+/gZGXF7mDoouLsGQ
+	NdMxr9RAUwe+hvIQ66ocBcRSBfjZqrKGSw4SZCp7e+WN8FOlBe9VDOdpf7DRP8pIRjL0
+	aetg==
+X-Gm-Message-State: ANhLgQ1yr0GAW1SAKQn32CC8CzWFHi3c/Q5eEJ8iapPbHI9fbJDapatf
+	04+yzao01uLhpkLiWLbvjV17WqxOTTCln7xzeOnm
+X-Google-Smtp-Source: ADFU+vtjoB1L41gbvG3IfZm3ksBmDTvbqLdnYvpmD27Ya9UPhKm77W68IFm4/AxRz3i7hA2sUofnKwQPP6SAVhHtg78=
+X-Received: by 2002:a05:6402:8c3:: with SMTP id
+	d3mr5966134edz.31.1584565297053; 
+	Wed, 18 Mar 2020 14:01:37 -0700 (PDT)
 MIME-Version: 1.0
 References: <cover.1577736799.git.rgb@redhat.com>
 	<20200204231454.oxa7pyvuxbj466fj@madcap2.tricolour.ca>
 	<CAHC9VhQquokw+7UOU=G0SsD35UdgmfysVKCGCE87JVaoTkbisg@mail.gmail.com>
 	<3142237.YMNxv0uec1@x2>
 	<CAHC9VhTiCHQbp2SwK0Xb1QgpUZxOQ26JKKPsVGT0ZvMqx28oPQ@mail.gmail.com>
-	<CAHC9VhS09b_fM19tn7pHZzxfyxcHnK+PJx80Z9Z1hn8-==4oLA@mail.gmail.com>
-	<20200312193037.2tb5f53yeisfq4ta@madcap2.tricolour.ca>
-	<CAHC9VhQoVOzy_b9W6h+kmizKr1rPkC4cy5aYoKT2i0ZgsceNDg@mail.gmail.com>
-	<20200313185900.y44yvrfm4zxa5lfk@madcap2.tricolour.ca>
-In-Reply-To: <20200313185900.y44yvrfm4zxa5lfk@madcap2.tricolour.ca>
+	<20200312202733.7kli64zsnqc4mrd2@madcap2.tricolour.ca>
+	<CAHC9VhS9DtxJ4gvOfMRnzoo6ccGJVKL+uZYe6qqH+SPqD8r01Q@mail.gmail.com>
+	<20200313192306.wxey3wn2h4htpccm@madcap2.tricolour.ca>
+In-Reply-To: <20200313192306.wxey3wn2h4htpccm@madcap2.tricolour.ca>
 From: Paul Moore <paul@paul-moore.com>
-Date: Wed, 18 Mar 2020 16:56:46 -0400
-Message-ID: <CAHC9VhR2zCCE5bjH75rSwfLC7TJGFj4RBnrtcOoUiqVp9q5TaA@mail.gmail.com>
+Date: Wed, 18 Mar 2020 17:01:26 -0400
+Message-ID: <CAHC9VhQKOpVWxDg-tWuCWV22QRu8P_NpFKme==0Ot1RQKa_DWA@mail.gmail.com>
 Subject: Re: [PATCH ghak90 V8 07/16] audit: add contid support for signalling
 	the audit daemon
 To: Richard Guy Briggs <rgb@redhat.com>
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
 X-MIME-Autoconverted: from quoted-printable to 8bit by
-	lists01.pubmisc.prod.ext.phx2.redhat.com id 02IKv5nY005851
+	lists01.pubmisc.prod.ext.phx2.redhat.com id 02IL1hob006027
 X-loop: linux-audit@redhat.com
 Cc: nhorman@tuxdriver.com, linux-api@vger.kernel.org,
 	containers@lists.linux-foundation.org,
@@ -113,64 +113,44 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-On Fri, Mar 13, 2020 at 2:59 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> On 2020-03-13 12:29, Paul Moore wrote:
-> > On Thu, Mar 12, 2020 at 3:30 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> > > On 2020-02-13 16:44, Paul Moore wrote:
-> > > > This is a bit of a thread-hijack, and for that I apologize, but
-> > > > another thought crossed my mind while thinking about this issue
-> > > > further ... Once we support multiple auditd instances, including the
-> > > > necessary record routing and duplication/multiple-sends (the host
-> > > > always sees *everything*), we will likely need to find a way to "trim"
-> > > > the audit container ID (ACID) lists we send in the records.  The
-> > > > auditd instance running on the host/initns will always see everything,
-> > > > so it will want the full container ACID list; however an auditd
-> > > > instance running inside a container really should only see the ACIDs
-> > > > of any child containers.
-> > >
-> > > Agreed.  This should be easy to check and limit, preventing an auditd
-> > > from seeing any contid that is a parent of its own contid.
-> > >
-> > > > For example, imagine a system where the host has containers 1 and 2,
-> > > > each running an auditd instance.  Inside container 1 there are
-> > > > containers A and B.  Inside container 2 there are containers Y and Z.
-> > > > If an audit event is generated in container Z, I would expect the
-> > > > host's auditd to see a ACID list of "1,Z" but container 1's auditd
-> > > > should only see an ACID list of "Z".  The auditd running in container
-> > > > 2 should not see the record at all (that will be relatively
-> > > > straightforward).  Does that make sense?  Do we have the record
-> > > > formats properly designed to handle this without too much problem (I'm
-> > > > not entirely sure we do)?
-> > >
-> > > I completely agree and I believe we have record formats that are able to
-> > > handle this already.
-> >
-> > I'm not convinced we do.  What about the cases where we have a field
-> > with a list of audit container IDs?  How do we handle that?
+On Fri, Mar 13, 2020 at 3:23 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> On 2020-03-13 12:42, Paul Moore wrote:
+
+...
+
+> > The thread has had a lot of starts/stops, so I may be repeating a
+> > previous suggestion, but one idea would be to still emit a "death
+> > record" when the final task in the audit container ID does die, but
+> > block the particular audit container ID from reuse until it the
+> > SIGNAL2 info has been reported.  This gives us the timely ACID death
+> > notification while still preventing confusion and ambiguity caused by
+> > potentially reusing the ACID before the SIGNAL2 record has been sent;
+> > there is a small nit about the ACID being present in the SIGNAL2
+> > *after* its death, but I think that can be easily explained and
+> > understood by admins.
 >
-> I don't understand the problem.  (I think you crossed your 1/2 vs
-> A/B/Y/Z in your example.) ...
+> Thinking quickly about possible technical solutions to this, maybe it
+> makes sense to have two counters on a contobj so that we know when the
+> last process in that container exits and can issue the death
+> certificate, but we still block reuse of it until all further references
+> to it have been resolved.  This will likely also make it possible to
+> report the full contid chain in SIGNAL2 records.  This will eliminate
+> some of the issues we are discussing with regards to passing a contobj
+> vs a contid to the audit_log_contid function, but won't eliminate them
+> all because there are still some contids that won't have an object
+> associated with them to make it impossible to look them up in the
+> contobj lists.
 
-It looks like I did, sorry about that.
-
-> ... Clarifying the example above, if as you
-> suggest an event happens in container Z, the hosts's auditd would report
->         Z,^2
-> and the auditd in container 2 would report
->         Z,^2
-> but if there were another auditd running in container Z it would report
->         Z
-> while the auditd in container 1 or A/B would see nothing.
-
-Yes.  My concern is how do we handle this to minimize duplicating and
-rewriting the records?  It isn't so much about the format, although
-the format is a side effect.
+I'm not sure you need a full second counter, I imagine a simple flag
+would be okay.  I think you just something to indicate that this ACID
+object is marked as "dead" but it still being held for sanity reasons
+and should not be reused.
 
 -- 
 paul moore
