@@ -1,67 +1,67 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-delivery-74.mimecast.com (us-smtp-delivery-74.mimecast.com [216.205.24.74])
-	by mail.lfdr.de (Postfix) with ESMTP id 77536197F8C
-	for <lists+linux-audit@lfdr.de>; Mon, 30 Mar 2020 17:25:46 +0200 (CEST)
+Received: from us-smtp-delivery-74.mimecast.com (us-smtp-delivery-74.mimecast.com [63.128.21.74])
+	by mail.lfdr.de (Postfix) with ESMTP id C250919811F
+	for <lists+linux-audit@lfdr.de>; Mon, 30 Mar 2020 18:24:09 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1585581945;
+	s=mimecast20190719; t=1585585448;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=FvOv4Wn75hJY4XTv9nnhgd2bl+bxa5fFN+cSKmaiPw4=;
-	b=e7i7d1WcIkUCxyr+0FiAuxkFNpnzRfytUzRWcFRtD7d5XJoOz5vS1/fKybRvN2rKfdHWP3
-	xf4Uc8yyU9+aQuc77KxTXzse6ZtY9LA8VoVEhXgMKO4rlkdT9eFS6Jtjaswl5Kf/JGYTtx
-	jCL+lmN8Xd8Dn03KSG5UfZT+9UhFab8=
+	bh=fyr/2ogKjXnfuI5Ou/7CGZOIi5eRL6v0p43gLkrY2Kk=;
+	b=RxzC2ofjw2mDHwQuU0vBjhdCSB0xtnjOcuq63xqZ5Y5nMS5BDUcno4JqT4WwZ8JLoUfsGs
+	+Io0/we3bUVglReTRjAkbeeaSezsKE3L2H0t+ht0uD0Kz++VbpeNtmIXUpBhtCe73dssDm
+	uthGmL3fLMyQ9VCSdrSwKporMTplJLY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-71-pw4u6JnjOMSeRmpr49bL2g-1; Mon, 30 Mar 2020 11:25:36 -0400
-X-MC-Unique: pw4u6JnjOMSeRmpr49bL2g-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+ us-mta-362-QDG6tuUSMZCX4J5HPguYjA-1; Mon, 30 Mar 2020 12:24:06 -0400
+X-MC-Unique: QDG6tuUSMZCX4J5HPguYjA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5268CDB6D;
-	Mon, 30 Mar 2020 15:25:30 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AA5D01401;
+	Mon, 30 Mar 2020 16:23:59 +0000 (UTC)
 Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 368D2CFC9;
-	Mon, 30 Mar 2020 15:25:27 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 8E5555C1B5;
+	Mon, 30 Mar 2020 16:23:56 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 618B6944BE;
-	Mon, 30 Mar 2020 15:25:20 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
-	[10.5.11.13])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 6E37A38A1;
+	Mon, 30 Mar 2020 16:23:52 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+	[10.5.11.12])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 02UFO1JJ026943 for <linux-audit@listman.util.phx.redhat.com>;
-	Mon, 30 Mar 2020 11:24:01 -0400
+	id 02UGMAGN031785 for <linux-audit@listman.util.phx.redhat.com>;
+	Mon, 30 Mar 2020 12:22:10 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id 2ECD097B14; Mon, 30 Mar 2020 15:24:01 +0000 (UTC)
+	id AD4D560BEC; Mon, 30 Mar 2020 16:22:10 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from madcap2.tricolour.ca (unknown [10.10.110.46])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 19F5399DEC;
-	Mon, 30 Mar 2020 15:23:49 +0000 (UTC)
-Date: Mon, 30 Mar 2020 11:23:47 -0400
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 1AAD260BE1;
+	Mon, 30 Mar 2020 16:21:58 +0000 (UTC)
+Date: Mon, 30 Mar 2020 12:21:56 -0400
 From: Richard Guy Briggs <rgb@redhat.com>
 To: Paul Moore <paul@paul-moore.com>
 Subject: Re: [PATCH ghak90 V8 07/16] audit: add contid support for signalling
 	the audit daemon
-Message-ID: <20200330152347.zjrcd6uuolfnq3fy@madcap2.tricolour.ca>
-References: <20200312202733.7kli64zsnqc4mrd2@madcap2.tricolour.ca>
-	<CAHC9VhS9DtxJ4gvOfMRnzoo6ccGJVKL+uZYe6qqH+SPqD8r01Q@mail.gmail.com>
-	<20200313192306.wxey3wn2h4htpccm@madcap2.tricolour.ca>
-	<CAHC9VhQKOpVWxDg-tWuCWV22QRu8P_NpFKme==0Ot1RQKa_DWA@mail.gmail.com>
-	<20200318214154.ycxy5dl4pxno6fvi@madcap2.tricolour.ca>
-	<CAHC9VhSuMnd3-ci2Bx-xJ0yscQ=X8ZqFAcNPKpbh_ZWN3FJcuQ@mail.gmail.com>
-	<20200319214759.qgxt2sfkmd6srdol@madcap2.tricolour.ca>
-	<CAHC9VhTp25OAaTO5UMft0OzUZ=oQpZFjebkjjQP0-NrPp0bNAg@mail.gmail.com>
-	<20200325122903.obkpyog7fjabzrpf@madcap2.tricolour.ca>
-	<CAHC9VhTuYYqAtoNAKLX3qja6DnqEbFuHchi9ESwbcb5WC_Mvtw@mail.gmail.com>
+Message-ID: <20200330162156.mzh2tsnovngudlx2@madcap2.tricolour.ca>
+References: <20200318212630.mw2geg4ykhnbtr3k@madcap2.tricolour.ca>
+	<CAHC9VhRYvGAru3aOMwWKCCWDktS+2pGr+=vV4SjHW_0yewD98A@mail.gmail.com>
+	<20200318215550.es4stkjwnefrfen2@madcap2.tricolour.ca>
+	<CAHC9VhSdDDP7Ec-w61NhGxZG5ZiekmrBCAg=Y=VJvEZcgQh46g@mail.gmail.com>
+	<20200319220249.jyr6xmwvflya5mks@madcap2.tricolour.ca>
+	<CAHC9VhR84aN72yNB_j61zZgrQV1y6yvrBLNY7jp7BqQiEDL+cw@mail.gmail.com>
+	<20200324210152.5uydf3zqi3dwshfu@madcap2.tricolour.ca>
+	<CAHC9VhTQUnVhoN3JXTAQ7ti+nNLfGNVXhT6D-GYJRSpJHCwDRg@mail.gmail.com>
+	<20200330134705.jlrkoiqpgjh3rvoh@madcap2.tricolour.ca>
+	<CAHC9VhQTsEMcYAF1CSHrrVn07DR450W9j6sFVfKAQZ0VpheOfw@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <CAHC9VhTuYYqAtoNAKLX3qja6DnqEbFuHchi9ESwbcb5WC_Mvtw@mail.gmail.com>
+In-Reply-To: <CAHC9VhQTsEMcYAF1CSHrrVn07DR450W9j6sFVfKAQZ0VpheOfw@mail.gmail.com>
 User-Agent: NeoMutt/20180716
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-loop: linux-audit@redhat.com
 Cc: nhorman@tuxdriver.com, linux-api@vger.kernel.org,
 	containers@lists.linux-foundation.org,
@@ -84,93 +84,103 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Content-Disposition: inline
 
-On 2020-03-28 23:17, Paul Moore wrote:
-> On Wed, Mar 25, 2020 at 8:29 AM Richard Guy Briggs <rgb@redhat.com> wrote:
-> > On 2020-03-20 17:56, Paul Moore wrote:
-> > > On Thu, Mar 19, 2020 at 5:48 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> > > > On 2020-03-18 17:47, Paul Moore wrote:
-> > > > > On Wed, Mar 18, 2020 at 5:42 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> > > > > > On 2020-03-18 17:01, Paul Moore wrote:
-> > > > > > > On Fri, Mar 13, 2020 at 3:23 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> > > > > > > > On 2020-03-13 12:42, Paul Moore wrote:
-> > > > > > >
-> > > > > > > ...
-> > > > > > >
-> > > > > > > > > The thread has had a lot of starts/stops, so I may be repeating a
-> > > > > > > > > previous suggestion, but one idea would be to still emit a "death
-> > > > > > > > > record" when the final task in the audit container ID does die, but
-> > > > > > > > > block the particular audit container ID from reuse until it the
-> > > > > > > > > SIGNAL2 info has been reported.  This gives us the timely ACID death
-> > > > > > > > > notification while still preventing confusion and ambiguity caused by
-> > > > > > > > > potentially reusing the ACID before the SIGNAL2 record has been sent;
-> > > > > > > > > there is a small nit about the ACID being present in the SIGNAL2
-> > > > > > > > > *after* its death, but I think that can be easily explained and
-> > > > > > > > > understood by admins.
-> > > > > > > >
-> > > > > > > > Thinking quickly about possible technical solutions to this, maybe it
-> > > > > > > > makes sense to have two counters on a contobj so that we know when the
-> > > > > > > > last process in that container exits and can issue the death
-> > > > > > > > certificate, but we still block reuse of it until all further references
-> > > > > > > > to it have been resolved.  This will likely also make it possible to
-> > > > > > > > report the full contid chain in SIGNAL2 records.  This will eliminate
-> > > > > > > > some of the issues we are discussing with regards to passing a contobj
-> > > > > > > > vs a contid to the audit_log_contid function, but won't eliminate them
-> > > > > > > > all because there are still some contids that won't have an object
-> > > > > > > > associated with them to make it impossible to look them up in the
-> > > > > > > > contobj lists.
-> > > > > > >
-> > > > > > > I'm not sure you need a full second counter, I imagine a simple flag
-> > > > > > > would be okay.  I think you just something to indicate that this ACID
-> > > > > > > object is marked as "dead" but it still being held for sanity reasons
-> > > > > > > and should not be reused.
-> > > > > >
-> > > > > > Ok, I see your point.  This refcount can be changed to a flag easily
-> > > > > > enough without change to the api if we can be sure that more than one
-> > > > > > signal can't be delivered to the audit daemon *and* collected by sig2.
-> > > > > > I'll have a more careful look at the audit daemon code to see if I can
-> > > > > > determine this.
+On 2020-03-30 10:26, Paul Moore wrote:
+> On Mon, Mar 30, 2020 at 9:47 AM Richard Guy Briggs <rgb@redhat.com> wrote:
+> > On 2020-03-28 23:11, Paul Moore wrote:
+> > > On Tue, Mar 24, 2020 at 5:02 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> > > > On 2020-03-23 20:16, Paul Moore wrote:
+> > > > > On Thu, Mar 19, 2020 at 6:03 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> > > > > > On 2020-03-18 18:06, Paul Moore wrote:
 > > > > >
-> > > > > Maybe I'm not understanding your concern, but this isn't really
-> > > > > different than any of the other things we track for the auditd signal
-> > > > > sender, right?  If we are worried about multiple signals being sent
-> > > > > then it applies to everything, not just the audit container ID.
+> > > > > ...
+> > > > >
+> > > > > > > I hope we can do better than string manipulations in the kernel.  I'd
+> > > > > > > much rather defer generating the ACID list (if possible), than
+> > > > > > > generating a list only to keep copying and editing it as the record is
+> > > > > > > sent.
+> > > > > >
+> > > > > > At the moment we are stuck with a string-only format.
+> > > > >
+> > > > > Yes, we are.  That is another topic, and another set of changes I've
+> > > > > been deferring so as to not disrupt the audit container ID work.
+> > > > >
+> > > > > I was thinking of what we do inside the kernel between when the record
+> > > > > triggering event happens and when we actually emit the record to
+> > > > > userspace.  Perhaps we collect the ACID information while the event is
+> > > > > occurring, but we defer generating the record until later when we have
+> > > > > a better understanding of what should be included in the ACID list.
+> > > > > It is somewhat similar (but obviously different) to what we do for
+> > > > > PATH records (we collect the pathname info when the path is being
+> > > > > resolved).
 > > > >
-> > > > Yes, you are right.  In all other cases the information is simply
-> > > > overwritten.  In the case of the audit container identifier any
-> > > > previous value is put before a new one is referenced, so only the last
-> > > > signal is kept.  So, we only need a flag.  Does a flag implemented with
-> > > > a rcu-protected refcount sound reasonable to you?
+> > > > Ok, now I understand your concern.
+> > > >
+> > > > In the case of NETFILTER_PKT records, the CONTAINER_ID record is the
+> > > > only other possible record and they are generated at the same time with
+> > > > a local context.
+> > > >
+> > > > In the case of any event involving a syscall, that CONTAINER_ID record
+> > > > is generated at the time of the rest of the event record generation at
+> > > > syscall exit.
+> > > >
+> > > > The others are only generated when needed, such as the sig2 reply.
+> > > >
+> > > > We generally just store the contobj pointer until we actually generate
+> > > > the CONTAINER_ID (or CONTAINER_OP) record.
 > > >
-> > > Well, if I recall correctly you still need to fix the locking in this
-> > > patchset so until we see what that looks like it is hard to say for
-> > > certain.  Just make sure that the flag is somehow protected from
-> > > races; it is probably a lot like the "valid" flags you sometimes see
-> > > with RCU protected lists.
+> > > Perhaps I'm remembering your latest spin of these patches incorrectly,
+> > > but there is still a big gap between when the record is generated and
+> > > when it is sent up to the audit daemon.  Most importantly in that gap
+> > > is the whole big queue/multicast/unicast mess.
 > >
-> > This is like looking for a needle in a haystack.  Can you point me to
-> > some code that does "valid" flags with RCU protected lists.
+> > So you suggest generating that record on the fly once it reaches the end
+> > of the audit_queue just before being sent?  That sounds...  disruptive.
+> > Each audit daemon is going to have its own queues, so by the time it
+> > ends up in a particular queue, we'll already know its scope and would
+> > have the right list of contids to print in that record.
 > 
-> Sigh.  Come on Richard, you've been playing in the kernel for some
-> time now.  I can't think of one off the top of my head as I write
-> this, but there are several resources that deal with RCU protected
-> lists in the kernel, Google is your friend and Documentation/RCU is
-> your friend.
+> I'm not suggesting any particular solution, I'm just pointing out a
+> potential problem.  It isn't clear to me that you've thought about how
+> we generate a multiple records, each with the correct ACID list
+> intended for a specific audit daemon, based on a single audit event.
+> Explain to me how you intend that to work and we are good.  Be
+> specific because I'm not convinced we are talking on the same plane
+> here.
 
-Ok, I thought you were talking about a specific piece of code...
+Well, every time a record gets generated, *any* record gets generated,
+we'll need to check for which audit daemons this record is in scope and
+generate a different one for each depending on the content and whether
+or not the content is influenced by the scope.  Some events will be
+generated for some of the auditd/queues and not for others.  Some fields
+in some of the records will need to be tailored for that specific
+auditd/queue for either contid scope or PID namespace base reference or
+other scope differences.
 
-> Spending time to learn how RCU works and how to use it properly is not
-> time wasted.  It's a tricky thing to get right (I have to refresh my
-> memory on some of the more subtle details each time I write/review RCU
-> code), but it's very cool when done correctly.
+Every auditd/queue will need its own serial number per event and maybe
+even timestamp depending on whether that auditd is in a different time
+namespace and beyond that PID and contid fields and maybe others will
+need to be customized per auditd/queue.  So, it may make sense to
+generate the contents of each field for a generic record and then either
+reuse content that is unchanged or generate new content for a field that
+will be different in a different auditd/queue scope, then render the
+final record per auditd/queue and enqueue it.
 
-I review Documentation/RCU almost every time I work on RCU...
+I see this as the primary work of ghak93 ("RFE: run multiple audit
+daemons on one machine").  I don't see how our proposed contid field
+value format changes with this path above.
+
+This is getting closer and closer to a netlink binary format too...
+
+This is also an argument for spreading fields out over more record types
+rather than cramming as much information as we can into one record type
+(subject attributes in particular).
 
 > paul moore
 
