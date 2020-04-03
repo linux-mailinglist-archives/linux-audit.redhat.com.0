@@ -1,72 +1,112 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-delivery-1.mimecast.com [205.139.110.120])
-	by mail.lfdr.de (Postfix) with ESMTP id 523D919C71B
-	for <lists+linux-audit@lfdr.de>; Thu,  2 Apr 2020 18:31:55 +0200 (CEST)
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-delivery-1.mimecast.com [207.211.31.120])
+	by mail.lfdr.de (Postfix) with ESMTP id 841C119DEB7
+	for <lists+linux-audit@lfdr.de>; Fri,  3 Apr 2020 21:45:03 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1585845114;
+	s=mimecast20190719; t=1585943102;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=6U6462njod29sL65S6Ng2FVfpPkcghePx6vh44n2zzA=;
-	b=ae3v1JYJS/9EkTzI9tKjULG7/Il3/f5G9TAi/3DHomLxK+0SYicN5WKO8w8gOBOC0udsvD
-	bV98vtFpQAL8I6JanW4djq4mR81/KaJQCBLaqBSAZdc3wK9EmKWY86X608BYQ0jVkkwhds
-	bfUDPFivWcT+q1M8R15QtTnfh4dxmHo=
+	bh=W2w2zX0DJUJczAjM4kn567YuGzlWqRC5ZUjizdR8no0=;
+	b=GK1Zg3TNo8/xfkxcgzdTVX/m40TpkyYvmxjHSzGD4pPjG3keRB7Sw6cjqSeP9J/DIEGY9f
+	qF+z1s4gm+qYA2n5LDV5seiY89HFJvb1Qhx2LkH96OfO4cfQrnLSzRbIHwONfBoUPzXVE7
+	jbeD8W+VPSgGQqWmcEBTf9AuuxXh3to=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-56-6DWz1focMsSQe6f6q5D5wg-1; Thu, 02 Apr 2020 12:31:51 -0400
-X-MC-Unique: 6DWz1focMsSQe6f6q5D5wg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+ us-mta-461-qNZI_Dd2PkqrO1Z9kcSBzQ-1; Fri, 03 Apr 2020 15:45:00 -0400
+X-MC-Unique: qNZI_Dd2PkqrO1Z9kcSBzQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0AED08017F4;
-	Thu,  2 Apr 2020 16:31:46 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id A48E299E18;
-	Thu,  2 Apr 2020 16:31:41 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9E9B4107ACCD;
+	Fri,  3 Apr 2020 19:44:53 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 081705C28F;
+	Fri,  3 Apr 2020 19:44:49 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 80DC8944D6;
-	Thu,  2 Apr 2020 16:31:37 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
-	[10.5.11.16])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id D3E6618089CD;
+	Fri,  3 Apr 2020 19:44:40 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+	[10.11.54.4])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 032GVRlo009388 for <linux-audit@listman.util.phx.redhat.com>;
-	Thu, 2 Apr 2020 12:31:27 -0400
+	id 0337uZJD000417 for <linux-audit@listman.util.phx.redhat.com>;
+	Fri, 3 Apr 2020 03:56:35 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id D89125C553; Thu,  2 Apr 2020 16:31:27 +0000 (UTC)
+	id 93C692028CD3; Fri,  3 Apr 2020 07:56:35 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from colo-mx.corp.redhat.com
-	(colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 6B81D5C57B;
-	Thu,  2 Apr 2020 16:31:22 +0000 (UTC)
-Received: from zmail21.collab.prod.int.phx2.redhat.com
-	(zmail21.collab.prod.int.phx2.redhat.com [10.5.83.24])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id B2C5118089C8;
-	Thu,  2 Apr 2020 16:31:21 +0000 (UTC)
-Date: Thu, 2 Apr 2020 12:31:21 -0400 (EDT)
-From: Vladis Dronov <vdronov@redhat.com>
-To: Casey Schaufler <casey@schaufler-ca.com>,
-	Richard Guy Briggs <rgb@redhat.com>
-Message-ID: <1800109401.20260657.1585845081366.JavaMail.zimbra@redhat.com>
-In-Reply-To: <2d7174b1-115f-b86f-8054-a5caef4b69ff@schaufler-ca.com>
-References: <20200402141319.28714-1-vdronov@redhat.com>
-	<2d7174b1-115f-b86f-8054-a5caef4b69ff@schaufler-ca.com>
-Subject: Re: [PATCH ghak96] audit: set cwd in audit context for file-related
-	LSM audit records
+Received: from mimecast-mx02.redhat.com
+	(mimecast03.extmail.prod.ext.rdu2.redhat.com [10.11.55.19])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 8E7B62028DCC
+	for <linux-audit@redhat.com>; Fri,  3 Apr 2020 07:56:33 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+	[205.139.110.120])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E1FE08FF67A
+	for <linux-audit@redhat.com>; Fri,  3 Apr 2020 07:56:32 +0000 (UTC)
+Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
+	[209.85.215.194]) (Using TLS) by relay.mimecast.com with ESMTP id
+	us-mta-118-t4CEMMnKMr-Jo3medvwe8A-1; Fri, 03 Apr 2020 03:56:24 -0400
+X-MC-Unique: t4CEMMnKMr-Jo3medvwe8A-1
+Received: by mail-pg1-f194.google.com with SMTP id k5so3156879pga.2;
+	Fri, 03 Apr 2020 00:56:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to;
+	bh=jGFgJcnAZcYkOmTi2e6KUvl6de/EYQat/43QjCkuwX0=;
+	b=LvzgxmlVRbKZegVtTig1slfve2qb8AmtjPJYeH2ecA9ANngt12G24JITALtl6hpHVw
+	Ds9HNSfcbgW6BaV7wRe15mQqM042KoFJX8W5AMHxZAwFx/B7kuEoogGdI0LlnJhLzoc/
+	YpkB1R9IO+DCzDE8OOPC2aVa10u4FrIjBB9xb1Zw5HM2nSbqHac18pJU8Nzupxcv4CaA
+	L3NU8rHpUfpQ6/zsKvOiCJSZyqZZP51l8LEfaijmsHM7wUjzVrQHVBXcCQkaesv4Jdd4
+	YfhiXAVrGtzUigAXw6hNlOkcDC71gld68s0lZuFZgOk/pKltF47428DmBWVjvsFRMOMh
+	X86A==
+X-Gm-Message-State: AGi0PubQTFIsobMri6feEygn62KPPY3kLPTDfsUz25BMcI0vgeJu1ju2
+	r5y2oW9xATsHgQEmS8gL9eQ=
+X-Google-Smtp-Source: APiQypKtNPH46VRnJiamU928TrLfF1ef1udk+bsqM/kxdW3Cx6y1GHNcPLh23zVq5txnbater8/vkQ==
+X-Received: by 2002:aa7:999e:: with SMTP id k30mr7018349pfh.235.1585900582356; 
+	Fri, 03 Apr 2020 00:56:22 -0700 (PDT)
+Received: from workstation-portable ([103.87.56.98])
+	by smtp.gmail.com with ESMTPSA id
+	g75sm5146054pje.37.2020.04.03.00.56.15
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Fri, 03 Apr 2020 00:56:21 -0700 (PDT)
+Date: Fri, 3 Apr 2020 13:26:13 +0530
+From: Amol Grover <frextrite@gmail.com>
+To: Paul Moore <paul@paul-moore.com>
+Subject: Re: [PATCH 3/3 RESEND] auditsc: Do not use RCU primitive to read
+	from cred pointer
+Message-ID: <20200403075613.GA2788@workstation-portable>
+References: <20200402055640.6677-1-frextrite@gmail.com>
+	<20200402055640.6677-3-frextrite@gmail.com>
+	<CAHC9VhTUKepKiGZgAaWDADyTPnnM5unbM65T7jXZ3p8MFTNUuQ@mail.gmail.com>
 MIME-Version: 1.0
-X-Originating-IP: [10.40.193.197, 10.4.195.11]
-Thread-Topic: audit: set cwd in audit context for file-related LSM audit
-	records
-Thread-Index: 8e3qF2g6AHt9X4Hh2HYCY+d3jKkEsw==
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <CAHC9VhTUKepKiGZgAaWDADyTPnnM5unbM65T7jXZ3p8MFTNUuQ@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+X-MIME-Autoconverted: from quoted-printable to 8bit by
+	lists01.pubmisc.prod.ext.phx2.redhat.com id 0337uZJD000417
 X-loop: linux-audit@redhat.com
-Cc: James Morris <jmorris@namei.org>, linux-kernel@vger.kernel.org,
-	linux-security-module@vger.kernel.org, linux-audit@redhat.com,
-	"Serge E . Hallyn" <serge@hallyn.com>
+X-Mailman-Approved-At: Fri, 03 Apr 2020 15:44:31 -0400
+Cc: Juri Lelli <juri.lelli@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
+	David Howells <dhowells@redhat.com>,
+	Joel Fernandes <joel@joelfernandes.org>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	James Morris <jamorris@linux.microsoft.com>,
+	Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>,
+	Ingo Molnar <mingo@redhat.com>, Mel Gorman <mgorman@suse.de>,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	"Paul E . McKenney" <paulmck@kernel.org>, Jann Horn <jannh@google.com>,
+	Steven Rostedt <rostedt@goodmis.org>, Shakeel Butt <shakeelb@google.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Ben Segall <bsegall@google.com>, linux-kernel@vger.kernel.org,
+	linux-audit@redhat.com, "Eric W . Biederman" <ebiederm@xmission.com>,
+	Andrew Morton <akpm@linux-foundation.org>
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -80,174 +120,107 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
-Hello, Casey, all,
-
------ Original Message -----
-> From: "Casey Schaufler" <casey@schaufler-ca.com>
-> Subject: Re: [PATCH ghak96] audit: set cwd in audit context for file-related LSM audit records
-> 
-> On 4/2/2020 7:13 AM, Vladis Dronov wrote:
-> > Set a current working directory in an audit context for the following
-> > record
-> > types in dump_common_audit_data(): LSM_AUDIT_DATA_PATH,
-> > LSM_AUDIT_DATA_FILE,
-> > LSM_AUDIT_DATA_IOCTL_OP, LSM_AUDIT_DATA_DENTRY, LSM_AUDIT_DATA_INODE so a
-> > separate CWD record is emitted later.
+On Thu, Apr 02, 2020 at 08:56:36AM -0400, Paul Moore wrote:
+> On Thu, Apr 2, 2020 at 1:57 AM Amol Grover <frextrite@gmail.com> wrote:
+> > task_struct::cred is only used task-synchronously and does
+> > not require any RCU locks, hence, rcu_dereference_check is
+> > not required to read from it.
 > >
-> > Link: https://github.com/linux-audit/audit-kernel/issues/96
-> 
-> I don't have a problem with the patch, but it sure would be nice
-> if you explained why these events "could use a CWD record".
-
-(adding Richard Guy Briggs <rgb@redhat.com> which I should have been done earlier)
-
-I would agree, adding "cwd=" field in the LSM record itself is simpler to me.
-
-Unfortunately, all I can say for now is "The intent was a separate CWD record,
-that is already defined" requirement from the ghak#96 issue.
-
-Richard, could you, please, clarify since you've posted this requirement in
-the ghak#96's description?
- 
-> > Signed-off-by: Vladis Dronov <vdronov@redhat.com>
+> > Suggested-by: Jann Horn <jannh@google.com>
+> > Co-developed-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+> > Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+> > Signed-off-by: Amol Grover <frextrite@gmail.com>
 > > ---
-> > out-of-commit-message-note:
-> >
-> > Hello,
-> > Honestly, I'm not sure about "if (!context->in_syscall)" check in
-> > __audit_getcwd(). It was copied from __audit_getname() and I do
-> > not quite understand why it is there and if __audit_getcwd() needs
-> > it. If you have an idea on this, could you please, tell?
-> >
-> >  include/linux/audit.h |  9 ++++++++-
-> >  kernel/auditsc.c      | 17 +++++++++++++++++
-> >  security/lsm_audit.c  |  5 +++++
-> >  3 files changed, 30 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/include/linux/audit.h b/include/linux/audit.h
-> > index f9ceae57ca8d..b4306abc5891 100644
-> > --- a/include/linux/audit.h
-> > +++ b/include/linux/audit.h
-> > @@ -268,7 +268,7 @@ extern void __audit_syscall_entry(int major, unsigned
-> > long a0, unsigned long a1,
-> >  extern void __audit_syscall_exit(int ret_success, long ret_value);
-> >  extern struct filename *__audit_reusename(const __user char *uptr);
-> >  extern void __audit_getname(struct filename *name);
-> > -
-> > +extern void __audit_getcwd(void);
-> >  extern void __audit_inode(struct filename *name, const struct dentry
-> >  *dentry,
-> >  				unsigned int flags);
-> >  extern void __audit_file(const struct file *);
-> > @@ -327,6 +327,11 @@ static inline void audit_getname(struct filename
-> > *name)
-> >  	if (unlikely(!audit_dummy_context()))
-> >  		__audit_getname(name);
-> >  }
-> > +static inline void audit_getcwd(void)
-> > +{
-> > +	if (unlikely(!audit_dummy_context()))
-> > +		__audit_getcwd();
-> > +}
-> >  static inline void audit_inode(struct filename *name,
-> >  				const struct dentry *dentry,
-> >  				unsigned int aflags) {
-> > @@ -545,6 +550,8 @@ static inline struct filename *audit_reusename(const
-> > __user char *name)
-> >  }
-> >  static inline void audit_getname(struct filename *name)
-> >  { }
-> > +static inline void audit_getcwd(void)
-> > +{ }
-> >  static inline void __audit_inode(struct filename *name,
-> >  					const struct dentry *dentry,
-> >  					unsigned int flags)
+> >  kernel/auditsc.c | 15 +++++----------
+> >  1 file changed, 5 insertions(+), 10 deletions(-)
+> 
+> This is the exact same patch I ACK'd back in February, yes?
+> 
+> https://lore.kernel.org/linux-audit/CAHC9VhQCbg1V290bYEZM+izDPRpr=XYXakohnDaMphkBBFgUaA@mail.gmail.com
+> 
+
+Hi Paul,
+
+That's correct. I've resend the series out of the fear that the first 2
+patches might've gotten lost as it's been almost a month since I last
+sent them. Could you please ack this again, and if you don't mind could
+you please go through the other 2 patches and ack them aswell?
+
+Thanks
+Amol
+
 > > diff --git a/kernel/auditsc.c b/kernel/auditsc.c
-> > index 814406a35db1..16316032ef9f 100644
+> > index 4effe01ebbe2..d3510513cdd1 100644
 > > --- a/kernel/auditsc.c
 > > +++ b/kernel/auditsc.c
-> > @@ -1890,6 +1890,23 @@ void __audit_getname(struct filename *name)
-> >  		get_fs_pwd(current->fs, &context->pwd);
-> >  }
-> >  
-> > +/**
-> > + * __audit_getcwd - set a current working directory
-> > + *
-> > + * Set a current working directory of an audited process for this context.
-> > + * Called from security/lsm_audit.c:dump_common_audit_data().
-> > + */
-> > +void __audit_getcwd(void)
-> > +{
-> > +	struct audit_context *context = audit_context();
-> > +
-> > +	if (!context->in_syscall)
-> > +		return;
-> > +
-> > +	if (!context->pwd.dentry)
-> > +		get_fs_pwd(current->fs, &context->pwd);
-> > +}
-> > +
-> >  static inline int audit_copy_fcaps(struct audit_names *name,
-> >  				   const struct dentry *dentry)
+> > @@ -430,24 +430,19 @@ static int audit_field_compare(struct task_struct *tsk,
+> >  /* Determine if any context name data matches a rule's watch data */
+> >  /* Compare a task_struct with an audit_rule.  Return 1 on match, 0
+> >   * otherwise.
+> > - *
+> > - * If task_creation is true, this is an explicit indication that we are
+> > - * filtering a task rule at task creation time.  This and tsk == current are
+> > - * the only situations where tsk->cred may be accessed without an rcu read lock.
+> >   */
+> >  static int audit_filter_rules(struct task_struct *tsk,
+> >                               struct audit_krule *rule,
+> >                               struct audit_context *ctx,
+> >                               struct audit_names *name,
+> > -                             enum audit_state *state,
+> > -                             bool task_creation)
+> > +                             enum audit_state *state)
 > >  {
-> > diff --git a/security/lsm_audit.c b/security/lsm_audit.c
-> > index 2d2bf49016f4..7c555621c2bd 100644
-> > --- a/security/lsm_audit.c
-> > +++ b/security/lsm_audit.c
-> > @@ -241,6 +241,7 @@ static void dump_common_audit_data(struct audit_buffer
-> > *ab,
-> >  			audit_log_untrustedstring(ab, inode->i_sb->s_id);
-> >  			audit_log_format(ab, " ino=%lu", inode->i_ino);
-> >  		}
-> > +		audit_getcwd();
-> >  		break;
-> >  	}
-> >  	case LSM_AUDIT_DATA_FILE: {
-> > @@ -254,6 +255,7 @@ static void dump_common_audit_data(struct audit_buffer
-> > *ab,
-> >  			audit_log_untrustedstring(ab, inode->i_sb->s_id);
-> >  			audit_log_format(ab, " ino=%lu", inode->i_ino);
-> >  		}
-> > +		audit_getcwd();
-> >  		break;
-> >  	}
-> >  	case LSM_AUDIT_DATA_IOCTL_OP: {
-> > @@ -269,6 +271,7 @@ static void dump_common_audit_data(struct audit_buffer
-> > *ab,
-> >  		}
-> >  
-> >  		audit_log_format(ab, " ioctlcmd=0x%hx", a->u.op->cmd);
-> > +		audit_getcwd();
-> >  		break;
-> >  	}
-> >  	case LSM_AUDIT_DATA_DENTRY: {
-> > @@ -283,6 +286,7 @@ static void dump_common_audit_data(struct audit_buffer
-> > *ab,
-> >  			audit_log_untrustedstring(ab, inode->i_sb->s_id);
-> >  			audit_log_format(ab, " ino=%lu", inode->i_ino);
-> >  		}
-> > +		audit_getcwd();
-> >  		break;
-> >  	}
-> >  	case LSM_AUDIT_DATA_INODE: {
-> > @@ -300,6 +304,7 @@ static void dump_common_audit_data(struct audit_buffer
-> > *ab,
-> >  		audit_log_format(ab, " dev=");
-> >  		audit_log_untrustedstring(ab, inode->i_sb->s_id);
-> >  		audit_log_format(ab, " ino=%lu", inode->i_ino);
-> > +		audit_getcwd();
-> >  		break;
-> >  	}
-> >  	case LSM_AUDIT_DATA_TASK: {
+> >         const struct cred *cred;
+> >         int i, need_sid = 1;
+> >         u32 sid;
+> >         unsigned int sessionid;
+> >
+> > -       cred = rcu_dereference_check(tsk->cred, tsk == current || task_creation);
+> > +       cred = tsk->cred;
+> >
+> >         for (i = 0; i < rule->field_count; i++) {
+> >                 struct audit_field *f = &rule->fields[i];
+> > @@ -745,7 +740,7 @@ static enum audit_state audit_filter_task(struct task_struct *tsk, char **key)
+> >         rcu_read_lock();
+> >         list_for_each_entry_rcu(e, &audit_filter_list[AUDIT_FILTER_TASK], list) {
+> >                 if (audit_filter_rules(tsk, &e->rule, NULL, NULL,
+> > -                                      &state, true)) {
+> > +                                      &state)) {
+> >                         if (state == AUDIT_RECORD_CONTEXT)
+> >                                 *key = kstrdup(e->rule.filterkey, GFP_ATOMIC);
+> >                         rcu_read_unlock();
+> > @@ -791,7 +786,7 @@ static enum audit_state audit_filter_syscall(struct task_struct *tsk,
+> >         list_for_each_entry_rcu(e, list, list) {
+> >                 if (audit_in_mask(&e->rule, ctx->major) &&
+> >                     audit_filter_rules(tsk, &e->rule, ctx, NULL,
+> > -                                      &state, false)) {
+> > +                                      &state)) {
+> >                         rcu_read_unlock();
+> >                         ctx->current_state = state;
+> >                         return state;
+> > @@ -815,7 +810,7 @@ static int audit_filter_inode_name(struct task_struct *tsk,
+> >
+> >         list_for_each_entry_rcu(e, list, list) {
+> >                 if (audit_in_mask(&e->rule, ctx->major) &&
+> > -                   audit_filter_rules(tsk, &e->rule, ctx, n, &state, false)) {
+> > +                   audit_filter_rules(tsk, &e->rule, ctx, n, &state)) {
+> >                         ctx->current_state = state;
+> >                         return 1;
+> >                 }
+> > --
+> > 2.24.1
+> 
+> -- 
+> paul moore
+> www.paul-moore.com
 
-Best regards,
-Vladis Dronov | Red Hat, Inc. | The Core Kernel | Senior Software Engineer
 
 --
 Linux-audit mailing list
