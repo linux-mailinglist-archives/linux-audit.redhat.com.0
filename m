@@ -1,95 +1,95 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [205.139.110.61])
-	by mail.lfdr.de (Postfix) with ESMTP id 1933219FF21
-	for <lists+linux-audit@lfdr.de>; Mon,  6 Apr 2020 22:33:32 +0200 (CEST)
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-delivery-1.mimecast.com [207.211.31.120])
+	by mail.lfdr.de (Postfix) with ESMTP id 9ADA919FF34
+	for <lists+linux-audit@lfdr.de>; Mon,  6 Apr 2020 22:41:07 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1586205211;
+	s=mimecast20190719; t=1586205666;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 references:references:list-id:list-help:list-unsubscribe:
 	 list-subscribe:list-post; bh=L9MHuhWgyIP8H8lO5YG/9UZjjrv3jtT7mk6/YnRzS+s=;
-	b=JKnSP8ANaaLMhtz7M9H7wOr+3aMU45lLiFqo62LjUJfEk0QFR5zvnPX5ZPH/I8l2AFhpc2
-	BK38/ynTx5uaqDf/VQcRv8n/kYY/3UDDHxK7N9ehrdgDZrp/0SV4EyK3zgYEHKG6P+qII/
-	BsjfuyS77tjtlL1fcjhC0L+jFoiXHHM=
+	b=X46wuTzAfvQFlKYUzZGvzI/JKFPKp+8ulZlmKGL85/RwgkBYyGBe087MEEdGaJkmMk3m3Q
+	BHerUeDPbxoUnv+xAToCMt77KHW9NpI4NvrbCvXybYNaZ+1npHpyZkDdYAThxczsB59409
+	jWVxSi6M86NA+yNt8j3cD/jvLdLB1O4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-90-bhhd3Vy4PCmsgFvbC4M2PQ-1; Mon, 06 Apr 2020 16:33:26 -0400
-X-MC-Unique: bhhd3Vy4PCmsgFvbC4M2PQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+ us-mta-415-MwBhIh_CPxi4qpjgFU3IpQ-1; Mon, 06 Apr 2020 16:41:01 -0400
+X-MC-Unique: MwBhIh_CPxi4qpjgFU3IpQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8F52B1084433;
-	Mon,  6 Apr 2020 20:33:20 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 7E6DB5C3F8;
-	Mon,  6 Apr 2020 20:33:18 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A8EEE800D5B;
+	Mon,  6 Apr 2020 20:40:56 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 5E61D97AF5;
+	Mon,  6 Apr 2020 20:40:56 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 1F7C718089CD;
-	Mon,  6 Apr 2020 20:33:13 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
-	[10.11.54.4])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 49C0D3CBA;
+	Mon,  6 Apr 2020 20:40:54 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+	[10.11.54.3])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 036KX0Aw012323 for <linux-audit@listman.util.phx.redhat.com>;
-	Mon, 6 Apr 2020 16:33:01 -0400
+	id 036Keovp012675 for <linux-audit@listman.util.phx.redhat.com>;
+	Mon, 6 Apr 2020 16:40:50 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id BE95E20230A9; Mon,  6 Apr 2020 20:33:00 +0000 (UTC)
+	id 20E7C1142368; Mon,  6 Apr 2020 20:40:50 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
-	(mimecast05.extmail.prod.ext.rdu2.redhat.com [10.11.55.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id BABC52026D66
-	for <linux-audit@redhat.com>; Mon,  6 Apr 2020 20:32:57 +0000 (UTC)
+	(mimecast06.extmail.prod.ext.rdu2.redhat.com [10.11.55.22])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 1B33411422DE
+	for <linux-audit@redhat.com>; Mon,  6 Apr 2020 20:40:45 +0000 (UTC)
 Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
-	[205.139.110.120])
+	[207.211.31.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CB14D800299
-	for <linux-audit@redhat.com>; Mon,  6 Apr 2020 20:32:57 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B0B7A185A790
+	for <linux-audit@redhat.com>; Mon,  6 Apr 2020 20:40:45 +0000 (UTC)
 Received: from sonic306-27.consmr.mail.ne1.yahoo.com
 	(sonic306-27.consmr.mail.ne1.yahoo.com [66.163.189.89]) (Using TLS) by
-	relay.mimecast.com with ESMTP id us-mta-460-XuUwwoz8NZmoEt9LaS48eQ-1;
-	Mon, 06 Apr 2020 16:32:55 -0400
-X-MC-Unique: XuUwwoz8NZmoEt9LaS48eQ-1
-X-YMail-OSG: lH9F04gVM1nMivSZuKm7G6EApfHXCIlg4_rrmUYSozSpf0yR_W3grRDJSDhVYiD
-	gkp.hSWOLzzUF_zYHZ_PDMgzSE7pYN6ep2qoPUOQqm7fCj9nJ3oi0ys45MKZxUD2mHaXG50ecBxj
-	upFB2mD9nIb72T9eNRFcU9CcCD2KkdC4jI9Psgl2EaN9tyIvK_Og7GGBYV2ETqvoBX83OeNzu_q3
-	2gdRcmnD.7bBBNsACBp422izrx7I4uV_Ihk1Yzhix8GAO1s6MsCzXGBw4rgwxUT2A_Hs_rncYn7m
-	pcYgmPYjz4XsVTvWpIUspHwkGi6Doo6JazYYVq.hdNgnsdSNe7OuG2CoCCXT3C2c8LA94NmwUoJc
-	TKtUBR8OSqi4zQPoiFMG2FaBCXfpEk2ISQso3yExXA8n9OSTO6bFiPOy1oQNBrnGDcW9isK1zEEY
-	C4tYvZ4ZsvXfq1YiPU_N_W4eL5JMp7IMXrXgJZe7Q.Iyx.nnROiMblzBTvxuVVxDk1E57.NhVGeA
-	b1N1spAWkfQ0HWLp3OZJfGiI1bFh2kqtd9PDV2XCG_DDUUyOkXkWATMVsbmsgT_c3ekPICGYv8Sn
-	aNMvauSuSC0h_gQhVPCv6aCSQVB97A4zmqq1SCGvAtl9sFe9c_KThe46ue3J1ih1LQmp8Qx0liq_
-	kA704q3vMifttQzjtUAbS0XPYyU.NnBQBM8vv.psBDYB_sMcAB.TO8RfxyzsuPtdLd3s1kdxtwjn
-	bhoNa4xg.zmllXvuLbUd1KVynRl4WNO6hkWQai3.OcLFj87oIRcSDEu8vCccXG5oN7M0BkCyNba_
-	FJ7AcECt75YrOaEKIW7J.82CxtXokmCuOVmdqlNThzRdG2EOd2ATvt_MLttUVqf5wewJhjmgMcs5
-	KLLOtqG4tmeYjn3bP_3LQx04oE8Vz2qofUWxIaHGB2.5CbXhN.gH5MWAROlEzXI4lLQ4dYGSK6RL
-	.ta.FVfx4djand.h_6dea.943fun0B1Un85twIgxx.ULFMdwFm2d9u4HQ6GgNnmW6cpRX0g3IQR8
-	WbYU9VsAmWCdWwAqdw.L.5QYZ1_NG_Py9FXwtKMUKkxE_M5QIr3k4hQR9ae0KKu8zbvLeiPiwqqS
-	Lz1a5VvcAszsmsCTb0atOcHhZ_irZVbFnAT0fdH41rxKQAHVH63gx3qFl5JOuBetXTRGbCdRlymk
-	TdO5X4yjeEpAf4cyx0Wz7xd8VdWO4q8u84HmZuQIgw2mdpqA5MuGy23icE.oVtyIw2jyuxo3Y.kw
-	W0.FwR1vNZzcOwG8cBWjr9.JCg.5fZZ0RzyuWBrCFowMScRudTvUHZJGF8suyAODuPm4l1zctk1U
-	0E9_Sfct1_aSv23ojzIkiJfUxvpNKeNavWjwwKBDFhR_LIMRaTwmsqsnY_.rsrHWPRGB4sX0Vhqx
-	49tMmI7GDpwZVrV1mNQEFRIieFvxrUZCY3_ioqbbsOjxSS_bkgrRvojnl3tKt7x9xoBJk
+	relay.mimecast.com with ESMTP id us-mta-363-RS6VNxHhM22ImvNeKqUEEg-1;
+	Mon, 06 Apr 2020 16:40:43 -0400
+X-MC-Unique: RS6VNxHhM22ImvNeKqUEEg-1
+X-YMail-OSG: yov..lEVM1l.6fCsRX3XVDwQD7bTCofR8SbrWPwypquDXHZkN6o7Yif2cDbG1Kg
+	zU.3oyud7iyc3_O427Mlz93pcYuFKCXBtyfyc39mmSxoAlqhowkZjbaJ7lfiCvvQTeLvUzBkUJOS
+	WGD1H7a9kgRJGalkTftTjQ.63VQ7dAN4Sr3qUv.qCkF7JSmgFhvb6TH1Yzi8vZCI_j.U3bi67.9h
+	ztH2JzyhPZOZbr6xPut5DicUhp9AIerHBXoi8bO3OGHz6kpIum2uzNKcuyUV.tEpWoz2kBO5ZeRh
+	li.2LRUqW73QRcO9nlX_3R_M3qhMLM4Gnfo_zebv8kK8NRhIBki_Ype_NkDQvuPEMWk055deIDs4
+	HO1XsOwxxeOO6DN46xvZ4Ijzs96FeaL3kl93_DHWMCR7S1IUEPxSmOFtoxKzjpm3kHKVj3VCGHld
+	GKQICSw8Ouq27PtjrEIJ4WWzcAKmGhNDZPdCBFI8NTfgbR_SIDHLphzMlt6vNif2UHNYZWTD7jg7
+	VKLstgO4gT1dkfXBYlliHiDH2UQMWg7FVSnsSQQDweyMu_fQlwvBMYI.9S16AS4DMV9Hi.d69uxa
+	vcoO9gh3mMLqtOh3bTzIHxASRkOE5n2Cpsi9pJf5QRcfvbtBOpFgUD1WUh7x9kf.fuAHy.a8Bxo_
+	9k424NgtB5lsUjOJ01SFlgSeP8ip.EzwVhK1V3n_NpxyVwFVNXVYssqP6Je5iLPRSBd_UJHokFov
+	203er_1NINQViKhTjox89qA8OKP.hUMno177FeL4siXzHYufFuIgzGsTS8_GOjeA4BiuN5r6IQTQ
+	hNVLCXyodI_9NSaNUDUWjHJZxKj25ugywyUQ.rLPq0p9oEtcawvBn_Gz0PDZQaYQCRaI_jSvr2Jj
+	sGVAwz9ztTSKdBLn07vjYPNE07.amCOfMxahETFoAoGemq6KkTsof656zZn1fcSm4ZwHOgDqkaUm
+	d5HlK1oMUzNEuD.o5o6PT6DzZf2QsTNeTuS73BZ5MIbKrI7q5o8KVcg3v7UOeoXYwumn87kfuupw
+	R_K2au0kPup6ucqV363MOHm.CIxb84uMpxpI.st16L62MYPv3OL_2RQnzL5Zj3MFDVhdYZVoDaod
+	OJ_6ktajJy.wslCka9zBpFF5x8.FIqPxtedTZKf8X1PzYQTv.phK7C8g7WNiKGEinnggqwlT.O.P
+	GXVWsG69jDnrj7IaRIA.GOLwAC.LPHQ2dGl0oTCryWrYFWF01JvuMIgZRny7i3s5IInV0dXdRpI4
+	u0Qj1G4SObSmqnv7fR.vPDB2r85xh9Q0p.kyd66T4a_pEgzUmNsjxoJB.6pgcwAysTXCt4LbYea5
+	pfrOKAX9hRb9JIeCbEzW2vCNeCMAIg2B0vLx2pVsXV2_M.fYV0bz3CmtDvMjX3yD5Flr6TePmacZ
+	5ejaxLeAmPI4wQnTMQdek5NRfSl1ECOcNfzZH8Oaqj3NgtAQW59ZjK8CQbWcW6plvyJk-
 Received: from sonic.gate.mail.ne1.yahoo.com by
 	sonic306.consmr.mail.ne1.yahoo.com with HTTP;
-	Mon, 6 Apr 2020 20:32:54 +0000
-Received: by smtp425.mail.gq1.yahoo.com (Oath Hermes SMTP Server) with ESMTPA
-	ID 9fcf7e00425023fdab52f7ee4fe38a97; 
-	Mon, 06 Apr 2020 20:32:49 +0000 (UTC)
+	Mon, 6 Apr 2020 20:40:43 +0000
+Received: by smtp418.mail.bf1.yahoo.com (Oath Hermes SMTP Server) with ESMTPA
+	ID 061ea7ac6ba9231258b10caa630a4aef; 
+	Mon, 06 Apr 2020 20:40:40 +0000 (UTC)
 From: Casey Schaufler <casey@schaufler-ca.com>
 To: casey.schaufler@intel.com, jmorris@namei.org,
 	linux-security-module@vger.kernel.org, selinux@vger.kernel.org
 Subject: [PATCH v15 00/23] LSM: Module stacking for AppArmor
-Date: Mon,  6 Apr 2020 13:32:46 -0700
-Message-Id: <20200406203246.42079-1-casey@schaufler-ca.com>
+Date: Mon,  6 Apr 2020 13:40:14 -0700
+Message-Id: <20200406204037.42262-1-casey@schaufler-ca.com>
 MIME-Version: 1.0
-References: <20200406203246.42079-1-casey.ref@schaufler-ca.com>
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+References: <20200406204037.42262-1-casey.ref@schaufler-ca.com>
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
 X-MIME-Autoconverted: from quoted-printable to 8bit by
-	lists01.pubmisc.prod.ext.phx2.redhat.com id 036KX0Aw012323
+	lists01.pubmisc.prod.ext.phx2.redhat.com id 036Keovp012675
 X-loop: linux-audit@redhat.com
 Cc: john.johansen@canonical.com, linux-audit@redhat.com, sds@tycho.nsa.gov
 X-BeenThere: linux-audit@redhat.com
@@ -105,7 +105,7 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="us-ascii"
