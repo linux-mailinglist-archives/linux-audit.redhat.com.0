@@ -1,11 +1,11 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [207.211.31.81])
-	by mail.lfdr.de (Postfix) with ESMTP id 90A261A02BE
-	for <lists+linux-audit@lfdr.de>; Tue,  7 Apr 2020 02:07:59 +0200 (CEST)
+Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [205.139.110.61])
+	by mail.lfdr.de (Postfix) with ESMTP id D61761A02BD
+	for <lists+linux-audit@lfdr.de>; Tue,  7 Apr 2020 02:07:54 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1586218078;
+	s=mimecast20190719; t=1586218073;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
@@ -13,46 +13,46 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
 	bh=g2D554J+w0iGO8DtqPMC/zR01AUk9V47ewmEL2ZxgeY=;
-	b=M6SwfmxFjc1xnXatlkIe4IBuA6QXc5CQ6ALtExMoJ9cYDQCR+0gVlYWrXOnmXlp/02Wjh1
-	CeZhtBhcLj+jdlH7HS5BBaNkBCw7468Xl14tLAPIPPCu07m0JRKZHLwUbSb8LG2vIFAs/f
-	4PB4Gehce85LY3kkgcrMh7cIH/pbBGo=
+	b=fldQ5nzwW1g/aQIl1ZU2CH/7QtruxXFNFK2LFibHIcvwxwFdjOzvpVA3x9+5ugpPCA7iXO
+	mOO9snZRS7UF9xRFmdNABuRB45zn9OFiMeCFhaXZCIsXj/TSlz+KL6PYrABWo8DjUCQSU5
+	2rnNGE1NTNZDyUJdaYkpI9TUcCVie/Q=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-399-7TPPTEctMLy0ns3vPZy55A-1; Mon, 06 Apr 2020 20:07:56 -0400
-X-MC-Unique: 7TPPTEctMLy0ns3vPZy55A-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+ us-mta-340-cEgzSJIEO6qOi_IgBmt_Sg-1; Mon, 06 Apr 2020 20:07:51 -0400
+X-MC-Unique: cEgzSJIEO6qOi_IgBmt_Sg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3B044802560;
-	Tue,  7 Apr 2020 00:07:52 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 166E99D370;
-	Tue,  7 Apr 2020 00:07:52 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9A628800D5C;
+	Tue,  7 Apr 2020 00:07:46 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 4A4E45DA7B;
+	Tue,  7 Apr 2020 00:07:46 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id AB96E93A6D;
-	Tue,  7 Apr 2020 00:07:51 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
-	[10.11.54.3])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id AFF2A18089CD;
+	Tue,  7 Apr 2020 00:07:45 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+	[10.11.54.5])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 03707eD2024696 for <linux-audit@listman.util.phx.redhat.com>;
+	id 03707enY024695 for <linux-audit@listman.util.phx.redhat.com>;
 	Mon, 6 Apr 2020 20:07:40 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id 4BAE3110F0B3; Tue,  7 Apr 2020 00:07:40 +0000 (UTC)
+	id E0F9AD0197; Tue,  7 Apr 2020 00:07:39 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
-	(mimecast02.extmail.prod.ext.rdu2.redhat.com [10.11.55.18])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 47D271004C7F
+	(mimecast04.extmail.prod.ext.rdu2.redhat.com [10.11.55.20])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id DB697D0B36
 	for <linux-audit@redhat.com>; Tue,  7 Apr 2020 00:07:37 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [205.139.110.61])
+Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [207.211.31.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 96C7B8007AC
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7EAAE1017E41
 	for <linux-audit@redhat.com>; Tue,  7 Apr 2020 00:07:37 +0000 (UTC)
 Received: from sonic311-31.consmr.mail.ne1.yahoo.com
 	(sonic311-31.consmr.mail.ne1.yahoo.com [66.163.188.212]) (Using TLS) by
-	relay.mimecast.com with ESMTP id us-mta-44-tWVesAC4PneHrNjPJh_Yng-1;
+	relay.mimecast.com with ESMTP id us-mta-259-iSvBxTUQMUW-p4UwAhWP-g-1;
 	Mon, 06 Apr 2020 20:07:35 -0400
-X-MC-Unique: tWVesAC4PneHrNjPJh_Yng-1
+X-MC-Unique: iSvBxTUQMUW-p4UwAhWP-g-1
 X-YMail-OSG: gbvylA0VM1l5tLKbQw91x2BUc1Nj817h4gk.56mJJHxpdOj0RTecebHEVnqRXk3
 	3uCG1LdO8NYyULE3uVhiwmB9QEPHEI5qjCFO.kxmk_Csj75mWDyj.bJc8_7jimkfkdwKhMU7DP.m
 	6JsU3Ollrr48ca3iRocE0DwDNqGht6F9D7a2BEE5UrAVFoNgZoqbdDDMBY9nQLfm7_f8nR_iRMXG
@@ -88,9 +88,9 @@ Message-Id: <20200407000159.43602-6-casey@schaufler-ca.com>
 In-Reply-To: <20200407000159.43602-1-casey@schaufler-ca.com>
 References: <20200407000159.43602-1-casey@schaufler-ca.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
 X-MIME-Autoconverted: from quoted-printable to 8bit by
-	lists01.pubmisc.prod.ext.phx2.redhat.com id 03707eD2024696
+	lists01.pubmisc.prod.ext.phx2.redhat.com id 03707enY024695
 X-loop: linux-audit@redhat.com
 Cc: john.johansen@canonical.com, linux-audit@redhat.com, sds@tycho.nsa.gov
 X-BeenThere: linux-audit@redhat.com
@@ -106,7 +106,7 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="us-ascii"
