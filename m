@@ -1,96 +1,64 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com [207.211.31.81])
-	by mail.lfdr.de (Postfix) with ESMTP id 7D32F1A153A
-	for <lists+linux-audit@lfdr.de>; Tue,  7 Apr 2020 20:47:48 +0200 (CEST)
+Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [207.211.31.81])
+	by mail.lfdr.de (Postfix) with ESMTP id 594221A3C22
+	for <lists+linux-audit@lfdr.de>; Thu,  9 Apr 2020 23:51:37 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1586285267;
+	s=mimecast20190719; t=1586469096;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=R026rwYJYQ0Ywp+mE2lqsaYOaXYG4Cvw79MWgMKVyAc=;
-	b=VlTwPEsx2DJ5zDAXV9lsXttzJBJ3KWhYm5KfhTJ7yG2HeastDqLOuEtp79os/hnG9RplJH
-	wbnnZu19N+XP/Gv3TqiXxG866D+5ibAi3qB+O9SKqAxhO2GHHi2AgySuO3A1RG5ZofSdXF
-	Da96juSgzCLV3m2xvdSGwaTjueQxvRo=
+	bh=1G5LpMZIIu7wZH4HjRpjM9Rzz1iwW1UdXVUXrCMDpJo=;
+	b=YcqTJyVSj/E3YK0TVsSv8MuNg6la66c0Cu7tbB6fmMoRYovsxe52hnadv5LDGkWEmc7iF4
+	8I9mKeaO7G0F0zohnJSFnHHSwiZbzkeu0Xj7Kf1sceBd3423jijy2HVN0EJH15QkYS/9Jk
+	hhNFHExfUZTDoQZII+/A4uL56frT1P4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-363-Wllp_vVwNr2m5uS2bEVTTg-1; Tue, 07 Apr 2020 14:47:45 -0400
-X-MC-Unique: Wllp_vVwNr2m5uS2bEVTTg-1
+ us-mta-373--npQg85XNi2-cV82Z4ewKg-1; Thu, 09 Apr 2020 17:51:34 -0400
+X-MC-Unique: -npQg85XNi2-cV82Z4ewKg-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8111B107ACC4;
-	Tue,  7 Apr 2020 18:47:39 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3776913FD;
+	Thu,  9 Apr 2020 21:51:27 +0000 (UTC)
 Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id C98635DA7B;
-	Tue,  7 Apr 2020 18:47:38 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 5D2CA5D9CA;
+	Thu,  9 Apr 2020 21:51:24 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 6110A93A62;
-	Tue,  7 Apr 2020 18:47:37 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
-	[10.11.54.6])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 680419307C;
+	Thu,  9 Apr 2020 21:51:20 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+	[10.5.11.14])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 037IlU5a008309 for <linux-audit@listman.util.phx.redhat.com>;
-	Tue, 7 Apr 2020 14:47:30 -0400
+	id 039Lp9ZE030252 for <linux-audit@listman.util.phx.redhat.com>;
+	Thu, 9 Apr 2020 17:51:09 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id 007D42166B2E; Tue,  7 Apr 2020 18:47:30 +0000 (UTC)
+	id 791E05DA85; Thu,  9 Apr 2020 21:51:09 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from mimecast-mx02.redhat.com
-	(mimecast05.extmail.prod.ext.rdu2.redhat.com [10.11.55.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id F07522166B2C
-	for <linux-audit@redhat.com>; Tue,  7 Apr 2020 18:47:27 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [205.139.110.61])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 30C68800299
-	for <linux-audit@redhat.com>; Tue,  7 Apr 2020 18:47:27 +0000 (UTC)
-Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
-	[209.85.215.194]) (Using TLS) by relay.mimecast.com with ESMTP id
-	us-mta-396--qVZ6CRcPCaTaS8gnehZDQ-1; Tue, 07 Apr 2020 14:47:24 -0400
-X-MC-Unique: -qVZ6CRcPCaTaS8gnehZDQ-1
-Received: by mail-pg1-f194.google.com with SMTP id o26so2128540pgc.12
-	for <linux-audit@redhat.com>; Tue, 07 Apr 2020 11:47:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to;
-	bh=lBM478ptNZ+mXPkBTDrWju1nd+FEGJmPSRx/pSF4GdI=;
-	b=gFtZOPG+yQD+zlSMsmz53VXqvZvcrLBs8P4DnCQpsMVsp+YAVfSXdczdzQwEeAmKgb
-	16oi5RQ6XzHxsUEqpWvoOtnywdKUNFrAO0r1JhKdYnw4JZHTAWR/i+f2BteA1IVbZo36
-	YYtllbf2j1eJM2UmUJS1PLYp9qlWsEsJ5vQCtm5Ke1Y2SwhnYrwHmREIZy3hM0QsDEn2
-	10qcT6otQ7iNM41l5aq1qK6MnWeVAmqLzD54bq9Qq+9JUIMVoZfPMhEiVcSOiDyizLJs
-	ZMy7pcB3w1dRkaWZ1hlp350rvfXfF5DpPexvjZEJfBnB6kt0O1/IxVLZSzVGxuU5NL1u
-	Z3qA==
-X-Gm-Message-State: AGi0PuYunE0M5difpomTFELGjluiFUzdJuHcDSMmZBC3A0GBCiKDZ7lV
-	ntKc6lMgiOntpwHk04eVND9bRw==
-X-Google-Smtp-Source: APiQypJUKFtNnGZpWZI+kN9uCwkeVsjibmdDh+2DxPIMP+R+0eU7Kj6JqiL+pqadezDG56nZd+/4dA==
-X-Received: by 2002:a62:fc07:: with SMTP id e7mr3943387pfh.299.1586285243275; 
-	Tue, 07 Apr 2020 11:47:23 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-	by smtp.gmail.com with ESMTPSA id
-	s22sm15188402pfh.18.2020.04.07.11.47.22
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 07 Apr 2020 11:47:22 -0700 (PDT)
-Date: Tue, 7 Apr 2020 11:47:21 -0700
-From: Kees Cook <keescook@chromium.org>
-To: Casey Schaufler <casey@schaufler-ca.com>
-Subject: Re: [PATCH v16 22/23] LSM: Add /proc attr entry for full LSM context
-Message-ID: <202004071147.6073511E9@keescook>
-References: <20200407000159.43602-1-casey@schaufler-ca.com>
-	<20200407000159.43602-23-casey@schaufler-ca.com>
+Received: from madcap2.tricolour.ca (unknown [10.3.128.9])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 5FFEF5DA81;
+	Thu,  9 Apr 2020 21:51:01 +0000 (UTC)
+Date: Thu, 9 Apr 2020 17:50:56 -0400
+From: Richard Guy Briggs <rgb@redhat.com>
+To: Vladis Dronov <vdronov@redhat.com>
+Subject: Re: [PATCH ghak96] audit: set cwd in audit context for file-related
+	LSM audit records
+Message-ID: <20200409215056.qa5uso6rr57y4joo@madcap2.tricolour.ca>
+References: <20200402141319.28714-1-vdronov@redhat.com>
+	<2d7174b1-115f-b86f-8054-a5caef4b69ff@schaufler-ca.com>
+	<1800109401.20260657.1585845081366.JavaMail.zimbra@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200407000159.43602-23-casey@schaufler-ca.com>
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-X-MIME-Autoconverted: from quoted-printable to 8bit by
-	lists01.pubmisc.prod.ext.phx2.redhat.com id 037IlU5a008309
+In-Reply-To: <1800109401.20260657.1585845081366.JavaMail.zimbra@redhat.com>
+User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-loop: linux-audit@redhat.com
-Cc: john.johansen@canonical.com, selinux@vger.kernel.org, jmorris@namei.org,
+Cc: James Morris <jmorris@namei.org>, linux-kernel@vger.kernel.org,
 	linux-security-module@vger.kernel.org, linux-audit@redhat.com,
-	casey.schaufler@intel.com, sds@tycho.nsa.gov
+	"Serge E . Hallyn" <serge@hallyn.com>
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -111,323 +79,184 @@ Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Content-Disposition: inline
 
-On Mon, Apr 06, 2020 at 05:01:58PM -0700, Casey Schaufler wrote:
-> Add an entry /proc/.../attr/context which displays the full
-> process security "context" in compound format:
->         lsm1\0value\0lsm2\0value\0...
-> This entry is not writable.
+On 2020-04-02 12:31, Vladis Dronov wrote:
+> Hello, Casey, all,
 > 
-> Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
-
-Reviewed-by: Kees Cook <keescook@chromium.org>
-
--Kees
-
-> Cc: linux-api@vger.kernel.org
-> ---
->  Documentation/security/lsm.rst       | 28 +++++++++++++
->  fs/proc/base.c                       |  1 +
->  include/linux/lsm_hooks.h            |  6 +++
->  security/apparmor/include/procattr.h |  2 +-
->  security/apparmor/lsm.c              |  8 +++-
->  security/apparmor/procattr.c         | 22 +++++-----
->  security/security.c                  | 63 ++++++++++++++++++++++++++++
->  security/selinux/hooks.c             |  2 +-
->  security/smack/smack_lsm.c           |  2 +-
->  9 files changed, 119 insertions(+), 15 deletions(-)
+> ----- Original Message -----
+> > From: "Casey Schaufler" <casey@schaufler-ca.com>
+> > Subject: Re: [PATCH ghak96] audit: set cwd in audit context for file-related LSM audit records
+> > 
+> > On 4/2/2020 7:13 AM, Vladis Dronov wrote:
+> > > Set a current working directory in an audit context for the following
+> > > record
+> > > types in dump_common_audit_data(): LSM_AUDIT_DATA_PATH,
+> > > LSM_AUDIT_DATA_FILE,
+> > > LSM_AUDIT_DATA_IOCTL_OP, LSM_AUDIT_DATA_DENTRY, LSM_AUDIT_DATA_INODE so a
+> > > separate CWD record is emitted later.
+> > >
+> > > Link: https://github.com/linux-audit/audit-kernel/issues/96
+> > 
+> > I don't have a problem with the patch, but it sure would be nice
+> > if you explained why these events "could use a CWD record".
 > 
-> diff --git a/Documentation/security/lsm.rst b/Documentation/security/lsm.rst
-> index aadf47c808c0..304260778cab 100644
-> --- a/Documentation/security/lsm.rst
-> +++ b/Documentation/security/lsm.rst
-> @@ -199,3 +199,31 @@ capability-related fields:
->  -  ``fs/nfsd/auth.c``::c:func:`nfsd_setuser()`
->  
->  -  ``fs/proc/array.c``::c:func:`task_cap()`
-> +
-> +LSM External Interfaces
-> +=======================
-> +
-> +The LSM infrastructure does not generally provide external interfaces.
-> +The individual security modules provide what external interfaces they
-> +require.
-> +
-> +The file ``/sys/kernel/security/lsm`` provides a comma
-> +separated list of the active security modules.
-> +
-> +The file ``/proc/pid/attr/display`` contains the name of the security
-> +module for which the ``/proc/pid/attr/current`` interface will
-> +apply. This interface can be written to.
-> +
-> +The infrastructure does provide an interface for the special
-> +case where multiple security modules provide a process context.
-> +This is provided in compound context format.
-> +
-> +-  `lsm\0value\0lsm\0value\0`
-> +
-> +The `lsm` and `value` fields are nul terminated bytestrings.
-> +Each field may contain whitespace or non-printable characters.
-> +The nul bytes are included in the size of a compound context.
-> +The context ``Bell\0Secret\0Biba\0Loose\0`` has a size of 23.
-> +
-> +The file ``/proc/pid/attr/context`` provides the security
-> +context of the identified process.
-> diff --git a/fs/proc/base.c b/fs/proc/base.c
-> index 505331ab7a14..4cc418ce9c3e 100644
-> --- a/fs/proc/base.c
-> +++ b/fs/proc/base.c
-> @@ -2744,6 +2744,7 @@ static const struct pid_entry attr_dir_stuff[] = {
->  	ATTR(NULL, "keycreate",		0666),
->  	ATTR(NULL, "sockcreate",	0666),
->  	ATTR(NULL, "display",		0666),
-> +	ATTR(NULL, "context",		0444),
->  #ifdef CONFIG_SECURITY_SMACK
->  	DIR("smack",			0555,
->  	    proc_smack_attr_dir_inode_ops, proc_smack_attr_dir_ops),
-> diff --git a/include/linux/lsm_hooks.h b/include/linux/lsm_hooks.h
-> index 2bf82e1cf347..61977a33f2c3 100644
-> --- a/include/linux/lsm_hooks.h
-> +++ b/include/linux/lsm_hooks.h
-> @@ -1321,6 +1321,12 @@
->   *	@pages contains the number of pages.
->   *	Return 0 if permission is granted.
->   *
-> + * @getprocattr:
-> + *	Provide the named process attribute for display in special files in
-> + *	the /proc/.../attr directory.  Attribute naming and the data displayed
-> + *	is at the discretion of the security modules.  The exception is the
-> + *	"context" attribute, which will contain the security context of the
-> + *	task as a nul terminated text string without trailing whitespace.
->   * @ismaclabel:
->   *	Check if the extended attribute specified by @name
->   *	represents a MAC label. Returns 1 if name is a MAC
-> diff --git a/security/apparmor/include/procattr.h b/security/apparmor/include/procattr.h
-> index 31689437e0e1..03dbfdb2f2c0 100644
-> --- a/security/apparmor/include/procattr.h
-> +++ b/security/apparmor/include/procattr.h
-> @@ -11,7 +11,7 @@
->  #ifndef __AA_PROCATTR_H
->  #define __AA_PROCATTR_H
->  
-> -int aa_getprocattr(struct aa_label *label, char **string);
-> +int aa_getprocattr(struct aa_label *label, char **string, bool newline);
->  int aa_setprocattr_changehat(char *args, size_t size, int flags);
->  
->  #endif /* __AA_PROCATTR_H */
-> diff --git a/security/apparmor/lsm.c b/security/apparmor/lsm.c
-> index 16b992235c11..02f305ab2c69 100644
-> --- a/security/apparmor/lsm.c
-> +++ b/security/apparmor/lsm.c
-> @@ -593,6 +593,7 @@ static int apparmor_getprocattr(struct task_struct *task, char *name,
->  	const struct cred *cred = get_task_cred(task);
->  	struct aa_task_ctx *ctx = task_ctx(current);
->  	struct aa_label *label = NULL;
-> +	bool newline = true;
->  
->  	if (strcmp(name, "current") == 0)
->  		label = aa_get_newest_label(cred_label(cred));
-> @@ -600,11 +601,14 @@ static int apparmor_getprocattr(struct task_struct *task, char *name,
->  		label = aa_get_newest_label(ctx->previous);
->  	else if (strcmp(name, "exec") == 0 && ctx->onexec)
->  		label = aa_get_newest_label(ctx->onexec);
-> -	else
-> +	else if (strcmp(name, "context") == 0) {
-> +		label = aa_get_newest_label(cred_label(cred));
-> +		newline = false;
-> +	} else
->  		error = -EINVAL;
->  
->  	if (label)
-> -		error = aa_getprocattr(label, value);
-> +		error = aa_getprocattr(label, value, newline);
->  
->  	aa_put_label(label);
->  	put_cred(cred);
-> diff --git a/security/apparmor/procattr.c b/security/apparmor/procattr.c
-> index c929bf4a3df1..be3b083d9b74 100644
-> --- a/security/apparmor/procattr.c
-> +++ b/security/apparmor/procattr.c
-> @@ -20,6 +20,7 @@
->   * aa_getprocattr - Return the profile information for @profile
->   * @profile: the profile to print profile info about  (NOT NULL)
->   * @string: Returns - string containing the profile info (NOT NULL)
-> + * @newline: Should a newline be added to @string.
->   *
->   * Returns: length of @string on success else error on failure
->   *
-> @@ -30,20 +31,21 @@
->   *
->   * Returns: size of string placed in @string else error code on failure
->   */
-> -int aa_getprocattr(struct aa_label *label, char **string)
-> +int aa_getprocattr(struct aa_label *label, char **string, bool newline)
->  {
->  	struct aa_ns *ns = labels_ns(label);
->  	struct aa_ns *current_ns = aa_get_current_ns();
-> +	int flags = FLAG_VIEW_SUBNS | FLAG_HIDDEN_UNCONFINED;
->  	int len;
->  
->  	if (!aa_ns_visible(current_ns, ns, true)) {
->  		aa_put_ns(current_ns);
->  		return -EACCES;
->  	}
-> +	if (newline)
-> +		flags |= FLAG_SHOW_MODE;
->  
-> -	len = aa_label_snxprint(NULL, 0, current_ns, label,
-> -				FLAG_SHOW_MODE | FLAG_VIEW_SUBNS |
-> -				FLAG_HIDDEN_UNCONFINED);
-> +	len = aa_label_snxprint(NULL, 0, current_ns, label, flags);
->  	AA_BUG(len < 0);
->  
->  	*string = kmalloc(len + 2, GFP_KERNEL);
-> @@ -52,19 +54,19 @@ int aa_getprocattr(struct aa_label *label, char **string)
->  		return -ENOMEM;
->  	}
->  
-> -	len = aa_label_snxprint(*string, len + 2, current_ns, label,
-> -				FLAG_SHOW_MODE | FLAG_VIEW_SUBNS |
-> -				FLAG_HIDDEN_UNCONFINED);
-> +	len = aa_label_snxprint(*string, len + 2, current_ns, label, flags);
->  	if (len < 0) {
->  		aa_put_ns(current_ns);
->  		return len;
->  	}
->  
-> -	(*string)[len] = '\n';
-> -	(*string)[len + 1] = 0;
-> +	if (newline) {
-> +		(*string)[len] = '\n';
-> +		(*string)[++len] = 0;
-> +	}
->  
->  	aa_put_ns(current_ns);
-> -	return len + 1;
-> +	return len;
->  }
->  
->  /**
-> diff --git a/security/security.c b/security/security.c
-> index d3bf71d66724..6643be07e778 100644
-> --- a/security/security.c
-> +++ b/security/security.c
-> @@ -754,6 +754,42 @@ static void __init lsm_early_task(struct task_struct *task)
->  		panic("%s: Early task alloc failed.\n", __func__);
->  }
->  
-> +/**
-> + * append_ctx - append a lsm/context pair to a compound context
-> + * @ctx: the existing compound context
-> + * @ctxlen: size of the old context, including terminating nul byte
-> + * @lsm: new lsm name, nul terminated
-> + * @new: new context, possibly nul terminated
-> + * @newlen: maximum size of @new
-> + *
-> + * replace @ctx with a new compound context, appending @newlsm and @new
-> + * to @ctx. On exit the new data replaces the old, which is freed.
-> + * @ctxlen is set to the new size, which includes a trailing nul byte.
-> + *
-> + * Returns 0 on success, -ENOMEM if no memory is available.
-> + */
-> +static int append_ctx(char **ctx, int *ctxlen, const char *lsm, char *new,
-> +		      int newlen)
-> +{
-> +	char *final;
-> +	int llen;
-> +
-> +	llen = strlen(lsm) + 1;
-> +	newlen = strnlen(new, newlen) + 1;
-> +
-> +	final = kzalloc(*ctxlen + llen + newlen, GFP_KERNEL);
-> +	if (final == NULL)
-> +		return -ENOMEM;
-> +	if (*ctxlen)
-> +		memcpy(final, *ctx, *ctxlen);
-> +	memcpy(final + *ctxlen, lsm, llen);
-> +	memcpy(final + *ctxlen + llen, new, newlen);
-> +	kfree(*ctx);
-> +	*ctx = final;
-> +	*ctxlen = *ctxlen + llen + newlen;
-> +	return 0;
-> +}
-> +
->  /*
->   * Hook list operation macros.
->   *
-> @@ -2073,6 +2109,10 @@ int security_getprocattr(struct task_struct *p, const char *lsm, char *name,
->  				char **value)
->  {
->  	struct security_hook_list *hp;
-> +	char *final = NULL;
-> +	char *cp;
-> +	int rc = 0;
-> +	int finallen = 0;
->  	int display = lsm_task_display(current);
->  	int slot = 0;
->  
-> @@ -2100,6 +2140,29 @@ int security_getprocattr(struct task_struct *p, const char *lsm, char *name,
->  		return -ENOMEM;
->  	}
->  
-> +	if (!strcmp(name, "context")) {
-> +		hlist_for_each_entry(hp, &security_hook_heads.getprocattr,
-> +				     list) {
-> +			rc = hp->hook.getprocattr(p, "context", &cp);
-> +			if (rc == -EINVAL)
-> +				continue;
-> +			if (rc < 0) {
-> +				kfree(final);
-> +				return rc;
-> +			}
-> +			rc = append_ctx(&final, &finallen, hp->lsmid->lsm,
-> +					cp, rc);
-> +			if (rc < 0) {
-> +				kfree(final);
-> +				return rc;
-> +			}
-> +		}
-> +		if (final == NULL)
-> +			return -EINVAL;
-> +		*value = final;
-> +		return finallen;
-> +	}
-> +
->  	hlist_for_each_entry(hp, &security_hook_heads.getprocattr, list) {
->  		if (lsm != NULL && strcmp(lsm, hp->lsmid->lsm))
->  			continue;
-> diff --git a/security/selinux/hooks.c b/security/selinux/hooks.c
-> index 75af88abb346..c5f2ff29645b 100644
-> --- a/security/selinux/hooks.c
-> +++ b/security/selinux/hooks.c
-> @@ -6257,7 +6257,7 @@ static int selinux_getprocattr(struct task_struct *p,
->  			goto bad;
->  	}
->  
-> -	if (!strcmp(name, "current"))
-> +	if (!strcmp(name, "current") || !strcmp(name, "context"))
->  		sid = __tsec->sid;
->  	else if (!strcmp(name, "prev"))
->  		sid = __tsec->osid;
-> diff --git a/security/smack/smack_lsm.c b/security/smack/smack_lsm.c
-> index 5bee05bd7a42..453923eee950 100644
-> --- a/security/smack/smack_lsm.c
-> +++ b/security/smack/smack_lsm.c
-> @@ -3479,7 +3479,7 @@ static int smack_getprocattr(struct task_struct *p, char *name, char **value)
->  	char *cp;
->  	int slen;
->  
-> -	if (strcmp(name, "current") != 0)
-> +	if (strcmp(name, "current") != 0 && strcmp(name, "context") != 0)
->  		return -EINVAL;
->  
->  	cp = kstrdup(skp->smk_known, GFP_KERNEL);
-> -- 
-> 2.24.1
+> (adding Richard Guy Briggs <rgb@redhat.com> which I should have been done earlier)
 > 
+> I would agree, adding "cwd=" field in the LSM record itself is simpler to me.
 
--- 
-Kees Cook
+We already have a CWD record to record this information.  It usually
+accompanies an AUDIT_PATH record, but the intent is that it accompanies
+any event that has filesystem pathnames in path= or name= fields in
+records to help understand the command's context relative to the
+filesystem.
 
+> Unfortunately, all I can say for now is "The intent was a separate CWD record,
+> that is already defined" requirement from the ghak#96 issue.
+> 
+> Richard, could you, please, clarify since you've posted this requirement in
+> the ghak#96's description?
+>  
+> > > Signed-off-by: Vladis Dronov <vdronov@redhat.com>
+> > > ---
+> > > out-of-commit-message-note:
+> > >
+> > > Hello,
+> > > Honestly, I'm not sure about "if (!context->in_syscall)" check in
+> > > __audit_getcwd(). It was copied from __audit_getname() and I do
+> > > not quite understand why it is there and if __audit_getcwd() needs
+> > > it. If you have an idea on this, could you please, tell?
+> > >
+> > >  include/linux/audit.h |  9 ++++++++-
+> > >  kernel/auditsc.c      | 17 +++++++++++++++++
+> > >  security/lsm_audit.c  |  5 +++++
+> > >  3 files changed, 30 insertions(+), 1 deletion(-)
+> > >
+> > > diff --git a/include/linux/audit.h b/include/linux/audit.h
+> > > index f9ceae57ca8d..b4306abc5891 100644
+> > > --- a/include/linux/audit.h
+> > > +++ b/include/linux/audit.h
+> > > @@ -268,7 +268,7 @@ extern void __audit_syscall_entry(int major, unsigned
+> > > long a0, unsigned long a1,
+> > >  extern void __audit_syscall_exit(int ret_success, long ret_value);
+> > >  extern struct filename *__audit_reusename(const __user char *uptr);
+> > >  extern void __audit_getname(struct filename *name);
+> > > -
+> > > +extern void __audit_getcwd(void);
+> > >  extern void __audit_inode(struct filename *name, const struct dentry
+> > >  *dentry,
+> > >  				unsigned int flags);
+> > >  extern void __audit_file(const struct file *);
+> > > @@ -327,6 +327,11 @@ static inline void audit_getname(struct filename
+> > > *name)
+> > >  	if (unlikely(!audit_dummy_context()))
+> > >  		__audit_getname(name);
+> > >  }
+> > > +static inline void audit_getcwd(void)
+> > > +{
+> > > +	if (unlikely(!audit_dummy_context()))
+> > > +		__audit_getcwd();
+> > > +}
+> > >  static inline void audit_inode(struct filename *name,
+> > >  				const struct dentry *dentry,
+> > >  				unsigned int aflags) {
+> > > @@ -545,6 +550,8 @@ static inline struct filename *audit_reusename(const
+> > > __user char *name)
+> > >  }
+> > >  static inline void audit_getname(struct filename *name)
+> > >  { }
+> > > +static inline void audit_getcwd(void)
+> > > +{ }
+> > >  static inline void __audit_inode(struct filename *name,
+> > >  					const struct dentry *dentry,
+> > >  					unsigned int flags)
+> > > diff --git a/kernel/auditsc.c b/kernel/auditsc.c
+> > > index 814406a35db1..16316032ef9f 100644
+> > > --- a/kernel/auditsc.c
+> > > +++ b/kernel/auditsc.c
+> > > @@ -1890,6 +1890,23 @@ void __audit_getname(struct filename *name)
+> > >  		get_fs_pwd(current->fs, &context->pwd);
+> > >  }
+> > >  
+> > > +/**
+> > > + * __audit_getcwd - set a current working directory
+> > > + *
+> > > + * Set a current working directory of an audited process for this context.
+> > > + * Called from security/lsm_audit.c:dump_common_audit_data().
+> > > + */
+> > > +void __audit_getcwd(void)
+> > > +{
+> > > +	struct audit_context *context = audit_context();
+> > > +
+> > > +	if (!context->in_syscall)
+> > > +		return;
+> > > +
+> > > +	if (!context->pwd.dentry)
+> > > +		get_fs_pwd(current->fs, &context->pwd);
+> > > +}
+> > > +
+> > >  static inline int audit_copy_fcaps(struct audit_names *name,
+> > >  				   const struct dentry *dentry)
+> > >  {
+> > > diff --git a/security/lsm_audit.c b/security/lsm_audit.c
+> > > index 2d2bf49016f4..7c555621c2bd 100644
+> > > --- a/security/lsm_audit.c
+> > > +++ b/security/lsm_audit.c
+> > > @@ -241,6 +241,7 @@ static void dump_common_audit_data(struct audit_buffer
+> > > *ab,
+> > >  			audit_log_untrustedstring(ab, inode->i_sb->s_id);
+> > >  			audit_log_format(ab, " ino=%lu", inode->i_ino);
+> > >  		}
+> > > +		audit_getcwd();
+> > >  		break;
+> > >  	}
+> > >  	case LSM_AUDIT_DATA_FILE: {
+> > > @@ -254,6 +255,7 @@ static void dump_common_audit_data(struct audit_buffer
+> > > *ab,
+> > >  			audit_log_untrustedstring(ab, inode->i_sb->s_id);
+> > >  			audit_log_format(ab, " ino=%lu", inode->i_ino);
+> > >  		}
+> > > +		audit_getcwd();
+> > >  		break;
+> > >  	}
+> > >  	case LSM_AUDIT_DATA_IOCTL_OP: {
+> > > @@ -269,6 +271,7 @@ static void dump_common_audit_data(struct audit_buffer
+> > > *ab,
+> > >  		}
+> > >  
+> > >  		audit_log_format(ab, " ioctlcmd=0x%hx", a->u.op->cmd);
+> > > +		audit_getcwd();
+> > >  		break;
+> > >  	}
+> > >  	case LSM_AUDIT_DATA_DENTRY: {
+> > > @@ -283,6 +286,7 @@ static void dump_common_audit_data(struct audit_buffer
+> > > *ab,
+> > >  			audit_log_untrustedstring(ab, inode->i_sb->s_id);
+> > >  			audit_log_format(ab, " ino=%lu", inode->i_ino);
+> > >  		}
+> > > +		audit_getcwd();
+> > >  		break;
+> > >  	}
+> > >  	case LSM_AUDIT_DATA_INODE: {
+> > > @@ -300,6 +304,7 @@ static void dump_common_audit_data(struct audit_buffer
+> > > *ab,
+> > >  		audit_log_format(ab, " dev=");
+> > >  		audit_log_untrustedstring(ab, inode->i_sb->s_id);
+> > >  		audit_log_format(ab, " ino=%lu", inode->i_ino);
+> > > +		audit_getcwd();
+> > >  		break;
+> > >  	}
+> > >  	case LSM_AUDIT_DATA_TASK: {
+> 
+> Best regards,
+> Vladis Dronov | Red Hat, Inc. | The Core Kernel | Senior Software Engineer
+
+- RGB
+
+--
+Richard Guy Briggs <rgb@redhat.com>
+Sr. S/W Engineer, Kernel Security, Base Operating Systems
+Remote, Ottawa, Red Hat Canada
+IRC: rgb, SunRaycer
+Voice: +1.647.777.2635, Internal: (81) 32635
 
 --
 Linux-audit mailing list
