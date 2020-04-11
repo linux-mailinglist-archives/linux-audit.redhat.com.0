@@ -1,84 +1,81 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [205.139.110.61])
-	by mail.lfdr.de (Postfix) with ESMTP id 49D291A61A0
-	for <lists+linux-audit@lfdr.de>; Mon, 13 Apr 2020 04:51:36 +0200 (CEST)
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com [205.139.110.61])
+	by mail.lfdr.de (Postfix) with ESMTP id 5C1DC1A61A3
+	for <lists+linux-audit@lfdr.de>; Mon, 13 Apr 2020 04:52:03 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1586746295;
+	s=mimecast20190719; t=1586746322;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
-	 message-id:message-id:to:to:cc:mime-version:mime-version:
-	 content-type:content-type:list-id:list-help:list-unsubscribe:
-	 list-subscribe:list-post; bh=VcBJemmyfQRJmfmwgsAFfzfHx4aP6CyKeZfG/yC08hk=;
-	b=AjlfKYWWvxT5gKHpeL3/PNUVw7yMRXlrDT1q87iiPsI0A+2yomnK6oc9yoqGFWA9HGtDqR
-	EtRKW2U2OeAm8GB7uNi2WFEbW132U7z2qA5/+2147AwjpJ37Jns+a/ad5/txuoP0WaiQ8w
-	1mmob6JkFQRrR5rjD800F1TZIm6Faas=
+	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+	 content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:list-id:list-help:
+	 list-unsubscribe:list-subscribe:list-post;
+	bh=cCaSwp3mc9LB9n/LoYz7RrVC9Ne7goPGIgTRDmT8BLw=;
+	b=baEeCeOLm3HBzuVlOFp5jnK2i2BkKA3MjouOTOM9H29BS8buYOjMv5tTV6yxAjW3OtU4pE
+	bzC/UveCcAA7zER+1RzBOG4C8uNYlqBEVrfz4X6/ZvN6X+UgpdX4AhOA+AFw4IrPHE1j0i
+	KLOs97deVQPpye/9Gqz9CG+VTAvvvLI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-182-8wnEJEr_PGKC1NRts41IOw-1; Sun, 12 Apr 2020 22:51:30 -0400
-X-MC-Unique: 8wnEJEr_PGKC1NRts41IOw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+ us-mta-238-54Q1VDKNMyi4f1_uNRoQIw-1; Sun, 12 Apr 2020 22:51:59 -0400
+X-MC-Unique: 54Q1VDKNMyi4f1_uNRoQIw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5684B107ACC9;
-	Mon, 13 Apr 2020 02:51:25 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 224BE6EF84;
-	Mon, 13 Apr 2020 02:51:25 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E80758017F5;
+	Mon, 13 Apr 2020 02:51:54 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id C75249F992;
+	Mon, 13 Apr 2020 02:51:54 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 912E093097;
-	Mon, 13 Apr 2020 02:51:24 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
-	[10.11.54.3])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 843E818089CD;
+	Mon, 13 Apr 2020 02:51:54 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+	[10.11.54.6])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 03AKdsc4018372 for <linux-audit@listman.util.phx.redhat.com>;
-	Fri, 10 Apr 2020 16:39:55 -0400
+	id 03BN5Kv3002581 for <linux-audit@listman.util.phx.redhat.com>;
+	Sat, 11 Apr 2020 19:05:20 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id DA014103D201; Fri, 10 Apr 2020 20:39:54 +0000 (UTC)
+	id 9B08D2166B35; Sat, 11 Apr 2020 23:05:20 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
-	(mimecast01.extmail.prod.ext.rdu2.redhat.com [10.11.55.17])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id D60D9103D203
-	for <linux-audit@redhat.com>; Fri, 10 Apr 2020 20:39:52 +0000 (UTC)
+	(mimecast02.extmail.prod.ext.rdu2.redhat.com [10.11.55.18])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 96E122166B34
+	for <linux-audit@redhat.com>; Sat, 11 Apr 2020 23:05:18 +0000 (UTC)
 Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
 	[205.139.110.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0B0EE802D30
-	for <linux-audit@redhat.com>; Fri, 10 Apr 2020 20:39:52 +0000 (UTC)
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
-	[209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
-	us-mta-284-3dC6z5Q6O5uKi3lMjFP2wQ-1; Fri, 10 Apr 2020 16:39:49 -0400
-X-MC-Unique: 3dC6z5Q6O5uKi3lMjFP2wQ-1
-Received: by mail-wr1-f71.google.com with SMTP id d17so1051485wrr.17
-	for <linux-audit@redhat.com>; Fri, 10 Apr 2020 13:39:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=jUNzfQhNMtSc1wVrD/VFIYBvxplp4rXJvBmOlkxSMDw=;
-	b=IEu/E4eXxCUlTLkbevbtj++r+nUjsQcV5Yyc0ME6vBI/r6mgV7Nb/IfBKDPQlyDYeX
-	rh3WbHiUPSLwtkONBnMfT8LWanDcjjsDFvqFLTF4If6Ju9qQFuT7j4NiETNCJGmvY/U2
-	aEG/wvd4rKuhzM9ygsJflsHyrhxof024RTboRMqVW3iGvVPdomGjH4cxJaBCW8w5+jSo
-	idd7VOFEoBl1o240YPyIb9EIP9b99+nY05j7nhjFj8g9qgLQWP7UaJD32AWYKDM5zcgX
-	Qey0Dcs51COuw2mmpjpp969JEs6A9p2FXoLLns3L7HdS4AnOyXORLGVgSjTc/HrFoKRc
-	D8ng==
-X-Gm-Message-State: AGi0PuaJJ0IsADVqeptfaxoekKOx5mfkFIC9X/ZQPF3hLkjJtmb/KmVX
-	7PQRiHVmlFM0nNRy+iMsrPh/2cbGTsZUinOqG2JUyxaYtfQI0ffOaNAaAS/JA2CwshPFiuZicZd
-	9vv7ef4uP8rCL2BGh+g/e6QfPUz5pdVcKf6k=
-X-Received: by 2002:adf:9564:: with SMTP id 91mr6485289wrs.246.1586551188201; 
-	Fri, 10 Apr 2020 13:39:48 -0700 (PDT)
-X-Google-Smtp-Source: APiQypI8KDRvZ+PN0fCPLVsZBmwyP0vrJOltuxwlMHSOumCLPXoRELdbzlyUHWPkePoFZa3LdbQU7sV0w2TMCxN7ch0=
-X-Received: by 2002:adf:9564:: with SMTP id 91mr6485272wrs.246.1586551187957; 
-	Fri, 10 Apr 2020 13:39:47 -0700 (PDT)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 442B18007D2
+	for <linux-audit@redhat.com>; Sat, 11 Apr 2020 23:05:18 +0000 (UTC)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99]) (Using TLS)
+	by relay.mimecast.com with ESMTP id us-mta-360-nLtuoIKzPI2fLQUOydbwxQ-1;
+	Sat, 11 Apr 2020 19:05:15 -0400
+X-MC-Unique: nLtuoIKzPI2fLQUOydbwxQ-1
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
+	[73.47.72.35])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by mail.kernel.org (Postfix) with ESMTPSA id 4AB7D214D8;
+	Sat, 11 Apr 2020 23:05:13 +0000 (UTC)
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.6 070/149] audit: CONFIG_CHANGE don't log internal
+	bookkeeping as an event
+Date: Sat, 11 Apr 2020 19:02:27 -0400
+Message-Id: <20200411230347.22371-70-sashal@kernel.org>
+In-Reply-To: <20200411230347.22371-1-sashal@kernel.org>
+References: <20200411230347.22371-1-sashal@kernel.org>
 MIME-Version: 1.0
-From: Gabriel Alford <ralford@redhat.com>
-Date: Fri, 10 Apr 2020 14:39:37 -0600
-Message-ID: <CAOxyEpno-VdVb3sqX8q7hGX7L3fgEOLpf9j25u_o+mcezZ+EBg@mail.gmail.com>
-Subject: auditing audispd vs kubernetes daemonsets
-To: linux-audit@redhat.com, Juan Osorio Robles <josorior@redhat.com>
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+X-MIME-Autoconverted: from quoted-printable to 8bit by
+	lists01.pubmisc.prod.ext.phx2.redhat.com id 03BN5Kv3002581
 X-loop: linux-audit@redhat.com
 X-Mailman-Approved-At: Sun, 12 Apr 2020 22:49:46 -0400
+Cc: Sasha Levin <sashal@kernel.org>, linux-audit@redhat.com
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -92,104 +89,59 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/mixed; boundary="===============4631681719287105106=="
-
---===============4631681719287105106==
-Content-Type: multipart/alternative; boundary="000000000000fa034405a2f5bb2a"
-
---000000000000fa034405a2f5bb2a
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Hello,
-
-In the midst of discussing sending audit logs from a Red Hat CoreOS node to
-some central audit collection and evaluation tool, the question came up
-about using audispd instead of Daemonsets. Daemonsets are what is planned
-for OpenShift. As I understand it, the general principle is to allow
-auditing to flow through the subsystem, but does it need to flow through
-the entire auditing workflow? Can a Daemonset be used instead of audispd,
-or are there reasons audispd should be used over a Daemonset that some of
-us just aren't aware of?
-
-Thanks,
-
-Gabriel Alford
-
-Member of the technical staff
-
-office of the chief technologist
-
-red hat Public Sector
-
-Red Hat
-
-<https://www.redhat.com>
-
-ralford@redhat.com    T: 972-707-6483 <650-254-4391>    M: 303-550-7234
-<https://red.ht/sig> <https://red.ht/sig>
-
---000000000000fa034405a2f5bb2a
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hello,<div><br></div><div>In the midst of discussing sendi=
-ng audit logs from a Red Hat CoreOS node to some central audit collection a=
-nd evaluation tool, the question came up about using audispd instead of Dae=
-monsets. Daemonsets are what is planned for OpenShift. As I understand it, =
-the general principle is to allow auditing to flow through the subsystem, b=
-ut does it need to flow through the entire auditing workflow? Can a Daemons=
-et be used instead=C2=A0of audispd, or are there reasons audispd should be =
-used over a Daemonset that some of us just aren&#39;t aware of?</div><div><=
-br></div><div>Thanks,</div><div><br><div><div><div><div dir=3D"ltr" class=
-=3D"gmail_signature" data-smartmail=3D"gmail_signature"><div dir=3D"ltr"><d=
-iv><div dir=3D"ltr"><div><div dir=3D"ltr"><div><div dir=3D"ltr"><div><div d=
-ir=3D"ltr"><div><div dir=3D"ltr"><div><div dir=3D"ltr"><div><div dir=3D"ltr=
-"><div><div dir=3D"ltr"><div><div><span>Gabriel Alford</span><span></span>
-<p style=3D"font-weight:normal;font-size:10px;margin:0px 0px 4px;text-trans=
-form:uppercase"><span>Member of the technical staff</span></p><p style=3D"f=
-ont-weight:normal;font-size:10px;margin:0px 0px 4px;text-transform:uppercas=
-e"><span>office of the chief technologist</span></p><p style=3D"font-weight=
-:normal;font-size:10px;margin:0px 0px 4px;text-transform:uppercase"><span>r=
-ed hat Public Sector<br></span></p></div><p style=3D"font-weight:normal;mar=
-gin:0px;font-size:10px;color:rgb(153,153,153)"><a style=3D"color:rgb(0,136,=
-206);font-size:10px;margin:0px;text-decoration:none;font-family:&quot;overp=
-ass&quot;,sans-serif" href=3D"https://www.redhat.com" target=3D"_blank">Red=
- Hat <span><br><br></span></a></p>
-
-
-<p style=3D"font-weight:normal;margin:0px 0px 6px;font-size:10px;color:rgb(=
-153,153,153)"><span style=3D"margin:0px;padding:0px">
-<a style=3D"color:rgb(0,136,206);font-size:10px;margin:0px;text-decoration:=
-none;font-family:&quot;overpass&quot;,sans-serif" href=3D"mailto:ralford@re=
-dhat.com" target=3D"_blank">ralford@redhat.com</a>=C2=A0 =C2=A0</span>
-<span>T: <a href=3D"tel:650-254-4391" style=3D"color:rgb(0,136,206);font-si=
-ze:10px;margin:0px;text-decoration:none;font-family:&quot;overpass&quot;,sa=
-ns-serif" target=3D"_blank">972-707-6483</a>  =C2=A0 =C2=A0</span><span>M: =
-<a href=3D"tel:303-550-7234" style=3D"color:rgb(0,136,206);font-size:11px;m=
-argin:0px;text-decoration:none;font-family:&quot;overpass&quot;,sans-serif"=
- target=3D"_blank">303-550-7234</a>  =C2=A0 =C2=A0</span>
-</p>
-<a href=3D"https://red.ht/sig" target=3D"_blank"> </a><a href=3D"https://re=
-d.ht/sig" target=3D"_blank"><img src=3D"https://static.redhat.com/libs/redh=
-at/brand-assets/latest/corp/logo.png" width=3D"90" height=3D"auto"></a></di=
-v></div></div></div></div></div></div></div></div></div></div></div></div><=
-/div></div></div></div></div></div></div></div></div></div></div>
-
---000000000000fa034405a2f5bb2a--
-
---===============4631681719287105106==
 Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+
+From: Steve Grubb <sgrubb@redhat.com>
+
+[ Upstream commit 70b3eeed49e8190d97139806f6fbaf8964306cdb ]
+
+Common Criteria calls out for any action that modifies the audit trail to
+be recorded. That usually is interpreted to mean insertion or removal of
+rules. It is not required to log modification of the inode information
+since the watch is still in effect. Additionally, if the rule is a never
+rule and the underlying file is one they do not want events for, they
+get an event for this bookkeeping update against their wishes.
+
+Since no device/inode info is logged at insertion and no device/inode
+information is logged on update, there is nothing meaningful being
+communicated to the admin by the CONFIG_CHANGE updated_rules event. One
+can assume that the rule was not "modified" because it is still watching
+the intended target. If the device or inode cannot be resolved, then
+audit_panic is called which is sufficient.
+
+The correct resolution is to drop logging config_update events since
+the watch is still in effect but just on another unknown inode.
+
+Signed-off-by: Steve Grubb <sgrubb@redhat.com>
+Signed-off-by: Paul Moore <paul@paul-moore.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ kernel/audit_watch.c | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/kernel/audit_watch.c b/kernel/audit_watch.c
+index 4508d5e0cf696..8a8fd732ff6d0 100644
+--- a/kernel/audit_watch.c
++++ b/kernel/audit_watch.c
+@@ -302,8 +302,6 @@ static void audit_update_watch(struct audit_parent *parent,
+ 			if (oentry->rule.exe)
+ 				audit_remove_mark(oentry->rule.exe);
+ 
+-			audit_watch_log_rule_change(r, owatch, "updated_rules");
+-
+ 			call_rcu(&oentry->rcu, audit_free_rule_rcu);
+ 		}
+ 
+-- 
+2.20.1
+
 
 --
 Linux-audit mailing list
 Linux-audit@redhat.com
 https://www.redhat.com/mailman/listinfo/linux-audit
---===============4631681719287105106==--
 
