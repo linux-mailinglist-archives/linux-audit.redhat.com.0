@@ -1,69 +1,78 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-delivery-1.mimecast.com [207.211.31.120])
-	by mail.lfdr.de (Postfix) with ESMTP id 6787E1AB195
-	for <lists+linux-audit@lfdr.de>; Wed, 15 Apr 2020 21:29:43 +0200 (CEST)
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com [207.211.31.120])
+	by mail.lfdr.de (Postfix) with ESMTP id 08B9D1AC1A9
+	for <lists+linux-audit@lfdr.de>; Thu, 16 Apr 2020 14:45:36 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1586978982;
+	s=mimecast20190719; t=1587041136;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=oi1p4YlfG42xc3EmcZQZjYTz4isjREkcyYHxWSJevF0=;
-	b=Lb6iu6SUF9z0d9wNjuwkX+L5aABz8oMdNcChZSsk0/LHUeZni79SFBrYGNZa9EYUmcjtAl
-	KpmrU5AKRMkNxYddq40+LGdKI+lIPxvz027KO30SJQKru8D/8fX2ThCfKHRl2/b0u8tiYu
-	wKqi9M/rpQEfEFlsQXT/XzX7Hy+Do/w=
+	bh=/vyTBUmNNucgbREMUcb6JKAegC/MjUJf+Thj35GpkVQ=;
+	b=erl//9WoGkHvj2+awKDDGyDOpHmtL/6vDgejzDZoPPjrKRDunms19hSXwajCLXsAAjIjrt
+	l0c2QHpSvG23Q/EVXjsmsV5oIRm024XUs+I7sGdq6dDriRX/53pHJoC5pAiH1NywJIW2QH
+	4vL5Kz3Mgox30r7kkK6CNDO8MTeI6d0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-41-Tim-u2LDO26lmXVS0btQxQ-1; Wed, 15 Apr 2020 15:29:40 -0400
-X-MC-Unique: Tim-u2LDO26lmXVS0btQxQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+ us-mta-313-277n-UspMi-d-BzScwduDQ-1; Thu, 16 Apr 2020 08:45:33 -0400
+X-MC-Unique: 277n-UspMi-d-BzScwduDQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 67BCC19251A4;
-	Wed, 15 Apr 2020 19:29:34 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DA2DE8010F0;
+	Thu, 16 Apr 2020 12:45:19 +0000 (UTC)
 Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 0CDD6A098B;
-	Wed, 15 Apr 2020 19:29:32 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 5F4075DA2C;
+	Thu, 16 Apr 2020 12:45:15 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id EC65D18089CD;
-	Wed, 15 Apr 2020 19:29:24 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
-	[10.5.11.22])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 7E2EC18089CD;
+	Thu, 16 Apr 2020 12:45:07 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+	[10.11.54.6])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 03FJRaEl028763 for <linux-audit@listman.util.phx.redhat.com>;
-	Wed, 15 Apr 2020 15:27:36 -0400
+	id 03GC6Mnv027553 for <linux-audit@listman.util.phx.redhat.com>;
+	Thu, 16 Apr 2020 08:06:22 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id 2926C10013A1; Wed, 15 Apr 2020 19:27:36 +0000 (UTC)
+	id 404852166B2F; Thu, 16 Apr 2020 12:06:22 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from madcap2.tricolour.ca (unknown [10.3.128.9])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 4DA471001DC2;
-	Wed, 15 Apr 2020 19:27:26 +0000 (UTC)
-Date: Wed, 15 Apr 2020 15:27:23 -0400
-From: Richard Guy Briggs <rgb@redhat.com>
-To: Ondrej Mosnacek <omosnace@redhat.com>
-Subject: Re: [PATCH v2] kernel: audit.c: Add __rcu notation to RCU pointer
-Message-ID: <20200415192723.rrdwtitiu3f2cd67@madcap2.tricolour.ca>
-References: <20191128153203.GA23803@workstation-kernel-dev>
-	<20191130020742.GF157739@google.com>
-	<20200415153417.svpbimg66vbeuk7u@madcap2.tricolour.ca>
-	<CAHC9VhTdfkxdiEwCZu-JCQGxJ_DNr0b_Ukm40VEUxq=Lc-zx1g@mail.gmail.com>
-	<20200415161503.umujm6v4gadmf6qm@madcap2.tricolour.ca>
-	<CAFqZXNuYnvru+pMhPwNTBn1+uB=MfYh1yWWBeAn+J-=LXrFgcg@mail.gmail.com>
+Received: from mimecast-mx02.redhat.com
+	(mimecast01.extmail.prod.ext.rdu2.redhat.com [10.11.55.17])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 3C47A2166B2C
+	for <linux-audit@redhat.com>; Thu, 16 Apr 2020 12:06:20 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [205.139.110.61])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4E6CF8056C2
+	for <linux-audit@redhat.com>; Thu, 16 Apr 2020 12:06:20 +0000 (UTC)
+Received: from gardel.0pointer.net (gardel.0pointer.net [85.214.157.71])
+	(Using TLS) by relay.mimecast.com with ESMTP id
+	us-mta-402-8c1wwiDYPQeXh3Rv-VStLw-1; Thu, 16 Apr 2020 08:06:15 -0400
+X-MC-Unique: 8c1wwiDYPQeXh3Rv-VStLw-1
+Received: from gardel-login.0pointer.net (gardel.0pointer.net
+	[IPv6:2a01:238:43ed:c300:10c3:bcf3:3266:da74])
+	by gardel.0pointer.net (Postfix) with ESMTP id 77F39E80CCB;
+	Thu, 16 Apr 2020 14:06:13 +0200 (CEST)
+Received: by gardel-login.0pointer.net (Postfix, from userid 1000)
+	id 0B8B5161537; Thu, 16 Apr 2020 14:06:12 +0200 (CEST)
+Date: Thu, 16 Apr 2020 14:06:12 +0200
+From: Lennart Poettering <lennart@poettering.net>
+To: Richard Guy Briggs <rgb@redhat.com>
+Subject: Re: multicast listeners and audit events to kmsg
+Message-ID: <20200416120612.GA52165@gardel-login>
+References: <20200414092740.2fdf0f78@xantho>
+	<20200415155355.qudqepcvvler55xs@madcap2.tricolour.ca>
 MIME-Version: 1.0
-In-Reply-To: <CAFqZXNuYnvru+pMhPwNTBn1+uB=MfYh1yWWBeAn+J-=LXrFgcg@mail.gmail.com>
-User-Agent: NeoMutt/20180716
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20200415155355.qudqepcvvler55xs@madcap2.tricolour.ca>
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+X-MIME-Autoconverted: from quoted-printable to 8bit by
+	lists01.pubmisc.prod.ext.phx2.redhat.com id 03GC6Mnv027553
 X-loop: linux-audit@redhat.com
-Cc: Amol Grover <frextrite@gmail.com>,
-	Linux kernel mailing list <linux-kernel@vger.kernel.org>,
-	Linux-Audit Mailing List <linux-audit@redhat.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Joel Fernandes <joel@joelfernandes.org>,
-	linux-kernel-mentees@lists.linuxfoundation.org
+X-Mailman-Approved-At: Thu, 16 Apr 2020 08:44:26 -0400
+Cc: linux-audit@redhat.com
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -77,77 +86,124 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Content-Disposition: inline
 
-On 2020-04-15 18:53, Ondrej Mosnacek wrote:
-> On Wed, Apr 15, 2020 at 6:15 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> > On 2020-04-15 12:06, Paul Moore wrote:
-> > > On Wed, Apr 15, 2020 at 11:34 AM Richard Guy Briggs <rgb@redhat.com> wrote:
-> > > > On 2019-11-29 21:07, Joel Fernandes wrote:
-> > > > > On Thu, Nov 28, 2019 at 09:02:03PM +0530, Amol Grover wrote:
-> > > > > > add __rcu notation to RCU protected global pointer auditd_conn
-> > > > >
-> > > > > Again, please use proper punctuation and captilization. This is unacceptable.
-> > > > > Please put more effort into changelog.
-> > > > >
-> > > > > Otherwise the patch diff itself looks good to me, with the above nit
-> > > > > corrected, you could add my tag to the next revision:
-> > > > >
-> > > > > Reviewed-by: Joel Fernandes (Google) <joel@joelfernandes.org>
-> > > > >
-> > > > > thanks,
-> > > > >
-> > > > >  - Joel
-> > > > >
-> > > > > >
-> > > > > > Fixes multiple instances of sparse error:
-> > > > > > error: incompatible types in comparison expression
-> > > > > > (different address spaces)
-> > > >
-> > > > Amol or Joel: Is there a reproducer recipe for this?
-> > >
-> > > The commit which was merged has a slightly better description which may help.
+On Mi, 15.04.20 11:53, Richard Guy Briggs (rgb@redhat.com) wrote:
+
+> On 2020-04-14 09:27, Luca BRUNO wrote:
+> > Hi all,
+> > I'm trying to re-spin a very old thread related to multicast listeners
+> > and audit events to kmsg.
 > >
-> > I've already seen this.  Perhaps I should have replied to this message
-> > instead to make that evident.  What really needed was Amol's original
-> > message sent to this list, but it was Joel who included this list in his
-> > reply (all 3 versions).
+> > One surprising kernel behavior when using only a multicast listener
+> > to collect audit events (in this case, systemd-journald) is that
+> > audit events end up spamming the console [0].
 > >
-> > I'm looking for the specific setup and commands that produced this error.
-> 
-> You can run make with "C=1", which will run sparse on all files that
-> are rebuilt during that make run. For example, if I fully build the
-> kernel and then revert commit
-> cb5172d96d16df72db8b55146b0ec00bfd97f079, I get:
-> 
-> $ make [...] C=1
-> [...]
->   CHECK   [...]/kernel/audit.c
-> [...]/kernel/audit.c:218:14: error: incompatible types in comparison
-> expression (different address spaces):
-> [...]/kernel/audit.c:218:14:    struct auditd_connection [noderef] <asn:4> *
-> [...]/kernel/audit.c:218:14:    struct auditd_connection *
-> (...and a lot more errors like this + 2 different warnings)
-> 
-> And when I un-revert it again, I get only the 2 warnings.
+> > [0] https://github.com/systemd/systemd/issues/15324
+>
+> This is not surprising, since the multicast audit socket is not
+> considered a reliable sink for the audit log and thus cannot be relied
+> upon to key the decision to forward potentially lost messages to the
+> system log.
 
-Perfect, thanks Ondrej.
+kmsg is not reliable either, it aggressively and silently drops
+messages if the log buffer runs full, which it does pretty quickly.
 
-> Ondrej Mosnacek <omosnace at redhat dot com>
+hence there's really no difference here if data is written to the
+mcast socket or to kmsg, in both cases messages are dropped when the
+buffer limits are hit, hence it should be entirely fine to do only one
+of the twoif the unicast client to audit is not running.
 
-- RGB
+> > Apparently there isn't a clear consensus on how this should be
+> > approached. Looking at the github and bugzilla tickets, it seems to me
+> > that Eric and Paul initially had in mind some logic based on multicast
+> > listener detection, while Richard doesn't deem that reliable and
+> > suggests an explicit configuration.
+>
+> I'm regretting having developped this feature due to the problems it has
+> caused the audit developpers and innocent bystanders.  Instead, an audit
+> daemon plugin should have been used to direct log records to
+> journald.
+
+I am sorry, but this doesn't work for us. We do not want to do IPC to
+some audit daemon (journald runs during early boot and in the initrd,
+it has a very special relationship with early boot stuff and PID1, and
+thus being a client to other daemons is highly problematic, if those
+other daemons are managed by systemd as well, and run only during later
+boot). In fact we don't even want the dependency on the audit
+userspace package at all.
+
+In systemd we just think that audit information is pretty interesting
+even if you don't want to buy into the whole government regulation
+stuff, even if you don't want the auditd to run, and the full audit
+package installed. i.e. we want to collect the data as one of our
+various data streams, as a secondary consumer of it, and leave it to
+the audit package itself to do everything else and be the primary
+consumer of it.
+
+Using the multicast group is our way of saying: "we don't want to own
+the audit stream, you can keep it; we just want to have a look
+too".
+
+I believe that there are plenty of systems where audit logs should be
+collected but the whole auditd daemon should not be around, i.e. where
+the usefulness of the data is acknowledged without acknowledging that
+government regulations matter or the audit package should exist on
+every single system.
+
+> Well, Steve, Paul and myself are all fairly firmly on the side of the
+> problem being in systemd and its overreach.
+
+We explicitly don#t want to own the audit stream, that's why we don#t
+use the unicast stuff, but only subscribe via the mcast stuff, so that
+we don't interfere with auditd's own processing if it is running, and
+we don't exlcude auditd from running. we want a mode where audit is
+collected, just like that without any auditd package installed, but if
+you decide to install auditd things just work too.
+
+> > For Richard and the "explicit configuration" approach in particular, I'm
+> > missing some further details:
+> >  * Is the current behavior considered buggy, or is that intended to be
+> >    kept as the default?
+>
+> The current systemd behaviour of unilatterally enabling audit logging is
+> considered buggy.  The current audit kernel behaviour is considered
+> intentional.
+
+Well, we try hard to not step on your toes and do not use the unicast
+stuff and do not pretend to be auditd, so that auditd can be installed
+and run in parallel to journald with us being in the backseat. It's my
+understanding that the mcast stuff was added for this kind of thing,
+except that it never became useful, since it also means that kmsg is
+spammed by audit.
+
+THere's a usecase for collecting audit but not running the whole audit
+userspace suite, can't you see that? i.e. i for one am interested in
+selinux audit msgs, but I am not interested in the audit toolchain I
+must say, I really am not, and I am pretty sure there are many others
+like me. But you basically tell us to go away, or buy into the whole
+audit userspace.
+
+> >  * Would this be tweaked via a (boolean?) sysctl, and what would be the
+> >    semantics of flipping it?
+>
+> It would be controlled via a new audit unicast netlink message similar
+> to the one that enabled auditing in the first place by systemd that
+> would explicitly disable klog when a multicast client is connected.
+
+It would be excellent to have an option to turn off the kmsg
+forwarding.
+
+Lennart
 
 --
-Richard Guy Briggs <rgb@redhat.com>
-Sr. S/W Engineer, Kernel Security, Base Operating Systems
-Remote, Ottawa, Red Hat Canada
-IRC: rgb, SunRaycer
-Voice: +1.647.777.2635, Internal: (81) 32635
+Lennart Poettering, Berlin
+
 
 --
 Linux-audit mailing list
