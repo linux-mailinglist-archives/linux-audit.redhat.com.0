@@ -1,80 +1,62 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com [207.211.31.120])
-	by mail.lfdr.de (Postfix) with ESMTP id A5F4D1AE6D1
-	for <lists+linux-audit@lfdr.de>; Fri, 17 Apr 2020 22:32:15 +0200 (CEST)
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com [207.211.31.81])
+	by mail.lfdr.de (Postfix) with ESMTP id 886EE1AE685
+	for <lists+linux-audit@lfdr.de>; Fri, 17 Apr 2020 22:09:40 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1587155534;
+	s=mimecast20190719; t=1587154179;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=aLcAZrgPzDZDpqKi59TcnY7KO+33RyFwx87mDeP7baw=;
-	b=NjF95T4e0wjk1Px3im/A1jUYlUIvJTZVpGJs4g1AzfR7Vk2N6KCOUzyUp+J5/Bp06uLWUG
-	hjxlPlyjoFS21eC27sHwKWBU0I+ddoR+dJUyauL8mRUK3wEtSWkQrqNeVkFObcZXkKr+31
-	3nAxLKXo695nsBEP5pdTO7n+pDQUvX8=
+	bh=/jJ5IDj8wh+ssuGZ1Er2g5oewrttz1PGQ3Ccf6x9tCY=;
+	b=E2JfDEZWZiAVyOaUAMIJu2KeNVUeCpC89V16WdmyWVEzh43WPyc4x8uuYUxugeI5l+VeQc
+	nd5JbOyCFGVp5amZmO6zsrblA/hi2u5Xp2BZCWGRu+gTxCIAWlauZPTiaBW+Uepme+HaAx
+	rfHojy6hWNmiHss5KOrHG09HidtBeFI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-295-yjXz0phsOjaPS7g_39TJYA-1; Fri, 17 Apr 2020 16:32:12 -0400
-X-MC-Unique: yjXz0phsOjaPS7g_39TJYA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+ us-mta-221-Cd6eSs4JPois4A97xY_Ncg-1; Fri, 17 Apr 2020 16:09:37 -0400
+X-MC-Unique: Cd6eSs4JPois4A97xY_Ncg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 478F4801A25;
-	Fri, 17 Apr 2020 20:32:07 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 88D3C19C4F;
-	Fri, 17 Apr 2020 20:32:06 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 342A813F9;
+	Fri, 17 Apr 2020 20:09:30 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 948FE60BE0;
+	Fri, 17 Apr 2020 20:09:26 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 0B07893397;
-	Fri, 17 Apr 2020 20:32:03 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
-	[10.11.54.4])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 4040C1809567;
+	Fri, 17 Apr 2020 20:09:18 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+	[10.5.11.22])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 03HJLWWc027123 for <linux-audit@listman.util.phx.redhat.com>;
-	Fri, 17 Apr 2020 15:21:32 -0400
+	id 03HK98ak029610 for <linux-audit@listman.util.phx.redhat.com>;
+	Fri, 17 Apr 2020 16:09:08 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id 16F482028CD5; Fri, 17 Apr 2020 19:21:32 +0000 (UTC)
+	id 13987101D480; Fri, 17 Apr 2020 20:09:08 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from mimecast-mx02.redhat.com
-	(mimecast04.extmail.prod.ext.rdu2.redhat.com [10.11.55.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 129722028CD3
-	for <linux-audit@redhat.com>; Fri, 17 Apr 2020 19:21:29 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
-	[205.139.110.120])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 21561101A55D
-	for <linux-audit@redhat.com>; Fri, 17 Apr 2020 19:21:29 +0000 (UTC)
-Received: from gardel.0pointer.net (gardel.0pointer.net [85.214.157.71])
-	(Using TLS) by relay.mimecast.com with ESMTP id
-	us-mta-28-y2YE9k0oMVmLCfCrKYWzyA-1; Fri, 17 Apr 2020 15:21:26 -0400
-X-MC-Unique: y2YE9k0oMVmLCfCrKYWzyA-1
-Received: from gardel-login.0pointer.net (gardel.0pointer.net
-	[IPv6:2a01:238:43ed:c300:10c3:bcf3:3266:da74])
-	by gardel.0pointer.net (Postfix) with ESMTP id D72B1E80D29;
-	Fri, 17 Apr 2020 21:21:24 +0200 (CEST)
-Received: by gardel-login.0pointer.net (Postfix, from userid 1000)
-	id 7CBAB1618B7; Fri, 17 Apr 2020 21:21:24 +0200 (CEST)
-Date: Fri, 17 Apr 2020 21:21:24 +0200
-From: Lennart Poettering <lennart@poettering.net>
-To: Richard Guy Briggs <rgb@redhat.com>
+Received: from madcap2.tricolour.ca (unknown [10.3.128.9])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 0ABB010027B4;
+	Fri, 17 Apr 2020 20:09:01 +0000 (UTC)
+Date: Fri, 17 Apr 2020 16:08:59 -0400
+From: Richard Guy Briggs <rgb@redhat.com>
+To: Lennart Poettering <lennart@poettering.net>
 Subject: Re: multicast listeners and audit events to kmsg
-Message-ID: <20200417192124.GA55500@gardel-login>
+Message-ID: <20200417200858.wxfqvhnqo7od5aom@madcap2.tricolour.ca>
 References: <20200414092740.2fdf0f78@xantho>
 	<20200415155355.qudqepcvvler55xs@madcap2.tricolour.ca>
 	<20200416120612.GA52165@gardel-login>
 	<20200417185742.2v7elrmjpi75w6mm@madcap2.tricolour.ca>
+	<20200417192124.GA55500@gardel-login>
 MIME-Version: 1.0
-In-Reply-To: <20200417185742.2v7elrmjpi75w6mm@madcap2.tricolour.ca>
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-X-MIME-Autoconverted: from quoted-printable to 8bit by
-	lists01.pubmisc.prod.ext.phx2.redhat.com id 03HJLWWc027123
+In-Reply-To: <20200417192124.GA55500@gardel-login>
+User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-loop: linux-audit@redhat.com
-X-Mailman-Approved-At: Fri, 17 Apr 2020 16:31:04 -0400
 Cc: linux-audit@redhat.com
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
@@ -89,34 +71,40 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Content-Disposition: inline
 
-T24gRnIsIDE3LjA0LjIwIDE0OjU3LCBSaWNoYXJkIEd1eSBCcmlnZ3MgKHJnYkByZWRoYXQuY29t
-KSB3cm90ZToKCj4gPiBXZWxsLCB3ZSB0cnkgaGFyZCB0byBub3Qgc3RlcCBvbiB5b3VyIHRvZXMg
-YW5kIGRvIG5vdCB1c2UgdGhlIHVuaWNhc3QKPiA+IHN0dWZmIGFuZCBkbyBub3QgcHJldGVuZCB0
-byBiZSBhdWRpdGQsIHNvIHRoYXQgYXVkaXRkIGNhbiBiZSBpbnN0YWxsZWQKPiA+IGFuZCBydW4g
+T24gMjAyMC0wNC0xNyAyMToyMSwgTGVubmFydCBQb2V0dGVyaW5nIHdyb3RlOgo+IE9uIEZyLCAx
+Ny4wNC4yMCAxNDo1NywgUmljaGFyZCBHdXkgQnJpZ2dzIChyZ2JAcmVkaGF0LmNvbSkgd3JvdGU6
+Cj4gCj4gPiA+IFdlbGwsIHdlIHRyeSBoYXJkIHRvIG5vdCBzdGVwIG9uIHlvdXIgdG9lcyBhbmQg
+ZG8gbm90IHVzZSB0aGUgdW5pY2FzdAo+ID4gPiBzdHVmZiBhbmQgZG8gbm90IHByZXRlbmQgdG8g
+YmUgYXVkaXRkLCBzbyB0aGF0IGF1ZGl0ZCBjYW4gYmUgaW5zdGFsbGVkCj4gPiA+IGFuZCBydW4g
 aW4gcGFyYWxsZWwgdG8gam91cm5hbGQgd2l0aCB1cyBiZWluZyBpbiB0aGUgYmFja3NlYXQuIEl0
-J3MgbXkKPiA+IHVuZGVyc3RhbmRpbmcgdGhhdCB0aGUgbWNhc3Qgc3R1ZmYgd2FzIGFkZGVkIGZv
-ciB0aGlzIGtpbmQgb2YgdGhpbmcsCj4gPiBleGNlcHQgdGhhdCBpdCBuZXZlciBiZWNhbWUgdXNl
-ZnVsLCBzaW5jZSBpdCBhbHNvIG1lYW5zIHRoYXQga21zZyBpcwo+ID4gc3BhbW1lZCBieSBhdWRp
-dC4KPgo+IFdoZXJlIHlvdXIgY2xhaW0gZmFsbHMgZmxhdCBpcyB0aGF0IHN5c3RlbWQvam91cm5h
-bGQgaXMgc3RlcHBpbmcgb24KPiBhdWRpdGQncyB0b2VzIGJ5IGVuYWJsaW5nIGF1ZGl0LiAgRW5h
-YmxpbmcgYXVkaXQgaXMgYXVkaXRkJ3Mgam9iLgoKQWdhaW4sIHdlIGFyZSBpbnRlcmVzdGVkIGlu
-IHRoZSBhdWRpdCBpbmZvcm1hdGlvbiwgYmVjYXVzZSB3ZSB0aGluawppdCdzIHVzZWZ1bC4gSWYg
-d2Ugd291bGRuJ3QgZW5hYmxlIGF1ZGl0IGluIHRoZSBrZXJuZWwgd2Ugd291bGRuJ3QgZ2V0Cml0
-LiBIZW5jZSB3ZSBlbmFibGUgYXVkaXQuCgooQnV0IHNlZTogaHR0cHM6Ly9naXRodWIuY29tL3N5
-c3RlbWQvc3lzdGVtZC9wdWxsLzE1NDQ0IOKAlCB3aXRoIHRoYXQKaXQncyBub3cgY29uZmlndXJh
-YmxlLCBidXQgaXQgc3RpbGwgZGVmYXVsdHMgdG8gb24sIGJlY2F1c2Ugd2UKYWN0dWFsbHkgdGhp
-bmsgdGhlIGRhdGEgaXMgdXNlZnVsLCBhbmQgd2UgdGhpbmsgaXQncyB1c2VmdWwgZXZlbnQKd2l0
-aG91dCBhdWRpdGQgYXJvdW5kLCByZWdhcmRsZXNzIGlmIHRoYXQncyBiZWNhdXNlIHdlIHJ1biBp
-biB0aGUKZWFybGllc3QgaW5pdHJkIHdoZXJlIHRoZXJlIG5ldmVyIGlzIGF1ZGl0ZCBhcm91bmQg
-b3IgYmVjYXVzZSB3ZSBydW4KZHVyaW5nIG5vcm1hbCBvcGVyYXRpb24gYW5kIGF1ZGl0ZCBpcyBz
-aW1wbHkgbm90IGluc3RhbGxlZC4pCgpMZW5uYXJ0CgotLQpMZW5uYXJ0IFBvZXR0ZXJpbmcsIEJl
-cmxpbgoKCi0tCkxpbnV4LWF1ZGl0IG1haWxpbmcgbGlzdApMaW51eC1hdWRpdEByZWRoYXQuY29t
-Cmh0dHBzOi8vd3d3LnJlZGhhdC5jb20vbWFpbG1hbi9saXN0aW5mby9saW51eC1hdWRpdA==
+J3MgbXkKPiA+ID4gdW5kZXJzdGFuZGluZyB0aGF0IHRoZSBtY2FzdCBzdHVmZiB3YXMgYWRkZWQg
+Zm9yIHRoaXMga2luZCBvZiB0aGluZywKPiA+ID4gZXhjZXB0IHRoYXQgaXQgbmV2ZXIgYmVjYW1l
+IHVzZWZ1bCwgc2luY2UgaXQgYWxzbyBtZWFucyB0aGF0IGttc2cgaXMKPiA+ID4gc3BhbW1lZCBi
+eSBhdWRpdC4KPiA+Cj4gPiBXaGVyZSB5b3VyIGNsYWltIGZhbGxzIGZsYXQgaXMgdGhhdCBzeXN0
+ZW1kL2pvdXJuYWxkIGlzIHN0ZXBwaW5nIG9uCj4gPiBhdWRpdGQncyB0b2VzIGJ5IGVuYWJsaW5n
+IGF1ZGl0LiAgRW5hYmxpbmcgYXVkaXQgaXMgYXVkaXRkJ3Mgam9iLgo+IAo+IEFnYWluLCB3ZSBh
+cmUgaW50ZXJlc3RlZCBpbiB0aGUgYXVkaXQgaW5mb3JtYXRpb24sIGJlY2F1c2Ugd2UgdGhpbmsK
+PiBpdCdzIHVzZWZ1bC4gSWYgd2Ugd291bGRuJ3QgZW5hYmxlIGF1ZGl0IGluIHRoZSBrZXJuZWwg
+d2Ugd291bGRuJ3QgZ2V0Cj4gaXQuIEhlbmNlIHdlIGVuYWJsZSBhdWRpdC4KCkJ1dCB5b3UgYXJl
+IGdldHRpbmcgaXQgdmlhIGtsb2cuICBUaGlzIGlzIHdoYXQgaXMgY2F1c2luZyB0aGUgcHJvYmxl
+bS4KCj4gKEJ1dCBzZWU6IGh0dHBzOi8vZ2l0aHViLmNvbS9zeXN0ZW1kL3N5c3RlbWQvcHVsbC8x
+NTQ0NCDigJQgd2l0aCB0aGF0Cj4gaXQncyBub3cgY29uZmlndXJhYmxlLCBidXQgaXQgc3RpbGwg
+ZGVmYXVsdHMgdG8gb24sIGJlY2F1c2Ugd2UKPiBhY3R1YWxseSB0aGluayB0aGUgZGF0YSBpcyB1
+c2VmdWwsIGFuZCB3ZSB0aGluayBpdCdzIHVzZWZ1bCBldmVudAo+IHdpdGhvdXQgYXVkaXRkIGFy
+b3VuZCwgcmVnYXJkbGVzcyBpZiB0aGF0J3MgYmVjYXVzZSB3ZSBydW4gaW4gdGhlCj4gZWFybGll
+c3QgaW5pdHJkIHdoZXJlIHRoZXJlIG5ldmVyIGlzIGF1ZGl0ZCBhcm91bmQgb3IgYmVjYXVzZSB3
+ZSBydW4KPiBkdXJpbmcgbm9ybWFsIG9wZXJhdGlvbiBhbmQgYXVkaXRkIGlzIHNpbXBseSBub3Qg
+aW5zdGFsbGVkLikKPiAKPiBMZW5uYXJ0CgotIFJHQgoKLS0KUmljaGFyZCBHdXkgQnJpZ2dzIDxy
+Z2JAcmVkaGF0LmNvbT4KU3IuIFMvVyBFbmdpbmVlciwgS2VybmVsIFNlY3VyaXR5LCBCYXNlIE9w
+ZXJhdGluZyBTeXN0ZW1zClJlbW90ZSwgT3R0YXdhLCBSZWQgSGF0IENhbmFkYQpJUkM6IHJnYiwg
+U3VuUmF5Y2VyClZvaWNlOiArMS42NDcuNzc3LjI2MzUsIEludGVybmFsOiAoODEpIDMyNjM1Cgot
+LQpMaW51eC1hdWRpdCBtYWlsaW5nIGxpc3QKTGludXgtYXVkaXRAcmVkaGF0LmNvbQpodHRwczov
+L3d3dy5yZWRoYXQuY29tL21haWxtYW4vbGlzdGluZm8vbGludXgtYXVkaXQ=
 
