@@ -1,59 +1,59 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-delivery-1.mimecast.com [205.139.110.120])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D09A1AE127
-	for <lists+linux-audit@lfdr.de>; Fri, 17 Apr 2020 17:30:32 +0200 (CEST)
+Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [205.139.110.61])
+	by mail.lfdr.de (Postfix) with ESMTP id EBEAE1AE551
+	for <lists+linux-audit@lfdr.de>; Fri, 17 Apr 2020 20:58:27 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1587137431;
+	s=mimecast20190719; t=1587149906;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=pfUJbufl+IXa0wN9f1URU5Ya86lMe3Swo/1YKXnsa4g=;
-	b=bVMPx8dSD9/vD7B0viWqXdO6nBLZ5uXbhgMoAOmq8jvB0Cf3rdqSVT7uabuRxXy15LKlhG
-	OWBjhZarA/SXi3Gi/1hHS5Am5cjRtVY/lRluCFRYgra7i1Rw/63WxbNLIhGvBWVMHGn0H+
-	Fy3iyve6Z38Xh5Gw6kH1y/gD+dnmqA0=
+	bh=btO4rlL9kAZGUXgAGWjJMRcLC+YZU2vAeaoJj1ZluaU=;
+	b=F5GAeA0PPJ1OOW5Up+YvGgDu9iphR8adDa8FqxhIJJ6Hpn2NlKUO2SQZuVeQvLcja1P4tO
+	UUYccMg4QvF/CnZd5p6GajvFM5PhdV2+dtHR0ID9QMREpvFQdw/vqO/+3e5QuijG86S1ul
+	Ff7qMMKe2XAqQ5G6Kk6c/vkFHfWU8Fg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-114-uuZDD_0oOaK2fcJQsVg3OA-1; Fri, 17 Apr 2020 11:30:28 -0400
-X-MC-Unique: uuZDD_0oOaK2fcJQsVg3OA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+ us-mta-294-GzftZ4bONrywn70DcrsUWw-1; Fri, 17 Apr 2020 14:58:25 -0400
+X-MC-Unique: GzftZ4bONrywn70DcrsUWw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E0266800D53;
-	Fri, 17 Apr 2020 15:30:20 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id C10351001DC0;
-	Fri, 17 Apr 2020 15:30:17 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BF9DD19057AC;
+	Fri, 17 Apr 2020 18:58:17 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 0771560BF7;
+	Fri, 17 Apr 2020 18:58:15 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id C11A518095FF;
-	Fri, 17 Apr 2020 15:30:12 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
-	[10.5.11.12])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 8289693512;
+	Fri, 17 Apr 2020 18:58:06 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+	[10.5.11.23])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 03HFU1kR005665 for <linux-audit@listman.util.phx.redhat.com>;
-	Fri, 17 Apr 2020 11:30:01 -0400
+	id 03HIvp6K025489 for <linux-audit@listman.util.phx.redhat.com>;
+	Fri, 17 Apr 2020 14:57:51 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id CDDAD60BE0; Fri, 17 Apr 2020 15:30:01 +0000 (UTC)
+	id 693DE19C4F; Fri, 17 Apr 2020 18:57:51 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from madcap2.tricolour.ca (unknown [10.3.128.9])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id A592C60BF7;
-	Fri, 17 Apr 2020 15:29:55 +0000 (UTC)
-Date: Fri, 17 Apr 2020 11:29:52 -0400
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 6E129196AE;
+	Fri, 17 Apr 2020 18:57:45 +0000 (UTC)
+Date: Fri, 17 Apr 2020 14:57:42 -0400
 From: Richard Guy Briggs <rgb@redhat.com>
-To: Paul Moore <paul@paul-moore.com>
-Subject: Re: [oss-security] CVE-2020-10708 kernel: race condition in
-	kernel/audit.c may allow low privilege users trigger kernel panic
-Message-ID: <20200417152952.4yj6axr4z5qxjkuj@madcap2.tricolour.ca>
-References: <6039238.vel3c4OXdL@x2>
-	<CAHC9VhR=gs5p8Bn6gJspSvtgcHsR1zOxG_gdGjsWVEzY0XRzcg@mail.gmail.com>
+To: Lennart Poettering <lennart@poettering.net>
+Subject: Re: multicast listeners and audit events to kmsg
+Message-ID: <20200417185742.2v7elrmjpi75w6mm@madcap2.tricolour.ca>
+References: <20200414092740.2fdf0f78@xantho>
+	<20200415155355.qudqepcvvler55xs@madcap2.tricolour.ca>
+	<20200416120612.GA52165@gardel-login>
 MIME-Version: 1.0
-In-Reply-To: <CAHC9VhR=gs5p8Bn6gJspSvtgcHsR1zOxG_gdGjsWVEzY0XRzcg@mail.gmail.com>
+In-Reply-To: <20200416120612.GA52165@gardel-login>
 User-Agent: NeoMutt/20180716
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-loop: linux-audit@redhat.com
 Cc: linux-audit@redhat.com
 X-BeenThere: linux-audit@redhat.com
@@ -69,100 +69,136 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Content-Disposition: inline
 
-T24gMjAyMC0wNC0xNyAxMDowMywgUGF1bCBNb29yZSB3cm90ZToKPiBPbiBGcmksIEFwciAxNywg
-MjAyMCBhdCA5OjM5IEFNIFN0ZXZlIEdydWJiIDxzZ3J1YmJAcmVkaGF0LmNvbT4gd3JvdGU6Cj4g
-PiBIZWxsbywKPiA+Cj4gPiBTaW5jZSB0aGlzIGlzIHB1YmxpYy4uLm5vIGhhcm0gZHJvcHBpbmcg
-YSBjb3B5IG92ZXIgaGVyZS4gTXkgdGhvdWdodHMgYXJlCj4gPiB0aGF0IHRoZXJlIGlzIGEgcmFj
-ZSBoZXJlLiBCdXQgc2luY2Ugc3RhcnRpbmcvc3RvcHBpbmcgdGhlIGF1ZGl0IGRhZW1vbgo+ID4g
-cmVxdWlyZXMgcm9vdCBwcml2cyBhbmQgYXMgcm9vdCB5b3UgY2FuIGRvIHdvcnNlIHRoaW5ncy4g
-SSBkb24ndCBrbm93IGlmIHRoaXMKPiA+IGlzIGZpeGFibGUgb3Igd29ya2luZyBwZXIgZGVzaWdu
-Lgo+IAo+IFRoZSBmaXJzdCB0aGluZyB0byBub3RlIGlzIHRoYXQgdGhlIGNvZGUgc25pcHBldHMg
-YmVsb3cgYXJlIG5vdCBmcm9tIGEKPiBtb2Rlcm4gdXBzdHJlYW0ga2VybmVsOyBJJ20gZ3Vlc3Np
-bmcgaXQncyBhIFJIRUwtNy54IGJhc2VkIGtlcm5lbAo+IGdpdmVuIHRoZSBwcm9ibGVtIHJlcG9y
-dC4KClRoYXQgd291bGQgYmUgY29ycmVjdC4KCj4gIFRoZSByZWxldmFudCBjb2RlIGNoYW5nZWQg
-c3Vic3RhbnRpYWxseQo+IHdoZW4gSSByZXdvcmtlZCBob3cgdGhlIGF1ZGl0IHF1ZXVlIHdhcyBt
-YW5hZ2VkOyBpdCdzIGJlZW4gYSB3aGlsZSBub3cKPiBzbyBJIGNhbid0IHNheSB3aXRoIDEwMCUg
-Y29uZmlkZW5jZSB0aGF0IHRoaXMgaGFzIGJlZW4gc29ydGVkIG91dCwgYnV0Cj4gSSBiZWxpZXZl
-IHRoZSBjdXJyZW50IHVwc3RyZWFtIGNvZGUgc2hvdWxkIGhhbmRsZSBhdWRpdGQgcmVzdGFydHMK
-PiB3aXRoaW4gdGhlIGJvdW5kcyBvZiB0aGUgcmVjb3JkIHF1ZXVlLgoKVGhlIHVwc3RyZWFtIGNv
-ZGUgaGFzIGFscmVhZHkgYmVlbiB0ZXN0ZWQgYW5kIGhhcyB3aXRoc3Rvb2QgdGhpcyBzb3J0IG9m
-CmFidXNlIGZvciBhIHN1c3RhaW5lZCBwZXJpb2Qgb2YgdGVzdGluZyB0aW1lLiAgSXQgaXMgYmVs
-aWV2ZWQgdGhhdApjb21taXQgNWI1MjMzMGJiZmU2ICgiYXVkaXQ6IGZpeCBhdWRpdGQva2VybmVs
-IGNvbm5lY3Rpb24gc3RhdGUKdHJhY2tpbmciKSBzb2x2ZWQgdGhpcyBpc3N1ZS4KCj4gVWx0aW1h
-dGVseSBpZiB5b3UgY29uZmlndXJlIHRoZSBzeXN0ZW0gdG8gcGFuaWMgd2hlbiB5b3Ugc3RhcnQK
-PiBkcm9wcGluZyBhdWRpdCByZWNvcmRzLCBhbmQgeW91IHN0b3AgdGhlIGF1ZGl0IGRhZW1vbiBm
-b3IgYSBwZXJpb2Qgb2YKPiB0aW1lIHN1Y2ggdGhhdCB0aGUgcXVldWVzIHN0YXJ0IHRvIG92ZXJm
-bG93LCB0aGUgc3lzdGVtIHdpbGwgcGFuaWMuCj4gVGhhdCdzIHdoYXQgeW91IGhhdmUgY29uZmln
-dXJlZCBpdCB0byBkbyA6KQo+IAo+IEl0IGlzIGFsc28gaW1wb3J0YW50IHRvIG5vdGUgdGhhdCB0
-aGUgcGFuaWMtb24tb3ZlcmZsb3cgYmVoYXZpb3IgaXMKPiBub3QgdGhlIGRlZmF1bHQsIHRoZSBz
-eXNhZG1pbiBtdXN0IGV4cGxpY2l0bHkgY29uZmlndXJlIHRoZSBzeXN0ZW0gdG8KPiBiZWhhdmUg
-aW4gdGhpcyB3YXkuCgpXaGF0IFBhdWwgc2FpZC4gIDotKQoKPiA+IC0tLS0tLS0tLS0gIEZvcndh
-cmRlZCBNZXNzYWdlICAtLS0tLS0tLS0tCj4gPgo+ID4gU3ViamVjdDogW29zcy1zZWN1cml0eV0g
-Q1ZFLTIwMjAtMTA3MDgga2VybmVsOiByYWNlIGNvbmRpdGlvbiBpbiBrZXJuZWwvCj4gPiBhdWRp
-dC5jIG1heSBhbGxvdyBsb3cgcHJpdmlsZWdlIHVzZXJzIHRyaWdnZXIga2VybmVsIHBhbmljCj4g
-PiBEYXRlOiBGcmlkYXksIEFwcmlsIDE3LCAyMDIwLCAxMjo0MDoxMCBBTSBFRFQKPiA+IEZyb206
-IOmZiOS8n+WuuCjnlLDlkIQpIDxzcGxlbmRpZHNreS5jd2NAYWxpYmFiYS1pbmMuY29tPgo+ID4g
-VG86IG9zcy1zZWN1cml0eSA8b3NzLXNlY3VyaXR5QGxpc3RzLm9wZW53YWxsLmNvbT4KPiA+Cj4g
-Pgo+ID4gIkEgcmFjZSBjb25kaXRpb24gd2FzIGZvdW5kIGluIHRoZSBMaW51eCBrZXJuZWwgYXVk
-aXQgc3Vic3lzdGVtLiBXaGVuIHRoZQo+ID4gc3lzdGVtIGlzIGNvbmZpZ3VyZWQgdG8gcGFuaWMg
-b24gZXZlbnRzIGJlaW5nIGRyb3BwZWQsIGFuIGF0dGFja2VyIHdobyBpcyBhYmxlCj4gPiB0byB0
-cmlnZ2VyIGFuIGF1ZGl0IGV2ZW50IHRoYXQgc3RhcnRzIHdoaWxlIGF1ZGl0ZCBpcyBpbiB0aGUg
-cHJvY2VzcyBvZgo+ID4gc3RhcnRpbmcgbWF5IGJlIGFibGUgdG8gY2F1c2UgdGhlIHN5c3RlbSB0
-byBwYW5pYyBieSBleHBsb2l0aW5nIGEgcmFjZQo+ID4gY29uZGl0aW9uIGluIGF1ZGl0IGV2ZW50
-IGhhbmRsaW5nLiBUaGlzIGNyZWF0ZXMgYSBkZW5pYWwgb2Ygc2VydmljZSBieQo+ID4gY2F1c2lu
-ZyBhIHBhbmljLiIKPiA+Cj4gPiBodHRwczovL2J1Z3ppbGxhLnJlZGhhdC5jb20vc2hvd19idWcu
-Y2dpP2lkPTE4MjI1OTMKPiA+Cj4gPiBFbnY6Cj4gPiAgICAgUmVkIEhhdCBFbnRlcnByaXNlIExp
-bnV4IFNlcnZlciByZWxlYXNlIDcuNyAoTWFpcG8pCj4gPiAgICAgMy4xMC4wLTEwNjIuMTIuMS5l
-bDcueDg2XzY0Cj4gPgo+ID4gRGV0YWlsczoKPiA+IEZ1bmN0aW9uIGF1ZGl0X2xvZ19lbmQgYW5k
-IGF1ZGl0X3BhbmljIG1heSBoYXZlIHJhY2UgY29uZGl0aW9ucyB3aGVuIGF1ZGl0ZAo+ID4gaXMg
-cmVzdGFydGluZyBiZWNhdXNlIGF1ZGl0X3BpZCBjYW4gYmUgTlVMTCBpbiBhdWRpdF9sb2dfZW5k
-IGFuZCB0aGVuIGJlY29tZQo+ID4gbm90IE5VTEwgaW4gYXVkaXRfcGFuaWMsIHdoaWNoIG1heSBh
-bGxvdyBhdHRhY2tlcnMgdG8gdHJpZ2dlciBrZXJuZWwgcGFuaWMuCj4gPiBIZXJlIGlzIHBhbmlj
-IGNhbGwgc3RhY2s6Cj4gPgo+ID4KPiA+IHZvaWQgYXVkaXRfbG9nX2VuZChzdHJ1Y3QgYXVkaXRf
-YnVmZmVyICphYikKPiA+IHsKPiA+ICAgICBpZiAoIWFiKQo+ID4gICAgICAgICByZXR1cm47Cj4g
-PiAgICAgaWYgKCFhdWRpdF9yYXRlX2NoZWNrKCkpIHsKPiA+ICAgICAgICAgYXVkaXRfbG9nX2xv
-c3QoInJhdGUgbGltaXQgZXhjZWVkZWQiKTsKPiA+ICAgICB9IGVsc2Ugewo+ID4gICAgICAgICBz
-dHJ1Y3Qgbmxtc2doZHIgKm5saCA9IG5sbXNnX2hkcihhYi0+c2tiKTsKPiA+ICAgICAgICAgbmxo
-LT5ubG1zZ19sZW4gPSBhYi0+c2tiLT5sZW4gLSBOTE1TR19IRFJMRU47Cj4gPgo+ID4gICAgICAg
-ICBpZiAoYXVkaXRfcGlkKSB7Cj4gPiAgICAgICAgICAgICBza2JfcXVldWVfdGFpbCgmYXVkaXRf
-c2tiX3F1ZXVlLCBhYi0+c2tiKTsKPiA+ICAgICAgICAgICAgIHdha2VfdXBfaW50ZXJydXB0aWJs
-ZSgma2F1ZGl0ZF93YWl0KTsKPiA+ICAgICAgICAgfSBlbHNlIHsKPiA+ICAgICAgICAgICAgIGF1
-ZGl0X3ByaW50a19za2IoYWItPnNrYik7IC8vIDwtIGF1ZGl0X3BpZCA9PSBOVUxMIHdoZW4gYXVk
-aXRkIGlzCj4gPiBraWxsZWQKPiA+ICAgICAgICAgfQo+ID4gICAgICAgICBhYi0+c2tiID0gTlVM
-TDsKPiA+ICAgICB9Cj4gPiAgICAgYXVkaXRfYnVmZmVyX2ZyZWUoYWIpOwo+ID4gfQo+ID4gLT4g
-YXVkaXRfcHJpbnRrX3NrYiAtPiBhdWRpdF9sb2dfbG9zdCAtPgo+ID4gdm9pZCBhdWRpdF9wYW5p
-Yyhjb25zdCBjaGFyICptZXNzYWdlKQo+ID4gewo+ID4gICAgIHN3aXRjaCAoYXVkaXRfZmFpbHVy
-ZSkKPiA+ICAgICB7Cj4gPiAgICAgY2FzZSBBVURJVF9GQUlMX1NJTEVOVDoKPiA+ICAgICAgICAg
-YnJlYWs7Cj4gPiAgICAgY2FzZSBBVURJVF9GQUlMX1BSSU5USzoKPiA+ICAgICAgICAgaWYgKHBy
-aW50a19yYXRlbGltaXQoKSkKPiA+ICAgICAgICAgICAgIHByaW50ayhLRVJOX0VSUiAiYXVkaXQ6
-ICVzXG4iLCBtZXNzYWdlKTsKPiA+ICAgICAgICAgYnJlYWs7Cj4gPiAgICAgY2FzZSBBVURJVF9G
-QUlMX1BBTklDOgo+ID4gICAgICAgICAvKiB0ZXN0IGF1ZGl0X3BpZCBzaW5jZSBwcmludGsgaXMg
-YWx3YXlzIGxvc2V5LCB3aHkgYm90aGVyPyAqLwo+ID4gICAgICAgICBpZiAoYXVkaXRfcGlkKSAv
-LyA8LSBhdWRpdF9waWQgbm90IE5VTEwgYmVjYXVzZSBhdWRpdGQgaXMgcmVzdGFydGluZwo+ID4g
-ICAgICAgICAgICAgcGFuaWMoImF1ZGl0OiAlc1xuIiwgbWVzc2FnZSk7Cj4gPiAgICAgICAgIGJy
-ZWFrOwo+ID4gICAgIH0KPiA+IH0KPiA+Cj4gPiBIb3cgdG8gcmVwcm9kdWNl77yaCj4gPiAxLiBz
-ZXQgYXVkaXQtZmFpbHVyZSB0byBBVURJVF9GQUlMX1BBTklDKDIpIGFuZCBhZGQgYSByYW5kb20g
-YXVkaXQgcnVsZSBsaWtlOgo+ID4gW3Jvb3RAdGVzdCB+XSMgY2F0IC9ldGMvYXVkaXQvcnVsZXMu
-ZC9hdWRpdC5ydWxlcwo+ID4gLUQKPiA+IC1iIDgxOTIKPiA+IC1mIDIKPiA+IC13IC9ldGMvaG9z
-dHMgLXAgcndhIC1rIGhvc3RzCj4gPiAyLiBrZWVwIGtpbGxpbmcgYXVkaXRkIGFuZCB0aGVuIHN0
-YXJ0aW5nIGF1ZGl0ZCwgZm9yIGV4YW1wbGU6Cj4gPiB3aGlsZSB0cnVlOyBkbyBwcyBhdXggfCBn
-cmVwICIvc2Jpbi9hdWRpdGQiIHwgZ3JlcCAtdiAiZ3JlcCIgfCBhd2sgJ3twcmludAo+ID4gJDJ9
-JyB8IHhhcmdzIGtpbGw7IHNlcnZpY2UgYXVkaXRkIHN0YXJ0OyBzeXN0ZW1jdGwgcmVzZXQtZmFp
-bGVkCj4gPiBhdWRpdGQuc2VydmljZTsgZG9uZQo+ID4gMy4gbG9nIGluIGEgbG93IHByaXZpbGVn
-ZSB1c2VyIGFuZCBrZWVwIHJlYWRpbmcgL2V0Yy9ob3N0cywgZm9yIGV4YW1wbGU6Cj4gPiB3aGls
-ZSB0cnVlOyBkbyBjYXQgL2V0Yy9ob3N0cyA+IC9kZXYvbnVsbDsgZG9uZQo+ID4gNC4ga2VybmVs
-IHBhbmljIHdpbGwgaGFwcGVuIHdpdGhpbiBzZXZlcmFsIG1pbnV0ZXMKPiA+Cj4gPiBUaGFua3Mu
-Cj4gCj4gcGF1bCBtb29yZQoKLSBSR0IKCi0tClJpY2hhcmQgR3V5IEJyaWdncyA8cmdiQHJlZGhh
-dC5jb20+ClNyLiBTL1cgRW5naW5lZXIsIEtlcm5lbCBTZWN1cml0eSwgQmFzZSBPcGVyYXRpbmcg
-U3lzdGVtcwpSZW1vdGUsIE90dGF3YSwgUmVkIEhhdCBDYW5hZGEKSVJDOiByZ2IsIFN1blJheWNl
-cgpWb2ljZTogKzEuNjQ3Ljc3Ny4yNjM1LCBJbnRlcm5hbDogKDgxKSAzMjYzNQoKLS0KTGludXgt
-YXVkaXQgbWFpbGluZyBsaXN0CkxpbnV4LWF1ZGl0QHJlZGhhdC5jb20KaHR0cHM6Ly93d3cucmVk
-aGF0LmNvbS9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LWF1ZGl0
+On 2020-04-16 14:06, Lennart Poettering wrote:
+> On Mi, 15.04.20 11:53, Richard Guy Briggs (rgb@redhat.com) wrote:
+> 
+> > On 2020-04-14 09:27, Luca BRUNO wrote:
+> > > Hi all,
+> > > I'm trying to re-spin a very old thread related to multicast listeners
+> > > and audit events to kmsg.
+> > >
+> > > One surprising kernel behavior when using only a multicast listener
+> > > to collect audit events (in this case, systemd-journald) is that
+> > > audit events end up spamming the console [0].
+> > >
+> > > [0] https://github.com/systemd/systemd/issues/15324
+> >
+> > This is not surprising, since the multicast audit socket is not
+> > considered a reliable sink for the audit log and thus cannot be relied
+> > upon to key the decision to forward potentially lost messages to the
+> > system log.
+> 
+> kmsg is not reliable either, it aggressively and silently drops
+> messages if the log buffer runs full, which it does pretty quickly.
+> 
+> hence there's really no difference here if data is written to the
+> mcast socket or to kmsg, in both cases messages are dropped when the
+> buffer limits are hit, hence it should be entirely fine to do only one
+> of the twoif the unicast client to audit is not running.
+> 
+> > > Apparently there isn't a clear consensus on how this should be
+> > > approached. Looking at the github and bugzilla tickets, it seems to me
+> > > that Eric and Paul initially had in mind some logic based on multicast
+> > > listener detection, while Richard doesn't deem that reliable and
+> > > suggests an explicit configuration.
+> >
+> > I'm regretting having developped this feature due to the problems it has
+> > caused the audit developpers and innocent bystanders.  Instead, an audit
+> > daemon plugin should have been used to direct log records to
+> > journald.
+> 
+> I am sorry, but this doesn't work for us. We do not want to do IPC to
+> some audit daemon (journald runs during early boot and in the initrd,
+> it has a very special relationship with early boot stuff and PID1, and
+> thus being a client to other daemons is highly problematic, if those
+> other daemons are managed by systemd as well, and run only during later
+> boot). In fact we don't even want the dependency on the audit
+> userspace package at all.
+> 
+> In systemd we just think that audit information is pretty interesting
+> even if you don't want to buy into the whole government regulation
+> stuff, even if you don't want the auditd to run, and the full audit
+> package installed. i.e. we want to collect the data as one of our
+> various data streams, as a secondary consumer of it, and leave it to
+> the audit package itself to do everything else and be the primary
+> consumer of it.
+> 
+> Using the multicast group is our way of saying: "we don't want to own
+> the audit stream, you can keep it; we just want to have a look
+> too".
+> 
+> I believe that there are plenty of systems where audit logs should be
+> collected but the whole auditd daemon should not be around, i.e. where
+> the usefulness of the data is acknowledged without acknowledging that
+> government regulations matter or the audit package should exist on
+> every single system.
+> 
+> > Well, Steve, Paul and myself are all fairly firmly on the side of the
+> > problem being in systemd and its overreach.
+> 
+> We explicitly don#t want to own the audit stream, that's why we don#t
+> use the unicast stuff, but only subscribe via the mcast stuff, so that
+> we don't interfere with auditd's own processing if it is running, and
+> we don't exlcude auditd from running. we want a mode where audit is
+> collected, just like that without any auditd package installed, but if
+> you decide to install auditd things just work too.
+> 
+> > > For Richard and the "explicit configuration" approach in particular, I'm
+> > > missing some further details:
+> > >  * Is the current behavior considered buggy, or is that intended to be
+> > >    kept as the default?
+> >
+> > The current systemd behaviour of unilatterally enabling audit logging is
+> > considered buggy.  The current audit kernel behaviour is considered
+> > intentional.
+> 
+> Well, we try hard to not step on your toes and do not use the unicast
+> stuff and do not pretend to be auditd, so that auditd can be installed
+> and run in parallel to journald with us being in the backseat. It's my
+> understanding that the mcast stuff was added for this kind of thing,
+> except that it never became useful, since it also means that kmsg is
+> spammed by audit.
+
+Where your claim falls flat is that systemd/journald is stepping on
+auditd's toes by enabling audit.  Enabling audit is auditd's job.
+
+> THere's a usecase for collecting audit but not running the whole audit
+> userspace suite, can't you see that? i.e. i for one am interested in
+> selinux audit msgs, but I am not interested in the audit toolchain I
+> must say, I really am not, and I am pretty sure there are many others
+> like me. But you basically tell us to go away, or buy into the whole
+> audit userspace.
+> 
+> > >  * Would this be tweaked via a (boolean?) sysctl, and what would be the
+> > >    semantics of flipping it?
+> >
+> > It would be controlled via a new audit unicast netlink message similar
+> > to the one that enabled auditing in the first place by systemd that
+> > would explicitly disable klog when a multicast client is connected.
+> 
+> It would be excellent to have an option to turn off the kmsg
+> forwarding.
+> 
+> Lennart
+
+- RGB
+
+--
+Richard Guy Briggs <rgb@redhat.com>
+Sr. S/W Engineer, Kernel Security, Base Operating Systems
+Remote, Ottawa, Red Hat Canada
+IRC: rgb, SunRaycer
+Voice: +1.647.777.2635, Internal: (81) 32635
+
+--
+Linux-audit mailing list
+Linux-audit@redhat.com
+https://www.redhat.com/mailman/listinfo/linux-audit
 
