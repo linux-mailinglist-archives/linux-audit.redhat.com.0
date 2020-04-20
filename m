@@ -1,95 +1,89 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [205.139.110.61])
-	by mail.lfdr.de (Postfix) with ESMTP id 9FCA31B16E4
-	for <lists+linux-audit@lfdr.de>; Mon, 20 Apr 2020 22:27:03 +0200 (CEST)
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com [205.139.110.120])
+	by mail.lfdr.de (Postfix) with ESMTP id BCBAD1B1883
+	for <lists+linux-audit@lfdr.de>; Mon, 20 Apr 2020 23:37:01 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1587414422;
+	s=mimecast20190719; t=1587418620;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
-	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+	 message-id:message-id:to:to:cc:mime-version:mime-version:
 	 content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:list-id:list-help:
+	 content-transfer-encoding:content-transfer-encoding:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=c/01AkzfpNd3+nAs+X8yWvhkKojwZNa5JFdM1UQpIFs=;
-	b=Df6dB9/KVuqcyfo4Kp02MY+hePJdt5pY4hWzeVsw2P6M0Jl1tPP53PXBFJ1YTyL+ShrwCn
-	/FRsAaNInuUnSzaEaIZNJb9aiHvK9y74kAbJLmuQlEBYXQ0RD2+GCZ5QZeioivtn/PXUJc
-	kgLqs5sAGRd1YCR6QCDm05BEXtpMLQI=
+	bh=j7RYLM0S60OOTsr3lioEOYvWndvTJwhgRsOyzpRlRI4=;
+	b=PJ075r7losdNiM1rardxc0KrrycsMFuvIrRm8bb0j8pyosJ8djk72Xtkig81XmqlAPMZKH
+	Wp2GIrIUE1OFZhBUTIGuK9thFV+mgB1CQBn0yc22dvGsjJKKTX1ZjLZL+Quacq4NrrF0uu
+	+hXlVZRNYDUvUyKWLrJ0T/nc5zn3vdk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-432-cLE0flN9NM6mS73dU8VQFA-1; Mon, 20 Apr 2020 16:27:00 -0400
-X-MC-Unique: cLE0flN9NM6mS73dU8VQFA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+ us-mta-430--XkALqeTNaOsOSqfLfWkhA-1; Mon, 20 Apr 2020 17:36:56 -0400
+X-MC-Unique: -XkALqeTNaOsOSqfLfWkhA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C70A4190D37A;
-	Mon, 20 Apr 2020 20:26:52 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id E1F7328994;
-	Mon, 20 Apr 2020 20:26:50 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7363413FB;
+	Mon, 20 Apr 2020 21:36:50 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 3378C60C63;
+	Mon, 20 Apr 2020 21:36:46 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 04A35938FE;
-	Mon, 20 Apr 2020 20:26:48 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
-	[10.11.54.6])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id C463A180BA96;
+	Mon, 20 Apr 2020 21:36:39 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+	[10.11.54.3])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 03KKQdS3024109 for <linux-audit@listman.util.phx.redhat.com>;
-	Mon, 20 Apr 2020 16:26:39 -0400
+	id 03KLaA1F028628 for <linux-audit@listman.util.phx.redhat.com>;
+	Mon, 20 Apr 2020 17:36:10 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id 0F1D22166B2A; Mon, 20 Apr 2020 20:26:39 +0000 (UTC)
+	id E4FFE1003207; Mon, 20 Apr 2020 21:36:09 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
-	(mimecast01.extmail.prod.ext.rdu2.redhat.com [10.11.55.17])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 0BD832166B29
-	for <linux-audit@redhat.com>; Mon, 20 Apr 2020 20:26:37 +0000 (UTC)
+	(mimecast04.extmail.prod.ext.rdu2.redhat.com [10.11.55.20])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id A9A6B10D17BE
+	for <linux-audit@redhat.com>; Mon, 20 Apr 2020 21:36:06 +0000 (UTC)
 Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
-	[205.139.110.120])
+	[207.211.31.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 18EEB86BCA4
-	for <linux-audit@redhat.com>; Mon, 20 Apr 2020 20:26:37 +0000 (UTC)
-Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com
-	[209.85.208.66]) (Using TLS) by relay.mimecast.com with ESMTP id
-	us-mta-102-jTjbr2i_N7-kufaTxhpLQg-1; Mon, 20 Apr 2020 16:26:34 -0400
-X-MC-Unique: jTjbr2i_N7-kufaTxhpLQg-1
-Received: by mail-ed1-f66.google.com with SMTP id r7so8473226edo.11
-	for <linux-audit@redhat.com>; Mon, 20 Apr 2020 13:26:34 -0700 (PDT)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A1B2F1019E0D
+	for <linux-audit@redhat.com>; Mon, 20 Apr 2020 21:36:06 +0000 (UTC)
+Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com
+	[209.85.222.194]) (Using TLS) by relay.mimecast.com with ESMTP id
+	us-mta-311-LzMv7dzCMTKtjNcJCVyi6w-1; Mon, 20 Apr 2020 17:36:04 -0400
+X-MC-Unique: LzMv7dzCMTKtjNcJCVyi6w-1
+Received: by mail-qk1-f194.google.com with SMTP id g74so12421895qke.13
+	for <linux-audit@redhat.com>; Mon, 20 Apr 2020 14:36:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=wwUPCWKp0XjwepXQOmIetCoyqhWj31DcYHiSp/UXrjU=;
-	b=Utusly5CIlWnvq0C0tuhtU0z7nrx+fb5Sx2Pz9osCPhZrZCbAtVcaaaHTMzK0/LZXQ
-	Jh7U89omtqGAFK2hlpP3CQqbSpbe272nymEu4epSQE+vxVLxs3FevqgK10ectJ1kg1SF
-	KzxKkQaonfMaiRAS2x2bHf2h5TiYknqW763ZwE9hh2rgo4eO6ef6KtTfSRdinbt6mNem
-	tZpSTqb8Xw05Ar6uoN8XkrYRCpzD1kGawl7OVCgkz84aRduKaXWUQ1lk1+cCqaYK8cgM
-	3OY6OFLXW3PK9FHCsF4Ulmumop23K8bciCBwfBeilUFM+cLUzoOaPcQglClydvIu8iuA
-	KXcQ==
-X-Gm-Message-State: AGi0PuaN5kbkBFdNJFxOUTBf8ngY2lSV9CEmzj4/gczU7cR765sxYvgW
-	FqLy2yjlQj8rFZ53L/P4UJUPtWDntgXrHZ0zM4lCvNA=
-X-Google-Smtp-Source: APiQypJPD/FkR6eQInJaCe11axRqNxPjye0HG0pNX0w10VJWP4Vuxwr6q4w9/9a603DJDHR6p9S2rG2NX4NP4J8beZA=
-X-Received: by 2002:a05:6402:1215:: with SMTP id
-	c21mr16361574edw.128.1587414392996; 
-	Mon, 20 Apr 2020 13:26:32 -0700 (PDT)
-MIME-Version: 1.0
-References: <00000000000064f6e505a3b243aa@google.com>
-	<CAHC9VhTZ_itetT4cx32vW3A79tb76dzjaBC_0S8Y_=DcEBL2nw@mail.gmail.com>
-	<CACT4Y+ZUpH3giZmiA51NZ1BhHOoGETqfxscBW6kBxWDf6-Q-HA@mail.gmail.com>
-In-Reply-To: <CACT4Y+ZUpH3giZmiA51NZ1BhHOoGETqfxscBW6kBxWDf6-Q-HA@mail.gmail.com>
+	h=x-gm-message-state:subject:from:to:date:message-id:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=basZKrvgYvnBeWtxQDt7KJrwp8hjQ7r9IiBaUiaYfmQ=;
+	b=GnyVf4CVtuG4ZmaGK3R5YbRWy92GtJhFiq4bQReztqHeod14oLOL/2G2bw5LECGXH3
+	+FF1SQFzDMfSWVDK2Ik5Fa3QXVfLMWDVm6lpDxXQk6Gc1bxSMNpEFCy3F2LMwFYBesCf
+	GRIch5kepa1jBBvzIvcvcnN6q3Mvqhhu94hwCttUSrcOrt81+Dr39VGtJ+roqhLBbRO+
+	p/owXkB7fNycpzg8kUd7DseyoSMmmAMyjTFTzgCgdgOdcvroSmBeg6uqO2Fcjtz4FU75
+	6U7psJBh6agkV29Xjm4uwPggJBdTeDbO77RzsCE7kBFk+7tHbD2U3tyx+rhQbfDhT5A4
+	Q9vA==
+X-Gm-Message-State: AGi0PuZ0x28lv2qJgM/8kmWgRg91Sgfny8z1vB99yHWzrHiH0oiwcgMt
+	UDuVak6e6Zpp79d9wngtNt0K8Kd0xg==
+X-Google-Smtp-Source: APiQypLw5UpuQFrzUfkk9n0oJ5+Q4J7lmpzl5HhBwXparWU3Id6GZnntrfjA6GXNZmTbwxOEynXZhQ==
+X-Received: by 2002:a37:5e47:: with SMTP id s68mr17344656qkb.411.1587418562702;
+	Mon, 20 Apr 2020 14:36:02 -0700 (PDT)
+Received: from localhost (pool-71-245-238-133.bstnma.fios.verizon.net.
+	[71.245.238.133])
+	by smtp.gmail.com with ESMTPSA id g4sm359507qtq.93.2020.04.20.14.36.01
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Mon, 20 Apr 2020 14:36:01 -0700 (PDT)
+Subject: [PATCH] audit: check the length of userspace generated audit records
 From: Paul Moore <paul@paul-moore.com>
-Date: Mon, 20 Apr 2020 16:26:21 -0400
-Message-ID: <CAHC9VhQOvA8-9wCXn1CV4iz_OtoQAaAv9gS+kWsitU3-axsbzg@mail.gmail.com>
-Subject: Re: KMSAN: uninit-value in audit_log_vformat (2)
-To: Dmitry Vyukov <dvyukov@google.com>
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-X-MIME-Autoconverted: from quoted-printable to 8bit by
-	lists01.pubmisc.prod.ext.phx2.redhat.com id 03KKQdS3024109
+To: linux-audit@redhat.com
+Date: Mon, 20 Apr 2020 17:36:00 -0400
+Message-ID: <158741856073.246860.5955712228915579.stgit@chester>
+User-Agent: StGit/0.22
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
 X-loop: linux-audit@redhat.com
-Cc: syzbot <syzbot+49e69b4d71a420ceda3e@syzkaller.appspotmail.com>,
-	syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
-	LKML <linux-kernel@vger.kernel.org>, linux-audit@redhat.com,
-	Alexander Potapenko <glider@google.com>
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -103,70 +97,41 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-On Mon, Apr 20, 2020 at 2:12 PM Dmitry Vyukov <dvyukov@google.com> wrote:
-> On Mon, Apr 20, 2020 at 6:29 PM Paul Moore <paul@paul-moore.com> wrote:
-> > On Mon, Apr 20, 2020 at 1:35 AM syzbot
-> > <syzbot+49e69b4d71a420ceda3e@syzkaller.appspotmail.com> wrote:
-> > >
-> > > Hello,
-> > >
-> > > syzbot found the following crash on:
-> > >
-> > > HEAD commit:    5356842d [EXPERIMENTAL] kmsan: eagerly allocate shadow at ..
-> > > git tree:       https://github.com/google/kmsan.git master
-> > > console output: https://syzkaller.appspot.com/x/log.txt?x=12f06720100000
-> > > kernel config:  https://syzkaller.appspot.com/x/.config?x=a5915107b3106aaa
-> > > dashboard link: https://syzkaller.appspot.com/bug?extid=49e69b4d71a420ceda3e
-> > > compiler:       clang version 10.0.0 (https://github.com/llvm/llvm-project/ c2443155a0fb245c8f17f2c1c72b6ea391e86e81)
-> > > userspace arch: i386
-> > > syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=133b5dabe00000
-> > > C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=143e1610100000
-> > >
-> > > IMPORTANT: if you fix the bug, please add the following tag to the commit:
-> > > Reported-by: syzbot+49e69b4d71a420ceda3e@syzkaller.appspotmail.com
-> > >
-> > > =====================================================
-> > > BUG: KMSAN: uninit-value in string_nocheck lib/vsprintf.c:608 [inline]
-> > > BUG: KMSAN: uninit-value in string+0x522/0x690 lib/vsprintf.c:689
-> > > CPU: 1 PID: 8854 Comm: syz-executor694 Not tainted 5.6.0-rc7-syzkaller #0
-> > > Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
-> > > Call Trace:
-> > >  __dump_stack lib/dump_stack.c:77 [inline]
-> > >  dump_stack+0x1c9/0x220 lib/dump_stack.c:118
-> > >  kmsan_report+0xf7/0x1e0 mm/kmsan/kmsan_report.c:118
-> > >  __msan_warning+0x58/0xa0 mm/kmsan/kmsan_instr.c:215
-> > >  string_nocheck lib/vsprintf.c:608 [inline]
-> > >  string+0x522/0x690 lib/vsprintf.c:689
-> > >  vsnprintf+0x207d/0x31b0 lib/vsprintf.c:2574
-> >
-> > Are there any ongoing problems with [vsn]printf() in the kernel at the
-> > moment with syzbot?
-> >
-> > I ask because on first look I'm not seeing any obvious problems in the
-> > audit portion of this code path.
->
-> None I am aware of. Alex?
-> Can it be related to data_len==0? I don't see any obvious checks for
-> this. And in that case will 0-terminate out-of-bounds (at offset -1?)
-> and print potentially uninit data. But I looked at the code only very
-> briefly so potentially I am totally wrong.
+Commit 756125289285 ("audit: always check the netlink payload length
+in audit_receive_msg()") fixed a number of missing message length
+checks, but forgot to check the length of userspace generated audit
+records.  The good news is that you need CAP_AUDIT_WRITE to submit
+userspace audit records, which is generally only given to trusted
+processes, so the impact should be limited.
 
-Bingo, that's likely it.  Thanks.
+Cc: stable@vger.kernel.org
+Fixes: 756125289285 ("audit: always check the netlink payload length in audit_receive_msg()")
+Reported-by: syzbot+49e69b4d71a420ceda3e@syzkaller.appspotmail.com
+Signed-off-by: Paul Moore <paul@paul-moore.com>
+---
+ kernel/audit.c |    3 +++
+ 1 file changed, 3 insertions(+)
 
-I was in the process of fixing another audit bug when I looked at this
-and got fixated on the varg stuff, not the variables themselves.  I'll
-have a patch out later today.
-
--- 
-paul moore
-www.paul-moore.com
-
+diff --git a/kernel/audit.c b/kernel/audit.c
+index b69c8b460341..87f31bf1f0a0 100644
+--- a/kernel/audit.c
++++ b/kernel/audit.c
+@@ -1326,6 +1326,9 @@ static int audit_receive_msg(struct sk_buff *skb, struct nlmsghdr *nlh)
+ 	case AUDIT_FIRST_USER_MSG2 ... AUDIT_LAST_USER_MSG2:
+ 		if (!audit_enabled && msg_type != AUDIT_USER_AVC)
+ 			return 0;
++		/* exit early if there isn't at least one character to print */
++		if (data_len < 2)
++			return -EINVAL;
+ 
+ 		err = audit_filter(msg_type, AUDIT_FILTER_USER);
+ 		if (err == 1) { /* match or error */
 
 --
 Linux-audit mailing list
