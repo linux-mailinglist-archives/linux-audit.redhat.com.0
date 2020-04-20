@@ -1,138 +1,88 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com [205.139.110.120])
-	by mail.lfdr.de (Postfix) with ESMTP id D85F11AECBC
-	for <lists+linux-audit@lfdr.de>; Sat, 18 Apr 2020 15:26:50 +0200 (CEST)
+Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [205.139.110.61])
+	by mail.lfdr.de (Postfix) with ESMTP id 6A9D31B0B6A
+	for <lists+linux-audit@lfdr.de>; Mon, 20 Apr 2020 14:56:09 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1587216409;
+	s=mimecast20190719; t=1587387368;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
-	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+	 message-id:message-id:to:to:cc:mime-version:mime-version:
 	 content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:list-id:list-help:
+	 content-transfer-encoding:content-transfer-encoding:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=c7KubjDH6YsDoHvdb0lTMZlJFQcod2q51P4/xXoiID8=;
-	b=CyyEvzwVJZk3sIW5UcgbBitq4L57iocyTCJHu20t+L0vQKYd0ZfW5/2HCJDxMhEOP18ZVd
-	QDkthsDIbMOSmhTaAGFeJVHGGB4wfiPRcnFJBhuJREdHZHVNDqMz3qGazlZFWMza+VqroS
-	JuDdJoCMA5R9sUJyjjx4/IdNvls+UK0=
+	bh=lfVG/MBI+iOV4uQd8ByhXCYXl92IdQrZlK6l7D4+yAY=;
+	b=XB84JkpwN4UiZnxNMNbZWBW/uxcgA+iNTOaEP7dRNb/nxFt0gfw+mqY+Xs3Vkz2OMvWyfx
+	oxFjwBTHd1wHRnnzoRgw0utV4QYbQ+W1gZXsJBndReAIt8D0XnlkeJIugoJdmmUhD0luzW
+	IClNnX2C2sy6Rl+duHVRPoUBZ+9lFrQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-446-AHOnOYSwOjKJtYYXBijncQ-1; Sat, 18 Apr 2020 09:26:47 -0400
-X-MC-Unique: AHOnOYSwOjKJtYYXBijncQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+ us-mta-332-VynWorUwPYuOCKbyim1LAg-1; Mon, 20 Apr 2020 08:56:04 -0400
+X-MC-Unique: VynWorUwPYuOCKbyim1LAg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8F8538017F6;
-	Sat, 18 Apr 2020 13:26:40 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 155D511A08E;
-	Sat, 18 Apr 2020 13:26:34 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 469F9801E5A;
+	Mon, 20 Apr 2020 12:55:58 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 6AB7BA1898;
+	Mon, 20 Apr 2020 12:55:53 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 7435618089C8;
-	Sat, 18 Apr 2020 13:26:23 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
-	[10.11.54.6])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 6408093907;
+	Mon, 20 Apr 2020 12:55:44 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+	[10.11.54.5])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 03HMQPiL007336 for <linux-audit@listman.util.phx.redhat.com>;
-	Fri, 17 Apr 2020 18:26:25 -0400
+	id 03K5ZJnG023662 for <linux-audit@listman.util.phx.redhat.com>;
+	Mon, 20 Apr 2020 01:35:19 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id 51AD42166B31; Fri, 17 Apr 2020 22:26:25 +0000 (UTC)
+	id 9C5721CBD0; Mon, 20 Apr 2020 05:35:19 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
-	(mimecast04.extmail.prod.ext.rdu2.redhat.com [10.11.55.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 4C70E2166B2F
-	for <linux-audit@redhat.com>; Fri, 17 Apr 2020 22:26:23 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [207.211.31.81])
+	(mimecast06.extmail.prod.ext.rdu2.redhat.com [10.11.55.22])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 9849FAF7A1
+	for <linux-audit@redhat.com>; Mon, 20 Apr 2020 05:35:17 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [207.211.31.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 23220101A55A
-	for <linux-audit@redhat.com>; Fri, 17 Apr 2020 22:26:23 +0000 (UTC)
-Received: from out02.mta.xmission.com (out02.mta.xmission.com
-	[166.70.13.232]) (Using TLS) by relay.mimecast.com with ESMTP id
-	us-mta-343-9jI2Y_5tOv26K4OXoThyqw-1; Fri, 17 Apr 2020 18:26:18 -0400
-X-MC-Unique: 9jI2Y_5tOv26K4OXoThyqw-1
-Received: from in01.mta.xmission.com ([166.70.13.51])
-	by out02.mta.xmission.com with esmtps
-	(TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.90_1)
-	(envelope-from <ebiederm@xmission.com>)
-	id 1jPZR5-0003bo-Sg; Fri, 17 Apr 2020 16:26:12 -0600
-Received: from ip68-227-160-95.om.om.cox.net ([68.227.160.95]
-	helo=x220.xmission.com) by in01.mta.xmission.com with esmtpsa
-	(TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.87)
-	(envelope-from <ebiederm@xmission.com>)
-	id 1jPZR4-0002qC-5z; Fri, 17 Apr 2020 16:26:11 -0600
-From: ebiederm@xmission.com (Eric W. Biederman)
-To: Paul Moore <paul@paul-moore.com>
-References: <20200318215550.es4stkjwnefrfen2@madcap2.tricolour.ca>
-	<CAHC9VhSdDDP7Ec-w61NhGxZG5ZiekmrBCAg=Y=VJvEZcgQh46g@mail.gmail.com>
-	<20200319220249.jyr6xmwvflya5mks@madcap2.tricolour.ca>
-	<CAHC9VhR84aN72yNB_j61zZgrQV1y6yvrBLNY7jp7BqQiEDL+cw@mail.gmail.com>
-	<20200324210152.5uydf3zqi3dwshfu@madcap2.tricolour.ca>
-	<CAHC9VhTQUnVhoN3JXTAQ7ti+nNLfGNVXhT6D-GYJRSpJHCwDRg@mail.gmail.com>
-	<20200330134705.jlrkoiqpgjh3rvoh@madcap2.tricolour.ca>
-	<CAHC9VhQTsEMcYAF1CSHrrVn07DR450W9j6sFVfKAQZ0VpheOfw@mail.gmail.com>
-	<20200330162156.mzh2tsnovngudlx2@madcap2.tricolour.ca>
-	<CAHC9VhTRzZXJ6yUFL+xZWHNWZFTyiizBK12ntrcSwmgmySbkWw@mail.gmail.com>
-	<20200330174937.xalrsiev7q3yxsx2@madcap2.tricolour.ca>
-	<CAHC9VhR_bKSHDn2WAUgkquu+COwZUanc0RV3GRjMDvpoJ5krjQ@mail.gmail.com>
-	<871ronf9x2.fsf@x220.int.ebiederm.org>
-	<CAHC9VhR3gbmj5+5MY-whLtStKqDEHgvMRigU9hW0X1kpxF91ag@mail.gmail.com>
-Date: Fri, 17 Apr 2020 17:23:08 -0500
-In-Reply-To: <CAHC9VhR3gbmj5+5MY-whLtStKqDEHgvMRigU9hW0X1kpxF91ag@mail.gmail.com>
-	(Paul Moore's message of "Thu, 16 Apr 2020 17:53:23 -0400")
-Message-ID: <871rol7nw3.fsf@x220.int.ebiederm.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 48115185A790
+	for <linux-audit@redhat.com>; Mon, 20 Apr 2020 05:35:17 +0000 (UTC)
+Received: from mail-io1-f69.google.com (mail-io1-f69.google.com
+	[209.85.166.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+	us-mta-187-dUNeDBFTOpa4hGJ33QqF_Q-1; Mon, 20 Apr 2020 01:35:14 -0400
+X-MC-Unique: dUNeDBFTOpa4hGJ33QqF_Q-1
+Received: by mail-io1-f69.google.com with SMTP id v23so10446982ioj.14
+	for <linux-audit@redhat.com>; Sun, 19 Apr 2020 22:35:14 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+	bh=h/BvHvMfds32NfgtE98V2KP6Bs++QvZcaliDj82Cs0E=;
+	b=Z3nVuOuDYkiZitPDevPHjpP7zTbEL4wJCrJogUTmdIB/sftEsxjjZtGDTptHpraZG1
+	5Ert3F8VTa/Cp6RtZk+NytKSHmwTtIaLYXVIQwGkCp7VUd2veM9K20tIs+Wn/DkV8Efg
+	/loaZPRv2h5lb/4Uc8WhdySRP0tiypUVuQuYdEW8pHqd8ZC07P8hsv4uqucDsNW28D4G
+	k/iFA2E9pDgfrwb50aS8sgLPZG78Vbn3l93ntdDeuVf2i2pYYAE00ORBrOLprSwMI46Q
+	k3T9JzNI7zo/hmMANYEp2vMAmzQZKnCIypGbBJGBqbZk8WhNbma/RPrXaap8PLBhlPN7
+	oqCA==
+X-Gm-Message-State: AGi0PuaXSrfigQI8TIgZQU57EXhgNu0l5/oSiNW/BvJCln7VslF9amSQ
+	YGI43C+JSNXtQPRzro32JFo4gS7h5F2U2+8tIFEQVNmYGgx7
+X-Google-Smtp-Source: APiQypLbMNCAg8juI7DU5HhW3a6QLULnSLinXE3REp1inSW17hBXgpxyQyOzwzcnKgTIuhgyGKBF8HWyhClxQa95esEk7KAEOrVS
 MIME-Version: 1.0
-X-XM-SPF: eid=1jPZR4-0002qC-5z; ; ; mid=<871rol7nw3.fsf@x220.int.ebiederm.org>;
-	; ; hst=in01.mta.xmission.com; ; ; ip=68.227.160.95; ; ;
-	frm=ebiederm@xmission.com; ; ; spf=neutral
-X-XM-AID: U2FsdGVkX19qZeMGpaRFmwABWE5nM2gXLxe0XB+DPDY=
-X-SA-Exim-Connect-IP: 68.227.160.95
-X-SA-Exim-Mail-From: ebiederm@xmission.com
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on sa06.xmission.com
-X-Spam-Level: **
-X-Spam-Status: No, score=2.0 required=8.0 tests=ALL_TRUSTED,BAYES_50,
-	DCC_CHECK_NEGATIVE,T_TM2_M_HEADER_IN_MSG,XMSlimDrugH,XMSubLong,
-	XM_Body_Dirty_Words autolearn=disabled version=3.4.2
-X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-	*  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-	*      [score: 0.4999] *  0.7 XMSubLong Long Subject
-	*  1.0 XMSlimDrugH Weight loss drug headers
-	*  0.0 T_TM2_M_HEADER_IN_MSG BODY: No description available.
-	* -0.0 DCC_CHECK_NEGATIVE Not listed in DCC
-	*      [sa06 1397; Body=1 Fuz1=1 Fuz2=1]
-	*  0.5 XM_Body_Dirty_Words Contains a dirty word
-X-Spam-DCC: XMission; sa06 1397; Body=1 Fuz1=1 Fuz2=1
-X-Spam-Combo: **;Paul Moore <paul@paul-moore.com>
-X-Spam-Relay-Country: 
-X-Spam-Timing: total 1095 ms - load_scoreonly_sql: 0.03 (0.0%),
-	signal_user_changed: 12 (1.1%), b_tie_ro: 10 (1.0%), parse: 1.33
-	(0.1%), extract_message_metadata: 19 (1.7%), get_uri_detail_list: 5
-	(0.5%), tests_pri_-1000: 22 (2.0%), tests_pri_-950: 1.23 (0.1%),
-	tests_pri_-900: 1.02 (0.1%), tests_pri_-90: 409 (37.4%), check_bayes:
-	407 (37.1%), b_tokenize: 13 (1.2%), b_tok_get_all: 244 (22.3%),
-	b_comp_prob: 4.8 (0.4%), b_tok_touch_all: 140 (12.8%), b_finish: 0.91
-	(0.1%), tests_pri_0: 608 (55.6%), check_dkim_signature: 0.60 (0.1%),
-	check_dkim_adsp: 2.5 (0.2%), poll_dns_idle: 0.28 (0.0%), tests_pri_10:
-	2.4 (0.2%), tests_pri_500: 14 (1.3%), rewrite_mail: 0.00 (0.0%)
-Subject: Re: [PATCH ghak90 V8 07/16] audit: add contid support for signalling
-	the audit daemon
-X-Spam-Flag: No
-X-SA-Exim-Version: 4.2.1 (built Thu, 05 May 2016 13:38:54 -0600)
-X-SA-Exim-Scanned: Yes (on in01.mta.xmission.com)
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+X-Received: by 2002:a92:5d5b:: with SMTP id r88mr14510816ilb.206.1587360913748;
+	Sun, 19 Apr 2020 22:35:13 -0700 (PDT)
+Date: Sun, 19 Apr 2020 22:35:13 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <00000000000064f6e505a3b243aa@google.com>
+Subject: KMSAN: uninit-value in audit_log_vformat (2)
+From: syzbot <syzbot+49e69b4d71a420ceda3e@syzkaller.appspotmail.com>
+To: eparis@redhat.com, glider@google.com, linux-audit@redhat.com,
+	linux-kernel@vger.kernel.org, paul@paul-moore.com,
+	syzkaller-bugs@googlegroups.com
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
 X-MIME-Autoconverted: from quoted-printable to 8bit by
-	lists01.pubmisc.prod.ext.phx2.redhat.com id 03HMQPiL007336
+	lists01.pubmisc.prod.ext.phx2.redhat.com id 03K5ZJnG023662
 X-loop: linux-audit@redhat.com
-X-Mailman-Approved-At: Sat, 18 Apr 2020 09:26:06 -0400
-Cc: nhorman@tuxdriver.com, Richard Guy Briggs <rgb@redhat.com>,
-	linux-api@vger.kernel.org, containers@lists.linux-foundation.org,
-	LKML <linux-kernel@vger.kernel.org>, dhowells@redhat.com,
-	linux-audit@redhat.com, netfilter-devel@vger.kernel.org,
-	simo@redhat.com, netdev@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	Eric Paris <eparis@parisplace.org>, mpatel@redhat.com,
-	Serge Hallyn <serge@hallyn.com>
+X-Mailman-Approved-At: Mon, 20 Apr 2020 08:55:30 -0400
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -146,140 +96,105 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-Paul Moore <paul@paul-moore.com> writes:
+Hello,
 
-> On Thu, Apr 16, 2020 at 4:36 PM Eric W. Biederman <ebiederm@xmission.com> wrote:
->> Paul Moore <paul@paul-moore.com> writes:
->> > On Mon, Mar 30, 2020 at 1:49 PM Richard Guy Briggs <rgb@redhat.com> wrote:
->> >> On 2020-03-30 13:34, Paul Moore wrote:
->> >> > On Mon, Mar 30, 2020 at 12:22 PM Richard Guy Briggs <rgb@redhat.com> wrote:
->> >> > > On 2020-03-30 10:26, Paul Moore wrote:
->> >> > > > On Mon, Mar 30, 2020 at 9:47 AM Richard Guy Briggs <rgb@redhat.com> wrote:
->> >> > > > > On 2020-03-28 23:11, Paul Moore wrote:
->> >> > > > > > On Tue, Mar 24, 2020 at 5:02 PM Richard Guy Briggs <rgb@redhat.com> wrote:
->> >> > > > > > > On 2020-03-23 20:16, Paul Moore wrote:
->> >> > > > > > > > On Thu, Mar 19, 2020 at 6:03 PM Richard Guy Briggs <rgb@redhat.com> wrote:
->> >> > > > > > > > > On 2020-03-18 18:06, Paul Moore wrote:
->> >
->> > ...
->> >
->> >> > > Well, every time a record gets generated, *any* record gets generated,
->> >> > > we'll need to check for which audit daemons this record is in scope and
->> >> > > generate a different one for each depending on the content and whether
->> >> > > or not the content is influenced by the scope.
->> >> >
->> >> > That's the problem right there - we don't want to have to generate a
->> >> > unique record for *each* auditd on *every* record.  That is a recipe
->> >> > for disaster.
->> >> >
->> >> > Solving this for all of the known audit records is not something we
->> >> > need to worry about in depth at the moment (although giving it some
->> >> > casual thought is not a bad thing), but solving this for the audit
->> >> > container ID information *is* something we need to worry about right
->> >> > now.
->> >>
->> >> If you think that a different nested contid value string per daemon is
->> >> not acceptable, then we are back to issuing a record that has only *one*
->> >> contid listed without any nesting information.  This brings us back to
->> >> the original problem of keeping *all* audit log history since the boot
->> >> of the machine to be able to track the nesting of any particular contid.
->> >
->> > I'm not ruling anything out, except for the "let's just completely
->> > regenerate every record for each auditd instance".
->>
->> Paul I am a bit confused about what you are referring to when you say
->> regenerate every record.
->>
->> Are you saying that you don't want to repeat the sequence:
->>         audit_log_start(...);
->>         audit_log_format(...);
->>         audit_log_end(...);
->> for every nested audit daemon?
->
-> If it can be avoided yes.  Audit performance is already not-awesome,
-> this would make it even worse.
+syzbot found the following crash on:
 
-As far as I can see not repeating sequences like that is fundamental
-for making this work at all.  Just because only the audit subsystem
-should know about one or multiple audit daemons.  Nothing else should
-care.
+HEAD commit:    5356842d [EXPERIMENTAL] kmsan: eagerly allocate shadow at ..
+git tree:       https://github.com/google/kmsan.git master
+console output: https://syzkaller.appspot.com/x/log.txt?x=12f06720100000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=a5915107b3106aaa
+dashboard link: https://syzkaller.appspot.com/bug?extid=49e69b4d71a420ceda3e
+compiler:       clang version 10.0.0 (https://github.com/llvm/llvm-project/ c2443155a0fb245c8f17f2c1c72b6ea391e86e81)
+userspace arch: i386
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=133b5dabe00000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=143e1610100000
 
->> Or are you saying that you would like to literraly want to send the same
->> skb to each of the nested audit daemons?
->
-> Ideally we would reuse the generated audit messages as much as
-> possible.  Less work is better.  That's really my main concern here,
-> let's make sure we aren't going to totally tank performance when we
-> have a bunch of nested audit daemons.
+IMPORTANT: if you fix the bug, please add the following tag to the commit:
+Reported-by: syzbot+49e69b4d71a420ceda3e@syzkaller.appspotmail.com
 
-So I think there are two parts of this answer.  Assuming we are talking
-about nesting audit daemons in containers we will have different
-rulesets and I expect most of the events for a nested audit daemon won't
-be of interest to the outer audit daemon.
+=====================================================
+BUG: KMSAN: uninit-value in string_nocheck lib/vsprintf.c:608 [inline]
+BUG: KMSAN: uninit-value in string+0x522/0x690 lib/vsprintf.c:689
+CPU: 1 PID: 8854 Comm: syz-executor694 Not tainted 5.6.0-rc7-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+Call Trace:
+ __dump_stack lib/dump_stack.c:77 [inline]
+ dump_stack+0x1c9/0x220 lib/dump_stack.c:118
+ kmsan_report+0xf7/0x1e0 mm/kmsan/kmsan_report.c:118
+ __msan_warning+0x58/0xa0 mm/kmsan/kmsan_instr.c:215
+ string_nocheck lib/vsprintf.c:608 [inline]
+ string+0x522/0x690 lib/vsprintf.c:689
+ vsnprintf+0x207d/0x31b0 lib/vsprintf.c:2574
+ audit_log_vformat+0x583/0xcd0 kernel/audit.c:1858
+ audit_log_format+0x220/0x260 kernel/audit.c:1892
+ audit_receive_msg kernel/audit.c:1344 [inline]
+ audit_receive+0x18a4/0x6d50 kernel/audit.c:1515
+ netlink_unicast_kernel net/netlink/af_netlink.c:1303 [inline]
+ netlink_unicast+0xf9e/0x1100 net/netlink/af_netlink.c:1329
+ netlink_sendmsg+0x1246/0x14d0 net/netlink/af_netlink.c:1918
+ sock_sendmsg_nosec net/socket.c:652 [inline]
+ sock_sendmsg net/socket.c:672 [inline]
+ ____sys_sendmsg+0x12b6/0x1350 net/socket.c:2345
+ ___sys_sendmsg net/socket.c:2399 [inline]
+ __sys_sendmsg+0x451/0x5f0 net/socket.c:2432
+ __compat_sys_sendmsg net/compat.c:642 [inline]
+ __do_compat_sys_sendmsg net/compat.c:649 [inline]
+ __se_compat_sys_sendmsg net/compat.c:646 [inline]
+ __ia32_compat_sys_sendmsg+0xed/0x130 net/compat.c:646
+ do_syscall_32_irqs_on arch/x86/entry/common.c:339 [inline]
+ do_fast_syscall_32+0x3c7/0x6e0 arch/x86/entry/common.c:410
+ entry_SYSENTER_compat+0x68/0x77 arch/x86/entry/entry_64_compat.S:139
+RIP: 0023:0xf7fa0d99
+Code: 90 e8 0b 00 00 00 f3 90 0f ae e8 eb f9 8d 74 26 00 89 3c 24 c3 90 90 90 90 90 90 90 90 90 90 90 90 51 52 55 89 e5 0f 34 cd 80 <5d> 5a 59 c3 90 90 90 90 eb 0d 90 90 90 90 90 90 90 90 90 90 90 90
+RSP: 002b:00000000ffb27c7c EFLAGS: 00000246 ORIG_RAX: 0000000000000172
+RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 00000000200002c0
+RDX: 0000000000000000 RSI: 00000000080ea078 RDI: 00000000ffb27cd0
+RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
+R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
 
-Beyond that it should be very straight forward to keep a pointer and
-leave the buffer as a scatter gather list until audit_log_end
-and translate pids, and rewrite ACIDs attributes in audit_log_end
-when we build the final packet.  Either through collaboration with
-audit_log_format or a special audit_log command that carefully sets
-up the handful of things that need that information.
+Uninit was created at:
+ kmsan_save_stack_with_flags mm/kmsan/kmsan.c:144 [inline]
+ kmsan_internal_poison_shadow+0x66/0xd0 mm/kmsan/kmsan.c:127
+ kmsan_slab_alloc+0x8a/0xe0 mm/kmsan/kmsan_hooks.c:82
+ slab_alloc_node mm/slub.c:2801 [inline]
+ __kmalloc_node_track_caller+0xb40/0x1200 mm/slub.c:4420
+ __kmalloc_reserve net/core/skbuff.c:142 [inline]
+ __alloc_skb+0x2fd/0xac0 net/core/skbuff.c:210
+ alloc_skb include/linux/skbuff.h:1081 [inline]
+ netlink_alloc_large_skb net/netlink/af_netlink.c:1175 [inline]
+ netlink_sendmsg+0x7d3/0x14d0 net/netlink/af_netlink.c:1893
+ sock_sendmsg_nosec net/socket.c:652 [inline]
+ sock_sendmsg net/socket.c:672 [inline]
+ ____sys_sendmsg+0x12b6/0x1350 net/socket.c:2345
+ ___sys_sendmsg net/socket.c:2399 [inline]
+ __sys_sendmsg+0x451/0x5f0 net/socket.c:2432
+ __compat_sys_sendmsg net/compat.c:642 [inline]
+ __do_compat_sys_sendmsg net/compat.c:649 [inline]
+ __se_compat_sys_sendmsg net/compat.c:646 [inline]
+ __ia32_compat_sys_sendmsg+0xed/0x130 net/compat.c:646
+ do_syscall_32_irqs_on arch/x86/entry/common.c:339 [inline]
+ do_fast_syscall_32+0x3c7/0x6e0 arch/x86/entry/common.c:410
+ entry_SYSENTER_compat+0x68/0x77 arch/x86/entry/entry_64_compat.S:139
+=====================================================
 
-Hmm.  I am seeing that we send skbs to kauditd and then kauditd
-sends those skbs to userspace.  I presume that is primary so that
-sending messages to userspace does not block the process being audited.
 
-Plus a little bit so that the retry logic will work.
+---
+This bug is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-I think the naive implementation would be to simply have 1 kauditd
-per auditd (strictly and audit context/namespace).  Although that can be
-optimized if that is a problem.
-
-Beyond that I think we would need to look at profiles to really
-understand where the bottlenecks are.
-
->> Or are you thinking of something else?
->
-> As mentioned above, I'm not thinking of anything specific, other than
-> let's please not have to regenerate *all* of the audit record strings
-> for each instance of an audit daemon, that's going to be a killer.
->
-> Maybe we have to regenerate some, if we do, what would that look like
-> in code?  How do we handle the regeneration aspect?  I worry that is
-> going to be really ugly.
->
-> Maybe we finally burn down the audit_log_format(...) function and pass
-> structs/TLVs to the audit subsystem and the audit subsystem generates
-> the strings in the auditd connection thread.  Some of the record
-> strings could likely be shared, others would need to be ACID/auditd
-> dependent.
-
-I think we just a very limited amount of structs/TLVs for the cases that
-matter and one-one auditd and kauditd implementations we should still
-be able to do everything in audit_log_end.  Plus doing as much work as
-possible in audit_log_end where things are still cache hot is desirable.
-
-> I'm open to any ideas people may have.  We have a problem, let's solve
-> it.
-
-It definitely makes sense to look ahead to having audit daemons running
-in containers, but in the grand scheme of things that is a nice to have.
-Probably something we will and should get to, but we have lived a long
-time without auditd running in containers so I expect we can live a
-while longer.
-
-As I understand Richard patchset for the specific case of the ACID we
-are only talking about taking a subset of an existing string, and one
-string at that.  Not hard at all.  Especially when looking at the
-fundamental fact that we will need to send a different skb to
-userspace, for each audit daemon.
-
-Eric
+syzbot will keep track of this bug report. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+syzbot can test patches for this bug, for details see:
+https://goo.gl/tpsmEJ#testing-patches
 
 
 --
