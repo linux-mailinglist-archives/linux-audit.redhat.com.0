@@ -1,65 +1,90 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com [207.211.31.81])
-	by mail.lfdr.de (Postfix) with ESMTP id 664651B3158
-	for <lists+linux-audit@lfdr.de>; Tue, 21 Apr 2020 22:40:09 +0200 (CEST)
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com [205.139.110.120])
+	by mail.lfdr.de (Postfix) with ESMTP id 5729E1B31E5
+	for <lists+linux-audit@lfdr.de>; Tue, 21 Apr 2020 23:25:35 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1587501608;
+	s=mimecast20190719; t=1587504334;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
-	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+	 message-id:message-id:to:to:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=NwWuxRblvXWYFTF+mXS910/+rXThPREWGN+0M9HvClo=;
-	b=Kx3yie7B9o3t/Sxm2C7a2oglLgOhV78uZJ4C9mqcr4H7wFqsMmvRd/BhV53O4O/Et9RIHw
-	b0cAgOqkxSjGs+3RZ1uF7yVjyBsQkf36BiFJSA1uKmF+O2L3MtIWMq+yNWrldNGq1J3GKP
-	lK2WgDtDTdlVwatDyCxu1DUkcWCF44A=
+	bh=pczeHsfM7GatbUyKl17T+Y/EkZ96+bLxzWB013EV0w0=;
+	b=eWGL3QPl0YINGqWqCGwT7dmZOyaexMR/G092mqGnJ8EGQmRuqcMp1ixQYxhFzry/NfmR1Y
+	4E8w460i5XnxSAsCJAMtx4d5LljGboaTy/xr6kg1aInUS7e7TbxlfQ//nibZQGJrzS9uJw
+	NQGireLTaa7L1YFg0+AoIH4mBfWjzSg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-23-Ig4h_YOkP4aElF6hTazqDw-1; Tue, 21 Apr 2020 16:40:02 -0400
-X-MC-Unique: Ig4h_YOkP4aElF6hTazqDw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+ us-mta-488-ZcGIwm9WNOy8O7qc8MWi4Q-1; Tue, 21 Apr 2020 17:25:32 -0400
+X-MC-Unique: ZcGIwm9WNOy8O7qc8MWi4Q-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7D60513F8;
-	Tue, 21 Apr 2020 20:39:57 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 761945C1D4;
-	Tue, 21 Apr 2020 20:39:56 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 86152DB60;
+	Tue, 21 Apr 2020 21:25:25 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id DAEBCB3A7B;
+	Tue, 21 Apr 2020 21:25:23 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id D0E9B941A5;
-	Tue, 21 Apr 2020 20:39:54 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
-	[10.5.11.14])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 0F0F918089CD;
+	Tue, 21 Apr 2020 21:25:17 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+	[10.11.54.3])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 03LKd4QI004013 for <linux-audit@listman.util.phx.redhat.com>;
-	Tue, 21 Apr 2020 16:39:04 -0400
+	id 03LLP6Qd007185 for <linux-audit@listman.util.phx.redhat.com>;
+	Tue, 21 Apr 2020 17:25:06 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id D9D9E5DA83; Tue, 21 Apr 2020 20:39:04 +0000 (UTC)
+	id 54E7A10B2B25; Tue, 21 Apr 2020 21:25:06 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from madcap2.tricolour.ca (unknown [10.3.128.9])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 358445DA7C;
-	Tue, 21 Apr 2020 20:38:58 +0000 (UTC)
-Date: Tue, 21 Apr 2020 16:38:55 -0400
-From: Richard Guy Briggs <rgb@redhat.com>
-To: Paul Moore <paul@paul-moore.com>
-Subject: Re: [PATCH ghak28 V7] audit: log audit netlink multicast bind and
-	unbind events
-Message-ID: <20200421203854.dkrvl7oiy5u5ac5j@madcap2.tricolour.ca>
-References: <82d85f72416560c155031375fb5b32ac06394c31.1584033222.git.rgb@redhat.com>
-	<CAHC9VhRqytBECZ+bgo_OXavbRmPKEu0OOqS=xe=FQFhG+Qv=oA@mail.gmail.com>
-	<20200417213423.leermiriy4jzgwf4@madcap2.tricolour.ca>
-	<CAHC9VhRy9krH8gxMHX1qpHLNR7De0KyouOrAvEzGKYkr8r2B0g@mail.gmail.com>
+Received: from mimecast-mx02.redhat.com
+	(mimecast06.extmail.prod.ext.rdu2.redhat.com [10.11.55.22])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 5107F10B2B23
+	for <linux-audit@redhat.com>; Tue, 21 Apr 2020 21:25:04 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+	[207.211.31.120])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6713A185A78F
+	for <linux-audit@redhat.com>; Tue, 21 Apr 2020 21:25:04 +0000 (UTC)
+Received: from mail-ej1-f67.google.com (mail-ej1-f67.google.com
+	[209.85.218.67]) (Using TLS) by relay.mimecast.com with ESMTP id
+	us-mta-513-OnDJMs8lOAiYo4YU1BTqAQ-1; Tue, 21 Apr 2020 17:25:01 -0400
+X-MC-Unique: OnDJMs8lOAiYo4YU1BTqAQ-1
+Received: by mail-ej1-f67.google.com with SMTP id n4so165309ejs.11
+	for <linux-audit@redhat.com>; Tue, 21 Apr 2020 14:25:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to;
+	bh=cR8iHy2e+Wf/C4FGn3M7r5/LB2cD+V4OQdm7W6okJfk=;
+	b=bXEoY8FET3nUppQhqrRiDVI3mBRNibWVtI96jwHGKgB7o3Ha2oktUBowzZBFcM0/Q7
+	/uMMv26ZfmfQMTuAqrSsn7YaAFvqKEjFgUo6EQiW7wOEhpuV1FlNVossBWSAcWGJF81x
+	aQenbM4ZKy/YdlgP1Wc4+SeUOXGu2+RBnBlIkuLohnp9mhBygKAgoUJE7WbfJQFib+3V
+	BTw3eTjJcYLCZN78i7QVw/T8xSjnLzcS1Mti8vrJcXRZgOXkZIzWsV/vpU1UxySodhMZ
+	NkmuycDOhfcui+m/A2RyZD4zZgK2qarl6cCci5cI0KNePtLJQcq9NxO+33JV9f1FqgEj
+	3CIw==
+X-Gm-Message-State: AGi0PubdAdLU/wbyHd+Ff8H3vOjzlzpwh2QAR9tVUd2ZN+aUlqJNu2E0
+	YddrXS+1AU095/jy+BjJOuVBSLJ569sJyY12bQm4Nu4=
+X-Google-Smtp-Source: APiQypL3v1o/zfzJ9Pll9do+cUdsVjnpU3brxKrEfQMhn0mYepmUZu/ENfNKsU8GmFvE/Dxxt5d4n/hL1HtLD9FQPvI=
+X-Received: by 2002:a17:906:4cd2:: with SMTP id
+	q18mr16185168ejt.70.1587504299973; 
+	Tue, 21 Apr 2020 14:24:59 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAHC9VhRy9krH8gxMHX1qpHLNR7De0KyouOrAvEzGKYkr8r2B0g@mail.gmail.com>
-User-Agent: NeoMutt/20180716
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+References: <158741856073.246860.5955712228915579.stgit@chester>
+In-Reply-To: <158741856073.246860.5955712228915579.stgit@chester>
+From: Paul Moore <paul@paul-moore.com>
+Date: Tue, 21 Apr 2020 17:24:48 -0400
+Message-ID: <CAHC9VhQ4FSmLF0UG9mk99t0A5MXYHCZC4+69AFMtoFB0iqNyXA@mail.gmail.com>
+Subject: Re: [PATCH] audit: check the length of userspace generated audit
+	records
+To: linux-audit@redhat.com
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
+X-MIME-Autoconverted: from quoted-printable to 8bit by
+	lists01.pubmisc.prod.ext.phx2.redhat.com id 03LLP6Qd007185
 X-loop: linux-audit@redhat.com
-Cc: Eric Paris <eparis@parisplace.org>,
-	Linux-Audit Mailing List <linux-audit@redhat.com>,
-	LKML <linux-kernel@vger.kernel.org>
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -73,155 +98,50 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
 
-On 2020-04-17 18:19, Paul Moore wrote:
-> On Fri, Apr 17, 2020 at 5:34 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> > On 2020-04-17 17:18, Paul Moore wrote:
-> > > On Tue, Mar 17, 2020 at 12:04 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> > > >
-> > > > Log information about programs connecting to and disconnecting from the
-> > > > audit netlink multicast socket. This is needed so that during
-> > > > investigations a security officer can tell who or what had access to the
-> > > > audit trail.  This helps to meet the FAU_SAR.2 requirement for Common
-> > > > Criteria.  Here is the systemd startup event:
-> > > >
-> > > > type=PROCTITLE msg=audit(2020-02-18 15:26:50.775:10) : proctitle=/init
-> > > > type=SYSCALL msg=audit(2020-02-18 15:26:50.775:10) : arch=x86_64 syscall=bind success=yes exit=0 a0=0x19 a1=0x55645c369b70 a2=0xc a3=0x7fff9fedec24 items=0 ppid=0 pid=1 auid=unset uid=root gid=root euid=root suid=root fsuid=root egid=root sgid=root fsgid=root tty=(none) ses=unset comm=systemd exe=/usr/lib/systemd/systemd subj=kernel key=(null)
-> > > > type=UNKNOWN[1335] msg=audit(2020-02-18 15:26:50.775:10) : pid=1 uid=root auid=unset tty=(none) ses=unset subj=kernel comm=systemd exe=/usr/lib/systemd/systemd nl-mcgrp=1 op=connect res=yes
-> > > >
-> > > > And the events from the test suite:
-> > > >
-> > > > type=PROCTITLE msg=audit(2020-02-18 15:28:01.594:307) : proctitle=/usr/bin/perl -w amcast_joinpart/test
-> > > > type=SYSCALL msg=audit(2020-02-18 15:28:01.594:307) : arch=x86_64 syscall=bind success=yes exit=0 a0=0x7 a1=0x558ebc428be0 a2=0xc a3=0x0 items=0 ppid=642 pid=645 auid=root uid=root gid=root euid=root suid=root fsuid=root egid=root sgid=root fsgid=root tty=ttyS0 ses=1 comm=perl exe=/usr/bin/perl subj=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023 key=(null)
-> > > > type=UNKNOWN[1335] msg=audit(2020-02-18 15:28:01.594:307) : pid=645 uid=root auid=root tty=ttyS0 ses=1 subj=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023 comm=perl exe=/usr/bin/perl nl-mcgrp=1 op=connect res=yes
-> > > >
-> > > > type=PROCTITLE msg=audit(2020-03-17 11:35:31.474:344) : proctitle=/usr/bin/perl -w amcast_joinpart/test
-> > > > type=SYSCALL msg=audit(2020-03-17 11:35:31.474:344) : arch=x86_64 syscall=setsockopt success=yes exit=0 a0=0x7 a1=SOL_NETLINK a2=0x2 a3=0x7ffee21ca5f0 items=0 ppid=686 pid=689 auid=root uid=root gid=root euid=root suid=root fsuid=root egid=root sgid=root fsgid=root tty=ttyS0 ses=3 comm=perl exe=/usr/bin/perl subj=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023 key=(null)
-> > > > type=UNKNOWN[1335] msg=audit(2020-03-17 11:35:31.474:344) : pid=689 uid=root auid=root tty=ttyS0 ses=3 subj=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023 comm=perl exe=/usr/bin/perl nl-mcgrp=1 op=disconnect res=yes
-> > > >
-> > > > type=UNKNOWN[1335] msg=audit(2020-01-17 10:36:24.051:295) : pid=674 uid=root auid=root tty=ttyS0 ses=3 subj=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023 comm=perl exe=/usr/bin/perl nl-mcgrp=1 op=disconnect res=yes
-> > >
-> > > This patch looks fine to me, but this line is curious ... I'm assuming
-> > > this is just a stray/cut-n-paste-error from the last time you updated
-> > > the commit description?  If so, just let me know and I can drop it
-> > > while merging, otherwise there is something odd going on ....
-> >
-> > That last line is the result of close() from an earlier version of the
-> > testsuite, rather than setsockopt(..., NETLINK_DROP_MEMBERSHIP, ...).
-> >
-> > This is why we need the subject attributes, as noted in the first note
-> > above the changelog below.
-> 
-> Argh.  I wasn't looking at the subject info, I was just noting the
-> timestamp was obviously wrong and the connects/disconnects didn't
-> match.
+On Mon, Apr 20, 2020 at 5:36 PM Paul Moore <paul@paul-moore.com> wrote:
+>
+> Commit 756125289285 ("audit: always check the netlink payload length
+> in audit_receive_msg()") fixed a number of missing message length
+> checks, but forgot to check the length of userspace generated audit
+> records.  The good news is that you need CAP_AUDIT_WRITE to submit
+> userspace audit records, which is generally only given to trusted
+> processes, so the impact should be limited.
+>
+> Cc: stable@vger.kernel.org
+> Fixes: 756125289285 ("audit: always check the netlink payload length in audit_receive_msg()")
+> Reported-by: syzbot+49e69b4d71a420ceda3e@syzkaller.appspotmail.com
+> Signed-off-by: Paul Moore <paul@paul-moore.com>
+> ---
+>  kernel/audit.c |    3 +++
+>  1 file changed, 3 insertions(+)
 
-I can doctor the timestamp if you like?  ;-)
+Merged into audit/stable-5.7; I'll send it up to Linus later this week.
 
-> I was going to be nice and just drop that message during the merge,
-> but you need to regenerate those messages with the audit records from
-> just this patch since it is 1/3.  As it stands right now someone is
-> going to be very confused in a few years when they try to reconcile
-> the code changes with your commit description.
-> 
-> Regardless of the subject info, we should make sure the
-> connects/disconnects are matched.  The example you provide from the
-> test shows one connect, but two disconnects.  That is going to confuse
-> people looking through the audit logs.  I'm hoping you just did a
-> copy-n-paste error, but if not we need to figure that out and find a
-> way to make them match if there is somewhat to do so.
+> diff --git a/kernel/audit.c b/kernel/audit.c
+> index b69c8b460341..87f31bf1f0a0 100644
+> --- a/kernel/audit.c
+> +++ b/kernel/audit.c
+> @@ -1326,6 +1326,9 @@ static int audit_receive_msg(struct sk_buff *skb, struct nlmsghdr *nlh)
+>         case AUDIT_FIRST_USER_MSG2 ... AUDIT_LAST_USER_MSG2:
+>                 if (!audit_enabled && msg_type != AUDIT_USER_AVC)
+>                         return 0;
+> +               /* exit early if there isn't at least one character to print */
+> +               if (data_len < 2)
+> +                       return -EINVAL;
+>
+>                 err = audit_filter(msg_type, AUDIT_FILTER_USER);
+>                 if (err == 1) { /* match or error */
 
-No, it wasn't a copy/paste error.  It was an intentional inclusion, but
-it will need some prose to explain what it demonstrates.
+-- 
+paul moore
+www.paul-moore.com
 
-> While you are respinning this patch, please fix the checkpatch.pl
-> errors; there were multiple line length, space/tab, and code indent
-> problems.  I was going to fix them during the merge, but you might as
-> well fix them now.  Feel free to insert my usual plea to run your
-> patches through checkpatch.pl before submitting.
-
-I assume this paragraph was to be conditionally included in the ghak25
-patchset comments if a respin was necessary since this patch has no
-issues (other than one patch description line too long that is a record
-sample).  I've fixed all those issues in ghak25 patches 1/3 and 2/3 and
-am just doing a test compile to make sure I've not messed anything up
-and that the rebase to v5.7-rc1 didn't cause a problem.
-
-> > > > Please see the upstream issue tracker at
-> > > >   https://github.com/linux-audit/audit-kernel/issues/28
-> > > > With the feature description at
-> > > >   https://github.com/linux-audit/audit-kernel/wiki/RFE-Audit-Multicast-Socket-Join-Part
-> > > > The testsuite support is at
-> > > >   https://github.com/rgbriggs/audit-testsuite/compare/ghak28-mcast-part-join
-> > > >   https://github.com/linux-audit/audit-testsuite/pull/93
-> > > > And the userspace support patch is at
-> > > >   https://github.com/linux-audit/audit-userspace/pull/114
-> > > >
-> > > > Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
-> > > >
-> > > > ---
-> > > > Note: subj attrs included due to missing syscall record for disconnect on close
-> > > > Note: tried refactor of subj attrs, but this is yet another new order.
-> > > >
-> > > > Changelog:
-> > > > v7:
-> > > > - rename audit_log_multicast_bind to audit_log_multicast
-> > > >
-> > > > v6:
-> > > > - rebased on 5.6-rc1 audit/next and audit log BPF
-> > > > - updated patch description sample records
-> > > >
-> > > > v5:
-> > > > - rebased on 5.5-rc1 audit/next
-> > > > - group bind/unbind ops
-> > > > - add audit context
-> > > > - justify message number skip
-> > > > - check audit_enabled
-> > > > - change field name from nlnk-grp to nl-mcgrp
-> > > > - fix whitespace issues
-> > > >
-> > > > v4:
-> > > > - 2017-10-13 sgrubb
-> > > > - squash to 1 patch
-> > > > - rebase on KERN_MODULE event
-> > > > - open code subj attrs
-> > > >
-> > > > v3:
-> > > > - 2016-11-30 sgrubb
-> > > > - rebase on REPLACE event
-> > > > - minimize audit_log_format calls
-> > > > - rename audit_log_bind to audit_log_multicast_bind
-> > > >
-> > > > v2:
-> > > > - 2015-07-23 sgrubb
-> > > > - spin off audit_log_task_simple in seperate patch
-> > > >
-> > > > v1:
-> > > > - 2014-10-07 rgb
-> > > > ---
-> > > >  include/uapi/linux/audit.h |  1 +
-> > > >  kernel/audit.c             | 48 ++++++++++++++++++++++++++++++++++++++++++----
-> > > >  2 files changed, 45 insertions(+), 4 deletions(-)
-> 
-> -- 
-> paul moore
-> www.paul-moore.com
-> 
-
-- RGB
-
---
-Richard Guy Briggs <rgb@redhat.com>
-Sr. S/W Engineer, Kernel Security, Base Operating Systems
-Remote, Ottawa, Red Hat Canada
-IRC: rgb, SunRaycer
-Voice: +1.647.777.2635, Internal: (81) 32635
 
 --
 Linux-audit mailing list
