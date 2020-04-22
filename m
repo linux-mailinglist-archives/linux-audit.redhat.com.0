@@ -1,110 +1,59 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com [205.139.110.120])
-	by mail.lfdr.de (Postfix) with ESMTP id DFC4D1B4BA2
-	for <lists+linux-audit@lfdr.de>; Wed, 22 Apr 2020 19:25:01 +0200 (CEST)
+Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [205.139.110.61])
+	by mail.lfdr.de (Postfix) with ESMTP id B77371B4D04
+	for <lists+linux-audit@lfdr.de>; Wed, 22 Apr 2020 21:06:27 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1587576300;
+	s=mimecast20190719; t=1587582386;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=9nnzCnoXUmM+cE8bWM4hUeZJY2UDYhD1ZgtAIuebZCw=;
-	b=YxG759G/8K/BN15rSdgcM9bKjBSoNeHthgw3Sc3bD+OKqx660rHjJePup0QRKD6l0pKdbh
-	kxHtgaYIaYxFh79ntiKXGolSpoUS74zuRbPxOjeNTS/bzp4RN5iCfr+4QVtgmnA1HdJGGr
-	dAFxPxLRmlMzK4fMLgEc6SrcYnXyt0U=
+	bh=ev0d86lkPQTBpXe691I+L/GgXWaT53p878LfuFv7+ZM=;
+	b=foOZ2AIFmf6E0HCIfhqvUqN5rVV7n9mDI8YGtrxqEJ0L6SPtsDXXNoLrZ2j2xPLgCXdMuU
+	Uzoemur3uPliUT7dvkA4rdOA7ziIC05VRo1gfJiDGi0WLKkMS/5v35kOT71zjru5hFPcIc
+	ATfDVi1eRNopW82UYTGsA/JrqfglDW8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-192-u2HO-NHyNjK1gIsOu4__hg-1; Wed, 22 Apr 2020 13:24:58 -0400
-X-MC-Unique: u2HO-NHyNjK1gIsOu4__hg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+ us-mta-176-O1AO8f6jP6eANstqozn03A-1; Wed, 22 Apr 2020 15:06:14 -0400
+X-MC-Unique: O1AO8f6jP6eANstqozn03A-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 32982190B2A3;
-	Wed, 22 Apr 2020 17:24:51 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id D882560C88;
-	Wed, 22 Apr 2020 17:24:46 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0CD2A13FB;
+	Wed, 22 Apr 2020 19:06:07 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 739455D706;
+	Wed, 22 Apr 2020 19:06:04 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 05E671809541;
-	Wed, 22 Apr 2020 17:24:40 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
-	[10.11.54.5])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 49FCD9338A;
+	Wed, 22 Apr 2020 19:05:59 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+	[10.5.11.23])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 03MHOSsp025397 for <linux-audit@listman.util.phx.redhat.com>;
-	Wed, 22 Apr 2020 13:24:29 -0400
+	id 03MJ5l0W001300 for <linux-audit@listman.util.phx.redhat.com>;
+	Wed, 22 Apr 2020 15:05:47 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id D55FD11321; Wed, 22 Apr 2020 17:24:28 +0000 (UTC)
+	id 3A72D19C70; Wed, 22 Apr 2020 19:05:47 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from mimecast-mx02.redhat.com
-	(mimecast05.extmail.prod.ext.rdu2.redhat.com [10.11.55.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id D0D8D10C17
-	for <linux-audit@redhat.com>; Wed, 22 Apr 2020 17:24:26 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [207.211.31.81])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3758080CDAE
-	for <linux-audit@redhat.com>; Wed, 22 Apr 2020 17:24:26 +0000 (UTC)
-Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com
-	[209.85.208.65]) (Using TLS) by relay.mimecast.com with ESMTP id
-	us-mta-181-SU6LUvfLNfu3qNt5kfaYHQ-1; Wed, 22 Apr 2020 13:24:23 -0400
-X-MC-Unique: SU6LUvfLNfu3qNt5kfaYHQ-1
-Received: by mail-ed1-f65.google.com with SMTP id p16so2094585edm.10
-	for <linux-audit@redhat.com>; Wed, 22 Apr 2020 10:24:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=APNUHzLUzqMTjpD++gENW9cK47rOtpcZ7nOkDc65bfc=;
-	b=cby9qmAiBiC+ALdhUL98gY16/eEFnnM2shRIFFo2R1RMmLOWZICFCU9d7DxJBtYH1h
-	SY9PmMForOdYMvYCGDfvZpGTi9ZTQV9WrMpmhcS6gbiRoRC1W1Tmw+QYRfmT2Rs0vzf8
-	lVpvDPAhHFzMvOuRIVNlZAGfdJg5LCSiKZkccItefR3S87zeNnv8gpvzBz1Niv+wQIT8
-	oyMt1oah/ozJ6XfK3JIfyFDKiXg5czEJ8Is3RZACdoL0T35Qqp3xiyAVHGTOa4b8Iglg
-	XQOL+Qw5XHUgj3X3ZoGKc8obOFf53l0oSJObvrcHvhusDg3+JXzoo83zTjRnOp2oiOXt
-	xmAA==
-X-Gm-Message-State: AGi0PubwbDXCYwrTwcM4g7RTrhvDfhRDYZeBNHY0qCFOOvKTSRhEyeud
-	nOqGvsGzRegceoi+9Cb7ztohl2T6aHwDdHV6HBN+
-X-Google-Smtp-Source: APiQypIMvd7pFypaVAqurmo05vROlLEFVqAJCW3HhL11RtC5L7kaKf1j+c3e9Byi2T3gVtDbCY5W8CN8v1dmSnAPJR0=
-X-Received: by 2002:a05:6402:1adc:: with SMTP id
-	ba28mr11965299edb.12.1587576262305; 
-	Wed, 22 Apr 2020 10:24:22 -0700 (PDT)
+Received: from madcap2.tricolour.ca (unknown [10.3.128.9])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id C787C19C69;
+	Wed, 22 Apr 2020 19:05:40 +0000 (UTC)
+Date: Wed, 22 Apr 2020 15:05:37 -0400
+From: Richard Guy Briggs <rgb@redhat.com>
+To: Paul Moore <paul@paul-moore.com>
+Subject: Re: [PATCH] audit: fix a net reference leak in audit_list_rules_send()
+Message-ID: <20200422190537.frfshym7stqjscih@madcap2.tricolour.ca>
+References: <158748523449.111602.4138038965474505567.stgit@chester>
 MIME-Version: 1.0
-References: <20200318215550.es4stkjwnefrfen2@madcap2.tricolour.ca>
-	<CAHC9VhSdDDP7Ec-w61NhGxZG5ZiekmrBCAg=Y=VJvEZcgQh46g@mail.gmail.com>
-	<20200319220249.jyr6xmwvflya5mks@madcap2.tricolour.ca>
-	<CAHC9VhR84aN72yNB_j61zZgrQV1y6yvrBLNY7jp7BqQiEDL+cw@mail.gmail.com>
-	<20200324210152.5uydf3zqi3dwshfu@madcap2.tricolour.ca>
-	<CAHC9VhTQUnVhoN3JXTAQ7ti+nNLfGNVXhT6D-GYJRSpJHCwDRg@mail.gmail.com>
-	<20200330134705.jlrkoiqpgjh3rvoh@madcap2.tricolour.ca>
-	<CAHC9VhQTsEMcYAF1CSHrrVn07DR450W9j6sFVfKAQZ0VpheOfw@mail.gmail.com>
-	<20200330162156.mzh2tsnovngudlx2@madcap2.tricolour.ca>
-	<CAHC9VhTRzZXJ6yUFL+xZWHNWZFTyiizBK12ntrcSwmgmySbkWw@mail.gmail.com>
-	<20200330174937.xalrsiev7q3yxsx2@madcap2.tricolour.ca>
-	<CAHC9VhR_bKSHDn2WAUgkquu+COwZUanc0RV3GRjMDvpoJ5krjQ@mail.gmail.com>
-	<871ronf9x2.fsf@x220.int.ebiederm.org>
-	<CAHC9VhR3gbmj5+5MY-whLtStKqDEHgvMRigU9hW0X1kpxF91ag@mail.gmail.com>
-	<871rol7nw3.fsf@x220.int.ebiederm.org>
-In-Reply-To: <871rol7nw3.fsf@x220.int.ebiederm.org>
-From: Paul Moore <paul@paul-moore.com>
-Date: Wed, 22 Apr 2020 13:24:10 -0400
-Message-ID: <CAHC9VhQvhja=vUEbT3uJgQqpj-480HZzWV7b5oc2GWtzFN1qJw@mail.gmail.com>
-Subject: Re: [PATCH ghak90 V8 07/16] audit: add contid support for signalling
-	the audit daemon
-To: "Eric W. Biederman" <ebiederm@xmission.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-X-MIME-Autoconverted: from quoted-printable to 8bit by
-	lists01.pubmisc.prod.ext.phx2.redhat.com id 03MHOSsp025397
+In-Reply-To: <158748523449.111602.4138038965474505567.stgit@chester>
+User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-loop: linux-audit@redhat.com
-Cc: nhorman@tuxdriver.com, Richard Guy Briggs <rgb@redhat.com>,
-	linux-api@vger.kernel.org, containers@lists.linux-foundation.org,
-	LKML <linux-kernel@vger.kernel.org>, dhowells@redhat.com,
-	linux-audit@redhat.com, netfilter-devel@vger.kernel.org,
-	simo@redhat.com, netdev@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	Eric Paris <eparis@parisplace.org>, mpatel@redhat.com,
-	Serge Hallyn <serge@hallyn.com>
+Cc: linux-audit@redhat.com, teroincn@gmail.com
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -118,162 +67,118 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
-On Fri, Apr 17, 2020 at 6:26 PM Eric W. Biederman <ebiederm@xmission.com> wrote:
-> Paul Moore <paul@paul-moore.com> writes:
-> > On Thu, Apr 16, 2020 at 4:36 PM Eric W. Biederman <ebiederm@xmission.com> wrote:
-> >> Paul Moore <paul@paul-moore.com> writes:
-> >> > On Mon, Mar 30, 2020 at 1:49 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> >> >> On 2020-03-30 13:34, Paul Moore wrote:
-> >> >> > On Mon, Mar 30, 2020 at 12:22 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> >> >> > > On 2020-03-30 10:26, Paul Moore wrote:
-> >> >> > > > On Mon, Mar 30, 2020 at 9:47 AM Richard Guy Briggs <rgb@redhat.com> wrote:
-> >> >> > > > > On 2020-03-28 23:11, Paul Moore wrote:
-> >> >> > > > > > On Tue, Mar 24, 2020 at 5:02 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> >> >> > > > > > > On 2020-03-23 20:16, Paul Moore wrote:
-> >> >> > > > > > > > On Thu, Mar 19, 2020 at 6:03 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> >> >> > > > > > > > > On 2020-03-18 18:06, Paul Moore wrote:
-> >> >
-> >> > ...
-> >> >
-> >> >> > > Well, every time a record gets generated, *any* record gets generated,
-> >> >> > > we'll need to check for which audit daemons this record is in scope and
-> >> >> > > generate a different one for each depending on the content and whether
-> >> >> > > or not the content is influenced by the scope.
-> >> >> >
-> >> >> > That's the problem right there - we don't want to have to generate a
-> >> >> > unique record for *each* auditd on *every* record.  That is a recipe
-> >> >> > for disaster.
-> >> >> >
-> >> >> > Solving this for all of the known audit records is not something we
-> >> >> > need to worry about in depth at the moment (although giving it some
-> >> >> > casual thought is not a bad thing), but solving this for the audit
-> >> >> > container ID information *is* something we need to worry about right
-> >> >> > now.
-> >> >>
-> >> >> If you think that a different nested contid value string per daemon is
-> >> >> not acceptable, then we are back to issuing a record that has only *one*
-> >> >> contid listed without any nesting information.  This brings us back to
-> >> >> the original problem of keeping *all* audit log history since the boot
-> >> >> of the machine to be able to track the nesting of any particular contid.
-> >> >
-> >> > I'm not ruling anything out, except for the "let's just completely
-> >> > regenerate every record for each auditd instance".
-> >>
-> >> Paul I am a bit confused about what you are referring to when you say
-> >> regenerate every record.
-> >>
-> >> Are you saying that you don't want to repeat the sequence:
-> >>         audit_log_start(...);
-> >>         audit_log_format(...);
-> >>         audit_log_end(...);
-> >> for every nested audit daemon?
-> >
-> > If it can be avoided yes.  Audit performance is already not-awesome,
-> > this would make it even worse.
->
-> As far as I can see not repeating sequences like that is fundamental
-> for making this work at all.  Just because only the audit subsystem
-> should know about one or multiple audit daemons.  Nothing else should
-> care.
+On 2020-04-21 12:07, Paul Moore wrote:
+> If audit_list_rules_send() fails when trying to create a new thread
+> to send the rules it also fails to cleanup properly, leaking a
+> reference to a net structure.  This patch fixes the error patch and
+> renames audit_send_list() to audit_send_list_thread() to better
+> match its cousin, audit_send_reply_thread().
 
-Yes, exactly, this has been mentioned in the past.  Both the
-performance hit and the code complication in the caller are things we
-must avoid.
+Ok, like audit_send_reply(), looks good to me.
 
-> >> Or are you saying that you would like to literraly want to send the same
-> >> skb to each of the nested audit daemons?
-> >
-> > Ideally we would reuse the generated audit messages as much as
-> > possible.  Less work is better.  That's really my main concern here,
-> > let's make sure we aren't going to totally tank performance when we
-> > have a bunch of nested audit daemons.
->
-> So I think there are two parts of this answer.  Assuming we are talking
-> about nesting audit daemons in containers we will have different
-> rulesets and I expect most of the events for a nested audit daemon won't
-> be of interest to the outer audit daemon.
+> Reported-by: teroincn@gmail.com
+> Signed-off-by: Paul Moore <paul@paul-moore.com>
 
-Yes, this is another thing that Richard and I have discussed in the
-past.  We will basically need to create per-daemon queues, rules,
-tracking state, etc.; that is easy enough.  What will be slightly more
-tricky is the part where we apply the filters to the individual
-records and decide if that record is valid/desired for a given daemon.
-I think it can be done without too much pain, and any changes to the
-callers, but it will require a bit of work to make sure it is done
-well and that records are needlessly duplicated in the kernel.
+Reviewed-by: Richard Guy Briggs <rgb@redhat.com>
 
-> Beyond that it should be very straight forward to keep a pointer and
-> leave the buffer as a scatter gather list until audit_log_end
-> and translate pids, and rewrite ACIDs attributes in audit_log_end
-> when we build the final packet.  Either through collaboration with
-> audit_log_format or a special audit_log command that carefully sets
-> up the handful of things that need that information.
+> ---
+>  kernel/audit.c       |    2 +-
+>  kernel/audit.h       |    2 +-
+>  kernel/auditfilter.c |   16 +++++++---------
+>  3 files changed, 9 insertions(+), 11 deletions(-)
+> 
+> diff --git a/kernel/audit.c b/kernel/audit.c
+> index 66b81358b64f..622c30246d19 100644
+> --- a/kernel/audit.c
+> +++ b/kernel/audit.c
+> @@ -880,7 +880,7 @@ static int kauditd_thread(void *dummy)
+>  	return 0;
+>  }
+>  
+> -int audit_send_list(void *_dest)
+> +int audit_send_list_thread(void *_dest)
+>  {
+>  	struct audit_netlink_list *dest = _dest;
+>  	struct sk_buff *skb;
+> diff --git a/kernel/audit.h b/kernel/audit.h
+> index 2eed4d231624..f0233dc40b17 100644
+> --- a/kernel/audit.h
+> +++ b/kernel/audit.h
+> @@ -229,7 +229,7 @@ struct audit_netlink_list {
+>  	struct sk_buff_head q;
+>  };
+>  
+> -int audit_send_list(void *_dest);
+> +int audit_send_list_thread(void *_dest);
+>  
+>  extern int selinux_audit_rule_update(void);
+>  
+> diff --git a/kernel/auditfilter.c b/kernel/auditfilter.c
+> index 026e34da4ace..a10e2997aa6c 100644
+> --- a/kernel/auditfilter.c
+> +++ b/kernel/auditfilter.c
+> @@ -1161,11 +1161,8 @@ int audit_rule_change(int type, int seq, void *data, size_t datasz)
+>   */
+>  int audit_list_rules_send(struct sk_buff *request_skb, int seq)
+>  {
+> -	u32 portid = NETLINK_CB(request_skb).portid;
+> -	struct net *net = sock_net(NETLINK_CB(request_skb).sk);
+>  	struct task_struct *tsk;
+>  	struct audit_netlink_list *dest;
+> -	int err = 0;
+>  
+>  	/* We can't just spew out the rules here because we might fill
+>  	 * the available socket buffer space and deadlock waiting for
+> @@ -1173,25 +1170,26 @@ int audit_list_rules_send(struct sk_buff *request_skb, int seq)
+>  	 * happen if we're actually running in the context of auditctl
+>  	 * trying to _send_ the stuff */
+>  
+> -	dest = kmalloc(sizeof(struct audit_netlink_list), GFP_KERNEL);
+> +	dest = kmalloc(sizeof(*dest), GFP_KERNEL);
+>  	if (!dest)
+>  		return -ENOMEM;
+> -	dest->net = get_net(net);
+> -	dest->portid = portid;
+> +	dest->net = get_net(sock_net(NETLINK_CB(request_skb).sk));
+> +	dest->portid = NETLINK_CB(request_skb).portid;
+>  	skb_queue_head_init(&dest->q);
+>  
+>  	mutex_lock(&audit_filter_mutex);
+>  	audit_list_rules(seq, &dest->q);
+>  	mutex_unlock(&audit_filter_mutex);
+>  
+> -	tsk = kthread_run(audit_send_list, dest, "audit_send_list");
+> +	tsk = kthread_run(audit_send_list_thread, dest, "audit_send_list");
+>  	if (IS_ERR(tsk)) {
+>  		skb_queue_purge(&dest->q);
+> +		put_net(dest->net);
+>  		kfree(dest);
+> -		err = PTR_ERR(tsk);
+> +		return PTR_ERR(tsk);
+>  	}
+>  
+> -	return err;
+> +	return 0;
+>  }
+>  
+>  int audit_comparator(u32 left, u32 op, u32 right)
+> 
 
-In order to maximize record re-use I think we will want to hold off on
-assembling the final packet until it is sent to the daemons in the
-kauditd thread.  We'll also likely need to create special
-audit_log_XXX functions to capture fields which we know will need
-translation, e.g. ACID information.  (the reason for the new
-audit_log_XXX functions would be to mark the new sg element and ensure
-the buffer is handled correctly)
+- RGB
 
-Regardless of the details, I think the scatter gather approach is the
-key here - that seems like the best design idea I've seen thus far.
-It enables us to replace portions of the record as needed ... and
-possibly use the existing skb cow stuff ... it has been a while, but
-does the skb cow functions handle scatter gather skbs or do they need
-to be linear?
-
-> Hmm.  I am seeing that we send skbs to kauditd and then kauditd
-> sends those skbs to userspace.  I presume that is primary so that
-> sending messages to userspace does not block the process being audited.
-> Plus a little bit so that the retry logic will work.
-
-Long story short, it's a poor design.  I'm not sure who came up with
-it, but I have about a 1000 questions that are variations on "why did
-this seem like a good idea?".
-
-I expect the audit_buffer definition to change significantly during
-the nested auditd work.
-
-> I think the naive implementation would be to simply have 1 kauditd
-> per auditd (strictly and audit context/namespace).  Although that can be
-> optimized if that is a problem.
->
-> Beyond that I think we would need to look at profiles to really
-> understand where the bottlenecks are.
-
-Agreed.  This is a hidden implementation detail that doesn't affect
-the userspace API or the in-kernel callers.  The first approach can be
-simple and we can complicate it as needed in future versions.
-
-> > I'm open to any ideas people may have.  We have a problem, let's solve
-> > it.
->
-> It definitely makes sense to look ahead to having audit daemons running
-> in containers, but in the grand scheme of things that is a nice to have.
-> Probably something we will and should get to, but we have lived a long
-> time without auditd running in containers so I expect we can live a
-> while longer.
-
-It looks like you are confusing my concern.  I'm not pushing Richard
-to implement support for this in the current patchset, I'm pushing
-Richard to consider the design aspect of having multiple audit daemons
-so that we don't code ourselves into a corner with the audit record
-changes he is proposing.  The audit record format is part of the
-kernel/userspace API and as a result requires great care when
-modifying/extending/etc.
-
--- 
-paul moore
-www.paul-moore.com
-
+--
+Richard Guy Briggs <rgb@redhat.com>
+Sr. S/W Engineer, Kernel Security, Base Operating Systems
+Remote, Ottawa, Red Hat Canada
+IRC: rgb, SunRaycer
+Voice: +1.647.777.2635, Internal: (81) 32635
 
 --
 Linux-audit mailing list
