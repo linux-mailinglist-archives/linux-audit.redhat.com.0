@@ -1,74 +1,74 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com [207.211.31.81])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C6121B4508
-	for <lists+linux-audit@lfdr.de>; Wed, 22 Apr 2020 14:25:41 +0200 (CEST)
+Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [207.211.31.81])
+	by mail.lfdr.de (Postfix) with ESMTP id D49BA1B4509
+	for <lists+linux-audit@lfdr.de>; Wed, 22 Apr 2020 14:25:43 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1587558340;
+	s=mimecast20190719; t=1587558342;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
 	bh=GVgQx7Tr9/ANtpOF4t3IUkjg4lbGxA/HJy2aHAbuLGA=;
-	b=Yos8C3J6kbgyuXBHONV46OF47l/99P+6BAdQQnDnbNFlEUPWK66CS90+REof2gkLjloF1l
-	nxLoXd7Fnqwm37DqWZKdyJGA8TUoGvc3AVHecumAqG1xMw+dHuifMQdqKyHs6U5wu14BmJ
-	JRE8h4w+4klvZxYnUn7zIo9wZgjPZUo=
+	b=FIH1YGxZ04TtCHVynFDNsXODh0ILbc83JV6K+T1ldxF9rH0aRjiXfaqgPABFlc7/Sm+BVJ
+	/EGHA1A77t2+iWdUO27SVPqlemwKIUFxdiut/M+tO+zaSUAXH4Oeev8kT/OTvH7j8UCAc0
+	sIZ+5Khar6SoQhhH/o+TptBaE6fVTVk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-151-yAMXaf91NGCO3Ji_2dFrbg-1; Wed, 22 Apr 2020 08:25:38 -0400
-X-MC-Unique: yAMXaf91NGCO3Ji_2dFrbg-1
+ us-mta-361-McIpZoQmOm2iXZgA7_oT9w-1; Wed, 22 Apr 2020 08:25:41 -0400
+X-MC-Unique: McIpZoQmOm2iXZgA7_oT9w-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ABCDB8017FC;
-	Wed, 22 Apr 2020 12:25:32 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 735715C1D4;
-	Wed, 22 Apr 2020 12:25:30 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C50A78017F3;
+	Wed, 22 Apr 2020 12:25:35 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 336EB5C1D4;
+	Wed, 22 Apr 2020 12:25:34 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 65146941BE;
-	Wed, 22 Apr 2020 12:25:24 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
-	[10.11.54.3])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id E7C801809541;
+	Wed, 22 Apr 2020 12:25:32 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+	[10.11.54.4])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 03M6R4N5008172 for <linux-audit@listman.util.phx.redhat.com>;
-	Wed, 22 Apr 2020 02:27:05 -0400
+	id 03M6Shpl008304 for <linux-audit@listman.util.phx.redhat.com>;
+	Wed, 22 Apr 2020 02:28:43 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id A008512172E6; Wed, 22 Apr 2020 06:27:04 +0000 (UTC)
+	id 3EA6C2026D66; Wed, 22 Apr 2020 06:28:43 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
-	(mimecast01.extmail.prod.ext.rdu2.redhat.com [10.11.55.17])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 9BCAD12172F0
-	for <linux-audit@redhat.com>; Wed, 22 Apr 2020 06:27:02 +0000 (UTC)
+	(mimecast04.extmail.prod.ext.rdu2.redhat.com [10.11.55.20])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 397C12026D68
+	for <linux-audit@redhat.com>; Wed, 22 Apr 2020 06:28:41 +0000 (UTC)
 Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
-	[207.211.31.120])
+	[205.139.110.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1F11686BCCF
-	for <linux-audit@redhat.com>; Wed, 22 Apr 2020 06:27:02 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4FD4C101A55A
+	for <linux-audit@redhat.com>; Wed, 22 Apr 2020 06:28:41 +0000 (UTC)
 Received: from huawei.com (szxga07-in.huawei.com [45.249.212.35]) (Using
 	TLS) by relay.mimecast.com with ESMTP id
-	us-mta-509-mpeVEy3iMf6y82yxCaZ8wQ-1; Wed, 22 Apr 2020 02:26:59 -0400
-X-MC-Unique: mpeVEy3iMf6y82yxCaZ8wQ-1
-Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.60])
-	by Forcepoint Email with ESMTP id E0A2B3AF72C7985D68D7;
-	Wed, 22 Apr 2020 14:10:51 +0800 (CST)
+	us-mta-368-cXFIE08hNBi_MTG_2PyaCA-1; Wed, 22 Apr 2020 02:28:38 -0400
+X-MC-Unique: cXFIE08hNBi_MTG_2PyaCA-1
+Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.60])
+	by Forcepoint Email with ESMTP id 9DED9989F944452239E9;
+	Wed, 22 Apr 2020 14:28:34 +0800 (CST)
 Received: from DESKTOP-KBFSBNP.china.huawei.com (10.67.101.172) by
-	DGGEMS410-HUB.china.huawei.com (10.3.19.210) with Microsoft SMTP Server
-	id 14.3.487.0; Wed, 22 Apr 2020 14:10:50 +0800
+	DGGEMS411-HUB.china.huawei.com (10.3.19.211) with Microsoft SMTP Server
+	id 14.3.487.0; Wed, 22 Apr 2020 14:28:28 +0800
 From: Yiwen Gu <guyiwen@huawei.com>
 To: <paul@paul-moore.com>, <eparis@redhat.com>
 Subject: [PATCH] audit: allow audit_reusename to check kernel path
-Date: Wed, 22 Apr 2020 14:10:47 +0800
-Message-ID: <1587535847-37776-1-git-send-email-guyiwen@huawei.com>
+Date: Wed, 22 Apr 2020 14:28:27 +0800
+Message-ID: <1587536907-63272-1-git-send-email-guyiwen@huawei.com>
 MIME-Version: 1.0
 X-Originating-IP: [10.67.101.172]
 X-CFilter-Loop: Reflected
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
 X-MIME-Autoconverted: from quoted-printable to 8bit by
-	lists01.pubmisc.prod.ext.phx2.redhat.com id 03M6R4N5008172
+	lists01.pubmisc.prod.ext.phx2.redhat.com id 03M6Shpl008304
 X-loop: linux-audit@redhat.com
 X-Mailman-Approved-At: Wed, 22 Apr 2020 08:24:52 -0400
 Cc: linux-audit@redhat.com
