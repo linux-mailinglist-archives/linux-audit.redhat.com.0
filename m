@@ -1,95 +1,67 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com [205.139.110.120])
-	by mail.lfdr.de (Postfix) with ESMTP id 277771C1F6E
-	for <lists+linux-audit@lfdr.de>; Fri,  1 May 2020 23:15:27 +0200 (CEST)
+Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [207.211.31.81])
+	by mail.lfdr.de (Postfix) with ESMTP id 7C4E31C7C6C
+	for <lists+linux-audit@lfdr.de>; Wed,  6 May 2020 23:28:39 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1588367726;
+	s=mimecast20190719; t=1588800518;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=F6+JtJIvbQ9M2fGcxw/XpSefj/AW8s3ss4B9eQYH/5Y=;
-	b=WgBOErT4PB3wvhVHkhkwOCYzCosqIKcjsO7YhYkGtRgIMVUcwonT8RW0hBXzfV2V58TZE7
-	0uFIFKJMERf/7PpMKadwvfC1oEHDO0IgtY82fN+Q/xyBpBlIO7HaQPQU3tuLcQdMsV+03a
-	dHkPv9njsbxob5rH1+8mj11XpvfzF5U=
+	bh=mLf7Tkk7Y5aVDFMz7SfXc90S4EIpzI8CTB7gb/junEw=;
+	b=HexauQvwHlPrwoc9vWtKk/RiNumRykHEExeuRM9dnfjaEGpc7ii1SogywCWlzcmFAi8owX
+	5tCk6yZwjk7s2+W7hsoOpIA/uviC/AyeDRDiqbxn1MBFkzq747ekwgpLsaraFW4HtxI9Kc
+	Eh5tW/xwnDVwNrYvqEpCIpTlFpGB27c=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-398-GBDi_IR_OB2B7S1PEMSiuw-1; Fri, 01 May 2020 17:15:24 -0400
-X-MC-Unique: GBDi_IR_OB2B7S1PEMSiuw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+ us-mta-281-xlV1UIffMXKjLb_Uh9tUGA-1; Wed, 06 May 2020 17:28:36 -0400
+X-MC-Unique: xlV1UIffMXKjLb_Uh9tUGA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 84714800D24;
-	Fri,  1 May 2020 21:15:17 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id B477E60E1C;
-	Fri,  1 May 2020 21:15:15 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 719B27BAC;
+	Wed,  6 May 2020 21:28:28 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id ED20C5D9C5;
+	Wed,  6 May 2020 21:28:24 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 520591809542;
-	Fri,  1 May 2020 21:15:09 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
-	[10.11.54.5])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id EAF2D4CAAE;
+	Wed,  6 May 2020 21:28:12 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+	[10.5.11.22])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 041LEtC2007852 for <linux-audit@listman.util.phx.redhat.com>;
-	Fri, 1 May 2020 17:14:55 -0400
+	id 046LQXq7013082 for <linux-audit@listman.util.phx.redhat.com>;
+	Wed, 6 May 2020 17:26:33 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id 5BF131248E6; Fri,  1 May 2020 21:14:55 +0000 (UTC)
+	id 6110710021B3; Wed,  6 May 2020 21:26:33 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from mimecast-mx02.redhat.com
-	(mimecast05.extmail.prod.ext.rdu2.redhat.com [10.11.55.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 57F0C1248E0
-	for <linux-audit@redhat.com>; Fri,  1 May 2020 21:14:52 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
-	[207.211.31.120])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7B286800296
-	for <linux-audit@redhat.com>; Fri,  1 May 2020 21:14:52 +0000 (UTC)
-Received: from mail-ej1-f65.google.com (mail-ej1-f65.google.com
-	[209.85.218.65]) (Using TLS) by relay.mimecast.com with ESMTP id
-	us-mta-273-pMC2tTwHPQa4gcQahWsOlw-1; Fri, 01 May 2020 17:14:50 -0400
-X-MC-Unique: pMC2tTwHPQa4gcQahWsOlw-1
-Received: by mail-ej1-f65.google.com with SMTP id pg17so8551039ejb.9
-	for <linux-audit@redhat.com>; Fri, 01 May 2020 14:14:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=us9WMkr6wKnyYx/hgFQnJdJ65nSZxBY8d4KZLY6FNHM=;
-	b=jY5k5AXZEgJGQmJxXwrsr9Wx8iA+n/A3AmIA4SpgWAa1IgArXbu40bGOyT+TLCOnsx
-	I7pJxRifAOxMo9mOn8meeaTXO17V6E5bObVJJS3uoa2/dr+vQPNHPExdrKhBpR8rFyKY
-	vSBp+dPNFLYbvr2E26spVT5y8t63/0gesPSdhBnjLR8JyIyoxLFMxVUf00KbTP6vtD0e
-	Po2j3Ppei0WIQmZHvdcTEcLFxoeAlZ4uhZe1u5kkG8DXDsIWZrA0JHxXBWWqoqfmGjpV
-	lCzmiCTSBdk0F8Sdh2p9nRzyDSZeGBjRw99hqCrGqZhT3zG64PVtk/k4XiJEwGbX88Yu
-	S0Dg==
-X-Gm-Message-State: AGi0PuZMwNdEZWW9s+E5JzWKO0kKNvTrcGvlleo5AN1Yc6LRRvokyqYl
-	m69VGNxI9vSTVJNw6XtzPPdF9FxtK+sOaEtRVKA5
-X-Google-Smtp-Source: APiQypI06H5AjLHya/8neX/PwPs/MhJ6QoaTYrimLEvjr3QVzovpXkFejuz2QZHd7O6PUX8G9UyMM+2AOd0/OaZ90mU=
-X-Received: by 2002:a17:906:d7a2:: with SMTP id
-	pk2mr5302234ejb.272.1588367688992; 
-	Fri, 01 May 2020 14:14:48 -0700 (PDT)
+Received: from x2.localnet (ovpn-113-240.phx2.redhat.com [10.3.113.240])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id EE2B510013D9;
+	Wed,  6 May 2020 21:26:26 +0000 (UTC)
+From: Steve Grubb <sgrubb@redhat.com>
+To: Richard Guy Briggs <rgb@redhat.com>
+Subject: Re: [PATCH ghak25 v4 3/3] audit: add subj creds to NETFILTER_CFG
+	record to cover async unregister
+Date: Wed, 06 May 2020 17:26:25 -0400
+Message-ID: <3250272.v6NOfJhyum@x2>
+Organization: Red Hat
+In-Reply-To: <20200429213247.6ewxqf66i2apgyuz@madcap2.tricolour.ca>
+References: <cover.1587500467.git.rgb@redhat.com> <3348737.k9gCtgYObn@x2>
+	<20200429213247.6ewxqf66i2apgyuz@madcap2.tricolour.ca>
 MIME-Version: 1.0
-References: <1584006083-28936-1-git-send-email-chenhc@lemote.com>
-	<CAAhV-H6Jy_7N99XmBwjSEX=Fx16AY4Azt_fUNvPBZNiqxhJ_zQ@mail.gmail.com>
-In-Reply-To: <CAAhV-H6Jy_7N99XmBwjSEX=Fx16AY4Azt_fUNvPBZNiqxhJ_zQ@mail.gmail.com>
-From: Paul Moore <paul@paul-moore.com>
-Date: Fri, 1 May 2020 17:14:37 -0400
-Message-ID: <CAHC9VhTbTKF3+adVq8ubwHu7HuVJvGBgokNxSaH1f1Hcku8Rzg@mail.gmail.com>
-Subject: Re: [PATCH Resend] MIPS: Add syscall auditing support
-To: Huacai Chen <chenhuacai@gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-MIME-Autoconverted: from quoted-printable to 8bit by
-	lists01.pubmisc.prod.ext.phx2.redhat.com id 041LEtC2007852
+	lists01.pubmisc.prod.ext.phx2.redhat.com id 046LQXq7013082
 X-loop: linux-audit@redhat.com
-Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Zhangjin Wu <wuzhangjin@gmail.com>,
-	"open list:MIPS" <linux-mips@vger.kernel.org>,
-	linux-audit@redhat.com, Jiaxun Yang <jiaxun.yang@flygoat.com>,
-	Fuxin Zhang <zhangfx@lemote.com>
+Cc: fw@strlen.de, LKML <linux-kernel@vger.kernel.org>,
+	Linux-Audit Mailing List <linux-audit@redhat.com>,
+	netfilter-devel@vger.kernel.org, ebiederm@xmission.com,
+	twoerner@redhat.com, Eric Paris <eparis@parisplace.org>,
+	tgraf@infradead.org
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -103,80 +75,72 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On Mon, Apr 27, 2020 at 5:12 AM Huacai Chen <chenhuacai@gmail.com> wrote:
-> On Thu, Mar 12, 2020 at 5:33 PM Huacai Chen <chenhc@lemote.com> wrote:
-> >
-> > From: Ralf Baechle <ralf@linux-mips.org>
-> >
-> > The original patch is from Ralf. I have maintained it for more than six
-> > years on Loongson platform, and it works perfectly. Most of the commit
-> > messages are written by Ralf.
-> >
-> > MIPS doesn't quite fit into the existing pattern of other architectures
-> > and I'd appreciate your comments and maybe even an Acked-by.
-> >
-> >  - Linux on MIPS extends the traditional syscall table used by older UNIX
-> >    implementations.  This is why 32-bit Linux syscalls are starting from
-> >    4000; the native 64-bit syscalls start from 5000 and the N32 compat ABI
-> >    from 6000.  The existing syscall bitmap is only large enough for at most
-> >    2048 syscalls, so I had to increase AUDIT_BITMASK_SIZE to 256 which
-> >    provides enough space for 8192 syscalls.  Because include/uapi/linux/
-> >    audit.h and AUDIT_BITMASK_SIZE are exported to userspace I've used an
-> >    #ifdef __mips__ for this.
-
-I'm sure you're aware of the hacky nature of such a change and
-considering that it is a break in the kernel/userspace API, hacky
-changes make me nervous.  Very nervous.
-
-The ultimate fix for this would be to move away from passing structs
-across netlink and use netlink attributes; this would allow us the
-flexibility to tweak the fields like we would need for this without
-completely breaking existing systems.  However, that is a big chunk of
-work (and I'm just talking about the control plane, not the audit
-records themselves as has been discussed in the past) and I can
-understand if that is not something you want to take on at this point.
-
-A less disruptive, but even more of an awful hack would be to extend
-past the end of the audit_rule_data struct with an audit_rule_data_ext
-(?) struct (perhaps indicated by a flag), but that is tricky due the
-variable length buffer at the end of audit_rule_data.  I *really*
-dislike this idea, but it is *an* idea.
-
-I'm open to suggestions, but my current leaning is that if we are
-going to add support for MIPS, we'll need to actually do the work to
-convert the netlink control plane to use netlink attributes.
-
-> >  - The code treats the little endian MIPS architecture as separate from
-> >    big endian.  Combined with the 3 ABIs that's 6 combinations.  I tried
-> >    to sort of follow the example set by ARM which explicitly lists the
-> >    (rare) big endian architecture variant - but it doesn't seem to very
-> >    useful so I wonder if this could be squashed to just the three ABIs
-> >    without consideration of endianess?
-
-Forgive my ignorance of MIPS, but as I understand it there is 32-bit
-MIPS (old-ABI), 64-bit MIPS (new-ABI), and 64/32-bit MIPS (new-API,
-aka N32); with each having both little and big endian variants, is
-that correct?
-
-Is it also safe to assume that 64-bit MIPS (new-API) can only run
-64-bit new-API and N32 binaries and *not* 32-bit old-API binaries?
-
-I'm guessing MIPS does not support running both little and big endian
-binaries simultaneously on the same booted system?  Or does it?
-
--- 
-paul moore
-www.paul-moore.com
-
-
---
-Linux-audit mailing list
-Linux-audit@redhat.com
-https://www.redhat.com/mailman/listinfo/linux-audit
+T24gV2VkbmVzZGF5LCBBcHJpbCAyOSwgMjAyMCA1OjMyOjQ3IFBNIEVEVCBSaWNoYXJkIEd1eSBC
+cmlnZ3Mgd3JvdGU6Cj4gT24gMjAyMC0wNC0yOSAxNDo0NywgU3RldmUgR3J1YmIgd3JvdGU6Cj4g
+PiBPbiBXZWRuZXNkYXksIEFwcmlsIDI5LCAyMDIwIDEwOjMxOjQ2IEFNIEVEVCBSaWNoYXJkIEd1
+eSBCcmlnZ3Mgd3JvdGU6Cj4gPiA+IE9uIDIwMjAtMDQtMjggMTg6MjUsIFBhdWwgTW9vcmUgd3Jv
+dGU6Cj4gPiA+ID4gT24gV2VkLCBBcHIgMjIsIDIwMjAgYXQgNTo0MCBQTSBSaWNoYXJkIEd1eSBC
+cmlnZ3MgPHJnYkByZWRoYXQuY29tPgo+ID4gCj4gPiB3cm90ZToKPiA+ID4gPiA+IFNvbWUgdGFi
+bGUgdW5yZWdpc3RlciBhY3Rpb25zIHNlZW0gdG8gYmUgaW5pdGlhdGVkIGJ5IHRoZSBrZXJuZWwg
+dG8KPiA+ID4gPiA+IGdhcmJhZ2UgY29sbGVjdCB1bnVzZWQgdGFibGVzIHRoYXQgYXJlIG5vdCBp
+bml0aWF0ZWQgYnkgYW55Cj4gPiA+ID4gPiB1c2Vyc3BhY2UKPiA+ID4gPiA+IGFjdGlvbnMuICBJ
+dCB3YXMgZm91bmQgdG8gYmUgbmVjZXNzYXJ5IHRvIGFkZCB0aGUgc3ViamVjdAo+ID4gPiA+ID4g
+Y3JlZGVudGlhbHMKPiA+ID4gPiA+IHRvICBjb3ZlciB0aGlzIGNhc2UgdG8gcmV2ZWFsIHRoZSBz
+b3VyY2Ugb2YgdGhlc2UgYWN0aW9ucy4gIEEKPiA+ID4gPiA+IHNhbXBsZQo+ID4gPiA+ID4gcmVj
+b3JkOgo+ID4gPiA+ID4gdHlwZT1ORVRGSUxURVJfQ0ZHIG1zZz1hdWRpdCgyMDIwLTAzLTExIDIx
+OjI1OjIxLjQ5MToyNjkpIDoKPiA+ID4gPiA+IHRhYmxlPW5hdAo+ID4gPiA+ID4gZmFtaWx5PWJy
+aWRnZSBlbnRyaWVzPTAgb3A9dW5yZWdpc3RlciBwaWQ9MTUzIHVpZD1yb290IGF1aWQ9dW5zZXQK
+PiA+ID4gPiA+IHR0eT0obm9uZSkgc2VzPXVuc2V0IHN1Ymo9c3lzdGVtX3U6c3lzdGVtX3I6a2Vy
+bmVsX3Q6czAKPiA+ID4gPiA+IGNvbW09a3dvcmtlci91NDoyIGV4ZT0obnVsbCk+Cj4gPiA+ID4g
+Cj4gPiA+ID4gW0knbSBnb2luZyB0byBjb21tZW50IHVwIGhlcmUgaW5zdGVhZCBvZiBpbiB0aGUg
+Y29kZSBiZWNhdXNlIGl0IGlzIGEKPiA+ID4gPiBiaXQgZWFzaWVyIGZvciBldmVyeW9uZSB0byBz
+ZWUgd2hhdCB0aGUgYWN0dWFsIGltcGFjdCBtaWdodCBiZSBvbiB0aGUKPiA+ID4gPiByZWNvcmRz
+Ll0KPiA+ID4gPiAKPiA+ID4gPiBTdGV2ZSB3YW50cyBzdWJqZWN0IGluZm8gaW4gdGhpcyBjYXNl
+LCBva2F5LCBidXQgbGV0J3MgdHJ5IHRvIHRyaW0KPiA+ID4gPiBvdXQKPiA+ID4gPiBzb21lIG9m
+IHRoZSBmaWVsZHMgd2hpY2ggc2ltcGx5IGRvbid0IG1ha2Ugc2Vuc2UgaW4gdGhpcyByZWNvcmQ7
+IEknbQo+ID4gPiA+IHRoaW5raW5nIG9mIGZpZWxkcyB0aGF0IGFyZSB1bnNldC9lbXB0eSBpbiB0
+aGUga2VybmVsIGNhc2UgYW5kIGFyZQo+ID4gPiA+IGR1cGxpY2F0ZXMgb2Ygb3RoZXIgcmVjb3Jk
+cyBpbiB0aGUgdXNlcnNwYWNlL3N5c2NhbGwgY2FzZS4gIEkgdGhpbmsKPiA+ID4gPiB0aGF0IG1l
+YW5zIHdlIGNhbiBkcm9wICJ0dHkiLCAic2VzIiwgImNvbW0iLCBhbmQgImV4ZSIgLi4uIHllcz8K
+PiA+ID4gCj4gPiA+IEZyb20gdGhlIGdoYWsyOCBkaXNjdXNzaW9uLCB0aGlzIGxpc3QgYW5kIG9y
+ZGVyIHdhcyBzZWxlY3RlZCBkdWUgdG8KPiA+ID4gU3RldmUncyBwcmVmZXJlbmNlIGZvciB0aGUg
+Imtlcm5lbCIgcmVjb3JkIGNvbnZlbnRpb24sIHNvIGRldmlhdGluZwo+ID4gPiBmcm9tIHRoaXMg
+d2lsbCBjcmVhdGUgeWV0IGEgbmV3IGZpZWxkIGxpc3QuICBJJ2xsIGRlZmVyIHRvIFN0ZXZlIG9u
+Cj4gPiA+IHRoaXMuIEl0IGFsc28gaGFzIHRvIGRvIHdpdGggdGhlIHNlYXJjaGFiaWxpdHkgb2Yg
+ZmllbGRzIGlmIHRoZXkgYXJlCj4gPiA+IG1pc3NpbmcuCj4gPiA+IAo+ID4gPiBJIGRvIGFncmVl
+IHRoYXQgc29tZSBmaWVsZHMgd2lsbCBiZSBzdXBlcmZsdW91cyBpbiB0aGUga2VybmVsIGNhc2Uu
+Cj4gPiA+IFRoZSBtb3N0IGltcG9ydGFudCBmaWVsZCB3b3VsZCBiZSAic3ViaiIsIGJ1dCB0aGVu
+ICJwaWQiIGFuZCAiY29tbSIsIEkKPiA+ID4gd291bGQgdGhpbmsuICBCYXNlZCBvbiB0aGlzIGNv
+bnRlbnRzIG9mIHRoZSAic3ViaiIgZmllbGQsIEknZCB0aGluawo+ID4gPiB0aGF0ICJ1aWQiLCAi
+YXVpZCIsICJ0dHkiLCAic2VzIiBhbmQgImV4ZSIgYXJlIG5vdCBuZWVkZWQuCj4gPiAKPiA+IFdl
+IGNhbid0IGJlIGFkZGluZyBkZWxldGluZyBmaWVsZHMgYmFzZWQgb24gaG93IGl0cyB0cmlnZ2Vy
+ZWQuIElmIHRoZXkKPiA+IGFyZSB1bnNldCwgdGhhdCBpcyBmaW5lLiBUaGUgbWFpbiBpc3N1ZSBp
+cyB0aGV5IGhhdmUgdG8gYmVoYXZlIHRoZSBzYW1lLgo+IAo+IEkgZG9uJ3QgdGhpbmsgdGhlIGlu
+dGVudCB3YXMgdG8gaGF2ZSBmaWVsZHMgc3dpbmcgaW4gYW5kIG91dCBkZXBlbmRpbmcKPiBvbiB0
+cmlnZ2VyLiAgVGhlIGlkZWEgaXMgdG8gcG90ZW50aWFsbHkgcGVybWFuZW50bHkgbm90IGluY2x1
+ZGUgdGhlbSBpbgo+IHRoaXMgcmVjb3JkIHR5cGUgb25seS4gIFRoZSBqdXN0aWZpY2F0aW9uIGlz
+IHRoYXQgd2hlcmUgdGhleSBhcmVuJ3QKPiBuZWVkZWQgZm9yIHRoZSBrZXJuZWwgdHJpZ2dlciBz
+aXR1YXRpb24gaXQgbWFkZSBzZW5zZSB0byBkZWxldGUgdGhlbQo+IGJlY2F1c2UgaWYgaXQgaXMg
+YSB1c2VyIGNvbnRleHQgZXZlbnQgaXQgd2lsbCBiZSBhY2NvbXBhbmllZCBieSBhCj4gc3lzY2Fs
+bCByZWNvcmQgdGhhdCBhbHJlYWR5IGhhcyB0aGF0IGluZm9ybWF0aW9uIGFuZCB0aGVyZSB3b3Vs
+ZCBiZSBubwo+IHNlbnNlIGluIGR1cGxpY2F0aW5nIGl0LgoKV2Ugc2hvdWxkIG5vdCBiZSBhZGRp
+bmcgc3lzY2FsbCByZWNvcmRzIHRvIGFueXRoaW5nIHRoYXQgZG9lcyBub3QgcmVzdWx0IGZyb20g
+CmEgc3lzY2FsbCBydWxlIHRyaWdnZXJpbmcgdGhlIGV2ZW50LiBJdHMgdmVyeSB3YXN0ZWZ1bC4g
+TW9yZSB3YXN0ZWZ1bCB0aGFuIApqdXN0IGFkZGluZyB0aGUgbmVjZXNzYXJ5IGZpZWxkcy4KCkkg
+YWxzbyB3aXNoZWQgd2UgaGFkIGEgY29kaW5nIHNwZWNpZmljYXRpb24gdGhhdCBwdXQgdGhpcyBp
+biB3cml0aW5nIHNvIHRoYXQgCmV2ZXJ5IGV2ZW50IGlzIG5vdCBhIGNvbW1pdHRlZSBkZWNpc2lv
+bi4gVGhhdCBhbnlvbmUgY2FuIGxvb2sgYXQgdGhlIGRvY3VtZW50IAphbmQgRG8gVGhlIFJpZ2h0
+IFRoaW5nIOKEoi4KCklmIEkgYWRkIGEgc2VjdGlvbiB0byBXcml0aW5nLUdvb2QtRXZlbnRzIG91
+dGxpbmluZyB0aGUgZXhwZWN0ZWQgb3JkZXJpbmcgb2YgCmZpZWxkcywgd291bGQgdGhhdCBiZSBl
+bm91Z2ggdGhhdCB3ZSBkbyBub3QgaGF2ZSBsb25nIGRpc2N1c3Npb25zIGFib3V0IGV2ZW50IApm
+b3JtYXQ/IEknbSB0aGlua2luZyB0aGlzIHdvdWxkIGFsc28gaGVscCBuZXcgcGVvcGxlIHRoYXQg
+d2FudCB0byBjb250cmlidXRlLgoKLVN0ZXZlCgoKCi0tCkxpbnV4LWF1ZGl0IG1haWxpbmcgbGlz
+dApMaW51eC1hdWRpdEByZWRoYXQuY29tCmh0dHBzOi8vd3d3LnJlZGhhdC5jb20vbWFpbG1hbi9s
+aXN0aW5mby9saW51eC1hdWRpdA==
 
