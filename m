@@ -1,65 +1,80 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com [207.211.31.81])
-	by mail.lfdr.de (Postfix) with ESMTP id AFF1A1CB70E
-	for <lists+linux-audit@lfdr.de>; Fri,  8 May 2020 20:23:58 +0200 (CEST)
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com [205.139.110.61])
+	by mail.lfdr.de (Postfix) with ESMTP id 5F05E1CB98F
+	for <lists+linux-audit@lfdr.de>; Fri,  8 May 2020 23:13:23 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1588962237;
+	s=mimecast20190719; t=1588972402;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=aDB8fWNopuP0ryt7zmJQP2GW2tSqtw1NRc4tdDVGUtM=;
-	b=Te87erOMUolbCImbQL+AnJ4d/gdUGYvmlbxuc4pdC82rUfSw68MNA4J2RKpZXD5DIlmFQl
-	hgGyctui6rd/pIa106FwziWFjDXbrwMLacldMbHSCXHaUhYVqsAA9wgv6FkvGHh62Z2V4C
-	AM9Ly/y1G6U6ESMJPPhKml73lFfPZKM=
+	bh=ROEo1SIORKse1vbIf//cc12w7b2HvOEffFBoJ8eL4Xg=;
+	b=KpoBXVjCjjKY2XZLve5X6xJldhcaJ8bQjdcQfvDLEMuHx4PXvIO7ic0u9Z6v2WRl1JLXLi
+	mw9orsoXLq36p8nlDOTTWWCPEhKpiqlf80VhzPNQDRpOCjEBZbR07XfBerHwuP0sM6olQL
+	w4jIEZHx7i/bF1d2Vcz9H7GYhGeFjYc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-503-5A_0W27ZPcycKcTypvOOkQ-1; Fri, 08 May 2020 14:23:55 -0400
-X-MC-Unique: 5A_0W27ZPcycKcTypvOOkQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+ us-mta-312-LrrK5Gy0MbyfGmoJXEfjRw-1; Fri, 08 May 2020 17:13:20 -0400
+X-MC-Unique: LrrK5Gy0MbyfGmoJXEfjRw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6CF571005510;
-	Fri,  8 May 2020 18:23:49 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 6B08362A50;
-	Fri,  8 May 2020 18:23:46 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 41C918730BF;
+	Fri,  8 May 2020 21:13:14 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 43A381D4;
+	Fri,  8 May 2020 21:13:11 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id D0B2E4CAA0;
-	Fri,  8 May 2020 18:23:38 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
-	[10.5.11.15])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 80ECB1809543;
+	Fri,  8 May 2020 21:13:03 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+	[10.11.54.3])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 048INPEV007027 for <linux-audit@listman.util.phx.redhat.com>;
-	Fri, 8 May 2020 14:23:25 -0400
+	id 048LB9uB018224 for <linux-audit@listman.util.phx.redhat.com>;
+	Fri, 8 May 2020 17:11:09 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id C89BE62A50; Fri,  8 May 2020 18:23:25 +0000 (UTC)
+	id 74E5C10548C7; Fri,  8 May 2020 21:11:09 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from x2.localnet (ovpn-113-49.phx2.redhat.com [10.3.113.49])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 57FFA6AD1B;
-	Fri,  8 May 2020 18:23:18 +0000 (UTC)
-From: Steve Grubb <sgrubb@redhat.com>
-To: Richard Guy Briggs <rgb@redhat.com>
-Subject: Re: [PATCH ghak25 v4 3/3] audit: add subj creds to NETFILTER_CFG
-	record to cover async unregister
-Date: Fri, 08 May 2020 14:23:17 -0400
-Message-ID: <1894903.vQEQaK82eK@x2>
-Organization: Red Hat
-In-Reply-To: <20200506224233.najv6ltb5gzcicqb@madcap2.tricolour.ca>
-References: <cover.1587500467.git.rgb@redhat.com> <3250272.v6NOfJhyum@x2>
-	<20200506224233.najv6ltb5gzcicqb@madcap2.tricolour.ca>
+Received: from mimecast-mx02.redhat.com
+	(mimecast05.extmail.prod.ext.rdu2.redhat.com [10.11.55.21])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 70A931054897
+	for <linux-audit@redhat.com>; Fri,  8 May 2020 21:11:07 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+	[207.211.31.120])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3FDAA80CDB0
+	for <linux-audit@redhat.com>; Fri,  8 May 2020 21:11:07 +0000 (UTC)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99]) (Using TLS)
+	by relay.mimecast.com with ESMTP id us-mta-119-OUsn193oOAil2rIVAD-pfA-1;
+	Fri, 08 May 2020 17:10:58 -0400
+X-MC-Unique: OUsn193oOAil2rIVAD-pfA-1
+Received: from embeddedor (unknown [189.207.59.248])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.kernel.org (Postfix) with ESMTPSA id 31DCB2173E;
+	Fri,  8 May 2020 21:10:57 +0000 (UTC)
+Date: Fri, 8 May 2020 16:15:25 -0500
+From: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+To: Paul Moore <paul@paul-moore.com>
+Subject: Re: [PATCH] audit: mark expected switch fall-through
+Message-ID: <20200508211525.GE23375@embeddedor>
+References: <20190212204600.GA24049@embeddedor>
+	<CAHC9VhQfru298ZbEDwEqj0+YRAYoAGhAVHEtSo3KBW1kKLputw@mail.gmail.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <CAHC9VhQfru298ZbEDwEqj0+YRAYoAGhAVHEtSo3KBW1kKLputw@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
+X-MIME-Autoconverted: from quoted-printable to 8bit by
+	lists01.pubmisc.prod.ext.phx2.redhat.com id 048LB9uB018224
 X-loop: linux-audit@redhat.com
-Cc: fw@strlen.de, LKML <linux-kernel@vger.kernel.org>,
-	Linux-Audit Mailing List <linux-audit@redhat.com>,
-	netfilter-devel@vger.kernel.org, ebiederm@xmission.com,
-	twoerner@redhat.com, Eric Paris <eparis@parisplace.org>,
-	tgraf@infradead.org
+X-Mailman-Approved-At: Fri, 08 May 2020 17:12:51 -0400
+Cc: linux-audit@redhat.com, linux-kernel@vger.kernel.org,
+	"Gustavo A. R. Silva" <gustavo@embeddedor.com>
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -73,51 +88,33 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
 
-On Wednesday, May 6, 2020 6:42:33 PM EDT Richard Guy Briggs wrote:
-> > > > We can't be adding deleting fields based on how its triggered. If
-> > > > they are unset, that is fine. The main issue is they have to behave
-> > > > the same.
-> > > 
-> > > I don't think the intent was to have fields swing in and out depending
-> > > on trigger.  The idea is to potentially permanently not include them in
-> > > this record type only.  The justification is that where they aren't
-> > > needed for the kernel trigger situation it made sense to delete them
-> > > because if it is a user context event it will be accompanied by a
-> > > syscall record that already has that information and there would be no
-> > > sense in duplicating it.
-> > 
-> > We should not be adding syscall records to anything that does not result
-> > from a syscall rule triggering the event. Its very wasteful. More
-> > wasteful than just adding the necessary fields.
-> 
-> So what you are saying is you want all the fields that are being
-> proposed to be added to this record?
-
-Yes.
-
-> If the records are all from one event, they all should all have the same
-> timestamp/serial number so that the records are kept together and not
-> mistaken for multiple events.
-
-But NETFILTER_CFG is a simple event known to have only 1 record.
-
-> One reason for having information in seperate records is to be able to
-> filter them either in kernel or in userspace if you don't need certain
-> records.
-
-We can't filter out SYSCALL.
-
--Steve
-
-
---
-Linux-audit mailing list
-Linux-audit@redhat.com
-https://www.redhat.com/mailman/listinfo/linux-audit
+T24gVHVlLCBGZWIgMTIsIDIwMTkgYXQgMDg6MTk6NDRQTSAtMDUwMCwgUGF1bCBNb29yZSB3cm90
+ZToKPiBPbiBUdWUsIEZlYiAxMiwgMjAxOSBhdCAzOjQ2IFBNIEd1c3Rhdm8gQS4gUi4gU2lsdmEK
+PiA8Z3VzdGF2b0BlbWJlZGRlZG9yLmNvbT4gd3JvdGU6Cj4gPiBJbiBwcmVwYXJhdGlvbiB0byBl
+bmFibGluZyAtV2ltcGxpY2l0LWZhbGx0aHJvdWdoLCBtYXJrIHN3aXRjaAo+ID4gY2FzZXMgd2hl
+cmUgd2UgYXJlIGV4cGVjdGluZyB0byBmYWxsIHRocm91Z2guCj4gPgo+ID4gVGhpcyBwYXRjaCBm
+aXhlcyB0aGUgZm9sbG93aW5nIHdhcm5pbmc6Cj4gPgo+ID4ga2VybmVsL2F1ZGl0ZmlsdGVyLmM6
+IEluIGZ1bmN0aW9uIOKAmGF1ZGl0X2tydWxlX3RvX2RhdGHigJk6Cj4gPiBrZXJuZWwvYXVkaXRm
+aWx0ZXIuYzo2Njg6Nzogd2FybmluZzogdGhpcyBzdGF0ZW1lbnQgbWF5IGZhbGwgdGhyb3VnaCBb
+LVdpbXBsaWNpdC1mYWxsdGhyb3VnaD1dCj4gPiAgICAgaWYgKGtydWxlLT5wZmxhZ3MgJiBBVURJ
+VF9MT0dJTlVJRF9MRUdBQ1kgJiYgIWYtPnZhbCkgewo+ID4gICAgICAgIF4KPiA+IGtlcm5lbC9h
+dWRpdGZpbHRlci5jOjY3NDozOiBub3RlOiBoZXJlCj4gPiAgICBkZWZhdWx0Ogo+ID4gICAgXn5+
+fn5+fgo+ID4KPiA+IFdhcm5pbmcgbGV2ZWwgMyB3YXMgdXNlZDogLVdpbXBsaWNpdC1mYWxsdGhy
+b3VnaD0zCj4gPgo+ID4gTm90aWNlIHRoYXQsIGluIHRoaXMgcGFydGljdWxhciBjYXNlLCB0aGUg
+Y29kZSBjb21tZW50IGlzIG1vZGlmaWVkCj4gPiBpbiBhY2NvcmRhbmNlIHdpdGggd2hhdCBHQ0Mg
+aXMgZXhwZWN0aW5nIHRvIGZpbmQuCj4gPgo+ID4gVGhpcyBwYXRjaCBpcyBwYXJ0IG9mIHRoZSBv
+bmdvaW5nIGVmZm9ydHMgdG8gZW5hYmxlCj4gPiAtV2ltcGxpY2l0LWZhbGx0aHJvdWdoLgo+ID4K
+PiA+IFNpZ25lZC1vZmYtYnk6IEd1c3Rhdm8gQS4gUi4gU2lsdmEgPGd1c3Rhdm9AZW1iZWRkZWRv
+ci5jb20+Cj4gPiAtLS0KPiA+ICBrZXJuZWwvYXVkaXRmaWx0ZXIuYyB8IDIgKy0KPiA+ICAxIGZp
+bGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKPiAKPiBNZXJnZWQgaW50
+byBhdWRpdC9uZXh0LCB0aGFua3MuCj4gCgpUaGFua3MsIFBhdWwuCgotLQpHdXN0YXZvCgoKLS0K
+TGludXgtYXVkaXQgbWFpbGluZyBsaXN0CkxpbnV4LWF1ZGl0QHJlZGhhdC5jb20KaHR0cHM6Ly93
+d3cucmVkaGF0LmNvbS9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LWF1ZGl0
 
