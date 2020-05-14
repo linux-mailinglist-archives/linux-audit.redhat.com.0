@@ -1,62 +1,96 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com [205.139.110.61])
-	by mail.lfdr.de (Postfix) with ESMTP id 180861D34C9
-	for <lists+linux-audit@lfdr.de>; Thu, 14 May 2020 17:16:17 +0200 (CEST)
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com [205.139.110.120])
+	by mail.lfdr.de (Postfix) with ESMTP id CBDA41D408B
+	for <lists+linux-audit@lfdr.de>; Fri, 15 May 2020 00:12:32 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1589469377;
+	s=mimecast20190719; t=1589494351;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:list-id:list-help:
-	 list-unsubscribe:list-subscribe:list-post;
-	bh=K1dDwAd0Z8oAGmpSkeYrcn5Sm7Sd1MI2xPjTThNAASs=;
-	b=CnW7r7WPK1Lgsij1exvK4tUJEuhuPet+gxl1uSQwe4sTr7WMrvvM1rTcEfqNWFkBrghOwT
-	cV5KnbFOzKWuo03EWs2R63DsUBNNGYF9NGzjyflGvmnnEISdTMy45SKwj/cI342jTj4Rd4
-	0hNT5n5M+0WqBLtARpWNXH35M7t+QHk=
+	 references:references:list-id:list-help:list-unsubscribe:
+	 list-subscribe:list-post; bh=30xG9Jt3D5lQxF0IRbxdJZ1ntDXXRgIfK/uuTeZkB14=;
+	b=J3MgQEx9dvWFWlZKqwq5a3ebW4sBY5iB2PxBxZuszwz3vI+BEsnfRWFd7deZusKv2VU7r8
+	BkvDL82HHFtXezF/yTjRZVVC0FqZjZBFeBCh3/Dt4LHRQL3J8G4iu+NI6kG46iFOZLzMYT
+	PNDGEUX7u7Y7PmOwZIMTAHbY9tjNh/k=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-492-40Sg9-Q4PgK7WKXADJ6yzg-1; Thu, 14 May 2020 11:16:13 -0400
-X-MC-Unique: 40Sg9-Q4PgK7WKXADJ6yzg-1
+ us-mta-510-6WIgQjUHNbKB5DG-0-z_MQ-1; Thu, 14 May 2020 18:12:29 -0400
+X-MC-Unique: 6WIgQjUHNbKB5DG-0-z_MQ-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2582218FF660;
-	Thu, 14 May 2020 15:16:08 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id CD6975D714;
-	Thu, 14 May 2020 15:16:04 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1D4AD835B40;
+	Thu, 14 May 2020 22:12:24 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 6FDA86E718;
+	Thu, 14 May 2020 22:12:22 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 6AB684CAB0;
-	Thu, 14 May 2020 15:16:03 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
-	[10.5.11.23])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 126771809543;
+	Thu, 14 May 2020 22:12:17 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+	[10.11.54.6])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 04EFECre011205 for <linux-audit@listman.util.phx.redhat.com>;
-	Thu, 14 May 2020 11:14:12 -0400
+	id 04EMC5gP017378 for <linux-audit@listman.util.phx.redhat.com>;
+	Thu, 14 May 2020 18:12:05 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id BE7CA261DD; Thu, 14 May 2020 15:14:12 +0000 (UTC)
+	id C1B512156A4E; Thu, 14 May 2020 22:12:04 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from madcap2.tricolour.ca (unknown [10.3.128.9])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 389639323;
-	Thu, 14 May 2020 15:14:05 +0000 (UTC)
-Date: Thu, 14 May 2020 11:14:02 -0400
-From: Richard Guy Briggs <rgb@redhat.com>
-To: Steve Grubb <sgrubb@redhat.com>
-Subject: Re: reactive audit proposal
-Message-ID: <20200514151402.jglpgcsmiiikuw2t@madcap2.tricolour.ca>
-References: <6360160.ZmnOHIC0Qm@x2>
-	<c84089d7d299313a051a0be60697872981fd95a2.camel@iinet.net.au>
-	<20200514133221.2kcvd2vpiueji2tb@madcap2.tricolour.ca>
-	<2714655.amcdOopNT1@x2>
+Received: from mimecast-mx02.redhat.com
+	(mimecast05.extmail.prod.ext.rdu2.redhat.com [10.11.55.21])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 9C1CC2156A4A
+	for <linux-audit@redhat.com>; Thu, 14 May 2020 22:12:02 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+	[207.211.31.120])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 806F880CDB0
+	for <linux-audit@redhat.com>; Thu, 14 May 2020 22:12:02 +0000 (UTC)
+Received: from sonic309-27.consmr.mail.ne1.yahoo.com
+	(sonic309-27.consmr.mail.ne1.yahoo.com [66.163.184.153]) (Using TLS) by
+	relay.mimecast.com with ESMTP id us-mta-187-eVpB57P3M5SzpIoksANisg-1;
+	Thu, 14 May 2020 18:12:00 -0400
+X-MC-Unique: eVpB57P3M5SzpIoksANisg-1
+X-YMail-OSG: MptveG8VM1l6KtSudaxnlZsatFHztXxsFkVYrLR7l2uB.peWWuAWclnRxM4JRx0
+	4XwffpCM0MkTNjLezJHMlE3KMhnRw2ccPXstovdA5wO_x7UqAiHCsf1DyIuzilyFbj2OgWElYRhW
+	RJA60shSOthxlqJJs4dOVjTTvwpHmbaXy5fWYUe0gxCT0IImYDIKRK9CW4uUQOvH1w1sYgWFdCKL
+	K0FasmPt7bFFqOkzzRwDyI6Le33qcYPRufby7FNpfdPtcNEsNuFftBsoefzHXrkAaU2dvQybY2kb
+	NVvA439JHNvl7S6nh20Teg7tlmIwMEgqZ6IoOIWVbuzgChI0m4kP9i5MeIumlq7CCjhs51tJt_CZ
+	nBuv1FBMjafg6onX_wGwAtZq_4rdf7mPG03zqv33mzpndWdpAvCmKkaz_yeefG1A7QJvUjARymby
+	eenxPi8TCrYcqd_JE0fabDiqG3n207KN5a__ORyGWh_aTC8BmSyhYJs7j0LoxGsTCQGtd1j6xas_
+	q.IiksJGgEBA_NMHD.uNPU2OuLHAVpUYVpqxMUc2Urbl9luDR6_4K4GznTA3vrPFVy1QltFOP8Ay
+	3SaqJJ_21veNJnmVJ81MBdL3LZDsxKL1E0yvqvObs8CuhHoXovbrGKSit1kUpbb56fVV6k1CF_HD
+	uEu0GIF9TZ5KxrfLiytodAukDlh6Pmnb7.ZV.ufTqcgQinHM5IXYpVLmdBfP57pj0lfRr5rrUFmc
+	h94edasJcrrjGUu1FmYVjU2l.tUSu75IQc.v5AGlbsGLdmJnZvP50m871vs5wbmMZJyEuMk_Fwxk
+	F.t717Mjcvli4Xv5SumL_X3IDGUnF0xNSVmuJHYhwgEL7RglHVEyXlOEfBY7HV_JbRwPU9KXMEaI
+	NpJuA4bo1L.TtCyye8jZnpl.PCwO3TfaZMbDNqf6RZQUXLLIisHCHD4WMj0b3vw8uVo1Z7Dq06Y8
+	bsQvmXJe788.4cQmz54_Bxg5cD7gUqyLhkDTNXWdUbQtdOD6hMuptgDXMWTeYwDOAPOgMvt8MgrL
+	lpWbxKgR_NrPkqDTkQha25oFs5f43hYvdDqo3RZ.JsD4yD4zkkHrIZg2AwKthktS3FNSo7e1ZlLS
+	8pwKXJXpQu2m6EPzroGh5IWoBIvz3kVGiz98hKRS4HSlFWmZuNt_fAFoD.qNfu22Eol4etOJV5c0
+	pRcrji7OWJ6noFPeWpeE2YG0blT.60goo2YprrglZgQ9ej4FTO.tTX_yk3ZRCAniskAKICzPfdaz
+	uy7D6YpLzEhdOqfoSdHYvCYvy5bdTDwHQB3piwcdH.qejihqbkRblZPLhkCAoFAhB5O4bRq8di8d
+	CksbcoZDzxnToSG9.YKFbJrfHNHhnQff77zCSxKnsBbBZNcDhF8Am06L0zayCf3yvNsTsS.y8D4y
+	J1O4rxqxYUM82j8zqUe.7KYDEvwA1T_so8dbFCTEU22It30w32m.kdZd2_GLFjOgRcdrw3_0kUtp
+	a
+Received: from sonic.gate.mail.ne1.yahoo.com by
+	sonic309.consmr.mail.ne1.yahoo.com with HTTP;
+	Thu, 14 May 2020 22:11:59 +0000
+Received: by smtp423.mail.bf1.yahoo.com (VZM Hermes SMTP Server) with ESMTPA
+	ID 29310a8a0899c1c3edc464e9138e2e71; 
+	Thu, 14 May 2020 22:11:54 +0000 (UTC)
+From: Casey Schaufler <casey@schaufler-ca.com>
+To: casey.schaufler@intel.com, jmorris@namei.org,
+	linux-security-module@vger.kernel.org, selinux@vger.kernel.org
+Subject: [PATCH v17 00/23] LSM: Module stacking for AppArmor
+Date: Thu, 14 May 2020 15:11:19 -0700
+Message-Id: <20200514221142.11857-1-casey@schaufler-ca.com>
 MIME-Version: 1.0
-In-Reply-To: <2714655.amcdOopNT1@x2>
-User-Agent: NeoMutt/20180716
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+References: <20200514221142.11857-1-casey.ref@schaufler-ca.com>
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
 X-loop: linux-audit@redhat.com
-Cc: linux-audit@redhat.com
+Cc: john.johansen@canonical.com, linux-audit@redhat.com, sds@tycho.nsa.gov
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -75,106 +109,231 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
 
-On 2020-05-14 10:47, Steve Grubb wrote:
-> Hello,
-> 
-> Answering both emails at once.
-> 
-> On Thursday, May 14, 2020 9:32:21 AM EDT Richard Guy Briggs wrote:
-> > On 2020-05-14 18:55, Burn Alting wrote:
-> > > I also endorse such a change.
-> > > There is a significant gap in recoding removable media activity (see
-> > > https://bugzilla.redhat.com/show_bug.cgi?id=967241) and the on_mount
-> > > could go a reasonable  way to address this, including making use of the
-> > > NETLUNK_KOBJECT_UEVENTnetlink group or  /sys/block polling to assist with
-> > > device discovery.
-> 
-> libudev has a function that looks up device from a path. I was planning to use that.
-> 
-> > > Secondly, being able to react to a login/logout event also opens up
-> > > interesting opportunity for targetedevent generation.
-> > > That said, I believe that Juro Hlista did some work on this back around
-> > > 2010. He did this via a plugin. His solutionwas a little more generic.
-> > > Should we be looking at that as a solution as well?
-> 
-> I really don't know that code. It was done as a summer research project for
-> a thesis. I do not know if it is production ready, supportable, or
-> sustainable. While it may be more general, I remember the code base being
-> large. Large means complicated. I'd rather narrow the scope and have a small
-> amount of code that serves a single purpose.
-> 
-> > > One element I do
-> > > remember from hiswork, was that there was a potential gap in the time to
-> > > react to a trigger firing and the result was that one was notguaranteed
-> > > to implement the new rules immediately. I assume to treat this gap, the
-> > > rules could be preloaded and the 'trigger' action could just move the
-> > > 'dormant' rules, already in core, to the 'active' list.
-> 
-> I was going to make them memory resident so that searching them is fast.
-> Watching for mount changes will probably be faster that the general system
-> because it does not depend on a mount syscall rule to trickle down and then
-> react. 
-> 
-> In the user case, we would watch for the login event. It should be
-> able to react before the whole pam cycle finishes. Although we would want to
-> monitor the progress of pam so that we don't place a rule when the session
-> never starts due to pam_time voting no. And we'll have to handle a login and
-> cron jobs differently.
->  
-> > I was going to say, this one feels like there are a set of rules that
-> > should just be present from the get-go and not dynamic.  If we already
-> > know what we are looking for (monitor a specific user, or monitor a
-> > specific device) then just add those rules to the permenent set.
-> 
-> OK, lets give that a try
-> 
-> # auditctl -a always,exit -F dir=/run/media/sgrubb/sandisk/ -F perm=rx -F key=usb-drive
-> Error sending add rule data request (No such file or directory)
-> 
-> We can't. Also, every single rule we add slows down the system.
+This patchset provides the changes required for
+the AppArmor security module to stack safely with any other.
 
-True on both counts.  However, that is also true of the device
-monitoring list to a lesser degree...
+v17: Rebase to 5.7-rc4
 
-GHAK12 ( https://github.com/linux-audit/audit-kernel/issues/12 ) may
-help with this and the idea has been discussed previously to find a way
-to overcome this current limitation of kaudit.
+v16: Rebase to 5.6
+     Incorporate feedback from v15 - Thanks Stephen, Mimi and Paul
+     - Generally improve commit messages WRT scaffolding
+     - Comment ima_lsm_isset() (patch 0002)
+     - Some question may remain on IMA warning (patch 0002)
+     - Mark lsm_slot as __lsm_ro_after_init not __init_data (patch 0002)
+     - Change name of lsmblob variable in ima_match_rules() (patch 0003)
+     - Instead of putting a struct lsmblob into the unix_skb_parms
+       structure put a pointer to an allocated instance. There is
+       currently only space for 5 u32's in unix_skb_parms and it is
+       likely to get even tighter. Fortunately, the lifecycle
+       management of the allocated lsmblob is simple. (patch 0005)
+     - Dropped Acks due to the above change (patch 0005)
+     - Improved commentary on secmark labeling scaffolding. (patch 0006)
+     - Reduced secmark related labeling scaffolding. (patch 0006)
+     - Replace use of the zeroth entry of an lsmblob in scaffolding
+       with a function lsmblob_value() to hopefully make it less
+       obscure. (patch 0006)
+     - Convert security_secmark_relabel_packet to use lsmblob as
+       this reduces much of the most contentious scaffolding. (patch 0006)
+     - Dropped Acks due to the above change (patch 0006)
+     - Added BUILD_BUG_ON() for CIPSO tag 6. (patch 0018)
+     - Reworked audit subject information. Instead of adding fields in
+       the middle of existing records add a new record to the event. When
+       a separate record is required use subj="?". (patch 0020)
+     - Dropped Acks due to the above change (patch 0020)
+     - Reworked audit object information. Instead of adding fields in
+       the middle of existing records add a new record to the event. When
+       a separate record is required use obj="?". (patch 0021)
+     - Dropped Acks due to the above change (patch 0021)
+     - Enhanced documentation (patch 0022)
+     - Removed unnecessary error code check in security_getprocattr()
+       (patch 0021)
 
-> -Steve
-> 
-> > This makes it easier to lock things down too.
-> > 
-> > > Burn
-> > > 
-> > > On Wed, 2020-05-13 at 14:03 -0400, Steve Grubb wrote:
-> > > > On Wednesday, May 13, 2020 1:17:02 PM EDT Joe Wulf wrote:
-> > > > > What you propose is a sound enhancement.I have no preference for the
-> > > > > choice between incorporate this in the auditdaemon versus a
-> > > > > plugin.What would be the effort to switch from one to theother if
-> > > > > later on you should find the first choice wasn't as optimal?
-> > > > 
-> > > > Well, the main idea for a plugin is not to stop processing events. Busy
-> > > > systems need to keep focused on unloading the kernel backlog.
-> > > > 
-> > > > > I wonder about the case where a system is booted with new media
-> > > > > alreadyattached.> > 
-> > > > During initialization, it runs through the mount table just as if the
-> > > > mount table was changed. So, it has the opportunity to apply rules
-> > > > during init. I'm borrowing code from fapolicyd which has this nicely
-> > > > solved. (It's one of my other projects.) -Steve
-> > 
-> > - RGB
+v15: Rebase to 5.6-rc1
+     - Revise IMA data use (patch 0002)
+     Incorporate feedback from v14
+     - Fix lockdown module registration naming (patch 0002)
+     - Revise how /proc/self/attr/context is gathered. (patch 0022)
+     - Revise access modes on /proc/self/attr/context. (patch 0022)
+     - Revise documentation on LSM external interfaces. (patch 0022)
 
-- RGB
+v14: Rebase to 5.5-rc5
+     Incorporate feedback from v13
+     - Use an array of audit rules (patch 0002)
+     - Significant change, removed Acks (patch 0002)
+     - Remove unneeded include (patch 0013)
+     - Use context.len correctly (patch 0015)
+     - Reorder code to be more sensible (patch 0016)
+     - Drop SO_PEERCONTEXT as it's not needed yet (patch 0023)
 
---
-Richard Guy Briggs <rgb@redhat.com>
-Sr. S/W Engineer, Kernel Security, Base Operating Systems
-Remote, Ottawa, Red Hat Canada
-IRC: rgb, SunRaycer
-Voice: +1.647.777.2635, Internal: (81) 32635
+v13: Rebase to 5.5-rc2
+     Incorporate feedback from v12
+     - Print lsmblob size with %z (Patch 0002)
+     - Convert lockdown LSM initialization. (Patch 0002)
+     - Restore error check in nft_secmark_compute_secid (Patch 0006)
+     - Correct blob scaffolding in ima_must_appraise() (Patch 0009)
+     - Make security_setprocattr() clearer (Patch 0013)
+     - Use lsm_task_display more widely (Patch 0013)
+     - Use passed size in lsmcontext_init() (Patch 0014)
+     - Don't add a smack_release_secctx() hook (Patch 0014)
+     - Don't print warning in security_release_secctx() (Patch 0014)
+     - Don't duplicate the label in nfs4_label_init_security() (Patch 0016)
+     - Remove reviewed-by as code has significant change (Patch 0016)
+     - Send the entire lsmblob for Tag 6 (Patch 0019)
+     - Fix description of socket_getpeersec_stream parameters (Patch 0023)
+     - Retain LSMBLOB_FIRST. What was I thinking? (Patch 0023)
+     - Add compound context to LSM documentation (Patch 0023)
+
+v12: Rebase to 5.5-rc1
+     Fixed a couple of incorrect contractions in the text.
+
+v11: Rebase to 5.4-rc6
+     Incorporate feedback from v10
+     - Disambiguate reading /proc/.../attr/display by restricting
+       all use of the interface to the current process.
+     - Fix a merge error in AppArmor's display attribute check
+
+v10: Ask the security modules if the display can be changed.
+
+v9: There is no version 9
+
+v8: Incorporate feedback from v7
+    - Minor clean-up in display value management
+    - refactor "compound" context creation to use a common
+      append_ctx() function.
+
+v7: Incorporate feedback from v6
+    - Make setting the display a privileged operation. The
+      availability of compound contexts reduces the need for
+      setting the display.
+
+v6: Incorporate feedback from v5
+    - Add subj_<lsm>= and obj_<lsm>= fields to audit records
+    - Add /proc/.../attr/context to get the full context in
+      lsmname\0value\0... format as suggested by Simon McVittie
+    - Add SO_PEERCONTEXT for getsockopt() to get the full context
+      in the same format, also suggested by Simon McVittie.
+    - Add /sys/kernel/security/lsm_display_default to provide
+      the display default value.
+
+v5: Incorporate feedback from v4
+    - Initialize the lsmcontext in security_secid_to_secctx()
+    - Clear the lsmcontext in all security_release_secctx() cases
+    - Don't use the "display" on strictly internal context
+      interfaces.
+    - The SELinux binder hooks check for cases where the context
+      "display" isn't compatible with SELinux.
+
+v4: Incorporate feedback from v3
+    - Mark new lsm_<blob>_alloc functions static
+    - Replace the lsm and slot fields of the security_hook_list
+      with a pointer to a LSM allocated lsm_id structure. The
+      LSM identifies if it needs a slot explicitly. Use the
+      lsm_id rather than make security_add_hooks return the
+      slot value.
+    - Validate slot values used in security.c
+    - Reworked the "display" process attribute handling so that
+      it works right and doesn't use goofy list processing.
+    - fix display value check in dentry_init_security
+    - Replace audit_log of secids with '?' instead of deleting
+      the audit log
+
+v3: Incorporate feedback from v2
+    - Make lsmblob parameter and variable names more
+      meaningful, changing "le" and "l" to "blob".
+    - Improve consistency of constant naming.
+    - Do more sanity checking during LSM initialization.
+    - Be a bit clearer about what is temporary scaffolding.
+    - Rather than clutter security_getpeersec_dgram with
+      otherwise unnecessary checks remove the apparmor
+      stub, which does nothing useful.
+
+Patch 0001 moves management of the sock security blob
+from the individual modules to the infrastructure.
+
+Patches 0002-0012 replace system use of a "secid" with
+a structure "lsmblob" containing information from the
+security modules to be held and reused later. At this
+point lsmblob contains an array of u32 secids, one "slot"
+for each of the security modules compiled into the
+kernel that used secids. A "slot" is allocated when
+a security module requests one.
+The infrastructure is changed to use the slot number
+to pass the correct secid to or from the security module
+hooks.
+
+It is important that the lsmblob be a fixed size entity
+that does not have to be allocated. Several of the places
+where it is used would have performance and/or locking
+issues with dynamic allocation.
+
+Patch 0013 provides a mechanism for a process to
+identify which security module's hooks should be used
+when displaying or converting a security context string.
+A new interface /proc/self/attr/display contains the name
+of the security module to show. Reading from this file
+will present the name of the module, while writing to
+it will set the value. Only names of active security
+modules are accepted. Internally, the name is translated
+to the appropriate "slot" number for the module which
+is then stored in the task security blob. Setting the
+display requires that all modules using the /proc interfaces
+allow the transition. The "display" of other processess
+can be neither read nor written. All suggested cases
+for reading the display of a different process have race
+conditions.
+
+Patch 0014 Starts the process of changing how a security
+context is represented. Since it is possible for a
+security context to have been generated by more than one
+security module it is now necessary to note which module
+created a security context so that the correct "release"
+hook can be called. There are several places where the
+module that created a security context cannot be inferred.
+
+This is achieved by introducing a "lsmcontext" structure
+which contains the context string, its length and the
+"slot" number of the security module that created it.
+The security_release_secctx() interface is changed,
+replacing the (string,len) pointer pair with a lsmcontext
+pointer.
+
+Patches 0015-0017 convert the security interfaces from
+(string,len) pointer pairs to a lsmcontext pointer.
+The slot number identifying the creating module is
+added by the infrastructure. Where the security context
+is stored for extended periods the data type is changed.
+
+The Netlabel code is converted to save lsmblob structures
+instead of secids in Patch 0018.
+
+Patch 0019 adds checks to the binder hooks which verify
+that if both ends of a transaction use the same "display".
+
+Patches 0020-0021 add addition audit records
+to identify the LSM specific data for all active modules.
+
+Patch 0022 adds a new interfaces for getting the
+compound security contexts.
+
+Finally, with all interference on the AppArmor hooks
+removed, Patch 0023 removes the exclusive bit from
+AppArmor. An unnecessary stub hook was also removed.
+
+The Ubuntu project is using an earlier version of
+this patchset in their distribution to enable stacking
+for containers.
+
+Performance measurements to date have the change
+within the "noise". The sockperf and dbench results
+are on the order of 0.2% to 0.8% difference, with
+better performance being as common as worse. The
+benchmarks were run with AppArmor and Smack on Ubuntu.
+
+https://github.com/cschaufler/lsm-stacking.git#stack-5.7-rc4
+
+Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
+---
 
 --
 Linux-audit mailing list
