@@ -1,97 +1,66 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com [207.211.31.81])
-	by mail.lfdr.de (Postfix) with ESMTP id 21E141D52C9
-	for <lists+linux-audit@lfdr.de>; Fri, 15 May 2020 17:01:05 +0200 (CEST)
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com [205.139.110.61])
+	by mail.lfdr.de (Postfix) with ESMTP id AE64F1D6864
+	for <lists+linux-audit@lfdr.de>; Sun, 17 May 2020 16:16:38 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1589554863;
+	s=mimecast20190719; t=1589724997;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
-	 message-id:message-id:to:to:cc:mime-version:mime-version:
+	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=NcLQQVP5GRfZA1SbcuqhKRRAWiZLBw0XU4Nvn04oQ1g=;
-	b=g5Gyv6bdfZ4ctqFekFGPYZO+JL6O61oVy7JP+FHqZUDXRqTZs4QPC/AxbeCRXuNdD+8zb+
-	FP//MjVi6kPJCMCuVDBvxv/luO2znnM35VmnKntPN+DqolX3PgBnPX+MXOs7UG/ZGZf3Tp
-	FpSBSnwbSlf7kLRLs3EIpwy4BH6HZm8=
+	bh=DaGyQ5aqh1GYpH+4hUuafVwob7vOCFsVnACRQauH9tI=;
+	b=Gg4CFzH3PNSfKrLEKsFpJmvQmRJyBOvqIeKsiUJ3oyi++UR+3luSeOLalE0gYRtZt1TI/n
+	oX9Nm5pDHHfISmgrsmrvqP0MgmmhKOWHOYKqjZFzkoOUtfnszfcOA48FnT+X/lCZB8oq+W
+	n/zFWAeH76wzvyjtp84E44i8MSpzfSc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-367-Cj46xJV6NVydnPd9fIp1kw-1; Fri, 15 May 2020 11:01:01 -0400
-X-MC-Unique: Cj46xJV6NVydnPd9fIp1kw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+ us-mta-338-yWbCNqR-NAmP5BirdtwKbA-1; Sun, 17 May 2020 10:16:35 -0400
+X-MC-Unique: yWbCNqR-NAmP5BirdtwKbA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 518FE108BD0D;
-	Fri, 15 May 2020 15:00:53 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 78DCB46;
-	Fri, 15 May 2020 15:00:50 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C143F1005510;
+	Sun, 17 May 2020 14:16:26 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id B61C160C81;
+	Sun, 17 May 2020 14:16:24 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id CE4AB4E9E7;
-	Fri, 15 May 2020 15:00:41 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
-	[10.11.54.6])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id D8C8D1809543;
+	Sun, 17 May 2020 14:15:58 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+	[10.5.11.14])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 04FF0Rgw006828 for <linux-audit@listman.util.phx.redhat.com>;
-	Fri, 15 May 2020 11:00:27 -0400
+	id 04HEFPGE028130 for <linux-audit@listman.util.phx.redhat.com>;
+	Sun, 17 May 2020 10:15:25 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id DEACE2156A4E; Fri, 15 May 2020 15:00:26 +0000 (UTC)
+	id 8B5525D9DC; Sun, 17 May 2020 14:15:25 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from mimecast-mx02.redhat.com
-	(mimecast04.extmail.prod.ext.rdu2.redhat.com [10.11.55.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id D45C32156A4C
-	for <linux-audit@redhat.com>; Fri, 15 May 2020 15:00:24 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
-	[205.139.110.120])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DA540108C1CE
-	for <linux-audit@redhat.com>; Fri, 15 May 2020 15:00:24 +0000 (UTC)
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com
-	[209.85.216.43]) (Using TLS) by relay.mimecast.com with ESMTP id
-	us-mta-514-ML_vGEm_M3y_hjqYm76RVg-1; Fri, 15 May 2020 11:00:22 -0400
-X-MC-Unique: ML_vGEm_M3y_hjqYm76RVg-1
-Received: by mail-pj1-f43.google.com with SMTP id n15so1019956pjt.4
-	for <linux-audit@redhat.com>; Fri, 15 May 2020 08:00:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding
-	:content-language;
-	bh=+50nM/tSM49wAiLAZ+cu2/rRsZuzUwwikckDARUl/To=;
-	b=E5OU1cLSmTLlXdWIkNQByJ5ZHR6f+RCwe55bmClQ9ijtpe9EU1WE3Jz2J9KySJkqYi
-	bAy5FYOETA6GNtoylj0cYmIUlMVi4tbsL+a7Sv1l6A7W9jOaU2owXikL7j6xTGV7BtZ2
-	U0RMz8u27j8b7e56B6IwPH6LYKkrDe+s2qh//ywCh6IWJocyJ7GAiShclmIZoFgXFwJm
-	M2tYwNFEXap7lZTbxPQDdLzZfuZvQFBu7rwqIuxG83aJFebmN7Ql/Y2m7TAcEXpT0N4c
-	+kk3eKUhBfziMSNixx183+eR5gFZHDV6I9mNxli1l1flpDEa2Ji7KdWpWe86vfntHjqA
-	bpJg==
-X-Gm-Message-State: AOAM531TuLAHekxvpsUsoOq8YRcf1M5l1gipcP/oJxgu9dxuLcqxeJaa
-	YM/3X8lX763BbFrmXcOw04l135UuMeM=
-X-Google-Smtp-Source: ABdhPJwTMlX3QsL9z9/hpIoQdJZtmdSOL0vZU3fnLHMg5BfEs3NH9J5q2b10Sz2taShUDipQdZhG3Q==
-X-Received: by 2002:a17:902:778a:: with SMTP id
-	o10mr3918290pll.76.1589554820321; 
-	Fri, 15 May 2020 08:00:20 -0700 (PDT)
-Received: from ?IPv6:2607:f768:200:b:ffff:ffff:ffff:fe24?
-	([2607:f768:200:b:ffff:ffff:ffff:fe24])
-	by smtp.gmail.com with ESMTPSA id
-	b15sm1929237pgh.47.2020.05.15.08.00.18 for <linux-audit@redhat.com>
-	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Fri, 15 May 2020 08:00:19 -0700 (PDT)
-Subject: Re: reactive audit proposal
-To: linux-audit@redhat.com
-References: <6360160.ZmnOHIC0Qm@x2>
-From: Lenny Bruzenak <lenny@magitekltd.com>
-Message-ID: <7605c8b3-92ac-992a-7539-f5374d3e69c7@magitekltd.com>
-Date: Fri, 15 May 2020 09:00:17 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
-	Thunderbird/68.7.0
+Received: from madcap2.tricolour.ca (unknown [10.10.110.46])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id F316D5D9D7;
+	Sun, 17 May 2020 14:15:17 +0000 (UTC)
+Date: Sun, 17 May 2020 10:15:15 -0400
+From: Richard Guy Briggs <rgb@redhat.com>
+To: Paul Moore <paul@paul-moore.com>
+Subject: Re: [PATCH ghak25 v4 3/3] audit: add subj creds to NETFILTER_CFG
+	record to cover async unregister
+Message-ID: <20200517141515.qqx3jx5ulb2546tx@madcap2.tricolour.ca>
+References: <cover.1587500467.git.rgb@redhat.com>
+	<b8ba40255978a73ea15e3859d5c945ecd5fede8e.1587500467.git.rgb@redhat.com>
+	<CAHC9VhR9sNB58A8uQ4FNgAXOgVJ3RaWF4y5MAo=3mcTojaym0Q@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <6360160.ZmnOHIC0Qm@x2>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+In-Reply-To: <CAHC9VhR9sNB58A8uQ4FNgAXOgVJ3RaWF4y5MAo=3mcTojaym0Q@mail.gmail.com>
+User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-loop: linux-audit@redhat.com
+Cc: fw@strlen.de, LKML <linux-kernel@vger.kernel.org>,
+	Linux-Audit Mailing List <linux-audit@redhat.com>,
+	netfilter-devel@vger.kernel.org, ebiederm@xmission.com,
+	twoerner@redhat.com, Eric Paris <eparis@parisplace.org>,
+	tgraf@infradead.org
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -105,74 +74,96 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
-On 5/12/20 6:22 PM, Steve Grubb wrote:
+On 2020-04-28 18:25, Paul Moore wrote:
+> On Wed, Apr 22, 2020 at 5:40 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> > Some table unregister actions seem to be initiated by the kernel to
+> > garbage collect unused tables that are not initiated by any userspace
+> > actions.  It was found to be necessary to add the subject credentials to
+> > cover this case to reveal the source of these actions.  A sample record:
+> >
+> >   type=NETFILTER_CFG msg=audit(2020-03-11 21:25:21.491:269) : table=nat family=bridge entries=0 op=unregister pid=153 uid=root auid=unset tty=(none) ses=unset subj=system_u:system_r:kernel_t:s0 comm=kworker/u4:2 exe=(null)
+> 
+> [I'm going to comment up here instead of in the code because it is a
+> bit easier for everyone to see what the actual impact might be on the
+> records.]
+> 
+> Steve wants subject info in this case, okay, but let's try to trim out
+> some of the fields which simply don't make sense in this record; I'm
+> thinking of fields that are unset/empty in the kernel case and are
+> duplicates of other records in the userspace/syscall case.  I think
+> that means we can drop "tty", "ses", "comm", and "exe" ... yes?
+> 
+> While "auid" is a potential target for removal based on the
+> dup-or-unset criteria, I think it falls under Steve's request for
+> subject info here, even if it is garbage in this case.
 
-> It may also be possible to poll /sys/block to watch for changes. This might
-> be easier as the names are more friendly. This would take some research to
-> see if its even possible.
->
-> The rule syntax could look something like:
-> on=mount mount=/run/user/1000 : -a exit,always ...
-> on=device device=/dev/sdd : -a exit,always ...
->
-> The on-login event would simply watch the audit trail for any AUDIT_LOGIN
-> events. That event can be parsed to get the new auid. If the auid matches
-> any rules, then it will load them into the kernel. To remove the rules, we
-> could watch for the AUDIT_USER_END event. The only issue is that we would
-> need to track how many sessions the user has open and remove the rules only
-> when the last session closes out.
->
-> The rules for this might look something like this:
-> on=login auid=1000 : -a exit,always ...
->
-> The question is whether or not this should be done as part of the audit
-> daemon or as a plugin for the audit daemon. One advantage of doing this as
-> a plugin is that it will keep the audit daemon focused on getting events
-> and distributing them. Any programming mistake in the plugin will crash it
-> and not the daemon. The tradeoff is that it will get the event slightly
-> after auditd sees it. This only matters for the on-login functionality. The
-> device and mount events come from an entirely different source. And I'm sure
-> that in every case, the program will react faster than a user possibily can
-> winning the race evry time.
+Can you explain why auid falls under this criteria but ses does not if
+both are unset?  If auid is unset then we know ses is unset?  If subj
+contains *:kernel_t:* then uid can also be dropped even though it is
+set, no?  I figure if we are going to start dropping fields, might as
+well drop enough to make it worth the effort, even though this is a rare
+event.
 
+As for searchability, I have solved that easily in the parser.
 
-Although I like this generally, I also have to say that I'm generally 
-apprehensive (OK scared) of dynamic rules.
+> > Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
+> > ---
+> >  kernel/auditsc.c | 18 ++++++++++++++++++
+> >  1 file changed, 18 insertions(+)
+> >
+> > diff --git a/kernel/auditsc.c b/kernel/auditsc.c
+> > index d281c18d1771..d7a45b181be0 100644
+> > --- a/kernel/auditsc.c
+> > +++ b/kernel/auditsc.c
+> > @@ -2557,12 +2557,30 @@ void __audit_log_nfcfg(const char *name, u8 af, unsigned int nentries,
+> >                        enum audit_nfcfgop op)
+> >  {
+> >         struct audit_buffer *ab;
+> > +       const struct cred *cred;
+> > +       struct tty_struct *tty;
+> > +       char comm[sizeof(current->comm)];
+> >
+> >         ab = audit_log_start(audit_context(), GFP_KERNEL, AUDIT_NETFILTER_CFG);
+> >         if (!ab)
+> >                 return;
+> >         audit_log_format(ab, "table=%s family=%u entries=%u op=%s",
+> >                          name, af, nentries, audit_nfcfgs[op].s);
+> > +
+> > +       cred = current_cred();
+> > +       tty = audit_get_tty();
+> > +       audit_log_format(ab, " pid=%u uid=%u auid=%u tty=%s ses=%u",
+> > +                        task_pid_nr(current),
+> > +                        from_kuid(&init_user_ns, cred->uid),
+> > +                        from_kuid(&init_user_ns, audit_get_loginuid(current)),
+> > +                        tty ? tty_name(tty) : "(none)",
+> > +                        audit_get_sessionid(current));
+> > +       audit_put_tty(tty);
+> > +       audit_log_task_context(ab); /* subj= */
+> > +       audit_log_format(ab, " comm=");
+> > +       audit_log_untrustedstring(ab, get_task_comm(comm, current));
+> > +       audit_log_d_path_exe(ab, current->mm); /* exe= */
+> > +
+> >         audit_log_end(ab);
+> >  }
+> >  EXPORT_SYMBOL_GPL(__audit_log_nfcfg);
+> 
+> paul moore
 
-I think also that while your proposal makes sense for some (likely many) 
-use cases, usually not ones I deal with. Controlled spaces don't allow 
-USB drives and even so, we detect this adequately now. Have plans of 
-using USBGuard to augment that stance.
+- RGB
 
-So in that regard, a plugin would be far better for me so I can disable 
-it until it fits the model under which I operate. Just my own small, 
-non-standard myopic focus. :-)
-
-I also believe that this has more generic application, and you are 
-probably using the USB device as an exemplar. There may be other 
-reactive rule use cases I would be inclined to reassess.
-
-The login/user_end event watching does pique my interest...besides 
-device insertion I imagine there would be some interesting things you 
-could do on the fly with that.
-
-But again for me the strength of locking the rules into place is pretty 
-big. I can only imagine what an informed pen test crew would do with 
-dynamic rule manipulation.
-
-Thanks Steve!
-
-LCB
-
--- 
-Lenny Bruzenak
-MagitekLTD
+--
+Richard Guy Briggs <rgb@redhat.com>
+Sr. S/W Engineer, Kernel Security, Base Operating Systems
+Remote, Ottawa, Red Hat Canada
+IRC: rgb, SunRaycer
+Voice: +1.647.777.2635, Internal: (81) 32635
 
 --
 Linux-audit mailing list
