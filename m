@@ -1,96 +1,93 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [205.139.110.61])
-	by mail.lfdr.de (Postfix) with ESMTP id 4921E1D7B7E
-	for <lists+linux-audit@lfdr.de>; Mon, 18 May 2020 16:41:43 +0200 (CEST)
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com [205.139.110.61])
+	by mail.lfdr.de (Postfix) with ESMTP id 154F21D8AFC
+	for <lists+linux-audit@lfdr.de>; Tue, 19 May 2020 00:32:18 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1589812902;
+	s=mimecast20190719; t=1589841138;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=iJi5x9ekTbzPCrDRsP33ZUc6evuicKEHs3UK6zl2H4Y=;
-	b=a6cinoAp4hg4s5x6gkbwekSopDHgfZyJhHdTrjhyEtlSb5O9PtZFtGEyvDds3Mg8ZcAfO8
-	5nw15/RWVB6JqcjaUWtCNEfOQaPIcZPTsGSLV4vNwgsqgIolA6qS8heV8VxBT7iTVNbQyX
-	sidvDS7n8FnjEDP0GuRgtNns67oJh+Q=
+	bh=Oao+Qieyo1e2b/nmWAlGVVjtr4CrP7/+HEmq/njSgSo=;
+	b=fKAXt6aH5Dua0GN2cVcqprO+2dsFFDGZvgyJPQLAYg9myAy41C+E3V8OpeZ9gNlqJbGSSg
+	kasLR+1uGp3Mh6W3GYZLLILj/nj1yQJX3ANSHB7f5hexnLOapzhNHRHlyMdvcK/NH3sRWF
+	T7i+/W1QiBi2rRKXu+Z55Gu0QimeN1A=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-442-BWAAjmCIPoiwOuoYClNIHQ-1; Mon, 18 May 2020 10:41:39 -0400
-X-MC-Unique: BWAAjmCIPoiwOuoYClNIHQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+ us-mta-116-j270_Un2MaKuB1shA6DHYA-1; Mon, 18 May 2020 18:32:09 -0400
+X-MC-Unique: j270_Un2MaKuB1shA6DHYA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B9024872FEB;
-	Mon, 18 May 2020 14:41:31 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 04119795A9;
-	Mon, 18 May 2020 14:41:27 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 96F068014C0;
+	Mon, 18 May 2020 22:32:04 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 472C882A19;
+	Mon, 18 May 2020 22:32:04 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 96F9B4ED3C;
-	Mon, 18 May 2020 14:41:21 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
-	[10.11.54.5])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id DCC551809543;
+	Mon, 18 May 2020 22:32:01 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+	[10.11.54.4])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 04IEf9vW020507 for <linux-audit@listman.util.phx.redhat.com>;
-	Mon, 18 May 2020 10:41:09 -0400
+	id 04IH2hWn032304 for <linux-audit@listman.util.phx.redhat.com>;
+	Mon, 18 May 2020 13:02:44 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id 4CE5942ADC; Mon, 18 May 2020 14:41:09 +0000 (UTC)
+	id B0D6C200AFEA; Mon, 18 May 2020 17:02:43 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
-	(mimecast06.extmail.prod.ext.rdu2.redhat.com [10.11.55.22])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 3A9D842AB3
-	for <linux-audit@redhat.com>; Mon, 18 May 2020 14:41:07 +0000 (UTC)
+	(mimecast02.extmail.prod.ext.rdu2.redhat.com [10.11.55.18])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 9D0412014DF4
+	for <linux-audit@redhat.com>; Mon, 18 May 2020 17:02:38 +0000 (UTC)
 Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [205.139.110.61])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 37C9C1801235
-	for <linux-audit@redhat.com>; Mon, 18 May 2020 14:41:07 +0000 (UTC)
-Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com
-	[209.85.208.67]) (Using TLS) by relay.mimecast.com with ESMTP id
-	us-mta-324-t0ydeSQrN2yckOjge1kzvA-1; Mon, 18 May 2020 10:41:04 -0400
-X-MC-Unique: t0ydeSQrN2yckOjge1kzvA-1
-Received: by mail-ed1-f67.google.com with SMTP id d24so728978eds.11
-	for <linux-audit@redhat.com>; Mon, 18 May 2020 07:41:03 -0700 (PDT)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 418F58007D0
+	for <linux-audit@redhat.com>; Mon, 18 May 2020 17:02:38 +0000 (UTC)
+Received: from mail-oi1-f194.google.com (mail-oi1-f194.google.com
+	[209.85.167.194]) (Using TLS) by relay.mimecast.com with ESMTP id
+	us-mta-480-pDs9bKJPP1ukgRVTJnbOpA-1; Mon, 18 May 2020 13:02:35 -0400
+X-MC-Unique: pDs9bKJPP1ukgRVTJnbOpA-1
+Received: by mail-oi1-f194.google.com with SMTP id i22so9592571oik.10
+	for <linux-audit@redhat.com>; Mon, 18 May 2020 10:02:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=Y82Wa/YXfbo2pFIdBdGJ5l3oNnVnkoqZdsw/qlj3M4k=;
-	b=VSlrYlO9kGEbUepUvhpgG2nTMnLhjG1e/iF7vvM1V34+2FNyWZJ5psiDQjJrpqoTj7
-	gypWju9kWL1yaLfIaGC5YPqLCbVni89/8Ki9DW0EDoSX8F8VNwyBJlhgEAvRV0oXPcI3
-	IoDYJp3LSl74DhEGRPYIV/JaQf5ep8+aehG8pFwAR9WphMm4OH68DnVJOkdunEDIFFlK
-	t8N45+zn1CLEbHdfOU7RPuzhXekGrhJ93+pjby7263OZ/Ku6iRncyC3neY1HaLzrGEET
-	o8HItm6tofyQKwFJwzERKRm0t0wBcfooj7aDrwbEhxxhLbSWuhmf7gH647xWMFZwYxzL
-	t4lA==
-X-Gm-Message-State: AOAM533fPj9B6gn+BRtunlpFACQgaxriq2euMHFYQHPFbwWe6PWQj5LD
-	bnatl90ypELsYwjrTPUgagHI7PATSRlw4lZUv1Qv
-X-Google-Smtp-Source: ABdhPJyHfxZF3XvBBGLabJM0/+o/cd616yVwBWifbH+ohTirews3dIdk9TsgbL7HFPKM75iLATnYzm6t2UWOCMa2+zo=
-X-Received: by 2002:aa7:c887:: with SMTP id p7mr13686147eds.269.1589812862499; 
-	Mon, 18 May 2020 07:41:02 -0700 (PDT)
+	bh=9exVgl+yKCZr1tkPCgpnPxs0p9K6C95pMaN9BrP8zH8=;
+	b=G/imIqbN8nCSZ+6NLujPHy1APpAMn5Csf7tlOc6Fust3G5Ks0Ngziy1ApqbIei6Z10
+	uCTi6rRE3zxpvnATGD6xLRQC7TTs/4f6RYXHymXkKSIZKARVrQleSRqA82x2f8l/QYqa
+	8SUsjvWXqy4iy/d/5cYSUGMJ36OmNnUkFpDRcBYCNan/NqVK33a9k89O7G1xi7xWiP6X
+	hz5HrAzTSdjnHhKISb/QtoHWuOdSKISKFcOiD7i8mM6Z3him+Va8eSaTfP7eI2gEjNoi
+	18J6lcuSV/wRQVD4sy+gJMMeqQUh4JbiIoG288PAXOQ/hZEPpHTbpBrIIOsXLUMl+MLQ
+	zgzQ==
+X-Gm-Message-State: AOAM532Td7JNZFyXFS20uhw4OVO3F41tDtEcScUqrSIOJNn8cGS9k5SU
+	EgGmpOyaYBYilk4gkGKThgngblrpaM1QgVdJgW4=
+X-Google-Smtp-Source: ABdhPJwfjTtgqyziB52cLco6fOXcRdE8uujfq2i2bN5yyuccJjmBue8kz3CSue987iYNnfKfdoVQsTaIMPrkzfidln0=
+X-Received: by 2002:aca:a948:: with SMTP id s69mr256645oie.140.1589821354147; 
+	Mon, 18 May 2020 10:02:34 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1587500467.git.rgb@redhat.com>
-	<b8ba40255978a73ea15e3859d5c945ecd5fede8e.1587500467.git.rgb@redhat.com>
-	<CAHC9VhR9sNB58A8uQ4FNgAXOgVJ3RaWF4y5MAo=3mcTojaym0Q@mail.gmail.com>
-	<20200517141515.qqx3jx5ulb2546tx@madcap2.tricolour.ca>
-	<CAHC9VhQVRyJ7GRHrujW5Ri-pvBRBgFM2Y8+OYQxca1bUyv2eyg@mail.gmail.com>
-	<20200518003920.e6vyzhvadyi5wdjd@madcap2.tricolour.ca>
-In-Reply-To: <20200518003920.e6vyzhvadyi5wdjd@madcap2.tricolour.ca>
-From: Paul Moore <paul@paul-moore.com>
-Date: Mon, 18 May 2020 10:40:51 -0400
-Message-ID: <CAHC9VhTRTm3OywsmZfcjQjfU3OytCbFZ_Qa1uO4LCOEhC=3tnQ@mail.gmail.com>
-Subject: Re: [PATCH ghak25 v4 3/3] audit: add subj creds to NETFILTER_CFG
-	record to cover async unregister
-To: Richard Guy Briggs <rgb@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+References: <20200514221142.11857-1-casey@schaufler-ca.com>
+	<20200514221142.11857-6-casey@schaufler-ca.com>
+In-Reply-To: <20200514221142.11857-6-casey@schaufler-ca.com>
+From: Stephen Smalley <stephen.smalley.work@gmail.com>
+Date: Mon, 18 May 2020 13:02:23 -0400
+Message-ID: <CAEjxPJ4TExFpm0KJSodLSEG0J+YNYBE4KdKyd=1g-Qs-qgPHpA@mail.gmail.com>
+Subject: Re: [PATCH v17 05/23] net: Prepare UDS for security module stacking
+To: Casey Schaufler <casey@schaufler-ca.com>
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
 X-loop: linux-audit@redhat.com
-Cc: fw@strlen.de, LKML <linux-kernel@vger.kernel.org>,
-	Linux-Audit Mailing List <linux-audit@redhat.com>,
-	netfilter-devel@vger.kernel.org, ebiederm@xmission.com,
-	twoerner@redhat.com, Eric Paris <eparis@parisplace.org>,
-	tgraf@infradead.org
+X-Mailman-Approved-At: Mon, 18 May 2020 18:31:55 -0400
+Cc: John Johansen <john.johansen@canonical.com>,
+	SElinux list <selinux@vger.kernel.org>, netdev@vger.kernel.org,
+	James Morris <jmorris@namei.org>,
+	LSM List <linux-security-module@vger.kernel.org>,
+	linux-audit@redhat.com, casey.schaufler@intel.com,
+	Stephen Smalley <sds@tycho.nsa.gov>
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -104,91 +101,91 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-On Sun, May 17, 2020 at 8:40 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> On 2020-05-17 17:50, Paul Moore wrote:
-> > On Sun, May 17, 2020 at 10:15 AM Richard Guy Briggs <rgb@redhat.com> wrote:
-> > > On 2020-04-28 18:25, Paul Moore wrote:
-> > > > On Wed, Apr 22, 2020 at 5:40 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> > > > > Some table unregister actions seem to be initiated by the kernel to
-> > > > > garbage collect unused tables that are not initiated by any userspace
-> > > > > actions.  It was found to be necessary to add the subject credentials to
-> > > > > cover this case to reveal the source of these actions.  A sample record:
-> > > > >
-> > > > >   type=NETFILTER_CFG msg=audit(2020-03-11 21:25:21.491:269) : table=nat family=bridge entries=0 op=unregister pid=153 uid=root auid=unset tty=(none) ses=unset subj=system_u:system_r:kernel_t:s0 comm=kworker/u4:2 exe=(null)
-> > > >
-> > > > [I'm going to comment up here instead of in the code because it is a
-> > > > bit easier for everyone to see what the actual impact might be on the
-> > > > records.]
-> > > >
-> > > > Steve wants subject info in this case, okay, but let's try to trim out
-> > > > some of the fields which simply don't make sense in this record; I'm
-> > > > thinking of fields that are unset/empty in the kernel case and are
-> > > > duplicates of other records in the userspace/syscall case.  I think
-> > > > that means we can drop "tty", "ses", "comm", and "exe" ... yes?
-> > > >
-> > > > While "auid" is a potential target for removal based on the
-> > > > dup-or-unset criteria, I think it falls under Steve's request for
-> > > > subject info here, even if it is garbage in this case.
-> > >
-> > > Can you explain why auid falls under this criteria but ses does not if
-> > > both are unset?
-> >
-> > "While "auid" is a potential target for removal based on the
-> > dup-or-unset criteria, I think it falls under Steve's request for
-> > subject info here, even if it is garbage in this case."
-> >
-> > It's a concession to Steve.  As I mentioned previously, I think the
-> > subject info is bogus in this case; either it is valid and we get it
-> > from the SYSCALL record or it simply isn't present in any meaningful
-> > way.
+On Thu, May 14, 2020 at 7:25 PM Casey Schaufler <casey@schaufler-ca.com> wrote:
 >
-> Sorry for being so dense.  I still don't follow your explanation.  You've
-> repeated the same paragraph that didn't make sense to me the first time.
+> Change the data used in UDS SO_PEERSEC processing from a
+> secid to a more general struct lsmblob. Update the
+> security_socket_getpeersec_dgram() interface to use the
+> lsmblob. There is a small amount of scaffolding code
+> that will come out when the security_secid_to_secctx()
+> code is brought in line with the lsmblob.
 >
-> What definition of "subject info" are you working with?
+> The secid field of the unix_skb_parms structure has been
+> replaced with a pointer to an lsmblob structure, and the
+> lsmblob is allocated as needed. This is similar to how the
+> list of passed files is managed. While an lsmblob structure
+> will fit in the available space today, there is no guarantee
+> that the addition of other data to the unix_skb_parms or
+> support for additional security modules wouldn't exceed what
+> is available.
 
-The subject is generally the task which is causing the event to occur,
-"subject info" would be any such attribute which describes the
-subject; examples include LSM label, the various UIDs/GIDs, etc..
+I preferred the previous approach (in v15 and earlier) but I see that
+this was suggested by Paul.  Lifecycle management of lsmdata seems
+rather tenuous. I guess the real question is what does netdev prefer.
+Regardless, you need to check for memory allocation failure below if
+this approach stands.
 
-Think "current->cred" and you on the right track.
+> Reviewed-by: Kees Cook <keescook@chromium.org>
+> Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
+> cc: netdev@vger.kernel.org
+> ---
 
-> I had assumed
-> it was the set of fields that contain information that came from that
-> task's struct task_struct.  Some of those fields contain information
-> that isn't helpful.  Why not remove them all rather than keep one that
-> still contains no useful information?
+> diff --git a/net/unix/af_unix.c b/net/unix/af_unix.c
+> index 3385a7a0b231..a5c1a029095d 100644
+> --- a/net/unix/af_unix.c
+> +++ b/net/unix/af_unix.c
+> @@ -138,17 +138,18 @@ static struct hlist_head *unix_sockets_unbound(void *addr)
+>  #ifdef CONFIG_SECURITY_NETWORK
+>  static void unix_get_secdata(struct scm_cookie *scm, struct sk_buff *skb)
+>  {
+> -       UNIXCB(skb).secid = scm->secid;
+> +       UNIXCB(skb).lsmdata = kmemdup(&scm->lsmblob, sizeof(scm->lsmblob),
+> +                                     GFP_KERNEL);
+>  }
 
-Once again - and I don't know how else to explain this to you - I
-think it is pointless to record the subject info in this record as we
-either have that info from other records in the event or there is no
-valid subject info to record.  As you state in the commit description:
+Somewhere you need to check for and handle kmemdup() failure here.
 
-  "Some table unregister actions seem to be initiated by the
-   kernel to garbage collect unused tables that are not
-   initiated by any userspace actions."
+>
+>  static inline void unix_set_secdata(struct scm_cookie *scm, struct sk_buff *skb)
+>  {
+> -       scm->secid = UNIXCB(skb).secid;
+> +       scm->lsmblob = *(UNIXCB(skb).lsmdata);
+>  }
 
->  Or is it a matter of keeping one
-> key field that contains no useful information that proves that the rest
-> is bogus?  Steve said that daemons leave no useful information in auid
-> as well, so I don't see how keeping this field helps us.  My
-> understanding is that the subj field's "...:kernel_t:..." is the key
-> here and that pid and comm give us a bit more of a clue that it is a
-> kernel thread.  Is that correct?  What use does including auid serve
-> here?
+Lest we have a bad day here.
 
-As I've mentioned in the thread above, including the auid was done as
-a concession to Steve, I don't think it serves any useful purpose.
+>
+>  static inline bool unix_secdata_eq(struct scm_cookie *scm, struct sk_buff *skb)
+>  {
+> -       return (scm->secid == UNIXCB(skb).secid);
+> +       return lsmblob_equal(&scm->lsmblob, UNIXCB(skb).lsmdata);
+>  }
 
--- 
-paul moore
-www.paul-moore.com
+Or here.
+
+> diff --git a/net/unix/scm.c b/net/unix/scm.c
+> index 8c40f2b32392..3094323935a4 100644
+> --- a/net/unix/scm.c
+> +++ b/net/unix/scm.c
+> @@ -142,6 +142,12 @@ void unix_destruct_scm(struct sk_buff *skb)
+>         scm.pid  = UNIXCB(skb).pid;
+>         if (UNIXCB(skb).fp)
+>                 unix_detach_fds(&scm, skb);
+> +#ifdef CONFIG_SECURITY_NETWORK
+> +       if (UNIXCB(skb).lsmdata) {
+> +               kfree(UNIXCB(skb).lsmdata);
+> +               UNIXCB(skb).lsmdata = NULL;
+> +       }
+> +#endif
+
+Does this suffice to ensure that lsmdata is always freed?  Seems
+weakly connected to the allocation.
 
 --
 Linux-audit mailing list
