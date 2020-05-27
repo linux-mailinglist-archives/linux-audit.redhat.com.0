@@ -1,63 +1,81 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com [205.139.110.61])
-	by mail.lfdr.de (Postfix) with ESMTP id D43151E4745
-	for <lists+linux-audit@lfdr.de>; Wed, 27 May 2020 17:25:15 +0200 (CEST)
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com [207.211.31.81])
+	by mail.lfdr.de (Postfix) with ESMTP id 46F061E4E5B
+	for <lists+linux-audit@lfdr.de>; Wed, 27 May 2020 21:39:38 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1590593114;
+	s=mimecast20190719; t=1590608377;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
-	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-	 content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:list-id:list-help:
-	 list-unsubscribe:list-subscribe:list-post;
-	bh=lnjwSJ9s82USMm+kHzqpi+i1xuPrWwboM3N2qK0cPEM=;
-	b=b9FtDx8Hj/BZ5xRTVQlZi99aOmlan0ssJHueBMBsTRbcWuEfJOXgTnvZuGCZLoAdnmtLXi
-	rfJavnvWXRu+8ypuknZSxc/pczm7z6/C2Etyim7FMq6HosEx22YagE6MNX2cQCUzqIwHBm
-	wlGDhNenxhOicAIfYuCycFMOqtdbYh4=
+	 message-id:message-id:to:to:cc:mime-version:mime-version:
+	 content-type:content-type:list-id:list-help:list-unsubscribe:
+	 list-subscribe:list-post; bh=4c+y6N0Af3TnBj0GXifLod602P62QEJYEIoJYYCKUoU=;
+	b=O3hS6ren40zTaAcZ1Fp5tLpWMRJ93ls7g1w0bsRDF9/QHJIBLFICNyIl97QpkNPiSOdpqZ
+	vuuZAkR9QcXKLYfJAF1DOfPmMpY3AiyNc3mfEb1BH1wucUKZhwwuoaXJR+yq64lQuFYwLl
+	fnQ8q1facSveAIT836Ufikr54ZjR5Q0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-370-SD_uCu8XO0aZuPB8mzKZHQ-1; Wed, 27 May 2020 11:25:12 -0400
-X-MC-Unique: SD_uCu8XO0aZuPB8mzKZHQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+ us-mta-389-Qs3PqWZiNGa_52b9d-TMgA-1; Wed, 27 May 2020 15:39:35 -0400
+X-MC-Unique: Qs3PqWZiNGa_52b9d-TMgA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0E6288005AA;
-	Wed, 27 May 2020 15:25:06 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6BE54835B40;
+	Wed, 27 May 2020 19:39:29 +0000 (UTC)
 Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id EAC1326372;
-	Wed, 27 May 2020 15:25:03 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 837BF60C05;
+	Wed, 27 May 2020 19:39:27 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 41C7E1809541;
-	Wed, 27 May 2020 15:25:01 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
-	[10.5.11.16])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 711DA1809554;
+	Wed, 27 May 2020 19:39:22 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+	[10.11.54.4])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 04RFOtE5024297 for <linux-audit@listman.util.phx.redhat.com>;
-	Wed, 27 May 2020 11:24:55 -0400
+	id 04RJdEmK008508 for <linux-audit@listman.util.phx.redhat.com>;
+	Wed, 27 May 2020 15:39:15 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id 11D2F5C221; Wed, 27 May 2020 15:24:55 +0000 (UTC)
+	id D814B202696B; Wed, 27 May 2020 19:39:14 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from madcap2.tricolour.ca (unknown [10.10.110.54])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 775C15C1B0;
-	Wed, 27 May 2020 15:24:46 +0000 (UTC)
-Date: Wed, 27 May 2020 11:24:43 -0400
-From: Richard Guy Briggs <rgb@redhat.com>
-To: Florian Westphal <fw@strlen.de>
-Subject: Re: [PATCH ghak124 v1] audit: log nftables configuration change events
-Message-ID: <20200527152443.7axktc2im3zpvk37@madcap2.tricolour.ca>
-References: <d92a718b54269f426acc18f28e561031da66d3ca.1590579994.git.rgb@redhat.com>
-	<20200527145317.GI2915@breakpoint.cc>
+Received: from mimecast-mx02.redhat.com
+	(mimecast02.extmail.prod.ext.rdu2.redhat.com [10.11.55.18])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id D25C12017DCB
+	for <linux-audit@redhat.com>; Wed, 27 May 2020 19:39:12 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+	[207.211.31.120])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9B00F8007A4
+	for <linux-audit@redhat.com>; Wed, 27 May 2020 19:39:12 +0000 (UTC)
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com
+	[209.85.208.49]) (Using TLS) by relay.mimecast.com with ESMTP id
+	us-mta-347-NPbdjbNONaqrP9TL8q_7DA-1; Wed, 27 May 2020 15:39:09 -0400
+X-MC-Unique: NPbdjbNONaqrP9TL8q_7DA-1
+Received: by mail-ed1-f49.google.com with SMTP id q13so2048016edi.3
+	for <linux-audit@redhat.com>; Wed, 27 May 2020 12:39:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=4iLLpcHqrd6CKih4R60vFzObZ7s778a0mLBuPSf1Za4=;
+	b=JcdruQ+usKRWDzncKz2Cx+iV9Yl2mGRLDMVG8mbPTbRgXWf0WPXMX+FzvQwxfnXsCY
+	gtwQO97oT28yDxxfk36wqGK1Nm6bV6dGSuMACZszetbX0wqEytxQ+R0CbTxXgVjLcXsT
+	OjtyNOTFOVxJcR0B4ebg1zzi2nJqDvCcIPqXUK+xGUh6L/Xrrs3OA0Q5Nl/j8zqvIMfi
+	BBG9NGTWSXA+8CP2kZcTZsSQJszChImhAWcBqJW/XT0wsrV9zBO2f2ftJIfJtN5HLzdw
+	kdoZQVfMzJM2q61LxXSpNWcuA2uEgsjiDnAzGMCn46JgVIFloLTtH2eplJVUnoVuu8OS
+	4LFA==
+X-Gm-Message-State: AOAM532ynOIDT00YCZvzyoe1Zvl9vGZdaeDNBTtFQTq/Iwfv8A+uLj9I
+	2yptQJG7jdoSz2ZEAkVAzZgV4FS/0Tq4YDJObfmlgqEh
+X-Google-Smtp-Source: ABdhPJzFpcKZ7gxPpvWbHLeX+yDGAO+z0M3e9Ie4wZL1ZYs1ZD6Z1sL6H6kyrgyGAgDY+rALZWfqV2f8m6zj+YmqjpM=
+X-Received: by 2002:a05:6402:17c7:: with SMTP id
+	s7mr3243701edy.57.1590608347983; 
+	Wed, 27 May 2020 12:39:07 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200527145317.GI2915@breakpoint.cc>
-User-Agent: NeoMutt/20180716
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+From: Vishnu Srinivasa Ramaprasad <srvishnu123@gmail.com>
+Date: Thu, 28 May 2020 01:08:56 +0530
+Message-ID: <CAKLd27C3yL9XEYrRHD5PqbpJgddMHHWaQLU6u73GYYt1Nwb-2Q@mail.gmail.com>
+Subject: 
+To: linux-audit@redhat.com
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
 X-loop: linux-audit@redhat.com
-Cc: LKML <linux-kernel@vger.kernel.org>,
-	Linux-Audit Mailing List <linux-audit@redhat.com>,
-	netfilter-devel@vger.kernel.org, twoerner@redhat.com,
-	eparis@parisplace.org, tgraf@infradead.org
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -71,173 +89,187 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: multipart/mixed; boundary="===============0115508034299768205=="
+
+--===============0115508034299768205==
+Content-Type: multipart/alternative; boundary="0000000000008ef35b05a6a65d61"
+
+--0000000000008ef35b05a6a65d61
+Content-Type: text/plain; charset="UTF-8"
+
+Hi Steve Grubb and Linux-Audit team,
+
+I'm Vish and I am a newbie to auditd. My requirement is to log only
+shell/bash commands and custom commands executed by administrator users.
+I have created these rules in /etc/audit/rules.d/audit.rules, to ensure
+SYSCALL, EXECVE are being added to audit.log for administrator users with
+auid greater than 1000:
+-a exit,always -F arch=b64 -S execve -F auid>=1000 -F auid!=-1 -k log_cmd
+-a exit,always -F arch=b32 -S execve -F auid>=1000 -F auid!=-1 -k log_cmd
+
+After restarting auditd service, I had executed strace on a simple command
+which will display version of my project's toolkit:
+
+~# strace -e trace=execve toolkit-version-show
+execve("/var/tmp/toolkit-version-show", ["toolkit-version-show"],
+0x7ffef1fa38b0 /* 30 vars */) = 0
+Toolkit Version: 1.01
++++ exited with 0 +++
+
+Later, I executed the ausearch command to check the log entry:
+~# ausearch -i --start recent
+----
+type=EXECVE msg=audit(05/27/2020 19:01:26.605:12725) : argc=2
+a0=/usr/bin/perl a1=/var/tmp/toolkit-version-show
+type=SYSCALL msg=audit(05/27/2020 19:01:26.605:12725) : arch=x86_64
+syscall=execve success=yes exit=0 a0=0x7ffef1fa2450 a1=0x7ffef1fa38a0
+a2=0x7ffef1fa38b0 a3=0x7f47f8669740 items=3 ppid=3641 pid=3643
+auid=administrator uid=root gid=root euid=root suid=root fsuid=root
+egid=root sgid=root fsgid=root tty=pts0 ses=8936 comm=toolkit-version-sho
+exe=/usr/bin/perl key=log_cmd
+----
+type=EXECVE msg=audit(05/27/2020 19:01:26.601:12724) : argc=4 a0=strace
+a1=-e a2=trace=execve a3=toolkit-version-show
+type=SYSCALL msg=audit(05/27/2020 19:01:26.601:12724) : arch=x86_64
+syscall=execve success=yes exit=0 a0=0x55a2d44c9010 a1=0x55a2d449fe80
+a2=0x55a2d4389490 a3=0x8 items=2 ppid=3099 pid=3641 auid=administrator
+uid=root gid=root euid=root suid=root fsuid=root egid=root sgid=root
+fsgid=root tty=pts0 ses=8936 comm=strace exe=/usr/bin/strace key=log_cmd
+----
+
+My understanding of a0 - a2: Please refer the syntax of execve() :
+
+int execve(const char*filename, char *const argv[], char *const envp[]);
+
+Based on syntax of execve() and output from strace, I could understand that
+in audit.log event entry:
+a0=0x7ffef1fa2450 represents filename argument of execve
+a1=0x7ffef1fa38a0 represents argv[] argument of execve
+a2=0x7ffef1fa38b0 represents envp[] argument of execve
+
+Question  1:  What does the a3=0x7f47f8669740  value represent?
+As execve() has only 3 arguments (represented by a0,a1,a2), what value gets
+stored in a3?
+I have noticed a3 values to be varying from:
+a3=0x0
+a3=0x7
+a3=0x55a2d4389490
+a3=0x56a2d44adc00
+a3=0x8
+
+Question 2: a3=0x8 seems to be the value assigned for a majority of
+execve() syscalls.
+Is this a standard value set in case of main/primary system call, such as
+toolkit-version-show?
+Could I use this in a rule filter *-F a3=8* to log only primary (custom
+script) command executed by user and not internal commands executed by
+custom script like ls, cat, grep.. etc.:
+-a exit,always -F arch=b64 -S execve *-F a3=8* -F auid>=1000 -F auid!=-1 -k
+log_cmd
+-a exit,always -F arch=b32 -S execve *-F a3=8* -F auid>=1000 -F auid!=-1 -k
+log_cmd
+
+Would I miss logging a few primary syscalls, if a3 is not 0x80 in some
+cases?
+
+Question 3: If a3=0x8 is not a standard value, Is it possible to identify
+primary custom command and log only that command, and not internal commands
+with a3=0x0 or a3=0x55a2d4389490?
+
+Question 4: Is it possible to filter out and not log syscalls with
+tty=(none)?
+
+I am looking forward to your kind response.
+
+Thank You
+Regards,
+Vish
+
+--0000000000008ef35b05a6a65d61
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><p style=3D"margin:0px 0px 1em;padding:0px;border:0px;font=
+-variant-numeric:inherit;font-variant-east-asian:inherit;font-stretch:inher=
+it;line-height:inherit;font-family:Arial,&quot;Helvetica Neue&quot;,Helveti=
+ca,sans-serif;font-size:15px;vertical-align:baseline;box-sizing:inherit;cle=
+ar:both;color:rgb(36,39,41)">Hi Steve Grubb and Linux-Audit team,<br><br>I&=
+#39;m Vish and I am a newbie to auditd. My requirement is to log only shell=
+/bash commands and custom commands executed by administrator users.<br>I ha=
+ve created these rules in /etc/audit/rules.d/audit.rules, to ensure SYSCALL=
+, EXECVE are being added to audit.log for administrator users with auid gre=
+ater than 1000:<br>-a exit,always -F arch=3Db64 -S execve -F auid&gt;=3D100=
+0 -F auid!=3D-1 -k log_cmd<br>-a exit,always -F arch=3Db32 -S execve -F aui=
+d&gt;=3D1000 -F auid!=3D-1 -k log_cmd<br><br>After restarting auditd servic=
+e, I had executed strace on a simple command which will display version of =
+my project&#39;s toolkit:<br><br>~# strace -e trace=3Dexecve toolkit-versio=
+n-show<br>execve(&quot;/var/tmp/toolkit-version-show&quot;, [&quot;toolkit-=
+version-show&quot;], 0x7ffef1fa38b0 /* 30 vars */) =3D 0<br>Toolkit Version=
+: 1.01<br>+++ exited with 0 +++<br><br>Later, I executed the ausearch comma=
+nd to check the log entry:<br>~#=C2=A0ausearch -i --start recent=C2=A0<br>-=
+---<br>type=3DEXECVE msg=3Daudit(05/27/2020 19:01:26.605:12725) : argc=3D2 =
+a0=3D/usr/bin/perl a1=3D/var/tmp/toolkit-version-show<br>type=3DSYSCALL msg=
+=3Daudit(05/27/2020 19:01:26.605:12725) : arch=3Dx86_64 syscall=3Dexecve su=
+ccess=3Dyes exit=3D0 a0=3D0x7ffef1fa2450 a1=3D0x7ffef1fa38a0 a2=3D0x7ffef1f=
+a38b0 a3=3D0x7f47f8669740 items=3D3 ppid=3D3641 pid=3D3643 auid=3Dadministr=
+ator uid=3Droot gid=3Droot euid=3Droot suid=3Droot fsuid=3Droot egid=3Droot=
+ sgid=3Droot fsgid=3Droot tty=3Dpts0 ses=3D8936 comm=3Dtoolkit-version-sho =
+exe=3D/usr/bin/perl key=3Dlog_cmd<br>----<br>type=3DEXECVE msg=3Daudit(05/2=
+7/2020 19:01:26.601:12724) : argc=3D4 a0=3Dstrace a1=3D-e a2=3Dtrace=3Dexec=
+ve a3=3Dtoolkit-version-show<br>type=3DSYSCALL msg=3Daudit(05/27/2020 19:01=
+:26.601:12724) : arch=3Dx86_64 syscall=3Dexecve success=3Dyes exit=3D0 a0=
+=3D0x55a2d44c9010 a1=3D0x55a2d449fe80 a2=3D0x55a2d4389490 a3=3D0x8 items=3D=
+2 ppid=3D3099 pid=3D3641 auid=3Dadministrator uid=3Droot gid=3Droot euid=3D=
+root suid=3Droot fsuid=3Droot egid=3Droot sgid=3Droot fsgid=3Droot tty=3Dpt=
+s0 ses=3D8936 comm=3Dstrace exe=3D/usr/bin/strace key=3Dlog_cmd<br>----<br>=
+<br>My understanding of a0 - a2: Please refer the syntax of execve() :=C2=
+=A0</p><p style=3D"margin:0px 0px 1em;padding:0px;border:0px;font-variant-n=
+umeric:inherit;font-variant-east-asian:inherit;font-stretch:inherit;line-he=
+ight:inherit;font-family:Arial,&quot;Helvetica Neue&quot;,Helvetica,sans-se=
+rif;font-size:15px;vertical-align:baseline;box-sizing:inherit;clear:both;co=
+lor:rgb(36,39,41)">int execve(const char*filename, char *const argv[], char=
+ *const envp[]);<br><br>Based on syntax of execve() and output from strace,=
+ I could understand that in audit.log event entry:<br>a0=3D0x7ffef1fa2450 r=
+epresents filename argument of execve<br>a1=3D0x7ffef1fa38a0 represents arg=
+v[] argument of execve<br>a2=3D0x7ffef1fa38b0 represents envp[] argument of=
+ execve<br><br>Question=C2=A0 1:=C2=A0 What does the a3=3D0x7f47f8669740=C2=
+=A0 value represent? <br>As execve() has only 3 arguments (represented by a=
+0,a1,a2), what value gets stored in a3?<br>I have noticed a3 values to be v=
+arying from:<br>a3=3D0x0<br>a3=3D0x7<br>a3=3D0x55a2d4389490<br>a3=3D0x56a2d=
+44adc00<br>a3=3D0x8 <br><br>Question 2: a3=3D0x8 seems to be the value assi=
+gned for a majority of execve() syscalls.=C2=A0<br>Is this a standard value=
+ set in case of main/primary system call, such as toolkit-version-show?<br>=
+Could I use this in a rule filter <b>-F a3=3D8</b> to log only primary (cus=
+tom script) command executed by user and not internal commands executed by =
+custom script like ls, cat, grep.. etc.:<br>-a exit,always -F arch=3Db64 -S=
+ execve <b>-F a3=3D8</b> -F auid&gt;=3D1000 -F auid!=3D-1 -k log_cmd<br>-a =
+exit,always -F arch=3Db32 -S execve <b>-F a3=3D8</b> -F auid&gt;=3D1000 -F =
+auid!=3D-1 -k log_cmd<br><br>Would I miss logging a few primary syscalls, i=
+f a3 is not 0x80 in some cases?</p><p style=3D"margin:0px 0px 1em;padding:0=
+px;border:0px;font-variant-numeric:inherit;font-variant-east-asian:inherit;=
+font-stretch:inherit;line-height:inherit;font-family:Arial,&quot;Helvetica =
+Neue&quot;,Helvetica,sans-serif;font-size:15px;vertical-align:baseline;box-=
+sizing:inherit;clear:both;color:rgb(36,39,41)">Question 3: If a3=3D0x8 is n=
+ot a standard value,=C2=A0Is it possible to identify primary custom command=
+ and log only that command, and not internal commands with a3=3D0x0 or a3=
+=3D0x55a2d4389490?<br><br>Question 4: Is it possible to filter out and not =
+log syscalls with tty=3D(none)?<br><br>I am looking forward to your kind re=
+sponse.<br><br>Thank You<br>Regards,<br>Vish<br><br></p></div>
+
+--0000000000008ef35b05a6a65d61--
+
+--===============0115508034299768205==
 Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: inline
-
-On 2020-05-27 16:53, Florian Westphal wrote:
-> Richard Guy Briggs <rgb@redhat.com> wrote:
-> > iptables, ip6tables, arptables and ebtables table registration,
-> > replacement and unregistration configuration events are logged for the
-> > native (legacy) iptables setsockopt api, but not for the
-> > nftables netlink api which is used by the nft-variant of iptables in
-> > addition to nftables itself.
-> > 
-> > Add calls to log the configuration actions in the nftables netlink api.
-> > 
-> > This uses the same NETFILTER_CFG record format.
-> 
-> I know little about audit records.  Does this allow the user to figure
-> out that this record is created via nf_tables/netlink rather than xtables?
-
-No, which is why I added that note below.  It shouldn't be hard to
-change but I took the easy way to program it and now that I reflect on
-it more, it sounds like it should be a basic requriement.
-
-> > For further information please see issue
-> > https://github.com/linux-audit/audit-kernel/issues/124
-> > 
-> > Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
-> > ---
-> > This is an RFC patch.
-> > Note: I have questions about the "entries" count.  Is there a more
-> > appropriate or relevant item to report here?
-> > Note: It might make sense to differentiate in the op= field that this
-> > was a legacy call vs an nft call.  At the moment, legacy calls overlap
-> > with nft table calls, which are similar calls.
-> > 
-> >  include/linux/audit.h         |  7 +++++++
-> >  kernel/auditsc.c              | 12 +++++++++---
-> >  net/netfilter/nf_tables_api.c | 14 ++++++++++++++
-> >  3 files changed, 30 insertions(+), 3 deletions(-)
-> > 
-> > diff --git a/include/linux/audit.h b/include/linux/audit.h
-> > index 3fcd9ee49734..b10f54103a82 100644
-> > --- a/include/linux/audit.h
-> > +++ b/include/linux/audit.h
-> > @@ -12,6 +12,7 @@
-> >  #include <linux/sched.h>
-> >  #include <linux/ptrace.h>
-> >  #include <uapi/linux/audit.h>
-> > +#include <uapi/linux/netfilter/nf_tables.h>
-> >  
-> >  #define AUDIT_INO_UNSET ((unsigned long)-1)
-> >  #define AUDIT_DEV_UNSET ((dev_t)-1)
-> > @@ -98,6 +99,12 @@ enum audit_nfcfgop {
-> >  	AUDIT_XT_OP_REGISTER,
-> >  	AUDIT_XT_OP_REPLACE,
-> >  	AUDIT_XT_OP_UNREGISTER,
-> > +	AUDIT_XT_OP_CHAIN_REGISTER	= NFT_MSG_NEWCHAIN,
-> 
-> Hmm, this means AUDIT_XT_OP_CHAIN_REGISTER overlaps with the 4th
-> audit_nfcfgop value...?
-
-There was no 4th value, so the overlap is just the first three, which
-are all table operations that more or less line up.
-
-> > +	AUDIT_XT_OP_CHAIN_NOOP		= NFT_MSG_GETCHAIN,
-> 
-> GETCHAIN can't appear in the commit path (its not changing anything).
-> Same for all other NFT_MSG_FOO that use ".call_rcu" action.
-
-Again, I was a bit lazy in selecting the actions, and the GET actions
-are of no interest since they don't change the configuration.
-
-> Futhermore, I wonder what is to be logged by audit.
-
-NEW and DEL of TABLEs, CHAINs and RULEs.
-
-> The fact that there was 'some change'? If so, its enough to log
-> the increment of the generation count during the commit phase.
-
-Well, we are only logging "some change", so is it necessary to log the
-generation count to show that?  Is the generation count of specific
-interest?
-
-> (After that, kernel can't back down anymore, i.e. all errors are
->  caught/handled beforehand).
-
-I did think of recording all failed attempts too, but coding that would
-be more effort.  It is worth doing if it is deemed important,
-particularly for permission issues (as opposed to resource limits or
-packet format errors.  This would be more of interest to a security
-officer rather than a network technician, but the latter may find it
-useful for debugging.
-
-> If its 'any config change', then you also need to handle adds
-> or delete from sets/maps, since that may allow something that wasn't
-> allowed before, e.g. consider
-> 
-> ip saddr @trused accept
-> 
-> and then, later on,
-> nft add element ip filter @trusted { 10.0.0.0/8, 192.168.0.1 }
-> 
-> This would not add a table, or chain, or set, but it does implicitly
-> alter the ruleset.
-
-Ah, ok, so yes, we would need that too.  I see family and table in
-there, op is evident.  Is there a useful value we can use in the
-"entries" field?
-
-> > +		case NFT_MSG_DELRULE:
-> > +			audit_log_nfcfg(trans->ctx.table->name,
-> > +					trans->ctx.family,
-> > +					atomic_read(&trans->ctx.table->chains_ht.ht.nelems),
-> > +					trans->msg_type);
-> > +			break;
-> 
-> Is that record format expected to emit the current number of chains?
-
-I was aiming for a relevant value such as perhaps the new rule number or
-the rule number being deleted.
-
-> I'm not sure if that info is meaningful.
-
-Can you suggest something meaningful?  This field may need to get
-different information for each operation.
-
-> Since table names can be anything in nf_tables (they have no special
-> properties anymore), the table name is interesting from a informational
-> pov, but not super interesting.
-
-I don't think we need to be able to completely reconstruct the
-tables/chains/rules from the information in the audit log, but be aware
-of who is changing what when.
-
-> This will also emit the same message/record multiple times, with only
-> difference being the msg_type.  I'm not sure thats interesting.
-
-I do think it is interesting.
-
-> Consider a batch update that commits 100 new rules in chain x,
-> this would result in 100 audit_log_nfcfg() calls, each with the
-> same information.
-
-So rule number would be a useful differentiator here.
-
-> There are test cases in nftables.git, you could run them to see what
-> kind of audit events are generated and how redundant they might be.
-
-As a first pass, simply booting a test system and running the
-audit-testsuite has provided some useful fodder.
-
-Florian, thanks for your review and input.
-
-- RGB
-
---
-Richard Guy Briggs <rgb@redhat.com>
-Sr. S/W Engineer, Kernel Security, Base Operating Systems
-Remote, Ottawa, Red Hat Canada
-IRC: rgb, SunRaycer
-Voice: +1.647.777.2635, Internal: (81) 32635
 
 --
 Linux-audit mailing list
 Linux-audit@redhat.com
 https://www.redhat.com/mailman/listinfo/linux-audit
+--===============0115508034299768205==--
 
