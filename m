@@ -1,59 +1,79 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-delivery-1.mimecast.com [207.211.31.120])
-	by mail.lfdr.de (Postfix) with ESMTP id 2F1151E4F28
-	for <lists+linux-audit@lfdr.de>; Wed, 27 May 2020 22:23:24 +0200 (CEST)
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-delivery-1.mimecast.com [205.139.110.120])
+	by mail.lfdr.de (Postfix) with ESMTP id 6A8691E4F53
+	for <lists+linux-audit@lfdr.de>; Wed, 27 May 2020 22:32:00 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1590611003;
+	s=mimecast20190719; t=1590611519;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=xRqYb7GAImg9Ks63RCWrQg9OcG/W/HbPPqZgO7yp6QU=;
-	b=XV/DQi8E+jlKj4LEOdOpC+OPKiKdS0DZlzh4lfbVgULjwV5moZ6oAm1aGeJO3LumE3XSHS
-	7pyD7zDJZbdVcOgWsB9cBLvn1K8VPAB1Pv7dk804wFOdhTm0xz237S6ZOV1efuOfhgMivB
-	awpwB6luJx2MreJpTIO9msvzoGadiHM=
+	bh=ZYfU9Gb5YGH5AZpRdmx5h76G2z3G4kwSJLNEmNWOjr4=;
+	b=Nuu9QiTO0A7On9sHCq3aGlR7Gd5zHpU0cq+4MdKcunHvSWQ0Qh97ObmxJ7xiWoymOLlW4f
+	G2SBenn1IHbRDCnw1aoIOAz8tlSW+T9nQfaGYaIbMAw65ycBJTQ0yQ0a4BcTa3zEJI+RXV
+	2Ay+QKJrpvCVSW85tWgZKBwM2S5ZpYQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-145-ke-aV9agOxe5Ynx4TetUkg-1; Wed, 27 May 2020 16:23:20 -0400
-X-MC-Unique: ke-aV9agOxe5Ynx4TetUkg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+ us-mta-372-Bim3wyLlODicsyrX7fCtFA-1; Wed, 27 May 2020 16:31:44 -0400
+X-MC-Unique: Bim3wyLlODicsyrX7fCtFA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6D57D1005512;
-	Wed, 27 May 2020 20:23:14 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 79C2D100A8E7;
+	Wed, 27 May 2020 20:31:39 +0000 (UTC)
 Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 009325D9E5;
-	Wed, 27 May 2020 20:23:13 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 4DBA51A913;
+	Wed, 27 May 2020 20:31:39 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id E79B41809541;
-	Wed, 27 May 2020 20:23:12 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
-	[10.5.11.22])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 8A52E1809541;
+	Wed, 27 May 2020 20:31:38 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+	[10.11.54.6])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 04RKMo1O011391 for <linux-audit@listman.util.phx.redhat.com>;
-	Wed, 27 May 2020 16:22:50 -0400
+	id 04RK6Amu010122 for <linux-audit@listman.util.phx.redhat.com>;
+	Wed, 27 May 2020 16:06:10 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id 72FDB10013D7; Wed, 27 May 2020 20:22:50 +0000 (UTC)
+	id 77E862156A22; Wed, 27 May 2020 20:06:10 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from x2.localnet (ovpn-113-158.phx2.redhat.com [10.3.113.158])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 83E0B1001268;
-	Wed, 27 May 2020 20:22:47 +0000 (UTC)
-From: Steve Grubb <sgrubb@redhat.com>
-To: Vishnu Srinivasa Ramaprasad <srvishnu123@gmail.com>
-Subject: Re: What value gets stored in a3 when -S execve?
-Date: Wed, 27 May 2020 16:22:45 -0400
-Message-ID: <4000710.EZmUHuUpmd@x2>
-Organization: Red Hat
-In-Reply-To: <CAKLd27D7ts_1Orymr50D-qZHhmxs7Jkbb4uh660nCoH4n4WG_w@mail.gmail.com>
-References: <CAKLd27D7ts_1Orymr50D-qZHhmxs7Jkbb4uh660nCoH4n4WG_w@mail.gmail.com>
+Received: from mimecast-mx02.redhat.com
+	(mimecast01.extmail.prod.ext.rdu2.redhat.com [10.11.55.17])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 7443B2166BA4
+	for <linux-audit@redhat.com>; Wed, 27 May 2020 20:06:07 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+	[207.211.31.120])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A8799828840
+	for <linux-audit@redhat.com>; Wed, 27 May 2020 20:06:07 +0000 (UTC)
+Received: from Chamillionaire.breakpoint.cc (Chamillionaire.breakpoint.cc
+	[193.142.43.52]) (Using TLS) by relay.mimecast.com with ESMTP id
+	us-mta-311-9YVfgM0pM_ue8gzjdimt1Q-1; Wed, 27 May 2020 16:06:05 -0400
+X-MC-Unique: 9YVfgM0pM_ue8gzjdimt1Q-1
+Received: from fw by Chamillionaire.breakpoint.cc with local (Exim 4.92)
+	(envelope-from <fw@strlen.de>)
+	id 1je2JN-0002DO-Fg; Wed, 27 May 2020 22:06:01 +0200
+Date: Wed, 27 May 2020 22:06:01 +0200
+From: Florian Westphal <fw@strlen.de>
+To: Richard Guy Briggs <rgb@redhat.com>
+Subject: Re: [PATCH ghak124 v1] audit: log nftables configuration change events
+Message-ID: <20200527200601.GJ2915@breakpoint.cc>
+References: <d92a718b54269f426acc18f28e561031da66d3ca.1590579994.git.rgb@redhat.com>
+	<20200527145317.GI2915@breakpoint.cc>
+	<20200527152443.7axktc2im3zpvk37@madcap2.tricolour.ca>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20200527152443.7axktc2im3zpvk37@madcap2.tricolour.ca>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
 X-loop: linux-audit@redhat.com
-Cc: linux-audit@redhat.com
+X-Mailman-Approved-At: Wed, 27 May 2020 16:31:34 -0400
+Cc: Florian Westphal <fw@strlen.de>, LKML <linux-kernel@vger.kernel.org>,
+	Linux-Audit Mailing List <linux-audit@redhat.com>,
+	netfilter-devel@vger.kernel.org, twoerner@redhat.com,
+	eparis@parisplace.org, tgraf@infradead.org
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -67,119 +87,83 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
-Hello,
+Richard Guy Briggs <rgb@redhat.com> wrote:
+> Well, we are only logging "some change", so is it necessary to log the
+> generation count to show that?  Is the generation count of specific
+> interest?
 
-On Wednesday, May 27, 2020 3:44:13 PM EDT Vishnu Srinivasa Ramaprasad wrote:
-> I'm Vish and I am a newbie to auditd. My requirement is to log only
-> shell/bash commands and custom commands executed by administrator users.
-> I have created these rules in /etc/audit/rules.d/audit.rules, to ensure
-> SYSCALL, EXECVE are being added to audit.log for administrator users with
-> auid greater than 1000:
-> -a exit,always -F arch=b64 -S execve -F auid>=1000 -F auid!=-1 -k log_cmd
-> -a exit,always -F arch=b32 -S execve -F auid>=1000 -F auid!=-1 -k log_cmd
+No, its of no specific interest.  I just worded this poorly.
+If the generation id increments, then something has been changed by the
+batch, thats all.
+
+> > (After that, kernel can't back down anymore, i.e. all errors are
+> >  caught/handled beforehand).
 > 
-> After restarting auditd service, I had executed strace on a simple command
-> which will display version of my project's toolkit:
+> I did think of recording all failed attempts too, but coding that would
+> be more effort.  It is worth doing if it is deemed important,
+> particularly for permission issues (as opposed to resource limits or
+> packet format errors.  This would be more of interest to a security
+> officer rather than a network technician, but the latter may find it
+> useful for debugging.
+
+The permission check is done early, in nfnetlink_rcv() (search for
+EPERM), you would need to add an audit call there if thats relevant
+for audit purposes.
+
+> > If its 'any config change', then you also need to handle adds
+> > or delete from sets/maps, since that may allow something that wasn't
+> > allowed before, e.g. consider
+> > 
+> > ip saddr @trused accept
+> > 
+> > and then, later on,
+> > nft add element ip filter @trusted { 10.0.0.0/8, 192.168.0.1 }
+> > 
+> > This would not add a table, or chain, or set, but it does implicitly
+> > alter the ruleset.
 > 
-> ~# strace -e trace=execve toolkit-version-show
-> execve("/var/tmp/toolkit-version-show", ["toolkit-version-show"],
-> 0x7ffef1fa38b0 /* 30 vars */) = 0
-> Toolkit Version: 1.01
-> +++ exited with 0 +++
+> Ah, ok, so yes, we would need that too.  I see family and table in
+> there, op is evident.  Is there a useful value we can use in the
+> "entries" field?
+
+Maybe the handle of the set that the element was added to.
+Each set, rule, chain, ... has a kernel-assigned number that
+serves as a unique identifier.
+
+> > Is that record format expected to emit the current number of chains?
 > 
-> Later, I executed the ausearch command to check the log entry:
-> ~# ausearch -i --start recent
-> ----
-> type=EXECVE msg=audit(05/27/2020 19:01:26.605:12725) : argc=2
-> a0=/usr/bin/perl a1=/var/tmp/toolkit-version-show
-> type=SYSCALL msg=audit(05/27/2020 19:01:26.605:12725) : arch=x86_64
-> syscall=execve success=yes exit=0 a0=0x7ffef1fa2450 a1=0x7ffef1fa38a0
-> a2=0x7ffef1fa38b0 a3=0x7f47f8669740 items=3 ppid=3641 pid=3643
-> auid=administrator uid=root gid=root euid=root suid=root fsuid=root
-> egid=root sgid=root fsgid=root tty=pts0 ses=8936 comm=toolkit-version-sho
-> exe=/usr/bin/perl key=log_cmd
-> ----
-> type=EXECVE msg=audit(05/27/2020 19:01:26.601:12724) : argc=4 a0=strace
-> a1=-e a2=trace=execve a3=toolkit-version-show
-> type=SYSCALL msg=audit(05/27/2020 19:01:26.601:12724) : arch=x86_64
-> syscall=execve success=yes exit=0 a0=0x55a2d44c9010 a1=0x55a2d449fe80
-> a2=0x55a2d4389490 a3=0x8 items=2 ppid=3099 pid=3641 auid=administrator
-> uid=root gid=root euid=root suid=root fsuid=root egid=root sgid=root
-> fsgid=root tty=pts0 ses=8936 comm=strace exe=/usr/bin/strace key=log_cmd
-> ----
+> I was aiming for a relevant value such as perhaps the new rule number or
+> the rule number being deleted.
+
+In that case, use the handle, which is a u64 with a unique value (for a
+given table).
+
+> > Since table names can be anything in nf_tables (they have no special
+> > properties anymore), the table name is interesting from a informational
+> > pov, but not super interesting.
 > 
-> My understanding of a0 - a2: Please refer the syntax of execve() :
+> I don't think we need to be able to completely reconstruct the
+> tables/chains/rules from the information in the audit log, but be aware
+> of who is changing what when.
+
+Ok.  Have a look at nf_tables_fill_gen_info() in that case, you probably
+want to emit at least the pid and task info, unless audit doesn't add
+that already anyway.
+
+> > Consider a batch update that commits 100 new rules in chain x,
+> > this would result in 100 audit_log_nfcfg() calls, each with the
+> > same information.
 > 
-> int execve(const char*filename, char *const argv[], char *const envp[]);
-> 
-> Based on syntax of execve() and output from strace, I could understand that
-> in audit.log event entry:
-> a0=0x7ffef1fa2450 represents filename argument of execve
+> So rule number would be a useful differentiator here.
 
-It a pointer to the string.
-
-> a1=0x7ffef1fa38a0 represents argv[] argument of execve
-> a2=0x7ffef1fa38b0 represents envp[] argument of execve
-> 
-> Question  1:  What does the a3=0x7f47f8669740  value represent?
-
-whatever is on the stack in that position.
-
-> As execve() has only 3 arguments (represented by a0,a1,a2), what value gets
-> stored in a3?
-> I have noticed a3 values to be varying from:
-> a3=0x0
-> a3=0x7
-> a3=0x55a2d4389490
-> a3=0x56a2d44adc00
-> a3=0x8
-> 
-> Question 2: a3=0x8 seems to be the value assigned for a majority of
-> execve() syscalls.
-> Is this a standard value set in case of main/primary system call, such as
-> toolkit-version-show?
-
-Nope. It depends entirely on what the previous syscalls or system activity 
-were and where on the stack it currently is.
-
-> Could I use this in a rule filter *-F a3=8* to log only primary (custom
-> script) command executed by user and not internal commands executed by
-> custom script like ls, cat, grep.. etc.:
-> -a exit,always -F arch=b64 -S execve *-F a3=8* -F auid>=1000 -F auid!=-1 -k
-> log_cmd
-> -a exit,always -F arch=b32 -S execve *-F a3=8* -F auid>=1000 -F auid!=-1 -k
-> log_cmd
-> 
-> Would I miss logging a few primary syscalls, if a3 is not 0x80 in some
-> cases?
-
-Nope. you can't count on anything in a3 since it is not valid for that 
-syscall.
-
-> Question 3: If a3=0x8 is not a standard value, Is it possible to identify
-> primary custom command and log only that command, and not internal commands
-> with a3=0x0 or a3=0x55a2d4389490?
-
-You can always place a watch on the custom commands.
--a exit,always -F path=/path-to/custom-command -F perm=x -F key=command
-
-
-> Question 4: Is it possible to filter out and not log syscalls with
-> tty=(none)?
-
-No. But there is a loose correlation with auid or sessionid being -1. That 
-means it is a daemon. And if you only want commands run by people, then you 
-want -F auid>=1000 -F auid!=-1.
-
--Steve
-
-
+Ok.  Yes, that is available (rule->handle).
 
 --
 Linux-audit mailing list
