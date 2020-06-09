@@ -1,81 +1,60 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [207.211.31.81])
-	by mail.lfdr.de (Postfix) with ESMTP id 285B21F3271
-	for <lists+linux-audit@lfdr.de>; Tue,  9 Jun 2020 05:01:01 +0200 (CEST)
+Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [205.139.110.61])
+	by mail.lfdr.de (Postfix) with ESMTP id 5AD481F3B29
+	for <lists+linux-audit@lfdr.de>; Tue,  9 Jun 2020 14:54:51 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1591671660;
+	s=mimecast20190719; t=1591707290;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=Ut4gpVCpNwUhfiyF702g8oqMni077/Jumw3Lf6N9IxQ=;
-	b=bIoWfETUdCij7XYvL27bcE+HGxjBJZP1MYrVEfs8qksSmllfwIiC7E8rjEcS2brW/gVBFU
-	+H22wG7XzqojIrQ91o5mOLioK0sSFj09qhNSv/3FuoBy4XecOLniZ9byu5Gac2a+vG0rsN
-	gQDFf1N1oDQHZ9BnuPsrYiFUq1tkQmA=
+	bh=or9dWGORj34QWOfQui7J3JVDujr5fIGKyxmc0pPixHY=;
+	b=QYL3M7ER3fQKvr/AS5Wg0BSuRS7rE4KS12vBkFqwXKgERumIhp3dU/wlx4PMoo14xqFKnH
+	WyV80lGlVyDtFYaIf2+qaAPo+MxEqvzh/HSmV1mJHQXJdONwVDmHyiGQH9I+Gk4hAhnrvT
+	iS4vgtSqtB5ikVA3mOCpgBRK/I+pRxw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-13-MUeXrNbQO06Ypz_70ftCDA-1; Mon, 08 Jun 2020 23:00:57 -0400
-X-MC-Unique: MUeXrNbQO06Ypz_70ftCDA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+ us-mta-34-stRyB3b3MS6hceckW17NYg-1; Tue, 09 Jun 2020 08:54:47 -0400
+X-MC-Unique: stRyB3b3MS6hceckW17NYg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C702E18CA272;
-	Tue,  9 Jun 2020 03:00:52 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7CC4D188360C;
+	Tue,  9 Jun 2020 12:54:41 +0000 (UTC)
 Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id A43119F4B;
-	Tue,  9 Jun 2020 03:00:52 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 7EFA096FB1;
+	Tue,  9 Jun 2020 12:54:38 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 73750180954D;
-	Tue,  9 Jun 2020 03:00:52 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
-	[10.11.54.5])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 01522180954D;
+	Tue,  9 Jun 2020 12:54:30 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+	[10.5.11.15])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 058NPsfo000565 for <linux-audit@listman.util.phx.redhat.com>;
-	Mon, 8 Jun 2020 19:25:54 -0400
+	id 059CsKdH032060 for <linux-audit@listman.util.phx.redhat.com>;
+	Tue, 9 Jun 2020 08:54:20 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id C17E4AFD5C; Mon,  8 Jun 2020 23:25:54 +0000 (UTC)
+	id 18E427C3C4; Tue,  9 Jun 2020 12:54:20 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from mimecast-mx02.redhat.com
-	(mimecast02.extmail.prod.ext.rdu2.redhat.com [10.11.55.18])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id BDF25B0790
-	for <linux-audit@redhat.com>; Mon,  8 Jun 2020 23:25:51 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [207.211.31.81])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D6BFC8007CB
-	for <linux-audit@redhat.com>; Mon,  8 Jun 2020 23:25:51 +0000 (UTC)
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99]) (Using TLS)
-	by relay.mimecast.com with ESMTP id us-mta-217-Sjp6yNfkMs6v3GOrQULj_w-1;
-	Mon, 08 Jun 2020 19:25:49 -0400
-X-MC-Unique: Sjp6yNfkMs6v3GOrQULj_w-1
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
-	[73.47.72.35])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id BB641207C3;
-	Mon,  8 Jun 2020 23:25:46 +0000 (UTC)
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 33/72] audit: fix a net reference leak in
-	audit_list_rules_send()
-Date: Mon,  8 Jun 2020 19:24:21 -0400
-Message-Id: <20200608232500.3369581-33-sashal@kernel.org>
-In-Reply-To: <20200608232500.3369581-1-sashal@kernel.org>
-References: <20200608232500.3369581-1-sashal@kernel.org>
+Received: from madcap2.tricolour.ca (unknown [10.10.110.54])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 6C84478FA0;
+	Tue,  9 Jun 2020 12:54:06 +0000 (UTC)
+Date: Tue, 9 Jun 2020 08:54:02 -0400
+From: Richard Guy Briggs <rgb@redhat.com>
+To: Lakshmi Ramasubramanian <nramas@linux.microsoft.com>
+Subject: Re: [PATCH v3] IMA: Add audit log for failure conditions
+Message-ID: <20200609125402.wigqnnhy7lxsyqxf@madcap2.tricolour.ca>
+References: <20200608215343.4491-1-nramas@linux.microsoft.com>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-X-MIME-Autoconverted: from quoted-printable to 8bit by
-	lists01.pubmisc.prod.ext.phx2.redhat.com id 058NPsfo000565
+In-Reply-To: <20200608215343.4491-1-nramas@linux.microsoft.com>
+User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-loop: linux-audit@redhat.com
-X-Mailman-Approved-At: Mon, 08 Jun 2020 23:00:32 -0400
-Cc: Richard Guy Briggs <rgb@redhat.com>, Sasha Levin <sashal@kernel.org>,
-	linux-audit@redhat.com, teroincn@gmail.com
+Cc: linux-integrity@vger.kernel.org, linux-audit@redhat.com,
+	zohar@linux.ibm.com, linux-kernel@vger.kernel.org
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -89,110 +68,169 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
-From: Paul Moore <paul@paul-moore.com>
+On 2020-06-08 14:53, Lakshmi Ramasubramanian wrote:
+> The final log statement in process_buffer_measurement() for failure
+> condition is at debug level. This does not log the message unless
+> the system log level is raised which would significantly increase
+> the messages in the system log. Change this log message to an audit
+> message for better triaging failures in the function.
+> 
+> ima_alloc_key_entry() does not log a message for failure condition.
+> Add an audit message for failure condition in this function.
+> 
+> Sample audit messages:
+> 
+> [    8.051937] audit: type=1804 audit(1591633422.365:8): pid=1 uid=0 auid=4294967295 ses=4294967295 subj=system_u:system_r:init_t:s0 op=measuring_keys cause=hashing_error(-22) comm="systemd" name=".builtin_trusted_keys" res=0
+> 
+> [    8.063218] audit: type=1804 audit(1591633422.377:9): pid=1 uid=0 auid=4294967295 ses=4294967295 subj=system_u:system_r:init_t:s0 op=measuring_kexec_cmdline cause=alloc_entry(-12) comm="systemd" name="kexec-cmdline" res=0
+> 
+> Signed-off-by: Lakshmi Ramasubramanian <nramas@linux.microsoft.com>
 
-[ Upstream commit 3054d06719079388a543de6adb812638675ad8f5 ]
-
-If audit_list_rules_send() fails when trying to create a new thread
-to send the rules it also fails to cleanup properly, leaking a
-reference to a net structure.  This patch fixes the error patch and
-renames audit_send_list() to audit_send_list_thread() to better
-match its cousin, audit_send_reply_thread().
-
-Reported-by: teroincn@gmail.com
 Reviewed-by: Richard Guy Briggs <rgb@redhat.com>
-Signed-off-by: Paul Moore <paul@paul-moore.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- kernel/audit.c       |  2 +-
- kernel/audit.h       |  2 +-
- kernel/auditfilter.c | 16 +++++++---------
- 3 files changed, 9 insertions(+), 11 deletions(-)
 
-diff --git a/kernel/audit.c b/kernel/audit.c
-index 53224f399038..6faaa908544a 100644
---- a/kernel/audit.c
-+++ b/kernel/audit.c
-@@ -853,7 +853,7 @@ static int kauditd_thread(void *dummy)
- 	return 0;
- }
- 
--int audit_send_list(void *_dest)
-+int audit_send_list_thread(void *_dest)
- {
- 	struct audit_netlink_list *dest = _dest;
- 	struct sk_buff *skb;
-diff --git a/kernel/audit.h b/kernel/audit.h
-index 9b110ae17ee3..1007773b0b81 100644
---- a/kernel/audit.h
-+++ b/kernel/audit.h
-@@ -248,7 +248,7 @@ struct audit_netlink_list {
- 	struct sk_buff_head q;
- };
- 
--int audit_send_list(void *_dest);
-+int audit_send_list_thread(void *_dest);
- 
- extern int selinux_audit_rule_update(void);
- 
-diff --git a/kernel/auditfilter.c b/kernel/auditfilter.c
-index 16cf396ea738..f26f4cb5d08d 100644
---- a/kernel/auditfilter.c
-+++ b/kernel/auditfilter.c
-@@ -1137,11 +1137,8 @@ int audit_rule_change(int type, int seq, void *data, size_t datasz)
-  */
- int audit_list_rules_send(struct sk_buff *request_skb, int seq)
- {
--	u32 portid = NETLINK_CB(request_skb).portid;
--	struct net *net = sock_net(NETLINK_CB(request_skb).sk);
- 	struct task_struct *tsk;
- 	struct audit_netlink_list *dest;
--	int err = 0;
- 
- 	/* We can't just spew out the rules here because we might fill
- 	 * the available socket buffer space and deadlock waiting for
-@@ -1149,25 +1146,26 @@ int audit_list_rules_send(struct sk_buff *request_skb, int seq)
- 	 * happen if we're actually running in the context of auditctl
- 	 * trying to _send_ the stuff */
- 
--	dest = kmalloc(sizeof(struct audit_netlink_list), GFP_KERNEL);
-+	dest = kmalloc(sizeof(*dest), GFP_KERNEL);
- 	if (!dest)
- 		return -ENOMEM;
--	dest->net = get_net(net);
--	dest->portid = portid;
-+	dest->net = get_net(sock_net(NETLINK_CB(request_skb).sk));
-+	dest->portid = NETLINK_CB(request_skb).portid;
- 	skb_queue_head_init(&dest->q);
- 
- 	mutex_lock(&audit_filter_mutex);
- 	audit_list_rules(seq, &dest->q);
- 	mutex_unlock(&audit_filter_mutex);
- 
--	tsk = kthread_run(audit_send_list, dest, "audit_send_list");
-+	tsk = kthread_run(audit_send_list_thread, dest, "audit_send_list");
- 	if (IS_ERR(tsk)) {
- 		skb_queue_purge(&dest->q);
-+		put_net(dest->net);
- 		kfree(dest);
--		err = PTR_ERR(tsk);
-+		return PTR_ERR(tsk);
- 	}
- 
--	return err;
-+	return 0;
- }
- 
- int audit_comparator(u32 left, u32 op, u32 right)
--- 
-2.25.1
+> ---
+>  security/integrity/ima/ima.h            |  2 ++
+>  security/integrity/ima/ima_main.c       | 37 +++++++++++++++++++++----
+>  security/integrity/ima/ima_queue.c      |  2 --
+>  security/integrity/ima/ima_queue_keys.c |  4 +++
+>  4 files changed, 37 insertions(+), 8 deletions(-)
+> 
+> diff --git a/security/integrity/ima/ima.h b/security/integrity/ima/ima.h
+> index df93ac258e01..8a47249c6238 100644
+> --- a/security/integrity/ima/ima.h
+> +++ b/security/integrity/ima/ima.h
+> @@ -47,6 +47,8 @@ enum tpm_pcrs { TPM_PCR0 = 0, TPM_PCR8 = 8 };
+>  
+>  #define NR_BANKS(chip) ((chip != NULL) ? chip->nr_allocated_banks : 0)
+>  
+> +#define AUDIT_CAUSE_LEN_MAX 32
+> +
+>  /* current content of the policy */
+>  extern int ima_policy_flag;
+>  
+> diff --git a/security/integrity/ima/ima_main.c b/security/integrity/ima/ima_main.c
+> index 800fb3bba418..b10f09bc7eca 100644
+> --- a/security/integrity/ima/ima_main.c
+> +++ b/security/integrity/ima/ima_main.c
+> @@ -739,6 +739,9 @@ void process_buffer_measurement(const void *buf, int size,
+>  				int pcr, const char *keyring)
+>  {
+>  	int ret = 0;
+> +	const char *audit_cause = "ENOMEM";
+> +	const char *op = "measuring_keys";
+> +	char measurement_audit_cause[AUDIT_CAUSE_LEN_MAX];
+>  	struct ima_template_entry *entry = NULL;
+>  	struct integrity_iint_cache iint = {};
+>  	struct ima_event_data event_data = {.iint = &iint,
+> @@ -793,21 +796,43 @@ void process_buffer_measurement(const void *buf, int size,
+>  	iint.ima_hash->length = hash_digest_size[ima_hash_algo];
+>  
+>  	ret = ima_calc_buffer_hash(buf, size, iint.ima_hash);
+> -	if (ret < 0)
+> +	if (ret < 0) {
+> +		audit_cause = "hashing_error";
+>  		goto out;
+> +	}
+>  
+>  	ret = ima_alloc_init_template(&event_data, &entry, template);
+> -	if (ret < 0)
+> +	if (ret < 0) {
+> +		audit_cause = "alloc_entry";
+>  		goto out;
+> +	}
+>  
+>  	ret = ima_store_template(entry, violation, NULL, buf, pcr);
+> -
+> -	if (ret < 0)
+> +	if (ret < 0) {
+> +		audit_cause = "store_entry";
+>  		ima_free_template_entry(entry);
+> +	}
+>  
+>  out:
+> -	if (ret < 0)
+> -		pr_devel("%s: failed, result: %d\n", __func__, ret);
+> +	if (ret < 0) {
+> +		snprintf(measurement_audit_cause, AUDIT_CAUSE_LEN_MAX,
+> +			 "%s(%d)", audit_cause, ret);
+> +
+> +		switch (func) {
+> +		case KEXEC_CMDLINE:
+> +			op = "measuring_kexec_cmdline";
+> +			break;
+> +		case KEY_CHECK:
+> +			op = "measuring_keys";
+> +			break;
+> +		default:
+> +			op = "measuring_blacklisted_hash";
+> +			break;
+> +		}
+> +
+> +		integrity_audit_msg(AUDIT_INTEGRITY_PCR, NULL, eventname,
+> +				    op, measurement_audit_cause, ret, 0);
+> +	}
+>  
+>  	return;
+>  }
+> diff --git a/security/integrity/ima/ima_queue.c b/security/integrity/ima/ima_queue.c
+> index fb4ec270f620..4a761d765c6c 100644
+> --- a/security/integrity/ima/ima_queue.c
+> +++ b/security/integrity/ima/ima_queue.c
+> @@ -19,8 +19,6 @@
+>  #include <linux/slab.h>
+>  #include "ima.h"
+>  
+> -#define AUDIT_CAUSE_LEN_MAX 32
+> -
+>  /* pre-allocated array of tpm_digest structures to extend a PCR */
+>  static struct tpm_digest *digests;
+>  
+> diff --git a/security/integrity/ima/ima_queue_keys.c b/security/integrity/ima/ima_queue_keys.c
+> index cb3e3f501593..4de31ff172aa 100644
+> --- a/security/integrity/ima/ima_queue_keys.c
+> +++ b/security/integrity/ima/ima_queue_keys.c
+> @@ -68,6 +68,7 @@ static struct ima_key_entry *ima_alloc_key_entry(struct key *keyring,
+>  						 size_t payload_len)
+>  {
+>  	int rc = 0;
+> +	const char *audit_cause = "ENOMEM";
+>  	struct ima_key_entry *entry;
+>  
+>  	entry = kzalloc(sizeof(*entry), GFP_KERNEL);
+> @@ -88,6 +89,9 @@ static struct ima_key_entry *ima_alloc_key_entry(struct key *keyring,
+>  
+>  out:
+>  	if (rc) {
+> +		integrity_audit_msg(AUDIT_INTEGRITY_PCR, NULL,
+> +				    keyring->description, "measuring_keys",
+> +				    audit_cause, rc, 0);
+>  		ima_free_key_entry(entry);
+>  		entry = NULL;
+>  	}
+> -- 
+> 2.27.0
+> 
+> 
+> --
+> Linux-audit mailing list
+> Linux-audit@redhat.com
+> https://www.redhat.com/mailman/listinfo/linux-audit
 
+- RGB
+
+--
+Richard Guy Briggs <rgb@redhat.com>
+Sr. S/W Engineer, Kernel Security, Base Operating Systems
+Remote, Ottawa, Red Hat Canada
+IRC: rgb, SunRaycer
+Voice: +1.647.777.2635, Internal: (81) 32635
 
 --
 Linux-audit mailing list
