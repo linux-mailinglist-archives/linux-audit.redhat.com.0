@@ -1,86 +1,93 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [207.211.31.81])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A70E1FA3C1
-	for <lists+linux-audit@lfdr.de>; Tue, 16 Jun 2020 00:52:13 +0200 (CEST)
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com [205.139.110.120])
+	by mail.lfdr.de (Postfix) with ESMTP id 9AA751FA3D0
+	for <lists+linux-audit@lfdr.de>; Tue, 16 Jun 2020 00:58:47 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1592261532;
+	s=mimecast20190719; t=1592261926;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=E/9XiIflgF2J5bHnJU0GeklQHNT+NStjGWA0ScNDnHc=;
-	b=Eopo9zHnGYvjNVKq/bq9n1DULmhL9xcTYvquHL9gZZn/xnsUTZ1wbTaScTdk2e0CupZ2nW
-	hsCUYa6fGKtmSza4DG6qR1Kb9g+DuHNs5TMXYCWRmTRcnFAbfPR9Hv5EQTMMHw4/bXwu9u
-	/N+Iln35BS/rqieGjRnfRtobrf+DO4E=
+	bh=n3um/at/XLe9IEuLolLTDyUmhq/+qULrlinWQO1mcbs=;
+	b=YswjEeno8mp2fpe4vj2khtDA0TAypVMgDoqCpInKs5gYeLCM6dDgIo5j0wEhniDEcnJA6c
+	rfJWqACU9Bm7OcoBkCvWUrAd7z7OEY75Hl8eifWrVKW5O9Mpo4sSF1Q5U3QI0Gv6Eepsri
+	AtL/QbfkH4Q3HnkK1DudqlBX5qRkx2Q=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-61-fHmTAfcrOvmHybMNqR4lkQ-1; Mon, 15 Jun 2020 18:51:59 -0400
-X-MC-Unique: fHmTAfcrOvmHybMNqR4lkQ-1
+ us-mta-224-6nfr0HQGNuGBGjc5g8vNVw-1; Mon, 15 Jun 2020 18:58:44 -0400
+X-MC-Unique: 6nfr0HQGNuGBGjc5g8vNVw-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 509C9873404;
-	Mon, 15 Jun 2020 22:51:52 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1AF3710059A4;
+	Mon, 15 Jun 2020 22:58:39 +0000 (UTC)
 Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 1A54119C71;
-	Mon, 15 Jun 2020 22:51:50 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 7649A19C71;
+	Mon, 15 Jun 2020 22:58:38 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id E3FC01809547;
-	Mon, 15 Jun 2020 22:51:47 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
-	[10.11.54.4])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 0ABBB1809542;
+	Mon, 15 Jun 2020 22:58:35 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+	[10.11.54.3])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 05FMpekm009735 for <linux-audit@listman.util.phx.redhat.com>;
-	Mon, 15 Jun 2020 18:51:40 -0400
+	id 05FMwU04010431 for <linux-audit@listman.util.phx.redhat.com>;
+	Mon, 15 Jun 2020 18:58:31 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id 3F07D2026E04; Mon, 15 Jun 2020 22:51:40 +0000 (UTC)
+	id C3F8910031E6; Mon, 15 Jun 2020 22:58:30 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
-	(mimecast05.extmail.prod.ext.rdu2.redhat.com [10.11.55.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 3AAF9202683E
-	for <linux-audit@redhat.com>; Mon, 15 Jun 2020 22:51:37 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [207.211.31.81])
+	(mimecast01.extmail.prod.ext.rdu2.redhat.com [10.11.55.17])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id C006D10F2719
+	for <linux-audit@redhat.com>; Mon, 15 Jun 2020 22:58:27 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+	[205.139.110.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 73C778316EB
-	for <linux-audit@redhat.com>; Mon, 15 Jun 2020 22:51:37 +0000 (UTC)
-Received: from mail-ej1-f66.google.com (mail-ej1-f66.google.com
-	[209.85.218.66]) (Using TLS) by relay.mimecast.com with ESMTP id
-	us-mta-241-JtHODIPuNOul7wYyKM5TxA-1; Mon, 15 Jun 2020 18:51:34 -0400
-X-MC-Unique: JtHODIPuNOul7wYyKM5TxA-1
-Received: by mail-ej1-f66.google.com with SMTP id q19so19282179eja.7
-	for <linux-audit@redhat.com>; Mon, 15 Jun 2020 15:51:34 -0700 (PDT)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DA4FA858EFE
+	for <linux-audit@redhat.com>; Mon, 15 Jun 2020 22:58:27 +0000 (UTC)
+Received: from mail-ej1-f65.google.com (mail-ej1-f65.google.com
+	[209.85.218.65]) (Using TLS) by relay.mimecast.com with ESMTP id
+	us-mta-236-6tvRETBDPAKStZlC5UL6IA-1; Mon, 15 Jun 2020 18:58:25 -0400
+X-MC-Unique: 6tvRETBDPAKStZlC5UL6IA-1
+Received: by mail-ej1-f65.google.com with SMTP id y13so19315881eju.2
+	for <linux-audit@redhat.com>; Mon, 15 Jun 2020 15:58:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=SGExwC1aIDo5/1NE6vpBPs1NX4b+lnmovMgwaKLnO7A=;
-	b=mY40q9cPtUmFYfhUl7xDlQDuJXya8AKwo54cfThXxTXWajiHOpcvs8ESNLRBHR/Hg/
-	fjDkwUeGR/dGZ5D5OXiu3TI99Rir/vbNK1j2hHbsN3KzuBrObl4L3KaEootuLJqN114d
-	Rc+mJTy3acq+QMsye2Z0B3iL5dGGBV+dmUVr32CVJoIMXdmRROM1OPAiFPXGx6FDkMbH
-	ZcYhnIRCM4Hq4Ka27jo5Q7u86BjN2g+4jH76xulEgMKiepYYv5kL+4x3YcZoO2FNUEZm
-	eeVTac5nAwtM0oVaOVARwbTHvLnQiB11yCwcnHI95JClzZ0mK44LYDcoNtigIne6p2IY
-	TvKA==
-X-Gm-Message-State: AOAM5316wyNBu9EoZeXyRO+GbZAqXVWS8ShRwzUc+NGuiBTZSPY1A7Rn
-	kxfT0OvJSViD0oNp6639o2Z9P1PQ154wG73I4E4W
-X-Google-Smtp-Source: ABdhPJwx1DRTehCMO5F4dqY47teRIjLqnY3HxSm5d2M5fUhGXkw5h1uYR4YVOM7dFC5GGztogb3hEIyikdfe0ETfuBk=
-X-Received: by 2002:a17:906:2b81:: with SMTP id m1mr67681ejg.488.1592261493251;
-	Mon, 15 Jun 2020 15:51:33 -0700 (PDT)
+	bh=immT4WkLnda6YfNKYGwHA9yJDk2kiBhS/pGbh2mQjPk=;
+	b=NR3Da4+4VSiG+KXLxo5Ow7WTqC7lHaZyupFyc7PwHLKosGJYjhThCvxVIuH0/oGflI
+	9McGlf5uop1vOny1DFaRnQns9AFfC8nDXx0AHtRHOwtEVrhryP2St7H90OHd4qsvHA6h
+	S3EZHxtUfQO7IUC3qeDJUnlbOcMPQbEwfKUz6eecwcIiuUTWjacLCsq76QBWt2uUKBhL
+	vedtXsPpXZ22jNzSdrWNyJbH1hDo5eEw8uSwnM2HJkNgM/0uWqfryDiZEcBeaJ8LNGvz
+	uoXlFOmvroiYjwM9yiJcvbNQXaJ1Md4M+4sYB9d8WoXsPsDN0LidQOCzPBa0IeMeD1A2
+	FZkA==
+X-Gm-Message-State: AOAM533kYinkBeVzROq3xPdiYp0UmEKy4RTm/dPx8RWl0cmruy37kEQ+
+	jwHtl+62E4osBjksWVSwnPE1Y5Tlb4Wdsqal02Einag=
+X-Google-Smtp-Source: ABdhPJz59Qp09HBaGGrVxVf2joidqjdaTot5Cni90eRr1tEiWW7ztppOOClTAF7v0Wc9hS6nXdg99/Q7znc2zKHsCjk=
+X-Received: by 2002:a17:906:ecef:: with SMTP id
+	qt15mr77860ejb.91.1592261904302; 
+	Mon, 15 Jun 2020 15:58:24 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200613022633.3129-1-nramas@linux.microsoft.com>
-In-Reply-To: <20200613022633.3129-1-nramas@linux.microsoft.com>
+References: <20200611000400.3771-1-nramas@linux.microsoft.com>
+	<1591989920.11061.90.camel@linux.ibm.com>
+	<42482562-d74c-2678-069f-1d8ef4feffac@linux.microsoft.com>
+	<8800031.dr63W5FlUW@x2>
+In-Reply-To: <8800031.dr63W5FlUW@x2>
 From: Paul Moore <paul@paul-moore.com>
-Date: Mon, 15 Jun 2020 18:51:22 -0400
-Message-ID: <CAHC9VhTmShh8ggdjLKf_ciL6fDt3ZH59BXaXMAgd8LFzqVj6rQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] integrity: Add result field in audit message
-To: Lakshmi Ramasubramanian <nramas@linux.microsoft.com>
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+Date: Mon, 15 Jun 2020 18:58:13 -0400
+Message-ID: <CAHC9VhT6JSLBD-JMfQbn9eUsUg=juznRz41DTOaia-=WhrAAuA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] integrity: Add errno field in audit message
+To: Steve Grubb <sgrubb@redhat.com>
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
 X-loop: linux-audit@redhat.com
-Cc: rgb@redhat.com, linux-kernel@vger.kernel.org, zohar@linux.ibm.com,
+Cc: rgb@redhat.com, linux-kernel@vger.kernel.org,
+	Mimi Zohar <zohar@linux.ibm.com>,
+	Lakshmi Ramasubramanian <nramas@linux.microsoft.com>,
 	linux-audit@redhat.com, linux-integrity@vger.kernel.org
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
@@ -101,43 +108,28 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-On Fri, Jun 12, 2020 at 10:26 PM Lakshmi Ramasubramanian
-<nramas@linux.microsoft.com> wrote:
-> Result code is not included in the audit messages logged by
-> the integrity subsystem. Add "result" field in the audit messages
-> logged by the integrity subsystem and set the value to the result code
-> passed to integrity_audit_msg() in the "result" parameter.
+On Mon, Jun 15, 2020 at 6:23 PM Steve Grubb <sgrubb@redhat.com> wrote:
+> On Friday, June 12, 2020 3:50:14 PM EDT Lakshmi Ramasubramanian wrote:
+> > On 6/12/20 12:25 PM, Mimi Zohar wrote:
+> > > The idea is a good idea, but you're assuming that "result" is always
+> > > errno.  That was probably true originally, but isn't now.  For
+> > > example, ima_appraise_measurement() calls xattr_verify(), which
+> > > compares the security.ima hash with the calculated file hash.  On
+> > > failure, it returns the result of memcmp().  Each and every code path
+> > > will need to be checked.
+> >
+> > Good catch Mimi.
+> >
+> > Instead of "errno" should we just use "result" and log the value given
+> > in the result parameter?
 >
-> Sample audit message:
->
-> [    6.284329] audit: type=1804 audit(1591756723.627:2): pid=1 uid=0 auid=4294967295 ses=4294967295 subj=kernel op=add_boot_aggregate cause=alloc_entry comm="swapper/0" name="boot_aggregate" res=0 result=-12
->
-> [    8.085456] audit: type=1802 audit(1592005947.297:9): pid=1 uid=0 auid=4294967295 ses=4294967295 subj=system_u:system_r:init_t:s0 op=policy_update cause=completed comm="systemd" res=1 result=0
->
-> Signed-off-by: Lakshmi Ramasubramanian <nramas@linux.microsoft.com>
-> Suggested-by: Steve Grubb <sgrubb@redhat.com>
-> ---
->  security/integrity/integrity_audit.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> That would likely collide with another field of the same name which is the
+> operation's results. If it really is errno, the name is fine. It's generic
+> enough that it can be reused on other events if that mattered.
 
-If we can't use "res=" to carry more than 0/1 then this seems reasonable.
-
-Acked-by: Paul Moore <paul@paul-moore.com>
-
-> diff --git a/security/integrity/integrity_audit.c b/security/integrity/integrity_audit.c
-> index 5109173839cc..84002d3d5a95 100644
-> --- a/security/integrity/integrity_audit.c
-> +++ b/security/integrity/integrity_audit.c
-> @@ -53,6 +53,6 @@ void integrity_audit_msg(int audit_msgno, struct inode *inode,
->                 audit_log_untrustedstring(ab, inode->i_sb->s_id);
->                 audit_log_format(ab, " ino=%lu", inode->i_ino);
->         }
-> -       audit_log_format(ab, " res=%d", !result);
-> +       audit_log_format(ab, " res=%d result=%d", !result, result);
->         audit_log_end(ab);
->  }
-> --
-> 2.27.0
+Steve, what is the historical reason why we have both "res" and
+"result" for indicating a boolean success/fail?  I'm just curious how
+we ended up this way, and who may still be using "result".
 
 -- 
 paul moore
