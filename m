@@ -1,88 +1,75 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [207.211.31.81])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C07A1FD4CF
-	for <lists+linux-audit@lfdr.de>; Wed, 17 Jun 2020 20:48:07 +0200 (CEST)
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-delivery-1.mimecast.com [207.211.31.120])
+	by mail.lfdr.de (Postfix) with ESMTP id 6803E1FD67A
+	for <lists+linux-audit@lfdr.de>; Wed, 17 Jun 2020 22:55:28 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1592419686;
+	s=mimecast20190719; t=1592427327;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:list-id:list-help:
+	 content-transfer-encoding:content-transfer-encoding:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=THpPpX5rOh6H+lrOf2S4B7aoL4fNdrHgf6CTYCrrTSE=;
-	b=VvwgwCp+yJo/eGthWETc4B19r8sACYhyu5WCtCivutxJoOMIAX0ShgmHYFUlbq0rT5StvE
-	wlszw2MraH/HzqhK3AVGQzDeFJZ0AFGAUri3+SColSkfreUqSGQW4sy6VpBt1w1/R9DjxI
-	0ubGdBLr4vVZY/NReGVbXXZft6uI1Fw=
+	bh=0fozy1AJ7M3f0op5an4ND68qyDGSLJ9ui9zG75WfW9k=;
+	b=Vk/PtBey45V/pHOE04net/z2b5Tt0YXf1qHximq5H+VhyhUR7YfGbylvrI+M2GU4+sYKlQ
+	bA+OciaeAuoJ++YiDP6TEuA4CbtGYHC97yOBH6YtmDfuBgNEH3L5otHqSoNIolJZYK2HJR
+	pJ7CO3TDNxlguDpm2KxZmOFzRF0Bqx8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-167-6iE3or_ZPNu36c0M5oGynA-1; Wed, 17 Jun 2020 14:48:03 -0400
-X-MC-Unique: 6iE3or_ZPNu36c0M5oGynA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+ us-mta-343-I9hW-2r9PjWR6WU2PUFY3w-1; Wed, 17 Jun 2020 16:55:25 -0400
+X-MC-Unique: I9hW-2r9PjWR6WU2PUFY3w-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E05C5420FF;
-	Wed, 17 Jun 2020 18:47:56 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3BA75835B4A;
+	Wed, 17 Jun 2020 20:55:19 +0000 (UTC)
 Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id A2E185D9DA;
-	Wed, 17 Jun 2020 18:47:52 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 0AFED10013D6;
+	Wed, 17 Jun 2020 20:55:19 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 77653833CA;
-	Wed, 17 Jun 2020 18:47:46 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
-	[10.11.54.4])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 8400D833C8;
+	Wed, 17 Jun 2020 20:55:17 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+	[10.11.54.5])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 05HIlbwq013025 for <linux-audit@listman.util.phx.redhat.com>;
-	Wed, 17 Jun 2020 14:47:37 -0400
+	id 05HKTQ5Q028628 for <linux-audit@listman.util.phx.redhat.com>;
+	Wed, 17 Jun 2020 16:29:27 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id 491462028E91; Wed, 17 Jun 2020 18:47:37 +0000 (UTC)
+	id CA88FF100D; Wed, 17 Jun 2020 20:29:26 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
-	(mimecast06.extmail.prod.ext.rdu2.redhat.com [10.11.55.22])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 43E202026DFD
-	for <linux-audit@redhat.com>; Wed, 17 Jun 2020 18:47:34 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [207.211.31.81])
+	(mimecast04.extmail.prod.ext.rdu2.redhat.com [10.11.55.20])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id C642EEE865
+	for <linux-audit@redhat.com>; Wed, 17 Jun 2020 20:29:24 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+	[207.211.31.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CD96E1859162
-	for <linux-audit@redhat.com>; Wed, 17 Jun 2020 18:47:34 +0000 (UTC)
-Received: from mail-ej1-f66.google.com (mail-ej1-f66.google.com
-	[209.85.218.66]) (Using TLS) by relay.mimecast.com with ESMTP id
-	us-mta-287-accMTix3MPGF3pqV_jK-iw-1; Wed, 17 Jun 2020 14:47:32 -0400
-X-MC-Unique: accMTix3MPGF3pqV_jK-iw-1
-Received: by mail-ej1-f66.google.com with SMTP id gl26so3600613ejb.11
-	for <linux-audit@redhat.com>; Wed, 17 Jun 2020 11:47:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=by/BjzK7W1YnBH4ShdR0OKZR3ptIFU7vyPIwPS9Z6bk=;
-	b=pk8GPm8FLWvRtudFANZB6Ud42psi4mnBJJnNTWSlBmgpmJHUS1OYLGxqQKATBXKD8A
-	kxDomS11r3ncmM1RzBvGEuOdB6L4VazwHsg7O+ID+Yp99ksEU3qwiWooCMWZdJQqd0yL
-	WLCFHLP+3gZmuutxBuOCAGa4aJxKGzk09IppmJuMKcMfG5CcTvPBmwITCmvmkZuzq1cg
-	WoPac0LZAmm9bphgjESXA//eiKWRRveyzM550Dbux6r7KyiQrFVPL+h4apw/54SK/u6z
-	KpQmFuiMjWb/XNDgWFxUi5/Rxg0q9gpdmL1pEdhyWdRTM3xJ9dna3WaxJbM/HFicCeUZ
-	pq4w==
-X-Gm-Message-State: AOAM530saC7NZFjRnweKEht7qK38d3LryJL6uASmWdSCPrzmzdo7kSnK
-	5mW1QySB9ukUQz8eFncK4gH7sNMnavcy04nYEohLiPI=
-X-Google-Smtp-Source: ABdhPJzaz1lLKgUCfDInCKC1vBGkoPMarFSsLTPrPP3u9LidWUGRzzkOxgfsE+u83y12o0gGxtq94PYP0tGSpB5PGHc=
-X-Received: by 2002:a17:906:2b81:: with SMTP id
-	m1mr501591ejg.488.1592419650629; 
-	Wed, 17 Jun 2020 11:47:30 -0700 (PDT)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E8FEC108C26D
+	for <linux-audit@redhat.com>; Wed, 17 Jun 2020 20:29:23 +0000 (UTC)
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182]) by
+	relay.mimecast.com with ESMTP id us-mta-127-a0c40kd9Ol2cjZi1jnVZqA-1;
+	Wed, 17 Jun 2020 16:29:20 -0400
+X-MC-Unique: a0c40kd9Ol2cjZi1jnVZqA-1
+Received: from localhost.localdomain (c-73-42-176-67.hsd1.wa.comcast.net
+	[73.42.176.67])
+	by linux.microsoft.com (Postfix) with ESMTPSA id BA4AB20B7192;
+	Wed, 17 Jun 2020 13:29:18 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com BA4AB20B7192
+From: Lakshmi Ramasubramanian <nramas@linux.microsoft.com>
+To: zohar@linux.ibm.com, sgrubb@redhat.com, paul@paul-moore.com
+Subject: [PATCH] IMA: Add audit log for failure conditions
+Date: Wed, 17 Jun 2020 13:29:14 -0700
+Message-Id: <20200617202914.20576-1-nramas@linux.microsoft.com>
 MIME-Version: 1.0
-References: <20200616045855.GA1699@linux-kernel-dev>
-In-Reply-To: <20200616045855.GA1699@linux-kernel-dev>
-From: Paul Moore <paul@paul-moore.com>
-Date: Wed, 17 Jun 2020 14:47:19 -0400
-Message-ID: <CAHC9VhSotFw2i7HzWrHUyc6VSbwTpv8ZBeP58H_mzi6bd=Uouw@mail.gmail.com>
-Subject: Re: [PATCH] audit: optionally print warning after waiting to enqueue
-	record
-To: Max Englander <max.englander@gmail.com>
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+X-MIME-Autoconverted: from quoted-printable to 8bit by
+	lists01.pubmisc.prod.ext.phx2.redhat.com id 05HKTQ5Q028628
 X-loop: linux-audit@redhat.com
-Cc: linux-audit@redhat.com
+X-Mailman-Approved-At: Wed, 17 Jun 2020 16:55:12 -0400
+Cc: rgb@redhat.com, linux-integrity@vger.kernel.org, linux-audit@redhat.com,
+	linux-kernel@vger.kernel.org
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -96,56 +83,182 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-On Tue, Jun 16, 2020 at 12:58 AM Max Englander <max.englander@gmail.com> wrote:
->
-> In environments where security is prioritized, users may set
-> --backlog_wait_time to a high value in order to reduce the likelihood
-> that any audit event is lost, even though doing so may result in
-> unpredictable performance if the kernel schedules a timeout when the
-> backlog limit is exceeded. For these users, the next best thing to
-> predictable performance is the ability to quickly detect and react to
-> degraded performance. This patch proposes to aid the detection of kernel
-> audit subsystem pauses through the following changes:
->
-> Add a variable named audit_backlog_warn_time. Enforce the value of this
-> variable to be no less than zero, and no more than the value of
-> audit_backlog_wait_time.
->
-> If audit_backlog_warn_time is greater than zero and if the total time
-> spent waiting to enqueue an audit record is greater than or equal to
-> audit_backlog_warn_time, then print a warning with the total time
-> spent waiting.
->
-> An example configuration:
->
->         auditctl --backlog_warn_time 50
->
-> An example warning message:
->
->         audit: sleep_time=52 >= audit_backlog_warn_time=50
->
-> Tested on Ubuntu 18.04.04 using complementary changes to the audit
-> userspace: https://github.com/linux-audit/audit-userspace/pull/131.
->
-> Signed-off-by: Max Englander <max.englander@gmail.com>
-> ---
->  include/uapi/linux/audit.h |  7 ++++++-
->  kernel/audit.c             | 35 +++++++++++++++++++++++++++++++++++
->  2 files changed, 41 insertions(+), 1 deletion(-)
+process_buffer_measurement() and ima_alloc_key_entry() functions need to
+log an audit message for auditing integrity measurement failures.
 
-If an admin is prioritizing security, aka don't loose any audit
-records, and there is a concern over variable system latency due to an
-audit queue backlog, why not simply disable the backlog limit?
+Add audit message in these two functions. Remove "pr_devel" log message
+in process_buffer_measurement().
 
+Sample audit messages:
+
+[    6.415374] audit: type=1804 audit(1592005945.627:2): pid=1 uid=0 auid=4294967295 ses=4294967295 subj=kernel op=measuring_kexec_cmdline cause=alloc_entry comm="swapper/0" name="kexec-cmdline" res=0
+
+[    8.128004] audit: type=1804 audit(1592005947.341:11): pid=1 uid=0 auid=4294967295 ses=4294967295 subj=system_u:system_r:init_t:s0 op=measuring_key cause=hashing_error comm="systemd" name=".builtin_trusted_keys" res=0
+
+Signed-off-by: Lakshmi Ramasubramanian <nramas@linux.microsoft.com>
+Suggested-by: Mimi Zohar <zohar@linux.ibm.com>
+---
+ security/integrity/ima/ima.h            | 48 ++++++++++++++++---------
+ security/integrity/ima/ima_main.c       | 18 +++++++---
+ security/integrity/ima/ima_policy.c     |  2 +-
+ security/integrity/ima/ima_queue_keys.c |  5 +++
+ 4 files changed, 51 insertions(+), 22 deletions(-)
+
+diff --git a/security/integrity/ima/ima.h b/security/integrity/ima/ima.h
+index df93ac258e01..c3a32e181b48 100644
+--- a/security/integrity/ima/ima.h
++++ b/security/integrity/ima/ima.h
+@@ -186,27 +186,43 @@ static inline unsigned int ima_hash_key(u8 *digest)
+ 	return (digest[0] | digest[1] << 8) % IMA_MEASURE_HTABLE_SIZE;
+ }
+ 
+-#define __ima_hooks(hook)		\
+-	hook(NONE)			\
+-	hook(FILE_CHECK)		\
+-	hook(MMAP_CHECK)		\
+-	hook(BPRM_CHECK)		\
+-	hook(CREDS_CHECK)		\
+-	hook(POST_SETATTR)		\
+-	hook(MODULE_CHECK)		\
+-	hook(FIRMWARE_CHECK)		\
+-	hook(KEXEC_KERNEL_CHECK)	\
+-	hook(KEXEC_INITRAMFS_CHECK)	\
+-	hook(POLICY_CHECK)		\
+-	hook(KEXEC_CMDLINE)		\
+-	hook(KEY_CHECK)			\
+-	hook(MAX_CHECK)
+-#define __ima_hook_enumify(ENUM)	ENUM,
++#define __ima_hooks(hook)				\
++	hook(NONE, none)				\
++	hook(FILE_CHECK, file)				\
++	hook(MMAP_CHECK, mmap)				\
++	hook(BPRM_CHECK, bprm)				\
++	hook(CREDS_CHECK, creds)			\
++	hook(POST_SETATTR, post_setattr)		\
++	hook(MODULE_CHECK, module)			\
++	hook(FIRMWARE_CHECK, firmware)			\
++	hook(KEXEC_KERNEL_CHECK, kexec_kernel)		\
++	hook(KEXEC_INITRAMFS_CHECK, kexec_initramfs)	\
++	hook(POLICY_CHECK, policy)			\
++	hook(KEXEC_CMDLINE, kexec_cmdline)		\
++	hook(KEY_CHECK, key)				\
++	hook(MAX_CHECK, none)
++
++#define __ima_hook_enumify(ENUM, str)	ENUM,
++#define __ima_stringify(arg) (#arg)
++#define __ima_hook_measuring_stringify(ENUM, str) \
++		(__ima_stringify(measuring_ ##str)),
+ 
+ enum ima_hooks {
+ 	__ima_hooks(__ima_hook_enumify)
+ };
+ 
++static const char * const ima_hooks_measure_str[] = {
++	__ima_hooks(__ima_hook_measuring_stringify)
++};
++
++static inline const char *func_measure_str(enum ima_hooks func)
++{
++	if (func >= MAX_CHECK)
++		return ima_hooks_measure_str[NONE];
++
++	return ima_hooks_measure_str[func];
++}
++
+ extern const char *const func_tokens[];
+ 
+ struct modsig;
+diff --git a/security/integrity/ima/ima_main.c b/security/integrity/ima/ima_main.c
+index c1583d98c5e5..8a001aa8e592 100644
+--- a/security/integrity/ima/ima_main.c
++++ b/security/integrity/ima/ima_main.c
+@@ -740,6 +740,7 @@ void process_buffer_measurement(const void *buf, int size,
+ 				int pcr, const char *keyring)
+ {
+ 	int ret = 0;
++	const char *audit_cause = "ENOMEM";
+ 	struct ima_template_entry *entry = NULL;
+ 	struct integrity_iint_cache iint = {};
+ 	struct ima_event_data event_data = {.iint = &iint,
+@@ -794,21 +795,28 @@ void process_buffer_measurement(const void *buf, int size,
+ 	iint.ima_hash->length = hash_digest_size[ima_hash_algo];
+ 
+ 	ret = ima_calc_buffer_hash(buf, size, iint.ima_hash);
+-	if (ret < 0)
++	if (ret < 0) {
++		audit_cause = "hashing_error";
+ 		goto out;
++	}
+ 
+ 	ret = ima_alloc_init_template(&event_data, &entry, template);
+-	if (ret < 0)
++	if (ret < 0) {
++		audit_cause = "alloc_entry";
+ 		goto out;
++	}
+ 
+ 	ret = ima_store_template(entry, violation, NULL, buf, pcr);
+-
+-	if (ret < 0)
++	if (ret < 0) {
++		audit_cause = "store_entry";
+ 		ima_free_template_entry(entry);
++	}
+ 
+ out:
+ 	if (ret < 0)
+-		pr_devel("%s: failed, result: %d\n", __func__, ret);
++		integrity_audit_msg(AUDIT_INTEGRITY_PCR, NULL, eventname,
++				    func_measure_str(func),
++				    audit_cause, ret, 0);
+ 
+ 	return;
+ }
+diff --git a/security/integrity/ima/ima_policy.c b/security/integrity/ima/ima_policy.c
+index e493063a3c34..66aa3e17a888 100644
+--- a/security/integrity/ima/ima_policy.c
++++ b/security/integrity/ima/ima_policy.c
+@@ -1414,7 +1414,7 @@ void ima_delete_rules(void)
+ 	}
+ }
+ 
+-#define __ima_hook_stringify(str)	(#str),
++#define __ima_hook_stringify(func, str)	(#func),
+ 
+ const char *const func_tokens[] = {
+ 	__ima_hooks(__ima_hook_stringify)
+diff --git a/security/integrity/ima/ima_queue_keys.c b/security/integrity/ima/ima_queue_keys.c
+index cb3e3f501593..631fd7ab2dcd 100644
+--- a/security/integrity/ima/ima_queue_keys.c
++++ b/security/integrity/ima/ima_queue_keys.c
+@@ -68,6 +68,7 @@ static struct ima_key_entry *ima_alloc_key_entry(struct key *keyring,
+ 						 size_t payload_len)
+ {
+ 	int rc = 0;
++	const char *audit_cause = "ENOMEM";
+ 	struct ima_key_entry *entry;
+ 
+ 	entry = kzalloc(sizeof(*entry), GFP_KERNEL);
+@@ -88,6 +89,10 @@ static struct ima_key_entry *ima_alloc_key_entry(struct key *keyring,
+ 
+ out:
+ 	if (rc) {
++		integrity_audit_msg(AUDIT_INTEGRITY_PCR, NULL,
++				    keyring->description,
++				    func_measure_str(KEY_CHECK),
++				    audit_cause, rc, 0);
+ 		ima_free_key_entry(entry);
+ 		entry = NULL;
+ 	}
 -- 
-paul moore
-www.paul-moore.com
+2.27.0
+
 
 --
 Linux-audit mailing list
