@@ -1,64 +1,75 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com [205.139.110.120])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B6CD1FFF47
-	for <lists+linux-audit@lfdr.de>; Fri, 19 Jun 2020 02:30:45 +0200 (CEST)
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-delivery-1.mimecast.com [207.211.31.120])
+	by mail.lfdr.de (Postfix) with ESMTP id 38B63200F87
+	for <lists+linux-audit@lfdr.de>; Fri, 19 Jun 2020 17:23:02 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1592526644;
+	s=mimecast20190719; t=1592580181;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=FfUu8P/kLZ/mDhGPd1CmYHRBNffMkEJnavI1j/NXP8w=;
-	b=fvfYDAplYkqbP5BAOkgFccN9488NMUwiEM2hGq4X2fCawV6U1idGEcGMujOfs3jZNRnJWE
-	Y7hwwji4xUedQvjzF0s6YTNKVv+13do1bhmHjmRn9Mdi0K2bC56Ozn4qOhb664SbS2s+vg
-	ALTketsqKWZjqc6zRokzAIjCi22/v4k=
+	bh=eeO1HE4fBeb+mcqky0A9OOtS1xvZig5Ow5EiJU+nTGk=;
+	b=Qp5CPdG4THR057kFZHRXsjQHGOkk+u0x+KT605muPfm53NaQZAzOromvrCr+8vG6nu+pS1
+	wlKxn852Ik3yZ9o4bYMWWcJAOQiEJW5ADFdUTNk9wi9rgnI3RUl16kOm+dzc/onwkRbUIu
+	98AtKpDwpNujDYrzMS50UAgTfNxL3ik=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-228-Fm--6yshOji2p2ARXgq0vg-1; Thu, 18 Jun 2020 20:30:41 -0400
-X-MC-Unique: Fm--6yshOji2p2ARXgq0vg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+ us-mta-203-6auMh-atOA6lqloqdLGwvg-1; Fri, 19 Jun 2020 11:22:59 -0400
+X-MC-Unique: 6auMh-atOA6lqloqdLGwvg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 378CC1005512;
-	Fri, 19 Jun 2020 00:30:35 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 696EEBFC0;
+	Fri, 19 Jun 2020 15:22:52 +0000 (UTC)
 Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id E1BB55C1BB;
-	Fri, 19 Jun 2020 00:30:31 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id CDE6B5D9CA;
+	Fri, 19 Jun 2020 15:22:50 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id DE5EA833C3;
-	Fri, 19 Jun 2020 00:30:27 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
-	[10.5.11.13])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 8C6DE833C1;
+	Fri, 19 Jun 2020 15:22:46 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+	[10.5.11.16])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 05J0UJcT026749 for <linux-audit@listman.util.phx.redhat.com>;
-	Thu, 18 Jun 2020 20:30:19 -0400
+	id 05JFMYS7017979 for <linux-audit@listman.util.phx.redhat.com>;
+	Fri, 19 Jun 2020 11:22:34 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id 2E3B71C4; Fri, 19 Jun 2020 00:30:19 +0000 (UTC)
+	id BF44E5C221; Fri, 19 Jun 2020 15:22:34 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from madcap2.tricolour.ca (unknown [10.10.110.28])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id B56E57CAA0;
-	Fri, 19 Jun 2020 00:30:12 +0000 (UTC)
-Date: Thu, 18 Jun 2020 20:30:10 -0400
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 0CD205C1D0;
+	Fri, 19 Jun 2020 15:22:19 +0000 (UTC)
+Date: Fri, 19 Jun 2020 11:22:17 -0400
 From: Richard Guy Briggs <rgb@redhat.com>
-To: Max Englander <max.englander@gmail.com>
-Subject: Re: [PATCH] audit: optionally print warning after waiting to enqueue
-	record
-Message-ID: <20200619003009.yt5xdcpw6vggiwkl@madcap2.tricolour.ca>
-References: <20200616045855.GA1699@linux-kernel-dev>
-	<CAHC9VhSotFw2i7HzWrHUyc6VSbwTpv8ZBeP58H_mzi6bd=Uouw@mail.gmail.com>
-	<20200617225416.GA2688@linux-kernel-dev>
-	<CAHC9VhQYaZAm4oRg4h2TiuhPR+CWp8yU4Sviao64MWwVw6nigw@mail.gmail.com>
-	<20200618234836.GB3975@linux-kernel-dev>
+To: "Eric W. Biederman" <ebiederm@xmission.com>
+Subject: Re: [PATCH ghak90 V8 07/16] audit: add contid support for signalling
+	the audit daemon
+Message-ID: <20200619152217.s4bb376ud575gufo@madcap2.tricolour.ca>
+References: <CAHC9VhTQUnVhoN3JXTAQ7ti+nNLfGNVXhT6D-GYJRSpJHCwDRg@mail.gmail.com>
+	<20200330134705.jlrkoiqpgjh3rvoh@madcap2.tricolour.ca>
+	<CAHC9VhQTsEMcYAF1CSHrrVn07DR450W9j6sFVfKAQZ0VpheOfw@mail.gmail.com>
+	<20200330162156.mzh2tsnovngudlx2@madcap2.tricolour.ca>
+	<CAHC9VhTRzZXJ6yUFL+xZWHNWZFTyiizBK12ntrcSwmgmySbkWw@mail.gmail.com>
+	<20200330174937.xalrsiev7q3yxsx2@madcap2.tricolour.ca>
+	<CAHC9VhR_bKSHDn2WAUgkquu+COwZUanc0RV3GRjMDvpoJ5krjQ@mail.gmail.com>
+	<871ronf9x2.fsf@x220.int.ebiederm.org>
+	<CAHC9VhR3gbmj5+5MY-whLtStKqDEHgvMRigU9hW0X1kpxF91ag@mail.gmail.com>
+	<871rol7nw3.fsf@x220.int.ebiederm.org>
 MIME-Version: 1.0
-In-Reply-To: <20200618234836.GB3975@linux-kernel-dev>
+In-Reply-To: <871rol7nw3.fsf@x220.int.ebiederm.org>
 User-Agent: NeoMutt/20180716
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-loop: linux-audit@redhat.com
-Cc: linux-audit@redhat.com
+Cc: nhorman@tuxdriver.com, linux-api@vger.kernel.org,
+	containers@lists.linux-foundation.org,
+	LKML <linux-kernel@vger.kernel.org>, dhowells@redhat.com,
+	linux-audit@redhat.com, netfilter-devel@vger.kernel.org,
+	simo@redhat.com, netdev@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	Eric Paris <eparis@parisplace.org>, mpatel@redhat.com,
+	Serge Hallyn <serge@hallyn.com>
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -72,138 +83,162 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Content-Disposition: inline
 
-T24gMjAyMC0wNi0xOCAyMzo0OCwgTWF4IEVuZ2xhbmRlciB3cm90ZToKPiBPbiBXZWQsIEp1biAx
-NywgMjAyMCBhdCAwOTowNjoyN1BNIC0wNDAwLCBQYXVsIE1vb3JlIHdyb3RlOgo+ID4gT24gV2Vk
-LCBKdW4gMTcsIDIwMjAgYXQgNjo1NCBQTSBNYXggRW5nbGFuZGVyIDxtYXguZW5nbGFuZGVyQGdt
-YWlsLmNvbT4gd3JvdGU6Cj4gPiA+IE9uIFdlZCwgSnVuIDE3LCAyMDIwIGF0IDAyOjQ3OjE5UE0g
-LTA0MDAsIFBhdWwgTW9vcmUgd3JvdGU6Cj4gPiA+ID4gT24gVHVlLCBKdW4gMTYsIDIwMjAgYXQg
-MTI6NTggQU0gTWF4IEVuZ2xhbmRlciA8bWF4LmVuZ2xhbmRlckBnbWFpbC5jb20+IHdyb3RlOgo+
-ID4gPiA+ID4KPiA+ID4gPiA+IEluIGVudmlyb25tZW50cyB3aGVyZSBzZWN1cml0eSBpcyBwcmlv
-cml0aXplZCwgdXNlcnMgbWF5IHNldAo+ID4gPiA+ID4gLS1iYWNrbG9nX3dhaXRfdGltZSB0byBh
-IGhpZ2ggdmFsdWUgaW4gb3JkZXIgdG8gcmVkdWNlIHRoZSBsaWtlbGlob29kCj4gPiA+ID4gPiB0
-aGF0IGFueSBhdWRpdCBldmVudCBpcyBsb3N0LCBldmVuIHRob3VnaCBkb2luZyBzbyBtYXkgcmVz
-dWx0IGluCj4gPiA+ID4gPiB1bnByZWRpY3RhYmxlIHBlcmZvcm1hbmNlIGlmIHRoZSBrZXJuZWwg
-c2NoZWR1bGVzIGEgdGltZW91dCB3aGVuIHRoZQo+ID4gPiA+ID4gYmFja2xvZyBsaW1pdCBpcyBl
-eGNlZWRlZC4gRm9yIHRoZXNlIHVzZXJzLCB0aGUgbmV4dCBiZXN0IHRoaW5nIHRvCj4gPiA+ID4g
-PiBwcmVkaWN0YWJsZSBwZXJmb3JtYW5jZSBpcyB0aGUgYWJpbGl0eSB0byBxdWlja2x5IGRldGVj
-dCBhbmQgcmVhY3QgdG8KPiA+ID4gPiA+IGRlZ3JhZGVkIHBlcmZvcm1hbmNlLiBUaGlzIHBhdGNo
-IHByb3Bvc2VzIHRvIGFpZCB0aGUgZGV0ZWN0aW9uIG9mIGtlcm5lbAo+ID4gPiA+ID4gYXVkaXQg
-c3Vic3lzdGVtIHBhdXNlcyB0aHJvdWdoIHRoZSBmb2xsb3dpbmcgY2hhbmdlczoKPiA+ID4gPiA+
-Cj4gPiA+ID4gPiBBZGQgYSB2YXJpYWJsZSBuYW1lZCBhdWRpdF9iYWNrbG9nX3dhcm5fdGltZS4g
-RW5mb3JjZSB0aGUgdmFsdWUgb2YgdGhpcwo+ID4gPiA+ID4gdmFyaWFibGUgdG8gYmUgbm8gbGVz
-cyB0aGFuIHplcm8sIGFuZCBubyBtb3JlIHRoYW4gdGhlIHZhbHVlIG9mCj4gPiA+ID4gPiBhdWRp
-dF9iYWNrbG9nX3dhaXRfdGltZS4KPiA+ID4gPiA+Cj4gPiA+ID4gPiBJZiBhdWRpdF9iYWNrbG9n
-X3dhcm5fdGltZSBpcyBncmVhdGVyIHRoYW4gemVybyBhbmQgaWYgdGhlIHRvdGFsIHRpbWUKPiA+
-ID4gPiA+IHNwZW50IHdhaXRpbmcgdG8gZW5xdWV1ZSBhbiBhdWRpdCByZWNvcmQgaXMgZ3JlYXRl
-ciB0aGFuIG9yIGVxdWFsIHRvCj4gPiA+ID4gPiBhdWRpdF9iYWNrbG9nX3dhcm5fdGltZSwgdGhl
-biBwcmludCBhIHdhcm5pbmcgd2l0aCB0aGUgdG90YWwgdGltZQo+ID4gPiA+ID4gc3BlbnQgd2Fp
-dGluZy4KPiA+ID4gPiA+Cj4gPiA+ID4gPiBBbiBleGFtcGxlIGNvbmZpZ3VyYXRpb246Cj4gPiA+
-ID4gPgo+ID4gPiA+ID4gICAgICAgICBhdWRpdGN0bCAtLWJhY2tsb2dfd2Fybl90aW1lIDUwCj4g
-PiA+ID4gPgo+ID4gPiA+ID4gQW4gZXhhbXBsZSB3YXJuaW5nIG1lc3NhZ2U6Cj4gPiA+ID4gPgo+
-ID4gPiA+ID4gICAgICAgICBhdWRpdDogc2xlZXBfdGltZT01MiA+PSBhdWRpdF9iYWNrbG9nX3dh
-cm5fdGltZT01MAo+ID4gPiA+ID4KPiA+ID4gPiA+IFRlc3RlZCBvbiBVYnVudHUgMTguMDQuMDQg
-dXNpbmcgY29tcGxlbWVudGFyeSBjaGFuZ2VzIHRvIHRoZSBhdWRpdAo+ID4gPiA+ID4gdXNlcnNw
-YWNlOiBodHRwczovL2dpdGh1Yi5jb20vbGludXgtYXVkaXQvYXVkaXQtdXNlcnNwYWNlL3B1bGwv
-MTMxLgo+ID4gPiA+ID4KPiA+ID4gPiA+IFNpZ25lZC1vZmYtYnk6IE1heCBFbmdsYW5kZXIgPG1h
-eC5lbmdsYW5kZXJAZ21haWwuY29tPgo+ID4gPiA+ID4gLS0tCj4gPiA+ID4gPiAgaW5jbHVkZS91
-YXBpL2xpbnV4L2F1ZGl0LmggfCAgNyArKysrKystCj4gPiA+ID4gPiAga2VybmVsL2F1ZGl0LmMg
-ICAgICAgICAgICAgfCAzNSArKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKwo+ID4g
-PiA+ID4gIDIgZmlsZXMgY2hhbmdlZCwgNDEgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQo+
-ID4gPiA+Cj4gPiA+ID4gSWYgYW4gYWRtaW4gaXMgcHJpb3JpdGl6aW5nIHNlY3VyaXR5LCBha2Eg
-ZG9uJ3QgbG9vc2UgYW55IGF1ZGl0Cj4gPiA+ID4gcmVjb3JkcywgYW5kIHRoZXJlIGlzIGEgY29u
-Y2VybiBvdmVyIHZhcmlhYmxlIHN5c3RlbSBsYXRlbmN5IGR1ZSB0byBhbgo+ID4gPiA+IGF1ZGl0
-IHF1ZXVlIGJhY2tsb2csIHdoeSBub3Qgc2ltcGx5IGRpc2FibGUgdGhlIGJhY2tsb2cgbGltaXQ/
-Cj4gPiA+ID4KPiA+ID4gPiAtLQo+ID4gPiA+IHBhdWwgbW9vcmUKPiA+ID4gPiB3d3cucGF1bC1t
-b29yZS5jb20KPiA+ID4KPiA+ID4gVGhhdOKAmXMgZ29vZCBpbiBzb21lIGNhc2VzLCBidXQgaW4g
-b3RoZXIgY2FzZXMgdW5ib3VuZGVkIGdyb3d0aCBvZiB0aGUKPiA+ID4gYmFja2xvZyBjb3VsZCBy
-ZXN1bHQgaW4gbWVtb3J5IGlzc3Vlcy4gSWYgdGhlIGtlcm5lbCBydW5zIG91dCBvZiBtZW1vcnkK
-PiA+ID4gaXQgd291bGQgZHJvcCB0aGUgYXVkaXQgZXZlbnQgb3IgcG9zc2libHkgaGF2ZSBvdGhl
-ciBwcm9ibGVtcy4gSXQgY291bGQKPiA+ID4gYWxzbyBhbHNvIGNvbnN1bWUgbWVtb3J5IGluIGEg
-d2F5IHRoYXQgc3RhcnZlcyB1c2VyIHdvcmtsb2FkcyBvciBjYXVzZXMKPiA+ID4gdGhlbSB0byBi
-ZSBraWxsZWQgYnkgdGhlIE9PTUtpbGxlci4KPiA+ID4KPiA+ID4gVG8gcmVmaW5lIG15IG1vdGl2
-YXRpbmcgdXNlIGNhc2UgYSBiaXQsIGlmIGEgS3ViZXJuZXRlcyBhZG1pbiB3YW50cyB0bwo+ID4g
-PiBwcmlvcml0aXplIHNlY3VyaXR5LCBhbmQgYWxzbyBhdm9pZCB1bmJvdW5kZWQgZ3Jvd3RoIG9m
-IHRoZSBhdWRpdAo+ID4gPiBiYWNrbG9nLCB0aGV5IG1heSBzZXQgLWIgYW5kIC0tYmFja2xvZ193
-YWl0X3RpbWUgaW4gYSB3YXkgdGhhdCBsaW1pdHMKPiA+ID4ga2VybmVsIG1lbW9yeSB1c2FnZSBh
-bmQgcmVkdWNlcyB0aGUgbGlrZWxpaG9vZCB0aGF0IGFueSBhdWRpdCBldmVudCBpcwo+ID4gPiBs
-b3N0LiBPY2Nhc2lvbmFsIHBlcmZvcm1hbmNlIGRlZ3JhZGF0aW9uIG1heSBiZSBhY2NlcHRhYmxl
-IHRvIHRoZSBhZG1pbiwKPiA+ID4gYnV0IHRoZXkgd291bGQgbGlrZSBhIHdheSB0byBiZSBhbGVy
-dGVkIHRvIHByb2xvbmdlZCBrZXJuZWwgcGF1c2VzLCBzbwo+ID4gPiB0aGF0IHRoZXkgY2FuIGlu
-dmVzdGlnYXRlIGFuZCB0YWtlIGNvcnJlY3RpdmUgYWN0aW9uIChpbmNyZWFzZSBiYWNrbG9nLAo+
-ID4gPiBpbmNyZWFzZSBzZXJ2ZXIgY2FwYWNpdHksIG1vdmUgc29tZSB3b3JrbG9hZHMgdG8gb3Ro
-ZXIgc2VydmVycywgZXRjLikuCj4gPiA+Cj4gPiA+IFRvIHN0YXRlIGFub3RoZXIgd2F5LiBUaGUg
-a2VybmVsIGN1cnJlbnRseSBjYW4gYmUgY29uZmlndXJlZCB0byBwcmludCBhCj4gPiA+IG1lc3Nh
-Z2Ugd2hlbiB0aGUgYmFja2xvZyBsaW1pdCBpcyBleGNlZWRlZCBhbmQgaXQgbXVzdCBkaXNjYXJk
-IHRoZSBhdWRpdAo+ID4gPiBldmVudC4gVGhpcyBpcyBhIHVzZWZ1bCBtZXNzYWdlIGZvciBhZG1p
-bnMsIHdoaWNoIHRoZXkgY2FuIGFkZHJlc3Mgd2l0aAo+ID4gPiBjb3JyZWN0aXZlIGFjdGlvbi4g
-SSB0aGluayBhIG1lc3NhZ2Ugc2ltaWxhciB0byB0aGUgb25lIHByb3Bvc2VkIGJ5IHRoaXMKPiA+
-ID4gcGF0Y2ggd291bGQgYmUgZXF1YWxseSB1c2VmdWwgd2hlbiB0aGUgYmFja2xvZyBsaW1pdCBp
-cyBleGNlZWRlZCBhbmQgdGhlCj4gPiA+IGtlcm5lbCBpcyBjb25maWd1cmVkIHRvIHdhaXQgZm9y
-IHRoZSBiYWNrbG9nIHRvIGRyYWluLiBBZG1pbnMgY291bGQKPiA+ID4gYWRkcmVzcyB0aGF0IG1l
-c3NhZ2UgaW4gdGhlIHNhbWUgd2F5LCBidXQgd2l0aG91dCB0aGUgY29zdCBvZiBsb3N0IGF1ZGl0
-Cj4gPiA+IGV2ZW50cy4KPiA+IAo+ID4gSSdtIHN0aWxsIHN0cnVnZ2xpbmcgdG8gdW5kZXJzdGFu
-ZCBob3cgdGhpcyBpcyBhbnkgYmV0dGVyIHRoYW4KPiA+IGRpc2FibGluZyB0aGUgYmFja2xvZyBs
-aW1pdCwgb3Igc2V0dGluZyBpdCB2ZXJ5IGhpZ2gsIGFuZCBzaW1wbHkKPiA+IG1vbml0b3Jpbmcg
-dGhlIGF1ZGl0IHNpemUgb2YgdGhlIGF1ZGl0IGJhY2tsb2cuICBUaGlzIHdheSB0aGUgYWRtaW4K
-PiA+IGRvZXNuJ3QgaGF2ZSB0byB3b3JyeSBhYm91dCB0aGUgbGF0ZW5jeSBpc3N1ZXMgb2YgYSBm
-dWxsIGJhY2tsb2csCj4gPiB3aGlsZSBzdGlsbCBiZWluZyBhYmxlIHRvIHRyaWdnZXIgYWN0aW9u
-cyBiYXNlZCBvbiB0aGUgc3RhdGUgb2YgdGhlCj4gPiBiYWNrbG9nLiAgVGhlIHVzZXJzcGFjZSB0
-b29saW5nL3NjcmlwdGluZyB0byB3YXRjaCB0aGUgYmFja2xvZyBzaXplCj4gPiB3b3VsZCBiZSB0
-cml2aWFsLCBhbmQgd291bGQgYXJndWFibHkgcHJvdmlkZSBtdWNoIGJldHRlciB2aXNpYmlsaXR5
-Cj4gPiBpbnRvIHRoZSBiYWNrbG9nIHN0YXRlIHRoYW4gYSBzaW5nbGUgd2FybmluZyB0aHJlc2hv
-bGQgaW4gdGhlIGtlcm5lbC4KPiA+IAo+ID4gLS0gCj4gPiBwYXVsIG1vb3JlCj4gPiB3d3cucGF1
-bC1tb29yZS5jb20KPiAKPiBSZW1vdmluZyB0aGUgYmFja2xvZyBsaW1pdCBlbnRpcmVseSBjb3Vs
-ZCBsZWFkIHRvIHRoZSBtZW1vcnkgaXNzdWVzIEkKPiBtZW50aW9uZWQgYWJvdmUgKGxvc3QgYXVk
-aXQgZXZlbnRzLCBvdXQtb2YtbWVtb3J5IGVycm9ycyksIGFuZCB3b3VsZAo+IGVmZmVjdGl2ZWx5
-IG1ha2UgdGhlIGJhY2tsb2cgbGltaXQgYSBmdW5jdGlvbiBvZiBmcmVlIG1lbW9yeS4gU2V0dGlu
-Zwo+IHRoZSBiYWNrbG9nIGxpbWl0IGhpZ2hlciB3b27igJl0IG5lY2Vzc2FyaWx5IHByZXZlbnQg
-aXQgZnJvbSBiZWluZwo+IGV4Y2VlZGVkIG9uIHZlcnkgYnVzeSBzeXN0ZW1zIHdoZXJlIHRoZSBy
-YXRlIG9mIGF1ZGl0IGRhdGEgZ2VuZXJhdGlvbgo+IGNhbiwgZm9yIGxvbmcgcGVyaW9kcyBvZiB0
-aW1lLCBvdXRwYWNlIHRoZSBhYmlsaXR5IG9mIGF1ZGl0ZCBvciBhCj4gZHJvcC1pbiByZXBsYWNl
-bWVudCB0byBjb25zdW1lIGl0LiAKPiAKPiBUaGUgY29tYmluYXRpb24gb2YgYmFja2xvZyBsaW1p
-dCBhbmQgd2FpdCB0aW1lLCBvbiB0aGUgb3RoZXIgaGFuZCwgc2V0cwo+IGEgYm91bmQgb24gbWVt
-b3J5IHdoaWxlIGFsbCBidXQgZW5zdXJpbmcgdGhlIHByZXNlcnZhdGlvbiBvZiBhdWRpdAo+IGV2
-ZW50cy4gVGhlIGZhY3QgdGhhdCBsYXRlbmN5IGNhbiBhcmlzZSBmcm9tIHVzaW5nIHRoaXMgY29t
-YmluYXRpb24gaXMsCj4gZm9yIG1lLCBhbiBhY2NlcHRhYmxlIGNvc3QgZm9yIHRoZSBwcmVkaWN0
-YWJsZSB1c2Ugb2YgT1MgcmVzb3VyY2VzIGFuZAo+IHJlZHVjZWQgcHJvYmFiaWxpdHkgb2YgbG9z
-dCBldmVudHMuIEnigJltIG5vdCB0cnlpbmcgdG8gZWxpbWluYXRlIHRoZQo+IHBvc3NpYmlsaXR5
-IG9mIGxhdGVuY3ksIGJ1dCByYXRoZXIgZmluZCBnb29kIG1lYW5zIHRvIG1vbml0b3IgYW5kCj4g
-cXVpY2tseSBpZGVudGlmeSBpdHMgc291cmNlIHdoZW4gaXQgZG9lcyBvY2N1ci4KPiAKPiBXYXRj
-aGluZyB0aGUgYmFja2xvZyBsaW1pdCB3aXRoIGEgdXNlcnNwYWNlIHByb2dyYW0sIGFzIHlvdSBz
-dWdnZXN0LCBpcwo+IGVhc3kgZW5vdWdoIGFuZCBhIHZhbHVhYmxlIHRvb2wgZm9yIG1vbml0b3Jp
-bmcgdGhlIGF1ZGl0IHN5c3RlbS4gRXZlbgo+IHNvLCBhIGZ1bGwgYmFja2xvZyBtYXkgbm90IGFs
-d2F5cyBpbmRpY2F0ZSBsb25nIHdhaXQgdGltZXMuIFRoZSBiYWNrbG9nCj4gbWF5IGZpbGwgdXAg
-MTAwIHRpbWVzIGluIGEgc2Vjb25kLCBidXQgZHJhaW4gc28gcXVpY2tseSBhcyB0byBoYXZlCj4g
-bGl0dGxlIGltcGFjdCBvbiBrZXJuZWwgcGVyZm9ybWFuY2UuIE9uIHRoZSBvdGhlciBoYW5kLCBh
-IHNwZWNpZmljCj4gd2FybmluZyB0aGF0IHJlcG9ydHMgYmFja2xvZyB3YWl0IHRpbWVzIHdvdWxk
-IGRpcmVjdGx5IGltcGxpY2F0ZSBvciBydWxlCj4gb3V0IGF1ZGl0IGJhY2tsb2cgd2FpdGluZyBh
-cyB0aGUgY2F1c2Ugb2YgZGVncmFkZWQga2VybmVsIHBlcmZvcm1hbmNlLAo+IGFuZCBsZWFkIHRv
-IGZhc3RlciBkZWJ1Z2dpbmcgYW5kIHJlc29sdXRpb24uCj4gCj4gSW4gY2FzZSB5b3XigJlyZSBh
-bnkgbW9yZSByZWNlcHRpdmUgdG8gdGhlIGlkZWEsIEkgdGhvdWdodCBJ4oCZZCBtZW50aW9uCj4g
-dGhhdCB0aGUgbmVlZCB0aGlzIHBhdGNoIGFkZHJlc3NlcyB3b3VsZCBiZSBqdXN0IGFzIHdlbGwg
-ZnVsZmlsbGVkIGlmCj4gd2FpdCB0aW1lcyB3ZXJlIHJlcG9ydGVkIGluIHRoZSBhdWRpdCBzdGF0
-dXMgcmVzcG9uc2UgYWxvbmcgd2l0aCBvdGhlcgo+IGN1cnJlbnRseSByZXBvcnRlZCBtZXRyaWNz
-IGxpa2UgYmFja2xvZyBsZW5ndGggYW5kIGxvc3QgZXZlbnRzLiBXYWl0Cj4gdGltZXMgY291bGQg
-YmUgcmVwb3J0ZWQgYXMgYSBjdW11bGF0aXZlIHN1bSwgYSBtb3ZpbmcgYXZlcmFnZSwgb3IgaW4K
-PiBzb21lIG90aGVyIHdheSwgYW5kIHdvdWxkIGhlbHAgZGlyZWN0bHkgaW1wbGljYXRlIG9yIHJ1
-bGUgb3V0IGJhY2tsb2cKPiB3YWl0aW5nIGFzIHRoZSBjYXVzZSBpbiB0aGUgZXZlbnQgdGhhdCBh
-biBhZG1pbiBpcyBmYWNlZCB3aXRoIGRlYnVnZ2luZwo+IGRlZ3JhZGVkIGtlcm5lbCBwZXJmb3Jt
-YW5jZS4gSXQgd291bGQgZWxpbWluYXRlIHRoZSBuZWVkIGZvciBhIG5ldyBmbGFnLAo+IGFuZCBm
-aXQgd2VsbCB3aXRoIHRoZSB1c2Vyc3BhY2UgdG9vbGluZyBhcHByb2FjaCB5b3Ugc3VnZ2VzdGVk
-IGFib3ZlLgoKU3VjaCBhcyBpcyBjYXB0dXJlZCBpbiB0aGlzIHVwc3RyZWFtIGlzc3VlIGZyb20g
-MyB5ZWFycyBhZ286CgoJaHR0cHM6Ly9naXRodWIuY29tL2xpbnV4LWF1ZGl0L2F1ZGl0LWtlcm5l
-bC9pc3N1ZXMvNjMKCSJSRkU6IGFkZCBrZXJuZWwgYXVkaXQgcXVldWUgc3RhdGlzdGljcyIKCi0g
-UkdCCgotLQpSaWNoYXJkIEd1eSBCcmlnZ3MgPHJnYkByZWRoYXQuY29tPgpTci4gUy9XIEVuZ2lu
-ZWVyLCBLZXJuZWwgU2VjdXJpdHksIEJhc2UgT3BlcmF0aW5nIFN5c3RlbXMKUmVtb3RlLCBPdHRh
-d2EsIFJlZCBIYXQgQ2FuYWRhCklSQzogcmdiLCBTdW5SYXljZXIKVm9pY2U6ICsxLjY0Ny43Nzcu
-MjYzNSwgSW50ZXJuYWw6ICg4MSkgMzI2MzUKCi0tCkxpbnV4LWF1ZGl0IG1haWxpbmcgbGlzdApM
-aW51eC1hdWRpdEByZWRoYXQuY29tCmh0dHBzOi8vd3d3LnJlZGhhdC5jb20vbWFpbG1hbi9saXN0
-aW5mby9saW51eC1hdWRpdA==
+On 2020-04-17 17:23, Eric W. Biederman wrote:
+> Paul Moore <paul@paul-moore.com> writes:
+> 
+> > On Thu, Apr 16, 2020 at 4:36 PM Eric W. Biederman <ebiederm@xmission.com> wrote:
+> >> Paul Moore <paul@paul-moore.com> writes:
+> >> > On Mon, Mar 30, 2020 at 1:49 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> >> >> On 2020-03-30 13:34, Paul Moore wrote:
+> >> >> > On Mon, Mar 30, 2020 at 12:22 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> >> >> > > On 2020-03-30 10:26, Paul Moore wrote:
+> >> >> > > > On Mon, Mar 30, 2020 at 9:47 AM Richard Guy Briggs <rgb@redhat.com> wrote:
+> >> >> > > > > On 2020-03-28 23:11, Paul Moore wrote:
+> >> >> > > > > > On Tue, Mar 24, 2020 at 5:02 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> >> >> > > > > > > On 2020-03-23 20:16, Paul Moore wrote:
+> >> >> > > > > > > > On Thu, Mar 19, 2020 at 6:03 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> >> >> > > > > > > > > On 2020-03-18 18:06, Paul Moore wrote:
+> >> >
+> >> > ...
+> >> >
+> >> >> > > Well, every time a record gets generated, *any* record gets generated,
+> >> >> > > we'll need to check for which audit daemons this record is in scope and
+> >> >> > > generate a different one for each depending on the content and whether
+> >> >> > > or not the content is influenced by the scope.
+> >> >> >
+> >> >> > That's the problem right there - we don't want to have to generate a
+> >> >> > unique record for *each* auditd on *every* record.  That is a recipe
+> >> >> > for disaster.
+> >> >> >
+> >> >> > Solving this for all of the known audit records is not something we
+> >> >> > need to worry about in depth at the moment (although giving it some
+> >> >> > casual thought is not a bad thing), but solving this for the audit
+> >> >> > container ID information *is* something we need to worry about right
+> >> >> > now.
+> >> >>
+> >> >> If you think that a different nested contid value string per daemon is
+> >> >> not acceptable, then we are back to issuing a record that has only *one*
+> >> >> contid listed without any nesting information.  This brings us back to
+> >> >> the original problem of keeping *all* audit log history since the boot
+> >> >> of the machine to be able to track the nesting of any particular contid.
+> >> >
+> >> > I'm not ruling anything out, except for the "let's just completely
+> >> > regenerate every record for each auditd instance".
+> >>
+> >> Paul I am a bit confused about what you are referring to when you say
+> >> regenerate every record.
+> >>
+> >> Are you saying that you don't want to repeat the sequence:
+> >>         audit_log_start(...);
+> >>         audit_log_format(...);
+> >>         audit_log_end(...);
+> >> for every nested audit daemon?
+> >
+> > If it can be avoided yes.  Audit performance is already not-awesome,
+> > this would make it even worse.
+> 
+> As far as I can see not repeating sequences like that is fundamental
+> for making this work at all.  Just because only the audit subsystem
+> should know about one or multiple audit daemons.  Nothing else should
+> care.
+> 
+> >> Or are you saying that you would like to literraly want to send the same
+> >> skb to each of the nested audit daemons?
+> >
+> > Ideally we would reuse the generated audit messages as much as
+> > possible.  Less work is better.  That's really my main concern here,
+> > let's make sure we aren't going to totally tank performance when we
+> > have a bunch of nested audit daemons.
+> 
+> So I think there are two parts of this answer.  Assuming we are talking
+> about nesting audit daemons in containers we will have different
+> rulesets and I expect most of the events for a nested audit daemon won't
+> be of interest to the outer audit daemon.
+> 
+> Beyond that it should be very straight forward to keep a pointer and
+> leave the buffer as a scatter gather list until audit_log_end
+> and translate pids, and rewrite ACIDs attributes in audit_log_end
+> when we build the final packet.  Either through collaboration with
+> audit_log_format or a special audit_log command that carefully sets
+> up the handful of things that need that information.
+> 
+> Hmm.  I am seeing that we send skbs to kauditd and then kauditd
+> sends those skbs to userspace.  I presume that is primary so that
+> sending messages to userspace does not block the process being audited.
+> 
+> Plus a little bit so that the retry logic will work.
+> 
+> I think the naive implementation would be to simply have 1 kauditd
+> per auditd (strictly and audit context/namespace).  Although that can be
+> optimized if that is a problem.
+> 
+> Beyond that I think we would need to look at profiles to really
+> understand where the bottlenecks are.
+> 
+> >> Or are you thinking of something else?
+> >
+> > As mentioned above, I'm not thinking of anything specific, other than
+> > let's please not have to regenerate *all* of the audit record strings
+> > for each instance of an audit daemon, that's going to be a killer.
+> >
+> > Maybe we have to regenerate some, if we do, what would that look like
+> > in code?  How do we handle the regeneration aspect?  I worry that is
+> > going to be really ugly.
+> >
+> > Maybe we finally burn down the audit_log_format(...) function and pass
+> > structs/TLVs to the audit subsystem and the audit subsystem generates
+> > the strings in the auditd connection thread.  Some of the record
+> > strings could likely be shared, others would need to be ACID/auditd
+> > dependent.
+> 
+> I think we just a very limited amount of structs/TLVs for the cases that
+> matter and one-one auditd and kauditd implementations we should still
+> be able to do everything in audit_log_end.  Plus doing as much work as
+> possible in audit_log_end where things are still cache hot is desirable.
+
+So in the end, perf may show us that moving things around a bit and
+knowing to which queue(s) we send an skb will help maintain performance
+by writing out the field contents in audit_log_end() and sending to the
+correct queue rather than deferring writing out that field contents in
+the kauditd process due to cache issues.  In any case, it makes sense to
+delay that formatting work until just after the daemon routing decision
+is made.
+
+> > I'm open to any ideas people may have.  We have a problem, let's solve
+> > it.
+> 
+> It definitely makes sense to look ahead to having audit daemons running
+> in containers, but in the grand scheme of things that is a nice to have.
+> Probably something we will and should get to, but we have lived a long
+> time without auditd running in containers so I expect we can live a
+> while longer.
+> 
+> As I understand Richard patchset for the specific case of the ACID we
+> are only talking about taking a subset of an existing string, and one
+> string at that.  Not hard at all.  Especially when looking at the
+> fundamental fact that we will need to send a different skb to
+> userspace, for each audit daemon.
+> 
+> Eric
+
+- RGB
+
+--
+Richard Guy Briggs <rgb@redhat.com>
+Sr. S/W Engineer, Kernel Security, Base Operating Systems
+Remote, Ottawa, Red Hat Canada
+IRC: rgb, SunRaycer
+Voice: +1.647.777.2635, Internal: (81) 32635
+
+--
+Linux-audit mailing list
+Linux-audit@redhat.com
+https://www.redhat.com/mailman/listinfo/linux-audit
 
