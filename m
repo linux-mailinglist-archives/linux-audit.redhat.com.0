@@ -1,125 +1,87 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [207.211.31.81])
-	by mail.lfdr.de (Postfix) with ESMTP id 76C5E205E49
-	for <lists+linux-audit@lfdr.de>; Tue, 23 Jun 2020 22:22:31 +0200 (CEST)
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com [207.211.31.81])
+	by mail.lfdr.de (Postfix) with ESMTP id 1D59C2068CF
+	for <lists+linux-audit@lfdr.de>; Wed, 24 Jun 2020 02:08:03 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1592943750;
+	s=mimecast20190719; t=1592957282;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=Ge77L91USQymJiLfWQS3LnBr4Zal/rs7jTH1Yag1QBk=;
-	b=ge+uNWlns/9xjEuDC6vhl0EKdFX3gwoF7teTH0DxSkB0qhHAjZDTVUqg/cV52FswRAMAlJ
-	6HGk0nRaHOlky3DaC74TIXDu4shgxB8zviFxdmyBwa2rq3PQ3Mox1GyrPY8kguArSZCXUL
-	ZEW8C+69+0DO1vXnZY0lPd3JWaLyYf0=
+	bh=nY/E0NCGKIoCIBBNeMGl6mJQQ50oM0x+qWxb9BjAZh0=;
+	b=YfYmtW3+asSHZb/B2JXmQEXJXM2gYEDb1wB0A8l85gDEyH31/2wDQTqsDGGmwrHTGRq7iK
+	Gk3YX3IZ2QinpSkxml7667tbCthG5v8fHydQoCjG4gK4EHEVRw0KcWIp2n6GUmDhejP8Sx
+	ZaHjKJScjynteN7TdpDO0qKYOQKFnU4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-275-IT521-NQMmW7JbM6JNaUTA-1; Tue, 23 Jun 2020 16:22:28 -0400
-X-MC-Unique: IT521-NQMmW7JbM6JNaUTA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+ us-mta-33-0lgP-yGeO4ut3WtqBB0IAw-1; Tue, 23 Jun 2020 20:07:59 -0400
+X-MC-Unique: 0lgP-yGeO4ut3WtqBB0IAw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0B4B464AD0;
-	Tue, 23 Jun 2020 20:22:23 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 93B26800D5C;
+	Wed, 24 Jun 2020 00:07:53 +0000 (UTC)
 Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id E67FC60C80;
-	Tue, 23 Jun 2020 20:22:19 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 2FC595BAF8;
+	Wed, 24 Jun 2020 00:07:48 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 2C7C5833CB;
-	Tue, 23 Jun 2020 20:22:15 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
-	[10.11.54.6])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 71697833CF;
+	Wed, 24 Jun 2020 00:07:43 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+	[10.11.54.3])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 05NJwRGE019999 for <linux-audit@listman.util.phx.redhat.com>;
-	Tue, 23 Jun 2020 15:58:28 -0400
+	id 05O07YPv014574 for <linux-audit@listman.util.phx.redhat.com>;
+	Tue, 23 Jun 2020 20:07:34 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id BA0BA2156720; Tue, 23 Jun 2020 19:58:27 +0000 (UTC)
+	id B17EF10D14E1; Wed, 24 Jun 2020 00:07:34 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
 	(mimecast01.extmail.prod.ext.rdu2.redhat.com [10.11.55.17])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id B59C22156A59
-	for <linux-audit@redhat.com>; Tue, 23 Jun 2020 19:58:25 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [207.211.31.81])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id AD0A710D14D0
+	for <linux-audit@redhat.com>; Wed, 24 Jun 2020 00:07:31 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [207.211.31.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8F310858EFE
-	for <linux-audit@redhat.com>; Tue, 23 Jun 2020 19:58:25 +0000 (UTC)
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
-	[148.163.158.5]) (Using TLS) by relay.mimecast.com with ESMTP id
-	us-mta-447-EI8JeY5VOwuZEEAJkUXUYA-1; Tue, 23 Jun 2020 15:58:22 -0400
-X-MC-Unique: EI8JeY5VOwuZEEAJkUXUYA-1
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
-	05NJWUMI167937; Tue, 23 Jun 2020 15:58:22 -0400
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com with ESMTP id 31ukknsf56-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Tue, 23 Jun 2020 15:58:22 -0400
-Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
-	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 05NJWYml168386;
-	Tue, 23 Jun 2020 15:58:21 -0400
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
-	[169.51.49.102])
-	by mx0a-001b2d01.pphosted.com with ESMTP id 31ukknsf4j-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Tue, 23 Jun 2020 15:58:21 -0400
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
-	by ppma06ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id
-	05NJpGPC015998; Tue, 23 Jun 2020 19:58:19 GMT
-Received: from b06cxnps3075.portsmouth.uk.ibm.com
-	(d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
-	by ppma06ams.nl.ibm.com with ESMTP id 31uk3308nn-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Tue, 23 Jun 2020 19:58:19 +0000
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com
-	(b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
-	by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with
-	ESMTP id 05NJwHUE64159924
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=OK); Tue, 23 Jun 2020 19:58:17 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 900DCA405F;
-	Tue, 23 Jun 2020 19:58:17 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 52A79A405B;
-	Tue, 23 Jun 2020 19:58:16 +0000 (GMT)
-Received: from localhost.localdomain (unknown [9.85.163.175])
-	by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-	Tue, 23 Jun 2020 19:58:16 +0000 (GMT)
-Message-ID: <1592942295.5389.9.camel@linux.ibm.com>
-Subject: Re: [PATCH v3 2/2] IMA: Add audit log for failure conditions
-From: Mimi Zohar <zohar@linux.ibm.com>
-To: Lakshmi Ramasubramanian <nramas@linux.microsoft.com>, sgrubb@redhat.com,
-	paul@paul-moore.com
-Date: Tue, 23 Jun 2020 15:58:15 -0400
-In-Reply-To: <20200618211012.2823-2-nramas@linux.microsoft.com>
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 76DCF858EE2
+	for <linux-audit@redhat.com>; Wed, 24 Jun 2020 00:07:31 +0000 (UTC)
+Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com
+	[209.85.208.65]) (Using TLS) by relay.mimecast.com with ESMTP id
+	us-mta-413-Yg0esgCZMLipUc2lx5ngDg-1; Tue, 23 Jun 2020 20:07:25 -0400
+X-MC-Unique: Yg0esgCZMLipUc2lx5ngDg-1
+Received: by mail-ed1-f65.google.com with SMTP id z17so122039edr.9
+	for <linux-audit@redhat.com>; Tue, 23 Jun 2020 17:07:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=wYef0IlAA5cnvfvaD0Ws/jCKLqqDtLAVNioagh3fxFo=;
+	b=nrBxRZv6gkDlNjkqXRXAW1y285eG6Bwro8eJcSuP5rRMymBbiu3vv774jWierNzZNm
+	OOrFC/tiQOhzx4ze/FTjT1oHJxugNrhl4nowZPHtMWJWFcXHmcZOBIRhW0YdS8Of8l5I
+	p6ZxtaNvLfv68jD/NUwRwdWA5g0zrvOTDIyLnaLsKCzueq0zJztIAGs8BtGpzHa95QuK
+	MutEk1Tzh6ZtvbBIfdzll4vjFSmQzUhf3ZTSHTABwgJPJcr4RSvx/OULbv1bMy3SbZJI
+	GB/yzLE7a1u8hJ8QTT9G17SvQS1Qua9jXpF+9Hhnxz1+lat8N/54l+r8SJpTMBwiOG9Y
+	T4/g==
+X-Gm-Message-State: AOAM530opgWplgRti3mmmlzoYDVt11FMN2PtmFxWhW+6gcFzWTLf9/Wl
+	f2NMq6Cs/tsKKkw6pZVR6OUnZck/bnoVCwODz9O6
+X-Google-Smtp-Source: ABdhPJxm2K+GHRjbkAJL7JkYWCiCsE49AHvZ3AgzIC+2MhsncYMq9OfsaBZK3cyOIwmZUZDbN96x/rMx2egaXaIUw38=
+X-Received: by 2002:aa7:de08:: with SMTP id h8mr23618936edv.164.1592957244179; 
+	Tue, 23 Jun 2020 17:07:24 -0700 (PDT)
+MIME-Version: 1.0
 References: <20200618211012.2823-1-nramas@linux.microsoft.com>
-	<20200618211012.2823-2-nramas@linux.microsoft.com>
-Mime-Version: 1.0
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.687
-	definitions=2020-06-23_12:2020-06-23,
-	2020-06-23 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
-	lowpriorityscore=0
-	suspectscore=0 spamscore=0 malwarescore=0 priorityscore=1501
-	mlxlogscore=999 adultscore=0 phishscore=0 bulkscore=0 clxscore=1015
-	impostorscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx
-	scancount=1
-	engine=8.12.0-2006120000 definitions=main-2006230130
-X-MIME-Autoconverted: from 8bit to quoted-printable by
-	mx0a-001b2d01.pphosted.com id 05NJWUMI167937
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-X-MIME-Autoconverted: from quoted-printable to 8bit by
-	lists01.pubmisc.prod.ext.phx2.redhat.com id 05NJwRGE019999
+In-Reply-To: <20200618211012.2823-1-nramas@linux.microsoft.com>
+From: Paul Moore <paul@paul-moore.com>
+Date: Tue, 23 Jun 2020 20:07:13 -0400
+Message-ID: <CAHC9VhTW-M7e7BK3d-UKi6KuPo3=8wNzAU1hN3HDsw=B-CGxFw@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] integrity: Add errno field in audit message
+To: Lakshmi Ramasubramanian <nramas@linux.microsoft.com>
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
 X-loop: linux-audit@redhat.com
-X-Mailman-Approved-At: Tue, 23 Jun 2020 16:22:06 -0400
-Cc: rgb@redhat.com, linux-integrity@vger.kernel.org, linux-audit@redhat.com,
-	linux-kernel@vger.kernel.org
+Cc: rgb@redhat.com, linux-kernel@vger.kernel.org, zohar@linux.ibm.com,
+	linux-audit@redhat.com, linux-integrity@vger.kernel.org
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -133,32 +95,113 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=linux-audit-bounces@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
-T24gVGh1LCAyMDIwLTA2LTE4IGF0IDE0OjEwIC0wNzAwLCBMYWtzaG1pIFJhbWFzdWJyYW1hbmlh
-biB3cm90ZToKPiBwcm9jZXNzX2J1ZmZlcl9tZWFzdXJlbWVudCgpIGFuZCBpbWFfYWxsb2Nfa2V5
-X2VudHJ5KCkgZnVuY3Rpb25zIG5lZWQgdG8KPiBsb2cgYW4gYXVkaXQgbWVzc2FnZSBmb3IgYXVk
-aXRpbmcgaW50ZWdyaXR5IG1lYXN1cmVtZW50IGZhaWx1cmVzLgo+IAo+IEFkZCBhdWRpdCBtZXNz
-YWdlIGluIHRoZXNlIHR3byBmdW5jdGlvbnMuIFJlbW92ZSAicHJfZGV2ZWwiIGxvZyBtZXNzYWdl
-Cj4gaW4gcHJvY2Vzc19idWZmZXJfbWVhc3VyZW1lbnQoKS4KPiAKPiBTYW1wbGUgYXVkaXQgbWVz
-c2FnZXM6Cj4gCj4gWyAgICA2LjMwMzA0OF0gYXVkaXQ6IHR5cGU9MTgwNCBhdWRpdCgxNTkyNTA2
-MjgxLjYyNzoyKTogcGlkPTEgdWlkPTAKPiBhdWlkPTQyOTQ5NjcyOTUgc2VzPTQyOTQ5NjcyOTUg
-c3Viaj1rZXJuZWwgb3A9bWVhc3VyaW5nX2tleQo+IGNhdXNlPUVOT01FTSBjb21tPSJzd2FwcGVy
-LzAiIG5hbWU9Ii5idWlsdGluX3RydXN0ZWRfa2V5cyIgcmVzPTAKPiBlcnJubz0tMTIKCk15IG9u
-bHkgY29uY2VybiBpcyB0aGF0IGF1ZGl0aW5nIC1FTk9NRU0gd2lsbCBwdXQgYWRkaXRpb25hbCBt
-ZW1vcnkKcHJlc3N1cmUgb24gdGhlIHN5c3RlbS4gwqBJJ20gbm90IHN1cmUgaWYgdGhpcyBpcyBh
-IGNvbmNlcm4gYW5kLCBpZiBzbywKaG93IGl0IHNob3VsZCBiZSBoYW5kbGVkLgoKPiAKPiBbICAg
-IDguMDE5NDMyXSBhdWRpdDogdHlwZT0xODA0IGF1ZGl0KDE1OTI1MDYyODMuMzQ0OjEwKTogcGlk
-PTEKPiB1aWQ9MCBhdWlkPTQyOTQ5NjcyOTUgc2VzPTQyOTQ5NjcyOTUKPiBzdWJqPXN5c3RlbV91
-OnN5c3RlbV9yOmluaXRfdDpzMCBvcD1tZWFzdXJpbmdfa2V4ZWNfY21kbGluZQo+IGNhdXNlPWhh
-c2hpbmdfZXJyb3IgY29tbT0ic3lzdGVtZCIgbmFtZT0ia2V4ZWMtY21kbGluZSIgcmVzPTAKPiBl
-cnJubz0tMjIKPiAKPiBTaWduZWQtb2ZmLWJ5OiBMYWtzaG1pIFJhbWFzdWJyYW1hbmlhbiA8bnJh
-bWFzQGxpbnV4Lm1pY3Jvc29mdC5jb20+CgpSZXZpZXdlZC1ieTogTWltaSBab2hhciA8em9oYXJA
-bGludXguaWJtLmNvbT4KCgotLQpMaW51eC1hdWRpdCBtYWlsaW5nIGxpc3QKTGludXgtYXVkaXRA
-cmVkaGF0LmNvbQpodHRwczovL3d3dy5yZWRoYXQuY29tL21haWxtYW4vbGlzdGluZm8vbGludXgt
-YXVkaXQ=
+On Thu, Jun 18, 2020 at 5:10 PM Lakshmi Ramasubramanian
+<nramas@linux.microsoft.com> wrote:
+>
+> Error code is not included in the audit messages logged by
+> the integrity subsystem.
+>
+> Define a new function integrity_audit_message() that takes error code
+> in the "errno" parameter. Add "errno" field in the audit messages logged
+> by the integrity subsystem and set the value passed in the "errno"
+> parameter.
+>
+> [    6.303048] audit: type=1804 audit(1592506281.627:2): pid=1 uid=0 auid=4294967295 ses=4294967295 subj=kernel op=measuring_key cause=ENOMEM comm="swapper/0" name=".builtin_trusted_keys" res=0 errno=-12
+>
+> [    7.987647] audit: type=1802 audit(1592506283.312:9): pid=1 uid=0 auid=4294967295 ses=4294967295 subj=system_u:system_r:init_t:s0 op=policy_update cause=completed comm="systemd" res=1 errno=0
+>
+> [    8.019432] audit: type=1804 audit(1592506283.344:10): pid=1 uid=0 auid=4294967295 ses=4294967295 subj=system_u:system_r:init_t:s0 op=measuring_kexec_cmdline cause=hashing_error comm="systemd" name="kexec-cmdline" res=0 errno=-22
+>
+> Signed-off-by: Lakshmi Ramasubramanian <nramas@linux.microsoft.com>
+> Suggested-by: Steve Grubb <sgrubb@redhat.com>
+> Suggested-by: Mimi Zohar <zohar@linux.ibm.com>
+> ---
+>  security/integrity/integrity.h       | 13 +++++++++++++
+>  security/integrity/integrity_audit.c | 11 ++++++++++-
+>  2 files changed, 23 insertions(+), 1 deletion(-)
+
+The audit record changes look good to me.
+
+Acked-by: Paul Moore <paul@paul-moore.com>
+
+> diff --git a/security/integrity/integrity.h b/security/integrity/integrity.h
+> index 16c1894c29bb..413c803c5208 100644
+> --- a/security/integrity/integrity.h
+> +++ b/security/integrity/integrity.h
+> @@ -239,6 +239,11 @@ void integrity_audit_msg(int audit_msgno, struct inode *inode,
+>                          const unsigned char *fname, const char *op,
+>                          const char *cause, int result, int info);
+>
+> +void integrity_audit_message(int audit_msgno, struct inode *inode,
+> +                            const unsigned char *fname, const char *op,
+> +                            const char *cause, int result, int info,
+> +                            int errno);
+> +
+>  static inline struct audit_buffer *
+>  integrity_audit_log_start(struct audit_context *ctx, gfp_t gfp_mask, int type)
+>  {
+> @@ -253,6 +258,14 @@ static inline void integrity_audit_msg(int audit_msgno, struct inode *inode,
+>  {
+>  }
+>
+> +static inline void integrity_audit_message(int audit_msgno,
+> +                                          struct inode *inode,
+> +                                          const unsigned char *fname,
+> +                                          const char *op, const char *cause,
+> +                                          int result, int info, int errno)
+> +{
+> +}
+> +
+>  static inline struct audit_buffer *
+>  integrity_audit_log_start(struct audit_context *ctx, gfp_t gfp_mask, int type)
+>  {
+> diff --git a/security/integrity/integrity_audit.c b/security/integrity/integrity_audit.c
+> index 5109173839cc..f25e7df099c8 100644
+> --- a/security/integrity/integrity_audit.c
+> +++ b/security/integrity/integrity_audit.c
+> @@ -28,6 +28,15 @@ __setup("integrity_audit=", integrity_audit_setup);
+>  void integrity_audit_msg(int audit_msgno, struct inode *inode,
+>                          const unsigned char *fname, const char *op,
+>                          const char *cause, int result, int audit_info)
+> +{
+> +       integrity_audit_message(audit_msgno, inode, fname, op, cause,
+> +                               result, audit_info, 0);
+> +}
+> +
+> +void integrity_audit_message(int audit_msgno, struct inode *inode,
+> +                            const unsigned char *fname, const char *op,
+> +                            const char *cause, int result, int audit_info,
+> +                            int errno)
+>  {
+>         struct audit_buffer *ab;
+>         char name[TASK_COMM_LEN];
+> @@ -53,6 +62,6 @@ void integrity_audit_msg(int audit_msgno, struct inode *inode,
+>                 audit_log_untrustedstring(ab, inode->i_sb->s_id);
+>                 audit_log_format(ab, " ino=%lu", inode->i_ino);
+>         }
+> -       audit_log_format(ab, " res=%d", !result);
+> +       audit_log_format(ab, " res=%d errno=%d", !result, errno);
+>         audit_log_end(ab);
+>  }
+> --
+> 2.27.0
+>
+
+
+-- 
+paul moore
+www.paul-moore.com
+
+--
+Linux-audit mailing list
+Linux-audit@redhat.com
+https://www.redhat.com/mailman/listinfo/linux-audit
 
