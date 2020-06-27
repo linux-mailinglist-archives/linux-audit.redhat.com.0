@@ -1,61 +1,58 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-delivery-1.mimecast.com [205.139.110.120])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C16620C2C0
-	for <lists+linux-audit@lfdr.de>; Sat, 27 Jun 2020 17:20:28 +0200 (CEST)
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com [207.211.31.120])
+	by mail.lfdr.de (Postfix) with ESMTP id 6198520C355
+	for <lists+linux-audit@lfdr.de>; Sat, 27 Jun 2020 19:36:16 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1593271227;
+	s=mimecast20190719; t=1593279375;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=kOF8HVnA3mnPlLzigT2mi/qcZg6rPLLSNHVmAXeo+1s=;
-	b=W4WAfKQtTNFlwW7CooWWe5x+tug6p8K6Q4XVEhSEa2GOdFpjjC1KpVYFzhbQsEtauWGg7L
-	SXQkHUtHfWGEiDZZqQ/YDGUaBPMz9WiXyNe1C7zIm0cOx6Z60Yu1vqVjp3XqZ4a4g9f4FV
-	Z+5uKp6eONTqjGNUFHz3HbiJJolqdAQ=
+	bh=EKNhEeBq+dkrQqBtvK0qQVYG7cmI+h+y9SklzrGQ/yk=;
+	b=VfYlT4kTjCeQVuQ0/zo1CAEv3gPG2kxs29pOWfRCJn28W4wfTEt0CxaIcA+8FcIIczbW6x
+	6v/gnZ/dPMZU+/UrwpSxNxErNhKauKBZeHBGGY3tNrJCjUEEP7gU+V8CoRafuaXOR/IrWq
+	jjGF9uMFt+SZBDUCxlwIe/untkBOCSQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-150-r4eWXWfLO_-lqiuz3D23zQ-1; Sat, 27 Jun 2020 11:20:24 -0400
-X-MC-Unique: r4eWXWfLO_-lqiuz3D23zQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+ us-mta-293-LGP3wS2rNdO9-aIC43FhZg-1; Sat, 27 Jun 2020 13:36:13 -0400
+X-MC-Unique: LGP3wS2rNdO9-aIC43FhZg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CB0038064AF;
-	Sat, 27 Jun 2020 15:19:54 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 8FB401876B;
-	Sat, 27 Jun 2020 15:19:54 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9DB211005512;
+	Sat, 27 Jun 2020 17:36:05 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id A0DA660BF1;
+	Sat, 27 Jun 2020 17:36:02 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 5BF841809547;
-	Sat, 27 Jun 2020 15:19:54 +0000 (UTC)
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 6851A833A2;
+	Sat, 27 Jun 2020 17:35:56 +0000 (UTC)
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
 	[10.5.11.12])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 05RFJqkE019491 for <linux-audit@listman.util.phx.redhat.com>;
-	Sat, 27 Jun 2020 11:19:52 -0400
+	id 05RHZiOX002369 for <linux-audit@listman.util.phx.redhat.com>;
+	Sat, 27 Jun 2020 13:35:44 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id CF6EC60F8A; Sat, 27 Jun 2020 15:19:52 +0000 (UTC)
+	id 1529160BF4; Sat, 27 Jun 2020 17:35:44 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from madcap2.tricolour.ca (unknown [10.10.110.28])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id E647E60BF4;
-	Sat, 27 Jun 2020 15:19:44 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 527BE60BF1;
+	Sat, 27 Jun 2020 17:35:36 +0000 (UTC)
+Date: Sat, 27 Jun 2020 13:35:33 -0400
 From: Richard Guy Briggs <rgb@redhat.com>
-To: containers@lists.linux-foundation.org,
-	Linux-Audit Mailing List <linux-audit@redhat.com>,
-	LKML <linux-kernel@vger.kernel.org>
-Subject: [PATCH ghau51/ghau40 v9 11/11] libaudit: add support to get and set
-	capcontid on a task
-Date: Sat, 27 Jun 2020 11:18:11 -0400
-Message-Id: <1593271091-30188-12-git-send-email-rgb@redhat.com>
-In-Reply-To: <1593271091-30188-1-git-send-email-rgb@redhat.com>
-References: <1593271091-30188-1-git-send-email-rgb@redhat.com>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Subject: Re: [bug report] audit: log nftables configuration change events
+Message-ID: <20200627173533.aqh4p2nbr33ea3eu@madcap2.tricolour.ca>
+References: <20200626102242.GA313925@mwanda>
+MIME-Version: 1.0
+In-Reply-To: <20200626102242.GA313925@mwanda>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-loop: linux-audit@redhat.com
-Cc: nhorman@redhat.com, Richard Guy Briggs <rgb@redhat.com>,
-	eparis@parisplace.org, mpatel@redhat.com
+Cc: linux-audit@redhat.com, netfilter-devel@vger.kernel.org
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -67,285 +64,85 @@ List-Post: <mailto:linux-audit@redhat.com>
 List-Help: <mailto:linux-audit-request@redhat.com?subject=help>
 List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
-MIME-Version: 1.0
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
-Add support to be able to set a capability to allow a task to set the
-audit container identifier of descendants.
+On 2020-06-26 13:22, Dan Carpenter wrote:
+> Hello Richard Guy Briggs,
+> 
+> The patch 8e6cf365e1d5: "audit: log nftables configuration change
+> events" from Jun 4, 2020, leads to the following static checker
+> warning:
+> 
+> 	net/netfilter/nf_tables_api.c:6160 nft_obj_notify()
+> 	warn: use 'gfp' here instead of GFP_XXX?
+> 
+> net/netfilter/nf_tables_api.c
+>   6153  void nft_obj_notify(struct net *net, const struct nft_table *table,
+>   6154                      struct nft_object *obj, u32 portid, u32 seq, int event,
+>   6155                      int family, int report, gfp_t gfp)
+>                                                     ^^^^^^^^^
+>   6156  {
+>   6157          struct sk_buff *skb;
+>   6158          int err;
+>   6159          char *buf = kasprintf(GFP_KERNEL, "%s:%llu;?:0",
+>                                       ^^^^^^^^^^
+> This should probably be "gfp".
 
-See: https://github.com/linux-audit/audit-userspace/issues/51
-See: https://github.com/linux-audit/audit-kernel/issues/90
-See: https://github.com/linux-audit/audit-testsuite/issues/64
-See: https://github.com/linux-audit/audit-kernel/wiki/RFE-Audit-Container-ID
+Agreed, nice catch.  Checking other similar uses from that patch
+leads me to another bug and the need to extend audit_log_nfcfg() to
+accept a GFP flag.  Patch coming...
 
-Add the audit_get_capcontid() and audit_set_capcontid() calls analogous
-to CAP_AUDIT_CONTROL for descendant user namespaces.
+>   6160                                table->name, table->handle);
+>   6161  
+>   6162          audit_log_nfcfg(buf,
+>   6163                          family,
+>   6164                          obj->handle,
+>   6165                          event == NFT_MSG_NEWOBJ ?
+>   6166                                  AUDIT_NFT_OP_OBJ_REGISTER :
+>   6167                                  AUDIT_NFT_OP_OBJ_UNREGISTER);
+>   6168          kfree(buf);
+>   6169  
+>   6170          if (!report &&
+>   6171              !nfnetlink_has_listeners(net, NFNLGRP_NFTABLES))
+>   6172                  return;
+>   6173  
+>   6174          skb = nlmsg_new(NLMSG_GOODSIZE, gfp);
+>                                                 ^^^
+> 
+>   6175          if (skb == NULL)
+>   6176                  goto err;
+>   6177  
+>   6178          err = nf_tables_fill_obj_info(skb, net, portid, seq, event, 0, family,
+>   6179                                        table, obj, false);
+>   6180          if (err < 0) {
+>   6181                  kfree_skb(skb);
+>   6182                  goto err;
+>   6183          }
+>   6184  
+>   6185          nfnetlink_send(skb, net, portid, NFNLGRP_NFTABLES, report, gfp);
+>   6186          return;
+>   6187  err:
+>   6188          nfnetlink_set_err(net, portid, NFNLGRP_NFTABLES, -ENOBUFS);
+>   6189  }
+> 
+> regards,
+> dan carpenter
 
-Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
----
- auparse/normalize.c            |  1 +
- auparse/normalize_record_map.h |  1 +
- docs/Makefile.am               |  1 +
- docs/audit_get_capcontid.3     | 25 ++++++++++++++++
- docs/audit_set_capcontid.3     | 24 +++++++++++++++
- lib/libaudit.c                 | 68 ++++++++++++++++++++++++++++++++++++++++++
- lib/libaudit.h                 |  4 +++
- lib/msg_typetab.h              |  1 +
- lib/netlink.c                  |  1 +
- src/ausearch-lol.c             |  2 ++
- src/ausearch-parse.c           |  1 +
- 11 files changed, 129 insertions(+)
- create mode 100644 docs/audit_get_capcontid.3
- create mode 100644 docs/audit_set_capcontid.3
+- RGB
 
-diff --git a/auparse/normalize.c b/auparse/normalize.c
-index 2d7878ce9ba9..8bcfce280d1a 100644
---- a/auparse/normalize.c
-+++ b/auparse/normalize.c
-@@ -911,6 +911,7 @@ static const char *normalize_determine_evkind(int type)
- 		case AUDIT_FEATURE_CHANGE ... AUDIT_REPLACE:
- 		case AUDIT_USER_DEVICE:
- 		case AUDIT_SOFTWARE_UPDATE:
-+		case AUDIT_SET_CAPCONTID:
- 			kind = NORM_EVTYPE_CONFIG;
- 			break;
- 		case AUDIT_SECCOMP:
-diff --git a/auparse/normalize_record_map.h b/auparse/normalize_record_map.h
-index 7332249c7b34..2e8c87447313 100644
---- a/auparse/normalize_record_map.h
-+++ b/auparse/normalize_record_map.h
-@@ -26,6 +26,7 @@
- _S(AUDIT_USER, "sent-message")
- _S(AUDIT_LOGIN, "changed-login-id-to")
- _S(AUDIT_CONTAINER_OP, "changed-container-id-to")
-+_S(AUDIT_SET_CAPCONTID, "set-capcontid-to")
- _S(AUDIT_USER_AUTH, "authenticated")
- _S(AUDIT_USER_ACCT, "was-authorized")
- _S(AUDIT_USER_MGMT, "modified-user-account")
-diff --git a/docs/Makefile.am b/docs/Makefile.am
-index 209789bb2051..6b981b296d0c 100644
---- a/docs/Makefile.am
-+++ b/docs/Makefile.am
-@@ -29,6 +29,7 @@ auditd.conf.5 auditd-plugins.5 \
- audit_delete_rule_data.3 audit_detect_machine.3 \
- audit_encode_nv_string.3 audit_getloginuid.3 \
- audit_get_reply.3 audit_get_session.3 audit_get_containerid.3 \
-+audit_get_capcontid.3 audit_set_capcontid.3 \
- audit_log_acct_message.3 audit_log_user_avc_message.3 \
- audit_log_user_command.3 audit_log_user_comm_message.3 \
- audit_log_user_message.3 audit_log_semanage_message.3 \
-diff --git a/docs/audit_get_capcontid.3 b/docs/audit_get_capcontid.3
-new file mode 100644
-index 000000000000..652a4960a020
---- /dev/null
-+++ b/docs/audit_get_capcontid.3
-@@ -0,0 +1,25 @@
-+.TH "AUDIT_GET_CAPCONTID" "26" "Aug 2019" "Red Hat" "Linux Audit API"
-+.SH NAME
-+audit_get_capcontid \- Get a program's capability container id value
-+.SH SYNOPSIS
-+.B #include <libaudit.h>
-+.sp
-+int audit_get_capcontid(pid_t pid);
-+
-+.SH DESCRIPTION
-+This function returns the pid task's audit capability container identifier attribute.
-+
-+.SH "RETURN VALUE"
-+
-+This function returns the audit capability container identifier value if it is implemented. It will return a \-1 if the audit capability container identifier is unavailable.
-+
-+.SH "ERRORS"
-+
-+This function returns \-2 on failure. Additionally, in the event of a real error, errno would be set. The function can set errno based on failures of open, read, or strtoull.
-+
-+.SH "SEE ALSO"
-+
-+.BR audit_set_capcontid (3).
-+
-+.SH AUTHOR
-+Richard Guy Briggs
-diff --git a/docs/audit_set_capcontid.3 b/docs/audit_set_capcontid.3
-new file mode 100644
-index 000000000000..70ac8c7a4e95
---- /dev/null
-+++ b/docs/audit_set_capcontid.3
-@@ -0,0 +1,24 @@
-+.TH "AUDIT_SET_CAPCONTID" "26" "Aug 2019" "Red Hat" "Linux Audit API"
-+.SH NAME
-+audit_set_capcontid \- Set a program's capability container id value
-+.SH SYNOPSIS
-+.B #include <libaudit.h>
-+.sp
-+int audit_set_capcontid(pid_t pid, uint32_t capcontid);
-+
-+.SH "DESCRIPTION"
-+
-+This function sets the pid task's attribute capability container id with the value of capcontid. The capcontid value may only be set by programs with the CAP_AUDIT_CONTROL capability in the initial user namespace or with capcontid. This normally means the root account or root in a container.
-+.sp
-+The capcontid value is part of the task structure and is inheritted by child processes within a user namespace. It is used to enable the capability to set container identifier of a child task in a descendent user namespace.  Container orchestrator/engines should set this value only on children it wishes to be able to set audit container identifiers.
-+
-+.SH "RETURN VALUE"
-+
-+This function returns 0 on success and non-zero otherwise.
-+
-+.SH "SEE ALSO"
-+
-+.BR audit_get_capcontid (3).
-+
-+.SH AUTHOR
-+Richard Guy Briggs
-diff --git a/lib/libaudit.c b/lib/libaudit.c
-index 1a7fed76b9b0..4a2678ca2171 100644
---- a/lib/libaudit.c
-+++ b/lib/libaudit.c
-@@ -992,6 +992,74 @@ uint32_t audit_get_session(void)
- }
- 
- /*
-+ * This function will retrieve the capability container identifier or -2 if
-+ * there is an error.
-+ */
-+uint32_t audit_get_capcontid(pid_t pid)
-+{
-+	int capcontid;
-+	int len, in;
-+	char buf[16], fnbuf[48];
-+
-+	if ((audit_get_features() & AUDIT_FEATURE_BITMAP_CONTAINERID) == 0)
-+		return -2;
-+	errno = 0;
-+	snprintf(fnbuf, sizeof(fnbuf), "/proc/%d/audit_capcontainerid", pid);
-+	in = open(fnbuf, O_NOFOLLOW|O_RDONLY);
-+	if (in < 0)
-+		return -2;
-+	do {
-+		len = read(in, buf, sizeof(buf));
-+	} while (len < 0 && errno == EINTR);
-+	close(in);
-+	if (len < 0 || len >= sizeof(buf))
-+		return -2;
-+	buf[len] = 0;
-+	errno = 0;
-+	capcontid = strtol(buf, 0, 10);
-+	if (errno)
-+		return -2;
-+	return capcontid;
-+}
-+
-+/*
-+ * This function returns 0 on success and 1 on failure
-+ */
-+int audit_set_capcontid(pid_t pid, uint32_t capcontid)
-+{
-+	char capcontidbuf[16], fnbuf[48];
-+	int o, count, rc = 0;
-+
-+	if ((audit_get_features() & AUDIT_FEATURE_BITMAP_CONTAINERID) == 0)
-+		return -2;
-+	errno = 0;
-+	count = snprintf(capcontidbuf, sizeof(capcontidbuf), "%u", capcontid);
-+	snprintf(fnbuf, sizeof(fnbuf), "/proc/%d/audit_capcontainerid", pid);
-+	o = open(fnbuf, O_NOFOLLOW|O_WRONLY|O_TRUNC);
-+	if (o >= 0) {
-+		int block, offset = 0;
-+
-+		while (count > 0) {
-+			block = write(o, &capcontidbuf[offset], (unsigned int)count);
-+			if (block < 0) {
-+				if (errno == EINTR)
-+					continue;
-+				audit_msg(LOG_ERR, "Error writing capcontid");
-+				close(o);
-+				return 1;
-+			}
-+			offset += block;
-+			count -= block;
-+		}
-+		close(o);
-+	} else {
-+		audit_msg(LOG_ERR, "Error opening %s", fnbuf);
-+		rc = 1;
-+	}
-+	return rc;
-+}
-+
-+/*
-  * This function will retrieve the audit container identifier or -2 if
-  * there is an error.
-  */
-diff --git a/lib/libaudit.h b/lib/libaudit.h
-index f4e820e9b097..2a140f6d0e4b 100644
---- a/lib/libaudit.h
-+++ b/lib/libaudit.h
-@@ -255,6 +255,10 @@ extern "C" {
- #define AUDIT_SIGNAL_INFO2	1021    /* auditd signal sender info */
- #endif
- 
-+#ifndef AUDIT_SET_CAPCONTID
-+#define AUDIT_SET_CAPCONTID	1022    /* set capcontid of specified pid */
-+#endif
-+
- #ifndef AUDIT_MMAP
- #define AUDIT_MMAP		1323 /* Descriptor and flags in mmap */
- #endif
-diff --git a/lib/msg_typetab.h b/lib/msg_typetab.h
-index e904ece158ce..453013bf434f 100644
---- a/lib/msg_typetab.h
-+++ b/lib/msg_typetab.h
-@@ -46,6 +46,7 @@ _S(AUDIT_LOGIN,                      "LOGIN"                         )
- //_S(AUDIT_GET_FEATURE,                "GET_FEATURE"                   )
- //_S(AUDIT_SIGNAL_INFO2,               "SIGNAL_INFO2"                  )
- _S(AUDIT_CONTAINER_OP,               "CONTAINER_OP"                  )
-+_S(AUDIT_SET_CAPCONTID,              "SET_CAPCONTID"                 )
- _S(AUDIT_USER_AUTH,                  "USER_AUTH"                     )
- _S(AUDIT_USER_ACCT,                  "USER_ACCT"                     )
- _S(AUDIT_USER_MGMT,                  "USER_MGMT"                     )
-diff --git a/lib/netlink.c b/lib/netlink.c
-index 66a3a3b7e83c..d7c3c6124a68 100644
---- a/lib/netlink.c
-+++ b/lib/netlink.c
-@@ -186,6 +186,7 @@ static int adjust_reply(struct audit_reply *rep, int len)
- 		case AUDIT_USER:
- 		case AUDIT_LOGIN:
- 		case AUDIT_CONTAINER_OP:
-+		case AUDIT_SET_CAPCONTID:
- 		case AUDIT_KERNEL:
- 		case AUDIT_FIRST_USER_MSG...AUDIT_LAST_USER_MSG:
- 		case AUDIT_FIRST_USER_MSG2...AUDIT_LAST_USER_MSG2:
-diff --git a/src/ausearch-lol.c b/src/ausearch-lol.c
-index 05fe80fe3ad6..8ad88a14f30c 100644
---- a/src/ausearch-lol.c
-+++ b/src/ausearch-lol.c
-@@ -250,6 +250,8 @@ static void check_events(lol *lo, time_t sec)
- 				   (cur->l->e.type >  AUDIT_LOGIN           &&
- 				    cur->l->e.type <  AUDIT_CONTAINER_OP   ) ||
- 				   (cur->l->e.type >  AUDIT_CONTAINER_OP    &&
-+				    cur->l->e.type <  AUDIT_SET_CAPCONTID  ) ||
-+				   (cur->l->e.type >  AUDIT_SET_CAPCONTID   &&
- 				    cur->l->e.type <  AUDIT_FIRST_EVENT    ) ||
- 				    cur->l->e.type == AUDIT_PROCTITLE        ||
- 				   (cur->l->e.type >= AUDIT_MAC_UNLBL_ALLOW &&
-diff --git a/src/ausearch-parse.c b/src/ausearch-parse.c
-index 93482be3606e..9d8a5dd2d092 100644
---- a/src/ausearch-parse.c
-+++ b/src/ausearch-parse.c
-@@ -192,6 +192,7 @@ int extract_search_items(llist *l)
- 			case AUDIT_MMAP:
- 			case AUDIT_PROCTITLE:
- 			case AUDIT_REPLACE...AUDIT_BPF:
-+			case AUDIT_SET_CAPCONTID:
- 				// Nothing to parse
- 				break;
- 			case AUDIT_NETFILTER_CFG:
--- 
-1.8.3.1
+--
+Richard Guy Briggs <rgb@redhat.com>
+Sr. S/W Engineer, Kernel Security, Base Operating Systems
+Remote, Ottawa, Red Hat Canada
+IRC: rgb, SunRaycer
+Voice: +1.647.777.2635, Internal: (81) 32635
 
 --
 Linux-audit mailing list
