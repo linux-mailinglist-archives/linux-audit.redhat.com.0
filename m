@@ -1,55 +1,55 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-delivery-1.mimecast.com [205.139.110.120])
-	by mail.lfdr.de (Postfix) with ESMTP id E4EA1213DC8
-	for <lists+linux-audit@lfdr.de>; Fri,  3 Jul 2020 18:57:17 +0200 (CEST)
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com [205.139.110.120])
+	by mail.lfdr.de (Postfix) with ESMTP id BD9B4213DE7
+	for <lists+linux-audit@lfdr.de>; Fri,  3 Jul 2020 19:03:43 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1593795436;
+	s=mimecast20190719; t=1593795822;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=EKw8DgqkZvjF+8inzXe+ikpqXjW8s1h5aIozqH+tzS4=;
-	b=K8N+KQfJro+7VeL4S9ikoK4tq8Xa3O6i18bwF+28rbJBX8oICxCaDwYKCpFZKkbLup0Awy
-	4te9vIvaYIi2fxFY66uuuPEntZRkd3RtVrinvMuMxTn64a7dWUgCXBTXdQvhdp4uzXR1Nc
-	I4dvkKLg1hKSmulx+NhK+1Dclv1EpyY=
+	bh=a+GITQOyHC5OnXkoz/EbmBaVb8bfhAdodumVp/Etj/8=;
+	b=bx/kKAmamTJcY+HWWq/q1DAOtdl+OgSqUSr9KtmSfe+Siwp6M/6ScjK7jofG7zzarXs5ES
+	0INgisDPtd8qkHpveg/d0dUDU6aniYzV34S2LezK8NunMsDWGD7DRYhlJYIvY/PGYL8lcd
+	Qy7N/zfhaphdl8KxDwY0ZB+S/EhTO4E=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-344-JMr9pz2YPNu29tgXxv2mAg-1; Fri, 03 Jul 2020 12:57:14 -0400
-X-MC-Unique: JMr9pz2YPNu29tgXxv2mAg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+ us-mta-292-x-sqClRFNyabzTELWZuC_Q-1; Fri, 03 Jul 2020 13:03:40 -0400
+X-MC-Unique: x-sqClRFNyabzTELWZuC_Q-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4B3D4800C60;
-	Fri,  3 Jul 2020 16:57:08 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 2568610013D4;
-	Fri,  3 Jul 2020 16:57:05 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 43C9A800C60;
+	Fri,  3 Jul 2020 17:03:35 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id C400071682;
+	Fri,  3 Jul 2020 17:03:34 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 40ACE1809547;
-	Fri,  3 Jul 2020 16:56:59 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
-	[10.5.11.22])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 85E5B6C9CB;
+	Fri,  3 Jul 2020 17:03:33 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+	[10.5.11.15])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 063GulVX030827 for <linux-audit@listman.util.phx.redhat.com>;
-	Fri, 3 Jul 2020 12:56:47 -0400
+	id 063H27xj031974 for <linux-audit@listman.util.phx.redhat.com>;
+	Fri, 3 Jul 2020 13:02:07 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id 5926B10013D4; Fri,  3 Jul 2020 16:56:47 +0000 (UTC)
+	id C4FF65BAD0; Fri,  3 Jul 2020 17:02:07 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from madcap2.tricolour.ca (unknown [10.10.110.3])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 2C05310013D9;
-	Fri,  3 Jul 2020 16:56:44 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 785585BACF;
+	Fri,  3 Jul 2020 17:01:59 +0000 (UTC)
 From: Richard Guy Briggs <rgb@redhat.com>
 To: Linux-Audit Mailing List <linux-audit@redhat.com>,
 	LKML <linux-kernel@vger.kernel.org>,
 	Linux Security Module list <linux-security-module@vger.kernel.org>
-Subject: [PATCH ghak96 v3] audit: issue CWD record to accompany
-	LSM_AUDIT_DATA_* records
-Date: Fri,  3 Jul 2020 12:56:19 -0400
-Message-Id: <878ac79163e31142963f1cd4f743599c35b6754a.1593691408.git.rgb@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Subject: [PATCH ghak84 v2] audit: purge audit_log_string from the intra-kernel
+	audit API
+Date: Fri,  3 Jul 2020 13:01:32 -0400
+Message-Id: <a8263fc3668077e0d6b5151bcb31274755bdd838.1593789083.git.rgb@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-loop: linux-audit@redhat.com
 Cc: Richard Guy Briggs <rgb@redhat.com>, eparis@parisplace.org,
 	john.johansen@canonical.com
@@ -67,7 +67,7 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 MIME-Version: 1.0
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
 	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=linux-audit-bounces@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -75,155 +75,278 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-The LSM_AUDIT_DATA_* records for PATH, FILE, IOCTL_OP, DENTRY and INODE
-are incomplete without the task context of the AUDIT Current Working
-Directory record.  Add it.
-
-This record addition can't use audit_dummy_context to determine whether
-or not to store the record information since the LSM_AUDIT_DATA_*
-records are initiated by various LSMs independent of any audit rules.
-context->in_syscall is used to determine if it was called in user
-context like audit_getname.
+audit_log_string() was inteded to be an internal audit function and
+since there are only two internal uses, remove them.  Purge all external
+uses of it by restructuring code to use an existing audit_log_format()
+or using audit_log_format().
 
 Please see the upstream issue
-https://github.com/linux-audit/audit-kernel/issues/96
-
-Adapted from Vladis Dronov's v2 patch.
+https://github.com/linux-audit/audit-kernel/issues/84
 
 Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
 ---
 Passes audit-testsuite.
 
 Changelog:
-v3
-- adapt and refactor__audit_getname, don't key on dummy
-
 v2
-2020-04-02 vdronov https://www.redhat.com/archives/linux-audit/2020-April/msg00004.html
-- convert to standalone CWD record
+- restructure to piggyback on existing audit_log_format() calls, checking quoting needs for each.
 
-v1:
-2020-03-24 vdronov https://github.com/nefigtut/audit-kernel/commit/df0b55b7ab84e1c9faa588b08e547e604bf25c87
-- add cwd= field to LSM record
+v1 Vlad Dronov
+- https://github.com/nefigtut/audit-kernel/commit/dbbcba46335a002f44b05874153a85b9cc18aebf
 
- include/linux/audit.h |  9 ++++++++-
- kernel/auditsc.c      | 17 +++++++++++++++--
- security/lsm_audit.c  |  5 +++++
- 3 files changed, 28 insertions(+), 3 deletions(-)
+ include/linux/audit.h     |  5 -----
+ kernel/audit.c            |  4 ++--
+ security/apparmor/audit.c | 10 ++++------
+ security/apparmor/file.c  | 25 +++++++------------------
+ security/apparmor/ipc.c   | 44 +++++++++++++++++++++-----------------------
+ security/apparmor/net.c   | 14 ++++++++------
+ security/lsm_audit.c      |  4 ++--
+ 7 files changed, 44 insertions(+), 62 deletions(-)
 
 diff --git a/include/linux/audit.h b/include/linux/audit.h
-index 03c4035a532b..bb850d588e1c 100644
+index 604ede630580..5ad7cd65d76f 100644
 --- a/include/linux/audit.h
 +++ b/include/linux/audit.h
-@@ -292,7 +292,7 @@ extern void __audit_syscall_entry(int major, unsigned long a0, unsigned long a1,
- extern void __audit_syscall_exit(int ret_success, long ret_value);
- extern struct filename *__audit_reusename(const __user char *uptr);
- extern void __audit_getname(struct filename *name);
+@@ -695,9 +695,4 @@ static inline bool audit_loginuid_set(struct task_struct *tsk)
+ 	return uid_valid(audit_get_loginuid(tsk));
+ }
+ 
+-static inline void audit_log_string(struct audit_buffer *ab, const char *buf)
+-{
+-	audit_log_n_string(ab, buf, strlen(buf));
+-}
 -
-+extern void __audit_getcwd(void);
- extern void __audit_inode(struct filename *name, const struct dentry *dentry,
- 				unsigned int flags);
- extern void __audit_file(const struct file *);
-@@ -351,6 +351,11 @@ static inline void audit_getname(struct filename *name)
- 	if (unlikely(!audit_dummy_context()))
- 		__audit_getname(name);
- }
-+static inline void audit_getcwd(void)
-+{
-+	if (unlikely(audit_context()))
-+		__audit_getcwd();
-+}
- static inline void audit_inode(struct filename *name,
- 				const struct dentry *dentry,
- 				unsigned int aflags) {
-@@ -579,6 +584,8 @@ static inline struct filename *audit_reusename(const __user char *name)
- }
- static inline void audit_getname(struct filename *name)
- { }
-+static inline void audit_getcwd(void)
-+{ }
- static inline void audit_inode(struct filename *name,
- 				const struct dentry *dentry,
- 				unsigned int aflags)
-diff --git a/kernel/auditsc.c b/kernel/auditsc.c
-index 3a9100e95fda..934ab5b8c1c5 100644
---- a/kernel/auditsc.c
-+++ b/kernel/auditsc.c
-@@ -1891,6 +1891,20 @@ struct filename *
- 	return NULL;
+ #endif
+diff --git a/kernel/audit.c b/kernel/audit.c
+index 8c201f414226..a2f3e34aa724 100644
+--- a/kernel/audit.c
++++ b/kernel/audit.c
+@@ -2080,13 +2080,13 @@ void audit_log_d_path(struct audit_buffer *ab, const char *prefix,
+ 	/* We will allow 11 spaces for ' (deleted)' to be appended */
+ 	pathname = kmalloc(PATH_MAX+11, ab->gfp_mask);
+ 	if (!pathname) {
+-		audit_log_string(ab, "<no_memory>");
++		audit_log_format(ab, "\"<no_memory>\"");
+ 		return;
+ 	}
+ 	p = d_path(path, pathname, PATH_MAX+11);
+ 	if (IS_ERR(p)) { /* Should never happen since we send PATH_MAX */
+ 		/* FIXME: can we save some information here? */
+-		audit_log_string(ab, "<too_long>");
++		audit_log_format(ab, "\"<too_long>\"");
+ 	} else
+ 		audit_log_untrustedstring(ab, p);
+ 	kfree(pathname);
+diff --git a/security/apparmor/audit.c b/security/apparmor/audit.c
+index 597732503815..335b5b8d300b 100644
+--- a/security/apparmor/audit.c
++++ b/security/apparmor/audit.c
+@@ -57,18 +57,16 @@ static void audit_pre(struct audit_buffer *ab, void *ca)
+ 	struct common_audit_data *sa = ca;
+ 
+ 	if (aa_g_audit_header) {
+-		audit_log_format(ab, "apparmor=");
+-		audit_log_string(ab, aa_audit_type[aad(sa)->type]);
++		audit_log_format(ab, "apparmor=%s",
++				 aa_audit_type[aad(sa)->type]);
+ 	}
+ 
+ 	if (aad(sa)->op) {
+-		audit_log_format(ab, " operation=");
+-		audit_log_string(ab, aad(sa)->op);
++		audit_log_format(ab, " operation=%s", aad(sa)->op);
+ 	}
+ 
+ 	if (aad(sa)->info) {
+-		audit_log_format(ab, " info=");
+-		audit_log_string(ab, aad(sa)->info);
++		audit_log_format(ab, " info=\"%s\"", aad(sa)->info);
+ 		if (aad(sa)->error)
+ 			audit_log_format(ab, " error=%d", aad(sa)->error);
+ 	}
+diff --git a/security/apparmor/file.c b/security/apparmor/file.c
+index 9a2d14b7c9f8..70f27124d051 100644
+--- a/security/apparmor/file.c
++++ b/security/apparmor/file.c
+@@ -35,20 +35,6 @@ static u32 map_mask_to_chr_mask(u32 mask)
  }
  
-+inline void _audit_getcwd(struct audit_context *context)
-+{
-+	if (!context->pwd.dentry)
-+		get_fs_pwd(current->fs, &context->pwd);
-+}
-+
-+void __audit_getcwd(void)
-+{
-+	struct audit_context *context = audit_context();
-+
-+	if (context->in_syscall)
-+		_audit_getcwd(context);
-+}
-+
  /**
-  * __audit_getname - add a name to the list
-  * @name: name to add
-@@ -1915,8 +1929,7 @@ void __audit_getname(struct filename *name)
- 	name->aname = n;
- 	name->refcnt++;
+- * audit_file_mask - convert mask to permission string
+- * @buffer: buffer to write string to (NOT NULL)
+- * @mask: permission mask to convert
+- */
+-static void audit_file_mask(struct audit_buffer *ab, u32 mask)
+-{
+-	char str[10];
+-
+-	aa_perm_mask_to_str(str, sizeof(str), aa_file_perm_chrs,
+-			    map_mask_to_chr_mask(mask));
+-	audit_log_string(ab, str);
+-}
+-
+-/**
+  * file_audit_cb - call back for file specific audit fields
+  * @ab: audit_buffer  (NOT NULL)
+  * @va: audit struct to audit values of  (NOT NULL)
+@@ -57,14 +43,17 @@ static void file_audit_cb(struct audit_buffer *ab, void *va)
+ {
+ 	struct common_audit_data *sa = va;
+ 	kuid_t fsuid = current_fsuid();
++	char str[10];
  
--	if (!context->pwd.dentry)
--		get_fs_pwd(current->fs, &context->pwd);
-+	_audit_getcwd(context);
+ 	if (aad(sa)->request & AA_AUDIT_FILE_MASK) {
+-		audit_log_format(ab, " requested_mask=");
+-		audit_file_mask(ab, aad(sa)->request);
++		aa_perm_mask_to_str(str, sizeof(str), aa_file_perm_chrs,
++				    map_mask_to_chr_mask(aad(sa)->request));
++		audit_log_format(ab, " requested_mask=%s", str);
+ 	}
+ 	if (aad(sa)->denied & AA_AUDIT_FILE_MASK) {
+-		audit_log_format(ab, " denied_mask=");
+-		audit_file_mask(ab, aad(sa)->denied);
++		aa_perm_mask_to_str(str, sizeof(str), aa_file_perm_chrs,
++				    map_mask_to_chr_mask(aad(sa)->denied));
++		audit_log_format(ab, " denied_mask=%s", str);
+ 	}
+ 	if (aad(sa)->request & AA_AUDIT_FILE_MASK) {
+ 		audit_log_format(ab, " fsuid=%d",
+diff --git a/security/apparmor/ipc.c b/security/apparmor/ipc.c
+index 4ecedffbdd33..18ca807e7872 100644
+--- a/security/apparmor/ipc.c
++++ b/security/apparmor/ipc.c
+@@ -20,24 +20,21 @@
+ 
+ /**
+  * audit_ptrace_mask - convert mask to permission string
+- * @buffer: buffer to write string to (NOT NULL)
+  * @mask: permission mask to convert
++ *
++ * Returns: pointer to static string
+  */
+-static void audit_ptrace_mask(struct audit_buffer *ab, u32 mask)
++static const char *audit_ptrace_mask(u32 mask)
+ {
+ 	switch (mask) {
+ 	case MAY_READ:
+-		audit_log_string(ab, "read");
+-		break;
++		return "read";
+ 	case MAY_WRITE:
+-		audit_log_string(ab, "trace");
+-		break;
++		return "trace";
+ 	case AA_MAY_BE_READ:
+-		audit_log_string(ab, "readby");
+-		break;
++		return "readby";
+ 	case AA_MAY_BE_TRACED:
+-		audit_log_string(ab, "tracedby");
+-		break;
++		return "tracedby";
+ 	}
  }
  
- static inline int audit_copy_fcaps(struct audit_names *name,
+@@ -47,12 +44,12 @@ static void audit_ptrace_cb(struct audit_buffer *ab, void *va)
+ 	struct common_audit_data *sa = va;
+ 
+ 	if (aad(sa)->request & AA_PTRACE_PERM_MASK) {
+-		audit_log_format(ab, " requested_mask=");
+-		audit_ptrace_mask(ab, aad(sa)->request);
++		audit_log_format(ab, " requested_mask=%s",
++				 audit_ptrace_mask(aad(sa)->request));
+ 
+ 		if (aad(sa)->denied & AA_PTRACE_PERM_MASK) {
+-			audit_log_format(ab, " denied_mask=");
+-			audit_ptrace_mask(ab, aad(sa)->denied);
++			audit_log_format(ab, " denied_mask=%s",
++					 audit_ptrace_mask(aad(sa)->denied));
+ 		}
+ 	}
+ 	audit_log_format(ab, " peer=");
+@@ -142,16 +139,17 @@ static inline int map_signal_num(int sig)
+ }
+ 
+ /**
+- * audit_file_mask - convert mask to permission string
+- * @buffer: buffer to write string to (NOT NULL)
++ * audit_signal_mask - convert mask to permission string
+  * @mask: permission mask to convert
++ *
++ * Returns: pointer to static string
+  */
+-static void audit_signal_mask(struct audit_buffer *ab, u32 mask)
++static const char *audit_signal_mask(u32 mask)
+ {
+ 	if (mask & MAY_READ)
+-		audit_log_string(ab, "receive");
++		return "receive";
+ 	if (mask & MAY_WRITE)
+-		audit_log_string(ab, "send");
++		return "send";
+ }
+ 
+ /**
+@@ -164,11 +162,11 @@ static void audit_signal_cb(struct audit_buffer *ab, void *va)
+ 	struct common_audit_data *sa = va;
+ 
+ 	if (aad(sa)->request & AA_SIGNAL_PERM_MASK) {
+-		audit_log_format(ab, " requested_mask=");
+-		audit_signal_mask(ab, aad(sa)->request);
++		audit_log_format(ab, " requested_mask=%s",
++				 audit_signal_mask(aad(sa)->request));
+ 		if (aad(sa)->denied & AA_SIGNAL_PERM_MASK) {
+-			audit_log_format(ab, " denied_mask=");
+-			audit_signal_mask(ab, aad(sa)->denied);
++			audit_log_format(ab, " denied_mask=%s",
++					 audit_signal_mask(aad(sa)->denied));
+ 		}
+ 	}
+ 	if (aad(sa)->signal == SIGUNKNOWN)
+diff --git a/security/apparmor/net.c b/security/apparmor/net.c
+index d8afc39f663a..fa0e85568450 100644
+--- a/security/apparmor/net.c
++++ b/security/apparmor/net.c
+@@ -72,16 +72,18 @@ void audit_net_cb(struct audit_buffer *ab, void *va)
+ {
+ 	struct common_audit_data *sa = va;
+ 
+-	audit_log_format(ab, " family=");
+ 	if (address_family_names[sa->u.net->family])
+-		audit_log_string(ab, address_family_names[sa->u.net->family]);
++		audit_log_format(ab, " family=\"%s\"",
++				 address_family_names[sa->u.net->family]);
+ 	else
+-		audit_log_format(ab, "\"unknown(%d)\"", sa->u.net->family);
+-	audit_log_format(ab, " sock_type=");
++		audit_log_format(ab, " family=\"unknown(%d)\"",
++				 sa->u.net->family);
+ 	if (sock_type_names[aad(sa)->net.type])
+-		audit_log_string(ab, sock_type_names[aad(sa)->net.type]);
++		audit_log_format(ab, " sock_type=\"%s\"",
++				 sock_type_names[aad(sa)->net.type]);
+ 	else
+-		audit_log_format(ab, "\"unknown(%d)\"", aad(sa)->net.type);
++		audit_log_format(ab, " sock_type=\"unknown(%d)\"",
++				 aad(sa)->net.type);
+ 	audit_log_format(ab, " protocol=%d", aad(sa)->net.protocol);
+ 
+ 	if (aad(sa)->request & NET_PERMS_MASK) {
 diff --git a/security/lsm_audit.c b/security/lsm_audit.c
-index 2d2bf49016f4..7c555621c2bd 100644
+index 2d2bf49016f4..221370794d14 100644
 --- a/security/lsm_audit.c
 +++ b/security/lsm_audit.c
-@@ -241,6 +241,7 @@ static void dump_common_audit_data(struct audit_buffer *ab,
- 			audit_log_untrustedstring(ab, inode->i_sb->s_id);
- 			audit_log_format(ab, " ino=%lu", inode->i_ino);
- 		}
-+		audit_getcwd();
+@@ -427,8 +427,8 @@ static void dump_common_audit_data(struct audit_buffer *ab,
+ 				 a->u.ibendport->port);
  		break;
- 	}
- 	case LSM_AUDIT_DATA_FILE: {
-@@ -254,6 +255,7 @@ static void dump_common_audit_data(struct audit_buffer *ab,
- 			audit_log_untrustedstring(ab, inode->i_sb->s_id);
- 			audit_log_format(ab, " ino=%lu", inode->i_ino);
- 		}
-+		audit_getcwd();
+ 	case LSM_AUDIT_DATA_LOCKDOWN:
+-		audit_log_format(ab, " lockdown_reason=");
+-		audit_log_string(ab, lockdown_reasons[a->u.reason]);
++		audit_log_format(ab, " lockdown_reason=\"%s\"",
++				 lockdown_reasons[a->u.reason]);
  		break;
- 	}
- 	case LSM_AUDIT_DATA_IOCTL_OP: {
-@@ -269,6 +271,7 @@ static void dump_common_audit_data(struct audit_buffer *ab,
- 		}
- 
- 		audit_log_format(ab, " ioctlcmd=0x%hx", a->u.op->cmd);
-+		audit_getcwd();
- 		break;
- 	}
- 	case LSM_AUDIT_DATA_DENTRY: {
-@@ -283,6 +286,7 @@ static void dump_common_audit_data(struct audit_buffer *ab,
- 			audit_log_untrustedstring(ab, inode->i_sb->s_id);
- 			audit_log_format(ab, " ino=%lu", inode->i_ino);
- 		}
-+		audit_getcwd();
- 		break;
- 	}
- 	case LSM_AUDIT_DATA_INODE: {
-@@ -300,6 +304,7 @@ static void dump_common_audit_data(struct audit_buffer *ab,
- 		audit_log_format(ab, " dev=");
- 		audit_log_untrustedstring(ab, inode->i_sb->s_id);
- 		audit_log_format(ab, " ino=%lu", inode->i_ino);
-+		audit_getcwd();
- 		break;
- 	}
- 	case LSM_AUDIT_DATA_TASK: {
+ 	} /* switch (a->type) */
+ }
 -- 
 1.8.3.1
 
