@@ -1,75 +1,76 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-delivery-1.mimecast.com [207.211.31.120])
-	by mail.lfdr.de (Postfix) with ESMTP id 67036214D67
-	for <lists+linux-audit@lfdr.de>; Sun,  5 Jul 2020 17:11:12 +0200 (CEST)
+Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [207.211.31.81])
+	by mail.lfdr.de (Postfix) with ESMTP id 2D00D214D70
+	for <lists+linux-audit@lfdr.de>; Sun,  5 Jul 2020 17:11:29 +0200 (CEST)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-45-mly7bcbnOa6grqnCTng_rA-1; Sun, 05 Jul 2020 11:11:09 -0400
-X-MC-Unique: mly7bcbnOa6grqnCTng_rA-1
+ us-mta-321-xYLBLtYDMYy0U1Em_nlPJg-1; Sun, 05 Jul 2020 11:11:26 -0400
+X-MC-Unique: xYLBLtYDMYy0U1Em_nlPJg-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4F6AE185B3AD;
-	Sun,  5 Jul 2020 15:11:04 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 3137610013DB;
-	Sun,  5 Jul 2020 15:11:04 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CD30F8015F5;
+	Sun,  5 Jul 2020 15:11:21 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id ADCB510013DB;
+	Sun,  5 Jul 2020 15:11:21 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 09DD96C9EF;
-	Sun,  5 Jul 2020 15:11:04 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
-	[10.11.54.3])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 836481809547;
+	Sun,  5 Jul 2020 15:11:21 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+	[10.11.54.6])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 065FB1jZ028349 for <linux-audit@listman.util.phx.redhat.com>;
-	Sun, 5 Jul 2020 11:11:01 -0400
+	id 065FBIZ3028451 for <linux-audit@listman.util.phx.redhat.com>;
+	Sun, 5 Jul 2020 11:11:18 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id A9721110DA0A; Sun,  5 Jul 2020 15:11:01 +0000 (UTC)
+	id E2B6C2166B28; Sun,  5 Jul 2020 15:11:17 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
-	(mimecast05.extmail.prod.ext.rdu2.redhat.com [10.11.55.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 90F47110DA09
-	for <linux-audit@redhat.com>; Sun,  5 Jul 2020 15:11:01 +0000 (UTC)
+	(mimecast01.extmail.prod.ext.rdu2.redhat.com [10.11.55.17])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id D11652166B27
+	for <linux-audit@redhat.com>; Sun,  5 Jul 2020 15:11:15 +0000 (UTC)
 Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
 	[205.139.110.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 74088924907
-	for <linux-audit@redhat.com>; Sun,  5 Jul 2020 15:11:01 +0000 (UTC)
-Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com
-	[209.85.208.65]) (Using TLS) by relay.mimecast.com with ESMTP id
-	us-mta-378-csHu8IyNOTCwvhHSojlNKA-1; Sun, 05 Jul 2020 11:10:59 -0400
-X-MC-Unique: csHu8IyNOTCwvhHSojlNKA-1
-Received: by mail-ed1-f65.google.com with SMTP id b15so32355937edy.7
-	for <linux-audit@redhat.com>; Sun, 05 Jul 2020 08:10:59 -0700 (PDT)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A6A5E85A33D
+	for <linux-audit@redhat.com>; Sun,  5 Jul 2020 15:11:15 +0000 (UTC)
+Received: from mail-ej1-f66.google.com (mail-ej1-f66.google.com
+	[209.85.218.66]) (Using TLS) by relay.mimecast.com with ESMTP id
+	us-mta-230-ZL0ex6eQNCuSr3wV_gW1Mw-1; Sun, 05 Jul 2020 11:11:13 -0400
+X-MC-Unique: ZL0ex6eQNCuSr3wV_gW1Mw-1
+Received: by mail-ej1-f66.google.com with SMTP id lx13so21103389ejb.4
+	for <linux-audit@redhat.com>; Sun, 05 Jul 2020 08:11:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=r9DiCc6x8lICZPtnCZBRHzkDZvjjByWo+uBKuu1hw4E=;
-	b=AV+Y5LpdqpOiC5myu5MZy3lo5EqUpKke59+WKYwX/B1Gs9ODNoeydlsYz+OuYuFJgw
-	CSb1eDHOZjPZSODIWYFwQhPvpmvM5RN0ZnuDyXzUQXpBuqWsadEQQ35KdF4Y30WBQ1uC
-	WP+dFfBqypwJW6i4qVCv10era1YVwqHL5AFRXcNaXu54qBkK2bz5NtwWc0hAb7E2wDz+
-	rgjRXnoS433/ZHix2tiMzTtIIlZHn9mBX5VzmT/VfLKmJCXZ4SgjyDkH5HampwOO7kJE
-	c6o7BeX50GYG108yPh1k39e64uAZEXxmzG8Rw0P4b7h4WD0aq1cCLCi8pmQoXcF6ySRv
-	Q8IA==
-X-Gm-Message-State: AOAM532tIebpfeoBfHQU2JUltNEkCx6mJhXmxWpgAfvCX/vqCQniZ/ru
-	0M2oigPZbshe9anPZrY25jW9DGf84506StrQhoYx
-X-Google-Smtp-Source: ABdhPJy+MzquU6l4PmJHVYiVrCRYavqWOdZeZtU0571AD9O3iBB3b6pzT8i23qCcznUJF37mtItwe8m78Dp0MVWrol8=
-X-Received: by 2002:aa7:c883:: with SMTP id p3mr52335550eds.128.1593961858091; 
-	Sun, 05 Jul 2020 08:10:58 -0700 (PDT)
+	bh=NjVTfMdZw6XwQbxDon7o4vpETM5NGTk+/7UWsjNsjd4=;
+	b=J+YBnIMu9SwAk3ykQ0PvlxipwKluq9wdVyuCpp3YfPvkkgFlq4jtHTg85FM9QjO3OJ
+	pG2a9V0sDKALaPwWsKoDs0GxUdU9gB5ooBx4iCuFHgWhIGStGsQmiDnf7mzhr4F62esi
+	xSbpKmV7jX/mU0Xzm43TMnUdkqKfdq8TyhDOwgZNPXo+n2KLK0aU9Ka+IzMgg+o9W+Dh
+	cdl8onFR6HRJES46OE0TxfR2IPL+vWSSuPBfUhhje1sshcTWlobUbCWvcpgk4s3NlXOi
+	2i5r2DLVt5kN2m+IGWiqXvsqIpWq5ldlxdnF3OD9OHG6zzeiN8NcdqwoS+G+uerjixXz
+	cdFg==
+X-Gm-Message-State: AOAM531dwa6uBeR9m1nyslSJS+6PHpb/AW4U/jQObR8iZZhomec/CWXb
+	XE39QaaxLVqRgHdy1UNhG2dCAHold76yv1CnxSBW
+X-Google-Smtp-Source: ABdhPJxZNVMN4RChXVrByWzKcFP6o6O2BuhllrOjeEE1M/lyej09V/IMzWRWLsJY9AP/xCOr9AZ8/Zf2tA+G6mTWN/A=
+X-Received: by 2002:a17:906:1403:: with SMTP id
+	p3mr31517140ejc.106.1593961872347; 
+	Sun, 05 Jul 2020 08:11:12 -0700 (PDT)
 MIME-Version: 1.0
 References: <cover.1593198710.git.rgb@redhat.com>
-	<f01f38dbb3190191e5914874322342700aecb9e1.1593198710.git.rgb@redhat.com>
-In-Reply-To: <f01f38dbb3190191e5914874322342700aecb9e1.1593198710.git.rgb@redhat.com>
+	<21e6c4e1ac179c8dcf35803e603899ccfc69300a.1593198710.git.rgb@redhat.com>
+In-Reply-To: <21e6c4e1ac179c8dcf35803e603899ccfc69300a.1593198710.git.rgb@redhat.com>
 From: Paul Moore <paul@paul-moore.com>
-Date: Sun, 5 Jul 2020 11:10:46 -0400
-Message-ID: <CAHC9VhRPm4=_dVkZCu9iD5u5ixJOUnGNZ2wM9CL4kWwqv3GRnA@mail.gmail.com>
-Subject: Re: [PATCH ghak90 V9 06/13] audit: add contid support for signalling
-	the audit daemon
+Date: Sun, 5 Jul 2020 11:11:00 -0400
+Message-ID: <CAHC9VhTEkhZqkH24hPEZgMtWcYy9qKhZdoiegDLhGefa_bxmuw@mail.gmail.com>
+Subject: Re: [PATCH ghak90 V9 07/13] audit: add support for non-syscall
+	auxiliary records
 To: Richard Guy Briggs <rgb@redhat.com>
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
 X-loop: linux-audit@redhat.com
 Cc: nhorman@tuxdriver.com, linux-api@vger.kernel.org,
 	containers@lists.linux-foundation.org,
@@ -102,260 +103,89 @@ Content-Transfer-Encoding: 7bit
 
 On Sat, Jun 27, 2020 at 9:22 AM Richard Guy Briggs <rgb@redhat.com> wrote:
 >
-> Add audit container identifier support to the action of signalling the
-> audit daemon.
->
-> Since this would need to add an element to the audit_sig_info struct,
-> a new record type AUDIT_SIGNAL_INFO2 was created with a new
-> audit_sig_info2 struct.  Corresponding support is required in the
-> userspace code to reflect the new record request and reply type.
-> An older userspace won't break since it won't know to request this
-> record type.
->
+> Standalone audit records have the timestamp and serial number generated
+> on the fly and as such are unique, making them standalone.  This new
+> function audit_alloc_local() generates a local audit context that will
+> be used only for a standalone record and its auxiliary record(s).  The
+> context is discarded immediately after the local associated records are
+> produced.
+
+We've had some good discussions on the list about why we can't reuse
+the "in_syscall" field and need to add a "local" field, I think it
+would be good to address that here in the commit description.
+
 > Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
+> Acked-by: Serge Hallyn <serge@hallyn.com>
+> Acked-by: Neil Horman <nhorman@tuxdriver.com>
+> Reviewed-by: Ondrej Mosnacek <omosnace@redhat.com>
 > ---
->  include/linux/audit.h       |  8 ++++
->  include/uapi/linux/audit.h  |  1 +
->  kernel/audit.c              | 95 ++++++++++++++++++++++++++++++++++++++++++++-
->  security/selinux/nlmsgtab.c |  1 +
->  4 files changed, 104 insertions(+), 1 deletion(-)
->
-> diff --git a/include/linux/audit.h b/include/linux/audit.h
-> index 5eeba0efffc2..89cf7c66abe6 100644
-> --- a/include/linux/audit.h
-> +++ b/include/linux/audit.h
-> @@ -22,6 +22,13 @@ struct audit_sig_info {
->         char            ctx[];
->  };
->
-> +struct audit_sig_info2 {
-> +       uid_t           uid;
-> +       pid_t           pid;
-> +       u32             cid_len;
-> +       char            data[];
-> +};
-> +
->  struct audit_buffer;
->  struct audit_context;
->  struct inode;
-> @@ -105,6 +112,7 @@ struct audit_contobj {
->         u64                     id;
->         struct task_struct      *owner;
->         refcount_t              refcount;
-> +       refcount_t              sigflag;
->         struct rcu_head         rcu;
->  };
+>  include/linux/audit.h |  8 ++++++++
+>  kernel/audit.h        |  1 +
+>  kernel/auditsc.c      | 33 ++++++++++++++++++++++++++++-----
+>  3 files changed, 37 insertions(+), 5 deletions(-)
 
-It seems like we need some protection in audit_set_contid() so that we
-don't allow reuse of an audit container ID when "refcount == 0 &&
-sigflag != 0", yes?
+...
 
-> diff --git a/include/uapi/linux/audit.h b/include/uapi/linux/audit.h
-> index fd98460c983f..a56ad77069b9 100644
-> --- a/include/uapi/linux/audit.h
-> +++ b/include/uapi/linux/audit.h
-> @@ -72,6 +72,7 @@
->  #define AUDIT_SET_FEATURE      1018    /* Turn an audit feature on or off */
->  #define AUDIT_GET_FEATURE      1019    /* Get which features are enabled */
->  #define AUDIT_CONTAINER_OP     1020    /* Define the container id and info */
-> +#define AUDIT_SIGNAL_INFO2     1021    /* Get info auditd signal sender */
->
->  #define AUDIT_FIRST_USER_MSG   1100    /* Userspace messages mostly uninteresting to kernel */
->  #define AUDIT_USER_AVC         1107    /* We filter this differently */
-> diff --git a/kernel/audit.c b/kernel/audit.c
-> index a09f8f661234..54dd2cb69402 100644
-> --- a/kernel/audit.c
-> +++ b/kernel/audit.c
-> @@ -126,6 +126,8 @@ struct auditd_connection {
->  kuid_t         audit_sig_uid = INVALID_UID;
->  pid_t          audit_sig_pid = -1;
->  u32            audit_sig_sid = 0;
-> +static struct audit_contobj *audit_sig_cid;
-> +static struct task_struct *audit_sig_atsk;
-
-This looks like a typo, or did you mean "atsk" for some reason?
-
->  /* Records can be lost in several ways:
->     0) [suppressed in audit_alloc]
-> @@ -239,7 +241,33 @@ void _audit_contobj_put(struct audit_contobj *cont)
->  {
->         if (!cont)
->                 return;
-> -       if (refcount_dec_and_test(&cont->refcount)) {
-> +       if (refcount_dec_and_test(&cont->refcount) && !refcount_read(&cont->sigflag)) {
-> +               put_task_struct(cont->owner);
-> +               list_del_rcu(&cont->list);
-> +               kfree_rcu(cont, rcu);
-> +       }
-> +}
-
-It seems like it might be a good idea to modify the corresponding
-_get() to WARN on the reuse of audit container objects where refcount
-is zero, similar to the comment I made above.  What do you think?
-
-> +/* rcu_read_lock must be held by caller unless new */
-> +static struct audit_contobj *_audit_contobj_get_sig(struct task_struct *tsk)
-> +{
-> +       struct audit_contobj *cont;
-> +
-> +       if (!tsk->audit)
-> +               return NULL;
-> +       cont = tsk->audit->cont;
-> +       if (cont)
-> +               refcount_set(&cont->sigflag, 1);
-> +       return cont;
-> +}
-
-If you are going to use a refcount and call this a "get" function you
-might as well make it do an increment and not just a set(1).  It a bit
-silly with just one auditd per system, but I suppose it will make more
-sense when we have multiple audit daemons.  In a related comment, you
-probably want to rename "sigflag" to "sigcount" or similar.
-
-In summary, it's either a reference that supports multiple gets/puts
-or it's a flag with just an on/off; it shouldn't attempt to straddle
-both, that's both confusing and fragile.
-
-> +/* rcu_read_lock must be held by caller */
-> +static void _audit_contobj_put_sig(struct audit_contobj *cont)
-> +{
-> +       if (!cont)
-> +               return;
-> +       refcount_set(&cont->sigflag, 0);
-> +       if (!refcount_read(&cont->refcount)) {
->                 put_task_struct(cont->owner);
->                 list_del_rcu(&cont->list);
->                 kfree_rcu(cont, rcu);
-> @@ -309,6 +337,13 @@ void audit_free(struct task_struct *tsk)
->         info = tsk->audit;
->         tsk->audit = NULL;
->         kmem_cache_free(audit_task_cache, info);
-> +       rcu_read_lock();
-> +       if (audit_sig_atsk == tsk) {
-> +               _audit_contobj_put_sig(audit_sig_cid);
-> +               audit_sig_cid = NULL;
-> +               audit_sig_atsk = NULL;
-> +       }
-> +       rcu_read_unlock();
+> diff --git a/kernel/auditsc.c b/kernel/auditsc.c
+> index 9e79645e5c0e..935eb3d2cde9 100644
+> --- a/kernel/auditsc.c
+> +++ b/kernel/auditsc.c
+> @@ -908,11 +908,13 @@ static inline void audit_free_aux(struct audit_context *context)
+>         }
 >  }
 >
->  /**
-> @@ -1132,6 +1167,7 @@ static int audit_netlink_ok(struct sk_buff *skb, u16 msg_type)
->         case AUDIT_ADD_RULE:
->         case AUDIT_DEL_RULE:
->         case AUDIT_SIGNAL_INFO:
-> +       case AUDIT_SIGNAL_INFO2:
->         case AUDIT_TTY_GET:
->         case AUDIT_TTY_SET:
->         case AUDIT_TRIM:
-> @@ -1294,6 +1330,7 @@ static int audit_receive_msg(struct sk_buff *skb, struct nlmsghdr *nlh)
->         struct audit_buffer     *ab;
->         u16                     msg_type = nlh->nlmsg_type;
->         struct audit_sig_info   *sig_data;
-> +       struct audit_sig_info2  *sig_data2;
->         char                    *ctx = NULL;
->         u32                     len;
+> -static inline struct audit_context *audit_alloc_context(enum audit_state state)
+> +static inline struct audit_context *audit_alloc_context(enum audit_state state,
+> +                                                       gfp_t gfpflags)
+>  {
+>         struct audit_context *context;
 >
-> @@ -1559,6 +1596,52 @@ static int audit_receive_msg(struct sk_buff *skb, struct nlmsghdr *nlh)
->                                  sig_data, sizeof(*sig_data) + len);
->                 kfree(sig_data);
->                 break;
-> +       case AUDIT_SIGNAL_INFO2: {
-> +               unsigned int contidstrlen = 0;
+> -       context = kzalloc(sizeof(*context), GFP_KERNEL);
+> +       /* We can be called in atomic context via audit_tg() */
+
+At this point I think it's clear we need a respin so I'm not going to
+preface all of my nitpick comments as such, although this definitely
+would qualify ...
+
+I don't believe audit_tg() doesn't exist yet, likely coming later in
+this patchset, so please remove this comment as it doesn't make sense
+in this context.
+
+To be frank, don't re-add the comment later in the patchset either.
+Comments like these tend to be fragile and don't really add any great
+insight.  The audit_tg() function can, and most likely will, be
+modified at some point in the future such that the comment above no
+longer applies, and there is a reasonable chance that when it does the
+above comment will not be updated.  Further, anyone modifying the
+audit_alloc_context() is going to look at the callers (rather they
+*should* look at the callers) and will notice the no-sleep
+requirements.
+
+> @@ -960,8 +963,27 @@ int audit_alloc_syscall(struct task_struct *tsk)
+>         return 0;
+>  }
+>
+> -static inline void audit_free_context(struct audit_context *context)
+> +struct audit_context *audit_alloc_local(gfp_t gfpflags)
+>  {
+> +       struct audit_context *context = NULL;
 > +
-> +               len = 0;
-> +               if (audit_sig_sid) {
-> +                       err = security_secid_to_secctx(audit_sig_sid, &ctx,
-> +                                                      &len);
-> +                       if (err)
-> +                               return err;
-> +               }
-> +               if (audit_sig_cid) {
-> +                       contidstr = kmalloc(21, GFP_KERNEL);
-> +                       if (!contidstr) {
-> +                               if (audit_sig_sid)
-> +                                       security_release_secctx(ctx, len);
-> +                               return -ENOMEM;
-> +                       }
-> +                       contidstrlen = scnprintf(contidstr, 20, "%llu", audit_sig_cid->id);
-> +               }
-> +               sig_data2 = kmalloc(sizeof(*sig_data2) + contidstrlen + len, GFP_KERNEL);
-> +               if (!sig_data2) {
-> +                       if (audit_sig_sid)
-> +                               security_release_secctx(ctx, len);
-> +                       kfree(contidstr);
-> +                       return -ENOMEM;
-> +               }
-> +               sig_data2->uid = from_kuid(&init_user_ns, audit_sig_uid);
-> +               sig_data2->pid = audit_sig_pid;
-> +               if (audit_sig_cid) {
-> +                       memcpy(sig_data2->data, contidstr, contidstrlen);
-> +                       sig_data2->cid_len = contidstrlen;
-> +                       kfree(contidstr);
-> +               }
-> +               if (audit_sig_sid) {
-> +                       memcpy(sig_data2->data + contidstrlen, ctx, len);
-> +                       security_release_secctx(ctx, len);
-> +               }
-> +               rcu_read_lock();
-> +               _audit_contobj_put_sig(audit_sig_cid);
-> +               rcu_read_unlock();
+> +       context = audit_alloc_context(AUDIT_RECORD_CONTEXT, gfpflags);
+> +       if (!context) {
+> +               audit_log_lost("out of memory in audit_alloc_local");
+> +               goto out;
 
-We probably want to drop the reference in the legacy/AUDIT_SIGNAL_INFO
-case too, right?
+You might as well just return NULL here, no need to jump and then return NULL.
 
-> +               audit_sig_cid = NULL;
-> +               audit_send_reply(skb, seq, AUDIT_SIGNAL_INFO2, 0, 0,
-> +                                sig_data2, sizeof(*sig_data2) + contidstrlen + len);
-> +               kfree(sig_data2);
-> +               break;
+
 > +       }
->         case AUDIT_TTY_GET: {
->                 struct audit_tty_status s;
->                 unsigned int t;
-> @@ -2470,6 +2553,11 @@ int audit_signal_info(int sig, struct task_struct *t)
->                 else
->                         audit_sig_uid = uid;
->                 security_task_getsecid(current, &audit_sig_sid);
-> +               rcu_read_lock();
-> +               _audit_contobj_put_sig(audit_sig_cid);
-> +               audit_sig_cid = _audit_contobj_get_sig(current);
-> +               rcu_read_unlock();
-> +               audit_sig_atsk = t;
->         }
->
->         return audit_signal_info_syscall(t);
-> @@ -2532,6 +2620,11 @@ int audit_set_contid(struct task_struct *task, u64 contid)
->                         if (cont->id == contid) {
->                                 /* task injection to existing container */
->                                 if (current == cont->owner) {
-> +                                       if (!refcount_read(&cont->refcount)) {
-> +                                               rc = -ESHUTDOWN;
-
-Reuse -ENOTUNIQ; I'm not overly excited about providing a lot of
-detail here as these are global system objects.  If you must have a
-different errno (and I would prefer you didn't), use something like
--EBUSY.
-
-
-> +                                               spin_unlock(&audit_contobj_list_lock);
-> +                                               goto conterror;
-> +                                       }
->                                         _audit_contobj_hold(cont);
->                                         newcont = cont;
->                                 } else {
-> diff --git a/security/selinux/nlmsgtab.c b/security/selinux/nlmsgtab.c
-> index b69231918686..8303bb7a63d0 100644
-> --- a/security/selinux/nlmsgtab.c
-> +++ b/security/selinux/nlmsgtab.c
-> @@ -137,6 +137,7 @@ struct nlmsg_perm {
->         { AUDIT_DEL_RULE,       NETLINK_AUDIT_SOCKET__NLMSG_WRITE    },
->         { AUDIT_USER,           NETLINK_AUDIT_SOCKET__NLMSG_RELAY    },
->         { AUDIT_SIGNAL_INFO,    NETLINK_AUDIT_SOCKET__NLMSG_READ     },
-> +       { AUDIT_SIGNAL_INFO2,   NETLINK_AUDIT_SOCKET__NLMSG_READ     },
->         { AUDIT_TRIM,           NETLINK_AUDIT_SOCKET__NLMSG_WRITE    },
->         { AUDIT_MAKE_EQUIV,     NETLINK_AUDIT_SOCKET__NLMSG_WRITE    },
->         { AUDIT_TTY_GET,        NETLINK_AUDIT_SOCKET__NLMSG_READ     },
+> +       context->serial = audit_serial();
+> +       ktime_get_coarse_real_ts64(&context->ctime);
+> +       context->local = true;
+> +out:
+> +       return context;
+> +}
+> +EXPORT_SYMBOL(audit_alloc_local);
 
 --
 paul moore
