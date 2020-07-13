@@ -2,61 +2,68 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from us-smtp-delivery-1.mimecast.com (us-smtp-delivery-1.mimecast.com [207.211.31.120])
-	by mail.lfdr.de (Postfix) with ESMTP id F349221E119
-	for <lists+linux-audit@lfdr.de>; Mon, 13 Jul 2020 22:02:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5AEE021E162
+	for <lists+linux-audit@lfdr.de>; Mon, 13 Jul 2020 22:29:45 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1594670559;
+	s=mimecast20190719; t=1594672184;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=CRpyNsEvhDrw8sBu4yWM0plezRa5OteYLI5806UQyCM=;
-	b=VtNiqkkLD7FFwq+Urw67qD+ub9NVSkvkFIYqlO0nKe0OKu/9hkmhPe59nShnurPvehXmFG
-	+tCZaJx2ErRNx4+MuYY3yUyxchQ5C/eM0UZQHaQz3jyZR2ZROiOdyp3fHDFFYKML7l0v5g
-	8/C8k3rbjXHpXiY1ZTCzCQn1bYx4Lfs=
+	bh=CQam6PGt4HWjr4CKhqE5KZt8tmVC75Bb5QlHPVkVjgI=;
+	b=Qb/1f8Kv/iqC5htlYRQtzFmUSw8UaSynoLj8wNpOXW2cSzmWJSGpufujwT96a9vDVBsi04
+	SlO+ubEAyK5VHu475J33TJVHgqOALVs1jAqdO4TCEQHoa/127ox9fcfU/T6aQGrLX0D6HC
+	VPfHj4LtXLZN+ZaxAKkt8MEsuqJSkMU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-361-m9b54zucND-11__Yspz8EA-1; Mon, 13 Jul 2020 16:02:34 -0400
-X-MC-Unique: m9b54zucND-11__Yspz8EA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+ us-mta-55-_Bnyk_WcO0-BZOM415haAg-1; Mon, 13 Jul 2020 16:29:40 -0400
+X-MC-Unique: _Bnyk_WcO0-BZOM415haAg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2E04B80BCBE;
-	Mon, 13 Jul 2020 20:02:30 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C2E38800EB6;
+	Mon, 13 Jul 2020 20:29:35 +0000 (UTC)
 Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 7D27D710A0;
-	Mon, 13 Jul 2020 20:02:29 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id D875D5D9DC;
+	Mon, 13 Jul 2020 20:29:34 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 9815E94EEC;
-	Mon, 13 Jul 2020 20:02:28 +0000 (UTC)
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id BA53194EF9;
+	Mon, 13 Jul 2020 20:29:33 +0000 (UTC)
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
 	[10.5.11.11])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 06DK2OMF021151 for <linux-audit@listman.util.phx.redhat.com>;
-	Mon, 13 Jul 2020 16:02:24 -0400
+	id 06DKTQ35025276 for <linux-audit@listman.util.phx.redhat.com>;
+	Mon, 13 Jul 2020 16:29:26 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id BFA9B71683; Mon, 13 Jul 2020 20:02:24 +0000 (UTC)
+	id 9AD7172E40; Mon, 13 Jul 2020 20:29:26 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from madcap2.tricolour.ca (unknown [10.10.110.3])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 985FE72E47;
-	Mon, 13 Jul 2020 20:02:17 +0000 (UTC)
-Date: Mon, 13 Jul 2020 16:02:14 -0400
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 03D8271683;
+	Mon, 13 Jul 2020 20:29:08 +0000 (UTC)
+Date: Mon, 13 Jul 2020 16:29:06 -0400
 From: Richard Guy Briggs <rgb@redhat.com>
-To: Casey Schaufler <casey@schaufler-ca.com>
-Subject: Re: [PATCH ghak122 v1] audit: store event sockaddr in case of no rules
-Message-ID: <20200713200214.qh3vnhcjozpnqf2l@madcap2.tricolour.ca>
-References: <b62d4388b488dedfa2758f32e6d1e5414179b4f2.1593796497.git.rgb@redhat.com>
-	<CAHC9VhReURKRe63t7mudKpkW0aVNpCmF=UWHSof1uvRkmZ8HTQ@mail.gmail.com>
-	<20200713174014.mjsdugomgjtl3kgz@madcap2.tricolour.ca>
-	<9ec00f40-e7e9-950e-4ed9-48533a9ee223@schaufler-ca.com>
+To: Paul Moore <paul@paul-moore.com>
+Subject: Re: [PATCH ghak90 V9 01/13] audit: collect audit task parameters
+Message-ID: <20200713202906.iiz435vjeedljcwf@madcap2.tricolour.ca>
+References: <cover.1593198710.git.rgb@redhat.com>
+	<6abeb26e64489fc29b00c86b60b501c8b7316424.1593198710.git.rgb@redhat.com>
+	<CAHC9VhTx=4879F1MSXg4=Xd1i5rhEtyam6CakQhy=_ZjGtTaMA@mail.gmail.com>
+	<20200707025014.x33eyxbankw2fbww@madcap2.tricolour.ca>
+	<CAHC9VhTTGLf9MPS_FgL1ibUVoH+YzMtPK6+2dp_j8a5o9fzftA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <9ec00f40-e7e9-950e-4ed9-48533a9ee223@schaufler-ca.com>
+In-Reply-To: <CAHC9VhTTGLf9MPS_FgL1ibUVoH+YzMtPK6+2dp_j8a5o9fzftA@mail.gmail.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-loop: linux-audit@redhat.com
-Cc: Eric Paris <eparis@parisplace.org>,
-	Linux-Audit Mailing List <linux-audit@redhat.com>
+Cc: nhorman@tuxdriver.com, linux-api@vger.kernel.org,
+	containers@lists.linux-foundation.org,
+	LKML <linux-kernel@vger.kernel.org>, dhowells@redhat.com,
+	Linux-Audit Mailing List <linux-audit@redhat.com>,
+	netfilter-devel@vger.kernel.org, ebiederm@xmission.com,
+	simo@redhat.com, netdev@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	Eric Paris <eparis@parisplace.org>, mpatel@redhat.com,
+	Serge Hallyn <serge@hallyn.com>
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -70,105 +77,236 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=linux-audit-bounces@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Content-Disposition: inline
 
-On 2020-07-13 10:55, Casey Schaufler wrote:
-> On 7/13/2020 10:40 AM, Richard Guy Briggs wrote:
-> > On 2020-07-08 18:49, Paul Moore wrote:
-> >> On Fri, Jul 3, 2020 at 1:18 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> >>> When there are no rules present, the event SOCKADDR record is not
-> >>> generated due to audit_dummy_context() generated at syscall entry from
-> >>> audit_n_rules.  Store this information if there is a context present to
-> >>> store it so that mandatory events are more complete (startup, LSMs...).
+On 2020-07-07 21:42, Paul Moore wrote:
+> On Mon, Jul 6, 2020 at 10:50 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> > On 2020-07-05 11:09, Paul Moore wrote:
+> > > On Sat, Jun 27, 2020 at 9:21 AM Richard Guy Briggs <rgb@redhat.com> wrote:
+> > > >
+> > > > The audit-related parameters in struct task_struct should ideally be
+> > > > collected together and accessed through a standard audit API.
+> > > >
+> > > > Collect the existing loginuid, sessionid and audit_context together in a
+> > > > new struct audit_task_info called "audit" in struct task_struct.
+> > > >
+> > > > Use kmem_cache to manage this pool of memory.
+> > > > Un-inline audit_free() to be able to always recover that memory.
+> > > >
+> > > > Please see the upstream github issue
+> > > > https://github.com/linux-audit/audit-kernel/issues/81
+> > > >
+> > > > Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
+> > > > Acked-by: Neil Horman <nhorman@tuxdriver.com>
+> > > > Reviewed-by: Ondrej Mosnacek <omosnace@redhat.com>
+> > > > ---
+> > > >  include/linux/audit.h | 49 +++++++++++++++++++++++------------
+> > > >  include/linux/sched.h |  7 +----
+> > > >  init/init_task.c      |  3 +--
+> > > >  init/main.c           |  2 ++
+> > > >  kernel/audit.c        | 71 +++++++++++++++++++++++++++++++++++++++++++++++++--
+> > > >  kernel/audit.h        |  5 ++++
+> > > >  kernel/auditsc.c      | 26 ++++++++++---------
+> > > >  kernel/fork.c         |  1 -
+> > > >  8 files changed, 124 insertions(+), 40 deletions(-)
+> > > >
+> > > > diff --git a/include/linux/audit.h b/include/linux/audit.h
+> > > > index 3fcd9ee49734..c2150415f9df 100644
+> > > > --- a/include/linux/audit.h
+> > > > +++ b/include/linux/audit.h
+> > > > @@ -100,6 +100,16 @@ enum audit_nfcfgop {
+> > > >         AUDIT_XT_OP_UNREGISTER,
+> > > >  };
+> > > >
+> > > > +struct audit_task_info {
+> > > > +       kuid_t                  loginuid;
+> > > > +       unsigned int            sessionid;
+> > > > +#ifdef CONFIG_AUDITSYSCALL
+> > > > +       struct audit_context    *ctx;
+> > > > +#endif
+> > > > +};
+> > > > +
+> > > > +extern struct audit_task_info init_struct_audit;
+> > > > +
+> > > >  extern int is_audit_feature_set(int which);
+> > > >
+> > > >  extern int __init audit_register_class(int class, unsigned *list);
+> > >
+> > > ...
+> > >
+> > > > diff --git a/include/linux/sched.h b/include/linux/sched.h
+> > > > index b62e6aaf28f0..2213ac670386 100644
+> > > > --- a/include/linux/sched.h
+> > > > +++ b/include/linux/sched.h
+> > > > @@ -34,7 +34,6 @@
+> > > >  #include <linux/kcsan.h>
+> > > >
+> > > >  /* task_struct member predeclarations (sorted alphabetically): */
+> > > > -struct audit_context;
+> > > >  struct backing_dev_info;
+> > > >  struct bio_list;
+> > > >  struct blk_plug;
+> > > > @@ -946,11 +945,7 @@ struct task_struct {
+> > > >         struct callback_head            *task_works;
+> > > >
+> > > >  #ifdef CONFIG_AUDIT
+> > > > -#ifdef CONFIG_AUDITSYSCALL
+> > > > -       struct audit_context            *audit_context;
+> > > > -#endif
+> > > > -       kuid_t                          loginuid;
+> > > > -       unsigned int                    sessionid;
+> > > > +       struct audit_task_info          *audit;
+> > > >  #endif
+> > > >         struct seccomp                  seccomp;
+> > >
+> > > In the early days of this patchset we talked a lot about how to handle
+> > > the task_struct and the changes that would be necessary, ultimately
+> > > deciding that encapsulating all of the audit fields into an
+> > > audit_task_info struct.  However, what is puzzling me a bit at this
+> > > moment is why we are only including audit_task_info in task_info by
+> > > reference *and* making it a build time conditional (via CONFIG_AUDIT).
+> > >
+> > > If audit is enabled at build time it would seem that we are always
+> > > going to allocate an audit_task_info struct, so I have to wonder why
+> > > we don't simply embed it inside the task_info struct (similar to the
+> > > seccomp struct in the snippet above?  Of course the audit_context
+> > > struct needs to remain as is, I'm talking only about the
+> > > task_info/audit_task_info struct.
+> >
+> > I agree that including the audit_task_info struct in the struct
+> > task_struct would have been preferred to simplify allocation and free,
+> > but the reason it was included by reference instead was to make the
+> > task_struct size independent of audit so that future changes would not
+> > cause as many kABI challenges.  This first change will cause kABI
+> > challenges regardless, but it was future ones that we were trying to
+> > ease.
+> >
+> > Does that match with your recollection?
 > 
-> I don't know for sure, but this looks a lot like the issues
-> I have had to address for LSM stacking in
+> I guess, sure.  I suppose what I was really asking was if we had a
+> "good" reason for not embedding the audit_task_info struct.
+> Regardless, thanks for the explanation, that was helpful.
+
+Making it dynamic was actually your idea back in the spring of 2018:
+	https://lkml.org/lkml/2018/4/18/759
+
+The first two iterations were embedded to more quickly prove the idea:
+	https://lkml.org/lkml/2018/5/12/173
+		https://lkml.org/lkml/2018/5/12/168
+
+And then switched as strongly recommended to a dynamic pointer:
+	https://lkml.org/lkml/2018/5/16/461
+		https://lkml.org/lkml/2018/5/16/457
+
+I was initially concerned about switching to a dynamically allocated
+structure, but those concerns are a couple of years behind us.
+
+What significant change has happenned since then to alter your
+perspective?
+
+> From an upstream perspective, I think embedding the audit_task_info
+> struct is the Right Thing To Do.  The code is cleaner and more robust
+> if we embed the struct.
+
+I would agree if the audit subsystem were done.  It isn't.
+
+> > > Richard, I'm sure you can answer this off the top of your head, but
+> > > I'd have to go digging through the archives to pull out the relevant
+> > > discussions so I figured I would just ask you for a reminder ... ?  I
+> > > imagine it's also possible things have changed a bit since those early
+> > > discussions and the solution we arrived at then no longer makes as
+> > > much sense as it did before.
+> >
+> > Agreed, it doesn't make as much sense now as it did when proposed, but
+> > will make more sense in the future depending on when this change gets
+> > accepted upstream.  This is why I wanted this patch to go through as
+> > part of ghak81 at the time the rest of it did so that future kABI issues
+> > would be easier to handle, but that ship has long sailed.
 > 
-> [PATCH v18 20/23] Audit: Add new record for multiple process LSM attributes
+> To be clear, kABI issues with task_struct really aren't an issue with
+> the upstream kernel.  I know that you know all of this already
+> Richard, I'm mostly talking to everyone else on the To/CC line in case
+> they are casually watching this discussion.
+
+kABI issues may not as much of an upstream issue, but part of the goal
+here was upstream kernel issues, isolating the kernel audit changes
+to its own subsystem and affect struct task_struct as little as possible
+in the future and to protect it from "abuse" (as you had expressed
+serious concerns) from the rest of the kernel.  include/linux/sched.h
+will need to know more about struct audit_task_info if it is embedded,
+making it more suceptible to abuse.
+
+> While I'm sympathetic to long-lifetime enterprise distros such as
+> RHEL, my responsibility is to ensure the upstream kernel is as good as
+> we can make it, and in this case I believe that means embedding
+> audit_task_info into the task_struct.
+
+Keeping audit_task_info dynamic will also make embedding struct
+audit_context as a zero-length array at the end of it possible in the
+future as an internal audit subsystem optimization whereas largely
+preclude that if it were embedded.  Any change to audit_task_info in the
+future will change struct task_struct which is what we had agreed was a
+good thing to avoid to keep audit as isolated and independent as
+possible.
+
+This method has been well exercised over the last two years of
+development, testing and rebases, so I'm not particularly concerned
+about its dynamic nature any more.  It works well.  At this point this
+change seems to be more gratuitously disruptive than helpful.
+
+> > I didn't make
+> > that argument then and I regret it now that I realize and recall some of
+> > the thinking behind the change.  Your reasons at the time were that
+> > contid was the only user of that change but there have been some
+> > CONFIG_AUDIT and CONFIG_AUDITSYSCALL changes since that were related.
 > 
-> I don't know if the approach I took will help here, or be
-> acceptable at all for that matter. But it might be worth taking
-> a look.
+> Agreed that there are probably some common goals and benefits with
+> those changes and the audit container ID work, however, I believe that
+> discussion quickly goes back to upstream vs RHEL.
 
-The first thing I notice is audit_stamp_context() looks pretty similar
-to audit_alloc_local() in
+I did't think things were quite so cut and dried with respect to upstream
+vs downstream.
 
-[PATCH ghak90 V9 07/13] audit: add support for non-syscall auxiliary records
+> > > > diff --git a/kernel/auditsc.c b/kernel/auditsc.c
+> > > > index 468a23390457..f00c1da587ea 100644
+> > > > --- a/kernel/auditsc.c
+> > > > +++ b/kernel/auditsc.c
+> > > > @@ -1612,7 +1615,6 @@ void __audit_free(struct task_struct *tsk)
+> > > >                 if (context->current_state == AUDIT_RECORD_CONTEXT)
+> > > >                         audit_log_exit();
+> > > >         }
+> > > > -
+> > > >         audit_set_context(tsk, NULL);
+> > > >         audit_free_context(context);
+> > > >  }
+> > >
+> > > This nitpick is barely worth the time it is taking me to write this,
+> > > but the whitespace change above isn't strictly necessary.
+> >
+> > Sure, it is a harmless but noisy cleanup when the function was being
+> > cleaned up and renamed.  It wasn't an accident, but a style preference.
+> > Do you prefer a vertical space before cleanup actions at the end of
+> > functions and more versus less vertical whitespace in general?
+> 
+> As I mentioned above, this really was barely worth mentioning, but I
+> made the comment simply because I feel this patchset is going to draw
+> a lot of attention once it is merged and I feel keeping the patchset
+> as small, and as focused, as possible is a good thing.
 
-which creates a local context for limited use by the primary record and
-local auxiliary records (contid) and is immediately tossed after those
-records.  One use case is network namespace events that are not (yet)
-tied to any user context ("[PATCH ghak90 V9 10/13] audit: add support
-for containerid to network namespaces").  The other is for user records
-that don't need to be tied to the userspace caller ("[PATCH ghak90 V9
-08/13] audit: add containerid support for user records").
+Is this concern also affecting the perspective on the change from
+pointer to embedded above?
 
-How does this tie in with this situation?  I would ideally like to
-retroactively capture the sockaddr information in the audit context
-struct (to avoid the overhead of always capturing sockaddr) to trigger a
-syscall record on exit along with a sockaddr record once a manadatory
-record has been triggered (such as audit or netfilter config, LSM event,
-etc...), depending only on audit_enabled.  There could be other
-substructures of audit context that would need filling out after it is
-determined that an audit event has happenned and information needs to be
-collected to support its reporting.
-
-> >>> Please see the upstream issue
-> >>> https://github.com/linux-audit/audit-kernel/issues/122
-> >>>
-> >>> Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
-> >>> ---
-> >>> Passes audit-testsuite.
-> >>>
-> >>>  include/linux/audit.h | 2 +-
-> >>>  1 file changed, 1 insertion(+), 1 deletion(-)
-> >> Do we have any certification requirements driving this change?  I ask
-> >> because if we make this change, why not do the same for PATH records?
-> > I filed the issue because I noticed the SOCKADDR record missing from
-> > configuration events required for certification.
-> >
-> >> The problem of course is that doing this for both is going to be
-> >> costly, the PATH records in particular seem like they would raise a
-> >> performance regression.
-> > I had a minor concern about performance for SOCKADDR.  I filed SOCKADDR
-> > because I noticed it missing, but intended to file others as noticed.
-> >
-> > I agree the PATH records would have a larger performance concern, but if
-> > they are required to support event records that are required for
-> > certification then either we store them when the context is present or
-> > generate them retroactively once a required event record is generated.
-> >
-> > In the case of SOCKADDR it may be possible to store that information
-> > once the required record has been generated rather than whenever there
-> > is a valid audit context, but it is currently collected earlier than
-> > config records are emitted.
-> >
-> >> I agree it would be nice to have this information, but I fear that
-> >> gating this on audit_dummy_context() is the right thing to do unless
-> >> there is a strong requirement that we always record this information.
-> > That would have been great feedback when the issue was filed.
-> > However, there may be a middle ground as descirbed above.
-> >
-> >>> diff --git a/include/linux/audit.h b/include/linux/audit.h
-> >>> index 03c4035a532b..07fecd99741a 100644
-> >>> --- a/include/linux/audit.h
-> >>> +++ b/include/linux/audit.h
-> >>> @@ -448,7 +448,7 @@ static inline int audit_socketcall_compat(int nargs, u32 *args)
-> >>>
-> >>>  static inline int audit_sockaddr(int len, void *addr)
-> >>>  {
-> >>> -       if (unlikely(!audit_dummy_context()))
-> >>> +       if (audit_context())
-> >>>                 return __audit_sockaddr(len, addr);
-> >>>         return 0;
-> >>>  }
-> >> paul moore
-> > - RGB
+> However, I'm not going to lose even a second of sleep over a single
+> blank line gone missing ;)
+> 
+> paul moore
 
 - RGB
 
