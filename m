@@ -1,137 +1,88 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com [205.139.110.120])
-	by mail.lfdr.de (Postfix) with ESMTP id 8EAFA21E47D
-	for <lists+linux-audit@lfdr.de>; Tue, 14 Jul 2020 02:28:55 +0200 (CEST)
+Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [207.211.31.81])
+	by mail.lfdr.de (Postfix) with ESMTP id 4518321E4B6
+	for <lists+linux-audit@lfdr.de>; Tue, 14 Jul 2020 02:45:38 +0200 (CEST)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-388-DEX-kPNNOmSh68BM-K6UfQ-1; Mon, 13 Jul 2020 20:28:51 -0400
-X-MC-Unique: DEX-kPNNOmSh68BM-K6UfQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+ us-mta-279-o-1ke_BsNTuc3EJIFg9NuA-1; Mon, 13 Jul 2020 20:45:34 -0400
+X-MC-Unique: o-1ke_BsNTuc3EJIFg9NuA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AC2F31080;
-	Tue, 14 Jul 2020 00:28:44 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A25C08027E3;
+	Tue, 14 Jul 2020 00:45:29 +0000 (UTC)
 Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 6DB5D6FEF3;
-	Tue, 14 Jul 2020 00:28:43 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id D8C441C4;
+	Tue, 14 Jul 2020 00:45:28 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id AF463180954D;
-	Tue, 14 Jul 2020 00:28:41 +0000 (UTC)
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 9E20A180954D;
+	Tue, 14 Jul 2020 00:45:27 +0000 (UTC)
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
 	[10.11.54.6])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 06E0SWhk022812 for <linux-audit@listman.util.phx.redhat.com>;
-	Mon, 13 Jul 2020 20:28:32 -0400
+	id 06E0jFOs024832 for <linux-audit@listman.util.phx.redhat.com>;
+	Mon, 13 Jul 2020 20:45:16 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id 58FB62156A4A; Tue, 14 Jul 2020 00:28:32 +0000 (UTC)
+	id 8E1632156A50; Tue, 14 Jul 2020 00:45:15 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
-	(mimecast06.extmail.prod.ext.rdu2.redhat.com [10.11.55.22])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 54AAF2156A4D
-	for <linux-audit@redhat.com>; Tue, 14 Jul 2020 00:28:27 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [205.139.110.61])
+	(mimecast05.extmail.prod.ext.rdu2.redhat.com [10.11.55.21])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 581712156A4D
+	for <linux-audit@redhat.com>; Tue, 14 Jul 2020 00:45:13 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+	[205.139.110.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CA8411884987
-	for <linux-audit@redhat.com>; Tue, 14 Jul 2020 00:28:27 +0000 (UTC)
-Received: from sonic312-31.consmr.mail.ne1.yahoo.com
-	(sonic312-31.consmr.mail.ne1.yahoo.com [66.163.191.212]) (Using TLS) by
-	relay.mimecast.com with ESMTP id us-mta-352-nLJ2XR4mOKObTEnk8-FZ9w-1;
-	Mon, 13 Jul 2020 20:28:25 -0400
-X-MC-Unique: nLJ2XR4mOKObTEnk8-FZ9w-1
-X-YMail-OSG: UK1WLuAVM1n1yL4diabUei5B31KYxayFb2NLvrMl14AtOgYIO0thiEv02OAcVKk
-	jpO21ECJ_FSqxn9bCa6UsjkYnTqGBq439mFvXFXZ_U5PJe0XXYHwLcmOgFhfM_ZuB4S.YkcYTP_c
-	KOJU5iyKvRvl5i5vsUqUm99p4rdfeWBVcLetpReUl3vc47g.Ei5o7L2B4Q9L45fFTUkC0JVSDhPh
-	iD3_PBUYAZ26LZGDGyDzveCKWbiVjW3KyZN2sidySev3FIUoUOl5wnS6PkgoM6D5DObzggzbvvKA
-	bgzBddYwkjgTs7N8kYY5ONhnSSeaggOVwDRSaaRdLzWz3Inpa6KOxjxOYf3AJ0afKyTyCbdKa.oJ
-	BkMYRJo7stAdXs9IqLPnsQ0gHxgtVBp.fVfReF9RgUuJFDhE7nUvRr5Dz0BCksu7PocrHyShHpPZ
-	tau4SQ.bAFhO_HAn41EI6s87jC9aD2J9qe0ryJV4LXdlP6xwjPVRA7O9pChBx6NFYb3OZzP0lJ7J
-	y1Y56rCUhsgrsB2ZwS_ZS4yE_KXb8OgIKQ3mhDRLGJDeBQCH2rMfjYqD_71dyG7RgilFx8PTKoGz
-	0kHr.4XH.MM7uUATyXdFQvG8VSBiYcFSdYAqBcJXEU5XrnNiLq0Fsgz.8jeW33bisGeH_alj4JNx
-	C8anPvygsQJ4Keu3XwgyfCIRor4h1R5268FZp_DilMAV0.VmTcBsIKBr1HzxDFGl4VTIaF59Jfey
-	DNNGxGIM9pR5ZcbcWTMv2EDfyb2CmdjvqUAUgwgDzYtQbHTceQ4xqzXi0R_ApUuSJjoXM_pRUhHs
-	3ZeH1Qzo17VKou8H1s_2QpvNt7Qb_W.CfuraiNMjiZCGcdb43gNRxTApgADpYUstclR8QlYyf7PZ
-	d0hHCAJq9UsKRlV9heM1eoyKLuvffBC6.hEav8g.ztlgep2zR3xT7BGo8Ud2nhlRjZjAon765PU8
-	0MM6AlL70ce6LDVaI_C8m9Zf5Q.Ug62oblO6eqkNIpfHT93bVsJZynRD1fvnXzo2GTR4Q6Xiofck
-	G5ykPncj8o006ZJQayXU2duQbahIi_WvwtGTC3iMsl2rvOxVkqHLFZ3kfDChvBwlEysGtbpg4oEn
-	k.IIHmv15wNrGlHPgqHYZDAtYBCnQmH4.zjLDJf6azk_GcPucQkKngIr3W5QtaQl4M25CAPmWDGi
-	8YvVhyTPRXX_Lq6g2t7h.ogjOeKIvWVIFung3Lu4nnLG1TX5tMen5wWV0BhsePWN_G2lxUi9HIgS
-	trBE2Mwj8c2RHHDXDwaJlrUj492b3OKyJ2orYGqsW2ImPqWj7zlfGrRlWtJtHNYchs69GaamZuO5
-	baraTysQRhpj96as_MQMbXI7gmL5EDCGXQzIVn_PtBsjrRiDpCBWu9wE7EZqDGffDOj8p3xR8VBx
-	HDvm26F_rL9euPJmjVYKxRC5JcWCGyikz
-Received: from sonic.gate.mail.ne1.yahoo.com by
-	sonic312.consmr.mail.ne1.yahoo.com with HTTP;
-	Tue, 14 Jul 2020 00:28:24 +0000
-Received: by smtp413.mail.bf1.yahoo.com (VZM Hermes SMTP Server) with ESMTPA
-	ID 693d59113318a62bd175c16cd678d79d; 
-	Tue, 14 Jul 2020 00:28:22 +0000 (UTC)
-Subject: Re: [PATCH ghak122 v1] audit: store event sockaddr in case of no rules
-To: Paul Moore <paul@paul-moore.com>
-References: <b62d4388b488dedfa2758f32e6d1e5414179b4f2.1593796497.git.rgb@redhat.com>
-	<CAHC9VhReURKRe63t7mudKpkW0aVNpCmF=UWHSof1uvRkmZ8HTQ@mail.gmail.com>
-	<20200713174014.mjsdugomgjtl3kgz@madcap2.tricolour.ca>
-	<9ec00f40-e7e9-950e-4ed9-48533a9ee223@schaufler-ca.com>
-	<20200713200214.qh3vnhcjozpnqf2l@madcap2.tricolour.ca>
-	<e2a183b2-35f4-8493-c485-8bf86e5866e9@schaufler-ca.com>
-	<CAHC9VhQUiqkeygtEWAa=j8Dxysh_jSWhf33CYo7i2Tij26FH2w@mail.gmail.com>
-From: Casey Schaufler <casey@schaufler-ca.com>
-Autocrypt: addr=casey@schaufler-ca.com; keydata=
-	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
-	abzjfg==
-Message-ID: <199a98fc-93ee-53fa-a5aa-4d79d26d1a91@schaufler-ca.com>
-Date: Mon, 13 Jul 2020 17:28:22 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
-	Thunderbird/68.10.0
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0979B92490A
+	for <linux-audit@redhat.com>; Tue, 14 Jul 2020 00:45:13 +0000 (UTC)
+Received: from mail-ed1-f68.google.com (mail-ed1-f68.google.com
+	[209.85.208.68]) (Using TLS) by relay.mimecast.com with ESMTP id
+	us-mta-344-mG5az6fmNduKIQeuAabdZg-1; Mon, 13 Jul 2020 20:45:10 -0400
+X-MC-Unique: mG5az6fmNduKIQeuAabdZg-1
+Received: by mail-ed1-f68.google.com with SMTP id dg28so15406647edb.3
+	for <linux-audit@redhat.com>; Mon, 13 Jul 2020 17:45:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=bmkyDT2Ok5AKFPTzejs90EKhv0LPiFP9AWMW7s63JrQ=;
+	b=rlt9dqFlPm6j7hTp6BBd4jU7rOweLRhxPO2P6XGMWfW1PajFton44txbOykvdfBHMU
+	xvSFs7Nh8g0uyVlEAcYGOTn+GREIuThAYo9Sq2Y5ksc5fmDuc+JFHIIqzaMfEa5w85++
+	XHsesQK0pP1UH1iO7B7r+0JR1H25xpW6npmssKAYwtctHTjZSWiJ1CHoe2TY3brV6LLu
+	nwALzsxulYTex9waXbXRwZ58/V02Sh1l9KvWHY7ttIimmqOJ+p93YwpjloTNT+g+scUM
+	nK5h5kl6yVzAIhkuwvD3JX+R9GNkwh/3aWsPD47LoYe0zEuHQWpZo84lpq4uIIz3CZhn
+	Jp3Q==
+X-Gm-Message-State: AOAM530o8L4gFqCD3lH4z/zd4rH1tXEizvWMChTU0g/zfrg4UJxTLs99
+	+xGIRDX7VIUcH+6lOV3RZDGkzFpwFX/eYhBiklYq
+X-Google-Smtp-Source: ABdhPJxFM46eZkco0XOaaCsFFTHlrOfIfbbkJNmhbdNiqdLTCYkgzE1EAejSD/O9P/+a7qjfCVbCzfrxVpEC0f0mWgE=
+X-Received: by 2002:a05:6402:1d89:: with SMTP id
+	dk9mr1958150edb.31.1594687509148; 
+	Mon, 13 Jul 2020 17:45:09 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAHC9VhQUiqkeygtEWAa=j8Dxysh_jSWhf33CYo7i2Tij26FH2w@mail.gmail.com>
-Content-Language: en-US
+References: <cover.1593198710.git.rgb@redhat.com>
+	<6abeb26e64489fc29b00c86b60b501c8b7316424.1593198710.git.rgb@redhat.com>
+	<CAHC9VhTx=4879F1MSXg4=Xd1i5rhEtyam6CakQhy=_ZjGtTaMA@mail.gmail.com>
+	<20200707025014.x33eyxbankw2fbww@madcap2.tricolour.ca>
+	<CAHC9VhTTGLf9MPS_FgL1ibUVoH+YzMtPK6+2dp_j8a5o9fzftA@mail.gmail.com>
+	<20200713202906.iiz435vjeedljcwf@madcap2.tricolour.ca>
+In-Reply-To: <20200713202906.iiz435vjeedljcwf@madcap2.tricolour.ca>
+From: Paul Moore <paul@paul-moore.com>
+Date: Mon, 13 Jul 2020 20:44:57 -0400
+Message-ID: <CAHC9VhScQAMeEXssDhDeAo+za9f-doqcM-yutDmFBuwqZVpa3A@mail.gmail.com>
+Subject: Re: [PATCH ghak90 V9 01/13] audit: collect audit task parameters
+To: Richard Guy Briggs <rgb@redhat.com>
 X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
 X-loop: linux-audit@redhat.com
-Cc: Richard Guy Briggs <rgb@redhat.com>, Eric Paris <eparis@parisplace.org>,
-	Linux-Audit Mailing List <linux-audit@redhat.com>
+Cc: nhorman@tuxdriver.com, linux-api@vger.kernel.org,
+	containers@lists.linux-foundation.org,
+	LKML <linux-kernel@vger.kernel.org>, dhowells@redhat.com,
+	Linux-Audit Mailing List <linux-audit@redhat.com>,
+	netfilter-devel@vger.kernel.org, ebiederm@xmission.com,
+	simo@redhat.com, netdev@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	Eric Paris <eparis@parisplace.org>, mpatel@redhat.com,
+	Serge Hallyn <serge@hallyn.com>
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -145,25 +96,178 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-On 7/13/2020 5:11 PM, Paul Moore wrote:
-> On Mon, Jul 13, 2020 at 7:09 PM Casey Schaufler <casey@schaufler-ca.com> wrote:
->> ... but it does appear that I could switch to using your audit_alloc_local().
-> In my opinion, linking the audit container ID and LSM stacking
-> patchsets would seem like a very big mistake, especially since the
-> consolidation you are describing could be done after the fact without
-> any disruption to the kernel/userspace interface.  I would strongly
-> encourage both patchsets to remain self-contained if at all possible
-> so as to not jeopardize each other.
+On Mon, Jul 13, 2020 at 4:30 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> On 2020-07-07 21:42, Paul Moore wrote:
+> > On Mon, Jul 6, 2020 at 10:50 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> > > On 2020-07-05 11:09, Paul Moore wrote:
+> > > > On Sat, Jun 27, 2020 at 9:21 AM Richard Guy Briggs <rgb@redhat.com> wrote:
 
-Whatever helps the review/ack process best works for me. I will leave
-audit_stamp_context() as is unless there is other feedback that leads
-it to be changed.
+...
+
+> > > > In the early days of this patchset we talked a lot about how to handle
+> > > > the task_struct and the changes that would be necessary, ultimately
+> > > > deciding that encapsulating all of the audit fields into an
+> > > > audit_task_info struct.  However, what is puzzling me a bit at this
+> > > > moment is why we are only including audit_task_info in task_info by
+> > > > reference *and* making it a build time conditional (via CONFIG_AUDIT).
+> > > >
+> > > > If audit is enabled at build time it would seem that we are always
+> > > > going to allocate an audit_task_info struct, so I have to wonder why
+> > > > we don't simply embed it inside the task_info struct (similar to the
+> > > > seccomp struct in the snippet above?  Of course the audit_context
+> > > > struct needs to remain as is, I'm talking only about the
+> > > > task_info/audit_task_info struct.
+> > >
+> > > I agree that including the audit_task_info struct in the struct
+> > > task_struct would have been preferred to simplify allocation and free,
+> > > but the reason it was included by reference instead was to make the
+> > > task_struct size independent of audit so that future changes would not
+> > > cause as many kABI challenges.  This first change will cause kABI
+> > > challenges regardless, but it was future ones that we were trying to
+> > > ease.
+> > >
+> > > Does that match with your recollection?
+> >
+> > I guess, sure.  I suppose what I was really asking was if we had a
+> > "good" reason for not embedding the audit_task_info struct.
+> > Regardless, thanks for the explanation, that was helpful.
+>
+> Making it dynamic was actually your idea back in the spring of 2018:
+>         https://lkml.org/lkml/2018/4/18/759
+
+If you read my comments from 2018 carefully, or even not so carefully
+I think, you'll notice that my primary motivation for using a pointer
+was to "hide" the audit_task_info struct contents so that they
+couldn't be abused by other kernel subsystems looking for a general
+container identifier inside the kernel.  As we've discussed many times
+before, this patchset is not a general purpose container identifier,
+this is an ***audit*** container ID; limiting the scope and usage of
+this identifier is what has allowed us to gain the begrudging
+acceptance we've had thus far and I believe it is the key to success.
+
+For whatever it is worth, this patchset doesn't hide the
+audit_task_struct definition in a kernel/audit*.c file, it lives in a
+header file which is easily accessed by other subsystems.
+
+In my opinion we should pick one of two options: leave it as a pointer
+reference and "hide" the struct definition, or just embed the struct
+and simplify the code.  I see little value in openly defining the
+audit_task_info struct and using a pointer reference; if you believe
+you have a valid argument for why this makes sense I'm open to hearing
+it, but your comments thus far have been unconvincing.
+
+> > > > Richard, I'm sure you can answer this off the top of your head, but
+> > > > I'd have to go digging through the archives to pull out the relevant
+> > > > discussions so I figured I would just ask you for a reminder ... ?  I
+> > > > imagine it's also possible things have changed a bit since those early
+> > > > discussions and the solution we arrived at then no longer makes as
+> > > > much sense as it did before.
+> > >
+> > > Agreed, it doesn't make as much sense now as it did when proposed, but
+> > > will make more sense in the future depending on when this change gets
+> > > accepted upstream.  This is why I wanted this patch to go through as
+> > > part of ghak81 at the time the rest of it did so that future kABI issues
+> > > would be easier to handle, but that ship has long sailed.
+> >
+> > To be clear, kABI issues with task_struct really aren't an issue with
+> > the upstream kernel.  I know that you know all of this already
+> > Richard, I'm mostly talking to everyone else on the To/CC line in case
+> > they are casually watching this discussion.
+>
+> kABI issues may not as much of an upstream issue, but part of the goal
+> here was upstream kernel issues, isolating the kernel audit changes
+> to its own subsystem and affect struct task_struct as little as possible
+> in the future and to protect it from "abuse" (as you had expressed
+> serious concerns) from the rest of the kernel.  include/linux/sched.h
+> will need to know more about struct audit_task_info if it is embedded,
+> making it more suceptible to abuse.
+
+I define "abuse" in this context as other kernel subsystems inspecting
+the contents of the audit_task_struct, most likely to try and
+approximate a general container identifier.
+
+Better separation between the audit subsystem and the task_struct,
+while conceptually nice, isn't critical and is easily changed upstream
+with each kernel release as it isn't part of the kernel/userspace API.
+Regardless, a basic conceptual separation is achieved by the
+audit_task_struct regardless of if it is embedded into the task_struct
+or included by a pointer reference.
+
+> > While I'm sympathetic to long-lifetime enterprise distros such as
+> > RHEL, my responsibility is to ensure the upstream kernel is as good as
+> > we can make it, and in this case I believe that means embedding
+> > audit_task_info into the task_struct.
+>
+> Keeping audit_task_info dynamic will also make embedding struct
+> audit_context as a zero-length array at the end of it possible in the
+> future as an internal audit subsystem optimization whereas largely
+> preclude that if it were embedded.
+
+Predicting the future is hard, but I would be comfortable giving up on
+a variable length audit_task_info struct.  Besides, if we *really* had
+to do that in the future we could, it's not part of the
+kernel/userspace API.
+
+> This method has been well exercised over the last two years of
+> development, testing and rebases, so I'm not particularly concerned
+> about its dynamic nature any more.  It works well.  At this point this
+> change seems to be more gratuitously disruptive than helpful.
+
+It may not seem like it, but at this point in this patchset's life I
+do try to limit my comments to only those things which I feel are
+substantive.  In the cases where I think something is borderline I'll
+mention that in my comments.  The trivial cases I'll generally call
+out as "nitpicks".  I assure you my comments are not gratuitous.
+
+I look forward to reviewing another round of this patchset about as
+much as I expect you look forward to writing, testing, and submitting
+it.
+
+> > > > > diff --git a/kernel/auditsc.c b/kernel/auditsc.c
+> > > > > index 468a23390457..f00c1da587ea 100644
+> > > > > --- a/kernel/auditsc.c
+> > > > > +++ b/kernel/auditsc.c
+> > > > > @@ -1612,7 +1615,6 @@ void __audit_free(struct task_struct *tsk)
+> > > > >                 if (context->current_state == AUDIT_RECORD_CONTEXT)
+> > > > >                         audit_log_exit();
+> > > > >         }
+> > > > > -
+> > > > >         audit_set_context(tsk, NULL);
+> > > > >         audit_free_context(context);
+> > > > >  }
+> > > >
+> > > > This nitpick is barely worth the time it is taking me to write this,
+> > > > but the whitespace change above isn't strictly necessary.
+> > >
+> > > Sure, it is a harmless but noisy cleanup when the function was being
+> > > cleaned up and renamed.  It wasn't an accident, but a style preference.
+> > > Do you prefer a vertical space before cleanup actions at the end of
+> > > functions and more versus less vertical whitespace in general?
+> >
+> > As I mentioned above, this really was barely worth mentioning, but I
+> > made the comment simply because I feel this patchset is going to draw
+> > a lot of attention once it is merged and I feel keeping the patchset
+> > as small, and as focused, as possible is a good thing.
+>
+> Is this concern also affecting the perspective on the change from
+> pointer to embedded above?
+
+Keeping this particular patchset small and focused has always been a
+goal; I know we talked about this at least once, likely more than
+that, while I was still at RH and we were talking offline.
+
+If something is going to be contentious, it is better to be small and
+focused on the contention.
+
+-- 
+paul moore
+www.paul-moore.com
 
 --
 Linux-audit mailing list
