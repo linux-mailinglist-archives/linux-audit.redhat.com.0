@@ -1,98 +1,150 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-delivery-1.mimecast.com [205.139.110.120])
-	by mail.lfdr.de (Postfix) with ESMTP id 6BD8D22609A
-	for <lists+linux-audit@lfdr.de>; Mon, 20 Jul 2020 15:18:53 +0200 (CEST)
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com [207.211.31.81])
+	by mail.lfdr.de (Postfix) with ESMTP id 70C7222609D
+	for <lists+linux-audit@lfdr.de>; Mon, 20 Jul 2020 15:18:57 +0200 (CEST)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-300-P8DLu7pbOAyYbp9dyVhevA-1; Mon, 20 Jul 2020 09:18:50 -0400
-X-MC-Unique: P8DLu7pbOAyYbp9dyVhevA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+ us-mta-437-c8gYhkUmMxW3iMMffjGs-w-1; Mon, 20 Jul 2020 09:18:44 -0400
+X-MC-Unique: c8gYhkUmMxW3iMMffjGs-w-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4B9371083E98;
-	Mon, 20 Jul 2020 13:18:39 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AD95718C63C9;
+	Mon, 20 Jul 2020 13:18:36 +0000 (UTC)
 Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 302E7C0D8B;
-	Mon, 20 Jul 2020 13:18:39 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 8FE465C5FA;
+	Mon, 20 Jul 2020 13:18:36 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 03CCA1806B0D;
-	Mon, 20 Jul 2020 13:18:39 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
-	[10.11.54.4])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 58A521800FEA;
+	Mon, 20 Jul 2020 13:18:36 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+	[10.11.54.5])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 06I0F1va008432 for <linux-audit@listman.util.phx.redhat.com>;
-	Fri, 17 Jul 2020 20:15:01 -0400
+	id 06IIeobf024148 for <linux-audit@listman.util.phx.redhat.com>;
+	Sat, 18 Jul 2020 14:40:50 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id 237072018297; Sat, 18 Jul 2020 00:15:01 +0000 (UTC)
+	id 8BCEDF7FD2; Sat, 18 Jul 2020 18:40:50 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
-	(mimecast01.extmail.prod.ext.rdu2.redhat.com [10.11.55.17])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 16BEC201828C
-	for <linux-audit@redhat.com>; Sat, 18 Jul 2020 00:14:58 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [205.139.110.61])
+	(mimecast05.extmail.prod.ext.rdu2.redhat.com [10.11.55.21])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 86CADF8827
+	for <linux-audit@redhat.com>; Sat, 18 Jul 2020 18:40:47 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [207.211.31.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1B13E85A5B3
-	for <linux-audit@redhat.com>; Sat, 18 Jul 2020 00:14:58 +0000 (UTC)
-Received: from sonic308-16.consmr.mail.ne1.yahoo.com
-	(sonic308-16.consmr.mail.ne1.yahoo.com [66.163.187.39]) (Using TLS) by
-	relay.mimecast.com with ESMTP id us-mta-294-RZvTLq8EPOOVnLs9p-T1Dw-1;
-	Fri, 17 Jul 2020 20:14:56 -0400
-X-MC-Unique: RZvTLq8EPOOVnLs9p-T1Dw-1
-X-YMail-OSG: UqRaPv8VM1nwfOWASPi.Pn9SsCtIWp9ln56EbWO1Jqxqq_QtcLHB.CR8phmsZ8V
-	UT3JhMfgpQVMBfxiTWj3ll4LyOCJ6Xm_9jW7.MXnBKl2ZTxbl4SJ_i4YDo1O.IG2w2jMDLVhdEKH
-	D1IlocFt6NnoMchkgxGuvX0KmRb0cSh0612FFIt9j9Zov1Fdj0sXWXJZq_s4dCZPP4vAgxtrjCMb
-	64JtwotV6ytbMQIx6MmY9l0M4uGCkkhbqIkdDLtViIPEi9m2OKZba3pyKOeLSKNNk4yDQ9ETjizy
-	r2LxbMLePn_WOMttqQ6JsQAY6moz0.Z1n00llXMQJXTtd_OhDHEtXb7p3RjoBYYPMiK20JvoJ0PM
-	8p8B1bWoCNFtvdwm7KQ5ntf0XmVX.cuIp4cjSAzoyj.4FFX2JXfXiWt2rQ4n.U80R5osR9AdjLAa
-	vufXd_.WWtdY5iMkc8PwIygylKIJIpgmfOna5Op2nVb7VnkXxsxQPaRBR9jhgo6cNrb72hFxMJtS
-	zO8fs.rI3Rhdv4_itgJW_KR1E2gtpHjfz6wwopZmNQDzlt7ow5FXQPzmPmNEua1IDCYFAMff43r4
-	qMW3vGDs_IgtLwB6I9N8Si7Wys0KBEavHoICIMLmDA_fJ9vpnuijF3Bl.E7Pf9dbPB9.0e4j2NAA
-	C2CAC2rqARcLcjWFMYVPGPJvEVbk0abT5qWdyA1T016Zv3WLy953dRiorBtE2jTvcW_o11Kncg.q
-	Qrh7HQ9vATgtRvBm7clt.m2NzyCPqgfbPWAPpb9QcDuZx6zu7s313S08c3CUWadEArVutswa6OzT
-	Kgao5opXvfbJdH7gasT_CSK.BOcm8R9XgpzWi6UWmsu5OLiD_2xEpxprQt02el3A1lWFI.B4uHj4
-	eZUxq2yuMKE2faIAVk6vga1dVySYvNPt3fT2DFPHx7EzMQTp9GxljPUmEysxsK2M.y4S9392IpTX
-	OyFLXfKdTgMu0mvFXK9wuTp_mJJaK3q5SU6uC0RCv7shKia3Vz45kX_5QReQep8xnue4CC6cErMH
-	iJUJbUExFrf5jLgIxdR.Jg3Wc.sDH8eg3wW_4asXjj6CDVrkLaSGqKZ7AFr3ErexPCtGoVpNhir.
-	zIfkjnrkw.4avorZRWwYjvssFuOU9WAn8yUC4EJ97ljV6tdcCU.10NPMCDntAPDQrAQdxsVfhpGi
-	xAoGMTa1fFIrm0FZKJJZpRLxRdwmZe7ELSvns4au4w2IskmumS2_gfIr8t4_mH96cSCIMFDV0F9V
-	3ArI0bUMH1pZZei9_mET3bvo3zoOchIpyxbanyKTCCdjX9XEo7xRl.vGtaxMYoXCGrrvpJcoF7r7
-	0zAy5pt6tdZdBmAuwUfyS4XGvdTpKiaBUc2yTvT58cWmQCVkDSV69Uwq6JcNO6FBGNyqW8ltlcg1
-	ChHzlvNtXC6NvKfokNtkKd0anCzgw5i2nUSdz4efft7Tf0nKpgD4-
-Received: from sonic.gate.mail.ne1.yahoo.com by
-	sonic308.consmr.mail.ne1.yahoo.com with HTTP;
-	Sat, 18 Jul 2020 00:14:54 +0000
-Received: by smtp417.mail.gq1.yahoo.com (VZM Hermes SMTP Server) with ESMTPA
-	ID e5e855766364dd797c4e0e41ff08a860; 
-	Sat, 18 Jul 2020 00:14:53 +0000 (UTC)
-Subject: Re: [RFC PATCH v4 05/12] fs: add security blob and hooks for
-	block_device
-To: Deven Bowers <deven.desai@linux.microsoft.com>, agk@redhat.com,
-	axboe@kernel.dk, snitzer@redhat.com, jmorris@namei.org,
-	serge@hallyn.com, zohar@linux.ibm.com, viro@zeniv.linux.org.uk,
-	paul@paul-moore.com, eparis@redhat.com, jannh@google.com,
-	dm-devel@redhat.com, linux-integrity@vger.kernel.org,
-	linux-security-module@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-block@vger.kernel.org, linux-audit@redhat.com
-References: <20200717230941.1190744-1-deven.desai@linux.microsoft.com>
-	<20200717230941.1190744-6-deven.desai@linux.microsoft.com>
-From: Casey Schaufler <casey@schaufler-ca.com>
-Message-ID: <1843d707-c62e-fa13-c663-c123ea1205a0@schaufler-ca.com>
-Date: Fri, 17 Jul 2020 17:14:51 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5E4E192490D
+	for <linux-audit@redhat.com>; Sat, 18 Jul 2020 18:40:47 +0000 (UTC)
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+	[209.85.128.68]) (Using TLS) by relay.mimecast.com with ESMTP id
+	us-mta-73-8ahBtXoGNeG7Wm8q1CoWag-1; Sat, 18 Jul 2020 14:40:44 -0400
+X-MC-Unique: 8ahBtXoGNeG7Wm8q1CoWag-1
+Received: by mail-wm1-f68.google.com with SMTP id g10so9183971wmc.1;
+	Sat, 18 Jul 2020 11:40:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:autocrypt:cc:subject:message-id:date
+	:user-agent:mime-version:content-language:content-transfer-encoding;
+	bh=j8zbai4IyhmNoQ3eaEKwt8LkEUp/ry7GiPK092DgEF8=;
+	b=BjEqopx0hfG2D53cubzu94y6DGxQAYpMshs41q5Qbvs8AxOOkF8ZcAN3LYpKPOlWVI
+	aWGGuRpuaN78W9QCRpg7prR3BDdOH8MePcpbk/k7wEMZPh+dqCon+e6kqCJRfor4xJkN
+	XWh3GHUm563VFh5yvcFBSLgoQe4J7PgBvj3EWfP5I6Juafqyq8zuvL/+dwObH2JDaLrU
+	iNplWE0RvtJOfE9vqzpOXOPXgdBeVhi1jSnSZia3+BVPlODoBFpgcbUWyhAuwBlQAXye
+	CVCJTJv96lpn2A8kQ57DsD/h4KSlxOi9xbLeaT0WesB7sigLANyr+YLCX3TsgZwCPxPB
+	mJ+A==
+X-Gm-Message-State: AOAM532ekcAmLSyVv0vPy4DGWOR3Cjft9ZI7rB13J3Ln9WFqd1cGbssm
+	XDms5EYRksycFvuJZs6EysyZK0GU
+X-Google-Smtp-Source: ABdhPJz2S4qw0UtsZs+lQ0EiXRqC6nTA4e5m6p18+CJzUBsv7JfLUCo9Zm+LBpRaCpoH1s5wa9fjhg==
+X-Received: by 2002:a7b:c18f:: with SMTP id y15mr14900677wmi.85.1595097642895; 
+	Sat, 18 Jul 2020 11:40:42 -0700 (PDT)
+Received: from ?IPv6:2a02:810d:4bc0:8098:a226:5056:b008:9621?
+	([2a02:810d:4bc0:8098:a226:5056:b008:9621])
+	by smtp.gmail.com with ESMTPSA id
+	69sm22410663wma.16.2020.07.18.11.40.41
+	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+	Sat, 18 Jul 2020 11:40:42 -0700 (PDT)
+From: bauen1 <j2468h@googlemail.com>
+X-Google-Original-From: bauen1 <j2468h@gmail.com>
+To: linux-audit@redhat.com
+Autocrypt: addr=j2468h@gmail.com; keydata=
+	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
+	MzTZEAm15uwFxq66
+Subject: null pointer dereference regression in 5.7
+Message-ID: <9c8f1fc6-2b8e-e9e3-37bf-2d1d6bedace1@gmail.com>
+Date: Sat, 18 Jul 2020 20:40:40 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
 	Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200717230941.1190744-6-deven.desai@linux.microsoft.com>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+X-Mimecast-Spam-Signature: yes
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+X-MIME-Autoconverted: from base64 to 8bit by
+	lists01.pubmisc.prod.ext.phx2.redhat.com id 06IIeobf024148
 X-loop: linux-audit@redhat.com
 X-Mailman-Approved-At: Mon, 20 Jul 2020 09:18:19 -0400
-Cc: sashal@kernel.org, mdsakib@microsoft.com, corbet@lwn.net,
-	linux-kernel@vger.kernel.org, pasha.tatshin@soleen.com,
-	nramas@linux.microsoft.com, tyhicks@linux.microsoft.com,
-	jaskarankhurana@linux.microsoft.com
+Cc: Dominick Grift <dominick.grift@defensec.nl>
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -106,257 +158,337 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-On 7/17/2020 4:09 PM, Deven Bowers wrote:
-> Add a security blob and associated allocation, deallocation and set hooks
-> for a block_device structure.
->
-> Signed-off-by: Deven Bowers <deven.desai@linux.microsoft.com>
-> ---
->  fs/block_dev.c                |  8 +++++
->  include/linux/fs.h            |  1 +
->  include/linux/lsm_hook_defs.h |  5 +++
->  include/linux/lsm_hooks.h     | 11 +++++++
->  include/linux/security.h      | 22 +++++++++++++
->  security/security.c           | 61 +++++++++++++++++++++++++++++++++++
->  6 files changed, 108 insertions(+)
->
-> diff --git a/fs/block_dev.c b/fs/block_dev.c
-> index 0ae656e022fd..8602dd62c3e2 100644
-> --- a/fs/block_dev.c
-> +++ b/fs/block_dev.c
-> @@ -34,6 +34,7 @@
->  #include <linux/falloc.h>
->  #include <linux/uaccess.h>
->  #include <linux/suspend.h>
-> +#include <linux/security.h>
->  #include "internal.h"
->  
->  struct bdev_inode {
-> @@ -768,11 +769,18 @@ static struct inode *bdev_alloc_inode(struct super_block *sb)
->  	struct bdev_inode *ei = kmem_cache_alloc(bdev_cachep, GFP_KERNEL);
->  	if (!ei)
->  		return NULL;
-> +
-> +	if (unlikely(security_bdev_alloc(&ei->bdev))) {
-> +		kmem_cache_free(bdev_cachep, ei);
-> +		return NULL;
-> +	}
-> +
->  	return &ei->vfs_inode;
->  }
->  
->  static void bdev_free_inode(struct inode *inode)
->  {
-> +	security_bdev_free(&BDEV_I(inode)->bdev);
->  	kmem_cache_free(bdev_cachep, BDEV_I(inode));
->  }
->  
-> diff --git a/include/linux/fs.h b/include/linux/fs.h
-> index f5abba86107d..42d7e3ce7712 100644
-> --- a/include/linux/fs.h
-> +++ b/include/linux/fs.h
-> @@ -509,6 +509,7 @@ struct block_device {
->  	int			bd_fsfreeze_count;
->  	/* Mutex for freeze */
->  	struct mutex		bd_fsfreeze_mutex;
-> +	void			*security;
->  } __randomize_layout;
->  
->  /* XArray tags, for tagging dirty and writeback pages in the pagecache. */
-> diff --git a/include/linux/lsm_hook_defs.h b/include/linux/lsm_hook_defs.h
-> index af998f93d256..f3c0da0db4e8 100644
-> --- a/include/linux/lsm_hook_defs.h
-> +++ b/include/linux/lsm_hook_defs.h
-> @@ -391,3 +391,8 @@ LSM_HOOK(void, LSM_RET_VOID, perf_event_free, struct perf_event *event)
->  LSM_HOOK(int, 0, perf_event_read, struct perf_event *event)
->  LSM_HOOK(int, 0, perf_event_write, struct perf_event *event)
->  #endif /* CONFIG_PERF_EVENTS */
-> +
-> +LSM_HOOK(int, 0, bdev_alloc_security, struct block_device *bdev)
-> +LSM_HOOK(void, LSM_RET_VOID, bdev_free_security, struct block_device *bdev)
-> +LSM_HOOK(int, 0, bdev_setsecurity, struct block_device *bdev, const char *name,
-> +	 const void *value, size_t size)
-> diff --git a/include/linux/lsm_hooks.h b/include/linux/lsm_hooks.h
-> index 95b7c1d32062..8a728b7dd32d 100644
-> --- a/include/linux/lsm_hooks.h
-> +++ b/include/linux/lsm_hooks.h
-> @@ -1507,6 +1507,16 @@
->   *
->   *     @what: kernel feature being accessed
->   *
-> + * @bdev_alloc_security:
-> + *	Initialize the security field inside a block_device structure.
-> + *
-> + * @bdev_free_security:
-> + *	Cleanup the security information stored inside a block_device structure.
-> + *
-> + * @bdev_setsecurity:
-> + *	Set the security property associated with @name for @bdev with
-> + *	value @value. @size indicates the size of the @value in bytes.
-> + *
->   * Security hooks for perf events
->   *
->   * @perf_event_open:
-> @@ -1553,6 +1563,7 @@ struct lsm_blob_sizes {
->  	int	lbs_ipc;
->  	int	lbs_msg_msg;
->  	int	lbs_task;
-> +	int	lbs_bdev;
->  };
->  
->  /*
-> diff --git a/include/linux/security.h b/include/linux/security.h
-> index 0a0a03b36a3b..8f83fdc6c65d 100644
-> --- a/include/linux/security.h
-> +++ b/include/linux/security.h
-> @@ -451,6 +451,11 @@ int security_inode_notifysecctx(struct inode *inode, void *ctx, u32 ctxlen);
->  int security_inode_setsecctx(struct dentry *dentry, void *ctx, u32 ctxlen);
->  int security_inode_getsecctx(struct inode *inode, void **ctx, u32 *ctxlen);
->  int security_locked_down(enum lockdown_reason what);
-> +int security_bdev_alloc(struct block_device *bdev);
-> +void security_bdev_free(struct block_device *bdev);
-> +int security_bdev_setsecurity(struct block_device *bdev,
-> +			      const char *name, const void *value,
-> +			      size_t size);
->  #else /* CONFIG_SECURITY */
->  
->  static inline int call_blocking_lsm_notifier(enum lsm_event event, void *data)
-> @@ -1291,6 +1296,23 @@ static inline int security_locked_down(enum lockdown_reason what)
->  {
->  	return 0;
->  }
-> +
-> +static inline int security_bdev_alloc(struct block_device *bdev)
-> +{
-> +	return 0;
-> +}
-> +
-> +static inline void security_bdev_free(struct block_device *bdev)
-> +{
-> +}
-> +
-> +static inline int security_bdev_setsecurity(struct block_device *bdev,
-> +					    const char *name,
-> +					    const void *value, size_t size)
-> +{
-> +	return 0;
-> +}
-> +
->  #endif	/* CONFIG_SECURITY */
->  
->  #if defined(CONFIG_SECURITY) && defined(CONFIG_WATCH_QUEUE)
-> diff --git a/security/security.c b/security/security.c
-> index 70a7ad357bc6..8e61b7e6adfc 100644
-> --- a/security/security.c
-> +++ b/security/security.c
-> @@ -28,6 +28,7 @@
->  #include <linux/string.h>
->  #include <linux/msg.h>
->  #include <net/flow.h>
-> +#include <linux/fs.h>
->  
->  #define MAX_LSM_EVM_XATTR	2
->  
-> @@ -202,6 +203,7 @@ static void __init lsm_set_blob_sizes(struct lsm_blob_sizes *needed)
->  	lsm_set_blob_size(&needed->lbs_ipc, &blob_sizes.lbs_ipc);
->  	lsm_set_blob_size(&needed->lbs_msg_msg, &blob_sizes.lbs_msg_msg);
->  	lsm_set_blob_size(&needed->lbs_task, &blob_sizes.lbs_task);
-> +	lsm_set_blob_size(&needed->lbs_bdev, &blob_sizes.lbs_bdev);
->  }
->  
->  /* Prepare LSM for initialization. */
-> @@ -337,6 +339,7 @@ static void __init ordered_lsm_init(void)
->  	init_debug("ipc blob size      = %d\n", blob_sizes.lbs_ipc);
->  	init_debug("msg_msg blob size  = %d\n", blob_sizes.lbs_msg_msg);
->  	init_debug("task blob size     = %d\n", blob_sizes.lbs_task);
-> +	init_debug("bdev blob size     = %d\n", blob_sizes.lbs_bdev);
->  
->  	/*
->  	 * Create any kmem_caches needed for blobs
-> @@ -654,6 +657,28 @@ static int lsm_msg_msg_alloc(struct msg_msg *mp)
->  	return 0;
->  }
->  
-> +/**
-> + * lsm_bdev_alloc - allocate a composite block_device blob
-> + * @bdev: the block_device that needs a blob
-> + *
-> + * Allocate the block_device blob for all the modules
-> + *
-> + * Returns 0, or -ENOMEM if memory can't be allocated.
-> + */
-> +static int lsm_bdev_alloc(struct block_device *bdev)
-> +{
-> +	if (blob_sizes.lbs_bdev == 0) {
-> +		bdev->security = NULL;
-> +		return 0;
-> +	}
-> +
-> +	bdev->security = kzalloc(blob_sizes.lbs_bdev, GFP_KERNEL);
-> +	if (!bdev->security)
-> +		return -ENOMEM;
-> +
-> +	return 0;
-> +}
-> +
->  /**
->   * lsm_early_task - during initialization allocate a composite task blob
->   * @task: the task that needs a blob
-> @@ -2516,6 +2541,42 @@ int security_locked_down(enum lockdown_reason what)
->  }
->  EXPORT_SYMBOL(security_locked_down);
->  
-> +int security_bdev_alloc(struct block_device *bdev)
-> +{
-> +	int rc = 0;
-> +
-> +	rc = lsm_bdev_alloc(bdev);
-> +	if (unlikely(rc))
-> +		return rc;
-> +
-> +	rc = call_int_hook(bdev_alloc_security, 0, bdev);
-> +	if (unlikely(rc))
-> +		security_bdev_free(bdev);
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL(security_bdev_alloc);
-> +
-> +void security_bdev_free(struct block_device *bdev)
-> +{
-> +	if (!bdev->security)
-> +		return;
-> +
-> +	call_void_hook(bdev_free_security, bdev);
-> +
-> +	kfree(bdev->security);
-> +	bdev->security = NULL;
-> +}
-> +EXPORT_SYMBOL(security_bdev_free);
-> +
-> +int security_bdev_setsecurity(struct block_device *bdev,
-> +			      const char *name, const void *value,
-> +			      size_t size)
-> +{
-> +	return call_int_hook(bdev_setsecurity, 0, bdev, name, value, size);
-> +}
+Hi,
+After upgrading from linux 5.6 to 5.7 on my debian machines with selinux I've started seeing this null pointer dereference in the audit system. I've included shortened logs for 5.6 without the error and from 5.7 with the error from my laptop. I've also seen it happen in a VM and a server, but don't have the logs anymore. Grift was able to reproduced (presumably) the same issue on fedora with 5.8-rc4.
 
-What is your expectation regarding multiple security modules using the
-same @name? What do you expect a security module to do if it does not
-support a particular @name? You may have a case where SELinux supports
-a @name that AppArmor (or KSRI) doesn't. -ENOSYS may be you friend here.
+Steps to reproduce:
+Write an selinux policy with a domain for systemd-user-runtime-dir and audit all permissions of the dir class. E.g. `(auditallow systemd_user_runtime_dir_t all_types (dir (all)))`
+Switch to permissive mode.
+Create a new user and login, log out and wait a few seconds for systemd to stop user-runtime-dir@<uid>.service
 
-> +EXPORT_SYMBOL(security_bdev_setsecurity);
-> +
->  #ifdef CONFIG_PERF_EVENTS
->  int security_perf_event_open(struct perf_event_attr *attr, int type)
->  {
+I believe this issue was made visible by 1320a4052ea11eb2879eb7361da15a106a780972.
+Now a AUDIT_PATH event is also generated by default and systemd-user-runtime-dir is making syscalls that audit_log_name can't handle.
+
+I hope this is enough info to find the root cause.
+- bauen1
+
+Log without crash (5.6):
+
+Jul 18 14:26:36 jh-mba kernel: Linux version 5.6.0-2-amd64 (debian-kernel@lists.debian.org) (gcc version 9.3.0 (Debian 9.3.0-13)) #1 SMP Debian 5.6.14-2 (2020-06-09)
+Jul 18 14:27:53 jh-mba audit[1]: SERVICE_STOP pid=1 uid=0 auid=4294967295 ses=4294967295 subj=system_u:system_r:init_t:s0 msg='unit=user@1001 comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success'
+Jul 18 14:27:53 jh-mba systemd[1]: Stopping User Runtime Directory /run/user/1001...
+Jul 18 14:27:53 jh-mba audit[3178]: AVC avc:  denied  { read } for  pid=3178 comm="systemd-user-ru" name="dconf" dev="tmpfs" ino=41325 scontext=system_u:system_r:systemd_user_runtime_dir_t:s0 tcontext=user_u:object_r:gconf_tmp_t:s0 tclass=dir permissive=1
+Jul 18 14:27:53 jh-mba audit[3178]: AVC avc:  denied  { open } for  pid=3178 comm="systemd-user-ru" path="/run/user/1001/dconf" dev="tmpfs" ino=41325 scontext=system_u:system_r:systemd_user_runtime_dir_t:s0 tcontext=user_u:object_r:gconf_tmp_t:s0 tclass=dir permissive=1
+Jul 18 14:27:53 jh-mba audit[3178]: AVC avc:  denied  { getattr } for  pid=3178 comm="systemd-user-ru" path="/run/user/1001/dconf" dev="tmpfs" ino=41325 scontext=system_u:system_r:systemd_user_runtime_dir_t:s0 tcontext=user_u:object_r:gconf_tmp_t:s0 tclass=dir permissive=1
+Jul 18 14:27:53 jh-mba audit[3178]: AVC avc:  denied  { search } for  pid=3178 comm="systemd-user-ru" name="dconf" dev="tmpfs" ino=41325 scontext=system_u:system_r:systemd_user_runtime_dir_t:s0 tcontext=user_u:object_r:gconf_tmp_t:s0 tclass=dir permissive=1
+Jul 18 14:27:53 jh-mba audit[3178]: AVC avc:  denied  { write } for  pid=3178 comm="systemd-user-ru" name="dconf" dev="tmpfs" ino=41325 scontext=system_u:system_r:systemd_user_runtime_dir_t:s0 tcontext=user_u:object_r:gconf_tmp_t:s0 tclass=dir permissive=1
+Jul 18 14:27:53 jh-mba audit[3178]: AVC avc:  denied  { remove_name } for  pid=3178 comm="systemd-user-ru" name="user" dev="tmpfs" ino=41326 scontext=system_u:system_r:systemd_user_runtime_dir_t:s0 tcontext=user_u:object_r:gconf_tmp_t:s0 tclass=dir permissive=1
+Jul 18 14:27:53 jh-mba audit[3178]: AVC avc:  denied  { unlink } for  pid=3178 comm="systemd-user-ru" name="user" dev="tmpfs" ino=41326 scontext=system_u:system_r:systemd_user_runtime_dir_t:s0 tcontext=user_u:object_r:gconf_tmp_t:s0 tclass=file permissive=1
+Jul 18 14:27:53 jh-mba audit[3178]: AVC avc:  denied  { rmdir } for  pid=3178 comm="systemd-user-ru" name="dconf" dev="tmpfs" ino=41325 scontext=system_u:system_r:systemd_user_runtime_dir_t:s0 tcontext=user_u:object_r:gconf_tmp_t:s0 tclass=dir permissive=1
+Jul 18 14:27:53 jh-mba audit[3178]: AVC avc:  denied  { read } for  pid=3178 comm="systemd-user-ru" name="gvfs" dev="tmpfs" ino=42315 scontext=system_u:system_r:systemd_user_runtime_dir_t:s0 tcontext=user_u:object_r:user_tmp_t:s0 tclass=dir permissive=1
+Jul 18 14:27:53 jh-mba audit[3178]: AVC avc:  denied  { open } for  pid=3178 comm="systemd-user-ru" path="/run/user/1001/gvfs" dev="tmpfs" ino=42315 scontext=system_u:system_r:systemd_user_runtime_dir_t:s0 tcontext=user_u:object_r:user_tmp_t:s0 tclass=dir permissive=1
+Jul 18 14:27:53 jh-mba audit[3178]: AVC avc:  denied  { getattr } for  pid=3178 comm="systemd-user-ru" path="/run/user/1001/gvfs" dev="tmpfs" ino=42315 scontext=system_u:system_r:systemd_user_runtime_dir_t:s0 tcontext=user_u:object_r:user_tmp_t:s0 tclass=dir permissive=1
+Jul 18 14:27:53 jh-mba audit[3178]: AVC avc:  denied  { rmdir } for  pid=3178 comm="systemd-user-ru" name="gvfs" dev="tmpfs" ino=42315 scontext=system_u:system_r:systemd_user_runtime_dir_t:s0 tcontext=user_u:object_r:user_tmp_t:s0 tclass=dir permissive=1
+Jul 18 14:27:53 jh-mba audit[3178]: AVC avc:  denied  { read } for  pid=3178 comm="systemd-user-ru" name="dbus-1" dev="tmpfs" ino=39557 scontext=system_u:system_r:systemd_user_runtime_dir_t:s0 tcontext=user_u:object_r:session_dbusd_runtime_t:s0 tclass=dir permissive=1
+Jul 18 14:27:53 jh-mba audit[3178]: AVC avc:  denied  { open } for  pid=3178 comm="systemd-user-ru" path="/run/user/1001/dbus-1" dev="tmpfs" ino=39557 scontext=system_u:system_r:systemd_user_runtime_dir_t:s0 tcontext=user_u:object_r:session_dbusd_runtime_t:s0 tclass=dir permissive=1
+Jul 18 14:27:53 jh-mba audit[3178]: AVC avc:  denied  { getattr } for  pid=3178 comm="systemd-user-ru" path="/run/user/1001/dbus-1" dev="tmpfs" ino=39557 scontext=system_u:system_r:systemd_user_runtime_dir_t:s0 tcontext=user_u:object_r:session_dbusd_runtime_t:s0 tclass=dir permissive=1
+Jul 18 14:27:53 jh-mba audit[3178]: AVC avc:  denied  { search } for  pid=3178 comm="systemd-user-ru" name="dbus-1" dev="tmpfs" ino=39557 scontext=system_u:system_r:systemd_user_runtime_dir_t:s0 tcontext=user_u:object_r:session_dbusd_runtime_t:s0 tclass=dir permissive=1
+Jul 18 14:27:53 jh-mba audit[3178]: AVC avc:  denied  { write } for  pid=3178 comm="systemd-user-ru" name="dbus-1" dev="tmpfs" ino=39557 scontext=system_u:system_r:systemd_user_runtime_dir_t:s0 tcontext=user_u:object_r:session_dbusd_runtime_t:s0 tclass=dir permissive=1
+Jul 18 14:27:53 jh-mba audit[3178]: AVC avc:  denied  { remove_name } for  pid=3178 comm="systemd-user-ru" name="services" dev="tmpfs" ino=39558 scontext=system_u:system_r:systemd_user_runtime_dir_t:s0 tcontext=user_u:object_r:session_dbusd_runtime_t:s0 tclass=dir permissive=1
+Jul 18 14:27:53 jh-mba audit[3178]: AVC avc:  denied  { rmdir } for  pid=3178 comm="systemd-user-ru" name="services" dev="tmpfs" ino=39558 scontext=system_u:system_r:systemd_user_runtime_dir_t:s0 tcontext=user_u:object_r:session_dbusd_runtime_t:s0 tclass=dir permissive=1
+Jul 18 14:27:53 jh-mba audit[3178]: AVC avc:  denied  { open } for  pid=3178 comm="systemd-user-ru" path="/run/user/1001/pulse" dev="tmpfs" ino=41258 scontext=system_u:system_r:systemd_user_runtime_dir_t:s0 tcontext=user_u:object_r:pulseaudio_tmp_t:s0 tclass=dir permissive=1
+Jul 18 14:27:53 jh-mba audit[3178]: AVC avc:  denied  { getattr } for  pid=3178 comm="systemd-user-ru" path="/run/user/1001/pulse" dev="tmpfs" ino=41258 scontext=system_u:system_r:systemd_user_runtime_dir_t:s0 tcontext=user_u:object_r:pulseaudio_tmp_t:s0 tclass=dir permissive=1
+Jul 18 14:27:53 jh-mba audit[3178]: AVC avc:  denied  { search } for  pid=3178 comm="systemd-user-ru" name="pulse" dev="tmpfs" ino=41258 scontext=system_u:system_r:systemd_user_runtime_dir_t:s0 tcontext=user_u:object_r:pulseaudio_tmp_t:s0 tclass=dir permissive=1
+Jul 18 14:27:53 jh-mba audit[3178]: AVC avc:  denied  { write } for  pid=3178 comm="systemd-user-ru" name="pulse" dev="tmpfs" ino=41258 scontext=system_u:system_r:systemd_user_runtime_dir_t:s0 tcontext=user_u:object_r:pulseaudio_tmp_t:s0 tclass=dir permissive=1
+Jul 18 14:27:53 jh-mba audit[3178]: AVC avc:  denied  { remove_name } for  pid=3178 comm="systemd-user-ru" name="native" dev="tmpfs" ino=41259 scontext=system_u:system_r:systemd_user_runtime_dir_t:s0 tcontext=user_u:object_r:pulseaudio_tmp_t:s0 tclass=dir permissive=1
+Jul 18 14:27:53 jh-mba audit[3178]: AVC avc:  denied  { unlink } for  pid=3178 comm="systemd-user-ru" name="native" dev="tmpfs" ino=41259 scontext=system_u:system_r:systemd_user_runtime_dir_t:s0 tcontext=user_u:object_r:pulseaudio_tmp_t:s0 tclass=sock_file permissive=1
+Jul 18 14:27:53 jh-mba audit[3178]: AVC avc:  denied  { rmdir } for  pid=3178 comm="systemd-user-ru" name="pulse" dev="tmpfs" ino=41258 scontext=system_u:system_r:systemd_user_runtime_dir_t:s0 tcontext=user_u:object_r:pulseaudio_tmp_t:s0 tclass=dir permissive=1
+Jul 18 14:27:53 jh-mba audit[3178]: AVC avc:  denied  { unlink } for  pid=3178 comm="systemd-user-ru" name="bus" dev="tmpfs" ino=41239 scontext=system_u:system_r:systemd_user_runtime_dir_t:s0 tcontext=user_u:object_r:session_dbusd_runtime_t:s0 tclass=sock_file permissive=1
+Jul 18 14:27:53 jh-mba audit[3178]: AVC avc:  denied  { read } for  pid=3178 comm="systemd-user-ru" name="gnupg" dev="tmpfs" ino=42225 scontext=system_u:system_r:systemd_user_runtime_dir_t:s0 tcontext=user_u:object_r:dirmngr_tmp_t:s0 tclass=dir permissive=1
+Jul 18 14:27:53 jh-mba audit[3178]: AVC avc:  denied  { open } for  pid=3178 comm="systemd-user-ru" path="/run/user/1001/gnupg" dev="tmpfs" ino=42225 scontext=system_u:system_r:systemd_user_runtime_dir_t:s0 tcontext=user_u:object_r:dirmngr_tmp_t:s0 tclass=dir permissive=1
+Jul 18 14:27:53 jh-mba audit[3178]: AVC avc:  denied  { getattr } for  pid=3178 comm="systemd-user-ru" path="/run/user/1001/gnupg" dev="tmpfs" ino=42225 scontext=system_u:system_r:systemd_user_runtime_dir_t:s0 tcontext=user_u:object_r:dirmngr_tmp_t:s0 tclass=dir permissive=1
+Jul 18 14:27:53 jh-mba audit[3178]: AVC avc:  denied  { search } for  pid=3178 comm="systemd-user-ru" name="gnupg" dev="tmpfs" ino=42225 scontext=system_u:system_r:systemd_user_runtime_dir_t:s0 tcontext=user_u:object_r:dirmngr_tmp_t:s0 tclass=dir permissive=1
+Jul 18 14:27:53 jh-mba audit[3178]: AVC avc:  denied  { write } for  pid=3178 comm="systemd-user-ru" name="gnupg" dev="tmpfs" ino=42225 scontext=system_u:system_r:systemd_user_runtime_dir_t:s0 tcontext=user_u:object_r:dirmngr_tmp_t:s0 tclass=dir permissive=1
+Jul 18 14:27:53 jh-mba audit[3178]: AVC avc:  denied  { remove_name } for  pid=3178 comm="systemd-user-ru" name="S.gpg-agent" dev="tmpfs" ino=41252 scontext=system_u:system_r:systemd_user_runtime_dir_t:s0 tcontext=user_u:object_r:dirmngr_tmp_t:s0 tclass=dir permissive=1
+Jul 18 14:27:53 jh-mba audit[3178]: AVC avc:  denied  { unlink } for  pid=3178 comm="systemd-user-ru" name="S.gpg-agent" dev="tmpfs" ino=41252 scontext=system_u:system_r:systemd_user_runtime_dir_t:s0 tcontext=user_u:object_r:dirmngr_tmp_t:s0 tclass=sock_file permissive=1
+Jul 18 14:27:53 jh-mba audit[3178]: AVC avc:  denied  { rmdir } for  pid=3178 comm="systemd-user-ru" name="gnupg" dev="tmpfs" ino=42225 scontext=system_u:system_r:systemd_user_runtime_dir_t:s0 tcontext=user_u:object_r:dirmngr_tmp_t:s0 tclass=dir permissive=1
+Jul 18 14:27:53 jh-mba audit[3178]: AVC avc:  denied  { open } for  pid=3178 comm="systemd-user-ru" path="/run/user/1001/systemd" dev="tmpfs" ino=39472 scontext=system_u:system_r:systemd_user_runtime_dir_t:s0 tcontext=user_u:object_r:systemd_user_runtime_t:s0 tclass=dir permissive=1
+Jul 18 14:27:53 jh-mba audit[3178]: AVC avc:  denied  { getattr } for  pid=3178 comm="systemd-user-ru" path="/run/user/1001/systemd" dev="tmpfs" ino=39472 scontext=system_u:system_r:systemd_user_runtime_dir_t:s0 tcontext=user_u:object_r:systemd_user_runtime_t:s0 tclass=dir permissive=1
+Jul 18 14:27:53 jh-mba audit[3178]: AVC avc:  denied  { search } for  pid=3178 comm="systemd-user-ru" name="systemd" dev="tmpfs" ino=39472 scontext=system_u:system_r:systemd_user_runtime_dir_t:s0 tcontext=user_u:object_r:systemd_user_runtime_t:s0 tclass=dir permissive=1
+Jul 18 14:27:53 jh-mba audit[3178]: AVC avc:  denied  { write } for  pid=3178 comm="systemd-user-ru" name="systemd" dev="tmpfs" ino=39472 scontext=system_u:system_r:systemd_user_runtime_dir_t:s0 tcontext=user_u:object_r:systemd_user_runtime_t:s0 tclass=dir permissive=1
+Jul 18 14:27:53 jh-mba audit[3178]: AVC avc:  denied  { remove_name } for  pid=3178 comm="systemd-user-ru" name="private" dev="tmpfs" ino=41230 scontext=system_u:system_r:systemd_user_runtime_dir_t:s0 tcontext=user_u:object_r:systemd_user_runtime_t:s0 tclass=dir permissive=1
+Jul 18 14:27:53 jh-mba audit[3178]: AVC avc:  denied  { unlink } for  pid=3178 comm="systemd-user-ru" name="private" dev="tmpfs" ino=41230 scontext=system_u:system_r:systemd_user_runtime_dir_t:s0 tcontext=user_u:object_r:systemd_user_runtime_t:s0 tclass=sock_file permissive=1
+Jul 18 14:27:53 jh-mba audit[3178]: AVC avc:  denied  { unlink } for  pid=3178 comm="systemd-user-ru" name="notify" dev="tmpfs" ino=41226 scontext=system_u:system_r:systemd_user_runtime_dir_t:s0 tcontext=user_u:object_r:systemd_user_runtime_notify_t:s0 tclass=sock_file permissive=1
+Jul 18 14:27:53 jh-mba audit[3178]: AVC avc:  denied  { rmdir } for  pid=3178 comm="systemd-user-ru" name="units" dev="tmpfs" ino=39473 scontext=system_u:system_r:systemd_user_runtime_dir_t:s0 tcontext=user_u:object_r:systemd_user_runtime_t:s0 tclass=dir permissive=1
+Jul 18 14:27:53 jh-mba systemd[2501]: run-user-1001.mount: Succeeded.
+Jul 18 14:27:53 jh-mba systemd[1]: run-user-1001.mount: Succeeded.
+Jul 18 14:27:53 jh-mba systemd[2839]: run-user-1001.mount: Succeeded.
+Jul 18 14:27:53 jh-mba systemd[1]: user-runtime-dir@1001.service: Succeeded.
+Jul 18 14:27:53 jh-mba systemd[1]: Stopped User Runtime Directory /run/user/1001.
+
+
+Log with crash (5.7):
+
+Jul 18 14:30:09 jh-mba kernel: Linux version 5.7.0-1-amd64 (debian-kernel@lists.debian.org) (gcc version 9.3.0 (Debian 9.3.0-14), GNU ld (GNU Binutils for Debian) 2.34) #1 SMP Debian 5.7.6-1 (2020-06-24)
+Jul 18 14:35:10 jh-mba audit[1]: SERVICE_STOP pid=1 uid=0 auid=4294967295 ses=4294967295 subj=system_u:system_r:init_t:s0 msg='unit=user@1001 comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success'
+Jul 18 14:35:10 jh-mba systemd[1]: Stopping User Runtime Directory /run/user/1001...
+Jul 18 14:35:10 jh-mba audit[3163]: AVC avc:  denied  { read } for  pid=3163 comm="systemd-user-ru" name="dconf" dev="tmpfs" ino=39541 scontext=system_u:system_r:systemd_user_runtime_dir_t:s0 tcontext=user_u:object_r:gconf_tmp_t:s0 tclass=dir permissive=1
+Jul 18 14:35:10 jh-mba audit[3163]: AVC avc:  denied  { open } for  pid=3163 comm="systemd-user-ru" path="/run/user/1001/dconf" dev="tmpfs" ino=39541 scontext=system_u:system_r:systemd_user_runtime_dir_t:s0 tcontext=user_u:object_r:gconf_tmp_t:s0 tclass=dir permissive=1
+Jul 18 14:35:10 jh-mba audit[3163]: SYSCALL arch=c000003e syscall=257 success=yes exit=4 a0=3 a1=55edb4e41073 a2=f0800 a3=0 items=0 ppid=1 pid=3163 auid=4294967295 uid=0 gid=0 euid=0 suid=0 fsuid=0 egid=0 sgid=0 fsgid=0 tty=(none) ses=4294967295 comm="systemd-user-ru" exe="/usr/lib/systemd/systemd-user-runtime-dir" subj=system_u:system_r:systemd_user_runtime_dir_t:s0 key=(null)
+Jul 18 14:35:10 jh-mba audit: PROCTITLE proctitle=2F6C69622F73797374656D642F73797374656D642D757365722D72756E74696D652D6469720073746F700031303031
+Jul 18 14:35:10 jh-mba audit[3163]: AVC avc:  denied  { getattr } for  pid=3163 comm="systemd-user-ru" path="/run/user/1001/dconf" dev="tmpfs" ino=39541 scontext=system_u:system_r:systemd_user_runtime_dir_t:s0 tcontext=user_u:object_r:gconf_tmp_t:s0 tclass=dir permissive=1
+Jul 18 14:35:10 jh-mba audit[3163]: SYSCALL arch=c000003e syscall=5 success=yes exit=0 a0=4 a1=7fff95e523b0 a2=7fff95e523b0 a3=7fff95e52414 items=0 ppid=1 pid=3163 auid=4294967295 uid=0 gid=0 euid=0 suid=0 fsuid=0 egid=0 sgid=0 fsgid=0 tty=(none) ses=4294967295 comm="systemd-user-ru" exe="/usr/lib/systemd/systemd-user-runtime-dir" subj=system_u:system_r:systemd_user_runtime_dir_t:s0 key=(null)
+Jul 18 14:35:10 jh-mba audit: PROCTITLE proctitle=2F6C69622F73797374656D642F73797374656D642D757365722D72756E74696D652D6469720073746F700031303031
+Jul 18 14:35:10 jh-mba audit[3163]: AVC avc:  denied  { search } for  pid=3163 comm="systemd-user-ru" name="dconf" dev="tmpfs" ino=39541 scontext=system_u:system_r:systemd_user_runtime_dir_t:s0 tcontext=user_u:object_r:gconf_tmp_t:s0 tclass=dir permissive=1
+Jul 18 14:35:10 jh-mba audit[3163]: AVC avc:  denied  { write } for  pid=3163 comm="systemd-user-ru" name="dconf" dev="tmpfs" ino=39541 scontext=system_u:system_r:systemd_user_runtime_dir_t:s0 tcontext=user_u:object_r:gconf_tmp_t:s0 tclass=dir permissive=1
+Jul 18 14:35:10 jh-mba audit[3163]: AVC avc:  denied  { remove_name } for  pid=3163 comm="systemd-user-ru" name="user" dev="tmpfs" ino=39542 scontext=system_u:system_r:systemd_user_runtime_dir_t:s0 tcontext=user_u:object_r:gconf_tmp_t:s0 tclass=dir permissive=1
+Jul 18 14:35:10 jh-mba audit[3163]: AVC avc:  denied  { unlink } for  pid=3163 comm="systemd-user-ru" name="user" dev="tmpfs" ino=39542 scontext=system_u:system_r:systemd_user_runtime_dir_t:s0 tcontext=user_u:object_r:gconf_tmp_t:s0 tclass=file permissive=1
+Jul 18 14:35:10 jh-mba audit[3163]: SYSCALL arch=c000003e syscall=263 success=yes exit=0 a0=4 a1=55edb4e490b3 a2=0 a3=4 items=2 ppid=1 pid=3163 auid=4294967295 uid=0 gid=0 euid=0 suid=0 fsuid=0 egid=0 sgid=0 fsgid=0 tty=(none) ses=4294967295 comm="systemd-user-ru" exe="/usr/lib/systemd/systemd-user-runtime-dir" subj=system_u:system_r:systemd_user_runtime_dir_t:s0 key=(null)
+Jul 18 14:35:10 jh-mba kernel: BUG: kernel NULL pointer dereference, address: 0000000000000060
+Jul 18 14:35:10 jh-mba kernel: #PF: supervisor read access in kernel mode
+Jul 18 14:35:10 jh-mba kernel: #PF: error_code(0x0000) - not-present page
+Jul 18 14:35:11 jh-mba kernel: PGD 0 P4D 0
+Jul 18 14:35:11 jh-mba kernel: Oops: 0000 [#1] SMP PTI
+Jul 18 14:35:11 jh-mba kernel: CPU: 1 PID: 3163 Comm: systemd-user-ru Tainted: P           OE     5.7.0-1-amd64 #1 Debian 5.7.6-1
+Jul 18 14:35:11 jh-mba kernel: Hardware name: Apple Inc. MacBookAir6,2/Mac-7DF21CB3ED6977E5, BIOS 110.0.0.0.0 09/17/2018
+Jul 18 14:35:11 jh-mba kernel: RIP: 0010:d_path+0x35/0x140
+Jul 18 14:35:11 jh-mba kernel: Code: 49 89 fc 48 83 ec 28 48 8b 7f 08 89 54 24 04 65 48 8b 04 25 28 00 00 00 48 89 44 24 20 31 c0 48 63 c2 48 01 f0 48 89 44 24 08 <48> 8b 47 60 48 85 c0 74 22 48 8b 40 48 48 85 c0 74 19 48 3b 7f 18
+Jul 18 14:35:11 jh-mba kernel: RSP: 0018:ffffb71e411cfe18 EFLAGS: 00010282
+Jul 18 14:35:11 jh-mba kernel: RAX: ffff9a525f18700b RBX: ffff9a524fc52060 RCX: 00000000000004dd
+Jul 18 14:35:11 jh-mba kernel: RDX: 000000000000100b RSI: ffff9a525f186000 RDI: 0000000000000000
+Jul 18 14:35:11 jh-mba kernel: RBP: ffffb71e411cfe48 R08: ffff9a52672b0060 R09: 0000000000000006
+Jul 18 14:35:11 jh-mba kernel: R10: ffff9a522c99e6c0 R11: ffff9a532c99e030 R12: ffff9a524fc522b0
+Jul 18 14:35:11 jh-mba kernel: R13: ffff9a52658d3708 R14: ffff9a524fc52000 R15: 0000000000000000
+Jul 18 14:35:11 jh-mba kernel: FS:  00007ff68934e980(0000) GS:ffff9a5267280000(0000) knlGS:0000000000000000
+Jul 18 14:35:11 jh-mba kernel: CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+Jul 18 14:35:11 jh-mba kernel: CR2: 0000000000000060 CR3: 0000000226ce6002 CR4: 00000000001606e0
+Jul 18 14:35:11 jh-mba kernel: Call Trace:
+Jul 18 14:35:11 jh-mba kernel:  audit_log_d_path+0x75/0xd0
+Jul 18 14:35:11 jh-mba kernel:  audit_log_exit+0x63d/0xcf0
+Jul 18 14:35:11 jh-mba kernel:  ? audit_filter_inodes+0x2e/0x100
+Jul 18 14:35:11 jh-mba kernel:  __audit_syscall_exit+0x23b/0x2a0
+Jul 18 14:35:11 jh-mba kernel:  syscall_slow_exit_work+0x117/0x140
+Jul 18 14:35:11 jh-mba kernel:  do_syscall_64+0x10e/0x180
+Jul 18 14:35:11 jh-mba kernel:  entry_SYSCALL_64_after_hwframe+0x44/0xa9
+Jul 18 14:35:11 jh-mba kernel: RIP: 0033:0x7ff689f8eb67
+Jul 18 14:35:11 jh-mba kernel: Code: 73 01 c3 48 8b 0d 29 d3 0c 00 f7 d8 64 89 01 48 83 c8 ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 b8 07 01 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d f9 d2 0c 00 f7 d8 64 89 01 48
+Jul 18 14:35:11 jh-mba kernel: RSP: 002b:00007fff95e52468 EFLAGS: 00000246 ORIG_RAX: 0000000000000107
+Jul 18 14:35:11 jh-mba kernel: RAX: 0000000000000000 RBX: 00007ff68934e830 RCX: 00007ff689f8eb67
+Jul 18 14:35:11 jh-mba kernel: RDX: 0000000000000000 RSI: 000055edb4e490b3 RDI: 0000000000000004
+Jul 18 14:35:11 jh-mba kernel: RBP: 0000000000000004 R08: 000055edb4e490a0 R09: 00007ff68a05cbe0
+Jul 18 14:35:11 jh-mba kernel: R10: 0000000000000004 R11: 0000000000000246 R12: 000055edb4e49040
+Jul 18 14:35:11 jh-mba kernel: R13: 0000000000000000 R14: 000055edb4e490a0 R15: 000055edb4e490b3
+Jul 18 14:35:11 jh-mba kernel: Modules linked in: rfcomm bnep xt_CHECKSUM cpufreq_powersave xt_MASQUERADE cpufreq_conservative cpufreq_userspace xt_tcpudp nft_compat bridge stp llc overlay fuse nft_chain_nat nf_nat nf_log_ipv6 nf_log_ipv4 nf_log_common nft_log veth intel_rapl_msr btusb btrtl btbcm joydev binfmt_misc btintel nls_ascii nls_cp437 vfat fat bluetooth nft_counter drbg intel_rapl_common asix ansi_cprng ecdh_generic usbnet ecc mii vrf libphy x86_pkg_temp_thermal intel_powerclamp applesmc snd_hda_codec_hdmi snd_hda_codec_cirrus snd_hda_codec_generic coretemp ledtrig_audio evdev wireguard kvm_intel curve25519_x86_64 libcurve25519_generic libchacha20poly1305 snd_hda_intel kvm bcm5974 wl(POE) snd_intel_dspcfg chacha_x86_64 poly1305_x86_64 ip6_udp_tunnel efi_pstore udp_tunnel irqbypass snd_hda_codec libblake2s cfg80211 intel_cstate snd_hda_core blake2s_x86_64 libblake2s_generic libchacha snd_hwdep intel_uncore iTCO_wdt i915 iTCO_vendor_support intel_rapl_perf snd_pcm nft_ct sg ef
+ ivars pcspkr nf_conntrack
+Jul 18 14:35:11 jh-mba kernel:  watchdog rfkill snd_timer nf_defrag_ipv6 nf_defrag_ipv4 drm_kms_helper mei_me snd mei cec soundcore i2c_algo_bit sbs sbshc acpi_als kfifo_buf industrialio apple_bl ac button bonding nf_tables parport_pc(E) nfnetlink ppdev(E) lp(E) drm parport(E) sunrpc efivarfs ip_tables x_tables autofs4 ext4 crc16 mbcache jbd2 btrfs blake2b_generic zstd_decompress zstd_compress hid_apple hid_generic usbhid hid dm_crypt dm_mod raid10 raid456 async_raid6_recov async_memcpy async_pq async_xor async_tx xor raid6_pq libcrc32c crc32c_generic raid1 raid0 multipath linear md_mod uas usb_storage sd_mod t10_pi crc_t10dif crct10dif_generic crct10dif_pclmul crct10dif_common crc32_pclmul crc32c_intel ghash_clmulni_intel ahci libahci xhci_pci aesni_intel xhci_hcd libaes crypto_simd libata cryptd glue_helper usbcore scsi_mod i2c_i801 thunderbolt lpc_ich mfd_core usb_common spi_pxa2xx_platform dw_dmac video dw_dmac_core
+Jul 18 14:35:11 jh-mba kernel: CR2: 0000000000000060
+Jul 18 14:35:11 jh-mba kernel: ---[ end trace 01b46d19ab2d30bf ]---
+Jul 18 14:35:11 jh-mba kernel: RIP: 0010:d_path+0x35/0x140
+Jul 18 14:35:11 jh-mba kernel: Code: 49 89 fc 48 83 ec 28 48 8b 7f 08 89 54 24 04 65 48 8b 04 25 28 00 00 00 48 89 44 24 20 31 c0 48 63 c2 48 01 f0 48 89 44 24 08 <48> 8b 47 60 48 85 c0 74 22 48 8b 40 48 48 85 c0 74 19 48 3b 7f 18
+Jul 18 14:35:11 jh-mba kernel: RSP: 0018:ffffb71e411cfe18 EFLAGS: 00010282
+Jul 18 14:35:11 jh-mba kernel: RAX: ffff9a525f18700b RBX: ffff9a524fc52060 RCX: 00000000000004dd
+Jul 18 14:35:11 jh-mba kernel: RDX: 000000000000100b RSI: ffff9a525f186000 RDI: 0000000000000000
+Jul 18 14:35:11 jh-mba kernel: RBP: ffffb71e411cfe48 R08: ffff9a52672b0060 R09: 0000000000000006
+Jul 18 14:35:11 jh-mba kernel: R10: ffff9a522c99e6c0 R11: ffff9a532c99e030 R12: ffff9a524fc522b0
+Jul 18 14:35:11 jh-mba kernel: R13: ffff9a52658d3708 R14: ffff9a524fc52000 R15: 0000000000000000
+Jul 18 14:35:11 jh-mba kernel: FS:  00007ff68934e980(0000) GS:ffff9a5267280000(0000) knlGS:0000000000000000
+Jul 18 14:35:11 jh-mba kernel: CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+Jul 18 14:35:11 jh-mba kernel: CR2: 0000000000000060 CR3: 0000000226ce6002 CR4: 00000000001606e0
+Jul 18 14:35:11 jh-mba kernel: BUG: kernel NULL pointer dereference, address: 0000000000000060
+Jul 18 14:35:11 jh-mba kernel: #PF: supervisor read access in kernel mode
+Jul 18 14:35:12 jh-mba kernel: #PF: error_code(0x0000) - not-present page
+Jul 18 14:35:13 jh-mba kernel: PGD 0 P4D 0
+Jul 18 14:35:13 jh-mba kernel: Oops: 0000 [#2] SMP PTI
+Jul 18 14:35:13 jh-mba kernel: CPU: 1 PID: 3163 Comm: systemd-user-ru Tainted: P      D    OE     5.7.0-1-amd64 #1 Debian 5.7.6-1
+Jul 18 14:35:13 jh-mba kernel: Hardware name: Apple Inc. MacBookAir6,2/Mac-7DF21CB3ED6977E5, BIOS 110.0.0.0.0 09/17/2018
+Jul 18 14:35:13 jh-mba kernel: RIP: 0010:d_path+0x35/0x140
+Jul 18 14:35:13 jh-mba kernel: Code: 49 89 fc 48 83 ec 28 48 8b 7f 08 89 54 24 04 65 48 8b 04 25 28 00 00 00 48 89 44 24 20 31 c0 48 63 c2 48 01 f0 48 89 44 24 08 <48> 8b 47 60 48 85 c0 74 22 48 8b 40 48 48 85 c0 74 19 48 3b 7f 18
+Jul 18 14:35:13 jh-mba kernel: RSP: 0018:ffffb71e411cfde0 EFLAGS: 00010282
+Jul 18 14:35:13 jh-mba kernel: RAX: ffff9a525f18500b RBX: ffff9a524fc52060 RCX: 00000000000004e0
+Jul 18 14:35:13 jh-mba kernel: RDX: 000000000000100b RSI: ffff9a525f184000 RDI: 0000000000000000
+Jul 18 14:35:13 jh-mba kernel: RBP: ffffb71e411cfe10 R08: ffff9a52672b0060 R09: 0000000000000006
+Jul 18 14:35:13 jh-mba kernel: R10: ffff9a522c99cec0 R11: ffff9a532c99c830 R12: ffff9a524fc522b0
+Jul 18 14:35:13 jh-mba kernel: R13: ffff9a52658d35e8 R14: ffff9a524fc52000 R15: 0000000000000000
+Jul 18 14:35:13 jh-mba kernel: FS:  00007ff68934e980(0000) GS:ffff9a5267280000(0000) knlGS:0000000000000000
+Jul 18 14:35:13 jh-mba kernel: CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+Jul 18 14:35:13 jh-mba kernel: CR2: 0000000000000060 CR3: 0000000226ce6002 CR4: 00000000001606e0
+Jul 18 14:35:13 jh-mba kernel: Call Trace:
+Jul 18 14:35:13 jh-mba kernel:  audit_log_d_path+0x75/0xd0
+Jul 18 14:35:13 jh-mba kernel:  audit_log_exit+0x63d/0xcf0
+Jul 18 14:35:13 jh-mba kernel:  ? audit_log_d_path+0x75/0xd0
+Jul 18 14:35:13 jh-mba kernel:  ? audit_filter_inodes+0x2e/0x100
+Jul 18 14:35:13 jh-mba kernel:  __audit_free+0x233/0x260
+Jul 18 14:35:13 jh-mba kernel:  do_exit+0x8d3/0xb50
+Jul 18 14:35:13 jh-mba kernel:  ? syscall_slow_exit_work+0x117/0x140
+Jul 18 14:35:13 jh-mba kernel:  rewind_stack_do_exit+0x17/0x20
+Jul 18 14:35:13 jh-mba kernel: RIP: 0033:0x7ff689f8eb67
+Jul 18 14:35:13 jh-mba kernel: Code: 73 01 c3 48 8b 0d 29 d3 0c 00 f7 d8 64 89 01 48 83 c8 ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 b8 07 01 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d f9 d2 0c 00 f7 d8 64 89 01 48
+Jul 18 14:35:13 jh-mba kernel: RSP: 002b:00007fff95e52468 EFLAGS: 00000246 ORIG_RAX: 0000000000000107
+Jul 18 14:35:13 jh-mba kernel: RAX: 0000000000000000 RBX: 00007ff68934e830 RCX: 00007ff689f8eb67
+Jul 18 14:35:13 jh-mba kernel: RDX: 0000000000000000 RSI: 000055edb4e490b3 RDI: 0000000000000004
+Jul 18 14:35:13 jh-mba kernel: RBP: 0000000000000004 R08: 000055edb4e490a0 R09: 00007ff68a05cbe0
+Jul 18 14:35:13 jh-mba kernel: R10: 0000000000000004 R11: 0000000000000246 R12: 000055edb4e49040
+Jul 18 14:35:13 jh-mba kernel: R13: 0000000000000000 R14: 000055edb4e490a0 R15: 000055edb4e490b3
+Jul 18 14:35:13 jh-mba kernel: Modules linked in: rfcomm bnep xt_CHECKSUM cpufreq_powersave xt_MASQUERADE cpufreq_conservative cpufreq_userspace xt_tcpudp nft_compat bridge stp llc overlay fuse nft_chain_nat nf_nat nf_log_ipv6 nf_log_ipv4 nf_log_common nft_log veth intel_rapl_msr btusb btrtl btbcm joydev binfmt_misc btintel nls_ascii nls_cp437 vfat fat bluetooth nft_counter drbg intel_rapl_common asix ansi_cprng ecdh_generic usbnet ecc mii vrf libphy x86_pkg_temp_thermal intel_powerclamp applesmc snd_hda_codec_hdmi snd_hda_codec_cirrus snd_hda_codec_generic coretemp ledtrig_audio evdev wireguard kvm_intel curve25519_x86_64 libcurve25519_generic libchacha20poly1305 snd_hda_intel kvm bcm5974 wl(POE) snd_intel_dspcfg chacha_x86_64 poly1305_x86_64 ip6_udp_tunnel efi_pstore udp_tunnel irqbypass snd_hda_codec libblake2s cfg80211 intel_cstate snd_hda_core blake2s_x86_64 libblake2s_generic libchacha snd_hwdep intel_uncore iTCO_wdt i915 iTCO_vendor_support intel_rapl_perf snd_pcm nft_ct sg ef
+ ivars pcspkr nf_conntrack
+Jul 18 14:35:13 jh-mba kernel:  watchdog rfkill snd_timer nf_defrag_ipv6 nf_defrag_ipv4 drm_kms_helper mei_me snd mei cec soundcore i2c_algo_bit sbs sbshc acpi_als kfifo_buf industrialio apple_bl ac button bonding nf_tables parport_pc(E) nfnetlink ppdev(E) lp(E) drm parport(E) sunrpc efivarfs ip_tables x_tables autofs4 ext4 crc16 mbcache jbd2 btrfs blake2b_generic zstd_decompress zstd_compress hid_apple hid_generic usbhid hid dm_crypt dm_mod raid10 raid456 async_raid6_recov async_memcpy async_pq async_xor async_tx xor raid6_pq libcrc32c crc32c_generic raid1 raid0 multipath linear md_mod uas usb_storage sd_mod t10_pi crc_t10dif crct10dif_generic crct10dif_pclmul crct10dif_common crc32_pclmul crc32c_intel ghash_clmulni_intel ahci libahci xhci_pci aesni_intel xhci_hcd libaes crypto_simd libata cryptd glue_helper usbcore scsi_mod i2c_i801 thunderbolt lpc_ich mfd_core usb_common spi_pxa2xx_platform dw_dmac video dw_dmac_core
+Jul 18 14:35:13 jh-mba kernel: CR2: 0000000000000060
+Jul 18 14:35:13 jh-mba kernel: ---[ end trace 01b46d19ab2d30c0 ]---
+Jul 18 14:35:13 jh-mba kernel: RIP: 0010:d_path+0x35/0x140
+Jul 18 14:35:13 jh-mba kernel: Code: 49 89 fc 48 83 ec 28 48 8b 7f 08 89 54 24 04 65 48 8b 04 25 28 00 00 00 48 89 44 24 20 31 c0 48 63 c2 48 01 f0 48 89 44 24 08 <48> 8b 47 60 48 85 c0 74 22 48 8b 40 48 48 85 c0 74 19 48 3b 7f 18
+Jul 18 14:35:13 jh-mba kernel: RSP: 0018:ffffb71e411cfe18 EFLAGS: 00010282
+Jul 18 14:35:13 jh-mba kernel: RAX: ffff9a525f18700b RBX: ffff9a524fc52060 RCX: 00000000000004dd
+Jul 18 14:35:13 jh-mba kernel: RDX: 000000000000100b RSI: ffff9a525f186000 RDI: 0000000000000000
+Jul 18 14:35:13 jh-mba kernel: RBP: ffffb71e411cfe48 R08: ffff9a52672b0060 R09: 0000000000000006
+Jul 18 14:35:13 jh-mba kernel: R10: ffff9a522c99e6c0 R11: ffff9a532c99e030 R12: ffff9a524fc522b0
+Jul 18 14:35:13 jh-mba kernel: R13: ffff9a52658d3708 R14: ffff9a524fc52000 R15: 0000000000000000
+Jul 18 14:35:13 jh-mba kernel: FS:  00007ff68934e980(0000) GS:ffff9a5267280000(0000) knlGS:0000000000000000
+Jul 18 14:35:13 jh-mba kernel: CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+Jul 18 14:35:13 jh-mba kernel: CR2: 0000000000000060 CR3: 0000000226ce6002 CR4: 00000000001606e0
+Jul 18 14:35:13 jh-mba kernel: Fixing recursive fault but reboot is needed!
+Jul 18 14:35:10 jh-mba audit[3163]: SYSCALL arch=c000003e syscall=263 a0=4 a1=55edb4e490b3 a2=0 a3=4 items=2 ppid=1 pid=3163 auid=4294967295 uid=0 gid=0 euid=0 suid=0 fsuid=0 egid=0 sgid=0 fsgid=0 tty=(none) ses=4294967295 comm="systemd-user-ru" exe="/usr/lib/systemd/systemd-user-runtime-dir" subj=system_u:system_r:systemd_user_runtime_dir_t:s0 key=(null)
+Jul 18 14:35:14 jh-mba systemd[1]: systemd-hostnamed.service: Succeeded.
+Jul 18 14:35:14 jh-mba audit[1]: SERVICE_STOP pid=1 uid=0 auid=4294967295 ses=4294967295 subj=system_u:system_r:init_t:s0 msg='unit=systemd-hostnamed comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success'
+
+Line information from the debian linux-image-5.7.0-1-amd64 (version 5.7.6-1) package, duplicates ommitted:
+
+Reading symbols from /usr/lib/debug/boot/vmlinux-5.7.0-1-amd64...
+(gdb) l *d_path+0x35
+0xffffffff812dcee5 is in d_path (fs/d_path.c:275).
+270              *
+271              * Some pseudo inodes are mountable.  When they are mounted
+272              * path->dentry == path->mnt->mnt_root.  In that case don't call d_dname
+273              * and instead have d_path return the mounted path.
+274              */
+275             if (path->dentry->d_op && path->dentry->d_op->d_dname &&
+276                 (!IS_ROOT(path->dentry) || path->dentry != path->mnt->mnt_root))
+277                     return path->dentry->d_op->d_dname(path->dentry, buf, buflen);
+278
+279             rcu_read_lock();
+(gdb) l *audit_log_d_path+0x75
+0xffffffff8114f175 is in audit_log_d_path (kernel/audit.c:2046).
+2041            pathname = kmalloc(PATH_MAX+11, ab->gfp_mask);
+2042            if (!pathname) {
+2043                    audit_log_string(ab, "<no_memory>");
+2044                    return;
+2045            }
+2046            p = d_path(path, pathname, PATH_MAX+11);
+2047            if (IS_ERR(p)) { /* Should never happen since we send PATH_MAX */
+2048                    /* FIXME: can we save some information here? */
+2049                    audit_log_string(ab, "<too_long>");
+2050            } else
+(gdb) l *audit_log_exit+0x63d
+0xffffffff8115445d is in audit_log_exit (kernel/auditsc.c:1342).
+1337                    case 0:
+1338                            /* name was specified as a relative path and the
+1339                             * directory component is the cwd
+1340                             */
+1341                            audit_log_d_path(ab, " name=", &context->pwd);
+1342                            break;
+1343                    default:
+1344                            /* log the name's directory component */
+1345                            audit_log_format(ab, " name=");
+1346                            audit_log_n_untrustedstring(ab, n->name->name,
+(gdb) l *audit_filter_inodes+0x2e
+0xffffffff81155e2e is in audit_filter_inodes (kernel/auditsc.c:835).
+830      */
+831     void audit_filter_inodes(struct task_struct *tsk, struct audit_context *ctx)
+832     {
+833             struct audit_names *n;
+834
+835             if (auditd_test_task(tsk))
+836                     return;
+837
+838             rcu_read_lock();
+839
+(gdb) l *__audit_syscall_exit+0x23b
+0xffffffff8115661b is in __audit_syscall_exit (kernel/auditsc.c:1710).
+1705
+1706                    audit_filter_syscall(current, context,
+1707                                         &audit_filter_list[AUDIT_FILTER_EXIT]);
+1708                    audit_filter_inodes(current, context);
+1709                    if (context->current_state == AUDIT_RECORD_CONTEXT)
+1710                            audit_log_exit();
+1711            }
+1712
+1713            context->in_syscall = 0;
+1714            context->prio = context->state == AUDIT_RECORD_CONTEXT ? ~0ULL : 0;
+(gdb) l *syscall_slow_exit_work+0x117
+0xffffffff81005197 is in syscall_slow_exit_work (include/linux/audit.h:316).
+311     {
+312             if (unlikely(audit_context())) {
+313                     int success = is_syscall_success(pt_regs);
+314                     long return_code = regs_return_value(pt_regs);
+315
+316                     __audit_syscall_exit(success, return_code);
+317             }
+318     }
+319     static inline struct filename *audit_reusename(const __user char *name)
+320     {
+(gdb) l *do_syscall_64+0x10e
+0xffffffff8100543e is in do_syscall_64 (arch/x86/entry/common.c:276).
+warning: Source file is more recent than executable.
+271             /*
+272              * First do one-time work.  If these work items are enabled, we
+273              * want to run them exactly once per syscall exit with IRQs on.
+274              */
+275             if (unlikely(cached_flags & SYSCALL_EXIT_WORK_FLAGS))
+276                     syscall_slow_exit_work(regs, cached_flags);
+277
+278             local_irq_disable();
+279             prepare_exit_to_usermode(regs);
+280     }
+(gdb) l *entry_SYSCALL_64_after_hwframe+0x44
+0xffffffff8180008c is at /build/linux-iTqI2R/linux-5.7.6/arch/x86/entry/entry_64.S:184.
+179     /build/linux-iTqI2R/linux-5.7.6/arch/x86/entry/entry_64.S: No such file or directory.
+(gdb) l *__audit_free+0x233
+0xffffffff81156283 is in __audit_free (kernel/auditsc.c:1602).
+1597
+1598                    audit_filter_syscall(tsk, context,
+1599                                         &audit_filter_list[AUDIT_FILTER_EXIT]);
+1600                    audit_filter_inodes(tsk, context);
+1601                    if (context->current_state == AUDIT_RECORD_CONTEXT)
+1602                            audit_log_exit();
+1603            }
+1604
+1605            audit_set_context(tsk, NULL);
+1606            audit_free_context(context);
+(gdb) l *do_exit+0x8d3
+0xffffffff81088ce3 is in do_exit (include/linux/audit.h:301).
+296             return !p || *(int *)p;
+297     }
+298     static inline void audit_free(struct task_struct *task)
+299     {
+300             if (unlikely(task->audit_context))
+301                     __audit_free(task);
+302     }
+303     static inline void audit_syscall_entry(int major, unsigned long a0,
+304                                            unsigned long a1, unsigned long a2,
+305                                            unsigned long a3)
+(gdb) l *syscall_slow_exit_work+0x117
+0xffffffff81005197 is in syscall_slow_exit_work (include/linux/audit.h:316).
+311     {
+312             if (unlikely(audit_context())) {
+313                     int success = is_syscall_success(pt_regs);
+314                     long return_code = regs_return_value(pt_regs);
+315
+316                     __audit_syscall_exit(success, return_code);
+317             }
+318     }
+319     static inline struct filename *audit_reusename(const __user char *name)
+320     {
+(gdb) l *rewind_stack_do_exit+0x17
+(gdb)
+
+-- 
+bauen1
+https://dn42.bauen1.xyz/
 
 --
 Linux-audit mailing list
