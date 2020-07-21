@@ -1,86 +1,68 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [205.139.110.61])
-	by mail.lfdr.de (Postfix) with ESMTP id EFA61228B18
-	for <lists+linux-audit@lfdr.de>; Tue, 21 Jul 2020 23:25:00 +0200 (CEST)
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com [207.211.31.81])
+	by mail.lfdr.de (Postfix) with ESMTP id 8D114228BD3
+	for <lists+linux-audit@lfdr.de>; Wed, 22 Jul 2020 00:08:21 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1595369300;
+	h=from:from:sender:sender:reply-to:subject:subject:date:date:
+	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+	 content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:list-id:list-help:
+	 list-unsubscribe:list-subscribe:list-post;
+	bh=kyNBrrMniJY1BE8bSXdKnPOIxdNPXaFXMLl026G9CE0=;
+	b=OnjNJp9/KU2TU530E/KuqbLGwkP0Dc13D092qGyqM5Ptejc9PSvvOt7xXMEJj9b6KaaXgp
+	ul2WA4PASUaUVNz6vqurmA4Y35+cZdaC9XBCrsZHeRK0u5bez3kirrtppAbT1+0vE5pCgu
+	RxEqSt2v+Iyni/UvU85WP7gCDfKC8a4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-42-JKzxD3vhMq6BNKHN3Uuw8w-1; Tue, 21 Jul 2020 17:24:57 -0400
-X-MC-Unique: JKzxD3vhMq6BNKHN3Uuw8w-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+ us-mta-305-CY_d9u1uPXiRTZSnITIsbQ-1; Tue, 21 Jul 2020 18:08:18 -0400
+X-MC-Unique: CY_d9u1uPXiRTZSnITIsbQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CBA7991273;
-	Tue, 21 Jul 2020 21:24:52 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 040F18731D;
-	Tue, 21 Jul 2020 21:24:52 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 056D391271;
+	Tue, 21 Jul 2020 22:08:13 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id E11555D9CA;
+	Tue, 21 Jul 2020 22:08:10 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id A0E57180954D;
-	Tue, 21 Jul 2020 21:24:49 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
-	[10.11.54.6])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 2ECF9730C4;
+	Tue, 21 Jul 2020 22:08:08 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+	[10.5.11.13])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 06LLGgNL007134 for <linux-audit@listman.util.phx.redhat.com>;
-	Tue, 21 Jul 2020 17:16:42 -0400
+	id 06LM67Za014191 for <linux-audit@listman.util.phx.redhat.com>;
+	Tue, 21 Jul 2020 18:06:07 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id 7CFBD2166BA2; Tue, 21 Jul 2020 21:16:42 +0000 (UTC)
+	id 809558ACED; Tue, 21 Jul 2020 22:06:07 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from mimecast-mx02.redhat.com
-	(mimecast05.extmail.prod.ext.rdu2.redhat.com [10.11.55.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 785922166BA0
-	for <linux-audit@redhat.com>; Tue, 21 Jul 2020 21:16:40 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
-	[205.139.110.120])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6F4BA83B7F9
-	for <linux-audit@redhat.com>; Tue, 21 Jul 2020 21:16:40 +0000 (UTC)
-Received: from mail-ej1-f65.google.com (mail-ej1-f65.google.com
-	[209.85.218.65]) (Using TLS) by relay.mimecast.com with ESMTP id
-	us-mta-230-e5Iv3r2sOSa2oo5BNk5_4Q-1; Tue, 21 Jul 2020 17:16:37 -0400
-X-MC-Unique: e5Iv3r2sOSa2oo5BNk5_4Q-1
-Received: by mail-ej1-f65.google.com with SMTP id a21so23043947ejj.10
-	for <linux-audit@redhat.com>; Tue, 21 Jul 2020 14:16:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=PpobAsBikcZzGgFnqaofvkVdzW58Lh6D10Z7oCD2icY=;
-	b=keXtHk04IwsmM9At/nq0d938u2nV5exf8SsSvdYsCr5wY6L8OrYov93Mq2PP1zz1UZ
-	4DeGC7MzN2CTQChmNp1ZNVcIHO77NfeOTlURkiPmsOpbWcMAfnRHofOrCL5aVmJq8OZT
-	JXlYFBueApjnCmMflzybyj5P1PrNHoD/B16LtiXUPQjdWVjM7IhzJKYFppgfqMbuA5Rm
-	uZYz/txCZOBKigfYV3vthhDmwMC/n6Qx/znaKZbLvEIq5aWVVQ2D9OxjLQXUiLURiH2z
-	FG9R4S3aBSUoZF2gDZKgLVUuhPDXw1w3IEfa/041ertiOlJCiGHhXHo5tgT5bUczW/u7
-	nvbA==
-X-Gm-Message-State: AOAM532aypEc4UjaPzSiaUrTyn41km26kSkqhwIO9QrugYXCjZc/Cwta
-	ieJ+Uu+Xfea9Zo5Z0fClFeTuedDkTDHfEcagUApX
-X-Google-Smtp-Source: ABdhPJyY2Ce5NqMGMBhWAGWwnzWTH0+myvH3o2aHnpLX7WPIWCXYWZRi2c+CytjWBqS3on7CikdMRT1S93rvuO3HPGc=
-X-Received: by 2002:a17:906:1a59:: with SMTP id
-	j25mr25594636ejf.398.1595366195416; 
-	Tue, 21 Jul 2020 14:16:35 -0700 (PDT)
+Received: from madcap2.tricolour.ca (unknown [10.10.110.3])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id A9220872FB;
+	Tue, 21 Jul 2020 22:05:51 +0000 (UTC)
+Date: Tue, 21 Jul 2020 18:05:48 -0400
+From: Richard Guy Briggs <rgb@redhat.com>
+To: Paul Moore <paul@paul-moore.com>
+Subject: Re: [PATCH ghak90 V9 10/13] audit: add support for containerid to
+	network namespaces
+Message-ID: <20200721220548.oy5iwquoohevlgbi@madcap2.tricolour.ca>
+References: <cover.1593198710.git.rgb@redhat.com>
+	<e9c1216a361c38ebc9cb4089922c259e2cfd5013.1593198710.git.rgb@redhat.com>
+	<CAHC9VhSRRN+Qq5dNx6Q5cG_TrXgbBMR0PNUYvf+Haf2na5wCfg@mail.gmail.com>
 MIME-Version: 1.0
-References: <6effbbd4574407d6af21162e57d9102d5f8b02ed.1594664015.git.rgb@redhat.com>
-	<CAHC9VhSyq7yKQqwvHL5syU9+TFki6-__WfCrvqewbnU3xpND4Q@mail.gmail.com>
-	<20200714174353.ds7lj3iisy67t2zu@madcap2.tricolour.ca>
-	<CAHC9VhQusQsdQc7EfdjdH5mp6qqqYVPHnG9nNhUhf3DS_cdWwA@mail.gmail.com>
-	<20200714210027.me2ieywjfcsf4v5r@madcap2.tricolour.ca>
-	<CAHC9VhQgDGPutYxQawMPmezm1a+i1nXO5KSn9_7KPDZsRBJ4pw@mail.gmail.com>
-	<e6eb37d5-ec6b-852a-74df-bbf453607fbe@canonical.com>
-In-Reply-To: <e6eb37d5-ec6b-852a-74df-bbf453607fbe@canonical.com>
-From: Paul Moore <paul@paul-moore.com>
-Date: Tue, 21 Jul 2020 17:16:24 -0400
-Message-ID: <CAHC9VhSoUBqXh7ikVdpr9-e2+3Wx-A05g5EBjD3ka1i1xF2vMg@mail.gmail.com>
-Subject: Re: [PATCH ghak84 v4] audit: purge audit_log_string from the
-	intra-kernel audit API
-To: John Johansen <john.johansen@canonical.com>
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+In-Reply-To: <CAHC9VhSRRN+Qq5dNx6Q5cG_TrXgbBMR0PNUYvf+Haf2na5wCfg@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-loop: linux-audit@redhat.com
-Cc: Richard Guy Briggs <rgb@redhat.com>, Eric Paris <eparis@parisplace.org>,
-	Linux Security Module list <linux-security-module@vger.kernel.org>,
+Cc: nhorman@tuxdriver.com, linux-api@vger.kernel.org,
+	containers@lists.linux-foundation.org,
+	LKML <linux-kernel@vger.kernel.org>, dhowells@redhat.com,
 	Linux-Audit Mailing List <linux-audit@redhat.com>,
-	LKML <linux-kernel@vger.kernel.org>
+	netfilter-devel@vger.kernel.org, ebiederm@xmission.com,
+	simo@redhat.com, netdev@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	Eric Paris <eparis@parisplace.org>, mpatel@redhat.com,
+	Serge Hallyn <serge@hallyn.com>
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -94,133 +76,190 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
-	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=linux-audit-bounces@redhat.com
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
-On Tue, Jul 21, 2020 at 3:31 PM John Johansen
-<john.johansen@canonical.com> wrote:
-> On 7/21/20 8:19 AM, Paul Moore wrote:
-> > On Tue, Jul 14, 2020 at 5:00 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> >> On 2020-07-14 16:29, Paul Moore wrote:
-> >>> On Tue, Jul 14, 2020 at 1:44 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> >>>> On 2020-07-14 12:21, Paul Moore wrote:
-> >>>>> On Mon, Jul 13, 2020 at 3:52 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> >>>>>>
-> >>>>>> audit_log_string() was inteded to be an internal audit function and
-> >>>>>> since there are only two internal uses, remove them.  Purge all external
-> >>>>>> uses of it by restructuring code to use an existing audit_log_format()
-> >>>>>> or using audit_log_format().
-> >>>>>>
-> >>>>>> Please see the upstream issue
-> >>>>>> https://github.com/linux-audit/audit-kernel/issues/84
-> >>>>>>
-> >>>>>> Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
-> >>>>>> ---
-> >>>>>> Passes audit-testsuite.
-> >>>>>>
-> >>>>>> Changelog:
-> >>>>>> v4
-> >>>>>> - use double quotes in all replaced audit_log_string() calls
-> >>>>>>
-> >>>>>> v3
-> >>>>>> - fix two warning: non-void function does not return a value in all control paths
-> >>>>>>         Reported-by: kernel test robot <lkp@intel.com>
-> >>>>>>
-> >>>>>> v2
-> >>>>>> - restructure to piggyback on existing audit_log_format() calls, checking quoting needs for each.
-> >>>>>>
-> >>>>>> v1 Vlad Dronov
-> >>>>>> - https://github.com/nefigtut/audit-kernel/commit/dbbcba46335a002f44b05874153a85b9cc18aebf
-> >>>>>>
-> >>>>>>  include/linux/audit.h     |  5 -----
-> >>>>>>  kernel/audit.c            |  4 ++--
-> >>>>>>  security/apparmor/audit.c | 10 ++++------
-> >>>>>>  security/apparmor/file.c  | 25 +++++++------------------
-> >>>>>>  security/apparmor/ipc.c   | 46 +++++++++++++++++++++++-----------------------
-> >>>>>>  security/apparmor/net.c   | 14 ++++++++------
-> >>>>>>  security/lsm_audit.c      |  4 ++--
-> >>>>>>  7 files changed, 46 insertions(+), 62 deletions(-)
-> >>>>>
-> >>>>> Thanks for restoring the quotes, just one question below ...
-> >>>>>
-> >>>>>> diff --git a/security/apparmor/ipc.c b/security/apparmor/ipc.c
-> >>>>>> index 4ecedffbdd33..fe36d112aad9 100644
-> >>>>>> --- a/security/apparmor/ipc.c
-> >>>>>> +++ b/security/apparmor/ipc.c
-> >>>>>> @@ -20,25 +20,23 @@
-> >>>>>>
-> >>>>>>  /**
-> >>>>>>   * audit_ptrace_mask - convert mask to permission string
-> >>>>>> - * @buffer: buffer to write string to (NOT NULL)
-> >>>>>>   * @mask: permission mask to convert
-> >>>>>> + *
-> >>>>>> + * Returns: pointer to static string
-> >>>>>>   */
-> >>>>>> -static void audit_ptrace_mask(struct audit_buffer *ab, u32 mask)
-> >>>>>> +static const char *audit_ptrace_mask(u32 mask)
-> >>>>>>  {
-> >>>>>>         switch (mask) {
-> >>>>>>         case MAY_READ:
-> >>>>>> -               audit_log_string(ab, "read");
-> >>>>>> -               break;
-> >>>>>> +               return "read";
-> >>>>>>         case MAY_WRITE:
-> >>>>>> -               audit_log_string(ab, "trace");
-> >>>>>> -               break;
-> >>>>>> +               return "trace";
-> >>>>>>         case AA_MAY_BE_READ:
-> >>>>>> -               audit_log_string(ab, "readby");
-> >>>>>> -               break;
-> >>>>>> +               return "readby";
-> >>>>>>         case AA_MAY_BE_TRACED:
-> >>>>>> -               audit_log_string(ab, "tracedby");
-> >>>>>> -               break;
-> >>>>>> +               return "tracedby";
-> >>>>>>         }
-> >>>>>> +       return "";
-> >>>>>
-> >>>>> Are we okay with this returning an empty string ("") in this case?
-> >>>>> Should it be a question mark ("?")?
-> >>>>>
-> >>>>> My guess is that userspace parsing should be okay since it still has
-> >>>>> quotes, I'm just not sure if we wanted to use a question mark as we do
-> >>>>> in other cases where the field value is empty/unknown.
-> >>>>
-> >>>> Previously, it would have been an empty value, not even double quotes.
-> >>>> "?" might be an improvement.
-> >>>
-> >>> Did you want to fix that now in this patch, or leave it to later?  As
-> >>> I said above, I'm not too bothered by it with the quotes so either way
-> >>> is fine by me.
-> >>
-> >> I'd defer to Steve, otherwise I'd say leave it, since there wasn't
-> >> anything there before and this makes that more evident.
-> >>
-> >>> John, I'm assuming you are okay with this patch?
+On 2020-07-05 11:11, Paul Moore wrote:
+> On Sat, Jun 27, 2020 at 9:23 AM Richard Guy Briggs <rgb@redhat.com> wrote:
 > >
-> > With no comments from John or Steve in the past week, I've gone ahead
-> > and merged the patch into audit/next.
->
-> sorry, for some reason I thought a new iteration of this was coming.
->
-> the patch is fine, the empty unknown value should be possible here
-> so changing it to "?" won't affect anything.
+> > This also adds support to qualify NETFILTER_PKT records.
+> >
+> > Audit events could happen in a network namespace outside of a task
+> > context due to packets received from the net that trigger an auditing
+> > rule prior to being associated with a running task.  The network
+> > namespace could be in use by multiple containers by association to the
+> > tasks in that network namespace.  We still want a way to attribute
+> > these events to any potential containers.  Keep a list per network
+> > namespace to track these audit container identifiiers.
+> >
+> > Add/increment the audit container identifier on:
+> > - initial setting of the audit container identifier via /proc
+> > - clone/fork call that inherits an audit container identifier
+> > - unshare call that inherits an audit container identifier
+> > - setns call that inherits an audit container identifier
+> > Delete/decrement the audit container identifier on:
+> > - an inherited audit container identifier dropped when child set
+> > - process exit
+> > - unshare call that drops a net namespace
+> > - setns call that drops a net namespace
+> >
+> > Add audit container identifier auxiliary record(s) to NETFILTER_PKT
+> > event standalone records.  Iterate through all potential audit container
+> > identifiers associated with a network namespace.
+> >
+> > Please see the github audit kernel issue for contid net support:
+> >   https://github.com/linux-audit/audit-kernel/issues/92
+> > Please see the github audit testsuiite issue for the test case:
+> >   https://github.com/linux-audit/audit-testsuite/issues/64
+> > Please see the github audit wiki for the feature overview:
+> >   https://github.com/linux-audit/audit-kernel/wiki/RFE-Audit-Container-ID
+> > Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
+> > Acked-by: Neil Horman <nhorman@tuxdriver.com>
+> > Reviewed-by: Ondrej Mosnacek <omosnace@redhat.com>
+> > ---
+> >  include/linux/audit.h    |  20 ++++++
+> >  kernel/audit.c           | 156 ++++++++++++++++++++++++++++++++++++++++++++++-
+> >  kernel/nsproxy.c         |   4 ++
+> >  net/netfilter/nft_log.c  |  11 +++-
+> >  net/netfilter/xt_AUDIT.c |  11 +++-
+> >  5 files changed, 195 insertions(+), 7 deletions(-)
+> >
+> > diff --git a/include/linux/audit.h b/include/linux/audit.h
+> > index c4a755ae0d61..304fbb7c3c5b 100644
+> > --- a/include/linux/audit.h
+> > +++ b/include/linux/audit.h
+> > @@ -128,6 +128,13 @@ struct audit_task_info {
+> >
+> >  extern struct audit_task_info init_struct_audit;
+> >
+> > +struct audit_contobj_netns {
+> > +       struct list_head        list;
+> > +       struct audit_contobj    *obj;
+> > +       int                     count;
+> 
+> This seems like it might be a good candidate for refcount_t, yes?
 
-Yeah, I was kind of on the fence about requiring a new version from
-Richard.  I think "?" is arguably the right approach, but I don't
-think it matters enough to force the issue.  If it proves to be
-problematic we can fix it later.
+I considered this before when converting the struct audit_contobj to
+refcount_t, but decided against it since any updates are in the context
+of a list traversal where it could be added to the list and so the
+spinlock is already held anyways.
 
-Regardless, it's in audit/next now.
+Is there a more efficent or elegant way of doing the locking around the
+two list traversals below (_add and _del)?
 
--- 
-paul moore
-www.paul-moore.com
+I wonder about converting the count to refcount_t and only holding the
+spinlock for the list_add_rcu() in the _add case.  And for the _del case
+holding the spinlock only for the list_del_rcu().
+
+These are the only two locations items are added or deleted from the
+lists.
+
+Somewhat related to this is does the list order matter?  Items are
+currently added at the end of the list which likely makes locking
+simpler, though the start of the list is a simple change.  However,
+unless we understand the profile of read use of these lists for
+reporting contid use in audit_log_netns_contid_list() I don't think
+order matters significantly.  It could be that reporting of a contid
+goes down in frequency over the lifetime of a contid that inserting them
+at the beginning of the list would be best.  This is not a visible
+implementation detail so later optimization should pose no problem.
+
+> > +       struct rcu_head         rcu;
+> > +};
+> 
+> ...
+> 
+> > diff --git a/kernel/audit.c b/kernel/audit.c
+> > index 997c34178ee8..a862721dfd9b 100644
+> > --- a/kernel/audit.c
+> > +++ b/kernel/audit.c
+> > @@ -437,6 +452,136 @@ static struct sock *audit_get_sk(const struct net *net)
+> >         return aunet->sk;
+> >  }
+> >
+> > +void audit_netns_contid_add(struct net *net, struct audit_contobj *cont)
+> > +{
+> > +       struct audit_net *aunet;
+> > +       struct list_head *contobj_list;
+> > +       struct audit_contobj_netns *contns;
+> > +
+> > +       if (!net)
+> > +               return;
+> > +       if (!cont)
+> > +               return;
+> > +       aunet = net_generic(net, audit_net_id);
+> > +       if (!aunet)
+> > +               return;
+> > +       contobj_list = &aunet->contobj_list;
+> > +       rcu_read_lock();
+> > +       spin_lock(&aunet->contobj_list_lock);
+> > +       list_for_each_entry_rcu(contns, contobj_list, list)
+> > +               if (contns->obj == cont) {
+> > +                       contns->count++;
+> > +                       goto out;
+> > +               }
+> > +       contns = kmalloc(sizeof(*contns), GFP_ATOMIC);
+> > +       if (contns) {
+> > +               INIT_LIST_HEAD(&contns->list);
+> > +               contns->obj = cont;
+> > +               contns->count = 1;
+> > +               list_add_rcu(&contns->list, contobj_list);
+> > +       }
+> > +out:
+> > +       spin_unlock(&aunet->contobj_list_lock);
+> > +       rcu_read_unlock();
+> > +}
+> > +
+> > +void audit_netns_contid_del(struct net *net, struct audit_contobj *cont)
+> > +{
+> > +       struct audit_net *aunet;
+> > +       struct list_head *contobj_list;
+> > +       struct audit_contobj_netns *contns = NULL;
+> > +
+> > +       if (!net)
+> > +               return;
+> > +       if (!cont)
+> > +               return;
+> > +       aunet = net_generic(net, audit_net_id);
+> > +       if (!aunet)
+> > +               return;
+> > +       contobj_list = &aunet->contobj_list;
+> > +       rcu_read_lock();
+> > +       spin_lock(&aunet->contobj_list_lock);
+> > +       list_for_each_entry_rcu(contns, contobj_list, list)
+> > +               if (contns->obj == cont) {
+> > +                       contns->count--;
+> > +                       if (contns->count < 1) {
+> 
+> One could simplify this with "(--countns->count) < 1", although if it
+> is changed to a refcount_t (which seems like a smart thing), the
+> normal decrement/test would be the best choice.
+
+Agreed.
+
+> > +                               list_del_rcu(&contns->list);
+> > +                               kfree_rcu(contns, rcu);
+> > +                       }
+> > +                       break;
+> > +               }
+> > +       spin_unlock(&aunet->contobj_list_lock);
+> > +       rcu_read_unlock();
+> > +}
+> 
+> paul moore
+
+- RGB
+
+--
+Richard Guy Briggs <rgb@redhat.com>
+Sr. S/W Engineer, Kernel Security, Base Operating Systems
+Remote, Ottawa, Red Hat Canada
+IRC: rgb, SunRaycer
+Voice: +1.647.777.2635, Internal: (81) 32635
 
 --
 Linux-audit mailing list
