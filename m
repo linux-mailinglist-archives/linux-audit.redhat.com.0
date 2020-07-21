@@ -1,147 +1,83 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com [207.211.31.81])
-	by mail.lfdr.de (Postfix) with ESMTP id 637F9228A38
-	for <lists+linux-audit@lfdr.de>; Tue, 21 Jul 2020 22:57:20 +0200 (CEST)
+Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [205.139.110.61])
+	by mail.lfdr.de (Postfix) with ESMTP id EFA61228B18
+	for <lists+linux-audit@lfdr.de>; Tue, 21 Jul 2020 23:25:00 +0200 (CEST)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-169-0zAvADomO_S4cVZdnYWorw-1; Tue, 21 Jul 2020 16:57:16 -0400
-X-MC-Unique: 0zAvADomO_S4cVZdnYWorw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+ us-mta-42-JKzxD3vhMq6BNKHN3Uuw8w-1; Tue, 21 Jul 2020 17:24:57 -0400
+X-MC-Unique: JKzxD3vhMq6BNKHN3Uuw8w-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1EA5A107ACCA;
-	Tue, 21 Jul 2020 20:57:11 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CBA7991273;
+	Tue, 21 Jul 2020 21:24:52 +0000 (UTC)
 Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id B1E065C662;
-	Tue, 21 Jul 2020 20:57:08 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 040F18731D;
+	Tue, 21 Jul 2020 21:24:52 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id AA19F1809554;
-	Tue, 21 Jul 2020 20:57:04 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
-	[10.11.54.5])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id A0E57180954D;
+	Tue, 21 Jul 2020 21:24:49 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+	[10.11.54.6])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 06LJmg2i027654 for <linux-audit@listman.util.phx.redhat.com>;
-	Tue, 21 Jul 2020 15:48:42 -0400
+	id 06LLGgNL007134 for <linux-audit@listman.util.phx.redhat.com>;
+	Tue, 21 Jul 2020 17:16:42 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id 43A3513A9A2; Tue, 21 Jul 2020 19:48:42 +0000 (UTC)
+	id 7CFBD2166BA2; Tue, 21 Jul 2020 21:16:42 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
-	(mimecast01.extmail.prod.ext.rdu2.redhat.com [10.11.55.17])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 3F5621FA85B
-	for <linux-audit@redhat.com>; Tue, 21 Jul 2020 19:48:39 +0000 (UTC)
+	(mimecast05.extmail.prod.ext.rdu2.redhat.com [10.11.55.21])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 785922166BA0
+	for <linux-audit@redhat.com>; Tue, 21 Jul 2020 21:16:40 +0000 (UTC)
 Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
-	[207.211.31.120])
+	[205.139.110.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 45C1285A5B3
-	for <linux-audit@redhat.com>; Tue, 21 Jul 2020 19:48:39 +0000 (UTC)
-Received: from youngberry.canonical.com (youngberry.canonical.com
-	[91.189.89.112]) (Using TLS) by relay.mimecast.com with ESMTP id
-	us-mta-385-No19IHKaOOmJld9rDtQYrw-1; Tue, 21 Jul 2020 15:48:37 -0400
-X-MC-Unique: No19IHKaOOmJld9rDtQYrw-1
-Received: from static-50-53-54-182.bvtn.or.frontiernet.net ([50.53.54.182]
-	helo=[192.168.192.153]) by youngberry.canonical.com with esmtpsa
-	(TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
-	(envelope-from <john.johansen@canonical.com>)
-	id 1jxxye-0008ES-4v; Tue, 21 Jul 2020 19:31:00 +0000
-Subject: Re: [PATCH ghak84 v4] audit: purge audit_log_string from the
-	intra-kernel audit API
-To: Paul Moore <paul@paul-moore.com>, Richard Guy Briggs <rgb@redhat.com>
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6F4BA83B7F9
+	for <linux-audit@redhat.com>; Tue, 21 Jul 2020 21:16:40 +0000 (UTC)
+Received: from mail-ej1-f65.google.com (mail-ej1-f65.google.com
+	[209.85.218.65]) (Using TLS) by relay.mimecast.com with ESMTP id
+	us-mta-230-e5Iv3r2sOSa2oo5BNk5_4Q-1; Tue, 21 Jul 2020 17:16:37 -0400
+X-MC-Unique: e5Iv3r2sOSa2oo5BNk5_4Q-1
+Received: by mail-ej1-f65.google.com with SMTP id a21so23043947ejj.10
+	for <linux-audit@redhat.com>; Tue, 21 Jul 2020 14:16:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=PpobAsBikcZzGgFnqaofvkVdzW58Lh6D10Z7oCD2icY=;
+	b=keXtHk04IwsmM9At/nq0d938u2nV5exf8SsSvdYsCr5wY6L8OrYov93Mq2PP1zz1UZ
+	4DeGC7MzN2CTQChmNp1ZNVcIHO77NfeOTlURkiPmsOpbWcMAfnRHofOrCL5aVmJq8OZT
+	JXlYFBueApjnCmMflzybyj5P1PrNHoD/B16LtiXUPQjdWVjM7IhzJKYFppgfqMbuA5Rm
+	uZYz/txCZOBKigfYV3vthhDmwMC/n6Qx/znaKZbLvEIq5aWVVQ2D9OxjLQXUiLURiH2z
+	FG9R4S3aBSUoZF2gDZKgLVUuhPDXw1w3IEfa/041ertiOlJCiGHhXHo5tgT5bUczW/u7
+	nvbA==
+X-Gm-Message-State: AOAM532aypEc4UjaPzSiaUrTyn41km26kSkqhwIO9QrugYXCjZc/Cwta
+	ieJ+Uu+Xfea9Zo5Z0fClFeTuedDkTDHfEcagUApX
+X-Google-Smtp-Source: ABdhPJyY2Ce5NqMGMBhWAGWwnzWTH0+myvH3o2aHnpLX7WPIWCXYWZRi2c+CytjWBqS3on7CikdMRT1S93rvuO3HPGc=
+X-Received: by 2002:a17:906:1a59:: with SMTP id
+	j25mr25594636ejf.398.1595366195416; 
+	Tue, 21 Jul 2020 14:16:35 -0700 (PDT)
+MIME-Version: 1.0
 References: <6effbbd4574407d6af21162e57d9102d5f8b02ed.1594664015.git.rgb@redhat.com>
 	<CAHC9VhSyq7yKQqwvHL5syU9+TFki6-__WfCrvqewbnU3xpND4Q@mail.gmail.com>
 	<20200714174353.ds7lj3iisy67t2zu@madcap2.tricolour.ca>
 	<CAHC9VhQusQsdQc7EfdjdH5mp6qqqYVPHnG9nNhUhf3DS_cdWwA@mail.gmail.com>
 	<20200714210027.me2ieywjfcsf4v5r@madcap2.tricolour.ca>
 	<CAHC9VhQgDGPutYxQawMPmezm1a+i1nXO5KSn9_7KPDZsRBJ4pw@mail.gmail.com>
-From: John Johansen <john.johansen@canonical.com>
-Autocrypt: addr=john.johansen@canonical.com; prefer-encrypt=mutual; keydata=
-	LS0tLS1CRUdJTiBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tCgptUUlOQkU1bXJQb0JFQURB
-	azE5UHNnVmdCS2tJbW1SMmlzUFE2bzdLSmhUVEtqSmR3VmJrV1NuTm4rbzZVcDVrCm5LUDFm
-	NDlFQlFsY2VXZzF5cC9Od2JSOGFkK2VTRU8vdW1hL0srUHFXdkJwdEtDOVNXRDk3Rkc0dUI0
-	L2Nhb20KTEVVOTdzTFFNdG52R1dkeHJ4VlJHTTRhbnpXWU1neno1VFptSWlWVFo0M091NVZw
-	YVMxVnoxWlN4UDNoL3hLTgpaci9UY1c1V1FhaTh1M1BXVm5ia2poU1pQSHYxQmdoTjY5cXhF
-	UG9tckpCbTFnbXR4M1ppVm1GWGx1d1RtVGdKCk9rcEZvbDduYkowaWxuWUhyQTdTWDNDdFIx
-	dXBlVXBNYS9XSWFuVk85NldkVGpISElhNDNmYmhtUXViZTR0eFMKM0ZjUUxPSlZxUXN4NmxF
-	OUI3cUFwcG05aFExMHFQV3dkZlB5LyswVzZBV3ROdTVBU2lHVkNJbld6bDJIQnFZZAovWmxs
-	OTN6VXErTklvQ244c0RBTTlpSCt3dGFHRGNKeXdJR0luK2VkS050SzcyQU1nQ2hUZy9qMVpv
-	V0g2WmVXClBqdVVmdWJWelp0bzFGTW9HSi9TRjRNbWRRRzFpUU50ZjRzRlpiRWdYdXk5Y0dp
-	MmJvbUYwenZ5QkpTQU5weGwKS05CRFlLek42S3owOUhVQWtqbEZNTmdvbUwvY2pxZ0FCdEF4
-	NTlMK2RWSVpmYUYyODFwSWNVWnp3dmg1K0pvRwplT1c1dUJTTWJFN0wzOG5zem9veWtJSjVY
-	ckFjaGtKeE5mejdrK0ZuUWVLRWtOekVkMkxXYzNRRjRCUVpZUlQ2ClBISGdhM1JneWtXNSsx
-	d1RNcUpJTGRtdGFQYlhyRjNGdm5WMExSUGN2NHhLeDdCM2ZHbTd5Z2Rvb3dBUkFRQUIKdEIx
-	S2IyaHVJRXB2YUdGdWMyVnVJRHhxYjJodVFHcHFiWGd1Ym1WMFBva0NPZ1FUQVFvQUpBSWJB
-	d1VMQ1FnSApBd1VWQ2drSUN3VVdBZ01CQUFJZUFRSVhnQVVDVG8wWVZ3SVpBUUFLQ1JBRkx6
-	WndHTlhEMkx4SkQvOVRKWkNwCndsbmNUZ1llcmFFTWVEZmtXdjhjMUlzTTFqMEFtRTRWdEwr
-	ZkU3ODBaVlA5Z2tqZ2tkWVN4dDdlY0VUUFRLTWEKWlNpc3JsMVJ3cVUwb29nWGRYUVNweHJH
-	SDAxaWN1LzJuMGpjWVNxWUtnZ1B4eTc4QkdzMkxacTRYUGZKVFptSApaR25YR3EvZURyL21T
-	bmowYWF2QkptTVo2amJpUHo2eUh0QllQWjlmZG84YnRjendQNDFZZVdvSXUyNi84SUk2CmYw
-	WG0zVkM1b0FhOHY3UmQrUldaYThUTXdsaHpIRXh4ZWwzanRJN0l6ek9zbm1FOS84RG0wQVJE
-	NWlUTENYd1IKMWN3SS9KOUJGL1MxWHY4UE4xaHVUM0l0Q05kYXRncDh6cW9Ka2dQVmptdnlM
-	NjRRM2ZFa1liZkhPV3NhYmE5LwprQVZ0Qk56OVJURmg3SUhEZkVDVmFUb3VqQmQ3QnRQcXIr
-	cUlqV0ZhZEpEM0k1ZUxDVkp2VnJyb2xyQ0FUbEZ0Ck4zWWtRczZKbjFBaUlWSVUzYkhSOEdq
-	ZXZnejVMbDZTQ0dIZ1Jya3lScG5TWWFVL3VMZ24zN042QVl4aS9RQUwKK2J5M0N5RUZManpX
-	QUV2eVE4YnEzSXVjbjdKRWJoUy9KLy9kVXFMb2VVZjh0c0dpMDB6bXJJVFpZZUZZQVJoUQpN
-	dHNmaXpJclZEdHoxaVBmL1pNcDVnUkJuaXlqcFhuMTMxY20zTTNndjZIclFzQUdubjhBSnJ1
-	OEdEaTVYSllJCmNvLzEreC9xRWlOMm5DbGFBT3BiaHpOMmVVdlBEWTVXMHEzYkEvWnAybWZH
-	NTJ2YlJJK3RRMEJyMUhkL3ZzbnQKVUhPOTAzbU1aZXAyTnpOM0JaNXFFdlB2RzRyVzVacTJE
-	cHliV2JRclNtOW9iaUJLYjJoaGJuTmxiaUE4YW05bwpiaTVxYjJoaGJuTmxia0JqWVc1dmJt
-	bGpZV3d1WTI5dFBva0NOd1FUQVFvQUlRVUNUbzBYV2dJYkF3VUxDUWdICkF3VVZDZ2tJQ3dV
-	V0FnTUJBQUllQVFJWGdBQUtDUkFGTHpad0dOWEQySXRNRC85anliYzg3ZE00dUFIazZ5Tk0K
-	TjBZL0JGbW10VFdWc09CaHFPbm9iNGkzOEJyRE8yQzFoUUNQQ1FlNExMczEvNHB0ZW92UXQ4
-	QjJGeXJQVmp3Zwo3alpUSE5LNzRyNmxDQ1Z4eDN5dTFCN1U5UG80VlRrY3NsVmIxL3FtV3V4
-	OFhXY040eXZrVHFsTCtHeHB5Sm45CjlaWmZmWEpjNk9oNlRtT2ZiS0d2TXV1djVhclNJQTNK
-	SEZMZjlhTHZadEExaXNKVXI3cFM5YXBnOXVUVUdVcDcKd2ZWMFdUNlQzZUczbXRVVTJ1cDVK
-	VjQ4NTBMMDVqSFM2dVdpZS9ZK3lmSk9iaXlyeE4vNlpxVzVHb25oTEJxLwptc3pjVjV2QlQz
-	QkRWZTNSdkY2WGRNOU9oUG4xK1k4MXg1NCt2UTExM044aUx3RjdHR2ExNFp5SVZBTlpEMEkw
-	CkhqUnZhMmsvUnFJUlR6S3l1UEg1cGtsY0tIVlBFRk1tT3pNVCtGT294Tmp2Uys3K3dHMktN
-	RFlFbUhQcjFQSkIKWlNaZUh6SzE5dGZhbFBNcHBGeGkrc3lZTGFnTjBtQjdKSFF3WTdjclV1
-	T0RoeWNxNjBZVnoxdGFFeWd1M1l2MgoyL0kxRUNHSHZLSEc2d2M5MG80M0MvZWxIRUNYbkVo
-	N3RLcGxEY3BJQytPQ21NeEtIaFI0NitYY1p2Z3c0RGdiCjdjYTgzZVFSM0NHODlMdlFwVzJM
-	TEtFRUJEajdoWmhrTGJra1BSWm0zdzhKWTQ0YXc4VnRneFdkblNFTUNMeEwKSU9OaDZ1Wjcv
-	L0RZVnRjSWFNSllrZWJhWnRHZENwMElnVVpiMjQvVmR2WkNZYk82MkhrLzNWbzFuWHdIVUVz
-	Mwo2RC92MWJUMFJaRmk2OUxnc0NjT2N4NGdZTGtDRFFST1pxejZBUkFBb3F3NmtrQmhXeU0x
-	ZnZnYW1BVmplWjZuCktFZm5SV2JrQzk0TDFFc0pMdXAzV2IyWDBBQk5PSFNrYlNENHBBdUMy
-	dEtGL0VHQnQ1Q1A3UWRWS1JHY1F6QWQKNmIyYzFJZHk5Ukx3Nnc0Z2krbm4vZDFQbTFra1lo
-	a1NpNXpXYUlnMG01UlFVaytFbDh6a2Y1dGNFLzFOMFo1TwpLMkpoandGdTViWDBhMGw0Y0ZH
-	V1ZRRWNpVk1ES1J0eE1qRXRrM1N4RmFsbTZaZFEycHAyODIyY2xucTR6WjltCld1MWQyd2F4
-	aXorYjVJYTR3ZURZYTduNDFVUmNCRVViSkFnbmljSmtKdENUd3lJeElXMktuVnlPcmp2a1F6
-	SUIKdmFQMEZkUDJ2dlpvUE1kbENJek9sSWtQTGd4RTBJV3VlVFhlQkpoTnMwMXBiOGJMcW1U
-	SU1sdTRMdkJFTEEvdgplaWFqajVzOHk1NDJIL2FIc2ZCZjRNUVVoSHhPL0JaVjdoMDZLU1Vm
-	SWFZN09nQWdLdUdOQjNVaWFJVVM1K2E5CmduRU9RTER4S1J5L2E3UTF2OVMrTnZ4KzdqOGlI
-	M2prUUpoeFQ2WkJoWkdSeDBna0gzVCtGMG5ORG01TmFKVXMKYXN3Z0pycUZaa1VHZDJNcm0x
-	cW5Ld1hpQXQ4U0ljRU5kcTMzUjBLS0tSQzgwWGd3ajhKbjMwdlhMU0crTk8xRwpIMFVNY0F4
-	TXd5L3B2azZMVTVKR2paUjczSjVVTFZoSDRNTGJEZ2dEM21QYWlHOCtmb3RUckpVUHFxaGc5
-	aHlVCkVQcFlHN3NxdDc0WG43OStDRVpjakxIenlsNnZBRkUyVzBreGxMdFF0VVpVSE8zNmFm
-	RnY4cUdwTzNacVB2akIKVXVhdFhGNnR2VVFDd2YzSDZYTUFFUUVBQVlrQ0h3UVlBUW9BQ1FV
-	Q1RtYXMrZ0liREFBS0NSQUZMelp3R05YRAoyRC9YRC8wZGRNLzRhaTFiK1RsMWp6bkthalgz
-	a0crTWVFWWVJNGY0MHZjbzNyT0xyblJHRk9jYnl5ZlZGNjlNCktlcGllNE93b0kxamNUVTBB
-	RGVjbmJXbkROSHByMFNjenhCTXJvM2Juckxoc212anVuVFlJdnNzQlp0QjRhVkoKanVMSUxQ
-	VWxuaEZxYTdmYlZxMFpRamJpVi9ydDJqQkVOZG05cGJKWjZHam5wWUljQWJQQ0NhL2ZmTDQv
-	U1FSUwpZSFhvaEdpaVM0eTVqQlRtSzVsdGZld0xPdzAyZmtleEgrSUpGcnJHQlhEU2c2bjJT
-	Z3hubisrTkYzNGZYY205CnBpYXczbUtzSUNtKzBoZE5oNGFmR1o2SVdWOFBHMnRlb29WRHA0
-	ZFlpaCsreFgvWFM4ekJDYzFPOXc0bnpsUDIKZ0t6bHFTV2JoaVdwaWZSSkJGYTRXdEFlSlRk
-	WFlkMzdqL0JJNFJXV2hueXc3YUFQTkdqMzN5dEdITlVmNlJvMgovanRqNHRGMXkvUUZYcWpK
-	Ry93R2pwZHRSZmJ0VWpxTEhJc3ZmUE5OSnEvOTU4cDc0bmRBQ2lkbFdTSHpqK09wCjI2S3Bi
-	Rm5td05PMHBzaVVzbmh2SEZ3UE8vdkFibDNSc1I1KzBSbytodnMyY0VtUXV2OXIvYkRsQ2Zw
-	enAydDMKY0srcmh4VXFpc094OERaZnoxQm5rYW9DUkZidnZ2ays3TC9mb21QbnRHUGtxSmNp
-	WUU4VEdIa1p3MWhPa3UrNApPb00yR0I1bkVEbGorMlRGL2pMUStFaXBYOVBrUEpZdnhmUmxD
-	NmRLOFBLS2ZYOUtkZm1BSWNnSGZuVjFqU24rCjh5SDJkakJQdEtpcVcwSjY5YUlzeXg3aVYv
-	MDNwYVBDakpoN1hxOXZBenlkTjVVL1VBPT0KPTZQL2IKLS0tLS1FTkQgUEdQIFBVQkxJQyBL
-	RVkgQkxPQ0stLS0tLQo=
-Organization: Canonical
-Message-ID: <e6eb37d5-ec6b-852a-74df-bbf453607fbe@canonical.com>
-Date: Tue, 21 Jul 2020 12:30:57 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
-	Thunderbird/68.8.0
-MIME-Version: 1.0
-In-Reply-To: <CAHC9VhQgDGPutYxQawMPmezm1a+i1nXO5KSn9_7KPDZsRBJ4pw@mail.gmail.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+	<e6eb37d5-ec6b-852a-74df-bbf453607fbe@canonical.com>
+In-Reply-To: <e6eb37d5-ec6b-852a-74df-bbf453607fbe@canonical.com>
+From: Paul Moore <paul@paul-moore.com>
+Date: Tue, 21 Jul 2020 17:16:24 -0400
+Message-ID: <CAHC9VhSoUBqXh7ikVdpr9-e2+3Wx-A05g5EBjD3ka1i1xF2vMg@mail.gmail.com>
+Subject: Re: [PATCH ghak84 v4] audit: purge audit_log_string from the
+	intra-kernel audit API
+To: John Johansen <john.johansen@canonical.com>
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
 X-loop: linux-audit@redhat.com
-X-Mailman-Approved-At: Tue, 21 Jul 2020 16:56:57 -0400
-Cc: Eric Paris <eparis@parisplace.org>,
+Cc: Richard Guy Briggs <rgb@redhat.com>, Eric Paris <eparis@parisplace.org>,
 	Linux Security Module list <linux-security-module@vger.kernel.org>,
 	Linux-Audit Mailing List <linux-audit@redhat.com>,
 	LKML <linux-kernel@vger.kernel.org>
@@ -158,120 +94,133 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=linux-audit-bounces@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-On 7/21/20 8:19 AM, Paul Moore wrote:
-> On Tue, Jul 14, 2020 at 5:00 PM Richard Guy Briggs <rgb@redhat.com> wrote:
->> On 2020-07-14 16:29, Paul Moore wrote:
->>> On Tue, Jul 14, 2020 at 1:44 PM Richard Guy Briggs <rgb@redhat.com> wrote:
->>>> On 2020-07-14 12:21, Paul Moore wrote:
->>>>> On Mon, Jul 13, 2020 at 3:52 PM Richard Guy Briggs <rgb@redhat.com> wrote:
->>>>>>
->>>>>> audit_log_string() was inteded to be an internal audit function and
->>>>>> since there are only two internal uses, remove them.  Purge all external
->>>>>> uses of it by restructuring code to use an existing audit_log_format()
->>>>>> or using audit_log_format().
->>>>>>
->>>>>> Please see the upstream issue
->>>>>> https://github.com/linux-audit/audit-kernel/issues/84
->>>>>>
->>>>>> Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
->>>>>> ---
->>>>>> Passes audit-testsuite.
->>>>>>
->>>>>> Changelog:
->>>>>> v4
->>>>>> - use double quotes in all replaced audit_log_string() calls
->>>>>>
->>>>>> v3
->>>>>> - fix two warning: non-void function does not return a value in all control paths
->>>>>>         Reported-by: kernel test robot <lkp@intel.com>
->>>>>>
->>>>>> v2
->>>>>> - restructure to piggyback on existing audit_log_format() calls, checking quoting needs for each.
->>>>>>
->>>>>> v1 Vlad Dronov
->>>>>> - https://github.com/nefigtut/audit-kernel/commit/dbbcba46335a002f44b05874153a85b9cc18aebf
->>>>>>
->>>>>>  include/linux/audit.h     |  5 -----
->>>>>>  kernel/audit.c            |  4 ++--
->>>>>>  security/apparmor/audit.c | 10 ++++------
->>>>>>  security/apparmor/file.c  | 25 +++++++------------------
->>>>>>  security/apparmor/ipc.c   | 46 +++++++++++++++++++++++-----------------------
->>>>>>  security/apparmor/net.c   | 14 ++++++++------
->>>>>>  security/lsm_audit.c      |  4 ++--
->>>>>>  7 files changed, 46 insertions(+), 62 deletions(-)
->>>>>
->>>>> Thanks for restoring the quotes, just one question below ...
->>>>>
->>>>>> diff --git a/security/apparmor/ipc.c b/security/apparmor/ipc.c
->>>>>> index 4ecedffbdd33..fe36d112aad9 100644
->>>>>> --- a/security/apparmor/ipc.c
->>>>>> +++ b/security/apparmor/ipc.c
->>>>>> @@ -20,25 +20,23 @@
->>>>>>
->>>>>>  /**
->>>>>>   * audit_ptrace_mask - convert mask to permission string
->>>>>> - * @buffer: buffer to write string to (NOT NULL)
->>>>>>   * @mask: permission mask to convert
->>>>>> + *
->>>>>> + * Returns: pointer to static string
->>>>>>   */
->>>>>> -static void audit_ptrace_mask(struct audit_buffer *ab, u32 mask)
->>>>>> +static const char *audit_ptrace_mask(u32 mask)
->>>>>>  {
->>>>>>         switch (mask) {
->>>>>>         case MAY_READ:
->>>>>> -               audit_log_string(ab, "read");
->>>>>> -               break;
->>>>>> +               return "read";
->>>>>>         case MAY_WRITE:
->>>>>> -               audit_log_string(ab, "trace");
->>>>>> -               break;
->>>>>> +               return "trace";
->>>>>>         case AA_MAY_BE_READ:
->>>>>> -               audit_log_string(ab, "readby");
->>>>>> -               break;
->>>>>> +               return "readby";
->>>>>>         case AA_MAY_BE_TRACED:
->>>>>> -               audit_log_string(ab, "tracedby");
->>>>>> -               break;
->>>>>> +               return "tracedby";
->>>>>>         }
->>>>>> +       return "";
->>>>>
->>>>> Are we okay with this returning an empty string ("") in this case?
->>>>> Should it be a question mark ("?")?
->>>>>
->>>>> My guess is that userspace parsing should be okay since it still has
->>>>> quotes, I'm just not sure if we wanted to use a question mark as we do
->>>>> in other cases where the field value is empty/unknown.
->>>>
->>>> Previously, it would have been an empty value, not even double quotes.
->>>> "?" might be an improvement.
->>>
->>> Did you want to fix that now in this patch, or leave it to later?  As
->>> I said above, I'm not too bothered by it with the quotes so either way
->>> is fine by me.
->>
->> I'd defer to Steve, otherwise I'd say leave it, since there wasn't
->> anything there before and this makes that more evident.
->>
->>> John, I'm assuming you are okay with this patch?
-> 
-> With no comments from John or Steve in the past week, I've gone ahead
-> and merged the patch into audit/next.
-> 
+On Tue, Jul 21, 2020 at 3:31 PM John Johansen
+<john.johansen@canonical.com> wrote:
+> On 7/21/20 8:19 AM, Paul Moore wrote:
+> > On Tue, Jul 14, 2020 at 5:00 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> >> On 2020-07-14 16:29, Paul Moore wrote:
+> >>> On Tue, Jul 14, 2020 at 1:44 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> >>>> On 2020-07-14 12:21, Paul Moore wrote:
+> >>>>> On Mon, Jul 13, 2020 at 3:52 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> >>>>>>
+> >>>>>> audit_log_string() was inteded to be an internal audit function and
+> >>>>>> since there are only two internal uses, remove them.  Purge all external
+> >>>>>> uses of it by restructuring code to use an existing audit_log_format()
+> >>>>>> or using audit_log_format().
+> >>>>>>
+> >>>>>> Please see the upstream issue
+> >>>>>> https://github.com/linux-audit/audit-kernel/issues/84
+> >>>>>>
+> >>>>>> Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
+> >>>>>> ---
+> >>>>>> Passes audit-testsuite.
+> >>>>>>
+> >>>>>> Changelog:
+> >>>>>> v4
+> >>>>>> - use double quotes in all replaced audit_log_string() calls
+> >>>>>>
+> >>>>>> v3
+> >>>>>> - fix two warning: non-void function does not return a value in all control paths
+> >>>>>>         Reported-by: kernel test robot <lkp@intel.com>
+> >>>>>>
+> >>>>>> v2
+> >>>>>> - restructure to piggyback on existing audit_log_format() calls, checking quoting needs for each.
+> >>>>>>
+> >>>>>> v1 Vlad Dronov
+> >>>>>> - https://github.com/nefigtut/audit-kernel/commit/dbbcba46335a002f44b05874153a85b9cc18aebf
+> >>>>>>
+> >>>>>>  include/linux/audit.h     |  5 -----
+> >>>>>>  kernel/audit.c            |  4 ++--
+> >>>>>>  security/apparmor/audit.c | 10 ++++------
+> >>>>>>  security/apparmor/file.c  | 25 +++++++------------------
+> >>>>>>  security/apparmor/ipc.c   | 46 +++++++++++++++++++++++-----------------------
+> >>>>>>  security/apparmor/net.c   | 14 ++++++++------
+> >>>>>>  security/lsm_audit.c      |  4 ++--
+> >>>>>>  7 files changed, 46 insertions(+), 62 deletions(-)
+> >>>>>
+> >>>>> Thanks for restoring the quotes, just one question below ...
+> >>>>>
+> >>>>>> diff --git a/security/apparmor/ipc.c b/security/apparmor/ipc.c
+> >>>>>> index 4ecedffbdd33..fe36d112aad9 100644
+> >>>>>> --- a/security/apparmor/ipc.c
+> >>>>>> +++ b/security/apparmor/ipc.c
+> >>>>>> @@ -20,25 +20,23 @@
+> >>>>>>
+> >>>>>>  /**
+> >>>>>>   * audit_ptrace_mask - convert mask to permission string
+> >>>>>> - * @buffer: buffer to write string to (NOT NULL)
+> >>>>>>   * @mask: permission mask to convert
+> >>>>>> + *
+> >>>>>> + * Returns: pointer to static string
+> >>>>>>   */
+> >>>>>> -static void audit_ptrace_mask(struct audit_buffer *ab, u32 mask)
+> >>>>>> +static const char *audit_ptrace_mask(u32 mask)
+> >>>>>>  {
+> >>>>>>         switch (mask) {
+> >>>>>>         case MAY_READ:
+> >>>>>> -               audit_log_string(ab, "read");
+> >>>>>> -               break;
+> >>>>>> +               return "read";
+> >>>>>>         case MAY_WRITE:
+> >>>>>> -               audit_log_string(ab, "trace");
+> >>>>>> -               break;
+> >>>>>> +               return "trace";
+> >>>>>>         case AA_MAY_BE_READ:
+> >>>>>> -               audit_log_string(ab, "readby");
+> >>>>>> -               break;
+> >>>>>> +               return "readby";
+> >>>>>>         case AA_MAY_BE_TRACED:
+> >>>>>> -               audit_log_string(ab, "tracedby");
+> >>>>>> -               break;
+> >>>>>> +               return "tracedby";
+> >>>>>>         }
+> >>>>>> +       return "";
+> >>>>>
+> >>>>> Are we okay with this returning an empty string ("") in this case?
+> >>>>> Should it be a question mark ("?")?
+> >>>>>
+> >>>>> My guess is that userspace parsing should be okay since it still has
+> >>>>> quotes, I'm just not sure if we wanted to use a question mark as we do
+> >>>>> in other cases where the field value is empty/unknown.
+> >>>>
+> >>>> Previously, it would have been an empty value, not even double quotes.
+> >>>> "?" might be an improvement.
+> >>>
+> >>> Did you want to fix that now in this patch, or leave it to later?  As
+> >>> I said above, I'm not too bothered by it with the quotes so either way
+> >>> is fine by me.
+> >>
+> >> I'd defer to Steve, otherwise I'd say leave it, since there wasn't
+> >> anything there before and this makes that more evident.
+> >>
+> >>> John, I'm assuming you are okay with this patch?
+> >
+> > With no comments from John or Steve in the past week, I've gone ahead
+> > and merged the patch into audit/next.
+>
+> sorry, for some reason I thought a new iteration of this was coming.
+>
+> the patch is fine, the empty unknown value should be possible here
+> so changing it to "?" won't affect anything.
 
+Yeah, I was kind of on the fence about requiring a new version from
+Richard.  I think "?" is arguably the right approach, but I don't
+think it matters enough to force the issue.  If it proves to be
+problematic we can fix it later.
 
-sorry, for some reason I thought a new iteration of this was coming.
+Regardless, it's in audit/next now.
 
-the patch is fine, the empty unknown value should be possible here
-so changing it to "?" won't affect anything.
+-- 
+paul moore
+www.paul-moore.com
 
 --
 Linux-audit mailing list
