@@ -1,57 +1,56 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com [205.139.110.61])
-	by mail.lfdr.de (Postfix) with ESMTP id 06FB22332FF
-	for <lists+linux-audit@lfdr.de>; Thu, 30 Jul 2020 15:25:42 +0200 (CEST)
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com [205.139.110.61])
+	by mail.lfdr.de (Postfix) with ESMTP id 5391B233300
+	for <lists+linux-audit@lfdr.de>; Thu, 30 Jul 2020 15:25:43 +0200 (CEST)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-212-z6Mc79GyMguGmMrTFwPEEQ-1; Thu, 30 Jul 2020 09:25:39 -0400
-X-MC-Unique: z6Mc79GyMguGmMrTFwPEEQ-1
+ us-mta-238-QwxLben7M4am-cTCISZ7Rw-1; Thu, 30 Jul 2020 09:25:39 -0400
+X-MC-Unique: QwxLben7M4am-cTCISZ7Rw-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BDDB5801A03;
-	Thu, 30 Jul 2020 13:25:34 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 10819107ACCA;
+	Thu, 30 Jul 2020 13:25:35 +0000 (UTC)
 Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 9A8BF5D9D3;
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id C43B55D99B;
 	Thu, 30 Jul 2020 13:25:34 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 599E31800B70;
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 598F91809563;
 	Thu, 30 Jul 2020 13:25:30 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
-	[10.11.54.5])
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+	[10.11.54.4])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 06UA6uG1017133 for <linux-audit@listman.util.phx.redhat.com>;
-	Thu, 30 Jul 2020 06:06:57 -0400
+	id 06UA6xX7017142 for <linux-audit@listman.util.phx.redhat.com>;
+	Thu, 30 Jul 2020 06:06:59 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id 927A57D2B1; Thu, 30 Jul 2020 10:06:56 +0000 (UTC)
+	id 894BC2026D69; Thu, 30 Jul 2020 10:06:59 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
-	(mimecast01.extmail.prod.ext.rdu2.redhat.com [10.11.55.17])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 8E0C17D296
-	for <linux-audit@redhat.com>; Thu, 30 Jul 2020 10:06:53 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
-	[207.211.31.120])
+	(mimecast04.extmail.prod.ext.rdu2.redhat.com [10.11.55.20])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 84A872026D67
+	for <linux-audit@redhat.com>; Thu, 30 Jul 2020 10:06:56 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [205.139.110.61])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3B619857FAE
-	for <linux-audit@redhat.com>; Thu, 30 Jul 2020 10:06:53 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EED69101A525
+	for <linux-audit@redhat.com>; Thu, 30 Jul 2020 10:06:55 +0000 (UTC)
 Received: from youngberry.canonical.com (youngberry.canonical.com
 	[91.189.89.112]) (Using TLS) by relay.mimecast.com with ESMTP id
-	us-mta-59-txs0FsrPNsqZ3zaz7l7bww-1; Thu, 30 Jul 2020 06:06:50 -0400
-X-MC-Unique: txs0FsrPNsqZ3zaz7l7bww-1
+	us-mta-112-jwOjOArHMq2KPgO0gO35oQ-1; Thu, 30 Jul 2020 06:06:53 -0400
+X-MC-Unique: jwOjOArHMq2KPgO0gO35oQ-1
 Received: from static-50-53-58-29.bvtn.or.frontiernet.net ([50.53.58.29]
 	helo=[192.168.192.153]) by youngberry.canonical.com with esmtpsa
 	(TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
 	(envelope-from <john.johansen@canonical.com>)
-	id 1k15ST-0002uU-Oz; Thu, 30 Jul 2020 10:06:41 +0000
-Subject: Re: [PATCH v19 19/23] LSM: Verify LSM display sanity in binder
+	id 1k15SZ-0002w1-0g; Thu, 30 Jul 2020 10:06:49 +0000
+Subject: Re: [PATCH v19 23/23] AppArmor: Remove the exclusive flag
 To: Casey Schaufler <casey@schaufler-ca.com>, casey.schaufler@intel.com,
 	jmorris@namei.org, linux-security-module@vger.kernel.org,
 	selinux@vger.kernel.org
 References: <20200724203226.16374-1-casey@schaufler-ca.com>
-	<20200724203226.16374-20-casey@schaufler-ca.com>
+	<20200724203226.16374-24-casey@schaufler-ca.com>
 From: John Johansen <john.johansen@canonical.com>
 Autocrypt: addr=john.johansen@canonical.com; prefer-encrypt=mutual; keydata=
 	LS0tLS1CRUdJTiBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tCgptUUlOQkU1bXJQb0JFQURB
@@ -128,14 +127,14 @@ Autocrypt: addr=john.johansen@canonical.com; prefer-encrypt=mutual; keydata=
 	MDNwYVBDakpoN1hxOXZBenlkTjVVL1VBPT0KPTZQL2IKLS0tLS1FTkQgUEdQIFBVQkxJQyBL
 	RVkgQkxPQ0stLS0tLQo=
 Organization: Canonical
-Message-ID: <8489396e-01a9-6fce-2afa-8a26fd3e3a3a@canonical.com>
-Date: Thu, 30 Jul 2020 01:40:52 -0700
+Message-ID: <625f777b-a5cd-4564-b68d-5536cce4e739@canonical.com>
+Date: Thu, 30 Jul 2020 02:23:37 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
 	Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200724203226.16374-20-casey@schaufler-ca.com>
+In-Reply-To: <20200724203226.16374-24-casey@schaufler-ca.com>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
 X-loop: linux-audit@redhat.com
 X-Mailman-Approved-At: Thu, 30 Jul 2020 09:25:21 -0400
 Cc: linux-audit@redhat.com, sds@tycho.nsa.gov
@@ -159,63 +158,70 @@ Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
 On 7/24/20 1:32 PM, Casey Schaufler wrote:
-> Verify that the tasks on the ends of a binder transaction
-> use the same "display" security module. This prevents confusion
-> of security "contexts".
+> With the inclusion of the "display" process attribute
+> mechanism AppArmor no longer needs to be treated as an
+> "exclusive" security module. Remove the flag that indicates
+> it is exclusive. Remove the stub getpeersec_dgram AppArmor
+> hook as it has no effect in the single LSM case and
+> interferes in the multiple LSM case.
 > 
+probably should change this to
 
-Reviewed-by: John Johansen <john.johansen@canonical.com>
+Acked-by: John Johansen <john.johansen@canonical.com>
 
-> Reviewed-by: Kees Cook <keescook@chromium.org>
 > Acked-by: Stephen Smalley <sds@tycho.nsa.gov>
+> Reviewed-by: Kees Cook <keescook@chromium.org>
+> Reviewed-by: John Johansen <john.johansen@canonical.com>
 > Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
 > ---
->  security/security.c | 29 +++++++++++++++++++++++++++++
->  1 file changed, 29 insertions(+)
+>  security/apparmor/lsm.c | 20 +-------------------
+>  1 file changed, 1 insertion(+), 19 deletions(-)
 > 
-> diff --git a/security/security.c b/security/security.c
-> index ddbaf2073b02..95b48721fb17 100644
-> --- a/security/security.c
-> +++ b/security/security.c
-> @@ -788,9 +788,38 @@ int security_binder_set_context_mgr(struct task_struct *mgr)
->  	return call_int_hook(binder_set_context_mgr, 0, mgr);
+> diff --git a/security/apparmor/lsm.c b/security/apparmor/lsm.c
+> index 7ce570b0f491..4b7cbe9bb1be 100644
+> --- a/security/apparmor/lsm.c
+> +++ b/security/apparmor/lsm.c
+> @@ -1129,22 +1129,6 @@ static int apparmor_socket_getpeersec_stream(struct socket *sock,
+>  	return error;
 >  }
 >  
-> +/**
-> + * security_binder_transaction - Binder driver transaction check
-> + * @from: source of the transaction
-> + * @to: destination of the transaction
-> + *
-> + * Verify that the tasks have the same LSM "display", then
-> + * call the security module hooks.
-> + *
-> + * Returns -EINVAL if the displays don't match, or the
-> + * result of the security module checks.
-> + */
->  int security_binder_transaction(struct task_struct *from,
->  				struct task_struct *to)
->  {
-> +	int from_display = lsm_task_display(from);
-> +	int to_display = lsm_task_display(to);
-> +
-> +	/*
-> +	 * If the display is LSMBLOB_INVALID the first module that has
-> +	 * an entry is used. This will be in the 0 slot.
-> +	 *
-> +	 * This is currently only required if the server has requested
-> +	 * peer contexts, but it would be unwieldly to have too much of
-> +	 * the binder driver detail here.
-> +	 */
-> +	if (from_display == LSMBLOB_INVALID)
-> +		from_display = 0;
-> +	if (to_display == LSMBLOB_INVALID)
-> +		to_display = 0;
-> +	if (from_display != to_display)
-> +		return -EINVAL;
-> +
->  	return call_int_hook(binder_transaction, 0, from, to);
->  }
+> -/**
+> - * apparmor_socket_getpeersec_dgram - get security label of packet
+> - * @sock: the peer socket
+> - * @skb: packet data
+> - * @secid: pointer to where to put the secid of the packet
+> - *
+> - * Sets the netlabel socket state on sk from parent
+> - */
+> -static int apparmor_socket_getpeersec_dgram(struct socket *sock,
+> -					    struct sk_buff *skb, u32 *secid)
+> -
+> -{
+> -	/* TODO: requires secid support */
+> -	return -ENOPROTOOPT;
+> -}
+> -
+>  /**
+>   * apparmor_sock_graft - Initialize newly created socket
+>   * @sk: child sock
+> @@ -1248,8 +1232,6 @@ static struct security_hook_list apparmor_hooks[] __lsm_ro_after_init = {
+>  #endif
+>  	LSM_HOOK_INIT(socket_getpeersec_stream,
+>  		      apparmor_socket_getpeersec_stream),
+> -	LSM_HOOK_INIT(socket_getpeersec_dgram,
+> -		      apparmor_socket_getpeersec_dgram),
+>  	LSM_HOOK_INIT(sock_graft, apparmor_sock_graft),
+>  #ifdef CONFIG_NETWORK_SECMARK
+>  	LSM_HOOK_INIT(inet_conn_request, apparmor_inet_conn_request),
+> @@ -1918,7 +1900,7 @@ static int __init apparmor_init(void)
 >  
+>  DEFINE_LSM(apparmor) = {
+>  	.name = "apparmor",
+> -	.flags = LSM_FLAG_LEGACY_MAJOR | LSM_FLAG_EXCLUSIVE,
+> +	.flags = LSM_FLAG_LEGACY_MAJOR,
+>  	.enabled = &apparmor_enabled,
+>  	.blobs = &apparmor_blob_sizes,
+>  	.init = apparmor_init,
 > 
 
 --
