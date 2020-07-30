@@ -2,145 +2,62 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [205.139.110.61])
-	by mail.lfdr.de (Postfix) with ESMTP id 9DEF6233AF7
-	for <lists+linux-audit@lfdr.de>; Thu, 30 Jul 2020 23:42:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 076FB233AF9
+	for <lists+linux-audit@lfdr.de>; Thu, 30 Jul 2020 23:42:27 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1596145347;
+	h=from:from:sender:sender:reply-to:subject:subject:date:date:
+	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+	 content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:list-id:list-help:
+	 list-unsubscribe:list-subscribe:list-post;
+	bh=Pa/9D2bbzXlh+pgeyf0tC3T6JOiY5xHZNd1Q7BGbEzE=;
+	b=TGXT6RqAIeSvrGbMQlE4/J2g4gxXEQqhbSeTTTep3A0FBhDcAHgAnWU/ClXaIBZAwHpJow
+	PgHQtk91f8BeP+SfkVWl8SCPUff9aFjThMcM0E3Zrn13tnk+ebVDMQQVNeGBQY/2VsAhxn
+	KosxcqX4iGzyQg47pASRGtZfa7qnh/U=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-448-ZLL2lEtkNcuyFSOadYZYjA-1; Thu, 30 Jul 2020 17:42:14 -0400
-X-MC-Unique: ZLL2lEtkNcuyFSOadYZYjA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+ us-mta-128-8S3v4CpAN1mZKJSci4U3Kg-1; Thu, 30 Jul 2020 17:42:15 -0400
+X-MC-Unique: 8S3v4CpAN1mZKJSci4U3Kg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5AB4B8064AF;
-	Thu, 30 Jul 2020 21:42:09 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C8503100A8C0;
+	Thu, 30 Jul 2020 21:42:10 +0000 (UTC)
 Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 0342957;
-	Thu, 30 Jul 2020 21:42:08 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 8E50E5F7D8;
+	Thu, 30 Jul 2020 21:42:10 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 9B6841809557;
-	Thu, 30 Jul 2020 21:42:05 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
-	[10.11.54.3])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 096B5180954D;
+	Thu, 30 Jul 2020 21:42:10 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+	[10.5.11.15])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 06UKw51a011591 for <linux-audit@listman.util.phx.redhat.com>;
-	Thu, 30 Jul 2020 16:58:05 -0400
+	id 06ULfHAG016972 for <linux-audit@listman.util.phx.redhat.com>;
+	Thu, 30 Jul 2020 17:41:17 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id 610E6100BC9E; Thu, 30 Jul 2020 20:58:05 +0000 (UTC)
+	id 872F67193C; Thu, 30 Jul 2020 21:41:17 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from mimecast-mx02.redhat.com
-	(mimecast04.extmail.prod.ext.rdu2.redhat.com [10.11.55.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id EF44210CD2C5
-	for <linux-audit@redhat.com>; Thu, 30 Jul 2020 20:58:02 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
-	[207.211.31.120])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7F0C210D31DC
-	for <linux-audit@redhat.com>; Thu, 30 Jul 2020 20:58:02 +0000 (UTC)
-Received: from youngberry.canonical.com (youngberry.canonical.com
-	[91.189.89.112]) (Using TLS) by relay.mimecast.com with ESMTP id
-	us-mta-323-r0y8V4uRObO7QgKeLFHuYg-1; Thu, 30 Jul 2020 16:57:59 -0400
-X-MC-Unique: r0y8V4uRObO7QgKeLFHuYg-1
-Received: from static-50-53-58-29.bvtn.or.frontiernet.net ([50.53.58.29]
-	helo=[192.168.192.153]) by youngberry.canonical.com with esmtpsa
-	(TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
-	(envelope-from <john.johansen@canonical.com>)
-	id 1k1FcZ-00015Y-NM; Thu, 30 Jul 2020 20:57:47 +0000
-Subject: Re: [PATCH v19 22/23] LSM: Add /proc attr entry for full LSM context
-To: Casey Schaufler <casey@schaufler-ca.com>, casey.schaufler@intel.com,
-	jmorris@namei.org, linux-security-module@vger.kernel.org,
-	selinux@vger.kernel.org
-References: <20200724203226.16374-1-casey@schaufler-ca.com>
-	<20200724203226.16374-23-casey@schaufler-ca.com>
-	<e885d90d-c873-5ab4-235d-6171f49f4ee4@canonical.com>
-	<705fb82d-ad7a-2874-59ed-ba6bc7ae3722@schaufler-ca.com>
-From: John Johansen <john.johansen@canonical.com>
-Autocrypt: addr=john.johansen@canonical.com; prefer-encrypt=mutual; keydata=
-	LS0tLS1CRUdJTiBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tCgptUUlOQkU1bXJQb0JFQURB
-	azE5UHNnVmdCS2tJbW1SMmlzUFE2bzdLSmhUVEtqSmR3VmJrV1NuTm4rbzZVcDVrCm5LUDFm
-	NDlFQlFsY2VXZzF5cC9Od2JSOGFkK2VTRU8vdW1hL0srUHFXdkJwdEtDOVNXRDk3Rkc0dUI0
-	L2Nhb20KTEVVOTdzTFFNdG52R1dkeHJ4VlJHTTRhbnpXWU1neno1VFptSWlWVFo0M091NVZw
-	YVMxVnoxWlN4UDNoL3hLTgpaci9UY1c1V1FhaTh1M1BXVm5ia2poU1pQSHYxQmdoTjY5cXhF
-	UG9tckpCbTFnbXR4M1ppVm1GWGx1d1RtVGdKCk9rcEZvbDduYkowaWxuWUhyQTdTWDNDdFIx
-	dXBlVXBNYS9XSWFuVk85NldkVGpISElhNDNmYmhtUXViZTR0eFMKM0ZjUUxPSlZxUXN4NmxF
-	OUI3cUFwcG05aFExMHFQV3dkZlB5LyswVzZBV3ROdTVBU2lHVkNJbld6bDJIQnFZZAovWmxs
-	OTN6VXErTklvQ244c0RBTTlpSCt3dGFHRGNKeXdJR0luK2VkS050SzcyQU1nQ2hUZy9qMVpv
-	V0g2WmVXClBqdVVmdWJWelp0bzFGTW9HSi9TRjRNbWRRRzFpUU50ZjRzRlpiRWdYdXk5Y0dp
-	MmJvbUYwenZ5QkpTQU5weGwKS05CRFlLek42S3owOUhVQWtqbEZNTmdvbUwvY2pxZ0FCdEF4
-	NTlMK2RWSVpmYUYyODFwSWNVWnp3dmg1K0pvRwplT1c1dUJTTWJFN0wzOG5zem9veWtJSjVY
-	ckFjaGtKeE5mejdrK0ZuUWVLRWtOekVkMkxXYzNRRjRCUVpZUlQ2ClBISGdhM1JneWtXNSsx
-	d1RNcUpJTGRtdGFQYlhyRjNGdm5WMExSUGN2NHhLeDdCM2ZHbTd5Z2Rvb3dBUkFRQUIKdEIx
-	S2IyaHVJRXB2YUdGdWMyVnVJRHhxYjJodVFHcHFiWGd1Ym1WMFBva0NPZ1FUQVFvQUpBSWJB
-	d1VMQ1FnSApBd1VWQ2drSUN3VVdBZ01CQUFJZUFRSVhnQVVDVG8wWVZ3SVpBUUFLQ1JBRkx6
-	WndHTlhEMkx4SkQvOVRKWkNwCndsbmNUZ1llcmFFTWVEZmtXdjhjMUlzTTFqMEFtRTRWdEwr
-	ZkU3ODBaVlA5Z2tqZ2tkWVN4dDdlY0VUUFRLTWEKWlNpc3JsMVJ3cVUwb29nWGRYUVNweHJH
-	SDAxaWN1LzJuMGpjWVNxWUtnZ1B4eTc4QkdzMkxacTRYUGZKVFptSApaR25YR3EvZURyL21T
-	bmowYWF2QkptTVo2amJpUHo2eUh0QllQWjlmZG84YnRjendQNDFZZVdvSXUyNi84SUk2CmYw
-	WG0zVkM1b0FhOHY3UmQrUldaYThUTXdsaHpIRXh4ZWwzanRJN0l6ek9zbm1FOS84RG0wQVJE
-	NWlUTENYd1IKMWN3SS9KOUJGL1MxWHY4UE4xaHVUM0l0Q05kYXRncDh6cW9Ka2dQVmptdnlM
-	NjRRM2ZFa1liZkhPV3NhYmE5LwprQVZ0Qk56OVJURmg3SUhEZkVDVmFUb3VqQmQ3QnRQcXIr
-	cUlqV0ZhZEpEM0k1ZUxDVkp2VnJyb2xyQ0FUbEZ0Ck4zWWtRczZKbjFBaUlWSVUzYkhSOEdq
-	ZXZnejVMbDZTQ0dIZ1Jya3lScG5TWWFVL3VMZ24zN042QVl4aS9RQUwKK2J5M0N5RUZManpX
-	QUV2eVE4YnEzSXVjbjdKRWJoUy9KLy9kVXFMb2VVZjh0c0dpMDB6bXJJVFpZZUZZQVJoUQpN
-	dHNmaXpJclZEdHoxaVBmL1pNcDVnUkJuaXlqcFhuMTMxY20zTTNndjZIclFzQUdubjhBSnJ1
-	OEdEaTVYSllJCmNvLzEreC9xRWlOMm5DbGFBT3BiaHpOMmVVdlBEWTVXMHEzYkEvWnAybWZH
-	NTJ2YlJJK3RRMEJyMUhkL3ZzbnQKVUhPOTAzbU1aZXAyTnpOM0JaNXFFdlB2RzRyVzVacTJE
-	cHliV2JRclNtOW9iaUJLYjJoaGJuTmxiaUE4YW05bwpiaTVxYjJoaGJuTmxia0JqWVc1dmJt
-	bGpZV3d1WTI5dFBva0NOd1FUQVFvQUlRVUNUbzBYV2dJYkF3VUxDUWdICkF3VVZDZ2tJQ3dV
-	V0FnTUJBQUllQVFJWGdBQUtDUkFGTHpad0dOWEQySXRNRC85anliYzg3ZE00dUFIazZ5Tk0K
-	TjBZL0JGbW10VFdWc09CaHFPbm9iNGkzOEJyRE8yQzFoUUNQQ1FlNExMczEvNHB0ZW92UXQ4
-	QjJGeXJQVmp3Zwo3alpUSE5LNzRyNmxDQ1Z4eDN5dTFCN1U5UG80VlRrY3NsVmIxL3FtV3V4
-	OFhXY040eXZrVHFsTCtHeHB5Sm45CjlaWmZmWEpjNk9oNlRtT2ZiS0d2TXV1djVhclNJQTNK
-	SEZMZjlhTHZadEExaXNKVXI3cFM5YXBnOXVUVUdVcDcKd2ZWMFdUNlQzZUczbXRVVTJ1cDVK
-	VjQ4NTBMMDVqSFM2dVdpZS9ZK3lmSk9iaXlyeE4vNlpxVzVHb25oTEJxLwptc3pjVjV2QlQz
-	QkRWZTNSdkY2WGRNOU9oUG4xK1k4MXg1NCt2UTExM044aUx3RjdHR2ExNFp5SVZBTlpEMEkw
-	CkhqUnZhMmsvUnFJUlR6S3l1UEg1cGtsY0tIVlBFRk1tT3pNVCtGT294Tmp2Uys3K3dHMktN
-	RFlFbUhQcjFQSkIKWlNaZUh6SzE5dGZhbFBNcHBGeGkrc3lZTGFnTjBtQjdKSFF3WTdjclV1
-	T0RoeWNxNjBZVnoxdGFFeWd1M1l2MgoyL0kxRUNHSHZLSEc2d2M5MG80M0MvZWxIRUNYbkVo
-	N3RLcGxEY3BJQytPQ21NeEtIaFI0NitYY1p2Z3c0RGdiCjdjYTgzZVFSM0NHODlMdlFwVzJM
-	TEtFRUJEajdoWmhrTGJra1BSWm0zdzhKWTQ0YXc4VnRneFdkblNFTUNMeEwKSU9OaDZ1Wjcv
-	L0RZVnRjSWFNSllrZWJhWnRHZENwMElnVVpiMjQvVmR2WkNZYk82MkhrLzNWbzFuWHdIVUVz
-	Mwo2RC92MWJUMFJaRmk2OUxnc0NjT2N4NGdZTGtDRFFST1pxejZBUkFBb3F3NmtrQmhXeU0x
-	ZnZnYW1BVmplWjZuCktFZm5SV2JrQzk0TDFFc0pMdXAzV2IyWDBBQk5PSFNrYlNENHBBdUMy
-	dEtGL0VHQnQ1Q1A3UWRWS1JHY1F6QWQKNmIyYzFJZHk5Ukx3Nnc0Z2krbm4vZDFQbTFra1lo
-	a1NpNXpXYUlnMG01UlFVaytFbDh6a2Y1dGNFLzFOMFo1TwpLMkpoandGdTViWDBhMGw0Y0ZH
-	V1ZRRWNpVk1ES1J0eE1qRXRrM1N4RmFsbTZaZFEycHAyODIyY2xucTR6WjltCld1MWQyd2F4
-	aXorYjVJYTR3ZURZYTduNDFVUmNCRVViSkFnbmljSmtKdENUd3lJeElXMktuVnlPcmp2a1F6
-	SUIKdmFQMEZkUDJ2dlpvUE1kbENJek9sSWtQTGd4RTBJV3VlVFhlQkpoTnMwMXBiOGJMcW1U
-	SU1sdTRMdkJFTEEvdgplaWFqajVzOHk1NDJIL2FIc2ZCZjRNUVVoSHhPL0JaVjdoMDZLU1Vm
-	SWFZN09nQWdLdUdOQjNVaWFJVVM1K2E5CmduRU9RTER4S1J5L2E3UTF2OVMrTnZ4KzdqOGlI
-	M2prUUpoeFQ2WkJoWkdSeDBna0gzVCtGMG5ORG01TmFKVXMKYXN3Z0pycUZaa1VHZDJNcm0x
-	cW5Ld1hpQXQ4U0ljRU5kcTMzUjBLS0tSQzgwWGd3ajhKbjMwdlhMU0crTk8xRwpIMFVNY0F4
-	TXd5L3B2azZMVTVKR2paUjczSjVVTFZoSDRNTGJEZ2dEM21QYWlHOCtmb3RUckpVUHFxaGc5
-	aHlVCkVQcFlHN3NxdDc0WG43OStDRVpjakxIenlsNnZBRkUyVzBreGxMdFF0VVpVSE8zNmFm
-	RnY4cUdwTzNacVB2akIKVXVhdFhGNnR2VVFDd2YzSDZYTUFFUUVBQVlrQ0h3UVlBUW9BQ1FV
-	Q1RtYXMrZ0liREFBS0NSQUZMelp3R05YRAoyRC9YRC8wZGRNLzRhaTFiK1RsMWp6bkthalgz
-	a0crTWVFWWVJNGY0MHZjbzNyT0xyblJHRk9jYnl5ZlZGNjlNCktlcGllNE93b0kxamNUVTBB
-	RGVjbmJXbkROSHByMFNjenhCTXJvM2Juckxoc212anVuVFlJdnNzQlp0QjRhVkoKanVMSUxQ
-	VWxuaEZxYTdmYlZxMFpRamJpVi9ydDJqQkVOZG05cGJKWjZHam5wWUljQWJQQ0NhL2ZmTDQv
-	U1FSUwpZSFhvaEdpaVM0eTVqQlRtSzVsdGZld0xPdzAyZmtleEgrSUpGcnJHQlhEU2c2bjJT
-	Z3hubisrTkYzNGZYY205CnBpYXczbUtzSUNtKzBoZE5oNGFmR1o2SVdWOFBHMnRlb29WRHA0
-	ZFlpaCsreFgvWFM4ekJDYzFPOXc0bnpsUDIKZ0t6bHFTV2JoaVdwaWZSSkJGYTRXdEFlSlRk
-	WFlkMzdqL0JJNFJXV2hueXc3YUFQTkdqMzN5dEdITlVmNlJvMgovanRqNHRGMXkvUUZYcWpK
-	Ry93R2pwZHRSZmJ0VWpxTEhJc3ZmUE5OSnEvOTU4cDc0bmRBQ2lkbFdTSHpqK09wCjI2S3Bi
-	Rm5td05PMHBzaVVzbmh2SEZ3UE8vdkFibDNSc1I1KzBSbytodnMyY0VtUXV2OXIvYkRsQ2Zw
-	enAydDMKY0srcmh4VXFpc094OERaZnoxQm5rYW9DUkZidnZ2ays3TC9mb21QbnRHUGtxSmNp
-	WUU4VEdIa1p3MWhPa3UrNApPb00yR0I1bkVEbGorMlRGL2pMUStFaXBYOVBrUEpZdnhmUmxD
-	NmRLOFBLS2ZYOUtkZm1BSWNnSGZuVjFqU24rCjh5SDJkakJQdEtpcVcwSjY5YUlzeXg3aVYv
-	MDNwYVBDakpoN1hxOXZBenlkTjVVL1VBPT0KPTZQL2IKLS0tLS1FTkQgUEdQIFBVQkxJQyBL
-	RVkgQkxPQ0stLS0tLQo=
-Organization: Canonical
-Message-ID: <97330b2d-5447-cfef-b6d0-444249e671b7@canonical.com>
-Date: Thu, 30 Jul 2020 13:57:44 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
-	Thunderbird/68.10.0
+Received: from x2.localnet (ovpn-113-125.phx2.redhat.com [10.3.113.125])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id CB33C71927;
+	Thu, 30 Jul 2020 21:41:13 +0000 (UTC)
+From: Steve Grubb <sgrubb@redhat.com>
+To: Todd Heberlein <todd_heberlein@mac.com>
+Subject: Re: httpd auid = -1
+Date: Thu, 30 Jul 2020 17:41:13 -0400
+Message-ID: <1705434.8GvrW9sroV@x2>
+Organization: Red Hat
+In-Reply-To: <87773DC0-7C77-470D-8E13-ED8C217D4C0E@mac.com>
+References: <68DC7FD9-D7FA-4D7D-BE40-0636059BD9D2@mac.com>
+	<1740602.XSbsyeiCUq@x2>
+	<87773DC0-7C77-470D-8E13-ED8C217D4C0E@mac.com>
 MIME-Version: 1.0
-In-Reply-To: <705fb82d-ad7a-2874-59ed-ba6bc7ae3722@schaufler-ca.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MIME-Autoconverted: from quoted-printable to 8bit by
+	lists01.pubmisc.prod.ext.phx2.redhat.com id 06ULfHAG016972
 X-loop: linux-audit@redhat.com
-X-Mailman-Approved-At: Thu, 30 Jul 2020 17:41:23 -0400
-Cc: linux-api@vger.kernel.org, linux-audit@redhat.com, sds@tycho.nsa.gov
+Cc: linux-audit@redhat.com
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -154,196 +71,97 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=linux-audit-bounces@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On 7/30/20 1:44 PM, Casey Schaufler wrote:
-> On 7/30/2020 3:03 AM, John Johansen wrote:
->> On 7/24/20 1:32 PM, Casey Schaufler wrote:
->>> Add an entry /proc/.../attr/context which displays the full
->>> process security "context" in compound format:
->>>         lsm1\0value\0lsm2\0value\0...
->>> This entry is not writable.
->>>
->>> A security module may decide that its policy does not allow
->>> this information to be displayed. In this case none of the
->>> information will be displayed.
->>>
->>> Reviewed-by: Kees Cook <keescook@chromium.org>
->>> Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
->>> Cc: linux-api@vger.kernel.org
->>> ---
->>>  Documentation/security/lsm.rst       | 28 +++++++++++
->>>  fs/proc/base.c                       |  1 +
->>>  include/linux/lsm_hooks.h            |  6 +++
->>>  security/apparmor/include/procattr.h |  2 +-
->>>  security/apparmor/lsm.c              |  8 +++-
->>>  security/apparmor/procattr.c         | 22 +++++----
->>>  security/security.c                  | 70 ++++++++++++++++++++++++++++
->>>  security/selinux/hooks.c             |  2 +-
->>>  security/smack/smack_lsm.c           |  2 +-
->>>  9 files changed, 126 insertions(+), 15 deletions(-)
-> 
-> <snip>
-> 
->>>  
->>>  /**
->>> diff --git a/security/security.c b/security/security.c
->>> index d35e578fa45b..bce6be720401 100644
->>> --- a/security/security.c
->>> +++ b/security/security.c
->>> @@ -754,6 +754,48 @@ static void __init lsm_early_task(struct task_struct *task)
->>>  		panic("%s: Early task alloc failed.\n", __func__);
->>>  }
->>>  
->>> +/**
->>> + * append_ctx - append a lsm/context pair to a compound context
->>> + * @ctx: the existing compound context
->>> + * @ctxlen: size of the old context, including terminating nul byte
->>> + * @lsm: new lsm name, nul terminated
->>> + * @new: new context, possibly nul terminated
->>> + * @newlen: maximum size of @new
->>> + *
->>> + * replace @ctx with a new compound context, appending @newlsm and @new
->>> + * to @ctx. On exit the new data replaces the old, which is freed.
->>> + * @ctxlen is set to the new size, which includes a trailing nul byte.
->>> + *
->>> + * Returns 0 on success, -ENOMEM if no memory is available.
->>> + */
->>> +static int append_ctx(char **ctx, int *ctxlen, const char *lsm, char *new,
->>> +		      int newlen)
->>> +{
->>> +	char *final;
->>> +	size_t llen;
->>> +
->>> +	llen = strlen(lsm) + 1;
->>> +	/*
->>> +	 * A security module may or may not provide a trailing nul on
->>> +	 * when returning a security context. There is no definition
->>> +	 * of which it should be, and there are modules that do it
->>> +	 * each way.
->>> +	 */
->>> +	newlen = strnlen(new, newlen) + 1;
->>> +
->>> +	final = kzalloc(*ctxlen + llen + newlen, GFP_KERNEL);
->>> +	if (final == NULL)
->>> +		return -ENOMEM;
->>> +	if (*ctxlen)
->>> +		memcpy(final, *ctx, *ctxlen);
->>> +	memcpy(final + *ctxlen, lsm, llen);
->>> +	memcpy(final + *ctxlen + llen, new, newlen);
->> if @new doesn't have a newline appended at its end this will read 1 byte
->> passed the end of the @new buffer. Nor will the result have a trailing
->> \0 as expected unless we get lucky.
-> 
-> @new will never have a newline at the end. The trailing nul comes
-> from the allocation being done with kzalloc(). This function has to
-> be considered in the context of its caller.
-> 
-
-ugh, sorry not trailing newline, I meant trailing \0. The problem isn't
-the kzalloc, the target has the space. It is the source @new. It is
-dangerous to assume that the @new buffer has a null byte after its
-declared length. Which is potentially what we are doing if @new
-doesn't have an embedded null byte. In that case strlen(new, newlen)
-will then return newlen and we add 1 to it.
-
-which means in the memcpy we are copying an extra byte beyond what
-was declared to exist in @new.
-
->>
->>
->>> +	kfree(*ctx);
->>> +	*ctx = final;
->>> +	*ctxlen = *ctxlen + llen + newlen;
->>> +	return 0;
->>> +}
->>> +
->>>  /*
->>>   * The default value of the LSM hook is defined in linux/lsm_hook_defs.h and
->>>   * can be accessed with:
->>> @@ -2124,6 +2166,10 @@ int security_getprocattr(struct task_struct *p, const char *lsm, char *name,
->>>  				char **value)
->>>  {
->>>  	struct security_hook_list *hp;
->>> +	char *final = NULL;
->>> +	char *cp;
->>> +	int rc = 0;
->>> +	int finallen = 0;
->> these are only used by context so they could be moved under its if, this
->> is really just a style comment and I'll leave it up to you
-> 
-> Old coding habits die hard. Unless there's value to gain, I'll leave it
-> as is.
-> 
->>
->>>  	int display = lsm_task_display(current);
->>>  	int slot = 0;
->>>  
->>> @@ -2151,6 +2197,30 @@ int security_getprocattr(struct task_struct *p, const char *lsm, char *name,
->>>  		return -ENOMEM;
->>>  	}
->>>  
->>> +	if (!strcmp(name, "context")) {
->>> +		hlist_for_each_entry(hp, &security_hook_heads.getprocattr,
->>> +				     list) {
->>> +			rc = hp->hook.getprocattr(p, "context", &cp);
->>> +			if (rc == -EINVAL)
->>> +				continue;
->>> +			if (rc < 0) {
->>> +				kfree(final);
->>> +				return rc;
->>> +			}
->>> +			rc = append_ctx(&final, &finallen, hp->lsmid->lsm,
->>> +					cp, rc);
->>> +			kfree(cp);
->>> +			if (rc < 0) {
->>> +				kfree(final);
->>> +				return rc;
->>> +			}
->>> +		}
->>> +		if (final == NULL)
->>> +			return -EINVAL;
->>> +		*value = final;
->>> +		return finallen;
->>> +	}
->>> +
->>>  	hlist_for_each_entry(hp, &security_hook_heads.getprocattr, list) {
->>>  		if (lsm != NULL && strcmp(lsm, hp->lsmid->lsm))
->>>  			continue;
->>> diff --git a/security/selinux/hooks.c b/security/selinux/hooks.c
->>> index c13c207c5da1..43d5c09b9a9e 100644
->>> --- a/security/selinux/hooks.c
->>> +++ b/security/selinux/hooks.c
->>> @@ -6288,7 +6288,7 @@ static int selinux_getprocattr(struct task_struct *p,
->>>  			goto bad;
->>>  	}
->>>  
->>> -	if (!strcmp(name, "current"))
->>> +	if (!strcmp(name, "current") || !strcmp(name, "context"))
->>>  		sid = __tsec->sid;
->>>  	else if (!strcmp(name, "prev"))
->>>  		sid = __tsec->osid;
->>> diff --git a/security/smack/smack_lsm.c b/security/smack/smack_lsm.c
->>> index 6f0cdb40addc..d7bb6442f192 100644
->>> --- a/security/smack/smack_lsm.c
->>> +++ b/security/smack/smack_lsm.c
->>> @@ -3463,7 +3463,7 @@ static int smack_getprocattr(struct task_struct *p, char *name, char **value)
->>>  	char *cp;
->>>  	int slen;
->>>  
->>> -	if (strcmp(name, "current") != 0)
->>> +	if (strcmp(name, "current") != 0 && strcmp(name, "context") != 0)
->>>  		return -EINVAL;
->>>  
->>>  	cp = kstrdup(skp->smk_known, GFP_KERNEL);
->>>
-
---
-Linux-audit mailing list
-Linux-audit@redhat.com
-https://www.redhat.com/mailman/listinfo/linux-audit
+T24gVGh1cnNkYXksIEp1bHkgMzAsIDIwMjAgMjo0NzowNSBQTSBFRFQgVG9kZCBIZWJlcmxlaW4g
+d3JvdGU6Cj4gVGhhbmtzIQo+IAo+IFRoaXMgaGFzIHNvbWUgaW50ZXJlc3RpbmcgaW1wbGljYXRp
+b25zIHJlZ2FyZGluZyBhdHRhY2tlcnMgY29taW5nIGluCj4gdGhyb3VnaCBhIHZ1bG5lcmFiaWxp
+dHkgaW4gYW4gb3JnYW5pemF0aW9uJ3Mgd2ViIHNlcnZpY2VzLiBJ4oCZbGwgaGF2ZSB0bwo+IGNv
+bXBhcmUgd2hhdCByZWxldmFudCBpbmZvcm1hdGlvbiBJIGNhbiBjYXB0dXJlIGluIHRoZSBhdWRp
+dCBsb2dzIHZzLiB3aGF0Cj4gaXMgY2FwdHVyZWQgaW4gd2ViIHNlcnZlciBsb2dzLgoKVGhlIGF1
+ZGl0IHJ1bGVzIGFyZSBkZXNpZ25lZCB0byBjb21tb24gY3JpdGVyaWEsIFNUSUcsIFBDSS1EUywg
+ZXRjLiBUbyBkYXRlLCAKbm8gb25lIGhhcyBhcnRpY3VsYXRlZCBhbnkgcnVsZXMgdGhhdCBuZWVk
+IHRvIGJlIHdyaXR0ZW4gYWdhaW5zdCBhbnkgc2VydmVyLiAKVGhlIHJ1bGUgbmFtaW5nIHNjaGVt
+ZSByZWNvZ25pemVzIHRoYXQgbWF5IGJlIGEgcG9zc2liaWxpdHkgYW5kIHNldCBhc2lkZSAKcnVs
+ZXMgdGhhdCBzdGFydCB3aXRoIDUwLSBzcGVjaWZpY2FsbHkgZm9yIHNlcnZlciBydWxlcy4gQnV0
+IHdpdGggc29tZSBtYW55IApkYWVtb25zLCB3aGVyZSB0byBzdGFydD8gQW5kIHdoYXQgdG8gbW9u
+aXRvcj8KCklmIHlvdSBhcmUgdGhpbmtpbmcgYWJvdXQgaW50cnVzaW9uIGRldGVjdGlvbiwgdGhl
+biBJIGhhdmUgYmVlbiB3b3JraW5nIG9uIAp0aGF0IHByb2JsZW0gZm9yIGEgd2hpbGUuIFRoZXJl
+IGFyZSBzcGVjaWZpYyBydWxlcyB0aGF0IGRldGVjdCBzcGVjaWZpYyAKYWN0aW9ucy4gQnV0IHVu
+bGVzcyB5b3UndmUgdGhvdWdodCBvZiBldmVyeXRoaW5nLCB0aGVyZSBpcyBhbHdheXMgYSBob2xl
+LgoKT25jZSB0aGV5IGdldCBpbnNpZGUsIHRoZXkgcHJvYmFibHkgd2FudCB0byBkbyByZWNvbiB0
+byBzZWUgd2hhdCB0aGV5IGhhdmUgdG8gCndvcmsgd2l0aC4KCi1hIGFsd2F5cyxleGl0IC1GIHBl
+cm09eCAtRiBwYXRoPS91c3IvYmluL3VuYW1lIC1GIGtleT1pZHMtcmVjb24KLWEgYWx3YXlzLGV4
+aXQgLUYgcGVybT14IC1GIHBhdGg9L3Vzci9iaW4vcnBtIC1GIGtleT1pZHMtcmVjb24KLWEgYWx3
+YXlzLGV4aXQgLUYgcGVybT14IC1GIHBhdGg9L3Vzci9iaW4veXVtIC1GIGtleT1pZHMtcmVjb24K
+LWEgYWx3YXlzLGV4aXQgLUYgcGVybT14IC1GIHBhdGg9L3Vzci9iaW4vZG5mIC1GIGtleT1pZHMt
+cmVjb24KLWEgYWx3YXlzLGV4aXQgLUYgcGVybT14IC1GIHBhdGg9L3Vzci9iaW4vdyAtRiBrZXk9
+aWRzLXJlY29uCi1hIGFsd2F5cyxleGl0IC1GIHBlcm09eCAtRiBwYXRoPS91c3IvYmluL3dobyAt
+RiBrZXk9aWRzLXJlY29uCi1hIGFsd2F5cyxleGl0IC1GIHBlcm09eCAtRiBwYXRoPS91c3IvYmlu
+L3dob2FtaSAtRiBrZXk9aWRzLXJlY29uCi1hIGFsd2F5cyxleGl0IC1GIHBlcm09eCAtRiBwYXRo
+PS91c3IvYmluL2lkIC1GIGtleT1pZHMtcmVjb24KLWEgYWx3YXlzLGV4aXQgLUYgcGVybT14IC1G
+IHBhdGg9L3Vzci9iaW4vbmV0c3RhdCAtRiBrZXk9aWRzLXJlY29uCi1hIGFsd2F5cyxleGl0IC1G
+IHBlcm09eCAtRiBwYXRoPS91c3IvYmluL3NzIC1GIGtleT1pZHMtcmVjb24KLWEgYWx3YXlzLGV4
+aXQgLUYgcGVybT14IC1GIHBhdGg9L3Vzci9iaW4vcm91dGUgLUYga2V5PWlkcy1yZWNvbgouLi5l
+dGMuIAoKQnV0IHRoZW4gdGhleSBtaWdodCB3YW50IHRvIHVzZSBhIHRvb2wgZG93bmxvYWRlZCB0
+byBlc2NhbGF0ZS4gWW91IG1pZ2h0IGJlIAphYmxlIHRvIGRldGVjdCB0aGVtIG1ha2luZyBpdCBl
+eGVjdXRhYmxlOgoKLWEgZXhpdCxhbHdheXMgLUYgYXJjaD1iNjQgLVMgY2htb2QsZmNobW9kIC1G
+IGRpcj0vaG9tZSAtRiBhMSYwMTExIC1GIApmaWxldHlwZT1maWxlIC1GIGF1aWQ+PTEwMDAgLUYg
+YXVpZCE9LTEgLUYga2V5PWlkcy1ta2V4ZWMKLWEgZXhpdCxhbHdheXMgLUYgYXJjaD1iNjQgLVMg
+ZmNobW9kYXQgLUYgZGlyPS9ob21lIC1GIGEyJjAxMTEgLUYgZmlsZXR5cGU9ZmlsZSAKLUYgYXVp
+ZD49MTAwMCAtRiBhdWlkIT0tMSAtRiBrZXk9aWRzLW1rZXhlYwotYSBleGl0LGFsd2F5cyAtRiBh
+cmNoPWI2NCAtUyBjaG1vZCxmY2htb2QgLUYgZGlyPS90bXAgLUYgYTEmMDExMSAtRiAKZmlsZXR5
+cGU9ZmlsZSAtRiBhdWlkPj0xMDAwIC1GIGF1aWQhPS0xIC1GIGtleT1pZHMtbWtleGVjCi1hIGV4
+aXQsYWx3YXlzIC1GIGFyY2g9YjY0IC1TIGZjaG1vZGF0IC1GIGRpcj0vdG1wIC1GIGEyJjAxMTEg
+LUYgZmlsZXR5cGU9ZmlsZSAKLUYgYXVpZD49MTAwMCAtRiBhdWlkIT0tMSAtRiBrZXk9aWRzLW1r
+ZXhlYwotYSBleGl0LGFsd2F5cyAtRiBhcmNoPWI2NCAtUyBjaG1vZCxmY2htb2QgLUYgZGlyPS92
+YXIvdG1wIC1GIGExJjAxMTEgLUYgCmZpbGV0eXBlPWZpbGUgLUYgYXVpZD49MTAwMCAtRiBhdWlk
+IT0tMSAtRiBrZXk9aWRzLW1rZXhlYwotYSBleGl0LGFsd2F5cyAtRiBhcmNoPWI2NCAtUyBmY2ht
+b2RhdCAtRiBkaXI9L3Zhci90bXAgLUYgYTImMDExMSAtRiAKZmlsZXR5cGU9ZmlsZSAtRiBhdWlk
+Pj0xMDAwIC1GIGF1aWQhPS0xIC1GIGtleT1pZHMtbWtleGVjCi1hIGV4aXQsYWx3YXlzIC1GIGFy
+Y2g9YjY0IC1TIGNobW9kLGZjaG1vZCAtRiBkaXI9L2Rldi9zaG0gLUYgYTEmMDExMSAtRiAKZmls
+ZXR5cGU9ZmlsZSAtRiBhdWlkPj0xMDAwIC1GIGF1aWQhPS0xIC1GIGtleT1pZHMtbWtleGVjCi1h
+IGV4aXQsYWx3YXlzIC1GIGFyY2g9YjY0IC1TIGZjaG1vZGF0IC1GIGRpcj0vZGV2L3NobSAtRiBh
+MiYwMTExIC1GIApmaWxldHlwZT1maWxlIC1GIGF1aWQ+PTEwMDAgLUYgYXVpZCE9LTEgLUYga2V5
+PWlkcy1ta2V4ZWMKClRoZXJlJ3MgYSBsb3Qgb2YgcnVsZXMgdG8gYWRkLiBBbmQgdGhpcyB3aWxs
+IGdldCBub2lzeSBiZWNhdXNlIG1hbnkgc3lzdGVtIApzY3JpcHRzIGRvIHRoaW5ncyB0aGF0IGxv
+b2sgbGlrZSByZWNvbi4gVXBkYXRlIGxvb2tzIGxpa2UgbWtleGVjLgoKV2hhdCBJJ2QgcmVjb21t
+ZW5kIGlzIGFsc28gbG9va2luZyBhdCBzb21ldGhpbmcgbGlrZSBmYXBvbGljeWQgdG8gcHJldmVu
+dCAKZXhlY3V0aW9uIG9mIGFueSBkb3dubG9hZGVkIHRvb2xzLiBUaGF0IHdpbGwgZ2l2ZSBhIGJp
+Z2dlciBzaWduYWwgdG8gbm9pc2UgCnJhdGlvIHRoYXQgdHJ5aW5nIHRvIGNyYWZ0IHNvbWUgYXVk
+aXQgcnVsZXMuIEJlY2F1c2UgdWx0aW1hdGVseSwgYXVkaXQgY2FuIAp0ZWxsIHlvdSBzb21ldGhp
+bmcgd2FzIGV4ZWN1dGVkLiBJdCBjYW4ndCB0ZWxsIHlvdSB0aGUgc29mdHdhcmUgZG9lc24ndCAK
+YmVsb25nIG9uIHRoZSBzeXN0ZW0uCgotU3RldmUKCj4gPiBPbiBKdWwgMzAsIDIwMjAsIGF0IDEx
+OjI5IEFNLCBTdGV2ZSBHcnViYiA8c2dydWJiQHJlZGhhdC5jb20+IHdyb3RlOgo+ID4gCj4gPiBP
+biBUaHVyc2RheSwgSnVseSAzMCwgMjAyMCAxOjU0OjA5IFBNIEVEVCBUb2RkIEhlYmVybGVpbiB3
+cm90ZToKPiA+PiBJ4oCZdmUgbm90aWNlZCB0aGF0IHRoZSBodHRwZCBwcm9jZXNzIG9uIGEgQ2Vu
+dE9TIDcuNyBzeXN0ZW0gSSBhbSB3b3JraW5nCj4gPj4gCj4gPj4gd2l0aCBpcyBydW5uaW5nIHdp
+dGggYW4gQXVkaXQgSUQgb2YgLTEuIEV4YW1wbGUgSUQgdmFsdWVzIGFyZToKPiA+PiAgICAgICAg
+YXVpZD00Mjk0OTY3Mjk1Cj4gPj4gICAgICAgIHVpZD00OAo+ID4+ICAgICAgICBnaWQ9NDgKPiA+
+PiAgICAgICAgLi4uCj4gPj4gCj4gPj4gU28gaWYgdXNlIHRoZSBzdGFuZGFyZCBmaWx0ZXIgIi1G
+IGF1aWQhPS0x4oCdIGluIHRoZSBhdWRpdCBydWxlcyBJIGRvIG5vdAo+ID4+IHNlZSBodHRwZCBh
+Y3Rpdml0eS4KPiA+PiAKPiA+PiBJcyB0aGlzIGNvbW1vbj8KPiA+IAo+ID4gWWVzLCB0aGlzIGlz
+IGNvbW1vbi4gTW9zdCBwZW9wbGUgYXJlIGludGVyZXN0ZWQgaW4gdGhlIGFjdGlvbnMgdGhhdAo+
+ID4gcGVvcGxlCj4gPiB0YWtlIG9uIHRoZSBtYWNoaW5lIHJhdGhlciB0aGFuIG5vcm1hbCBzeXN0
+ZW0gZnVuY3Rpb25pbmcuCj4gPiAKPiA+PiBIb3cgZG8gSSBjaGFuZ2UgdGhlIGF1aWQgdG8gc29t
+ZXRoaW5nIGVsc2UsIHNvIEkgY2FuIGNhcHR1cmUgdGhlIGh0dHBkCj4gPj4gYWN0aXZpdHkgaW4g
+dGhlIGF1ZGl0IGxvZz8KPiA+IAo+ID4gQSBjb3VwbGUgb2Ygd2F5cy4KPiA+IDEpIHJlbW92ZSB0
+aGUgYXVpZCE9LTEuIFRoYXQgd2lsbCBnZXQgeW91IGFsbCBkYWVtb25zLgo+ID4gMikgVXNlIGF1
+ZGl0IGJ5IGV4ZWN1dGFibGUgcnVsZXM6Cj4gPiAtYSBhbHdheXMsZXhpdCAtRiBhcmNoPWI2NCAt
+UyBleGVjdmUgLUYgZXhlPS91c3Ivc2Jpbi9odHRwZCAtRgo+ID4ga2V5PWh0dHBkLWV4ZWMKPiA+
+IAo+ID4gLVN0ZXZlCj4gPiAKPiA+PiBFeGFtcGxlIGF1ZGl0IGxpbmU6Cj4gPj4gCj4gPj4gdHlw
+ZT1TWVNDQUxMIG1zZz1hdWRpdCgxNTk2MDY1NTY2LjcyMTozMTM1Nyk6IGFyY2g9YzAwMDAwM2Ug
+c3lzY2FsbD0yCj4gPj4gc3VjY2Vzcz15ZXMgZXhpdD0xNSBhMD01NWEwYTJkOWIzYzAgYTE9ODAw
+MDAgYTI9MCBhMz03ZmZlNWQ0ZDY3MjAKPiA+PiBpdGVtcz0xCj4gPj4gcHBpZD0xMTMwIHBpZD0x
+MjUzIGF1aWQ9NDI5NDk2NzI5NSB1aWQ9NDggZ2lkPTQ4IGV1aWQ9NDggc3VpZD00OAo+ID4+IGZz
+dWlkPTQ4Cj4gPj4gZWdpZD00OCBzZ2lkPTQ4IGZzZ2lkPTQ4IHR0eT0obm9uZSkgc2VzPTQyOTQ5
+NjcyOTUgY29tbT0iaHR0cGQiCj4gPj4gZXhlPSIvdXNyL3NiaW4vaHR0cGQiIGtleT0obnVsbCkK
+CgoKCgotLQpMaW51eC1hdWRpdCBtYWlsaW5nIGxpc3QKTGludXgtYXVkaXRAcmVkaGF0LmNvbQpo
+dHRwczovL3d3dy5yZWRoYXQuY29tL21haWxtYW4vbGlzdGluZm8vbGludXgtYXVkaXQ=
 
