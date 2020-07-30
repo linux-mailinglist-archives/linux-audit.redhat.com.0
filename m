@@ -1,63 +1,91 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [205.139.110.61])
-	by mail.lfdr.de (Postfix) with ESMTP id 076FB233AF9
-	for <lists+linux-audit@lfdr.de>; Thu, 30 Jul 2020 23:42:27 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1596145347;
-	h=from:from:sender:sender:reply-to:subject:subject:date:date:
-	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-	 content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:list-id:list-help:
-	 list-unsubscribe:list-subscribe:list-post;
-	bh=Pa/9D2bbzXlh+pgeyf0tC3T6JOiY5xHZNd1Q7BGbEzE=;
-	b=TGXT6RqAIeSvrGbMQlE4/J2g4gxXEQqhbSeTTTep3A0FBhDcAHgAnWU/ClXaIBZAwHpJow
-	PgHQtk91f8BeP+SfkVWl8SCPUff9aFjThMcM0E3Zrn13tnk+ebVDMQQVNeGBQY/2VsAhxn
-	KosxcqX4iGzyQg47pASRGtZfa7qnh/U=
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com [205.139.110.120])
+	by mail.lfdr.de (Postfix) with ESMTP id F3832233B44
+	for <lists+linux-audit@lfdr.de>; Fri, 31 Jul 2020 00:23:16 +0200 (CEST)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-128-8S3v4CpAN1mZKJSci4U3Kg-1; Thu, 30 Jul 2020 17:42:15 -0400
-X-MC-Unique: 8S3v4CpAN1mZKJSci4U3Kg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+ us-mta-180-PfJPOF8tNl2m0HG8kphUeA-1; Thu, 30 Jul 2020 18:23:13 -0400
+X-MC-Unique: PfJPOF8tNl2m0HG8kphUeA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C8503100A8C0;
-	Thu, 30 Jul 2020 21:42:10 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C1342800685;
+	Thu, 30 Jul 2020 22:23:07 +0000 (UTC)
 Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 8E50E5F7D8;
-	Thu, 30 Jul 2020 21:42:10 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id AF94772AC9;
+	Thu, 30 Jul 2020 22:23:06 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 096B5180954D;
-	Thu, 30 Jul 2020 21:42:10 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
-	[10.5.11.15])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id E1BAF1809554;
+	Thu, 30 Jul 2020 22:23:03 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+	[10.11.54.3])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 06ULfHAG016972 for <linux-audit@listman.util.phx.redhat.com>;
-	Thu, 30 Jul 2020 17:41:17 -0400
+	id 06UMMu1P021896 for <linux-audit@listman.util.phx.redhat.com>;
+	Thu, 30 Jul 2020 18:22:56 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id 872F67193C; Thu, 30 Jul 2020 21:41:17 +0000 (UTC)
+	id 51A2C111145E; Thu, 30 Jul 2020 22:22:56 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from x2.localnet (ovpn-113-125.phx2.redhat.com [10.3.113.125])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id CB33C71927;
-	Thu, 30 Jul 2020 21:41:13 +0000 (UTC)
-From: Steve Grubb <sgrubb@redhat.com>
-To: Todd Heberlein <todd_heberlein@mac.com>
-Subject: Re: httpd auid = -1
-Date: Thu, 30 Jul 2020 17:41:13 -0400
-Message-ID: <1705434.8GvrW9sroV@x2>
-Organization: Red Hat
-In-Reply-To: <87773DC0-7C77-470D-8E13-ED8C217D4C0E@mac.com>
-References: <68DC7FD9-D7FA-4D7D-BE40-0636059BD9D2@mac.com>
-	<1740602.XSbsyeiCUq@x2>
-	<87773DC0-7C77-470D-8E13-ED8C217D4C0E@mac.com>
+Received: from mimecast-mx02.redhat.com
+	(mimecast01.extmail.prod.ext.rdu2.redhat.com [10.11.55.17])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 4CFC9100BC9E
+	for <linux-audit@redhat.com>; Thu, 30 Jul 2020 22:22:53 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [205.139.110.61])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3BE72857FAE
+	for <linux-audit@redhat.com>; Thu, 30 Jul 2020 22:22:53 +0000 (UTC)
+Received: from sonic314-27.consmr.mail.ne1.yahoo.com
+	(sonic314-27.consmr.mail.ne1.yahoo.com [66.163.189.153]) (Using TLS) by
+	relay.mimecast.com with ESMTP id us-mta-182-rb6NremTOR67p8cbeEAsPQ-1;
+	Thu, 30 Jul 2020 18:22:50 -0400
+X-MC-Unique: rb6NremTOR67p8cbeEAsPQ-1
+X-YMail-OSG: 4plBhRQVM1lbyp3LLNF6A3_ESt0vectOzYucNmDPZebaUAzBMvhNSv7_IW1WB6C
+	G5dmlbtwbt9Fh_J5boBwqfoaWEJJB2GHTzLbqPhjdAGrGdowczc7Ux5LBZy7XT6OOm62IuDkjqAH
+	BNtXrR6HvN0ma0YomuABmuT7NfsV3nCN5WyGk44kuLxug_0SjdUAMkaqome.NsiWQrxAEcA4R.9q
+	Zz2H4b1vTYuDvF_fpfTySEH7P6wViCSy8val1fLIemlQd7hhX9kkgFzUR84zPMNR.fvH1njz_iqJ
+	Ms.Dn6UHh6Fx5vFPZ7rqcVUMOzvi.cj7ylDfGcTqez12WtAH5PSrSISjbRp8PJzy_XSIjlr86V0R
+	ns.NwWuz3ptoCg49EQI5t2u1EfQ7eZNfVbltVrv.Rl11aDbr.9_r8QS_zkAQAhBtPvlCgrNCklWz
+	MKGQTgUOYxts2B1fqYFKosTYxoj0OGGgw0c7.IUSNhrF7vTQrDknnHY.biv0chZd0rDP6Oql9s0i
+	TVGI_DOnlyG3XYTLAjF7Dc1JBdpZ3FIEDlunT0usJOswMINn.UETxWq3_M3rn3r2mvyWUjZSMUU4
+	2vouECHut0v7u5YXus_1R3CNgH3fWhasVDsDwIxCsrka33_z3HLL4GPOAcq.DwKrYgszlawYceql
+	VIxAMYfROc9XpFyzXL9Le_M_gRXJE9GLGP08aSPrQEroFvTfhFFaBNbaeKBxAkaKTRErRKw3rvGs
+	zjp_ShNHt20IgXDv5umyaoUSlbJeXEogMl4Et1aZ5wbz3pMHgcGy6rPCewfDlfY6oPtgGsuctrnd
+	JxERN6KBoNI8ft9CxWLRwc8oVHycrOummrgWpx2iq.e2Vswkf8Kq1MKCADp6w.0qygQnOqVBdlr1
+	Ym9t.4klJJg5NzfrWO4Wj8b05LM3A46DF6K5aF7MX05EIdDWaAyQSMXXk.qWZpllHyPULQRwh68e
+	VZtLya368Ew9rQh34ZhP8QPMAk4sP75UkpflNir1CqQ_2GYCKeFvChqgVTxLDCEzOifirVQrH3GT
+	dIuySrrwPJYcA1WZvyyxdQrh2cXaPy84g9K0NYUBbflW6_7I2JeT3bDf3N_AL2mocReX6prBPks.
+	MJlf91FsxTbnhKH_4.lsPUIop00X8hwhF1dEKu8Xiax6DfAt.VGfEwoY9krIIVG4vioKCeETTzRu
+	N9KFgTB3x1yzJNDVUndGcIoGayi6P3fpG4bzbVcausiWjIltyaKwcpDkpm0srYO2PQvRqi9ZLefE
+	AxZHDWVuB_zRC.5o_RqoT2DH0MSLCPxY54N5yY5QwZ.8PZKWJkCHe6xIGO4Dub3_yQ9sAsSyxFc3
+	9ONS3yrl2lJQPkGNaA6.j7uLLqOg.W.Sqr6serqLtDgOKzlnZnkwLK3wsycjOAQ--
+Received: from sonic.gate.mail.ne1.yahoo.com by
+	sonic314.consmr.mail.ne1.yahoo.com with HTTP;
+	Thu, 30 Jul 2020 22:22:50 +0000
+Received: by smtp410.mail.ne1.yahoo.com (VZM Hermes SMTP Server) with ESMTPA
+	ID 4ac6482c02314194467082833f946851; 
+	Thu, 30 Jul 2020 22:22:48 +0000 (UTC)
+Subject: Re: [PATCH v19 22/23] LSM: Add /proc attr entry for full LSM context
+To: John Johansen <john.johansen@canonical.com>, casey.schaufler@intel.com,
+	jmorris@namei.org, linux-security-module@vger.kernel.org,
+	selinux@vger.kernel.org
+References: <20200724203226.16374-1-casey@schaufler-ca.com>
+	<20200724203226.16374-23-casey@schaufler-ca.com>
+	<e885d90d-c873-5ab4-235d-6171f49f4ee4@canonical.com>
+	<705fb82d-ad7a-2874-59ed-ba6bc7ae3722@schaufler-ca.com>
+	<97330b2d-5447-cfef-b6d0-444249e671b7@canonical.com>
+From: Casey Schaufler <casey@schaufler-ca.com>
+Message-ID: <18fcf6b1-3ef6-bb8b-d2b2-e0fd45bdb68c@schaufler-ca.com>
+Date: Thu, 30 Jul 2020 15:22:47 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+	Thunderbird/68.10.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MIME-Autoconverted: from quoted-printable to 8bit by
-	lists01.pubmisc.prod.ext.phx2.redhat.com id 06ULfHAG016972
+In-Reply-To: <97330b2d-5447-cfef-b6d0-444249e671b7@canonical.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
 X-loop: linux-audit@redhat.com
-Cc: linux-audit@redhat.com
+Cc: linux-api@vger.kernel.org, linux-audit@redhat.com, sds@tycho.nsa.gov
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -71,97 +99,109 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
-	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=linux-audit-bounces@redhat.com
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
-T24gVGh1cnNkYXksIEp1bHkgMzAsIDIwMjAgMjo0NzowNSBQTSBFRFQgVG9kZCBIZWJlcmxlaW4g
-d3JvdGU6Cj4gVGhhbmtzIQo+IAo+IFRoaXMgaGFzIHNvbWUgaW50ZXJlc3RpbmcgaW1wbGljYXRp
-b25zIHJlZ2FyZGluZyBhdHRhY2tlcnMgY29taW5nIGluCj4gdGhyb3VnaCBhIHZ1bG5lcmFiaWxp
-dHkgaW4gYW4gb3JnYW5pemF0aW9uJ3Mgd2ViIHNlcnZpY2VzLiBJ4oCZbGwgaGF2ZSB0bwo+IGNv
-bXBhcmUgd2hhdCByZWxldmFudCBpbmZvcm1hdGlvbiBJIGNhbiBjYXB0dXJlIGluIHRoZSBhdWRp
-dCBsb2dzIHZzLiB3aGF0Cj4gaXMgY2FwdHVyZWQgaW4gd2ViIHNlcnZlciBsb2dzLgoKVGhlIGF1
-ZGl0IHJ1bGVzIGFyZSBkZXNpZ25lZCB0byBjb21tb24gY3JpdGVyaWEsIFNUSUcsIFBDSS1EUywg
-ZXRjLiBUbyBkYXRlLCAKbm8gb25lIGhhcyBhcnRpY3VsYXRlZCBhbnkgcnVsZXMgdGhhdCBuZWVk
-IHRvIGJlIHdyaXR0ZW4gYWdhaW5zdCBhbnkgc2VydmVyLiAKVGhlIHJ1bGUgbmFtaW5nIHNjaGVt
-ZSByZWNvZ25pemVzIHRoYXQgbWF5IGJlIGEgcG9zc2liaWxpdHkgYW5kIHNldCBhc2lkZSAKcnVs
-ZXMgdGhhdCBzdGFydCB3aXRoIDUwLSBzcGVjaWZpY2FsbHkgZm9yIHNlcnZlciBydWxlcy4gQnV0
-IHdpdGggc29tZSBtYW55IApkYWVtb25zLCB3aGVyZSB0byBzdGFydD8gQW5kIHdoYXQgdG8gbW9u
-aXRvcj8KCklmIHlvdSBhcmUgdGhpbmtpbmcgYWJvdXQgaW50cnVzaW9uIGRldGVjdGlvbiwgdGhl
-biBJIGhhdmUgYmVlbiB3b3JraW5nIG9uIAp0aGF0IHByb2JsZW0gZm9yIGEgd2hpbGUuIFRoZXJl
-IGFyZSBzcGVjaWZpYyBydWxlcyB0aGF0IGRldGVjdCBzcGVjaWZpYyAKYWN0aW9ucy4gQnV0IHVu
-bGVzcyB5b3UndmUgdGhvdWdodCBvZiBldmVyeXRoaW5nLCB0aGVyZSBpcyBhbHdheXMgYSBob2xl
-LgoKT25jZSB0aGV5IGdldCBpbnNpZGUsIHRoZXkgcHJvYmFibHkgd2FudCB0byBkbyByZWNvbiB0
-byBzZWUgd2hhdCB0aGV5IGhhdmUgdG8gCndvcmsgd2l0aC4KCi1hIGFsd2F5cyxleGl0IC1GIHBl
-cm09eCAtRiBwYXRoPS91c3IvYmluL3VuYW1lIC1GIGtleT1pZHMtcmVjb24KLWEgYWx3YXlzLGV4
-aXQgLUYgcGVybT14IC1GIHBhdGg9L3Vzci9iaW4vcnBtIC1GIGtleT1pZHMtcmVjb24KLWEgYWx3
-YXlzLGV4aXQgLUYgcGVybT14IC1GIHBhdGg9L3Vzci9iaW4veXVtIC1GIGtleT1pZHMtcmVjb24K
-LWEgYWx3YXlzLGV4aXQgLUYgcGVybT14IC1GIHBhdGg9L3Vzci9iaW4vZG5mIC1GIGtleT1pZHMt
-cmVjb24KLWEgYWx3YXlzLGV4aXQgLUYgcGVybT14IC1GIHBhdGg9L3Vzci9iaW4vdyAtRiBrZXk9
-aWRzLXJlY29uCi1hIGFsd2F5cyxleGl0IC1GIHBlcm09eCAtRiBwYXRoPS91c3IvYmluL3dobyAt
-RiBrZXk9aWRzLXJlY29uCi1hIGFsd2F5cyxleGl0IC1GIHBlcm09eCAtRiBwYXRoPS91c3IvYmlu
-L3dob2FtaSAtRiBrZXk9aWRzLXJlY29uCi1hIGFsd2F5cyxleGl0IC1GIHBlcm09eCAtRiBwYXRo
-PS91c3IvYmluL2lkIC1GIGtleT1pZHMtcmVjb24KLWEgYWx3YXlzLGV4aXQgLUYgcGVybT14IC1G
-IHBhdGg9L3Vzci9iaW4vbmV0c3RhdCAtRiBrZXk9aWRzLXJlY29uCi1hIGFsd2F5cyxleGl0IC1G
-IHBlcm09eCAtRiBwYXRoPS91c3IvYmluL3NzIC1GIGtleT1pZHMtcmVjb24KLWEgYWx3YXlzLGV4
-aXQgLUYgcGVybT14IC1GIHBhdGg9L3Vzci9iaW4vcm91dGUgLUYga2V5PWlkcy1yZWNvbgouLi5l
-dGMuIAoKQnV0IHRoZW4gdGhleSBtaWdodCB3YW50IHRvIHVzZSBhIHRvb2wgZG93bmxvYWRlZCB0
-byBlc2NhbGF0ZS4gWW91IG1pZ2h0IGJlIAphYmxlIHRvIGRldGVjdCB0aGVtIG1ha2luZyBpdCBl
-eGVjdXRhYmxlOgoKLWEgZXhpdCxhbHdheXMgLUYgYXJjaD1iNjQgLVMgY2htb2QsZmNobW9kIC1G
-IGRpcj0vaG9tZSAtRiBhMSYwMTExIC1GIApmaWxldHlwZT1maWxlIC1GIGF1aWQ+PTEwMDAgLUYg
-YXVpZCE9LTEgLUYga2V5PWlkcy1ta2V4ZWMKLWEgZXhpdCxhbHdheXMgLUYgYXJjaD1iNjQgLVMg
-ZmNobW9kYXQgLUYgZGlyPS9ob21lIC1GIGEyJjAxMTEgLUYgZmlsZXR5cGU9ZmlsZSAKLUYgYXVp
-ZD49MTAwMCAtRiBhdWlkIT0tMSAtRiBrZXk9aWRzLW1rZXhlYwotYSBleGl0LGFsd2F5cyAtRiBh
-cmNoPWI2NCAtUyBjaG1vZCxmY2htb2QgLUYgZGlyPS90bXAgLUYgYTEmMDExMSAtRiAKZmlsZXR5
-cGU9ZmlsZSAtRiBhdWlkPj0xMDAwIC1GIGF1aWQhPS0xIC1GIGtleT1pZHMtbWtleGVjCi1hIGV4
-aXQsYWx3YXlzIC1GIGFyY2g9YjY0IC1TIGZjaG1vZGF0IC1GIGRpcj0vdG1wIC1GIGEyJjAxMTEg
-LUYgZmlsZXR5cGU9ZmlsZSAKLUYgYXVpZD49MTAwMCAtRiBhdWlkIT0tMSAtRiBrZXk9aWRzLW1r
-ZXhlYwotYSBleGl0LGFsd2F5cyAtRiBhcmNoPWI2NCAtUyBjaG1vZCxmY2htb2QgLUYgZGlyPS92
-YXIvdG1wIC1GIGExJjAxMTEgLUYgCmZpbGV0eXBlPWZpbGUgLUYgYXVpZD49MTAwMCAtRiBhdWlk
-IT0tMSAtRiBrZXk9aWRzLW1rZXhlYwotYSBleGl0LGFsd2F5cyAtRiBhcmNoPWI2NCAtUyBmY2ht
-b2RhdCAtRiBkaXI9L3Zhci90bXAgLUYgYTImMDExMSAtRiAKZmlsZXR5cGU9ZmlsZSAtRiBhdWlk
-Pj0xMDAwIC1GIGF1aWQhPS0xIC1GIGtleT1pZHMtbWtleGVjCi1hIGV4aXQsYWx3YXlzIC1GIGFy
-Y2g9YjY0IC1TIGNobW9kLGZjaG1vZCAtRiBkaXI9L2Rldi9zaG0gLUYgYTEmMDExMSAtRiAKZmls
-ZXR5cGU9ZmlsZSAtRiBhdWlkPj0xMDAwIC1GIGF1aWQhPS0xIC1GIGtleT1pZHMtbWtleGVjCi1h
-IGV4aXQsYWx3YXlzIC1GIGFyY2g9YjY0IC1TIGZjaG1vZGF0IC1GIGRpcj0vZGV2L3NobSAtRiBh
-MiYwMTExIC1GIApmaWxldHlwZT1maWxlIC1GIGF1aWQ+PTEwMDAgLUYgYXVpZCE9LTEgLUYga2V5
-PWlkcy1ta2V4ZWMKClRoZXJlJ3MgYSBsb3Qgb2YgcnVsZXMgdG8gYWRkLiBBbmQgdGhpcyB3aWxs
-IGdldCBub2lzeSBiZWNhdXNlIG1hbnkgc3lzdGVtIApzY3JpcHRzIGRvIHRoaW5ncyB0aGF0IGxv
-b2sgbGlrZSByZWNvbi4gVXBkYXRlIGxvb2tzIGxpa2UgbWtleGVjLgoKV2hhdCBJJ2QgcmVjb21t
-ZW5kIGlzIGFsc28gbG9va2luZyBhdCBzb21ldGhpbmcgbGlrZSBmYXBvbGljeWQgdG8gcHJldmVu
-dCAKZXhlY3V0aW9uIG9mIGFueSBkb3dubG9hZGVkIHRvb2xzLiBUaGF0IHdpbGwgZ2l2ZSBhIGJp
-Z2dlciBzaWduYWwgdG8gbm9pc2UgCnJhdGlvIHRoYXQgdHJ5aW5nIHRvIGNyYWZ0IHNvbWUgYXVk
-aXQgcnVsZXMuIEJlY2F1c2UgdWx0aW1hdGVseSwgYXVkaXQgY2FuIAp0ZWxsIHlvdSBzb21ldGhp
-bmcgd2FzIGV4ZWN1dGVkLiBJdCBjYW4ndCB0ZWxsIHlvdSB0aGUgc29mdHdhcmUgZG9lc24ndCAK
-YmVsb25nIG9uIHRoZSBzeXN0ZW0uCgotU3RldmUKCj4gPiBPbiBKdWwgMzAsIDIwMjAsIGF0IDEx
-OjI5IEFNLCBTdGV2ZSBHcnViYiA8c2dydWJiQHJlZGhhdC5jb20+IHdyb3RlOgo+ID4gCj4gPiBP
-biBUaHVyc2RheSwgSnVseSAzMCwgMjAyMCAxOjU0OjA5IFBNIEVEVCBUb2RkIEhlYmVybGVpbiB3
-cm90ZToKPiA+PiBJ4oCZdmUgbm90aWNlZCB0aGF0IHRoZSBodHRwZCBwcm9jZXNzIG9uIGEgQ2Vu
-dE9TIDcuNyBzeXN0ZW0gSSBhbSB3b3JraW5nCj4gPj4gCj4gPj4gd2l0aCBpcyBydW5uaW5nIHdp
-dGggYW4gQXVkaXQgSUQgb2YgLTEuIEV4YW1wbGUgSUQgdmFsdWVzIGFyZToKPiA+PiAgICAgICAg
-YXVpZD00Mjk0OTY3Mjk1Cj4gPj4gICAgICAgIHVpZD00OAo+ID4+ICAgICAgICBnaWQ9NDgKPiA+
-PiAgICAgICAgLi4uCj4gPj4gCj4gPj4gU28gaWYgdXNlIHRoZSBzdGFuZGFyZCBmaWx0ZXIgIi1G
-IGF1aWQhPS0x4oCdIGluIHRoZSBhdWRpdCBydWxlcyBJIGRvIG5vdAo+ID4+IHNlZSBodHRwZCBh
-Y3Rpdml0eS4KPiA+PiAKPiA+PiBJcyB0aGlzIGNvbW1vbj8KPiA+IAo+ID4gWWVzLCB0aGlzIGlz
-IGNvbW1vbi4gTW9zdCBwZW9wbGUgYXJlIGludGVyZXN0ZWQgaW4gdGhlIGFjdGlvbnMgdGhhdAo+
-ID4gcGVvcGxlCj4gPiB0YWtlIG9uIHRoZSBtYWNoaW5lIHJhdGhlciB0aGFuIG5vcm1hbCBzeXN0
-ZW0gZnVuY3Rpb25pbmcuCj4gPiAKPiA+PiBIb3cgZG8gSSBjaGFuZ2UgdGhlIGF1aWQgdG8gc29t
-ZXRoaW5nIGVsc2UsIHNvIEkgY2FuIGNhcHR1cmUgdGhlIGh0dHBkCj4gPj4gYWN0aXZpdHkgaW4g
-dGhlIGF1ZGl0IGxvZz8KPiA+IAo+ID4gQSBjb3VwbGUgb2Ygd2F5cy4KPiA+IDEpIHJlbW92ZSB0
-aGUgYXVpZCE9LTEuIFRoYXQgd2lsbCBnZXQgeW91IGFsbCBkYWVtb25zLgo+ID4gMikgVXNlIGF1
-ZGl0IGJ5IGV4ZWN1dGFibGUgcnVsZXM6Cj4gPiAtYSBhbHdheXMsZXhpdCAtRiBhcmNoPWI2NCAt
-UyBleGVjdmUgLUYgZXhlPS91c3Ivc2Jpbi9odHRwZCAtRgo+ID4ga2V5PWh0dHBkLWV4ZWMKPiA+
-IAo+ID4gLVN0ZXZlCj4gPiAKPiA+PiBFeGFtcGxlIGF1ZGl0IGxpbmU6Cj4gPj4gCj4gPj4gdHlw
-ZT1TWVNDQUxMIG1zZz1hdWRpdCgxNTk2MDY1NTY2LjcyMTozMTM1Nyk6IGFyY2g9YzAwMDAwM2Ug
-c3lzY2FsbD0yCj4gPj4gc3VjY2Vzcz15ZXMgZXhpdD0xNSBhMD01NWEwYTJkOWIzYzAgYTE9ODAw
-MDAgYTI9MCBhMz03ZmZlNWQ0ZDY3MjAKPiA+PiBpdGVtcz0xCj4gPj4gcHBpZD0xMTMwIHBpZD0x
-MjUzIGF1aWQ9NDI5NDk2NzI5NSB1aWQ9NDggZ2lkPTQ4IGV1aWQ9NDggc3VpZD00OAo+ID4+IGZz
-dWlkPTQ4Cj4gPj4gZWdpZD00OCBzZ2lkPTQ4IGZzZ2lkPTQ4IHR0eT0obm9uZSkgc2VzPTQyOTQ5
-NjcyOTUgY29tbT0iaHR0cGQiCj4gPj4gZXhlPSIvdXNyL3NiaW4vaHR0cGQiIGtleT0obnVsbCkK
-CgoKCgotLQpMaW51eC1hdWRpdCBtYWlsaW5nIGxpc3QKTGludXgtYXVkaXRAcmVkaGF0LmNvbQpo
-dHRwczovL3d3dy5yZWRoYXQuY29tL21haWxtYW4vbGlzdGluZm8vbGludXgtYXVkaXQ=
+On 7/30/2020 1:57 PM, John Johansen wrote:
+> On 7/30/20 1:44 PM, Casey Schaufler wrote:
+>> On 7/30/2020 3:03 AM, John Johansen wrote:
+>>> On 7/24/20 1:32 PM, Casey Schaufler wrote:
+>>>> Add an entry /proc/.../attr/context which displays the full
+>>>> process security "context" in compound format:
+>>>>         lsm1\0value\0lsm2\0value\0...
+>>>> This entry is not writable.
+>>>>
+>>>> A security module may decide that its policy does not allow
+>>>> this information to be displayed. In this case none of the
+>>>> information will be displayed.
+>>>>
+>>>> Reviewed-by: Kees Cook <keescook@chromium.org>
+>>>> Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
+>>>> Cc: linux-api@vger.kernel.org
+>>>> ---
+>>>>  Documentation/security/lsm.rst       | 28 +++++++++++
+>>>>  fs/proc/base.c                       |  1 +
+>>>>  include/linux/lsm_hooks.h            |  6 +++
+>>>>  security/apparmor/include/procattr.h |  2 +-
+>>>>  security/apparmor/lsm.c              |  8 +++-
+>>>>  security/apparmor/procattr.c         | 22 +++++----
+>>>>  security/security.c                  | 70 ++++++++++++++++++++++++++++
+>>>>  security/selinux/hooks.c             |  2 +-
+>>>>  security/smack/smack_lsm.c           |  2 +-
+>>>>  9 files changed, 126 insertions(+), 15 deletions(-)
+>> <snip>
+>>
+>>>>  
+>>>>  /**
+>>>> diff --git a/security/security.c b/security/security.c
+>>>> index d35e578fa45b..bce6be720401 100644
+>>>> --- a/security/security.c
+>>>> +++ b/security/security.c
+>>>> @@ -754,6 +754,48 @@ static void __init lsm_early_task(struct task_struct *task)
+>>>>  		panic("%s: Early task alloc failed.\n", __func__);
+>>>>  }
+>>>>  
+>>>> +/**
+>>>> + * append_ctx - append a lsm/context pair to a compound context
+>>>> + * @ctx: the existing compound context
+>>>> + * @ctxlen: size of the old context, including terminating nul byte
+>>>> + * @lsm: new lsm name, nul terminated
+>>>> + * @new: new context, possibly nul terminated
+>>>> + * @newlen: maximum size of @new
+>>>> + *
+>>>> + * replace @ctx with a new compound context, appending @newlsm and @new
+>>>> + * to @ctx. On exit the new data replaces the old, which is freed.
+>>>> + * @ctxlen is set to the new size, which includes a trailing nul byte.
+>>>> + *
+>>>> + * Returns 0 on success, -ENOMEM if no memory is available.
+>>>> + */
+>>>> +static int append_ctx(char **ctx, int *ctxlen, const char *lsm, char *new,
+>>>> +		      int newlen)
+>>>> +{
+>>>> +	char *final;
+>>>> +	size_t llen;
+>>>> +
+>>>> +	llen = strlen(lsm) + 1;
+>>>> +	/*
+>>>> +	 * A security module may or may not provide a trailing nul on
+>>>> +	 * when returning a security context. There is no definition
+>>>> +	 * of which it should be, and there are modules that do it
+>>>> +	 * each way.
+>>>> +	 */
+>>>> +	newlen = strnlen(new, newlen) + 1;
+>>>> +
+>>>> +	final = kzalloc(*ctxlen + llen + newlen, GFP_KERNEL);
+>>>> +	if (final == NULL)
+>>>> +		return -ENOMEM;
+>>>> +	if (*ctxlen)
+>>>> +		memcpy(final, *ctx, *ctxlen);
+>>>> +	memcpy(final + *ctxlen, lsm, llen);
+>>>> +	memcpy(final + *ctxlen + llen, new, newlen);
+>>> if @new doesn't have a newline appended at its end this will read 1 byte
+>>> passed the end of the @new buffer. Nor will the result have a trailing
+>>> \0 as expected unless we get lucky.
+>> @new will never have a newline at the end. The trailing nul comes
+>> from the allocation being done with kzalloc(). This function has to
+>> be considered in the context of its caller.
+>>
+> ugh, sorry not trailing newline, I meant trailing \0. The problem isn't
+> the kzalloc, the target has the space. It is the source @new. It is
+> dangerous to assume that the @new buffer has a null byte after its
+> declared length. Which is potentially what we are doing if @new
+> doesn't have an embedded null byte. In that case strlen(new, newlen)
+> will then return newlen and we add 1 to it.
+>
+> which means in the memcpy we are copying an extra byte beyond what
+> was declared to exist in @new.
+
+You're right. Good point. Fix coming.
+??
+
+--
+Linux-audit mailing list
+Linux-audit@redhat.com
+https://www.redhat.com/mailman/listinfo/linux-audit
 
