@@ -1,76 +1,57 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-delivery-1.mimecast.com [207.211.31.120])
-	by mail.lfdr.de (Postfix) with ESMTP id 1CEE1235473
-	for <lists+linux-audit@lfdr.de>; Sat,  1 Aug 2020 23:46:14 +0200 (CEST)
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com [207.211.31.81])
+	by mail.lfdr.de (Postfix) with ESMTP id BC13E2359F6
+	for <lists+linux-audit@lfdr.de>; Sun,  2 Aug 2020 20:42:06 +0200 (CEST)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-295-jzsWTTyrM62bd52s_oDu0A-1; Sat, 01 Aug 2020 17:46:03 -0400
-X-MC-Unique: jzsWTTyrM62bd52s_oDu0A-1
+ us-mta-481-Rj_1UUl7NsqI9qemn4wbXw-1; Sun, 02 Aug 2020 14:42:03 -0400
+X-MC-Unique: Rj_1UUl7NsqI9qemn4wbXw-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9C727107ACCA;
-	Sat,  1 Aug 2020 21:45:39 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ECC641005504;
+	Sun,  2 Aug 2020 18:41:58 +0000 (UTC)
 Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 811847C115;
-	Sat,  1 Aug 2020 21:45:39 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 040EE8A18A;
+	Sun,  2 Aug 2020 18:41:58 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 527E31809554;
-	Sat,  1 Aug 2020 21:45:39 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
-	[10.11.54.3])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 7FDB91809561;
+	Sun,  2 Aug 2020 18:41:51 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+	[10.11.54.6])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 071J5p5c022938 for <linux-audit@listman.util.phx.redhat.com>;
-	Sat, 1 Aug 2020 15:05:51 -0400
+	id 072C5kuN022558 for <linux-audit@listman.util.phx.redhat.com>;
+	Sun, 2 Aug 2020 08:05:46 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id 47DE4114F252; Sat,  1 Aug 2020 19:05:51 +0000 (UTC)
+	id 50D342166BA2; Sun,  2 Aug 2020 12:05:46 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
 	(mimecast06.extmail.prod.ext.rdu2.redhat.com [10.11.55.22])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 4361E114F251
-	for <linux-audit@redhat.com>; Sat,  1 Aug 2020 19:05:48 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 4CE7A2166B28
+	for <linux-audit@redhat.com>; Sun,  2 Aug 2020 12:05:43 +0000 (UTC)
 Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
-	[207.211.31.120])
+	[205.139.110.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B8BF6185A78B
-	for <linux-audit@redhat.com>; Sat,  1 Aug 2020 19:05:48 +0000 (UTC)
-Received: from smtprelay.hostedemail.com (smtprelay0097.hostedemail.com
-	[216.40.44.97]) (Using TLS) by relay.mimecast.com with ESMTP id
-	us-mta-23-QlUlttK1OkmCdjPIbV0Ayg-1; Sat, 01 Aug 2020 15:05:45 -0400
-X-MC-Unique: QlUlttK1OkmCdjPIbV0Ayg-1
-Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com
-	[10.5.19.251])
-	by smtpgrave06.hostedemail.com (Postfix) with ESMTP id CE2598122D46;
-	Sat,  1 Aug 2020 18:55:47 +0000 (UTC)
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
-	[216.40.38.60])
-	by smtprelay06.hostedemail.com (Postfix) with ESMTP id D684A18224D61;
-	Sat,  1 Aug 2020 18:55:45 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Spam-Summary: 2, 0, 0, , d41d8cd98f00b204, joe@perches.com, ,
-	RULES_HIT:41:355:379:599:968:988:989:1260:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1534:1538:1593:1594:1711:1714:1730:1747:1777:1792:2393:2559:2562:2828:3138:3139:3140:3141:3142:3350:3622:3865:3866:3868:4321:5007:10004:10400:10848:11026:11232:11473:11658:11914:12297:12438:12740:12760:12895:13069:13311:13357:13439:14659:14721:21080:21627:21795:30051:30054:30091,
-	0, RBL:none, CacheIP:none, Bayesian:0.5, 0.5, 0.5, Netcheck:none,
-	DomainCache:0, MSF:not bulk, SPF:, MSBL:0, DNSBL:none,
-	Custom_rules:0:0:0, LFtime:1, LUA_SUMMARY:none
-X-HE-Tag: lock15_30178ef26f8e
-X-Filterd-Recvd-Size: 1511
-Received: from XPS-9350.home (unknown [47.151.133.149])
-	(Authenticated sender: joe@perches.com)
-	by omf15.hostedemail.com (Postfix) with ESMTPA;
-	Sat,  1 Aug 2020 18:55:44 +0000 (UTC)
-Message-ID: <91c6c45f0d8ec0d031c216711cd8d7f6e9aad7ad.camel@perches.com>
-Subject: Re: [PATCH 2/4] audit: uninitialize global variable audit_sig_sid
-From: Joe Perches <joe@perches.com>
-To: Jules Irenge <jbi.octave@gmail.com>, linux-kernel@vger.kernel.org
-Date: Sat, 01 Aug 2020 11:55:43 -0700
-In-Reply-To: <20200801184603.310769-3-jbi.octave@gmail.com>
-References: <0/4> <20200801184603.310769-1-jbi.octave@gmail.com>
-	<20200801184603.310769-3-jbi.octave@gmail.com>
-User-Agent: Evolution 3.36.3-0ubuntu1
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BD8B01859163
+	for <linux-audit@redhat.com>; Sun,  2 Aug 2020 12:05:43 +0000 (UTC)
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98]) (Using
+	TLS) by relay.mimecast.com with ESMTP id
+	us-mta-492-vjOAre8uPsuMQjHJ3r9WEg-1; Sun, 02 Aug 2020 08:05:39 -0400
+X-MC-Unique: vjOAre8uPsuMQjHJ3r9WEg-1
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+	id 24A5A1C0BDB; Sun,  2 Aug 2020 13:55:51 +0200 (CEST)
+Date: Sun, 2 Aug 2020 13:55:45 +0200
+From: Pavel Machek <pavel@ucw.cz>
+To: Deven Bowers <deven.desai@linux.microsoft.com>
+Subject: Re: [RFC PATCH v5 00/11] Integrity Policy Enforcement LSM (IPE)
+Message-ID: <20200802115545.GA1162@bug>
+References: <20200728213614.586312-1-deven.desai@linux.microsoft.com>
 MIME-Version: 1.0
+In-Reply-To: <20200728213614.586312-1-deven.desai@linux.microsoft.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
 	Definition; Similar Internal Domain=false;
 	Similar Monitored External Domain=false;
@@ -79,10 +60,19 @@ X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
 	Custom Display Name List=false; Reply-to Address Mismatch=false;
 	Targeted Threat Dictionary=false;
 	Mimecast Threat Dictionary=false; Custom Threat Dictionary=false;
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
 X-loop: linux-audit@redhat.com
-X-Mailman-Approved-At: Sat, 01 Aug 2020 17:45:19 -0400
-Cc: "moderated list:AUDIT SUBSYSTEM" <linux-audit@redhat.com>
+X-Mailman-Approved-At: Sun, 02 Aug 2020 14:41:38 -0400
+Cc: snitzer@redhat.com, zohar@linux.ibm.com, dm-devel@redhat.com,
+	tyhicks@linux.microsoft.com, agk@redhat.com, sashal@kernel.org,
+	mdsakib@microsoft.com, jmorris@namei.org,
+	nramas@linux.microsoft.com, serge@hallyn.com,
+	pasha.tatashin@soleen.com, jannh@google.com,
+	linux-block@vger.kernel.org, viro@zeniv.linux.org.uk,
+	axboe@kernel.dk, corbet@lwn.net, linux-kernel@vger.kernel.org,
+	linux-security-module@vger.kernel.org, linux-audit@redhat.com,
+	linux-fsdevel@vger.kernel.org, linux-integrity@vger.kernel.org,
+	jaskarankhurana@linux.microsoft.com
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -101,22 +91,22 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
-On Sat, 2020-08-01 at 19:46 +0100, Jules Irenge wrote:
-> Checkpatch tool reports an error at variable audit_sig_sid declaration
-[]
-> diff --git a/kernel/audit.c b/kernel/audit.c
-[]
-> @@ -125,7 +125,7 @@ static u32	audit_backlog_wait_time = AUDIT_BACKLOG_WAIT_TIME;
->  /* The identity of the user shutting down the audit system. */
->  kuid_t		audit_sig_uid = INVALID_UID;
->  pid_t		audit_sig_pid = -1;
-> -u32		audit_sig_sid = 0;
-> +u32		audit_sig_sid;
+Hi!
 
-All of these are unused outside of audit.c and might as
-well be static and removed from the .h file.
+> IPE is a Linux Security Module which allows for a configurable
+> policy to enforce integrity requirements on the whole system. It
+> attempts to solve the issue of Code Integrity: that any code being
+> executed (or files being read), are identical to the version that
+> was built by a trusted source.
 
+How is that different from security/integrity/ima?
+
+									Pavel
+-- 
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blog.html
 
 --
 Linux-audit mailing list
