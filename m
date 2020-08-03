@@ -2,74 +2,73 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [207.211.31.81])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B08823A5BB
-	for <lists+linux-audit@lfdr.de>; Mon,  3 Aug 2020 14:41:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3DE5A23A5B4
+	for <lists+linux-audit@lfdr.de>; Mon,  3 Aug 2020 14:41:28 +0200 (CEST)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-449-YuDngld9O7miBAPJTZ2FLg-1; Mon, 03 Aug 2020 08:41:46 -0400
-X-MC-Unique: YuDngld9O7miBAPJTZ2FLg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+ us-mta-273-6e2arLRyPbeqPUEKVxvMhA-1; Mon, 03 Aug 2020 08:41:25 -0400
+X-MC-Unique: 6e2arLRyPbeqPUEKVxvMhA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 12EE7192376B;
-	Mon,  3 Aug 2020 12:41:42 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id B6E7E71765;
-	Mon,  3 Aug 2020 12:41:41 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0A8AF1DE4;
+	Mon,  3 Aug 2020 12:41:20 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id A60888AD1C;
+	Mon,  3 Aug 2020 12:41:19 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 6152F9A0F6;
-	Mon,  3 Aug 2020 12:41:41 +0000 (UTC)
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id BCFCF1809554;
+	Mon,  3 Aug 2020 12:41:18 +0000 (UTC)
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
 	[10.11.54.4])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 073CZFwH005018 for <linux-audit@listman.util.phx.redhat.com>;
-	Mon, 3 Aug 2020 08:35:15 -0400
+	id 073CZGL4005024 for <linux-audit@listman.util.phx.redhat.com>;
+	Mon, 3 Aug 2020 08:35:16 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id 010AC202B170; Mon,  3 Aug 2020 12:35:15 +0000 (UTC)
+	id 2054A20A053B; Mon,  3 Aug 2020 12:35:16 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
-	(mimecast03.extmail.prod.ext.rdu2.redhat.com [10.11.55.19])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id DA82E202B16C
-	for <linux-audit@redhat.com>; Mon,  3 Aug 2020 12:35:12 +0000 (UTC)
+	(mimecast02.extmail.prod.ext.rdu2.redhat.com [10.11.55.18])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 0E5342023597
+	for <linux-audit@redhat.com>; Mon,  3 Aug 2020 12:35:16 +0000 (UTC)
 Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
 	[207.211.31.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id ACD95800818
-	for <linux-audit@redhat.com>; Mon,  3 Aug 2020 12:35:12 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E7A7080118C
+	for <linux-audit@redhat.com>; Mon,  3 Aug 2020 12:35:15 +0000 (UTC)
 Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
 	[209.85.128.68]) (Using TLS) by relay.mimecast.com with ESMTP id
-	us-mta-459-pxanfoNVMP-fOl3u7qDs-A-1; Mon, 03 Aug 2020 08:35:10 -0400
-X-MC-Unique: pxanfoNVMP-fOl3u7qDs-A-1
-Received: by mail-wm1-f68.google.com with SMTP id k20so15253064wmi.5;
-	Mon, 03 Aug 2020 05:35:10 -0700 (PDT)
+	us-mta-17-Gv_zPn0UNdGGEqQRZo4sww-1; Mon, 03 Aug 2020 08:35:12 -0400
+X-MC-Unique: Gv_zPn0UNdGGEqQRZo4sww-1
+Received: by mail-wm1-f68.google.com with SMTP id d190so14171559wmd.4;
+	Mon, 03 Aug 2020 05:35:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=VR9T7sylAgjDgpJ8EDAbpDnekBXDbki41I/rzJT2SZI=;
-	b=tAiVlRExlfwTifHvgvUMVvQ3iaosOzcKCZ75Uw/llycc+ZqlJlAnk6U+ZTBLakdJY5
-	gwMWYl4brnhlp1eLWsYkC+qxDiZngNaUnw/VoF2lzTThMJ4jh/GzndgGioY2ItgeO3IV
-	IRt5TcvqIWBEDi8XODfnU/uGh8DmXna/654IOtVxl6mBpRO7Ha9hLbJsaGszePUYwrAr
-	/sGshyN561dC67/2FNNrnzS6em3YMkR8bg5nxXtZkCvE8H/FWIDc+K6bFcnBkxJ0yppO
-	uhaau4EOzPXt4bc7x+oQRjVNQpf4NCbXlo3+RV6nKfTp7ko/0TanmTIwP7KvSNL6NFqA
-	wR+A==
-X-Gm-Message-State: AOAM5312yLIjEy882fao9eEwzH5GmOWMKNEPY+t/K0ILOKOvfvKpLvDt
-	RUHjO5GzlYsTuvdgb9W1vBc6Goe/iw==
-X-Google-Smtp-Source: ABdhPJwJYJ1EoIWwc5DnS8UDx5TQ7vHTekDqKRD22JWPrMP6ZJ5JeQs2FFY9GFnHQzJzQsP4WI6gUQ==
-X-Received: by 2002:a05:600c:21cd:: with SMTP id
-	x13mr16832676wmj.155.1596458109433; 
-	Mon, 03 Aug 2020 05:35:09 -0700 (PDT)
+	bh=FTgfPSmSTzWTADmwe07r4VxKyWCszF67jRChwFwa6d0=;
+	b=oqH9+TbOtu8iWiQPkpE84xJ1vfRYX3Ie4KlojgVTg0YI2idCyP0oaebrccyqyGMYNf
+	01Zf7ZeJj8kY3uxkky5B8z3b+2qr/Hhrbl/Y5cT2KEb/VLiwdh6q6DAJP1St1rpDddX6
+	67BjuVvfS8IjrrVwuwMKcYqy+tdNF0iVLynQASjU593/ULHnqDz4LTXm/IW0kniOg4K1
+	PO9jq1XX4L9HFCOaTtJBSJtGuUtpLdYiQBMhMwUYlIyOK14PL4BSEQiC0/Ct8sio1C+T
+	tiRURZXIJMjw7ryqeNncHpXlLc/Udjd0gDijlTE+9t9eJlUCrjE1sW6ysJ0EzxsOrVq/
+	xzsA==
+X-Gm-Message-State: AOAM532CTqqG739hjn7CoPDutL4nlTOKhM5OYqMruM+UYyM/0Dc5MYki
+	YqcbfxBMWWurx9UOTbfPrw==
+X-Google-Smtp-Source: ABdhPJzbe6LZdfAL8EIT/Oh6YY9Xm6ZbUZUyEPTt/DKov8B61cmbhjP3GfR5BPcRyxIrZO4nqxoYSw==
+X-Received: by 2002:a1c:23c4:: with SMTP id j187mr15931167wmj.58.1596458110852;
+	Mon, 03 Aug 2020 05:35:10 -0700 (PDT)
 Received: from localhost.lan (host-92-25-238-49.as13285.net. [92.25.238.49])
 	by smtp.gmail.com with ESMTPSA id
-	u66sm24201133wmu.37.2020.08.03.05.35.08
+	u66sm24201133wmu.37.2020.08.03.05.35.09
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 03 Aug 2020 05:35:09 -0700 (PDT)
+	Mon, 03 Aug 2020 05:35:10 -0700 (PDT)
 From: Jules Irenge <jbi.octave@gmail.com>
 To: linux-kernel@vger.kernel.org
-Subject: [RESEND PATCH 1/2] audit: change unnecessary globals into statics
-Date: Mon,  3 Aug 2020 13:34:38 +0100
-Message-Id: <20200803123439.83400-2-jbi.octave@gmail.com>
+Subject: [RESEND PATCH 2/2] audit: uninitialize variable audit_sig_sid
+Date: Mon,  3 Aug 2020 13:34:39 +0100
+Message-Id: <20200803123439.83400-3-jbi.octave@gmail.com>
 In-Reply-To: <20200803123439.83400-1-jbi.octave@gmail.com>
 References: <0/2>
  <20200803123439.83400-1-jbi.octave@gmail.com>
@@ -100,56 +99,38 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-Variables sig_pid, audit_sig_uid and audit_sig_sid
-are only used in the audit.c file across the kernel
-Hence it appears no reason for declaring them as globals
-This patch removes their global declarations from the .h file
-and change them into static in the .c file.
+Checkpatch tool reports
+
+"ERROR: do not initialise globals/statics to 0"
+
+To fix this, audit_sig_sid is uninitialized
+As this is stored in the .bss section,
+the compiler can initialize the variable automatically.
 
 Signed-off-by: Jules Irenge <jbi.octave@gmail.com>
 ---
- kernel/audit.c | 6 +++---
- kernel/audit.h | 4 ----
- 2 files changed, 3 insertions(+), 7 deletions(-)
+ kernel/audit.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/kernel/audit.c b/kernel/audit.c
-index b2301bdc9773..afd7827cf6e8 100644
+index afd7827cf6e8..1c74d1d788b6 100644
 --- a/kernel/audit.c
 +++ b/kernel/audit.c
-@@ -123,9 +123,9 @@ static u32	audit_backlog_limit = 64;
- static u32	audit_backlog_wait_time = AUDIT_BACKLOG_WAIT_TIME;
- 
+@@ -125,7 +125,7 @@ static u32	audit_backlog_wait_time = AUDIT_BACKLOG_WAIT_TIME;
  /* The identity of the user shutting down the audit system. */
--kuid_t		audit_sig_uid = INVALID_UID;
--pid_t		audit_sig_pid = -1;
--u32		audit_sig_sid = 0;
-+static kuid_t		audit_sig_uid = INVALID_UID;
-+static pid_t		audit_sig_pid = -1;
-+static u32		audit_sig_sid = 0;
+ static kuid_t		audit_sig_uid = INVALID_UID;
+ static pid_t		audit_sig_pid = -1;
+-static u32		audit_sig_sid = 0;
++static u32		audit_sig_sid;
  
  /* Records can be lost in several ways:
     0) [suppressed in audit_alloc]
-diff --git a/kernel/audit.h b/kernel/audit.h
-index ddc22878433d..3b9c0945225a 100644
---- a/kernel/audit.h
-+++ b/kernel/audit.h
-@@ -327,10 +327,6 @@ static inline int audit_signal_info_syscall(struct task_struct *t)
- 
- extern char *audit_unpack_string(void **bufp, size_t *remain, size_t len);
- 
--extern pid_t audit_sig_pid;
--extern kuid_t audit_sig_uid;
--extern u32 audit_sig_sid;
--
- extern int audit_filter(int msgtype, unsigned int listtype);
- 
- extern void audit_ctl_lock(void);
 -- 
 2.26.2
 
