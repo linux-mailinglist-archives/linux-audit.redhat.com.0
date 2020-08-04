@@ -1,61 +1,87 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com [207.211.31.120])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A46823BB0D
-	for <lists+linux-audit@lfdr.de>; Tue,  4 Aug 2020 15:21:05 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1596547264;
-	h=from:from:sender:sender:reply-to:subject:subject:date:date:
-	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-	 content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:list-id:list-help:
-	 list-unsubscribe:list-subscribe:list-post;
-	bh=DahIoSyN9OXkNOEIY+7dkhC4ziPAKwVyNT7IejSdia0=;
-	b=ZOlXFtBbSUizYh1c5lAskJnq5h+WXdmn3JoGG4VKIJR38MFXl8xOoF0ONzxXnjyHUgxqoH
-	9Aq2JA601SWUcjCMicoVNRtMqC++L4JUOpoS9QIt8JB9WI/peVwgNr+o3ZaqbcpVWA6u+u
-	7CLteC9Wkh7Hm3yJrKVidoq5Y+WqbTk=
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com [205.139.110.120])
+	by mail.lfdr.de (Postfix) with ESMTP id 9921023BFF7
+	for <lists+linux-audit@lfdr.de>; Tue,  4 Aug 2020 21:30:11 +0200 (CEST)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-445-heYB-dZtP6qTfhbhmeD9Tw-1; Tue, 04 Aug 2020 09:21:01 -0400
-X-MC-Unique: heYB-dZtP6qTfhbhmeD9Tw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+ us-mta-414-lrZQTjiWNzSsUnNR5H0nZw-1; Tue, 04 Aug 2020 15:30:07 -0400
+X-MC-Unique: lrZQTjiWNzSsUnNR5H0nZw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EB5F2100A8C6;
-	Tue,  4 Aug 2020 13:20:54 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id B764469512;
-	Tue,  4 Aug 2020 13:20:50 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1FC9C80BCAD;
+	Tue,  4 Aug 2020 19:30:01 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id B6A111A91F;
+	Tue,  4 Aug 2020 19:29:58 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 436BCA35BB;
-	Tue,  4 Aug 2020 13:20:44 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
-	[10.5.11.23])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 8F01818095FF;
+	Tue,  4 Aug 2020 19:29:54 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+	[10.11.54.6])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 074DKVnx032188 for <linux-audit@listman.util.phx.redhat.com>;
-	Tue, 4 Aug 2020 09:20:31 -0400
+	id 074G7a9u025518 for <linux-audit@listman.util.phx.redhat.com>;
+	Tue, 4 Aug 2020 12:07:36 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id 4987F19C4F; Tue,  4 Aug 2020 13:20:31 +0000 (UTC)
+	id 0E1232156A30; Tue,  4 Aug 2020 16:07:36 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from x2.localnet (ovpn-112-192.phx2.redhat.com [10.3.112.192])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 104802857F;
-	Tue,  4 Aug 2020 13:20:28 +0000 (UTC)
-From: Steve Grubb <sgrubb@redhat.com>
-To: linux-audit@redhat.com
-Subject: Re: Adding audit support to dpkg
-Date: Tue, 04 Aug 2020 09:20:27 -0400
-Message-ID: <2036494.irdbgypaU6@x2>
-Organization: Red Hat
-In-Reply-To: <20200803225049.GA511687@thunder.hadrons.org>
-References: <20200803225049.GA511687@thunder.hadrons.org>
+Received: from mimecast-mx02.redhat.com
+	(mimecast06.extmail.prod.ext.rdu2.redhat.com [10.11.55.22])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 0A32E2156A2E
+	for <linux-audit@redhat.com>; Tue,  4 Aug 2020 16:07:33 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [207.211.31.81])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AA0D518A6661
+	for <linux-audit@redhat.com>; Tue,  4 Aug 2020 16:07:33 +0000 (UTC)
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182]) by
+	relay.mimecast.com with ESMTP id us-mta-307-F-hXhRu-NV-phT-wqMx_iQ-1;
+	Tue, 04 Aug 2020 12:07:29 -0400
+X-MC-Unique: F-hXhRu-NV-phT-wqMx_iQ-1
+Received: from [10.137.106.139] (unknown [131.107.174.11])
+	by linux.microsoft.com (Postfix) with ESMTPSA id C947F20B4908;
+	Tue,  4 Aug 2020 09:07:26 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com C947F20B4908
+Subject: Re: [dm-devel] [RFC PATCH v5 00/11] Integrity Policy Enforcement LSM
+	(IPE)
+To: James Bottomley <James.Bottomley@HansenPartnership.com>,
+	Pavel Machek <pavel@ucw.cz>, Sasha Levin <sashal@kernel.org>
+References: <20200728213614.586312-1-deven.desai@linux.microsoft.com>
+	<20200802115545.GA1162@bug> <20200802140300.GA2975990@sasha-vm>
+	<20200802143143.GB20261@amd>
+	<1596386606.4087.20.camel@HansenPartnership.com>
+From: Deven Bowers <deven.desai@linux.microsoft.com>
+Message-ID: <fb35a1f7-7633-a678-3f0f-17cf83032d2b@linux.microsoft.com>
+Date: Tue, 4 Aug 2020 09:07:26 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+	Thunderbird/68.11.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <1596386606.4087.20.camel@HansenPartnership.com>
+Content-Language: en-US
+X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
+	Definition; Similar Internal Domain=false;
+	Similar Monitored External Domain=false;
+	Custom External Domain=false; Mimecast External Domain=false;
+	Newly Observed Domain=false; Internal User Name=false;
+	Custom Display Name List=false; Reply-to Address Mismatch=false;
+	Targeted Threat Dictionary=false;
+	Mimecast Threat Dictionary=false; Custom Threat Dictionary=false;
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
 X-MIME-Autoconverted: from quoted-printable to 8bit by
-	lists01.pubmisc.prod.ext.phx2.redhat.com id 074DKVnx032188
+	lists01.pubmisc.prod.ext.phx2.redhat.com id 074G7a9u025518
 X-loop: linux-audit@redhat.com
-Cc: Guillem Jover <guillem@debian.org>
+X-Mailman-Approved-At: Tue, 04 Aug 2020 15:29:45 -0400
+Cc: snitzer@redhat.com, zohar@linux.ibm.com, dm-devel@redhat.com,
+	tyhicks@linux.microsoft.com, agk@redhat.com, corbet@lwn.net,
+	jmorris@namei.org, nramas@linux.microsoft.com, serge@hallyn.com,
+	pasha.tatashin@soleen.com, jannh@google.com,
+	linux-block@vger.kernel.org, viro@zeniv.linux.org.uk,
+	axboe@kernel.dk, mdsakib@microsoft.com, linux-kernel@vger.kernel.org,
+	linux-security-module@vger.kernel.org, linux-audit@redhat.com,
+	linux-fsdevel@vger.kernel.org, linux-integrity@vger.kernel.org,
+	jaskarankhurana@linux.microsoft.com
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -69,108 +95,67 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Transfer-Encoding: base64
 
-Hello,
-
-On Monday, August 3, 2020 6:50:49 PM EDT Guillem Jover wrote:
-> We got a request to add audit support to dpkg [R], and as initially
-> mentioned on the bug report it seems the AUDIT_SOFTWARE_UPDATE format
-> does not appear to be documented, so while looking into all this, got
-> several questions.
->=20
->   [R] <https://bugs.debian.org/931748>
->=20
-> >From the rpm implementation and auparse/normalize.c I gather that it
-> would contain the following fields, applied to dpkg:
->=20
->   * primary field would be "sw" which would contain something like
->     =AB"nginx_1.18.0-5_amd64"=BB, I assume that the format differing from
->     the one in rpm is fine as that would be keyed on the next field?
-
-sure
-
->   * secondary field would be "sw_type" which would be =ABdpkg=BB.
-
-yes
-
->   * field "op", which would contain entries different to rpm, such as
->     =ABunpack=BB, =ABconfigure=BB, =ABinstall=BB, =ABremove=BB, =ABpurge=
-=BB, not sure if
->     that might be a problem?
-
->From compliance perspective, only install, update, and remove are relevant=
-.=20
-You want to know when something gets added or removed because they could ad=
-d=20
-setuid programs or daemons that autostart. Secondly, you may be tracking=20
-current versions to resolve CVE's. So, for that purpose, you also want to=
-=20
-know when something gets updated. Nothing else matters.
-
-How does unpack differ from install? How does purge differ from remove? The=
-re=20
-is another event type, AUDIT_USYS_CONFIG, that tracks user space configurat=
-ion=20
-changes. However, this is rarely used. Instead, what is done is watches are=
-=20
-placed on important configuration files to see if anything opens the file f=
-or=20
-modiciation. So, would there be any need to have a configuration option for=
-=20
-SOFTWARE_UPDATE?
-
->   * field "key_enforce", I take to denote whether a cryptographic
->     verification has been performed on the .deb archive? With values
->     =AB0=BB or =AB1=BB. (This would depend on whether debsig-verify(1) ha=
-s
->     been configured to be executed or not.)
-
-This denotes whether signature checks is being enforced. This is independen=
-t=20
-from whether or not the signature is valid. IOW, if a signature (next field=
-)=20
-is invalid, will the package be allowed in anyway?
-
->   * field "gpg_res", to denote whether the aforementioned verification
->     succeeded or not? With values =AB0=BB or =AB1=BB. And while dpkg can =
-indeed
->     use GnuPG to verify signatures from archives, the name feels too
->     implementation specific, perhaps it could be renamed so that it
->     would not be very confusing, in case someone implements a check
->     based on say x509 certificates?
-
-This field is whether or not the package passes its verification with a has=
-h,=20
-gpg signature, x509 certificate, or any other integrity scheme.
-
->   * field "root_dir", to denote the installation root directory, which
->     would map to dpkg --instdir value, with a value such as =AB"/"=BB.
-
-Yes. Rpms can be relocatable to anywhere. So, this is to document what part=
-=20
-of the system the package will affect.
-
-> Anything else I might have missed or might be worth taking into
-> account while adding the support?
-
-I think that's pretty much  it. If you wanted to see an example of the code=
-,=20
-it is here:
-
-https://github.com/rpm-software-management/rpm/blob/master/plugins/
-audit.c#L80
-
--Steve
-
-
-
---
-Linux-audit mailing list
-Linux-audit@redhat.com
-https://www.redhat.com/mailman/listinfo/linux-audit
+CgpPbiA4LzIvMjAyMCA5OjQzIEFNLCBKYW1lcyBCb3R0b21sZXkgd3JvdGU6Cj4gT24gU3VuLCAy
+MDIwLTA4LTAyIGF0IDE2OjMxICswMjAwLCBQYXZlbCBNYWNoZWsgd3JvdGU6Cj4+IE9uIFN1biAy
+MDIwLTA4LTAyIDEwOjAzOjAwLCBTYXNoYSBMZXZpbiB3cm90ZToKPj4+IE9uIFN1biwgQXVnIDAy
+LCAyMDIwIGF0IDAxOjU1OjQ1UE0gKzAyMDAsIFBhdmVsIE1hY2hlayB3cm90ZToKPj4+PiBIaSEK
+Pj4+Pgo+Pj4+PiBJUEUgaXMgYSBMaW51eCBTZWN1cml0eSBNb2R1bGUgd2hpY2ggYWxsb3dzIGZv
+ciBhIGNvbmZpZ3VyYWJsZQo+Pj4+PiBwb2xpY3kgdG8gZW5mb3JjZSBpbnRlZ3JpdHkgcmVxdWly
+ZW1lbnRzIG9uIHRoZSB3aG9sZSBzeXN0ZW0uCj4+Pj4+IEl0IGF0dGVtcHRzIHRvIHNvbHZlIHRo
+ZSBpc3N1ZSBvZiBDb2RlIEludGVncml0eTogdGhhdCBhbnkgY29kZQo+Pj4+PiBiZWluZyBleGVj
+dXRlZCAob3IgZmlsZXMgYmVpbmcgcmVhZCksIGFyZSBpZGVudGljYWwgdG8gdGhlCj4+Pj4+IHZl
+cnNpb24gdGhhdCB3YXMgYnVpbHQgYnkgYSB0cnVzdGVkIHNvdXJjZS4KPj4+Pgo+Pj4+IEhvdyBp
+cyB0aGF0IGRpZmZlcmVudCBmcm9tIHNlY3VyaXR5L2ludGVncml0eS9pbWE/Cj4+Pgo+Pj4gTWF5
+YmUgaWYgeW91IHdvdWxkIGhhdmUgcmVhZCB0aGUgY292ZXIgbGV0dGVyIGFsbCB0aGUgd2F5IGRv
+d24gdG8KPj4+IHRoZSA1dGggcGFyYWdyYXBoIHdoaWNoIGV4cGxhaW5zIGhvdyBJUEUgaXMgZGlm
+ZmVyZW50IGZyb20gSU1BIHdlCj4+PiBjb3VsZCBhdm9pZGVkIHRoaXMgbWFpbCBleGNoYW5nZS4u
+Lgo+Pgo+PiAiCj4+IElQRSBkaWZmZXJzIGZyb20gb3RoZXIgTFNNcyB3aGljaCBwcm92aWRlIGlu
+dGVncml0eSBjaGVja2luZyAoZm9yCj4+IGluc3RhbmNlLAo+PiBJTUEpLCBhcyBpdCBoYXMgbm8g
+ZGVwZW5kZW5jeSBvbiB0aGUgZmlsZXN5c3RlbSBtZXRhZGF0YSBpdHNlbGYuIFRoZQo+PiBhdHRy
+aWJ1dGVzIHRoYXQgSVBFIGNoZWNrcyBhcmUgZGV0ZXJtaW5pc3RpYyBwcm9wZXJ0aWVzIHRoYXQg
+ZXhpc3QKPj4gc29sZWx5Cj4+IGluIHRoZSBrZXJuZWwuIEFkZGl0aW9uYWxseSwgSVBFIHByb3Zp
+ZGVzIG5vIGFkZGl0aW9uYWwgbWVjaGFuaXNtcyBvZgo+PiB2ZXJpZnlpbmcgdGhlc2UgZmlsZXMg
+KGUuZy4gSU1BIFNpZ25hdHVyZXMpIC0gYWxsIG9mIHRoZSBhdHRyaWJ1dGVzCj4+IG9mCj4+IHZl
+cmlmeWluZyBmaWxlcyBhcmUgZXhpc3RpbmcgZmVhdHVyZXMgd2l0aGluIHRoZSBrZXJuZWwsIHN1
+Y2ggYXMKPj4gZG0tdmVyaXR5Cj4+IG9yIGZzdmVyaXR5Lgo+PiAiCj4+Cj4+IFRoYXQgaXMgbm90
+IHJlYWxseSBoZWxwZnVsLgoKUGVyaGFwcyBJIGNhbiBleHBsYWluIChhbmQgcmUtd29yZCB0aGlz
+IHBhcmFncmFwaCkgYSBiaXQgYmV0dGVyLgoKQXMgSmFtZXMgaW5kaWNhdGVzLCBJUEUgZG9lcyB0
+cnkgdG8gY2xvc2UgdGhlIGdhcCBvZiB0aGUgSU1BIGxpbWl0YXRpb24Kd2l0aCB4YXR0ci4gSSBo
+b25lc3RseSB3YXNu4oCZdCBmYW1pbGlhciB3aXRoIHRoZSBhcHBlbmRlZCBzaWduYXR1cmVzLAp3
+aGljaCBzZWVtcyBmaW5lLgoKUmVnYXJkbGVzcywgdGhpcyBpc27igJl0IHRoZSBsYXJnZXIgYmVu
+ZWZpdCB0aGF0IElQRSBwcm92aWRlcy4gVGhlCmxhcmdlciBiZW5lZml0IG9mIHRoaXMgaXMgaG93
+IElQRSBzZXBhcmF0ZXMgX21lY2hhbmlzbXNfIChwcm9wZXJ0aWVzKQp0byBlbmZvcmNlIGludGVn
+cml0eSByZXF1aXJlbWVudHMsIGZyb20gX3BvbGljeV8uIFRoZSBMU00gcHJvdmlkZXMKcG9saWN5
+LCB3aGlsZSB0aGluZ3MgbGlrZSBkbS12ZXJpdHkgcHJvdmlkZSBtZWNoYW5pc20uCgpTbyB0byBz
+cGVhaywgSVBFIGFjdHMgYXMgdGhlIGdsdWUgZm9yIG90aGVyIG1lY2hhbmlzbXMgdG8gbGV2ZXJh
+Z2UgYQpjdXN0b21pemFibGUsIHN5c3RlbS13aWRlIHBvbGljeSB0byBlbmZvcmNlLiBXaGlsZSB0
+aGlzIGluaXRpYWwKcGF0Y2hzZXQgb25seSBvbmJvYXJkcyBkbS12ZXJpdHksIHRoZXJl4oCZcyBh
+bHNvIHBvdGVudGlhbCBmb3IgTUFDIGxhYmVscywKZnMtdmVyaXR5LCBhdXRoZW50aWNhdGVkIEJU
+UkZTLCBkbS1pbnRlZ3JpdHksIGV0Yy4gSVBFIGxldmVyYWdlcwpleGlzdGluZyBzeXN0ZW1zIGlu
+IHRoZSBrZXJuZWwsIHdoaWxlIElNQSB1c2VzIGl0cyBvd24uCgpBbm90aGVyIGRpZmZlcmVuY2Ug
+aXMgdGhlIGdlbmVyYWwgY292ZXJhZ2UuIElNQSBoYXMgc29tZSBkaWZmaWN1bHRpZXMKaW4gY292
+ZXJpbmcgbXByb3RlY3RbMV0sIElQRSBkb2VzbuKAmXQgKHRoZSBNQVBfQU5PTllNT1VTIGluZGlj
+YXRlZCBieQpKYW5uIGluIHRoYXQgdGhyZWFkIHdvdWxkIGJlIGRlbmllZCBhcyB0aGUgZmlsZSBz
+dHJ1Y3Qgd291bGQgYmUgbnVsbCwKd2l0aCBJUEXigJlzIGN1cnJlbnQgc2V0IG9mIHN1cHBvcnRl
+ZCBtZWNoYW5pc21zLiBtcHJvdGVjdCB3b3VsZCBjb250aW51ZQp0byBmdW5jdGlvbiBhcyBleHBl
+Y3RlZCBpZiB5b3UgY2hhbmdlIHRvIFBST1RfRVhFQykuCgo+IFBlcmhhcHMgdGhlIGJpZyBxdWVz
+dGlvbiBpczogSWYgd2UgdXNlZCB0aGUgZXhpc3RpbmcgSU1BIGFwcGVuZGVkCj4gc2lnbmF0dXJl
+IGZvciBkZXRhY2hlZCBzaWduYXR1cmVzIChlZmZlY3RpdmVseSBiZWNvbWluZyB0aGUKPiAicHJv
+cGVydGllcyIgcmVmZXJyZWQgdG8gaW4gdGhlIGNvdmVyIGxldHRlcikgYW5kIGhvb2tlZCBJTUEg
+aW50bwo+IGRldmljZSBtYXBwZXIgdXNpbmcgYWRkaXRpb25hbCBwb2xpY3kgdGVybXMsIHdvdWxk
+IHRoYXQgc2F0aXNmeSBhbGwgdGhlCj4gcmVxdWlyZW1lbnRzIHRoaXMgbmV3IExTTSBoYXM/CgpX
+ZWxsLCBNaW1pLCB3aGF0IGRvIHlvdSB0aGluaz8gU2hvdWxkIHdlIGludGVncmF0ZSBhbGwgdGhl
+IGZlYXR1cmVzIG9mCklQRSBpbnRvIElNQSwgb3IgZG8geW91IHRoaW5rIHRoZXkgYXJlIHN1ZmZp
+Y2llbnRseSBkaWZmZXJlbnQgaW4KYXJjaGl0ZWN0dXJlIHRoYXQgaXQgd291bGQgYmUgd29ydGgg
+aXQgdG8ga2VlcCB0aGUgY29kZSBiYXNlIGluIHNlcGFyYXRlCkxTTXM/CgoKWzFdIApodHRwczov
+L2xvcmUua2VybmVsLm9yZy9saW51eC1pbnRlZ3JpdHkvMTU4ODY4ODIwNC41MTU3LjUuY2FtZWxA
+bGludXguaWJtLmNvbS8KCgotLQpMaW51eC1hdWRpdCBtYWlsaW5nIGxpc3QKTGludXgtYXVkaXRA
+cmVkaGF0LmNvbQpodHRwczovL3d3dy5yZWRoYXQuY29tL21haWxtYW4vbGlzdGluZm8vbGludXgt
+YXVkaXQ=
 
