@@ -1,57 +1,79 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com [205.139.110.120])
-	by mail.lfdr.de (Postfix) with ESMTP id A62922400AB
-	for <lists+linux-audit@lfdr.de>; Mon, 10 Aug 2020 03:17:51 +0200 (CEST)
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com [205.139.110.61])
+	by mail.lfdr.de (Postfix) with ESMTP id 1B27B240A73
+	for <lists+linux-audit@lfdr.de>; Mon, 10 Aug 2020 17:42:47 +0200 (CEST)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-4-nmZRTCo8PHWi0yyipqE-OA-1; Sun, 09 Aug 2020 21:17:48 -0400
-X-MC-Unique: nmZRTCo8PHWi0yyipqE-OA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+ us-mta-550-osePSYuYN1GM4npcGiDrWw-1; Mon, 10 Aug 2020 11:42:44 -0400
+X-MC-Unique: osePSYuYN1GM4npcGiDrWw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4C7421005504;
-	Mon, 10 Aug 2020 01:17:43 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 7F4195F9DC;
-	Mon, 10 Aug 2020 01:17:42 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C30481DE0;
+	Mon, 10 Aug 2020 15:42:38 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 2CA4370A18;
+	Mon, 10 Aug 2020 15:42:36 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id C9F4B97548;
-	Mon, 10 Aug 2020 01:17:34 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
-	[10.11.54.6])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id EBA3A1809557;
+	Mon, 10 Aug 2020 15:42:32 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+	[10.11.54.3])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 07A1Bovk027298 for <linux-audit@listman.util.phx.redhat.com>;
-	Sun, 9 Aug 2020 21:11:50 -0400
+	id 07AFZruS010640 for <linux-audit@listman.util.phx.redhat.com>;
+	Mon, 10 Aug 2020 11:35:53 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id 029022166BA2; Mon, 10 Aug 2020 01:11:50 +0000 (UTC)
+	id 6DBA51007A46; Mon, 10 Aug 2020 15:35:53 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
 	(mimecast06.extmail.prod.ext.rdu2.redhat.com [10.11.55.22])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id F29F32166BA0
-	for <linux-audit@redhat.com>; Mon, 10 Aug 2020 01:11:46 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [205.139.110.61])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 40EDD10087CA
+	for <linux-audit@redhat.com>; Mon, 10 Aug 2020 15:35:50 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+	[207.211.31.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 92E70185A78B
-	for <linux-audit@redhat.com>; Mon, 10 Aug 2020 01:11:46 +0000 (UTC)
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182]) by
-	relay.mimecast.com with ESMTP id us-mta-246-YiY_x7ugNYSRfoPlUdDUog-1;
-	Sun, 09 Aug 2020 21:11:44 -0400
-X-MC-Unique: YiY_x7ugNYSRfoPlUdDUog-1
-Received: from localhost.localdomain (c-73-42-176-67.hsd1.wa.comcast.net
-	[73.42.176.67])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 99DE720B4908;
-	Sun,  9 Aug 2020 18:02:14 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 99DE720B4908
-From: Lakshmi Ramasubramanian <nramas@linux.microsoft.com>
-To: zohar@linux.ibm.com, sgrubb@redhat.com, paul@paul-moore.com
-Subject: [PATCH] field-dictionary.csv: Add errno to audit message field
-	dictionary
-Date: Sun,  9 Aug 2020 18:02:10 -0700
-Message-Id: <20200810010210.4037-1-nramas@linux.microsoft.com>
-MIME-Version: 1.0
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7ACDF18E0A76
+	for <linux-audit@redhat.com>; Mon, 10 Aug 2020 15:35:50 +0000 (UTC)
+Received: from bedivere.hansenpartnership.com
+	(bedivere.hansenpartnership.com [66.63.167.143]) (Using TLS) by
+	relay.mimecast.com with ESMTP id us-mta-3-ro1_e39VNr2oc3VMJIgX2A-1;
+	Mon, 10 Aug 2020 11:35:44 -0400
+X-MC-Unique: ro1_e39VNr2oc3VMJIgX2A-1
+Received: from localhost (localhost [127.0.0.1])
+	by bedivere.hansenpartnership.com (Postfix) with ESMTP id E27C78EE1DD; 
+	Mon, 10 Aug 2020 08:35:40 -0700 (PDT)
+Received: from bedivere.hansenpartnership.com ([127.0.0.1])
+	by localhost (bedivere.hansenpartnership.com [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with ESMTP id NaS3pjwBelNS; Mon, 10 Aug 2020 08:35:40 -0700 (PDT)
+Received: from [153.66.254.174] (c-73-35-198-56.hsd1.wa.comcast.net
+	[73.35.198.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by bedivere.hansenpartnership.com (Postfix) with ESMTPSA id 490FA8EE12E;
+	Mon, 10 Aug 2020 08:35:39 -0700 (PDT)
+Message-ID: <1597073737.3966.12.camel@HansenPartnership.com>
+Subject: Re: [dm-devel] [RFC PATCH v5 00/11] Integrity Policy Enforcement
+	LSM (IPE)
+From: James Bottomley <James.Bottomley@hansenpartnership.com>
+To: Mimi Zohar <zohar@linux.ibm.com>, Chuck Lever <chucklever@gmail.com>,
+	James Morris <jmorris@namei.org>
+Date: Mon, 10 Aug 2020 08:35:37 -0700
+In-Reply-To: <da6f54d0438ee3d3903b2c75fcfbeb0afdf92dc2.camel@linux.ibm.com>
+References: <20200728213614.586312-1-deven.desai@linux.microsoft.com>
+	<20200802115545.GA1162@bug> <20200802140300.GA2975990@sasha-vm>
+	<20200802143143.GB20261@amd>
+	<1596386606.4087.20.camel@HansenPartnership.com>
+	<fb35a1f7-7633-a678-3f0f-17cf83032d2b@linux.microsoft.com>
+	<1596639689.3457.17.camel@HansenPartnership.com>
+	<alpine.LRH.2.21.2008050934060.28225@namei.org>
+	<b08ae82102f35936427bf138085484f75532cff1.camel@linux.ibm.com>
+	<329E8DBA-049E-4959-AFD4-9D118DEB176E@gmail.com>
+	<da6f54d0438ee3d3903b2c75fcfbeb0afdf92dc2.camel@linux.ibm.com>
+Mime-Version: 1.0
 X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
 	Definition; Similar Internal Domain=false;
 	Similar Monitored External Domain=false;
@@ -60,12 +82,21 @@ X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
 	Custom Display Name List=false; Reply-to Address Mismatch=false;
 	Targeted Threat Dictionary=false;
 	Mimecast Threat Dictionary=false; Custom Threat Dictionary=false;
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-X-MIME-Autoconverted: from quoted-printable to 8bit by
-	lists01.pubmisc.prod.ext.phx2.redhat.com id 07A1Bovk027298
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
 X-loop: linux-audit@redhat.com
-X-Mailman-Approved-At: Sun, 09 Aug 2020 21:17:20 -0400
-Cc: linux-integrity@vger.kernel.org, linux-audit@redhat.com
+X-Mailman-Approved-At: Mon, 10 Aug 2020 11:41:02 -0400
+Cc: snitzer@redhat.com, Deven Bowers <deven.desai@linux.microsoft.com>,
+	dm-devel@redhat.com, tyhicks@linux.microsoft.com,
+	Pavel Machek <pavel@ucw.cz>, Paul, agk@redhat.com,
+	Sasha Levin <sashal@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, nramas@linux.microsoft.com,
+	serge@hallyn.com, pasha.tatashin@soleen.com,
+	Jann Horn <jannh@google.com>, linux-block@vger.kernel.org,
+	Al Viro <viro@zeniv.linux.org.uk>, Jens Axboe <axboe@kernel.dk>,
+	mdsakib@microsoft.com, open list <linux-kernel@vger.kernel.org>,
+	linux-security-module@vger.kernel.org, linux-audit@redhat.com,
+	linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+	linux-integrity@vger.kernel.org, jaskarankhurana@linux.microsoft.com
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -79,7 +110,7 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
 	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=linux-audit-bounces@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -87,41 +118,71 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-Error code was not included in the audit messages logged by
-the integrity subsystem in the Linux kernel.
+On Sun, 2020-08-09 at 13:16 -0400, Mimi Zohar wrote:
+> On Sat, 2020-08-08 at 13:47 -0400, Chuck Lever wrote:
+> > > On Aug 5, 2020, at 2:15 PM, Mimi Zohar <zohar@linux.ibm.com>
+> > > wrote:
+> 
+> <snip>
+> 
+> > > If block layer integrity was enough, there wouldn't have been a
+> > > need for fs-verity.   Even fs-verity is limited to read only
+> > > filesystems, which makes validating file integrity so much
+> > > easier.  From the beginning, we've said that fs-verity signatures
+> > > should be included in the measurement list.  (I thought someone
+> > > signed on to add that support to IMA, but have not yet seen
+> > > anything.)
+> > 
+> > Mimi, when you and I discussed this during LSS NA 2019, I didn't
+> > fully understand that you expected me to implement signed Merkle
+> > trees for all filesystems. At the time, it sounded to me like you
+> > wanted signed Merkle trees only for NFS files. Is that still the
+> > case?
+> 
+> I definitely do not expect you to support signed Merkle trees for all
+> filesystems.  My interested is from an IMA perspective of measuring
+> and verifying the fs-verity Merkle tree root (and header info)
+> signature. This is independent of which filesystems support it.
+> 
+> > 
+> > The first priority (for me, anyway) therefore is getting the
+> > ability to move IMA metadata between NFS clients and servers
+> > shoveled into the NFS protocol, but that's been blocked for various
+> > legal reasons.
+> 
+> Up to now, verifying remote filesystem file integrity has been out of
+> scope for IMA.   With fs-verity file signatures I can at least grasp
+> how remote file integrity could possibly work.  I don't understand
+> how remote file integrity with existing IMA formats could be
+> supported. You might want to consider writing a whitepaper, which
+> could later be used as the basis for a patch set cover letter.
 
-commit 2f845882ecd2 in https://github.com/torvalds/linux tree added
-"errno" field in the audit messages logged by the integrity subsystem.
-The "errno" field will be set to 0 when the operation was completed
-successfully, and on failure a non-zero error code is set in this field
-in the audit message.
+I think, before this, we can help with the basics (and perhaps we
+should sort them out before we start documenting what we'll do).  The
+first basic is that a merkle tree allows unit at a time verification. 
+First of all we should agree on the unit.  Since we always fault a page
+at a time, I think our merkle tree unit should be a page not a block. 
+Next, we should agree where the check gates for the per page accesses
+should be ... definitely somewhere in readpage, I suspect and finally
+we should agree how the merkle tree is presented at the gate.  I think
+there are three ways:
 
-Add the documentation for the "errno" field in the audit message
-field dictionary.
+   1. Ahead of time transfer:  The merkle tree is transferred and verified
+      at some time before the accesses begin, so we already have a
+      verified copy and can compare against the lower leaf.
+   2. Async transfer:  We provide an async mechanism to transfer the
+      necessary components, so when presented with a unit, we check the
+      log n components required to get to the root
+   3. The protocol actually provides the capability of 2 (like the SCSI
+      DIF/DIX), so to IMA all the pieces get presented instead of IMA
+      having to manage the tree
 
-Sample audit message from the integrity subsystem with errno field:
+There are also a load of minor things like how we get the head hash,
+which must be presented and verified ahead of time for each of the
+above 3.
 
-    [    6.303048] audit: type=1804 audit(1592506281.627:2): pid=1 uid=0 auid=4294967295 ses=4294967295 subj=kernel op=measuring_key cause=ENOMEM comm="swapper/0" name=".builtin_trusted_keys" res=0 errno=-12
+James
 
-Signed-off-by: Lakshmi Ramasubramanian <nramas@linux.microsoft.com>
----
- specs/fields/field-dictionary.csv | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/specs/fields/field-dictionary.csv b/specs/fields/field-dictionary.csv
-index 055ff79..5117e25 100644
---- a/specs/fields/field-dictionary.csv
-+++ b/specs/fields/field-dictionary.csv
-@@ -49,6 +49,7 @@ dport,numeric,remote port number,
- egid,numeric,effective group ID,
- enforcing,numeric,new MAC enforcement status,
- entries,numeric,number of entries in the netfilter table,
-+errno,numeric,error code of the audited operation,
- euid,numeric,effective user ID,
- exe,encoded,executable name,
- exit,numeric,syscall exit code,
--- 
-2.28.0
 
 
 --
