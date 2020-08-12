@@ -1,77 +1,67 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [216.205.24.124])
-	by mail.lfdr.de (Postfix) with ESMTP id 11E92242C1B
-	for <lists+linux-audit@lfdr.de>; Wed, 12 Aug 2020 17:22:25 +0200 (CEST)
+Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [205.139.110.61])
+	by mail.lfdr.de (Postfix) with ESMTP id 43071242C61
+	for <lists+linux-audit@lfdr.de>; Wed, 12 Aug 2020 17:52:31 +0200 (CEST)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-375-8zKP3aSROVC_8rNO7-2fHQ-1; Wed, 12 Aug 2020 11:22:21 -0400
-X-MC-Unique: 8zKP3aSROVC_8rNO7-2fHQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+ us-mta-306-E1npzIJfN9m2Uxv904vF5A-1; Wed, 12 Aug 2020 11:52:28 -0400
+X-MC-Unique: E1npzIJfN9m2Uxv904vF5A-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0E78F18B9ECD;
-	Wed, 12 Aug 2020 15:22:11 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1A42979EC8;
+	Wed, 12 Aug 2020 15:52:22 +0000 (UTC)
 Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id E041F10002CA;
-	Wed, 12 Aug 2020 15:22:08 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 9E8ED19D7C;
+	Wed, 12 Aug 2020 15:52:21 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 17A20181A86E;
-	Wed, 12 Aug 2020 15:22:06 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
-	[10.11.54.4])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 3FC25181A870;
+	Wed, 12 Aug 2020 15:52:20 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+	[10.11.54.3])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 07CEkBAJ027451 for <linux-audit@listman.util.phx.redhat.com>;
-	Wed, 12 Aug 2020 10:46:11 -0400
+	id 07CFglEP000618 for <linux-audit@listman.util.phx.redhat.com>;
+	Wed, 12 Aug 2020 11:42:47 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id A881A2026D69; Wed, 12 Aug 2020 14:46:11 +0000 (UTC)
+	id F143A1009B82; Wed, 12 Aug 2020 15:42:46 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
-	(mimecast01.extmail.prod.ext.rdu2.redhat.com [10.11.55.17])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id A3B932026D5D
-	for <linux-audit@redhat.com>; Wed, 12 Aug 2020 14:46:09 +0000 (UTC)
+	(mimecast02.extmail.prod.ext.rdu2.redhat.com [10.11.55.18])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id DC9B21009A17
+	for <linux-audit@redhat.com>; Wed, 12 Aug 2020 15:42:44 +0000 (UTC)
 Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
-	[205.139.110.120])
+	[207.211.31.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 79517857028
-	for <linux-audit@redhat.com>; Wed, 12 Aug 2020 14:46:09 +0000 (UTC)
-Received: from mail-il1-f195.google.com (mail-il1-f195.google.com
-	[209.85.166.195]) (Using TLS) by relay.mimecast.com with ESMTP id
-	us-mta-152-YT8_bUNjOSKskT-JC_DIWQ-1; Wed, 12 Aug 2020 10:46:01 -0400
-X-MC-Unique: YT8_bUNjOSKskT-JC_DIWQ-1
-Received: by mail-il1-f195.google.com with SMTP id l7so1864960ils.2;
-	Wed, 12 Aug 2020 07:46:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to;
-	bh=kQOJV8hQKKWi1Q4IBwonjxI4nlnYdAyxL48CghY2b34=;
-	b=b+BykxfZZy/GfxG3ZsY89aLaC7crjoKmrrh7Zy3E0QF77E9rszX2VQPGD/TBRIlYLR
-	34Gy8YSv/EdVQPNJmUDqOdWtCCb+fHlytViJZBppRKT1ahuK2sCdlnGkPmiyh21OE+8A
-	B+uDaOcBZGFVErTk+m+BmahPtFmKk5pQ25BPHBTYaDS9rSu/azN1Zxt8roQrlWXFJ5ri
-	lAX3xW6do4NLZJBpLKCzaoRyGGH/Cwno7LwLx4N0L0j5zgF6XFIpTsNMoDnKNypoymC/
-	6CUDgtsP3I9Gkc5iGFiFoxnLwd9AoljSrIjtZ2Me0dM/8cSIuQKlENLg1EZYIGR/VhpM
-	p/uA==
-X-Gm-Message-State: AOAM530y7PNw6yy7sUlaluAsqwfSjRzJ3EbNOKjSR9ijedxqnq2bZMQP
-	Vq/2phhCLkMMpKcXsrfKhkc=
-X-Google-Smtp-Source: ABdhPJwhgRbaRRSqe0vcGsrFV97VYVYstE/PFYHOorVWwg7UGiBOlCHPQtwmMYxo8Rf89OCc3e2t5w==
-X-Received: by 2002:a92:6d0c:: with SMTP id i12mr8272ilc.37.1597243558796;
-	Wed, 12 Aug 2020 07:45:58 -0700 (PDT)
-Received: from anon-dhcp-152.1015granger.net
-	(c-68-61-232-219.hsd1.mi.comcast.net. [68.61.232.219])
-	by smtp.gmail.com with ESMTPSA id
-	k14sm1089731ion.17.2020.08.12.07.45.56
-	(version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 12 Aug 2020 07:45:57 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.80.23.2.2\))
-Subject: Re: [dm-devel] [RFC PATCH v5 00/11] Integrity Policy Enforcement LSM
-	(IPE)
-From: Chuck Lever <chucklever@gmail.com>
-In-Reply-To: <1597159969.4325.21.camel@HansenPartnership.com>
-Date: Wed, 12 Aug 2020 10:45:56 -0400
-Message-Id: <20F82AFA-D0AC-479B-AB1D-0D354AE19498@gmail.com>
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 417638007D9
+	for <linux-audit@redhat.com>; Wed, 12 Aug 2020 15:42:44 +0000 (UTC)
+Received: from bedivere.hansenpartnership.com
+	(bedivere.hansenpartnership.com [66.63.167.143]) (Using TLS) by
+	relay.mimecast.com with ESMTP id us-mta-457-Jri5R_rVORaldSTuz5YQHA-1;
+	Wed, 12 Aug 2020 11:42:35 -0400
+X-MC-Unique: Jri5R_rVORaldSTuz5YQHA-1
+Received: from localhost (localhost [127.0.0.1])
+	by bedivere.hansenpartnership.com (Postfix) with ESMTP id 7E6238EE1DD; 
+	Wed, 12 Aug 2020 08:42:29 -0700 (PDT)
+Received: from bedivere.hansenpartnership.com ([127.0.0.1])
+	by localhost (bedivere.hansenpartnership.com [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with ESMTP id AHFsU6pG-8oB; Wed, 12 Aug 2020 08:42:29 -0700 (PDT)
+Received: from [153.66.254.174] (c-73-35-198-56.hsd1.wa.comcast.net
+	[73.35.198.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by bedivere.hansenpartnership.com (Postfix) with ESMTPSA id 11FF68EE0C7;
+	Wed, 12 Aug 2020 08:42:28 -0700 (PDT)
+Message-ID: <1597246946.7293.9.camel@HansenPartnership.com>
+Subject: Re: [dm-devel] [RFC PATCH v5 00/11] Integrity Policy Enforcement
+	LSM (IPE)
+From: James Bottomley <James.Bottomley@hansenpartnership.com>
+To: Chuck Lever <chucklever@gmail.com>
+Date: Wed, 12 Aug 2020 08:42:26 -0700
+In-Reply-To: <2CA41152-6445-4716-B5EE-2D14E5C59368@gmail.com>
 References: <20200728213614.586312-1-deven.desai@linux.microsoft.com>
 	<20200802115545.GA1162@bug> <20200802140300.GA2975990@sasha-vm>
 	<20200802143143.GB20261@amd>
@@ -86,8 +76,9 @@ References: <20200728213614.586312-1-deven.desai@linux.microsoft.com>
 	<6E907A22-02CC-42DD-B3CD-11D304F3A1A8@gmail.com>
 	<1597124623.30793.14.camel@HansenPartnership.com>
 	<16C3BF97-A7D3-488A-9D26-7C9B18AD2084@gmail.com>
-	<1597159969.4325.21.camel@HansenPartnership.com>
-To: James Bottomley <James.Bottomley@HansenPartnership.com>
+	<1597170509.4325.55.camel@HansenPartnership.com>
+	<2CA41152-6445-4716-B5EE-2D14E5C59368@gmail.com>
+Mime-Version: 1.0
 X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
 	Definition; Similar Internal Domain=false;
 	Similar Monitored External Domain=false;
@@ -96,14 +87,12 @@ X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
 	Custom Display Name List=false; Reply-to Address Mismatch=false;
 	Targeted Threat Dictionary=false;
 	Mimecast Threat Dictionary=false; Custom Threat Dictionary=false;
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-X-MIME-Autoconverted: from quoted-printable to 8bit by
-	lists01.pubmisc.prod.ext.phx2.redhat.com id 07CEkBAJ027451
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
 X-loop: linux-audit@redhat.com
-X-Mailman-Approved-At: Wed, 12 Aug 2020 11:21:59 -0400
+X-Mailman-Approved-At: Wed, 12 Aug 2020 11:52:14 -0400
 Cc: snitzer@redhat.com, Deven Bowers <deven.desai@linux.microsoft.com>,
 	Mimi Zohar <zohar@linux.ibm.com>, dm-devel@redhat.com,
-	tyhicks@linux.microsoft.com, Pavel Machek <pavel@ucw.cz>,
+	tyhicks@linux.microsoft.com, Pavel Machek <pavel@ucw.cz>, Paul,
 	agk@redhat.com, Sasha Levin <sashal@kernel.org>,
 	Jonathan Corbet <corbet@lwn.net>,
 	James Morris <jmorris@namei.org>, nramas@linux.microsoft.com,
@@ -127,7 +116,7 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
 	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=linux-audit-bounces@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -135,83 +124,85 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-
-
-> On Aug 11, 2020, at 11:32 AM, James Bottomley <James.Bottomley@HansenPartnership.com> wrote:
+On Wed, 2020-08-12 at 09:56 -0400, Chuck Lever wrote:
+> > On Aug 11, 2020, at 2:28 PM, James Bottomley <James.Bottomley@Hanse
+> > nPartnership.com> wrote:
+> > 
+> > On Tue, 2020-08-11 at 10:48 -0400, Chuck Lever wrote:
+> > > Mimi's earlier point is that any IMA metadata format that
+> > > involves unsigned digests is exposed to an alteration attack at
+> > > rest or in transit, thus will not provide a robust end-to-end
+> > > integrity guarantee.
+> > 
+> > I don't believe that is Mimi's point, because it's mostly not
+> > correct: the xattr mechanism does provide this today.  The point is
+> > the mechanism we use for storing IMA hashes and signatures today is
+> > xattrs because they have robust security properties for local
+> > filesystems that the kernel enforces.  This use goes beyond IMA,
+> > selinux labels for instance use this property as well.
 > 
-> On Tue, 2020-08-11 at 10:48 -0400, Chuck Lever wrote:
->>> On Aug 11, 2020, at 1:43 AM, James Bottomley
->>> <James.Bottomley@HansenPartnership.com> wrote:
->>> On Mon, 2020-08-10 at 19:36 -0400, Chuck Lever wrote:
-> [...]
->>>> Thanks for the help! I just want to emphasize that documentation
->>>> (eg, a specification) will be critical for remote filesystems.
->>>> 
->>>> If any of this is to be supported by a remote filesystem, then we
->>>> need an unencumbered description of the new metadata format
->>>> rather than code. GPL-encumbered formats cannot be contributed to
->>>> the NFS standard, and are probably difficult for other
->>>> filesystems that are not Linux-native, like SMB, as well.
->>> 
->>> I don't understand what you mean by GPL encumbered formats.  The
->>> GPL is a code licence not a data or document licence.
->> 
->> IETF contributions occur under a BSD-style license incompatible
->> with the GPL.
->> 
->> https://trustee.ietf.org/trust-legal-provisions.html
->> 
->> Non-Linux implementers (of OEM storage devices) rely on such
->> standards processes to indemnify them against licensing claims.
+> I don't buy this for a second. If storing a security label in a
+> local xattr is so secure, we wouldn't have any need for EVM.
+
+What don't you buy?  Security xattrs can only be updated by local root.
+ If you trust local root, the xattr mechanism is fine ... it's the only
+one a lot of LSMs use, for instance.  If you don't trust local root or
+worry about offline backups, you use EVM.  A thing isn't secure or
+insecure, it depends on the threat model.  However, if you don't trust
+the NFS server it doesn't matter whether you do or don't trust local
+root, you can't believe the contents of the xattr.
+
+> > What I think you're saying is that NFS can't provide the robust
+> > security for xattrs we've been relying on, so you need some other
+> > mechanism for storing them.
 > 
-> Well, that simply means we won't be contributing the Linux
-> implementation, right?
+> For NFS, there's a network traversal which is an attack surface.
+> 
+> A local xattr can be attacked as well: a device or bus malfunction
+> can corrupt the content of an xattr, or a privileged user can modify
+> it.
+> 
+> How does that metadata get from the software provider to the end
+> user? It's got to go over a network, stored in various ways, some
+> of which will not be trusted. To attain an unbroken chain of
+> provenance, that metadata has to be signed.
+> 
+> I don't think the question is the storage mechanism, but rather the
+> protection mechanism. Signing the metadata protects it in all of
+> these cases.
 
-At the present time, there is nothing but the Linux implementation.
-There's no English description, there's no specification of the
-formats, the format is described only by source code.
+I think we're saying about the same thing.  For most people the
+security mechanism of local xattrs is sufficient.  If you're paranoid,
+you don't believe it is and you use EVM.
 
-The only way to contribute current IMA metadata formats to an open
-standards body like the IETF is to look at encumbered code first.
-We would effectively be contributing an implementation in this case.
+> > I think Mimi's other point is actually that IMA uses a flat hash
+> > which we derive by reading the entire file and then watching for
+> > mutations. Since you cannot guarantee we get notice of mutation
+> > with NFS, the entire IMA mechanism can't really be applied in its
+> > current form and we have to resort to chunk at a time verifications
+> > that a Merkel tree would provide.
+> 
+> I'm not sure what you mean by this. An NFS client relies on
+> notification of mutation to maintain the integrity of its cache of
+> NFS file content, and it's done that since the 1980s.
 
-(I'm not saying the current formats should or should not be
-contributed; merely that there is a legal stumbling block to doing
-so that can be avoided for newly defined formats).
+Mutation detection is part of the current IMA security model.  If IMA
+sees a file mutate it has to be rehashed the next time it passes the
+gate.  If we can't trust the NFS server, we can't trust the NFS
+mutation notification and we have to have a different mechanism to
+check the file.
 
+> In addition to examining a file's mtime and ctime as maintained by
+> the NFS server, a client can rely on the file's NFSv4 change
+> attribute or an NFSv4 delegation.
 
-> Well, let me put the counterpoint: I can write a book about how linux
-> device drivers work (which includes describing the data formats)
+And that's secure in the face of a malicious or compromised server?
 
+The bottom line is still, I think we can't use linear hashes with an
+open/exec/mmap gate with NFS and we have to move to chunk at a time
+verification like that provided by a merkel tree.
 
-Our position is that someone who reads that book and implements those
-formats under a non-GPL-compatible license would be in breach of the
-GPL.
-
-The point of the standards process is to indemnify implementing
-and distributing under _any_ license what has been published by the
-standards body. That legally enables everyone to use the published
-protocol/format in their own code no matter how it happens to be
-licensed.
-
-
-> Fine, good grief, people who take a sensible view of this can write the
-> data format down and publish it under any licence you like then you can
-> pick it up again safely.
-
-
-That's what I proposed. Write it down under the IETF Trust legal
-provisions license. And I volunteered to do that.
-
-All I'm saying is that description needs to come before code.
-
-
---
-Chuck Lever
-chucklever@gmail.com
-
-
-
+James
 
 --
 Linux-audit mailing list
