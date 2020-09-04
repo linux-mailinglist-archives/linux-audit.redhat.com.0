@@ -1,74 +1,72 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com [205.139.110.61])
-	by mail.lfdr.de (Postfix) with ESMTP id 13A4D25E380
-	for <lists+linux-audit@lfdr.de>; Fri,  4 Sep 2020 23:53:49 +0200 (CEST)
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com [207.211.31.120])
+	by mail.lfdr.de (Postfix) with ESMTP id 0495F25E399
+	for <lists+linux-audit@lfdr.de>; Sat,  5 Sep 2020 00:08:32 +0200 (CEST)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-456-EDQtCJ5JNX-MlUIc9pNCqQ-1; Fri, 04 Sep 2020 17:53:47 -0400
-X-MC-Unique: EDQtCJ5JNX-MlUIc9pNCqQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+ us-mta-415-mbikVb1TMaSa7LQz_Accuw-1; Fri, 04 Sep 2020 18:08:30 -0400
+X-MC-Unique: mbikVb1TMaSa7LQz_Accuw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9BA45801ABB;
-	Fri,  4 Sep 2020 21:53:42 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 5897660C0F;
-	Fri,  4 Sep 2020 21:53:42 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ADAF18015FA;
+	Fri,  4 Sep 2020 22:08:25 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 6425219C59;
+	Fri,  4 Sep 2020 22:08:25 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 153BE972E1;
-	Fri,  4 Sep 2020 21:53:42 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
-	[10.11.54.6])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 7DCB618561B2;
+	Fri,  4 Sep 2020 22:08:23 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+	[10.11.54.3])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 084Lrdgg027747 for <linux-audit@listman.util.phx.redhat.com>;
-	Fri, 4 Sep 2020 17:53:39 -0400
+	id 084M6Xtl028952 for <linux-audit@listman.util.phx.redhat.com>;
+	Fri, 4 Sep 2020 18:06:34 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id 1C3AB2156A23; Fri,  4 Sep 2020 21:53:39 +0000 (UTC)
+	id 9509410087D9; Fri,  4 Sep 2020 22:06:33 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
-	(mimecast04.extmail.prod.ext.rdu2.redhat.com [10.11.55.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 1761E2166B27
-	for <linux-audit@redhat.com>; Fri,  4 Sep 2020 21:53:35 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [205.139.110.61])
+	(mimecast02.extmail.prod.ext.rdu2.redhat.com [10.11.55.18])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 8EB3610087D6
+	for <linux-audit@redhat.com>; Fri,  4 Sep 2020 22:06:30 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+	[205.139.110.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CED7C101A568
-	for <linux-audit@redhat.com>; Fri,  4 Sep 2020 21:53:35 +0000 (UTC)
-Received: from mail-ej1-f68.google.com (mail-ej1-f68.google.com
-	[209.85.218.68]) (Using TLS) by relay.mimecast.com with ESMTP id
-	us-mta-272-xIZGY_SVOD2fAotJahjeSA-1; Fri, 04 Sep 2020 17:53:33 -0400
-X-MC-Unique: xIZGY_SVOD2fAotJahjeSA-1
-Received: by mail-ej1-f68.google.com with SMTP id q13so10410928ejo.9
-	for <linux-audit@redhat.com>; Fri, 04 Sep 2020 14:53:33 -0700 (PDT)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 71C898F3663
+	for <linux-audit@redhat.com>; Fri,  4 Sep 2020 22:06:30 +0000 (UTC)
+Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com
+	[209.85.208.67]) (Using TLS) by relay.mimecast.com with ESMTP id
+	us-mta-26-1ejmIvXdOw-mKCjb2yhzzw-1; Fri, 04 Sep 2020 18:06:27 -0400
+X-MC-Unique: 1ejmIvXdOw-mKCjb2yhzzw-1
+Received: by mail-ed1-f67.google.com with SMTP id n22so7480507edt.4
+	for <linux-audit@redhat.com>; Fri, 04 Sep 2020 15:06:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=jNg27iV6ZItAX1i9WvBcKCyLaUSr/yFZulVErl2OY3Y=;
-	b=hF2TfUnsZrW4iBNlSq0cFiPZKpS4NliR9raZISvXHeFhu0GvwhSS2ighGK+9ZGpzOX
-	yu3CvXKKOuqaWMD4QKkHTzqF3rYsg1VLKHDnFnz3HCZ1IqmHLnZlBmxxbnnRXX7j5XIv
-	3xDT8ddcK1sr9Bo9Jyjs4Rb0Ixj41f/NDMBlSw97SRH+Z5D/qICHbtKLEsmqzlGG+rc5
-	XVMV5XzBo/UFaXr0pmopCbX3J+X1FXmKlAsrhXC4qZZDDAaYQ0lOfu+VnNrhHz3698PB
-	rnhp8/I4aOBT6c6qeIAiOAo/e3c6OIVvhPRLTGtct6Kes0O9EXD6a2hBD7oGQaxprXxw
-	AJOg==
-X-Gm-Message-State: AOAM531DzeCoCQeOKNaykWfLm0lz83Y63Q1zcn24QOUDPTrZ63jbSEFY
-	nPvi+1delWntNZ7ZhiyL3nbsK5FzE7sKtgbD1244
-X-Google-Smtp-Source: ABdhPJzOzNTggIkvhW7jMB/WAk/9OaUfUmIFluDsTgrwQTA3qZgrujpGyKOyNmcV1DSfTZmXKw8y8FROdfbmjmY28LE=
-X-Received: by 2002:a17:906:43c9:: with SMTP id
-	j9mr9582131ejn.542.1599256412325; 
-	Fri, 04 Sep 2020 14:53:32 -0700 (PDT)
+	bh=5sj8Qs8D244b3DypbkVLK9SyzByIH1TSJxbsczlHJv0=;
+	b=taTIEmI137U7eJa9menREIZfk1QKbjHnIBORooIapOopmk+DNRZrB/TOAT9PVPZmQN
+	91kxgiBnUG3PDpUC5jmj2OGRDESkSP7hHDePALcqeHZ+1x6YtBFEmtgoeHLJBwEXR/9n
+	B8+rh+t5oCue1s0EAZhFJ7BVuWNRiQRyB9n7vZNvjX6bEiYZYVqsI5pP3LBrjLO/xpNF
+	+g5rdkE3i7xBPi61dRnIH+2Uqjt9AYUBFaRvyuEP/eVXmdrXJGrakaamT9Ufs6x4ZSqY
+	oDtckpA2lBjl3tAtq213Hicl48rZPayD3ciRPtu4GCg6udX2dp0PIDAfYNt4pd7Z8MWC
+	ZRlQ==
+X-Gm-Message-State: AOAM532IQ8SBeuvtdZs58rsFpPgYhevtfaYubl6cUQU4f6U7wbcGk4bm
+	mp+nUWelmlQ/Cxiqetz2oMIDcBnj5gG5Qr2DVFYdTOAFUQ==
+X-Google-Smtp-Source: ABdhPJyEo302Bpff3ClIcmQHpPcN7oCXqhq2TQCQ5B9CTFtk+KixYuWcSnC0gp7xea3RivSrzCT9299b9ttsc/6vX2s=
+X-Received: by 2002:a17:906:8c8:: with SMTP id o8mr9529534eje.91.1599256760459;
+	Fri, 04 Sep 2020 14:59:20 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200826145247.10029-1-casey@schaufler-ca.com>
-	<20200826145247.10029-6-casey@schaufler-ca.com>
-	<CAHC9VhSh=r4w_3mZOUwmKN0UxCMxPNGKd=_vr_iGV06rvCNbSA@mail.gmail.com>
-	<1eeef766-405f-3800-c0cf-3eb008f9673e@schaufler-ca.com>
-In-Reply-To: <1eeef766-405f-3800-c0cf-3eb008f9673e@schaufler-ca.com>
+	<20200826145247.10029-8-casey@schaufler-ca.com>
+In-Reply-To: <20200826145247.10029-8-casey@schaufler-ca.com>
 From: Paul Moore <paul@paul-moore.com>
-Date: Fri, 4 Sep 2020 17:53:21 -0400
-Message-ID: <CAHC9VhSf8RWUnRPYLR6LLzbn-cvNg8J0wnZGwTOAe=dOqkvd0g@mail.gmail.com>
-Subject: Re: [PATCH v20 05/23] net: Prepare UDS for security module stacking
+Date: Fri, 4 Sep 2020 17:59:09 -0400
+Message-ID: <CAHC9VhTqec_n-4y+Qd_i_YEOx6hrb5qKTDubWR1Y6mwCf3zgUA@mail.gmail.com>
+Subject: Re: [PATCH v20 07/23] LSM: Use lsmblob in security_secid_to_secctx
 To: Casey Schaufler <casey@schaufler-ca.com>
 X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
 	Definition; Similar Internal Domain=false;
@@ -78,7 +76,7 @@ X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
 	Custom Display Name List=false; Reply-to Address Mismatch=false;
 	Targeted Threat Dictionary=false;
 	Mimecast Threat Dictionary=false; Custom Threat Dictionary=false;
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
 X-loop: linux-audit@redhat.com
 Cc: john.johansen@canonical.com, selinux@vger.kernel.org,
 	James Morris <jmorris@namei.org>,
@@ -97,7 +95,7 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
 	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=linux-audit-bounces@redhat.com
 X-Mimecast-Spam-Score: 0.002
@@ -105,67 +103,36 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-On Fri, Sep 4, 2020 at 5:35 PM Casey Schaufler <casey@schaufler-ca.com> wrote:
-> On 9/4/2020 1:08 PM, Paul Moore wrote:
-> > On Wed, Aug 26, 2020 at 11:07 AM Casey Schaufler <casey@schaufler-ca.com> wrote:
-> >> Change the data used in UDS SO_PEERSEC processing from a
-> >> secid to a more general struct lsmblob. Update the
-> >> security_socket_getpeersec_dgram() interface to use the
-> >> lsmblob. There is a small amount of scaffolding code
-> >> that will come out when the security_secid_to_secctx()
-> >> code is brought in line with the lsmblob.
-> >>
-> >> Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
-> >> ---
-> >>  include/linux/security.h |  7 +++++--
-> >>  include/net/af_unix.h    |  2 +-
-> >>  include/net/scm.h        |  8 +++++---
-> >>  net/ipv4/ip_sockglue.c   |  8 +++++---
-> >>  net/unix/af_unix.c       |  6 +++---
-> >>  security/security.c      | 18 +++++++++++++++---
-> >>  6 files changed, 34 insertions(+), 15 deletions(-)
-> > ...
-> >
-> >> diff --git a/include/net/af_unix.h b/include/net/af_unix.h
-> >> index f42fdddecd41..a86da0cb5ec1 100644
-> >> --- a/include/net/af_unix.h
-> >> +++ b/include/net/af_unix.h
-> >> @@ -36,7 +36,7 @@ struct unix_skb_parms {
-> >>         kgid_t                  gid;
-> >>         struct scm_fp_list      *fp;            /* Passed files         */
-> >>  #ifdef CONFIG_SECURITY_NETWORK
-> >> -       u32                     secid;          /* Security ID          */
-> >> +       struct lsmblob          lsmblob;        /* Security LSM data    */
-> > As mentioned in a previous revision, I remain concerned that this is
-> > going to become a problem due to the size limit on unix_skb_parms.  I
-> > would need to redo the math to be certain, but if I recall correctly
-> > this would limit us to five LSMs assuming both that we don't need to
-> > grow the per-LSM size of lsmblob *and* the netdev folks don't decide
-> > to add more fields to the unix_skb_parms.
-> >
-> > I lost track of that earlier discussion so I'm not sure where it ended
-> > up, but if there is a viable alternative it might be a good idea to
-> > pursue it.
+On Wed, Aug 26, 2020 at 11:09 AM Casey Schaufler <casey@schaufler-ca.com> wrote:
 >
-> Stephen had concerns about the lifecycle management involved. He also
-> pointed out that I had taken a cowards way out when allocations failed.
-> That could result in unexpected behavior when an allocation failed.
-> Fixing that would have required a major re-write of the currently simple
-> UDS attribute code, which I suspect would be as hard a sell to netdev as
-> expanding the secid to a lsmblob. I also thought I'd gotten netdev on the
-> CC: for this patch, but it looks like I missed it.
+> Change security_secid_to_secctx() to take a lsmblob as input
+> instead of a u32 secid. It will then call the LSM hooks
+> using the lsmblob element allocated for that module. The
+> callers have been updated as well. This allows for the
+> possibility that more than one module may be called upon
+> to translate a secid to a string, as can occur in the
+> audit code.
 >
-> I did start on the UDS attribute re-do, and discovered that I was going
-> to have to introduce new failure paths, and that it might not be possible
-> to maintain compatibility for all cases because of the new possibilities
-> of failure.
+> Reviewed-by: Kees Cook <keescook@chromium.org>
+> Reviewed-by: John Johansen <john.johansen@canonical.com>
+> Acked-by: Stephen Smalley <sds@tycho.nsa.gov>
+> Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
+> ---
+>  drivers/android/binder.c                | 12 +++++++++-
+>  include/linux/security.h                |  5 +++--
+>  include/net/scm.h                       |  8 ++-----
+>  kernel/audit.c                          | 20 +++++++++++++++--
+>  kernel/auditsc.c                        | 28 +++++++++++++++++++----
+>  net/ipv4/ip_sockglue.c                  |  5 +----
+>  net/netfilter/nf_conntrack_netlink.c    | 14 ++++++++++--
+>  net/netfilter/nf_conntrack_standalone.c |  4 +++-
+>  net/netfilter/nfnetlink_queue.c         | 11 +++++++--
+>  net/netlabel/netlabel_unlabeled.c       | 30 +++++++++++++++++++++----
+>  net/netlabel/netlabel_user.c            |  6 ++---
+>  security/security.c                     | 11 +++++----
+>  12 files changed, 117 insertions(+), 37 deletions(-)
 
-... and you're hoping to not be responsible for this code by the time
-this becomes a limiting issue? ;)
-
-I understand the concerns you mention, they are all valid as far as
-I'm concerned, but I think we are going to get burned by this code as
-it currently stands.
+Acked-by: Paul Moore <paul@paul-moore.com>
 
 -- 
 paul moore
