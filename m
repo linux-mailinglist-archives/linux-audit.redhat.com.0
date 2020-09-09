@@ -1,56 +1,164 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [205.139.110.61])
-	by mail.lfdr.de (Postfix) with ESMTP id 790A4264890
-	for <lists+linux-audit@lfdr.de>; Thu, 10 Sep 2020 17:05:57 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1599750356;
-	h=from:from:sender:sender:reply-to:subject:subject:date:date:
-	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-	 content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:list-id:list-help:
-	 list-unsubscribe:list-subscribe:list-post;
-	bh=Cn35KHDPojb0PacD9yGjedgiBdXd3YNOi6YALNGQSTY=;
-	b=D1Owiu4J/uZEQV3C1iB9g/1rEH2GTKFN4dlz33LHsX+7UlJ5YRDYTyckervu4aszayL/dP
-	cGkK6+krb3ptjuG0jT/+mWNJdWK70/mCms3AJlWhLWYY0a/IVVCXdHpc7lG8PPWkk19ycj
-	nIcwNOl+hoHqYAfU+CJ1Dz1wLSUSvSg=
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+	by mail.lfdr.de (Postfix) with ESMTP id 684AF2669EF
+	for <lists+linux-audit@lfdr.de>; Fri, 11 Sep 2020 23:14:59 +0200 (CEST)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-542-khP1e7sNNfe4uKpZ8DCvZg-1; Thu, 10 Sep 2020 11:05:49 -0400
-X-MC-Unique: khP1e7sNNfe4uKpZ8DCvZg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+ us-mta-13-WrTVJD0jM7CWgzKbSo7hwQ-1; Fri, 11 Sep 2020 17:14:56 -0400
+X-MC-Unique: WrTVJD0jM7CWgzKbSo7hwQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8B9A71936CC6;
-	Thu, 10 Sep 2020 15:03:40 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BAAF58030A0;
+	Fri, 11 Sep 2020 21:14:48 +0000 (UTC)
 Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id AE1D475124;
-	Thu, 10 Sep 2020 15:03:38 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 428557B7A0;
+	Fri, 11 Sep 2020 21:14:46 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 58843922EC;
-	Thu, 10 Sep 2020 15:03:35 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
-	[10.5.11.23])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 9DF2B922F7;
+	Fri, 11 Sep 2020 21:14:38 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+	[10.11.54.3])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 08AF2fJo025598 for <linux-audit@listman.util.phx.redhat.com>;
-	Thu, 10 Sep 2020 11:02:41 -0400
+	id 089Im0qs012303 for <linux-audit@listman.util.phx.redhat.com>;
+	Wed, 9 Sep 2020 14:48:00 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id 1690619C71; Thu, 10 Sep 2020 15:02:41 +0000 (UTC)
+	id 0991210054D1; Wed,  9 Sep 2020 18:48:00 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from madcap2.tricolour.ca (unknown [10.10.110.17])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 0CA3719C66;
-	Thu, 10 Sep 2020 15:02:38 +0000 (UTC)
-From: Richard Guy Briggs <rgb@redhat.com>
-To: Linux-Audit Mailing List <linux-audit@redhat.com>,
-	LKML <linux-kernel@vger.kernel.org>,
-	Linux Security Module list <linux-security-module@vger.kernel.org>
-Subject: [[PATCH V4]] audit: trigger accompanying records when no rules present
-Date: Thu, 10 Sep 2020 11:01:54 -0400
-Message-Id: <35f2b8c69b4b9abbc076dd55a6f0f52cf20abad7.1599687447.git.rgb@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Received: from mimecast-mx02.redhat.com
+	(mimecast03.extmail.prod.ext.rdu2.redhat.com [10.11.55.19])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 03AFA10054E3
+	for <linux-audit@redhat.com>; Wed,  9 Sep 2020 18:47:57 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+	[207.211.31.120])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8B8AD811E78
+	for <linux-audit@redhat.com>; Wed,  9 Sep 2020 18:47:57 +0000 (UTC)
+Received: from youngberry.canonical.com (youngberry.canonical.com
+	[91.189.89.112]) (Using TLS) by relay.mimecast.com with ESMTP id
+	us-mta-207-Np72Nr3JPH6tgd_5zdPROw-1; Wed, 09 Sep 2020 14:47:55 -0400
+X-MC-Unique: Np72Nr3JPH6tgd_5zdPROw-1
+Received: from static-50-53-58-29.bvtn.or.frontiernet.net ([50.53.58.29]
+	helo=[192.168.192.153]) by youngberry.canonical.com with esmtpsa
+	(TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
+	(envelope-from <john.johansen@canonical.com>)
+	id 1kG58H-00043v-CV; Wed, 09 Sep 2020 18:47:49 +0000
+Subject: Re: [PATCH v20 05/23] net: Prepare UDS for security module stacking
+To: Stephen Smalley <stephen.smalley.work@gmail.com>
+References: <20200826145247.10029-1-casey@schaufler-ca.com>
+	<20200826145247.10029-6-casey@schaufler-ca.com>
+	<CAHC9VhSh=r4w_3mZOUwmKN0UxCMxPNGKd=_vr_iGV06rvCNbSA@mail.gmail.com>
+	<1eeef766-405f-3800-c0cf-3eb008f9673e@schaufler-ca.com>
+	<CAHC9VhSf8RWUnRPYLR6LLzbn-cvNg8J0wnZGwTOAe=dOqkvd0g@mail.gmail.com>
+	<ef6a049a-c6b9-370b-c521-4594aa73e403@schaufler-ca.com>
+	<CAHC9VhSu4qqKWsutm3=GF_pihUKpwjAtc9gAhfjGsGtKfz-Azw@mail.gmail.com>
+	<585600d7-70fb-0982-1e6b-ffd7b7c33e32@schaufler-ca.com>
+	<9a58d14c-eaff-3acf-4689-925cf08ba406@canonical.com>
+	<CAEjxPJ7i5Ruy=NZ+sq3qCm8ux+sZXY5+XX_zJu3+OqFq3d_SLQ@mail.gmail.com>
+	<CAEjxPJ5KudgTjhmXBNdCO_ctvioy5UA5PXcoKX4zc19NYKgHZA@mail.gmail.com>
+	<c5bef71e-6d78-2058-bcaa-8497c76d7375@schaufler-ca.com>
+	<b320f0f6-02db-95a5-acc5-cadd5dbb57dc@canonical.com>
+	<CAEjxPJ6wFJz935RR_1u+-EjAw3VMv4nabo-Za_OqkZGJuNS5Sg@mail.gmail.com>
+From: John Johansen <john.johansen@canonical.com>
+Autocrypt: addr=john.johansen@canonical.com; prefer-encrypt=mutual; keydata=
+	LS0tLS1CRUdJTiBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tCgptUUlOQkU1bXJQb0JFQURB
+	azE5UHNnVmdCS2tJbW1SMmlzUFE2bzdLSmhUVEtqSmR3VmJrV1NuTm4rbzZVcDVrCm5LUDFm
+	NDlFQlFsY2VXZzF5cC9Od2JSOGFkK2VTRU8vdW1hL0srUHFXdkJwdEtDOVNXRDk3Rkc0dUI0
+	L2Nhb20KTEVVOTdzTFFNdG52R1dkeHJ4VlJHTTRhbnpXWU1neno1VFptSWlWVFo0M091NVZw
+	YVMxVnoxWlN4UDNoL3hLTgpaci9UY1c1V1FhaTh1M1BXVm5ia2poU1pQSHYxQmdoTjY5cXhF
+	UG9tckpCbTFnbXR4M1ppVm1GWGx1d1RtVGdKCk9rcEZvbDduYkowaWxuWUhyQTdTWDNDdFIx
+	dXBlVXBNYS9XSWFuVk85NldkVGpISElhNDNmYmhtUXViZTR0eFMKM0ZjUUxPSlZxUXN4NmxF
+	OUI3cUFwcG05aFExMHFQV3dkZlB5LyswVzZBV3ROdTVBU2lHVkNJbld6bDJIQnFZZAovWmxs
+	OTN6VXErTklvQ244c0RBTTlpSCt3dGFHRGNKeXdJR0luK2VkS050SzcyQU1nQ2hUZy9qMVpv
+	V0g2WmVXClBqdVVmdWJWelp0bzFGTW9HSi9TRjRNbWRRRzFpUU50ZjRzRlpiRWdYdXk5Y0dp
+	MmJvbUYwenZ5QkpTQU5weGwKS05CRFlLek42S3owOUhVQWtqbEZNTmdvbUwvY2pxZ0FCdEF4
+	NTlMK2RWSVpmYUYyODFwSWNVWnp3dmg1K0pvRwplT1c1dUJTTWJFN0wzOG5zem9veWtJSjVY
+	ckFjaGtKeE5mejdrK0ZuUWVLRWtOekVkMkxXYzNRRjRCUVpZUlQ2ClBISGdhM1JneWtXNSsx
+	d1RNcUpJTGRtdGFQYlhyRjNGdm5WMExSUGN2NHhLeDdCM2ZHbTd5Z2Rvb3dBUkFRQUIKdEIx
+	S2IyaHVJRXB2YUdGdWMyVnVJRHhxYjJodVFHcHFiWGd1Ym1WMFBva0NPZ1FUQVFvQUpBSWJB
+	d1VMQ1FnSApBd1VWQ2drSUN3VVdBZ01CQUFJZUFRSVhnQVVDVG8wWVZ3SVpBUUFLQ1JBRkx6
+	WndHTlhEMkx4SkQvOVRKWkNwCndsbmNUZ1llcmFFTWVEZmtXdjhjMUlzTTFqMEFtRTRWdEwr
+	ZkU3ODBaVlA5Z2tqZ2tkWVN4dDdlY0VUUFRLTWEKWlNpc3JsMVJ3cVUwb29nWGRYUVNweHJH
+	SDAxaWN1LzJuMGpjWVNxWUtnZ1B4eTc4QkdzMkxacTRYUGZKVFptSApaR25YR3EvZURyL21T
+	bmowYWF2QkptTVo2amJpUHo2eUh0QllQWjlmZG84YnRjendQNDFZZVdvSXUyNi84SUk2CmYw
+	WG0zVkM1b0FhOHY3UmQrUldaYThUTXdsaHpIRXh4ZWwzanRJN0l6ek9zbm1FOS84RG0wQVJE
+	NWlUTENYd1IKMWN3SS9KOUJGL1MxWHY4UE4xaHVUM0l0Q05kYXRncDh6cW9Ka2dQVmptdnlM
+	NjRRM2ZFa1liZkhPV3NhYmE5LwprQVZ0Qk56OVJURmg3SUhEZkVDVmFUb3VqQmQ3QnRQcXIr
+	cUlqV0ZhZEpEM0k1ZUxDVkp2VnJyb2xyQ0FUbEZ0Ck4zWWtRczZKbjFBaUlWSVUzYkhSOEdq
+	ZXZnejVMbDZTQ0dIZ1Jya3lScG5TWWFVL3VMZ24zN042QVl4aS9RQUwKK2J5M0N5RUZManpX
+	QUV2eVE4YnEzSXVjbjdKRWJoUy9KLy9kVXFMb2VVZjh0c0dpMDB6bXJJVFpZZUZZQVJoUQpN
+	dHNmaXpJclZEdHoxaVBmL1pNcDVnUkJuaXlqcFhuMTMxY20zTTNndjZIclFzQUdubjhBSnJ1
+	OEdEaTVYSllJCmNvLzEreC9xRWlOMm5DbGFBT3BiaHpOMmVVdlBEWTVXMHEzYkEvWnAybWZH
+	NTJ2YlJJK3RRMEJyMUhkL3ZzbnQKVUhPOTAzbU1aZXAyTnpOM0JaNXFFdlB2RzRyVzVacTJE
+	cHliV2JRclNtOW9iaUJLYjJoaGJuTmxiaUE4YW05bwpiaTVxYjJoaGJuTmxia0JqWVc1dmJt
+	bGpZV3d1WTI5dFBva0NOd1FUQVFvQUlRVUNUbzBYV2dJYkF3VUxDUWdICkF3VVZDZ2tJQ3dV
+	V0FnTUJBQUllQVFJWGdBQUtDUkFGTHpad0dOWEQySXRNRC85anliYzg3ZE00dUFIazZ5Tk0K
+	TjBZL0JGbW10VFdWc09CaHFPbm9iNGkzOEJyRE8yQzFoUUNQQ1FlNExMczEvNHB0ZW92UXQ4
+	QjJGeXJQVmp3Zwo3alpUSE5LNzRyNmxDQ1Z4eDN5dTFCN1U5UG80VlRrY3NsVmIxL3FtV3V4
+	OFhXY040eXZrVHFsTCtHeHB5Sm45CjlaWmZmWEpjNk9oNlRtT2ZiS0d2TXV1djVhclNJQTNK
+	SEZMZjlhTHZadEExaXNKVXI3cFM5YXBnOXVUVUdVcDcKd2ZWMFdUNlQzZUczbXRVVTJ1cDVK
+	VjQ4NTBMMDVqSFM2dVdpZS9ZK3lmSk9iaXlyeE4vNlpxVzVHb25oTEJxLwptc3pjVjV2QlQz
+	QkRWZTNSdkY2WGRNOU9oUG4xK1k4MXg1NCt2UTExM044aUx3RjdHR2ExNFp5SVZBTlpEMEkw
+	CkhqUnZhMmsvUnFJUlR6S3l1UEg1cGtsY0tIVlBFRk1tT3pNVCtGT294Tmp2Uys3K3dHMktN
+	RFlFbUhQcjFQSkIKWlNaZUh6SzE5dGZhbFBNcHBGeGkrc3lZTGFnTjBtQjdKSFF3WTdjclV1
+	T0RoeWNxNjBZVnoxdGFFeWd1M1l2MgoyL0kxRUNHSHZLSEc2d2M5MG80M0MvZWxIRUNYbkVo
+	N3RLcGxEY3BJQytPQ21NeEtIaFI0NitYY1p2Z3c0RGdiCjdjYTgzZVFSM0NHODlMdlFwVzJM
+	TEtFRUJEajdoWmhrTGJra1BSWm0zdzhKWTQ0YXc4VnRneFdkblNFTUNMeEwKSU9OaDZ1Wjcv
+	L0RZVnRjSWFNSllrZWJhWnRHZENwMElnVVpiMjQvVmR2WkNZYk82MkhrLzNWbzFuWHdIVUVz
+	Mwo2RC92MWJUMFJaRmk2OUxnc0NjT2N4NGdZTGtDRFFST1pxejZBUkFBb3F3NmtrQmhXeU0x
+	ZnZnYW1BVmplWjZuCktFZm5SV2JrQzk0TDFFc0pMdXAzV2IyWDBBQk5PSFNrYlNENHBBdUMy
+	dEtGL0VHQnQ1Q1A3UWRWS1JHY1F6QWQKNmIyYzFJZHk5Ukx3Nnc0Z2krbm4vZDFQbTFra1lo
+	a1NpNXpXYUlnMG01UlFVaytFbDh6a2Y1dGNFLzFOMFo1TwpLMkpoandGdTViWDBhMGw0Y0ZH
+	V1ZRRWNpVk1ES1J0eE1qRXRrM1N4RmFsbTZaZFEycHAyODIyY2xucTR6WjltCld1MWQyd2F4
+	aXorYjVJYTR3ZURZYTduNDFVUmNCRVViSkFnbmljSmtKdENUd3lJeElXMktuVnlPcmp2a1F6
+	SUIKdmFQMEZkUDJ2dlpvUE1kbENJek9sSWtQTGd4RTBJV3VlVFhlQkpoTnMwMXBiOGJMcW1U
+	SU1sdTRMdkJFTEEvdgplaWFqajVzOHk1NDJIL2FIc2ZCZjRNUVVoSHhPL0JaVjdoMDZLU1Vm
+	SWFZN09nQWdLdUdOQjNVaWFJVVM1K2E5CmduRU9RTER4S1J5L2E3UTF2OVMrTnZ4KzdqOGlI
+	M2prUUpoeFQ2WkJoWkdSeDBna0gzVCtGMG5ORG01TmFKVXMKYXN3Z0pycUZaa1VHZDJNcm0x
+	cW5Ld1hpQXQ4U0ljRU5kcTMzUjBLS0tSQzgwWGd3ajhKbjMwdlhMU0crTk8xRwpIMFVNY0F4
+	TXd5L3B2azZMVTVKR2paUjczSjVVTFZoSDRNTGJEZ2dEM21QYWlHOCtmb3RUckpVUHFxaGc5
+	aHlVCkVQcFlHN3NxdDc0WG43OStDRVpjakxIenlsNnZBRkUyVzBreGxMdFF0VVpVSE8zNmFm
+	RnY4cUdwTzNacVB2akIKVXVhdFhGNnR2VVFDd2YzSDZYTUFFUUVBQVlrQ0h3UVlBUW9BQ1FV
+	Q1RtYXMrZ0liREFBS0NSQUZMelp3R05YRAoyRC9YRC8wZGRNLzRhaTFiK1RsMWp6bkthalgz
+	a0crTWVFWWVJNGY0MHZjbzNyT0xyblJHRk9jYnl5ZlZGNjlNCktlcGllNE93b0kxamNUVTBB
+	RGVjbmJXbkROSHByMFNjenhCTXJvM2Juckxoc212anVuVFlJdnNzQlp0QjRhVkoKanVMSUxQ
+	VWxuaEZxYTdmYlZxMFpRamJpVi9ydDJqQkVOZG05cGJKWjZHam5wWUljQWJQQ0NhL2ZmTDQv
+	U1FSUwpZSFhvaEdpaVM0eTVqQlRtSzVsdGZld0xPdzAyZmtleEgrSUpGcnJHQlhEU2c2bjJT
+	Z3hubisrTkYzNGZYY205CnBpYXczbUtzSUNtKzBoZE5oNGFmR1o2SVdWOFBHMnRlb29WRHA0
+	ZFlpaCsreFgvWFM4ekJDYzFPOXc0bnpsUDIKZ0t6bHFTV2JoaVdwaWZSSkJGYTRXdEFlSlRk
+	WFlkMzdqL0JJNFJXV2hueXc3YUFQTkdqMzN5dEdITlVmNlJvMgovanRqNHRGMXkvUUZYcWpK
+	Ry93R2pwZHRSZmJ0VWpxTEhJc3ZmUE5OSnEvOTU4cDc0bmRBQ2lkbFdTSHpqK09wCjI2S3Bi
+	Rm5td05PMHBzaVVzbmh2SEZ3UE8vdkFibDNSc1I1KzBSbytodnMyY0VtUXV2OXIvYkRsQ2Zw
+	enAydDMKY0srcmh4VXFpc094OERaZnoxQm5rYW9DUkZidnZ2ays3TC9mb21QbnRHUGtxSmNp
+	WUU4VEdIa1p3MWhPa3UrNApPb00yR0I1bkVEbGorMlRGL2pMUStFaXBYOVBrUEpZdnhmUmxD
+	NmRLOFBLS2ZYOUtkZm1BSWNnSGZuVjFqU24rCjh5SDJkakJQdEtpcVcwSjY5YUlzeXg3aVYv
+	MDNwYVBDakpoN1hxOXZBenlkTjVVL1VBPT0KPTZQL2IKLS0tLS1FTkQgUEdQIFBVQkxJQyBL
+	RVkgQkxPQ0stLS0tLQo=
+Organization: Canonical
+Message-ID: <b67799e2-fa22-2890-698d-f410913b0c8a@canonical.com>
+Date: Wed, 9 Sep 2020 11:47:46 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+	Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <CAEjxPJ6wFJz935RR_1u+-EjAw3VMv4nabo-Za_OqkZGJuNS5Sg@mail.gmail.com>
+X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
+	Definition; Similar Internal Domain=false;
+	Similar Monitored External Domain=false;
+	Custom External Domain=false; Mimecast External Domain=false;
+	Newly Observed Domain=false; Internal User Name=false;
+	Custom Display Name List=false; Reply-to Address Mismatch=false;
+	Targeted Threat Dictionary=false;
+	Mimecast Threat Dictionary=false; Custom Threat Dictionary=false;
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
 X-loop: linux-audit@redhat.com
-Cc: Richard Guy Briggs <rgb@redhat.com>
+X-Mailman-Approved-At: Fri, 11 Sep 2020 17:14:26 -0400
+Cc: SElinux list <selinux@vger.kernel.org>, James Morris <jmorris@namei.org>,
+	Casey Schaufler <casey.schaufler@intel.com>,
+	LSM List <linux-security-module@vger.kernel.org>,
+	linux-audit@redhat.com, Stephen Smalley <sds@tycho.nsa.gov>
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -62,177 +170,102 @@ List-Post: <mailto:linux-audit@redhat.com>
 List-Help: <mailto:linux-audit-request@redhat.com?subject=help>
 List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
-MIME-Version: 1.0
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
 	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=linux-audit-bounces@redhat.com
-X-Mimecast-Spam-Score: 0.003
+X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-When there are no audit rules registered, mandatory records (config,
-etc.) are missing their accompanying records (syscall, proctitle, etc.).
+On 9/9/20 6:19 AM, Stephen Smalley wrote:
+> On Tue, Sep 8, 2020 at 8:21 PM John Johansen
+> <john.johansen@canonical.com> wrote:
+>>
+>> On 9/8/20 4:37 PM, Casey Schaufler wrote:
+>>> On 9/8/2020 6:35 AM, Stephen Smalley wrote:
+>>>> On Mon, Sep 7, 2020 at 9:28 PM Stephen Smalley
+>>>> <stephen.smalley.work@gmail.com> wrote:
+>>>>> On Sat, Sep 5, 2020 at 3:07 PM John Johansen
+>>>>> <john.johansen@canonical.com> wrote:
+>>>>>> On 9/5/20 11:13 AM, Casey Schaufler wrote:
+>>>>>>> On 9/5/2020 6:25 AM, Paul Moore wrote:
+>>>>>>>> On Fri, Sep 4, 2020 at 7:58 PM Casey Schaufler <casey@schaufler-ca.com> wrote:
+>>>>>>>>> On 9/4/2020 2:53 PM, Paul Moore wrote:
+>>>>>>>>>> On Fri, Sep 4, 2020 at 5:35 PM Casey Schaufler <casey@schaufler-ca.com> wrote:
+>>>>>>>>>>> On 9/4/2020 1:08 PM, Paul Moore wrote:
+>>>>>>>> ...
+>>>>>>>>
+>>>>>>>>>> I understand the concerns you mention, they are all valid as far as
+>>>>>>>>>> I'm concerned, but I think we are going to get burned by this code as
+>>>>>>>>>> it currently stands.
+>>>>>>>>> Yes, I can see that. We're getting burned by the non-extensibility
+>>>>>>>>> of secids. It will take someone smarter than me to figure out how to
+>>>>>>>>> fit N secids into 32bits without danger of either failure or memory
+>>>>>>>>> allocation.
+>>>>>>>> Sooo what are the next steps here?  It sounds like there is some
+>>>>>>>> agreement that the currently proposed unix_skb_params approach is a
+>>>>>>>> problem, but it also sounds like you just want to merge it anyway?
+>>>>>>> There are real problems with all the approaches. This is by far the
+>>>>>>> least invasive of the lot. If this is acceptable for now I will commit
+>>>>>>> to including the dynamic allocation version in the full stacking
+>>>>>>> (e.g. Smack + SELinux) stage. If it isn't, well, this stage is going
+>>>>>>> to take even longer than it already has. Sigh.
+>>>>>>>
+>>>>>>>
+>>>>>>>> I was sorta hoping for something a bit better.
+>>>>>>> I will be looking at alternatives. I am very much open to suggestions.
+>>>>>>> I'm not even 100% convinced that Stephen's objections to my separate
+>>>>>>> allocation strategy outweigh its advantages. If you have an opinion on
+>>>>>>> that, I'd love to hear it.
+>>>>>>>
+>>>>>> fwiw I prefer the separate allocation strategy, but as you have already
+>>>>>> said it trading off one set of problems for another. I would rather see
+>>>>>> this move forward and one set of trade offs isn't significantly worse
+>>>>>> than the other to me so, either wfm.
+>>>>> I remain unclear that AppArmor needs this patch at all even when
+>>>>> support for SO_PEERSEC lands.
+>>>>> Contrary to the patch description, it is about supporting SCM_SECURITY
+>>>>> for datagram not SO_PEERSEC.  And I don't know of any actual users of
+>>>>> SCM_SECURITY even for SELinux, just SO_PEERSEC.
+>>>> I remembered that systemd once tried using SCM_SECURITY but that was a
+>>>> bug since systemd was using it with stream sockets and that wasn't
+>>>> supported by the kernel at the time,
+>>>> https://bugzilla.redhat.com/show_bug.cgi?id=1224211, so systemd
+>>>> switched over to using SO_PEERSEC.  Subsequently I did fix
+>>>> SCM_SECURITY to work with stream sockets via kernel commit
+>>>> 37a9a8df8ce9de6ea73349c9ac8bdf6ba4ec4f70 but SO_PEERSEC is still
+>>>> preferred.  Looking around, I see that there is still one usage of
+>>>> SCM_SECURITY in systemd-journald but it doesn't seem to be required
+>>>> (if provided, journald will pass the label along but nothing seems to
+>>>> depend on it AFAICT).  In any event, I don't believe this patch is
+>>>> needed to support stacking AppArmor.
+>>>
+>>> Stephen is, as is so often the case, correct. AppArmor has a stub
+>>> socket_getpeersec_dgram() that gets removed in patch 23. If I remove
+>>
+>> right but as I said before this is coming, I have been playing with
+>> it and have code. So the series doesn't need it today but sooner than
+>> later it will be needed
+> 
+> I don't understand why.  Is there a userspace component that relies on
+> SCM_SECURITY today for anything real (more than just blindly passing
+> it along and maybe writing to a log somewhere)?  And this doesn't
+> provide support for a composite SCM_SECURITY or SCM_CONTEXT, so it
+> doesn't really solve the stacking problem for it anyway.  What am I
+> missing?  Why do you care about this patch?
+> 
 
-This is due to audit context dummy set on syscall entry based on absence
-of rules that signals that no other records are to be printed.
 
-Clear the dummy bit if any record is generated.
+personally I don't atm, but there are people who do care about this in
+there logs, whether they should or shouldn't is an entirely different
+question.
 
-The proctitle context and dummy checks are pointless since the
-proctitle record will not be printed if no syscall records are printed.
-
-The fds array is reset to -1 after the first syscall to indicate it
-isn't valid any more, but was never set to -1 when the context was
-allocated to indicate it wasn't yet valid.
-
-The audit_inode* functions can be called without going through
-getname_flags() or getname_kernel() that sets audit_names and cwd, so
-set the cwd if it has not already been done so due to audit_names being
-valid.
-
-The LSM dump_common_audit_data() LSM_AUDIT_DATA_NET:AF_UNIX case was
-missed with the ghak96 patch, so add that case here.
-
-Thanks to bauen1 <j2468h@googlemail.com> for reporting LSM situations in
-which context->cwd is not valid, inadvertantly fixed by the ghak96 patch.
-
-Please see upstream github issue
-https://github.com/linux-audit/audit-kernel/issues/120
-This is also related to upstream github issue
-https://github.com/linux-audit/audit-kernel/issues/96
-
-Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
----
-Passes audit-testsuite.
-
-Chagelog:
-v4:
-- rebase on audit/next v5.9-rc1
-- squash v2+v3fix
-- add pwd NULL check in audit_log_name()
-- resubmit after revert
-
-v3:
-- initialize fds[0] to -1
-- init cwd for ghak96 LSM_AUDIT_DATA_NET:AF_UNIX case
-- init cwd for audit_inode{,_child}
-
-v2:
-- unconditionally clear dummy
-- create audit_clear_dummy accessor function
-- remove proctitle context and dummy checks
-
- kernel/audit.c       |  1 +
- kernel/audit.h       |  8 ++++++++
- kernel/auditsc.c     | 11 +++++++----
- security/lsm_audit.c |  1 +
- 4 files changed, 17 insertions(+), 4 deletions(-)
-
-diff --git a/kernel/audit.c b/kernel/audit.c
-index 68cee3bc8cfe..8604eccb348f 100644
---- a/kernel/audit.c
-+++ b/kernel/audit.c
-@@ -1865,6 +1865,7 @@ struct audit_buffer *audit_log_start(struct audit_context *ctx, gfp_t gfp_mask,
- 	}
- 
- 	audit_get_stamp(ab->ctx, &t, &serial);
-+	audit_clear_dummy(ab->ctx);
- 	audit_log_format(ab, "audit(%llu.%03lu:%u): ",
- 			 (unsigned long long)t.tv_sec, t.tv_nsec/1000000, serial);
- 
-diff --git a/kernel/audit.h b/kernel/audit.h
-index 3b9c0945225a..abcfef58435b 100644
---- a/kernel/audit.h
-+++ b/kernel/audit.h
-@@ -290,6 +290,13 @@ extern int audit_signal_info_syscall(struct task_struct *t);
- extern void audit_filter_inodes(struct task_struct *tsk,
- 				struct audit_context *ctx);
- extern struct list_head *audit_killed_trees(void);
-+
-+static inline void audit_clear_dummy(struct audit_context *ctx)
-+{
-+	if (ctx)
-+		ctx->dummy = 0;
-+}
-+
- #else /* CONFIG_AUDITSYSCALL */
- #define auditsc_get_stamp(c, t, s) 0
- #define audit_put_watch(w) {}
-@@ -323,6 +330,7 @@ static inline int audit_signal_info_syscall(struct task_struct *t)
- }
- 
- #define audit_filter_inodes(t, c) AUDIT_DISABLED
-+#define audit_clear_dummy(c) {}
- #endif /* CONFIG_AUDITSYSCALL */
- 
- extern char *audit_unpack_string(void **bufp, size_t *remain, size_t len);
-diff --git a/kernel/auditsc.c b/kernel/auditsc.c
-index 8dba8f0983b5..9d2de93f40b3 100644
---- a/kernel/auditsc.c
-+++ b/kernel/auditsc.c
-@@ -929,6 +929,7 @@ static inline struct audit_context *audit_alloc_context(enum audit_state state)
- 	context->prio = state == AUDIT_RECORD_CONTEXT ? ~0ULL : 0;
- 	INIT_LIST_HEAD(&context->killed_trees);
- 	INIT_LIST_HEAD(&context->names_list);
-+	context->fds[0] = -1;
- 	return context;
- }
- 
-@@ -1367,7 +1368,10 @@ static void audit_log_name(struct audit_context *context, struct audit_names *n,
- 			/* name was specified as a relative path and the
- 			 * directory component is the cwd
- 			 */
--			audit_log_d_path(ab, " name=", &context->pwd);
-+			if (&context->pwd)
-+				audit_log_d_path(ab, " name=", &context->pwd);
-+			else
-+				audit_log_format(ab, " name=(null)");
- 			break;
- 		default:
- 			/* log the name's directory component */
-@@ -1435,9 +1439,6 @@ static void audit_log_proctitle(void)
- 	struct audit_context *context = audit_context();
- 	struct audit_buffer *ab;
- 
--	if (!context || context->dummy)
--		return;
--
- 	ab = audit_log_start(context, GFP_KERNEL, AUDIT_PROCTITLE);
- 	if (!ab)
- 		return;	/* audit_panic or being filtered */
-@@ -2079,6 +2080,7 @@ void __audit_inode(struct filename *name, const struct dentry *dentry,
- 	}
- 	handle_path(dentry);
- 	audit_copy_inode(n, dentry, inode, flags & AUDIT_INODE_NOEVAL);
-+	_audit_getcwd(context);
- }
- 
- void __audit_file(const struct file *file)
-@@ -2197,6 +2199,7 @@ void __audit_inode_child(struct inode *parent,
- 		audit_copy_inode(found_child, dentry, inode, 0);
- 	else
- 		found_child->ino = AUDIT_INO_UNSET;
-+	_audit_getcwd(context);
- }
- EXPORT_SYMBOL_GPL(__audit_inode_child);
- 
-diff --git a/security/lsm_audit.c b/security/lsm_audit.c
-index 53d0d183db8f..e93077612246 100644
---- a/security/lsm_audit.c
-+++ b/security/lsm_audit.c
-@@ -369,6 +369,7 @@ static void dump_common_audit_data(struct audit_buffer *ab,
- 					audit_log_untrustedstring(ab, p);
- 				else
- 					audit_log_n_hex(ab, p, len);
-+				audit_getcwd();
- 				break;
- 			}
- 		}
--- 
-2.18.4
+Long term there may be some uses for it that I care about or "have to
+care about." For now Casey can drop it from this series.
 
 --
 Linux-audit mailing list
