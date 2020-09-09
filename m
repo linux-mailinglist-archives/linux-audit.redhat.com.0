@@ -1,53 +1,53 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com [207.211.31.120])
-	by mail.lfdr.de (Postfix) with ESMTP id A8755262523
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com [205.139.110.61])
+	by mail.lfdr.de (Postfix) with ESMTP id 9C088262522
 	for <lists+linux-audit@lfdr.de>; Wed,  9 Sep 2020 04:21:40 +0200 (CEST)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-569-GAM1FHQMPLGgVq4qr0Ep8A-1; Tue, 08 Sep 2020 22:21:37 -0400
-X-MC-Unique: GAM1FHQMPLGgVq4qr0Ep8A-1
+ us-mta-202-wJItq4YSPLqxgfjBB76jLA-1; Tue, 08 Sep 2020 22:21:37 -0400
+X-MC-Unique: wJItq4YSPLqxgfjBB76jLA-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2AE0C18B9EDE;
-	Wed,  9 Sep 2020 02:21:33 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 0C50478439;
-	Wed,  9 Sep 2020 02:21:33 +0000 (UTC)
-Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id C25B0183D022;
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8F7DE8015C6;
 	Wed,  9 Sep 2020 02:21:32 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
-	[10.11.54.4])
+Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 6B2B4838B9;
+	Wed,  9 Sep 2020 02:21:31 +0000 (UTC)
+Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 21AD818095FF;
+	Wed,  9 Sep 2020 02:21:27 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+	[10.11.54.6])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 0890IDoh004682 for <linux-audit@listman.util.phx.redhat.com>;
-	Tue, 8 Sep 2020 20:18:13 -0400
+	id 0890LRZ5005062 for <linux-audit@listman.util.phx.redhat.com>;
+	Tue, 8 Sep 2020 20:21:27 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id E6C7B200AE6E; Wed,  9 Sep 2020 00:18:12 +0000 (UTC)
+	id 30EC12166B44; Wed,  9 Sep 2020 00:21:27 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
-	(mimecast04.extmail.prod.ext.rdu2.redhat.com [10.11.55.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id E13C22028DCC
-	for <linux-audit@redhat.com>; Wed,  9 Sep 2020 00:18:09 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
-	[205.139.110.120])
+	(mimecast02.extmail.prod.ext.rdu2.redhat.com [10.11.55.18])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 2AF382166BA0
+	for <linux-audit@redhat.com>; Wed,  9 Sep 2020 00:21:24 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [205.139.110.61])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F2330101AA41
-	for <linux-audit@redhat.com>; Wed,  9 Sep 2020 00:18:08 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 48C0F801181
+	for <linux-audit@redhat.com>; Wed,  9 Sep 2020 00:21:24 +0000 (UTC)
 Received: from youngberry.canonical.com (youngberry.canonical.com
 	[91.189.89.112]) (Using TLS) by relay.mimecast.com with ESMTP id
-	us-mta-438-1AAkJgsVMhaW1RkQRvbp3g-1; Tue, 08 Sep 2020 20:18:06 -0400
-X-MC-Unique: 1AAkJgsVMhaW1RkQRvbp3g-1
+	us-mta-510-2QQXdJGfPU6CFq7MpX8EoQ-1; Tue, 08 Sep 2020 20:21:22 -0400
+X-MC-Unique: 2QQXdJGfPU6CFq7MpX8EoQ-1
 Received: from static-50-53-58-29.bvtn.or.frontiernet.net ([50.53.58.29]
 	helo=[192.168.192.153]) by youngberry.canonical.com with esmtpsa
 	(TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
 	(envelope-from <john.johansen@canonical.com>)
-	id 1kFnoE-0004Y9-1l; Wed, 09 Sep 2020 00:17:58 +0000
+	id 1kFnrR-0004jB-KR; Wed, 09 Sep 2020 00:21:17 +0000
 Subject: Re: [PATCH v20 05/23] net: Prepare UDS for security module stacking
-To: Stephen Smalley <stephen.smalley.work@gmail.com>
+To: Casey Schaufler <casey@schaufler-ca.com>,
+	Stephen Smalley <stephen.smalley.work@gmail.com>
 References: <20200826145247.10029-1-casey@schaufler-ca.com>
 	<20200826145247.10029-6-casey@schaufler-ca.com>
 	<CAHC9VhSh=r4w_3mZOUwmKN0UxCMxPNGKd=_vr_iGV06rvCNbSA@mail.gmail.com>
@@ -59,6 +59,7 @@ References: <20200826145247.10029-1-casey@schaufler-ca.com>
 	<9a58d14c-eaff-3acf-4689-925cf08ba406@canonical.com>
 	<CAEjxPJ7i5Ruy=NZ+sq3qCm8ux+sZXY5+XX_zJu3+OqFq3d_SLQ@mail.gmail.com>
 	<CAEjxPJ5KudgTjhmXBNdCO_ctvioy5UA5PXcoKX4zc19NYKgHZA@mail.gmail.com>
+	<c5bef71e-6d78-2058-bcaa-8497c76d7375@schaufler-ca.com>
 From: John Johansen <john.johansen@canonical.com>
 Autocrypt: addr=john.johansen@canonical.com; prefer-encrypt=mutual; keydata=
 	LS0tLS1CRUdJTiBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tCgptUUlOQkU1bXJQb0JFQURB
@@ -135,12 +136,12 @@ Autocrypt: addr=john.johansen@canonical.com; prefer-encrypt=mutual; keydata=
 	MDNwYVBDakpoN1hxOXZBenlkTjVVL1VBPT0KPTZQL2IKLS0tLS1FTkQgUEdQIFBVQkxJQyBL
 	RVkgQkxPQ0stLS0tLQo=
 Organization: Canonical
-Message-ID: <9230c297-b5f2-cf7b-9550-7ec09c17809d@canonical.com>
-Date: Tue, 8 Sep 2020 17:17:52 -0700
+Message-ID: <b320f0f6-02db-95a5-acc5-cadd5dbb57dc@canonical.com>
+Date: Tue, 8 Sep 2020 17:21:13 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
 	Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <CAEjxPJ5KudgTjhmXBNdCO_ctvioy5UA5PXcoKX4zc19NYKgHZA@mail.gmail.com>
+In-Reply-To: <c5bef71e-6d78-2058-bcaa-8497c76d7375@schaufler-ca.com>
 X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
 	Definition; Similar Internal Domain=false;
 	Similar Monitored External Domain=false;
@@ -149,13 +150,13 @@ X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
 	Custom Display Name List=false; Reply-to Address Mismatch=false;
 	Targeted Threat Dictionary=false;
 	Mimecast Threat Dictionary=false; Custom Threat Dictionary=false;
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
 X-loop: linux-audit@redhat.com
 X-Mailman-Approved-At: Tue, 08 Sep 2020 22:21:21 -0400
 Cc: SElinux list <selinux@vger.kernel.org>, James Morris <jmorris@namei.org>,
+	LSM List <linux-security-module@vger.kernel.org>, linux-audit@redhat.com,
 	Casey Schaufler <casey.schaufler@intel.com>,
-	LSM List <linux-security-module@vger.kernel.org>,
-	linux-audit@redhat.com, Stephen Smalley <sds@tycho.nsa.gov>
+	Stephen Smalley <sds@tycho.nsa.gov>
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -178,77 +179,82 @@ Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Content-Language: en-US
 
-On 9/8/20 6:35 AM, Stephen Smalley wrote:
-> On Mon, Sep 7, 2020 at 9:28 PM Stephen Smalley
-> <stephen.smalley.work@gmail.com> wrote:
->>
->> On Sat, Sep 5, 2020 at 3:07 PM John Johansen
->> <john.johansen@canonical.com> wrote:
->>>
->>> On 9/5/20 11:13 AM, Casey Schaufler wrote:
->>>> On 9/5/2020 6:25 AM, Paul Moore wrote:
->>>>> On Fri, Sep 4, 2020 at 7:58 PM Casey Schaufler <casey@schaufler-ca.com> wrote:
->>>>>> On 9/4/2020 2:53 PM, Paul Moore wrote:
->>>>>>> On Fri, Sep 4, 2020 at 5:35 PM Casey Schaufler <casey@schaufler-ca.com> wrote:
->>>>>>>> On 9/4/2020 1:08 PM, Paul Moore wrote:
->>>>> ...
+On 9/8/20 4:37 PM, Casey Schaufler wrote:
+> On 9/8/2020 6:35 AM, Stephen Smalley wrote:
+>> On Mon, Sep 7, 2020 at 9:28 PM Stephen Smalley
+>> <stephen.smalley.work@gmail.com> wrote:
+>>> On Sat, Sep 5, 2020 at 3:07 PM John Johansen
+>>> <john.johansen@canonical.com> wrote:
+>>>> On 9/5/20 11:13 AM, Casey Schaufler wrote:
+>>>>> On 9/5/2020 6:25 AM, Paul Moore wrote:
+>>>>>> On Fri, Sep 4, 2020 at 7:58 PM Casey Schaufler <casey@schaufler-ca.com> wrote:
+>>>>>>> On 9/4/2020 2:53 PM, Paul Moore wrote:
+>>>>>>>> On Fri, Sep 4, 2020 at 5:35 PM Casey Schaufler <casey@schaufler-ca.com> wrote:
+>>>>>>>>> On 9/4/2020 1:08 PM, Paul Moore wrote:
+>>>>>> ...
+>>>>>>
+>>>>>>>> I understand the concerns you mention, they are all valid as far as
+>>>>>>>> I'm concerned, but I think we are going to get burned by this code as
+>>>>>>>> it currently stands.
+>>>>>>> Yes, I can see that. We're getting burned by the non-extensibility
+>>>>>>> of secids. It will take someone smarter than me to figure out how to
+>>>>>>> fit N secids into 32bits without danger of either failure or memory
+>>>>>>> allocation.
+>>>>>> Sooo what are the next steps here?  It sounds like there is some
+>>>>>> agreement that the currently proposed unix_skb_params approach is a
+>>>>>> problem, but it also sounds like you just want to merge it anyway?
+>>>>> There are real problems with all the approaches. This is by far the
+>>>>> least invasive of the lot. If this is acceptable for now I will commit
+>>>>> to including the dynamic allocation version in the full stacking
+>>>>> (e.g. Smack + SELinux) stage. If it isn't, well, this stage is going
+>>>>> to take even longer than it already has. Sigh.
 >>>>>
->>>>>>> I understand the concerns you mention, they are all valid as far as
->>>>>>> I'm concerned, but I think we are going to get burned by this code as
->>>>>>> it currently stands.
->>>>>> Yes, I can see that. We're getting burned by the non-extensibility
->>>>>> of secids. It will take someone smarter than me to figure out how to
->>>>>> fit N secids into 32bits without danger of either failure or memory
->>>>>> allocation.
->>>>> Sooo what are the next steps here?  It sounds like there is some
->>>>> agreement that the currently proposed unix_skb_params approach is a
->>>>> problem, but it also sounds like you just want to merge it anyway?
->>>>
->>>> There are real problems with all the approaches. This is by far the
->>>> least invasive of the lot. If this is acceptable for now I will commit
->>>> to including the dynamic allocation version in the full stacking
->>>> (e.g. Smack + SELinux) stage. If it isn't, well, this stage is going
->>>> to take even longer than it already has. Sigh.
->>>>
->>>>
->>>>> I was sorta hoping for something a bit better.
->>>>
->>>> I will be looking at alternatives. I am very much open to suggestions.
->>>> I'm not even 100% convinced that Stephen's objections to my separate
->>>> allocation strategy outweigh its advantages. If you have an opinion on
->>>> that, I'd love to hear it.
->>>>
->>>
->>> fwiw I prefer the separate allocation strategy, but as you have already
->>> said it trading off one set of problems for another. I would rather see
->>> this move forward and one set of trade offs isn't significantly worse
->>> than the other to me so, either wfm.
->>
->> I remain unclear that AppArmor needs this patch at all even when
->> support for SO_PEERSEC lands.
->> Contrary to the patch description, it is about supporting SCM_SECURITY
->> for datagram not SO_PEERSEC.  And I don't know of any actual users of
->> SCM_SECURITY even for SELinux, just SO_PEERSEC.
+>>>>>
+>>>>>> I was sorta hoping for something a bit better.
+>>>>> I will be looking at alternatives. I am very much open to suggestions.
+>>>>> I'm not even 100% convinced that Stephen's objections to my separate
+>>>>> allocation strategy outweigh its advantages. If you have an opinion on
+>>>>> that, I'd love to hear it.
+>>>>>
+>>>> fwiw I prefer the separate allocation strategy, but as you have already
+>>>> said it trading off one set of problems for another. I would rather see
+>>>> this move forward and one set of trade offs isn't significantly worse
+>>>> than the other to me so, either wfm.
+>>> I remain unclear that AppArmor needs this patch at all even when
+>>> support for SO_PEERSEC lands.
+>>> Contrary to the patch description, it is about supporting SCM_SECURITY
+>>> for datagram not SO_PEERSEC.  And I don't know of any actual users of
+>>> SCM_SECURITY even for SELinux, just SO_PEERSEC.
+>> I remembered that systemd once tried using SCM_SECURITY but that was a
+>> bug since systemd was using it with stream sockets and that wasn't
+>> supported by the kernel at the time,
+>> https://bugzilla.redhat.com/show_bug.cgi?id=1224211, so systemd
+>> switched over to using SO_PEERSEC.  Subsequently I did fix
+>> SCM_SECURITY to work with stream sockets via kernel commit
+>> 37a9a8df8ce9de6ea73349c9ac8bdf6ba4ec4f70 but SO_PEERSEC is still
+>> preferred.  Looking around, I see that there is still one usage of
+>> SCM_SECURITY in systemd-journald but it doesn't seem to be required
+>> (if provided, journald will pass the label along but nothing seems to
+>> depend on it AFAICT).  In any event, I don't believe this patch is
+>> needed to support stacking AppArmor.
 > 
-> I remembered that systemd once tried using SCM_SECURITY but that was a
-> bug since systemd was using it with stream sockets and that wasn't
-> supported by the kernel at the time,
-> https://bugzilla.redhat.com/show_bug.cgi?id=1224211, so systemd
-> switched over to using SO_PEERSEC.  Subsequently I did fix
-> SCM_SECURITY to work with stream sockets via kernel commit
-> 37a9a8df8ce9de6ea73349c9ac8bdf6ba4ec4f70 but SO_PEERSEC is still
-> preferred.  Looking around, I see that there is still one usage of
-> SCM_SECURITY in systemd-journald but it doesn't seem to be required
-> (if provided, journald will pass the label along but nothing seems to
-> depend on it AFAICT).  In any event, I don't believe this patch is
-> needed to support stacking AppArmor.
+> Stephen is, as is so often the case, correct. AppArmor has a stub
+> socket_getpeersec_dgram() that gets removed in patch 23. If I remove
+
+right but as I said before this is coming, I have been playing with
+it and have code. So the series doesn't need it today but sooner than
+later it will be needed
+
+> it earlier and throw in a touch of scaffolding for secid_to_secctx()
+> we can leave the secid as is for now. This can't be the final solution
+> as AppArmor will be using the hook someday and we still have the all
+> modules case to worry about for the next phase. It also assumes that
+> The BPF module isn't going to suddenly sprout a security context.
 > 
 
-correct it is not currently needed. I have been playing with code to
-handle it but it is not upstream yet.
+Yep this is something that needs to be dealt with, whether it is now
+or kicked down the road a little further ...
 
-Regardless this is something that will need to be solved at some
-point.
 
 --
 Linux-audit mailing list
