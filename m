@@ -1,101 +1,56 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [216.205.24.124])
-	by mail.lfdr.de (Postfix) with ESMTP id 8BFEA2647C5
-	for <lists+linux-audit@lfdr.de>; Thu, 10 Sep 2020 16:12:07 +0200 (CEST)
+Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [205.139.110.61])
+	by mail.lfdr.de (Postfix) with ESMTP id 790A4264890
+	for <lists+linux-audit@lfdr.de>; Thu, 10 Sep 2020 17:05:57 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1599750356;
+	h=from:from:sender:sender:reply-to:subject:subject:date:date:
+	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+	 content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:list-id:list-help:
+	 list-unsubscribe:list-subscribe:list-post;
+	bh=Cn35KHDPojb0PacD9yGjedgiBdXd3YNOi6YALNGQSTY=;
+	b=D1Owiu4J/uZEQV3C1iB9g/1rEH2GTKFN4dlz33LHsX+7UlJ5YRDYTyckervu4aszayL/dP
+	cGkK6+krb3ptjuG0jT/+mWNJdWK70/mCms3AJlWhLWYY0a/IVVCXdHpc7lG8PPWkk19ycj
+	nIcwNOl+hoHqYAfU+CJ1Dz1wLSUSvSg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-63-leIEmL5dPp-fsej07sh0cw-1; Thu, 10 Sep 2020 10:12:03 -0400
-X-MC-Unique: leIEmL5dPp-fsej07sh0cw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+ us-mta-542-khP1e7sNNfe4uKpZ8DCvZg-1; Thu, 10 Sep 2020 11:05:49 -0400
+X-MC-Unique: khP1e7sNNfe4uKpZ8DCvZg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 604872FD0C;
-	Thu, 10 Sep 2020 14:11:57 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8B9A71936CC6;
+	Thu, 10 Sep 2020 15:03:40 +0000 (UTC)
 Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id D7C3727C29;
-	Thu, 10 Sep 2020 14:11:52 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id AE1D475124;
+	Thu, 10 Sep 2020 15:03:38 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 77BDD922E8;
-	Thu, 10 Sep 2020 14:11:47 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
-	[10.11.54.5])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 58843922EC;
+	Thu, 10 Sep 2020 15:03:35 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+	[10.5.11.23])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 08AEBYZf019880 for <linux-audit@listman.util.phx.redhat.com>;
-	Thu, 10 Sep 2020 10:11:34 -0400
+	id 08AF2fJo025598 for <linux-audit@listman.util.phx.redhat.com>;
+	Thu, 10 Sep 2020 11:02:41 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id 55147F5581; Thu, 10 Sep 2020 14:11:34 +0000 (UTC)
+	id 1690619C71; Thu, 10 Sep 2020 15:02:41 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from mimecast-mx02.redhat.com
-	(mimecast03.extmail.prod.ext.rdu2.redhat.com [10.11.55.19])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 5094EF5584
-	for <linux-audit@redhat.com>; Thu, 10 Sep 2020 14:11:31 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
-	[205.139.110.120])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 23BD6811E78
-	for <linux-audit@redhat.com>; Thu, 10 Sep 2020 14:11:31 +0000 (UTC)
-Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com
-	[209.85.208.66]) (Using TLS) by relay.mimecast.com with ESMTP id
-	us-mta-130-C2mnyBFsMdKf2dmUWpqRsA-1; Thu, 10 Sep 2020 10:11:26 -0400
-X-MC-Unique: C2mnyBFsMdKf2dmUWpqRsA-1
-Received: by mail-ed1-f66.google.com with SMTP id c8so6471946edv.5
-	for <linux-audit@redhat.com>; Thu, 10 Sep 2020 07:11:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=JqER1n/S/bVapO+RyrM1xxWOQKbNzVguXbfv8iwgPWk=;
-	b=af/XXAtv5/mZjtZjGeF5d8+xMhC+oouRwEaoOqrewHaxkHFpmQE6XxZ3Mc7GIK7DVL
-	PJr7nn0WuUua/DYoHouHKiZndxetZEd18o8sDxkWCj75VoJnx5zHAmrSWhmpIK9w1R35
-	9d1bv+OB5KvHaBraa0xmrtljFCsx02nOIH+ALz1JX55ETXt2Va/c4ClfY5jLNaF3URCs
-	sss12KgLg/O9L8ndrjtbms0S4Vb013rjPTovGGRxG7demo9xgYh09Z9l95HVl1qozzOC
-	mvITMBSGXy4mwk2NoeOnecTQlV4pX+eiYS61sk93wn+/KITa4CG79IeosJC4ZQY/ZCDt
-	db+w==
-X-Gm-Message-State: AOAM530BiX8ORSeN2mGFNtej6f2dIgxB8DTr/JehPLcOSCqn/9OiGzTt
-	/BkXH3zvo2Nl9Jni3OzWmxioYE3Tbwx20Ki/SZ13
-X-Google-Smtp-Source: ABdhPJy1FTJ7DXFJo05WoW+t4O9pZDdDoW4TpXiv609ezJYlL+41ua8D4GnLvm80oWsYted6RRcGfRiYYQPB685hrWg=
-X-Received: by 2002:a05:6402:1805:: with SMTP id
-	g5mr9107156edy.135.1599747084327; 
-	Thu, 10 Sep 2020 07:11:24 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200826145247.10029-1-casey@schaufler-ca.com>
-	<20200826145247.10029-6-casey@schaufler-ca.com>
-	<CAHC9VhSh=r4w_3mZOUwmKN0UxCMxPNGKd=_vr_iGV06rvCNbSA@mail.gmail.com>
-	<1eeef766-405f-3800-c0cf-3eb008f9673e@schaufler-ca.com>
-	<CAHC9VhSf8RWUnRPYLR6LLzbn-cvNg8J0wnZGwTOAe=dOqkvd0g@mail.gmail.com>
-	<ef6a049a-c6b9-370b-c521-4594aa73e403@schaufler-ca.com>
-	<CAHC9VhSu4qqKWsutm3=GF_pihUKpwjAtc9gAhfjGsGtKfz-Azw@mail.gmail.com>
-	<585600d7-70fb-0982-1e6b-ffd7b7c33e32@schaufler-ca.com>
-	<9a58d14c-eaff-3acf-4689-925cf08ba406@canonical.com>
-	<CAEjxPJ7i5Ruy=NZ+sq3qCm8ux+sZXY5+XX_zJu3+OqFq3d_SLQ@mail.gmail.com>
-	<CAEjxPJ5KudgTjhmXBNdCO_ctvioy5UA5PXcoKX4zc19NYKgHZA@mail.gmail.com>
-	<c5bef71e-6d78-2058-bcaa-8497c76d7375@schaufler-ca.com>
-	<b320f0f6-02db-95a5-acc5-cadd5dbb57dc@canonical.com>
-	<CAEjxPJ6wFJz935RR_1u+-EjAw3VMv4nabo-Za_OqkZGJuNS5Sg@mail.gmail.com>
-	<b67799e2-fa22-2890-698d-f410913b0c8a@canonical.com>
-In-Reply-To: <b67799e2-fa22-2890-698d-f410913b0c8a@canonical.com>
-From: Paul Moore <paul@paul-moore.com>
-Date: Thu, 10 Sep 2020 10:11:13 -0400
-Message-ID: <CAHC9VhRMubBNRNRKSLWrQw9nGZFX1G96+8EZzaG69OHWvZaJoQ@mail.gmail.com>
-Subject: Re: [PATCH v20 05/23] net: Prepare UDS for security module stacking
-To: John Johansen <john.johansen@canonical.com>
-X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
-	Definition; Similar Internal Domain=false;
-	Similar Monitored External Domain=false;
-	Custom External Domain=false; Mimecast External Domain=false;
-	Newly Observed Domain=false; Internal User Name=false;
-	Custom Display Name List=false; Reply-to Address Mismatch=false;
-	Targeted Threat Dictionary=false;
-	Mimecast Threat Dictionary=false; Custom Threat Dictionary=false;
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+Received: from madcap2.tricolour.ca (unknown [10.10.110.17])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 0CA3719C66;
+	Thu, 10 Sep 2020 15:02:38 +0000 (UTC)
+From: Richard Guy Briggs <rgb@redhat.com>
+To: Linux-Audit Mailing List <linux-audit@redhat.com>,
+	LKML <linux-kernel@vger.kernel.org>,
+	Linux Security Module list <linux-security-module@vger.kernel.org>
+Subject: [[PATCH V4]] audit: trigger accompanying records when no rules present
+Date: Thu, 10 Sep 2020 11:01:54 -0400
+Message-Id: <35f2b8c69b4b9abbc076dd55a6f0f52cf20abad7.1599687447.git.rgb@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-loop: linux-audit@redhat.com
-Cc: SElinux list <selinux@vger.kernel.org>, James Morris <jmorris@namei.org>,
-	Casey Schaufler <casey.schaufler@intel.com>,
-	LSM List <linux-security-module@vger.kernel.org>,
-	linux-audit@redhat.com, Stephen Smalley <sds@tycho.nsa.gov>
+Cc: Richard Guy Briggs <rgb@redhat.com>
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -107,29 +62,177 @@ List-Post: <mailto:linux-audit@redhat.com>
 List-Help: <mailto:linux-audit-request@redhat.com?subject=help>
 List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
+MIME-Version: 1.0
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
 	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=linux-audit-bounces@redhat.com
-X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Spam-Score: 0.003
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-On Wed, Sep 9, 2020 at 2:47 PM John Johansen
-<john.johansen@canonical.com> wrote:
-> ... For now Casey can drop it from this series.
+When there are no audit rules registered, mandatory records (config,
+etc.) are missing their accompanying records (syscall, proctitle, etc.).
 
-As long as that whenever it reappears there is at the very least some
-note of the limits in the commit description and the code (via
-comments in the struct).  Of course that assumes we can't find an
-alternate solution that we can all agree on which doesn't have these
-stacking limits.
+This is due to audit context dummy set on syscall entry based on absence
+of rules that signals that no other records are to be printed.
 
+Clear the dummy bit if any record is generated.
+
+The proctitle context and dummy checks are pointless since the
+proctitle record will not be printed if no syscall records are printed.
+
+The fds array is reset to -1 after the first syscall to indicate it
+isn't valid any more, but was never set to -1 when the context was
+allocated to indicate it wasn't yet valid.
+
+The audit_inode* functions can be called without going through
+getname_flags() or getname_kernel() that sets audit_names and cwd, so
+set the cwd if it has not already been done so due to audit_names being
+valid.
+
+The LSM dump_common_audit_data() LSM_AUDIT_DATA_NET:AF_UNIX case was
+missed with the ghak96 patch, so add that case here.
+
+Thanks to bauen1 <j2468h@googlemail.com> for reporting LSM situations in
+which context->cwd is not valid, inadvertantly fixed by the ghak96 patch.
+
+Please see upstream github issue
+https://github.com/linux-audit/audit-kernel/issues/120
+This is also related to upstream github issue
+https://github.com/linux-audit/audit-kernel/issues/96
+
+Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
+---
+Passes audit-testsuite.
+
+Chagelog:
+v4:
+- rebase on audit/next v5.9-rc1
+- squash v2+v3fix
+- add pwd NULL check in audit_log_name()
+- resubmit after revert
+
+v3:
+- initialize fds[0] to -1
+- init cwd for ghak96 LSM_AUDIT_DATA_NET:AF_UNIX case
+- init cwd for audit_inode{,_child}
+
+v2:
+- unconditionally clear dummy
+- create audit_clear_dummy accessor function
+- remove proctitle context and dummy checks
+
+ kernel/audit.c       |  1 +
+ kernel/audit.h       |  8 ++++++++
+ kernel/auditsc.c     | 11 +++++++----
+ security/lsm_audit.c |  1 +
+ 4 files changed, 17 insertions(+), 4 deletions(-)
+
+diff --git a/kernel/audit.c b/kernel/audit.c
+index 68cee3bc8cfe..8604eccb348f 100644
+--- a/kernel/audit.c
++++ b/kernel/audit.c
+@@ -1865,6 +1865,7 @@ struct audit_buffer *audit_log_start(struct audit_context *ctx, gfp_t gfp_mask,
+ 	}
+ 
+ 	audit_get_stamp(ab->ctx, &t, &serial);
++	audit_clear_dummy(ab->ctx);
+ 	audit_log_format(ab, "audit(%llu.%03lu:%u): ",
+ 			 (unsigned long long)t.tv_sec, t.tv_nsec/1000000, serial);
+ 
+diff --git a/kernel/audit.h b/kernel/audit.h
+index 3b9c0945225a..abcfef58435b 100644
+--- a/kernel/audit.h
++++ b/kernel/audit.h
+@@ -290,6 +290,13 @@ extern int audit_signal_info_syscall(struct task_struct *t);
+ extern void audit_filter_inodes(struct task_struct *tsk,
+ 				struct audit_context *ctx);
+ extern struct list_head *audit_killed_trees(void);
++
++static inline void audit_clear_dummy(struct audit_context *ctx)
++{
++	if (ctx)
++		ctx->dummy = 0;
++}
++
+ #else /* CONFIG_AUDITSYSCALL */
+ #define auditsc_get_stamp(c, t, s) 0
+ #define audit_put_watch(w) {}
+@@ -323,6 +330,7 @@ static inline int audit_signal_info_syscall(struct task_struct *t)
+ }
+ 
+ #define audit_filter_inodes(t, c) AUDIT_DISABLED
++#define audit_clear_dummy(c) {}
+ #endif /* CONFIG_AUDITSYSCALL */
+ 
+ extern char *audit_unpack_string(void **bufp, size_t *remain, size_t len);
+diff --git a/kernel/auditsc.c b/kernel/auditsc.c
+index 8dba8f0983b5..9d2de93f40b3 100644
+--- a/kernel/auditsc.c
++++ b/kernel/auditsc.c
+@@ -929,6 +929,7 @@ static inline struct audit_context *audit_alloc_context(enum audit_state state)
+ 	context->prio = state == AUDIT_RECORD_CONTEXT ? ~0ULL : 0;
+ 	INIT_LIST_HEAD(&context->killed_trees);
+ 	INIT_LIST_HEAD(&context->names_list);
++	context->fds[0] = -1;
+ 	return context;
+ }
+ 
+@@ -1367,7 +1368,10 @@ static void audit_log_name(struct audit_context *context, struct audit_names *n,
+ 			/* name was specified as a relative path and the
+ 			 * directory component is the cwd
+ 			 */
+-			audit_log_d_path(ab, " name=", &context->pwd);
++			if (&context->pwd)
++				audit_log_d_path(ab, " name=", &context->pwd);
++			else
++				audit_log_format(ab, " name=(null)");
+ 			break;
+ 		default:
+ 			/* log the name's directory component */
+@@ -1435,9 +1439,6 @@ static void audit_log_proctitle(void)
+ 	struct audit_context *context = audit_context();
+ 	struct audit_buffer *ab;
+ 
+-	if (!context || context->dummy)
+-		return;
+-
+ 	ab = audit_log_start(context, GFP_KERNEL, AUDIT_PROCTITLE);
+ 	if (!ab)
+ 		return;	/* audit_panic or being filtered */
+@@ -2079,6 +2080,7 @@ void __audit_inode(struct filename *name, const struct dentry *dentry,
+ 	}
+ 	handle_path(dentry);
+ 	audit_copy_inode(n, dentry, inode, flags & AUDIT_INODE_NOEVAL);
++	_audit_getcwd(context);
+ }
+ 
+ void __audit_file(const struct file *file)
+@@ -2197,6 +2199,7 @@ void __audit_inode_child(struct inode *parent,
+ 		audit_copy_inode(found_child, dentry, inode, 0);
+ 	else
+ 		found_child->ino = AUDIT_INO_UNSET;
++	_audit_getcwd(context);
+ }
+ EXPORT_SYMBOL_GPL(__audit_inode_child);
+ 
+diff --git a/security/lsm_audit.c b/security/lsm_audit.c
+index 53d0d183db8f..e93077612246 100644
+--- a/security/lsm_audit.c
++++ b/security/lsm_audit.c
+@@ -369,6 +369,7 @@ static void dump_common_audit_data(struct audit_buffer *ab,
+ 					audit_log_untrustedstring(ab, p);
+ 				else
+ 					audit_log_n_hex(ab, p, len);
++				audit_getcwd();
+ 				break;
+ 			}
+ 		}
 -- 
-paul moore
-www.paul-moore.com
+2.18.4
 
 --
 Linux-audit mailing list
