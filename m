@@ -2,59 +2,59 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [216.205.24.124])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F86126F27A
-	for <lists+linux-audit@lfdr.de>; Fri, 18 Sep 2020 05:00:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4341026F27B
+	for <lists+linux-audit@lfdr.de>; Fri, 18 Sep 2020 05:00:52 +0200 (CEST)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-541-CY4fooeTOT6eGmV1TcBinQ-1; Thu, 17 Sep 2020 23:00:46 -0400
-X-MC-Unique: CY4fooeTOT6eGmV1TcBinQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+ us-mta-81-pKJV716BPaWfyVGuyEpOJQ-1; Thu, 17 Sep 2020 23:00:46 -0400
+X-MC-Unique: pKJV716BPaWfyVGuyEpOJQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5BE4F57054;
-	Fri, 18 Sep 2020 03:00:40 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 3B4B178810;
-	Fri, 18 Sep 2020 03:00:40 +0000 (UTC)
-Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 75AAA8C7C9;
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 993DF1074645;
 	Fri, 18 Sep 2020 03:00:39 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
-	[10.11.54.6])
+Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 8FEC55DEBB;
+	Fri, 18 Sep 2020 03:00:38 +0000 (UTC)
+Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 01A4F44A73;
+	Fri, 18 Sep 2020 03:00:32 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+	[10.11.54.3])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 08I2FhO0017061 for <linux-audit@listman.util.phx.redhat.com>;
-	Thu, 17 Sep 2020 22:15:43 -0400
+	id 08I2HOia017208 for <linux-audit@listman.util.phx.redhat.com>;
+	Thu, 17 Sep 2020 22:17:24 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id AB6602068533; Fri, 18 Sep 2020 02:15:43 +0000 (UTC)
+	id 231701009BBF; Fri, 18 Sep 2020 02:17:24 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
-	(mimecast06.extmail.prod.ext.rdu2.redhat.com [10.11.55.22])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id A6EA52166B27
-	for <linux-audit@redhat.com>; Fri, 18 Sep 2020 02:15:41 +0000 (UTC)
+	(mimecast03.extmail.prod.ext.rdu2.redhat.com [10.11.55.19])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 1C9731007A5B
+	for <linux-audit@redhat.com>; Fri, 18 Sep 2020 02:17:18 +0000 (UTC)
 Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
 	[207.211.31.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 842DA18AE949
-	for <linux-audit@redhat.com>; Fri, 18 Sep 2020 02:15:41 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C578B86C140
+	for <linux-audit@redhat.com>; Fri, 18 Sep 2020 02:17:18 +0000 (UTC)
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99]) (Using TLS)
-	by relay.mimecast.com with ESMTP id us-mta-405-CCszLJ6HPWS4fRYFvhf4hw-1;
-	Thu, 17 Sep 2020 22:15:38 -0400
-X-MC-Unique: CCszLJ6HPWS4fRYFvhf4hw-1
+	by relay.mimecast.com with ESMTP id us-mta-563-qKIVJE8INiypXTdMd4eKAQ-1;
+	Thu, 17 Sep 2020 22:17:15 -0400
+X-MC-Unique: qKIVJE8INiypXTdMd4eKAQ-1
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
 	[73.47.72.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id 9A94923888;
-	Fri, 18 Sep 2020 02:15:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPSA id 1FA63238EE;
+	Fri, 18 Sep 2020 02:17:13 +0000 (UTC)
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 34/90] audit: CONFIG_CHANGE don't log internal
+Subject: [PATCH AUTOSEL 4.4 24/64] audit: CONFIG_CHANGE don't log internal
 	bookkeeping as an event
-Date: Thu, 17 Sep 2020 22:13:59 -0400
-Message-Id: <20200918021455.2067301-34-sashal@kernel.org>
-In-Reply-To: <20200918021455.2067301-1-sashal@kernel.org>
-References: <20200918021455.2067301-1-sashal@kernel.org>
+Date: Thu, 17 Sep 2020 22:16:03 -0400
+Message-Id: <20200918021643.2067895-24-sashal@kernel.org>
+In-Reply-To: <20200918021643.2067895-1-sashal@kernel.org>
+References: <20200918021643.2067895-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -66,9 +66,9 @@ X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
 	Custom Display Name List=false; Reply-to Address Mismatch=false;
 	Targeted Threat Dictionary=false;
 	Mimecast Threat Dictionary=false; Custom Threat Dictionary=false;
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
 X-MIME-Autoconverted: from quoted-printable to 8bit by
-	lists01.pubmisc.prod.ext.phx2.redhat.com id 08I2FhO0017061
+	lists01.pubmisc.prod.ext.phx2.redhat.com id 08I2HOia017208
 X-loop: linux-audit@redhat.com
 X-Mailman-Approved-At: Thu, 17 Sep 2020 23:00:22 -0400
 Cc: Sasha Levin <sashal@kernel.org>, linux-audit@redhat.com
@@ -85,7 +85,7 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
 	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=linux-audit-bounces@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -122,7 +122,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 2 deletions(-)
 
 diff --git a/kernel/audit_watch.c b/kernel/audit_watch.c
-index 712469a3103ac..54b30c9bd8b13 100644
+index f45a9a5d3e47a..af453f3c2b3dd 100644
 --- a/kernel/audit_watch.c
 +++ b/kernel/audit_watch.c
 @@ -316,8 +316,6 @@ static void audit_update_watch(struct audit_parent *parent,
