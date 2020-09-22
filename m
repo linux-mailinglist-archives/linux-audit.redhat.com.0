@@ -2,56 +2,86 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [216.205.24.124])
-	by mail.lfdr.de (Postfix) with ESMTP id 34817274254
-	for <lists+linux-audit@lfdr.de>; Tue, 22 Sep 2020 14:45:39 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1600778738;
-	h=from:from:sender:sender:reply-to:subject:subject:date:date:
-	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-	 content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:list-id:list-help:
-	 list-unsubscribe:list-subscribe:list-post;
-	bh=frMuAo99wPgT98+h1kzaDv9O6mgCuX3QPQKpyPWQhjI=;
-	b=Svly6UHOjDKpXkI948k0WZ+HyLZqyaOiDRgEuCB5OkKXGU5j0vzp0QC1eSXuv9mwuQ+obj
-	7vUSNS/AF+Kb30O3kHxVJPf+SnUp3/mpc8jNueY3te6Ec6SNlmDyENVWai6kEx/6b7qLxY
-	nlRFJKp6bZbZkcKAApBrOelxVUmOVV0=
+	by mail.lfdr.de (Postfix) with ESMTP id 6A6EC2743DF
+	for <lists+linux-audit@lfdr.de>; Tue, 22 Sep 2020 16:13:41 +0200 (CEST)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-135-kYC5thPKO9mPd981_rkJeA-1; Tue, 22 Sep 2020 08:45:36 -0400
-X-MC-Unique: kYC5thPKO9mPd981_rkJeA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+ us-mta-581-5ZYNfRvaM--8aDDWx9y4PQ-1; Tue, 22 Sep 2020 10:13:37 -0400
+X-MC-Unique: 5ZYNfRvaM--8aDDWx9y4PQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 84A59186DD26;
-	Tue, 22 Sep 2020 12:45:30 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0B2501091070;
+	Tue, 22 Sep 2020 14:13:31 +0000 (UTC)
 Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id D11B55C1A3;
-	Tue, 22 Sep 2020 12:45:29 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 7CA845DEC7;
+	Tue, 22 Sep 2020 14:13:28 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id DCFF618A0C08;
-	Tue, 22 Sep 2020 12:45:28 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
-	[10.5.11.23])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id F108C18A1996;
+	Tue, 22 Sep 2020 14:13:25 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+	[10.11.54.4])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 08MCjOwD019039 for <linux-audit@listman.util.phx.redhat.com>;
-	Tue, 22 Sep 2020 08:45:24 -0400
+	id 08MEDGjV029240 for <linux-audit@listman.util.phx.redhat.com>;
+	Tue, 22 Sep 2020 10:13:16 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id 6C6A41972B; Tue, 22 Sep 2020 12:45:24 +0000 (UTC)
+	id 0E9CB202450E; Tue, 22 Sep 2020 14:13:16 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from madcap2.tricolour.ca (unknown [10.10.110.18])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id B5E4B19C4F;
-	Tue, 22 Sep 2020 12:45:16 +0000 (UTC)
-From: Richard Guy Briggs <rgb@redhat.com>
-To: Linux-Audit Mailing List <linux-audit@redhat.com>,
-	LKML <linux-kernel@vger.kernel.org>,
-	Linux Security Module list <linux-security-module@vger.kernel.org>
-Subject: [PATCH ghak120 V5] audit: trigger accompanying records when no rules
-	present
-Date: Tue, 22 Sep 2020 08:44:50 -0400
-Message-Id: <7081a5b9c7d2e8085c49cec2fa72fcbb0b25e0d7.1600778472.git.rgb@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Received: from mimecast-mx02.redhat.com
+	(mimecast06.extmail.prod.ext.rdu2.redhat.com [10.11.55.22])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 088A92022788
+	for <linux-audit@redhat.com>; Tue, 22 Sep 2020 14:13:13 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+	[205.139.110.120])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7881C18AE949
+	for <linux-audit@redhat.com>; Tue, 22 Sep 2020 14:13:13 +0000 (UTC)
+Received: from sonic305-21.consmr.mail.ne1.yahoo.com
+	(sonic305-21.consmr.mail.ne1.yahoo.com [66.163.185.147]) (Using TLS) by
+	relay.mimecast.com with ESMTP id us-mta-266-mlITlRGANyKS1JlWQN-fSw-1;
+	Tue, 22 Sep 2020 10:13:09 -0400
+X-MC-Unique: mlITlRGANyKS1JlWQN-fSw-1
+X-YMail-OSG: GaaNhdsVM1n7KxYzzpB9Roo6wBXdiXJQoXAlJ3tC69emWxFU9uOVH20y1Wvxq3J
+	Zh1p_qWytyY43QktE_XG674zPqBMFzZT1e6U5oY3JZFQpA8YggUO25zVzyIn0ehvf.IDwcrQO2p9
+	feocISYoLzqRdRg4gZN1EBS0aLk3fY3PgwMWXbiSiwS_v5vfv6eoYoylkhVT9Az0oevWSV72eCay
+	4Q1Tz.yMGETv0FpF0z2KIbiyVFtZ.3ULdK3eDqyXKM5f.ZsE0wt9SdewCsOBSNxe1Q.8ht12sf.X
+	jROlk7Foq35G2t_Bj_Iv0SrOPR698TkbrI3FmK4LKHrMmhssEQxgz2W4rT6QnnJYKNsIW0IJbMS.
+	4qcH_NTBkyY7YBMbQF5Zc1JtPj_R9UdHZL4mldmDqIM7k2AGSRfMRzXTZjvyZR9QzrQEg1d8VFmm
+	.17tlAxigUMtOq4lWVhZRP5NpILbJzoFmAl9zgOnClUoocK6BIRbXoPBGwb7QPJwGWXL85RGiFBv
+	ZelZXDghpGn3YRNm2rE.CqTFrW.D4BoMP7Wz9YnffDZQPuL4hyjXiOeEe6tc9Xc_ag7kTEVAWTP7
+	d0UZDVJWMZDCOEVhg1Jx3TdkFvL5cY.sHFVGfCbQbwmBR41UfWH92Xcc7MjYuJhaRJVu6WI.cWwV
+	Xco7fX4zIz7hLLOgDbMgMX9a3L7RZe8yBKpf.Lh5E_EdPo6n1W7_MyRB1yg01tRDUE6lLsQOaqn4
+	9zDqqjUtr1i6qHi1Fjn1s4hH5BCFvFe6v0iggEmAWo029DBkMCIIEnRY18QedFWAsPp4vh.jhXTq
+	LpsSdqsDp_NXoICpZYjwrqDmgTyw3CJJQ6mxX96P6g4hSQFguQM.EJV58XIb7Yf_8JZ6Nho8YsfA
+	._KZL43gKIQ9zDKD0GyguIeFK.gzQd1FrLFtNd.cLvFWKJI8j0md_QvAlLmZb9KaFrqJxR4jwmBJ
+	YA5mtJ0B2GIYbIy95fNVGnZh4xcWu81BprKv0jOD0xfN2VR3Ypm_TRUsQqqL5j0gNLTQ9U2Gdr9o
+	eiawJrkogpWwzOjlt2D.z3C6ynJ95Jsjssrq2jXJogRsnadpTdnsEKaTN6u1WyDrVXkM379zXKUM
+	BtzND1UITtxrMD9I.lBtIWwF39W13_YFwVxeYo1SXMYtdCwNfFF48k3oStxsA5LBjOhj71EuQamh
+	SZT7nRYoxiikFEuntep3uT_S.jS0nN67Z6P4KoENsHCcgXzOGEY4W77putFb1yXfLTvrAaj5DNtc
+	Hh.f4px67bPlT.kVYrYtY6G.6dEwGY0S1k4_felxhtrBReFeXKOENQDlMFStW9D8NuOiVjTIqoly
+	7dIk4jCU7iQn8Pg.4BuvtzWaS8bVeeb3QjVpxItsa78otXBHNsoQTTbHZfnM_CBjPUyDDVNkhHEO
+	gtNhpVl1m3Wm_E5HjZ0fUhz1VSARvn4Qe9Q.3RtY_a51VrwihxgHDosaNcWsAwur4QUM-
+Received: from sonic.gate.mail.ne1.yahoo.com by
+	sonic305.consmr.mail.ne1.yahoo.com with HTTP;
+	Tue, 22 Sep 2020 14:13:09 +0000
+Date: Tue, 22 Sep 2020 14:13:03 +0000 (UTC)
+From: Joe Wulf <joe_wulf@yahoo.com>
+To: "linux-audit@redhat.com" <linux-audit@redhat.com>
+Message-ID: <738651663.5183625.1600783983768@mail.yahoo.com>
+Subject: augenrules --load
+MIME-Version: 1.0
+References: <738651663.5183625.1600783983768.ref@mail.yahoo.com>
+X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
+	Definition; Similar Internal Domain=false;
+	Similar Monitored External Domain=false;
+	Custom External Domain=false; Mimecast External Domain=false;
+	Newly Observed Domain=false; Internal User Name=false;
+	Custom Display Name List=false; Reply-to Address Mismatch=false;
+	Targeted Threat Dictionary=false;
+	Mimecast Threat Dictionary=false; Custom Threat Dictionary=false;
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
 X-loop: linux-audit@redhat.com
-Cc: Richard Guy Briggs <rgb@redhat.com>
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -63,247 +93,242 @@ List-Post: <mailto:linux-audit@redhat.com>
 List-Help: <mailto:linux-audit-request@redhat.com?subject=help>
 List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
-MIME-Version: 1.0
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
 	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=linux-audit-bounces@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: multipart/mixed; boundary="===============3051342868936143376=="
+
+--===============3051342868936143376==
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_5183624_1844033532.1600783983765"
+
+------=_Part_5183624_1844033532.1600783983765
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+When building a new RHEL v7.8 VM manually, I set up the rules desired in /e=
+tc/audit/rulesd/audit.rules, no other changes (because I've wanted to narro=
+w down the issue). After subsequent reboots, with no further changes to any=
+ audit rules either; I monitor /var/log/messages and I see occurrences like=
+ this:
+Sep 22 09:04:24 hostxyz augenrules: /sbin/augenrules: No change
+Sep 22 09:04:24 hostxyz augenrules: No rulesSep 22 09:04:24 hostxyz augenru=
+les: enabled 1Sep 22 09:04:24 hostxyz augenrules: failure 1Sep 22 09:04:24 =
+hostxyz augenrules: pid 1242Sep 22 09:04:24 hostxyz augenrules: rate_limit =
+0Sep 22 09:04:24 hostxyz augenrules: backlog_limit 16384Sep 22 09:04:24 hos=
+txyz augenrules: lost 56Sep 22 09:04:24 hostxyz augenrules: backlog 1Sep 22=
+ 09:04:24 hostxyz augenrules: enabled 1Sep 22 09:04:24 hostxyz augenrules: =
+failure 2Sep 22 09:04:24 hostxyz augenrules: pid 1242Sep 22 09:04:24 hostxy=
+z augenrules: rate_limit 0Sep 22 09:04:24 hostxyz augenrules: backlog_limit=
+ 16384Sep 22 09:04:24 hostxyz augenrules: lost 56Sep 22 09:04:24 hostxyz au=
+genrules: backlog 0Sep 22 09:04:24 hostxyz augenrules: usage: auditctl [opt=
+ions]Sep 22 09:04:24 hostxyz augenrules: -a <l,a>=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Append rule to end of <l>ist wit=
+h <a>ctionSep 22 09:04:24 hostxyz augenrules: -A <l,a>=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Add rule at beginning of <l>i=
+st with <a>ctionSep 22 09:04:24 hostxyz augenrules: -b <backlog>=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Set max number of outstanding audit buffe=
+rsSep 22 09:04:24 hostxyz augenrules: allowed Default=3D64Sep 22 09:04:24 h=
+ostxyz augenrules: -c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Continue through errors in=
+ rulesSep 22 09:04:24 hostxyz augenrules: -C f=3Df=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Compare collected fi=
+elds if available:Sep 22 09:04:24 hostxyz augenrules: Field name, operator(=
+=3D,!=3D), field nameSep 22 09:04:24 hostxyz augenrules: -d <l,a>=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Delete rule from =
+<l>ist with <a>ctionSep 22 09:04:24 hostxyz augenrules: l=3Dtask,exit,user,=
+excludeSep 22 09:04:24 hostxyz augenrules: a=3Dnever,alwaysSep 22 09:04:24 =
+hostxyz augenrules: -D=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Delete all rules and wa=
+tchesSep 22 09:04:24 hostxyz augenrules: -e [0..2]=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Set enabled flagSep 22 09:04:24 hostxy=
+z augenrules: -f [0..2]=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 Set failure flagSep 22 09:04:24 hostxyz augenrules: 0=3Dsilent 1=
+=3Dprintk 2=3DpanicSep 22 09:04:24 hostxyz augenrules: -F f=3Dv=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Build ru=
+le: field name, operator(=3D,!=3D,<,>,<=3D,Sep 22 09:04:24 hostxyz augenrul=
+es: >=3D,&,&=3D) valueSep 22 09:04:24 hostxyz augenrules: -h=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 HelpSep 22 09:04:24 hostxyz augenrules: -i=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 Ignore errors when reading rules from fileSep 22 09:04:24 hostxyz=
+ augenrules: -k <key>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 Set filter key on audit ruleSep 22 09:04:24 hostxyz augenrules=
+: -l=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 List rulesSep 22 09:04:24 hostxyz augenru=
+les: -m text=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 Send a user-space messageSep 22 09:04:24 hostxyz augenrules: -p [=
+r|w|x|a]=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Set permissions filter o=
+n watchSep 22 09:04:24 hostxyz augenrules: r=3Dread, w=3Dwrite, x=3Dexecute=
+, a=3DattributeSep 22 09:04:24 hostxyz augenrules: -q <mount,subtree>=C2=A0=
+ make subtree part of mount point's dir watchesSep 22 09:04:24 hostxyz auge=
+nrules: -r <rate>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 Set limit in messages/sec (0=3Dnone)Sep 22 09:04:24 hostxyz augenrules:=
+ -R <file>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 read=
+ rules from fileSep 22 09:04:24 hostxyz augenrules: -s=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 Report statusSep 22 09:04:24 hostxyz augenrules: -S syscall=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Build rule: syscall name or n=
+umberSep 22 09:04:24 hostxyz augenrules: -t=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Tr=
+im directory watchesSep 22 09:04:24 hostxyz augenrules: -v=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 VersionSep 22 09:04:24 hostxyz augenrules: -w <path>=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Insert watch at <path>S=
+ep 22 09:04:24 hostxyz augenrules: -W <path>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Remove watch at <path>Sep 22 09:04:24 hostxy=
+z augenrules: --loginuid-immutable=C2=A0 Make loginuids unchangeable once s=
+etSep 22 09:04:24 hostxyz augenrules: --reset-lost=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 Reset the lost record counterSep 22 09:04:24 hostx=
+yz systemd: Started Security Auditing Service.
+The 'usage' of auditctl is invoked the one time in the 'try_load' function =
+of augenrules.=C2=A0 Manual executions of "/sbin/auditctl -R /etc/audit/aud=
+it.rules', results in essentially the same behavior on the terminal as foun=
+d in /var/log/messages.
+Should execution of augenrules seemingly error-out on invocation of auditct=
+l like this?
+Thank you.
+R,-Joe Wulf
+
+------=_Part_5183624_1844033532.1600783983765
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<html><head></head><body><div class=3D"ydpb45cb906yahoo-style-wrap" style=
+=3D"font-family:Helvetica Neue, Helvetica, Arial, sans-serif;font-size:16px=
+;"><div dir=3D"ltr" data-setdir=3D"false">When building a new RHEL v7.8 VM =
+manually, I set up the rules desired in /etc/audit/rulesd/audit.rules, no o=
+ther changes (because I've wanted to narrow down the issue). After subseque=
+nt reboots, with no further changes to any audit rules either; I monitor /v=
+ar/log/messages and I see occurrences like this:</div><div dir=3D"ltr" data=
+-setdir=3D"false"><br></div><div dir=3D"ltr" data-setdir=3D"false"><div dir=
+=3D"ltr" data-setdir=3D"false">Sep 22 09:04:24 hostxyz augenrules: /sbin/au=
+genrules: No change<br><div>Sep 22 09:04:24  <span><span>hostxyz </span></s=
+pan>augenrules: No rules</div><div>Sep 22 09:04:24  <span><span>hostxyz </s=
+pan></span>augenrules: enabled 1</div><div>Sep 22 09:04:24  <span><span>hos=
+txyz </span></span>augenrules: failure 1</div><div>Sep 22 09:04:24  <span><=
+span>hostxyz </span></span>augenrules: pid 1242</div><div>Sep 22 09:04:24  =
+<span><span>hostxyz </span></span>augenrules: rate_limit 0</div><div>Sep 22=
+ 09:04:24  <span><span>hostxyz </span></span>augenrules: backlog_limit 1638=
+4</div><div>Sep 22 09:04:24  <span><span>hostxyz </span></span>augenrules: =
+lost 56</div><div>Sep 22 09:04:24  <span><span>hostxyz </span></span>augenr=
+ules: backlog 1</div><div>Sep 22 09:04:24  <span><span>hostxyz </span></spa=
+n>augenrules: enabled 1</div><div>Sep 22 09:04:24  <span><span>hostxyz </sp=
+an></span>augenrules: failure 2</div><div>Sep 22 09:04:24  <span><span>host=
+xyz </span></span>augenrules: pid 1242</div><div>Sep 22 09:04:24  <span><sp=
+an>hostxyz </span></span>augenrules: rate_limit 0</div><div>Sep 22 09:04:24=
+  <span><span>hostxyz </span></span>augenrules: backlog_limit 16384</div><d=
+iv>Sep 22 09:04:24  <span><span>hostxyz </span></span>augenrules: lost 56</=
+div><div>Sep 22 09:04:24  <span><span>hostxyz </span></span>augenrules: bac=
+klog 0</div><div><b>Sep 22 09:04:24  <span><span>hostxyz </span></span>auge=
+nrules: usage: auditctl [options]</b></div><div><b>Sep 22 09:04:24  <span><=
+span>hostxyz </span></span>augenrules: -a &lt;l,a&gt;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Append rule to end of &lt;l&gt=
+;ist with &lt;a&gt;ction</b></div><div><b>Sep 22 09:04:24  <span><span>host=
+xyz </span></span>augenrules: -A &lt;l,a&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Add rule at beginning of &lt;l&gt;ist w=
+ith &lt;a&gt;ction</b></div><div><b>Sep 22 09:04:24  <span><span>hostxyz </=
+span></span>augenrules: -b &lt;backlog&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp; Set max number of outstanding audit buffers</b></div><div><b>Sep =
+22 09:04:24  <span><span>hostxyz </span></span>augenrules: allowed Default=
+=3D64</b></div><div><b>Sep 22 09:04:24  <span><span>hostxyz </span></span>a=
+ugenrules: -c&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Continue through errors in rules</=
+b></div><div><b>Sep 22 09:04:24  <span><span>hostxyz </span></span>augenrul=
+es: -C f=3Df&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp; Compare collected fields if available:</b></div><div><b>Sep=
+ 22 09:04:24  <span><span>hostxyz </span></span>augenrules: Field name, ope=
+rator(=3D,!=3D), field name</b></div><div><b>Sep 22 09:04:24  <span><span>h=
+ostxyz </span></span>augenrules: -d &lt;l,a&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Delete rule from &lt;l&gt;ist with &=
+lt;a&gt;ction</b></div><div><b>Sep 22 09:04:24  <span><span>hostxyz </span>=
+</span>augenrules: l=3Dtask,exit,user,exclude</b></div><div><b>Sep 22 09:04=
+:24  <span><span>hostxyz </span></span>augenrules: a=3Dnever,always</b></di=
+v><div><b>Sep 22 09:04:24  <span><span>hostxyz </span></span>augenrules: -D=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp; Delete all rules and watches</b></div><div><b>S=
+ep 22 09:04:24  <span><span>hostxyz </span></span>augenrules: -e [0..2]&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Set enabled flag</=
+b></div><div><b>Sep 22 09:04:24  <span><span>hostxyz </span></span>augenrul=
+es: -f [0..2]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; S=
+et failure flag</b></div><div><b>Sep 22 09:04:24  <span><span>hostxyz </spa=
+n></span>augenrules: 0=3Dsilent 1=3Dprintk 2=3Dpanic</b></div><div><b>Sep 2=
+2 09:04:24  <span><span>hostxyz </span></span>augenrules: -F f=3Dv&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Build=
+ rule: field name, operator(=3D,!=3D,&lt;,&gt;,&lt;=3D,</b></div><div><b>Se=
+p 22 09:04:24  <span><span>hostxyz </span></span>augenrules: &gt;=3D,&amp;,=
+&amp;=3D) value</b></div><div><b>Sep 22 09:04:24  <span><span>hostxyz </spa=
+n></span>augenrules: -h&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Help</b></div><div><b>Se=
+p 22 09:04:24  <span><span>hostxyz </span></span>augenrules: -i&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp; Ignore errors when reading rules from file</b></div><div><b=
+>Sep 22 09:04:24  <span><span>hostxyz </span></span>augenrules: -k &lt;key&=
+gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Set f=
+ilter key on audit rule</b></div><div><b>Sep 22 09:04:24  <span><span>hostx=
+yz </span></span>augenrules: -l&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; List rules</b></=
+div><div><b>Sep 22 09:04:24  <span><span>hostxyz </span></span>augenrules: =
+-m text&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp; Send a user-space message</b></div><div><b>Sep 22 09:04:24  <span><spa=
+n>hostxyz </span></span>augenrules: -p [r|w|x|a]&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp; Set permissions filter on watch</b></div><div><b>Sep 22 09:=
+04:24  <span><span>hostxyz </span></span>augenrules: r=3Dread, w=3Dwrite, x=
+=3Dexecute, a=3Dattribute</b></div><div><b>Sep 22 09:04:24  <span><span>hos=
+txyz </span></span>augenrules: -q &lt;mount,subtree&gt;&nbsp; make subtree =
+part of mount point's dir watches</b></div><div><b>Sep 22 09:04:24  <span><=
+span>hostxyz </span></span>augenrules: -r &lt;rate&gt;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Set limit in messages/sec (0=3Dnone=
+)</b></div><div><b>Sep 22 09:04:24  <span><span>hostxyz </span></span>augen=
+rules: -R &lt;file&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp; read rules from file</b></div><div><b>Sep 22 09:04:24  <span><span>=
+hostxyz </span></span>augenrules: -s&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Report stat=
+us</b></div><div><b>Sep 22 09:04:24  <span><span>hostxyz </span></span>auge=
+nrules: -S syscall&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Bu=
+ild rule: syscall name or number</b></div><div><b>Sep 22 09:04:24  <span><s=
+pan>hostxyz </span></span>augenrules: -t&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Trim di=
+rectory watches</b></div><div><b>Sep 22 09:04:24  <span><span>hostxyz </spa=
+n></span>augenrules: -v&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Version</b></div><div><b=
+>Sep 22 09:04:24  <span><span>hostxyz </span></span>augenrules: -w &lt;path=
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Insert wat=
+ch at &lt;path&gt;</b></div><div><b>Sep 22 09:04:24  <span><span>hostxyz </=
+span></span>augenrules: -W &lt;path&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp; Remove watch at &lt;path&gt;</b></div><div dir=3D"=
+ltr" data-setdir=3D"false"><b>Sep 22 09:04:24  <span><span><span>hostxyz </=
+span></span></span>augenrules: --loginuid-immutable&nbsp; Make loginuids un=
+changeable once set</b></div><div><b>Sep 22 09:04:24  <span><span><span>hos=
+txyz </span></span></span>augenrules: --reset-lost&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; Reset the lost record counter</b></div><div>Sep 22 =
+09:04:24  <span><span><span>hostxyz </span></span></span>systemd: Started S=
+ecurity Auditing Service.</div></div><div><br></div><div dir=3D"ltr" data-s=
+etdir=3D"false">The 'usage' of auditctl is invoked the one time in the 'try=
+_load' function of augenrules.&nbsp; Manual executions of "/sbin/auditctl -=
+R /etc/audit/audit.rules', results in essentially the same behavior on the =
+terminal as found in /var/log/messages.</div><div dir=3D"ltr" data-setdir=
+=3D"false"><br></div><div dir=3D"ltr" data-setdir=3D"false">Should executio=
+n of augenrules seemingly error-out on invocation of auditctl like this?</d=
+iv><div dir=3D"ltr" data-setdir=3D"false"><br></div><div dir=3D"ltr" data-s=
+etdir=3D"false">Thank you.</div><div dir=3D"ltr" data-setdir=3D"false"><br>=
+</div><div dir=3D"ltr" data-setdir=3D"false">R,</div><div dir=3D"ltr" data-=
+setdir=3D"false">-Joe Wulf<br></div></div></div></body></html>
+------=_Part_5183624_1844033532.1600783983765--
+
+--===============3051342868936143376==
 Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-
-When there are no audit rules registered, mandatory records (config,
-etc.) are missing their accompanying records (syscall, proctitle, etc.).
-
-This is due to audit context dummy set on syscall entry based on absence
-of rules that signals that no other records are to be printed.  Clear the dummy
-bit if any record is generated, open coding this in audit_log_start().
-
-The proctitle context and dummy checks are pointless since the
-proctitle record will not be printed if no syscall records are printed.
-
-The fds array is reset to -1 after the first syscall to indicate it
-isn't valid any more, but was never set to -1 when the context was
-allocated to indicate it wasn't yet valid.
-
-Check ctx->pwd in audit_log_name().
-
-The audit_inode* functions can be called without going through
-getname_flags() or getname_kernel() that sets audit_names and cwd, so
-set the cwd in audit_alloc_name() if it has not already been done so due to
-audit_names being valid and purge all other audit_getcwd() calls.
-
-Revert the LSM dump_common_audit_data() LSM_AUDIT_DATA_* cases from the
-ghak96 patch since they are no longer necessary due to cwd coverage in
-audit_alloc_name().
-
-Thanks to bauen1 <j2468h@googlemail.com> for reporting LSM situations in
-which context->cwd is not valid, inadvertantly fixed by the ghak96 patch.
-
-Please see upstream github issue
-https://github.com/linux-audit/audit-kernel/issues/120
-This is also related to upstream github issue
-https://github.com/linux-audit/audit-kernel/issues/96
-
-Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
----
-Chagelog:
-v5:
-- open code audit_clear_dummy() in audit_log_start()
-- fix check for ctx->pwd in audit_log_name()
-- open code _audit_getcwd() contents in audit_alloc_name()
-- ditch all *audit_getcwd() calls
-
-v4:
-- resubmit after revert
-
-v3:
-- initialize fds[0] to -1
-- init cwd for ghak96 LSM_AUDIT_DATA_NET:AF_UNIX case
-- init cwd for audit_inode{,_child}
-
-v2:
-- unconditionally clear dummy
-- create audit_clear_dummy accessor function
-- remove proctitle context and dummy checks
-
- include/linux/audit.h |  8 --------
- kernel/audit.c        |  3 +++
- kernel/auditsc.c      | 27 +++++++--------------------
- security/lsm_audit.c  |  5 -----
- 4 files changed, 10 insertions(+), 33 deletions(-)
-
-diff --git a/include/linux/audit.h b/include/linux/audit.h
-index b3d859831a31..82b7c1116a85 100644
---- a/include/linux/audit.h
-+++ b/include/linux/audit.h
-@@ -292,7 +292,6 @@ extern void __audit_syscall_entry(int major, unsigned long a0, unsigned long a1,
- extern void __audit_syscall_exit(int ret_success, long ret_value);
- extern struct filename *__audit_reusename(const __user char *uptr);
- extern void __audit_getname(struct filename *name);
--extern void __audit_getcwd(void);
- extern void __audit_inode(struct filename *name, const struct dentry *dentry,
- 				unsigned int flags);
- extern void __audit_file(const struct file *);
-@@ -351,11 +350,6 @@ static inline void audit_getname(struct filename *name)
- 	if (unlikely(!audit_dummy_context()))
- 		__audit_getname(name);
- }
--static inline void audit_getcwd(void)
--{
--	if (unlikely(audit_context()))
--		__audit_getcwd();
--}
- static inline void audit_inode(struct filename *name,
- 				const struct dentry *dentry,
- 				unsigned int aflags) {
-@@ -584,8 +578,6 @@ static inline struct filename *audit_reusename(const __user char *name)
- }
- static inline void audit_getname(struct filename *name)
- { }
--static inline void audit_getcwd(void)
--{ }
- static inline void audit_inode(struct filename *name,
- 				const struct dentry *dentry,
- 				unsigned int aflags)
-diff --git a/kernel/audit.c b/kernel/audit.c
-index 68cee3bc8cfe..dd9d22ba4fd2 100644
---- a/kernel/audit.c
-+++ b/kernel/audit.c
-@@ -1865,6 +1865,9 @@ struct audit_buffer *audit_log_start(struct audit_context *ctx, gfp_t gfp_mask,
- 	}
- 
- 	audit_get_stamp(ab->ctx, &t, &serial);
-+	/* cancel dummy context to enable supporting records */
-+	if (ctx)
-+		ctx->dummy = 0;
- 	audit_log_format(ab, "audit(%llu.%03lu:%u): ",
- 			 (unsigned long long)t.tv_sec, t.tv_nsec/1000000, serial);
- 
-diff --git a/kernel/auditsc.c b/kernel/auditsc.c
-index 8dba8f0983b5..183d79cc2e12 100644
---- a/kernel/auditsc.c
-+++ b/kernel/auditsc.c
-@@ -929,6 +929,7 @@ static inline struct audit_context *audit_alloc_context(enum audit_state state)
- 	context->prio = state == AUDIT_RECORD_CONTEXT ? ~0ULL : 0;
- 	INIT_LIST_HEAD(&context->killed_trees);
- 	INIT_LIST_HEAD(&context->names_list);
-+	context->fds[0] = -1;
- 	return context;
- }
- 
-@@ -1367,7 +1368,10 @@ static void audit_log_name(struct audit_context *context, struct audit_names *n,
- 			/* name was specified as a relative path and the
- 			 * directory component is the cwd
- 			 */
--			audit_log_d_path(ab, " name=", &context->pwd);
-+			if (context->pwd.dentry && context->pwd.mnt)
-+				audit_log_d_path(ab, " name=", &context->pwd);
-+			else
-+				audit_log_format(ab, " name=(null)");
- 			break;
- 		default:
- 			/* log the name's directory component */
-@@ -1435,9 +1439,6 @@ static void audit_log_proctitle(void)
- 	struct audit_context *context = audit_context();
- 	struct audit_buffer *ab;
- 
--	if (!context || context->dummy)
--		return;
--
- 	ab = audit_log_start(context, GFP_KERNEL, AUDIT_PROCTITLE);
- 	if (!ab)
- 		return;	/* audit_panic or being filtered */
-@@ -1866,6 +1867,8 @@ static struct audit_names *audit_alloc_name(struct audit_context *context,
- 	list_add_tail(&aname->list, &context->names_list);
- 
- 	context->name_count++;
-+	if (!context->pwd.dentry)
-+		get_fs_pwd(current->fs, &context->pwd);
- 	return aname;
- }
- 
-@@ -1894,20 +1897,6 @@ __audit_reusename(const __user char *uptr)
- 	return NULL;
- }
- 
--inline void _audit_getcwd(struct audit_context *context)
--{
--	if (!context->pwd.dentry)
--		get_fs_pwd(current->fs, &context->pwd);
--}
--
--void __audit_getcwd(void)
--{
--	struct audit_context *context = audit_context();
--
--	if (context->in_syscall)
--		_audit_getcwd(context);
--}
--
- /**
-  * __audit_getname - add a name to the list
-  * @name: name to add
-@@ -1931,8 +1920,6 @@ void __audit_getname(struct filename *name)
- 	n->name_len = AUDIT_NAME_FULL;
- 	name->aname = n;
- 	name->refcnt++;
--
--	_audit_getcwd(context);
- }
- 
- static inline int audit_copy_fcaps(struct audit_names *name,
-diff --git a/security/lsm_audit.c b/security/lsm_audit.c
-index 53d0d183db8f..221370794d14 100644
---- a/security/lsm_audit.c
-+++ b/security/lsm_audit.c
-@@ -241,7 +241,6 @@ static void dump_common_audit_data(struct audit_buffer *ab,
- 			audit_log_untrustedstring(ab, inode->i_sb->s_id);
- 			audit_log_format(ab, " ino=%lu", inode->i_ino);
- 		}
--		audit_getcwd();
- 		break;
- 	}
- 	case LSM_AUDIT_DATA_FILE: {
-@@ -255,7 +254,6 @@ static void dump_common_audit_data(struct audit_buffer *ab,
- 			audit_log_untrustedstring(ab, inode->i_sb->s_id);
- 			audit_log_format(ab, " ino=%lu", inode->i_ino);
- 		}
--		audit_getcwd();
- 		break;
- 	}
- 	case LSM_AUDIT_DATA_IOCTL_OP: {
-@@ -271,7 +269,6 @@ static void dump_common_audit_data(struct audit_buffer *ab,
- 		}
- 
- 		audit_log_format(ab, " ioctlcmd=0x%hx", a->u.op->cmd);
--		audit_getcwd();
- 		break;
- 	}
- 	case LSM_AUDIT_DATA_DENTRY: {
-@@ -286,7 +283,6 @@ static void dump_common_audit_data(struct audit_buffer *ab,
- 			audit_log_untrustedstring(ab, inode->i_sb->s_id);
- 			audit_log_format(ab, " ino=%lu", inode->i_ino);
- 		}
--		audit_getcwd();
- 		break;
- 	}
- 	case LSM_AUDIT_DATA_INODE: {
-@@ -304,7 +300,6 @@ static void dump_common_audit_data(struct audit_buffer *ab,
- 		audit_log_format(ab, " dev=");
- 		audit_log_untrustedstring(ab, inode->i_sb->s_id);
- 		audit_log_format(ab, " ino=%lu", inode->i_ino);
--		audit_getcwd();
- 		break;
- 	}
- 	case LSM_AUDIT_DATA_TASK: {
--- 
-2.18.4
+Content-Disposition: inline
 
 --
 Linux-audit mailing list
 Linux-audit@redhat.com
 https://www.redhat.com/mailman/listinfo/linux-audit
+--===============3051342868936143376==--
 
