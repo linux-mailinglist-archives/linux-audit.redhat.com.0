@@ -2,57 +2,72 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [63.128.21.124])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A3C527EEB6
-	for <lists+linux-audit@lfdr.de>; Wed, 30 Sep 2020 18:16:08 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1601482567;
-	h=from:from:sender:sender:reply-to:subject:subject:date:date:
-	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-	 content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:list-id:list-help:
-	 list-unsubscribe:list-subscribe:list-post;
-	bh=hXgYFb3Is1NP2p+BXO0j0Hjq/yTnCtaz4Fknp81oojM=;
-	b=P0DE/0P4cMvDZmjJAGsm5QIvlWzpL0RNhvVGD5HY4aEKmrmFkXzzoL43QAw7kn2wOriFgs
-	43HHnJ16jerSbI+xfq87F1L0sjDA/u8Ea26P2kQuZXzlk16qLzE8DLSgGmHh45/Tawg1/o
-	xBnwVBFbulYiSDhxciMmDoUUjTh6eKM=
+	by mail.lfdr.de (Postfix) with ESMTP id 926E027FEDC
+	for <lists+linux-audit@lfdr.de>; Thu,  1 Oct 2020 14:19:01 +0200 (CEST)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-6-XGDQsWTAOL-qcnnhxjQQ6A-1; Wed, 30 Sep 2020 12:16:04 -0400
-X-MC-Unique: XGDQsWTAOL-qcnnhxjQQ6A-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+ us-mta-536-KF6ZUD7SM3aaYV7IGXm29A-1; Thu, 01 Oct 2020 08:18:58 -0400
+X-MC-Unique: KF6ZUD7SM3aaYV7IGXm29A-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 40D4364083;
-	Wed, 30 Sep 2020 16:16:00 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 1D13119D7D;
-	Wed, 30 Sep 2020 16:16:00 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ABA5580EF9D;
+	Thu,  1 Oct 2020 12:18:53 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 4846260BF1;
+	Thu,  1 Oct 2020 12:18:51 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id DC404183D022;
-	Wed, 30 Sep 2020 16:15:59 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
-	[10.5.11.16])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 2FC3544A44;
+	Thu,  1 Oct 2020 12:18:46 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+	[10.11.54.6])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 08UGCfwp006626 for <linux-audit@listman.util.phx.redhat.com>;
-	Wed, 30 Sep 2020 12:12:41 -0400
+	id 091A3u1p026768 for <linux-audit@listman.util.phx.redhat.com>;
+	Thu, 1 Oct 2020 06:03:57 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id 052D45C1D0; Wed, 30 Sep 2020 16:12:41 +0000 (UTC)
+	id D99C82166B27; Thu,  1 Oct 2020 10:03:56 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from x2.localnet (ovpn-117-41.rdu2.redhat.com [10.10.117.41])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 5F33D5C1CF;
-	Wed, 30 Sep 2020 16:12:37 +0000 (UTC)
-From: Steve Grubb <sgrubb@redhat.com>
-To: linux-fsdevel@vger.kernel.org, Jan Kara <jack@suse.cz>,
-	linux-audit@redhat.com, Paul Moore <paul@paul-moore.com>
-Subject: [PATCH 3/3] fanotify: Allow audit to use the full permission event
-	response
-Date: Wed, 30 Sep 2020 12:12:33 -0400
-Message-ID: <3075502.aeNJFYEL58@x2>
-Organization: Red Hat
+Received: from mimecast-mx02.redhat.com
+	(mimecast04.extmail.prod.ext.rdu2.redhat.com [10.11.55.20])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id D4B3A2166BA2
+	for <linux-audit@redhat.com>; Thu,  1 Oct 2020 10:03:55 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [207.211.31.81])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EC1AE101A540
+	for <linux-audit@redhat.com>; Thu,  1 Oct 2020 10:03:54 +0000 (UTC)
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15]) (Using TLS) by
+	relay.mimecast.com with ESMTP id us-mta-287-1GQ1bE6NOE2lBbqdSEwPgw-1;
+	Thu, 01 Oct 2020 06:03:51 -0400
+X-MC-Unique: 1GQ1bE6NOE2lBbqdSEwPgw-1
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+	by mx2.suse.de (Postfix) with ESMTP id 7323BB19E;
+	Thu,  1 Oct 2020 09:49:39 +0000 (UTC)
+Received: by quack2.suse.cz (Postfix, from userid 1000)
+	id 147E91E12EF; Thu,  1 Oct 2020 11:49:39 +0200 (CEST)
+Date: Thu, 1 Oct 2020 11:49:39 +0200
+From: Jan Kara <jack@suse.cz>
+To: Steve Grubb <sgrubb@redhat.com>
+Subject: Re: [PATCH 1/3] fanotify: Ensure consistent variable type for response
+Message-ID: <20201001094939.GD17860@quack2.suse.cz>
+References: <12617626.uLZWGnKmhe@x2>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <12617626.uLZWGnKmhe@x2>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
+	Definition; Similar Internal Domain=false;
+	Similar Monitored External Domain=false;
+	Custom External Domain=false; Mimecast External Domain=false;
+	Newly Observed Domain=false; Internal User Name=false;
+	Custom Display Name List=false; Reply-to Address Mismatch=false;
+	Targeted Threat Dictionary=false;
+	Mimecast Threat Dictionary=false; Custom Threat Dictionary=false
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
 X-loop: linux-audit@redhat.com
-Cc: Amir Goldstein <amir73il@gmail.com>
+X-Mailman-Approved-At: Thu, 01 Oct 2020 08:18:34 -0400
+Cc: Jan Kara <jack@suse.cz>, Amir Goldstein <amir73il@gmail.com>,
+	linux-audit@redhat.com, linux-fsdevel@vger.kernel.org
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -66,70 +81,57 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
 	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=linux-audit-bounces@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Disposition: inline
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-This patch unmasks the full value so that the audit function can use all
-of it. The audit function was updated to log the additional information in
-the AUDIT_FANOTIFY record. The following is an example of the new record
-format:
+On Wed 30-09-20 12:12:24, Steve Grubb wrote:
+> The user space API for the response variable is __u32. This patch makes
+> sure that the whole path through the kernel uses __u32 so that there is
+> no sign extension or truncation of the user space response.
+> 
+> Signed-off-by: Steve Grubb <sgrubb@redhat.com>
+> ---
+>  fs/notify/fanotify/fanotify.h      | 2 +-
+>  fs/notify/fanotify/fanotify_user.c | 4 ++--
+>  2 files changed, 3 insertions(+), 3 deletions(-)
 
-type=FANOTIFY msg=audit(1600385147.372:590): resp=2 ctx_type=1 fan_ctx=17
+Looks good, just one nit below:
 
-Signed-off-by: Steve Grubb <sgrubb@redhat.com>
----
- fs/notify/fanotify/fanotify.c | 2 +-
- kernel/auditsc.c              | 7 +++++--
- 2 files changed, 6 insertions(+), 3 deletions(-)
+> diff --git a/fs/notify/fanotify/fanotify_user.c b/fs/notify/fanotify/fanotify_user.c
+> index 63b5dffdca9e..c8da9ea1e76e 100644
+> --- a/fs/notify/fanotify/fanotify_user.c
+> +++ b/fs/notify/fanotify/fanotify_user.c
+> @@ -157,7 +157,7 @@ static int create_fd(struct fsnotify_group *group, struct path *path,
+>   */
+>  static void finish_permission_event(struct fsnotify_group *group,
+>  				    struct fanotify_perm_event *event,
+> -				    unsigned int response)
+> +				    __u32 response)
+>  				    __releases(&group->notification_lock)
+>  {
+>  	bool destroy = false;
+> @@ -178,7 +178,7 @@ static int process_access_response(struct fsnotify_group *group,
+>  {
+>  	struct fanotify_perm_event *event;
+>  	int fd = response_struct->fd;
+> -	int response = response_struct->response;
+> +	__u32 response = response_struct->response;
+>  
+>  	pr_debug("%s: group=%p fd=%d response=%d\n", __func__, group,
+>  		 fd, response);
 
-diff --git a/fs/notify/fanotify/fanotify.c b/fs/notify/fanotify/fanotify.c
-index e72b7e59aa24..a9278e983e30 100644
---- a/fs/notify/fanotify/fanotify.c
-+++ b/fs/notify/fanotify/fanotify.c
-@@ -188,7 +188,7 @@ static int fanotify_get_response(struct fsnotify_group *group,
- 
- 	/* Check if the response should be audited */
- 	if (event->response & FAN_AUDIT)
--		audit_fanotify(event->response & ~FAN_AUDIT);
-+		audit_fanotify(event->response);
- 
- 	pr_debug("%s: group=%p event=%p about to return ret=%d\n", __func__,
- 		 group, event, ret);
-diff --git a/kernel/auditsc.c b/kernel/auditsc.c
-index fd840c40abf7..9d6a3ad2037d 100644
---- a/kernel/auditsc.c
-+++ b/kernel/auditsc.c
-@@ -75,6 +75,7 @@
- #include <linux/uaccess.h>
- #include <linux/fsnotify_backend.h>
- #include <uapi/linux/limits.h>
-+#include <uapi/linux/fanotify.h>
- 
- #include "audit.h"
- 
-@@ -2523,8 +2524,10 @@ void __audit_log_kern_module(char *name)
- 
- void __audit_fanotify(unsigned int response)
- {
--	audit_log(audit_context(), GFP_KERNEL,
--		AUDIT_FANOTIFY,	"resp=%u", response);
-+	audit_log(audit_context(), GFP_KERNEL, AUDIT_FANOTIFY,
-+		"resp=%u ctx_type=%u fan_ctx=%u", FAN_DEC_MASK(response),
-+		FAN_DEC_CONTEXT_TYPE_TO_VALUE(response),
-+		FAN_DEC_CONTEXT_TO_VALUE(response));
- }
- 
- void __audit_tk_injoffset(struct timespec64 offset)
+You want to print the response with "%u" here I guess...
+
+								Honza
 -- 
-2.26.2
-
-
-
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
 
 --
 Linux-audit mailing list
