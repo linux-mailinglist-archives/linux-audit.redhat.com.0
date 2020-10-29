@@ -2,78 +2,59 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [63.128.21.124])
-	by mail.lfdr.de (Postfix) with ESMTP id 4519729F150
-	for <lists+linux-audit@lfdr.de>; Thu, 29 Oct 2020 17:24:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DCA4329F14F
+	for <lists+linux-audit@lfdr.de>; Thu, 29 Oct 2020 17:24:10 +0100 (CET)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-46-cQcdF6NRPZ-tLXI9oFayKg-1; Thu, 29 Oct 2020 12:24:10 -0400
-X-MC-Unique: cQcdF6NRPZ-tLXI9oFayKg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+ us-mta-6-SZ3V1n90OUaaHQ-xu4ONkA-1; Thu, 29 Oct 2020 12:24:07 -0400
+X-MC-Unique: SZ3V1n90OUaaHQ-xu4ONkA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6A91519080CF;
-	Thu, 29 Oct 2020 16:24:03 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8C887804B8F;
+	Thu, 29 Oct 2020 16:24:01 +0000 (UTC)
 Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id BED295C62B;
-	Thu, 29 Oct 2020 16:24:02 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 2DAE755764;
+	Thu, 29 Oct 2020 16:24:01 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 80A2C181A86E;
-	Thu, 29 Oct 2020 16:24:02 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
-	[10.11.54.5])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 89023181A86E;
+	Thu, 29 Oct 2020 16:24:00 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+	[10.11.54.4])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 09TGL20V032459 for <linux-audit@listman.util.phx.redhat.com>;
-	Thu, 29 Oct 2020 12:21:02 -0400
+	id 09TGK2Mk032334 for <linux-audit@listman.util.phx.redhat.com>;
+	Thu, 29 Oct 2020 12:20:03 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id 75812EAFBB; Thu, 29 Oct 2020 16:21:02 +0000 (UTC)
+	id 9E663200E1FA; Thu, 29 Oct 2020 16:20:02 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
-	(mimecast03.extmail.prod.ext.rdu2.redhat.com [10.11.55.19])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 6E096EAFAE
-	for <linux-audit@redhat.com>; Thu, 29 Oct 2020 16:21:00 +0000 (UTC)
+	(mimecast05.extmail.prod.ext.rdu2.redhat.com [10.11.55.21])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 991A2200E1F8
+	for <linux-audit@redhat.com>; Thu, 29 Oct 2020 16:20:00 +0000 (UTC)
 Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
 	[205.139.110.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 239FC811E76
-	for <linux-audit@redhat.com>; Thu, 29 Oct 2020 16:21:00 +0000 (UTC)
-Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
-	[66.111.4.224]) (Using TLS) by relay.mimecast.com with ESMTP id
-	us-mta-204-zA0ejMQIPo-hwNaBhjw-Og-1; Thu, 29 Oct 2020 12:20:54 -0400
-X-MC-Unique: zA0ejMQIPo-hwNaBhjw-Og-1
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
-	by mailnew.nyi.internal (Postfix) with ESMTP id B0FBF5804FF;
-	Thu, 29 Oct 2020 12:12:46 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-	by compute6.internal (MEProxy); Thu, 29 Oct 2020 12:12:46 -0400
-X-ME-Sender: <xms:--maX1rRqh0KZqhW2Z7AyHuUczn1x4P54yW4xoJjtIvU8RXplx_bpg>
-	<xme:--maX3obwGzTVn7GWYS9M-wUqz0RyVfrkjHeqp8s9uRiWiqwUN7ugUfFTHl1nJC26
-	n999TfXwYrqieojFDg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrleefgdekhecutefuodetggdotefrodftvf
-	curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-	uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-	fjughrpeffhffvuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepvfihtghhohcu
-	tehnuggvrhhsvghnuceothihtghhohesthihtghhohdrphhiiiiirgeqnecuggftrfgrth
-	htvghrnhepgeekfeejgeektdejgfefudelkeeuteejgefhhfeugffffeelheegieefvdfg
-	tefhnecukfhppeduvdekrddutdejrddvgedurddukeeinecuvehluhhsthgvrhfuihiivg
-	eptdenucfrrghrrghmpehmrghilhhfrhhomhepthihtghhohesthihtghhohdrphhiiiii
-	rg
-X-ME-Proxy: <xmx:--maXyOnU_7UhZ-YvhBzWFdOwzcv_cNigldRxHNCNMr2-4CZbRCHjQ>
-	<xmx:--maXw4I7yR7n7WnkXxmWYWw4VuZwzEwIdGko1LoNHqvTr-P-7Sapw>
-	<xmx:--maX07GLkgGUsr8nVTJ2ATGLIXkf77Pl8NtPTfVnJwTVe_bdrRUpg>
-	<xmx:_umaX5bZNLZmlDR8-RmfzykMWB-vuW5GetrVaQslKzFmb-l9WfgQDA>
-Received: from cisco (unknown [128.107.241.186])
-	by mail.messagingengine.com (Postfix) with ESMTPA id 925993280064;
-	Thu, 29 Oct 2020 12:12:37 -0400 (EDT)
-Date: Thu, 29 Oct 2020 10:12:31 -0600
-From: Tycho Andersen <tycho@tycho.pizza>
-To: "Eric W. Biederman" <ebiederm@xmission.com>
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 767C98D6328
+	for <linux-audit@redhat.com>; Thu, 29 Oct 2020 16:20:00 +0000 (UTC)
+Received: from youngberry.canonical.com (youngberry.canonical.com
+	[91.189.89.112]) (Using TLS) by relay.mimecast.com with ESMTP id
+	us-mta-584-R9B_Iiv6MPSt-twsaKssrA-1; Thu, 29 Oct 2020 12:19:57 -0400
+X-MC-Unique: R9B_Iiv6MPSt-twsaKssrA-1
+Received: from ip5f5af0a0.dynamic.kabel-deutschland.de ([95.90.240.160]
+	helo=wittgenstein) by youngberry.canonical.com with esmtpsa
+	(TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
+	(envelope-from <christian.brauner@ubuntu.com>)
+	id 1kYAe2-00056E-O9; Thu, 29 Oct 2020 16:19:22 +0000
+Date: Thu, 29 Oct 2020 17:19:20 +0100
+From: Christian Brauner <christian.brauner@ubuntu.com>
+To: Dave Chinner <david@fromorbit.com>
 Subject: Re: [PATCH 00/34] fs: idmapped mounts
-Message-ID: <20201029161231.GA108315@cisco>
+Message-ID: <20201029161920.zp7p3335x3q2a36e@wittgenstein>
 References: <20201029003252.2128653-1-christian.brauner@ubuntu.com>
-	<87pn51ghju.fsf@x220.int.ebiederm.org>
+	<20201029022733.GB306023@dread.disaster.area>
 MIME-Version: 1.0
-In-Reply-To: <87pn51ghju.fsf@x220.int.ebiederm.org>
+In-Reply-To: <20201029022733.GB306023@dread.disaster.area>
 X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
 	Definition; Similar Internal Domain=false;
 	Similar Monitored External Domain=false;
@@ -82,31 +63,36 @@ X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
 	Custom Display Name List=false; Reply-to Address Mismatch=false;
 	Targeted Threat Dictionary=false;
 	Mimecast Threat Dictionary=false; Custom Threat Dictionary=false
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
 X-loop: linux-audit@redhat.com
 X-Mailman-Approved-At: Thu, 29 Oct 2020 12:23:55 -0400
-Cc: Andy Lutomirski <luto@kernel.org>, Mimi Zohar <zohar@linux.ibm.com>,
-	James Bottomley <James.Bottomley@hansenpartnership.com>,
+Cc: Phil Estes <estesp@gmail.com>, Lennart Poettering <lennart@poettering.net>,
+	Amir Goldstein <amir73il@gmail.com>, Mimi Zohar <zohar@linux.ibm.com>,
+	David Howells <dhowells@redhat.com>,
 	Andreas Dilger <adilger.kernel@dilger.ca>,
-	Christian Brauner <christian.brauner@ubuntu.com>,
-	Miklos Szeredi <miklos@szeredi.hu>, smbarber@chromium.org,
+	containers@lists.linux-foundation.org, Tycho Andersen <tycho@tycho.ws>,
+	Miklos Szeredi <miklos@szeredi.hu>,
+	James Morris <jmorris@namei.org>, smbarber@chromium.org,
 	Christoph Hellwig <hch@infradead.org>,
 	linux-ext4@vger.kernel.org, Mrunal Patel <mpatel@redhat.com>,
-	Arnd Bergmann <arnd@arndb.de>, Jann Horn <jannh@google.com>,
-	selinux@vger.kernel.org, Josh Triplett <josh@joshtriplett.org>,
-	Seth Forshee <seth.forshee@canonical.com>,
+	Serge Hallyn <serge@hallyn.com>, Arnd Bergmann <arnd@arndb.de>,
+	Jann Horn <jannh@google.com>, selinux@vger.kernel.org,
+	Josh Triplett <josh@joshtriplett.org>,
+	linux-fsdevel@vger.kernel.org, Aleksa Sarai <cyphar@cyphar.com>,
 	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Lennart Poettering <lennart@poettering.net>,
+	Andy Lutomirski <luto@kernel.org>,
 	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
 	Geoffrey Thomas <geofft@ldpreload.com>,
-	David Howells <dhowells@redhat.com>,
+	James Bottomley <James.Bottomley@hansenpartnership.com>,
 	John Johansen <john.johansen@canonical.com>, Theodore Tso <tytso@mit.edu>,
+	Seth Forshee <seth.forshee@canonical.com>,
 	Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
-	containers@lists.linux-foundation.org,
 	Jonathan Corbet <corbet@lwn.net>, linux-unionfs@vger.kernel.org,
 	linux-security-module@vger.kernel.org, linux-audit@redhat.com,
-	linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	Alban Crequy <alban@kinvolk.io>, linux-integrity@vger.kernel.org,
+	"Eric W. Biederman" <ebiederm@xmission.com>,
+	linux-api@vger.kernel.org, Alban Crequy <alban@kinvolk.io>,
+	linux-integrity@vger.kernel.org,
+	=?utf-8?B?U3TDqXBoYW5l?= Graber <stgraber@ubuntu.com>,
 	Todd Kjos <tkjos@google.com>
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
@@ -121,80 +107,146 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
 	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=linux-audit-bounces@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Disposition: inline
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Hi Eric,
-
-On Thu, Oct 29, 2020 at 10:47:49AM -0500, Eric W. Biederman wrote:
-> Christian Brauner <christian.brauner@ubuntu.com> writes:
-> 
-> > Hey everyone,
-> >
-> > I vanished for a little while to focus on this work here so sorry for
-> > not being available by mail for a while.
-> >
-> > Since quite a long time we have issues with sharing mounts between
-> > multiple unprivileged containers with different id mappings, sharing a
-> > rootfs between multiple containers with different id mappings, and also
-> > sharing regular directories and filesystems between users with different
-> > uids and gids. The latter use-cases have become even more important with
-> > the availability and adoption of systemd-homed (cf. [1]) to implement
-> > portable home directories.
-> 
-> Can you walk us through the motivating use case?
-> 
-> As of this year's LPC I had the distinct impression that the primary use
-> case for such a feature was due to the RLIMIT_NPROC problem where two
-> containers with the same users still wanted different uid mappings to
-> the disk because the users were conflicting with each other because of
-> the per user rlimits.
-> 
-> Fixing rlimits is straight forward to implement, and easier to manage
-> for implementations and administrators.
-
-Our use case is to have the same directory exposed to several
-different containers which each have disjoint ID mappings.
-
-> Reading up on systemd-homed it appears to be a way to have encrypted
-> home directories.  Those home directories can either be encrypted at the
-> fs or at the block level.  Those home directories appear to have the
-> goal of being luggable between systems.  If the systems in question
-> don't have common administration of uids and gids after lugging your
-> encrypted home directory to another system chowning the files is
-> required.
-> 
-> Is that the use case you are looking at removing the need for
-> systemd-homed to avoid chowning after lugging encrypted home directories
-> from one system to another?  Why would it be desirable to avoid the
-> chown?
-
-Not just systemd-homed, but LXD has to do this, as does our
-application at Cisco, and presumably others.
-
-Several reasons:
-
-* the chown is slow
-* the chown requires somewhere to write the delta in metadata (e.g. an
-  overlay workdir, or an LV or something), and there are N copies of
-  this delta, one for each container.
-* it means we need to have a +w filesystem at some point during
-  execution.
-* it's ugly :). Conceptually, the kernel solves the uid shifting
-  problem for us for most other kernel subsystems (including in a
-  limited way fscaps) by configuring a user namespace. It feels like
-  we should be able to do the same with the VFS.
-
-Tycho
-
---
-Linux-audit mailing list
-Linux-audit@redhat.com
-https://www.redhat.com/mailman/listinfo/linux-audit
+T24gVGh1LCBPY3QgMjksIDIwMjAgYXQgMDE6Mjc6MzNQTSArMTEwMCwgRGF2ZSBDaGlubmVyIHdy
+b3RlOgo+IE9uIFRodSwgT2N0IDI5LCAyMDIwIGF0IDAxOjMyOjE4QU0gKzAxMDAsIENocmlzdGlh
+biBCcmF1bmVyIHdyb3RlOgo+ID4gSGV5IGV2ZXJ5b25lLAo+ID4gCj4gPiBJIHZhbmlzaGVkIGZv
+ciBhIGxpdHRsZSB3aGlsZSB0byBmb2N1cyBvbiB0aGlzIHdvcmsgaGVyZSBzbyBzb3JyeSBmb3IK
+PiA+IG5vdCBiZWluZyBhdmFpbGFibGUgYnkgbWFpbCBmb3IgYSB3aGlsZS4KPiA+IAo+ID4gU2lu
+Y2UgcXVpdGUgYSBsb25nIHRpbWUgd2UgaGF2ZSBpc3N1ZXMgd2l0aCBzaGFyaW5nIG1vdW50cyBi
+ZXR3ZWVuCj4gPiBtdWx0aXBsZSB1bnByaXZpbGVnZWQgY29udGFpbmVycyB3aXRoIGRpZmZlcmVu
+dCBpZCBtYXBwaW5ncywgc2hhcmluZyBhCj4gPiByb290ZnMgYmV0d2VlbiBtdWx0aXBsZSBjb250
+YWluZXJzIHdpdGggZGlmZmVyZW50IGlkIG1hcHBpbmdzLCBhbmQgYWxzbwo+ID4gc2hhcmluZyBy
+ZWd1bGFyIGRpcmVjdG9yaWVzIGFuZCBmaWxlc3lzdGVtcyBiZXR3ZWVuIHVzZXJzIHdpdGggZGlm
+ZmVyZW50Cj4gPiB1aWRzIGFuZCBnaWRzLiBUaGUgbGF0dGVyIHVzZS1jYXNlcyBoYXZlIGJlY29t
+ZSBldmVuIG1vcmUgaW1wb3J0YW50IHdpdGgKPiA+IHRoZSBhdmFpbGFiaWxpdHkgYW5kIGFkb3B0
+aW9uIG9mIHN5c3RlbWQtaG9tZWQgKGNmLiBbMV0pIHRvIGltcGxlbWVudAo+ID4gcG9ydGFibGUg
+aG9tZSBkaXJlY3Rvcmllcy4KPiA+IAo+ID4gVGhlIHNvbHV0aW9ucyB3ZSBoYXZlIHRyaWVkIGFu
+ZCBwcm9wb3NlZCBzbyBmYXIgaW5jbHVkZSB0aGUgaW50cm9kdWN0aW9uCj4gPiBvZiBmc2lkIG1h
+cHBpbmdzLCBhIHRpbnkgb3ZlcmxheSBiYXNlZCBmaWxlc3lzdGVtLCBhbmQgYW4gYXBwcm9hY2gg
+dG8KPiA+IGNhbGwgb3ZlcnJpZGUgY3JlZHMgaW4gdGhlIHZmcy4gTm9uZSBvZiB0aGVzZSBzb2x1
+dGlvbnMgaGF2ZSBjb3ZlcmVkIGFsbAo+ID4gb2YgdGhlIGFib3ZlIHVzZS1jYXNlcy4KPiA+IAo+
+ID4gVGhlIHNvbHV0aW9uIHByb3Bvc2VkIGhlcmUgaGFzIGl0J3Mgb3JpZ2lucyBpbiBtdWx0aXBs
+ZSBkaXNjdXNzaW9ucwo+ID4gZHVyaW5nIExpbnV4IFBsdW1iZXJzIDIwMTcgZHVyaW5nIGFuZCBh
+ZnRlciB0aGUgZW5kIG9mIHRoZSBjb250YWluZXJzCj4gPiBtaWNyb2NvbmZlcmVuY2UuCj4gPiBU
+byB0aGUgYmVzdCBvZiBteSBrbm93bGVkZ2UgdGhpcyBpbnZvbHZlZCBBbGVrc2EsIFN0w6lwaGFu
+ZSwgRXJpYywgRGF2aWQsCj4gPiBKYW1lcywgYW5kIG15c2VsZi4gQSB2YXJpYW50IG9mIHRoZSBz
+b2x1dGlvbiBwcm9wb3NlZCBoZXJlIGhhcyBhbHNvIGJlZW4KPiA+IGRpc2N1c3NlZCwgYWdhaW4g
+dG8gdGhlIGJlc3Qgb2YgbXkga25vd2xlZGdlLCBhZnRlciBhIExpbnV4IGNvbmZlcmVuY2UKPiA+
+IGluIFN0LiBQZXRlcnNidXJnIGluIFJ1c3NpYSBiZXR3ZWVuIENocmlzdG9waCwgVHljaG8sIGFu
+ZCBteXNlbGYgaW4gMjAxNwo+ID4gYWZ0ZXIgTGludXggUGx1bWJlcnMuCj4gPiBJJ3ZlIHRha2Vu
+IHRoZSB0aW1lIHRvIGZpbmFsbHkgaW1wbGVtZW50IGEgd29ya2luZyB2ZXJzaW9uIG9mIHRoaXMK
+PiA+IHNvbHV0aW9uIG92ZXIgdGhlIGxhc3Qgd2Vla3MgdG8gdGhlIGJlc3Qgb2YgbXkgYWJpbGl0
+aWVzLiBUeWNobyBoYXMKPiA+IHNpZ25lZCB1cCBmb3IgdGhpcyBzbGlndGhseSBjcmF6eSBlbmRl
+YXZvdXIgYXMgd2VsbCBhbmQgaGUgaGFzIGhlbHBlZAo+ID4gd2l0aCB0aGUgY29udmVyc2lvbiBv
+ZiB0aGUgeGF0dHIgY29kZXBhdGhzLgo+ID4gCj4gPiBUaGUgY29yZSBpZGVhIGlzIHRvIG1ha2Ug
+aWRtYXBwaW5ncyBhIHByb3BlcnR5IG9mIHN0cnVjdCB2ZnNtb3VudAo+ID4gaW5zdGVhZCBvZiB0
+eWluZyBpdCB0byBhIHByb2Nlc3MgYmVpbmcgaW5zaWRlIG9mIGEgdXNlciBuYW1lc3BhY2Ugd2hp
+Y2gKPiA+IGhhcyBiZWVuIHRoZSBjYXNlIGZvciBhbGwgb3RoZXIgcHJvcG9zZWQgYXBwcm9hY2hl
+cy4KPiA+IEl0IG1lYW5zIHRoYXQgaWRtYXBwaW5ncyBiZWNvbWUgYSBwcm9wZXJ0eSBvZiBiaW5k
+LW1vdW50cywgaS5lLiBlYWNoCj4gPiBiaW5kLW1vdW50IGNhbiBoYXZlIGEgc2VwYXJhdGUgaWRt
+YXBwaW5nLiBUaGlzIGhhcyB0aGUgb2J2aW91cyBhZHZhbnRhZ2UKPiA+IHRoYXQgaWRtYXBwZWQg
+bW91bnRzIGNhbiBiZSBjcmVhdGVkIGluc2lkZSBvZiB0aGUgaW5pdGlhbCB1c2VyCj4gPiBuYW1l
+c3BhY2UsIGkuZS4gb24gdGhlIGhvc3QgaXRzZWxmIGluc3RlYWQgb2YgcmVxdWlyaW5nIHRoZSBj
+YWxsZXIgdG8gYmUKPiA+IGxvY2F0ZWQgaW5zaWRlIG9mIGEgdXNlciBuYW1lc3BhY2UuIFRoaXMg
+ZW5hYmxlcyBzdWNoIHVzZS1jYXNlcyBhcyBlLmcuCj4gPiBtYWtpbmcgYSB1c2Igc3RpY2sgYXZh
+aWxhYmxlIGluIG11bHRpcGxlIGxvY2F0aW9ucyB3aXRoIGRpZmZlcmVudAo+ID4gaWRtYXBwaW5n
+cyAoc2VlIHRoZSB2ZmF0IHBvcnQgdGhhdCBpcyBwYXJ0IG9mIHRoaXMgcGF0Y2ggc2VyaWVzKS4K
+PiA+IAo+ID4gVGhlIHZmc21vdW50IHN0cnVjdCBnYWlucyBhIG5ldyBzdHJ1Y3QgdXNlcl9uYW1l
+c3BhY2UgbWVtYmVyLiBUaGUKPiA+IGlkbWFwcGluZyBvZiB0aGUgdXNlciBuYW1lc3BhY2UgYmVj
+b21lcyB0aGUgaWRtYXBwaW5nIG9mIHRoZSBtb3VudC4gQQo+ID4gY2FsbGVyIHRoYXQgaXMgZWl0
+aGVyIHByaXZpbGVnZWQgd2l0aCByZXNwZWN0IHRvIHRoZSB1c2VyIG5hbWVzcGFjZSBvZgo+ID4g
+dGhlIHN1cGVyYmxvY2sgb2YgdGhlIHVuZGVybHlpbmcgZmlsZXN5c3RlbSBvciBhIGNhbGxlciB0
+aGF0IGlzCj4gPiBwcml2aWxlZ2VkIHdpdGggcmVzcGVjdCB0byB0aGUgdXNlciBuYW1lc3BhY2Ug
+YSBtb3VudCBoYXMgYmVlbiBpZG1hcHBlZAo+ID4gd2l0aCBjYW4gY3JlYXRlIGEgbmV3IGJpbmQt
+bW91bnQgYW5kIG1hcmsgaXQgd2l0aCBhIHVzZXIgbmFtZXNwYWNlLiBUaGUKPiA+IHVzZXIgbmFt
+ZXNwYWNlIHRoZSBtb3VudCB3aWxsIGJlIG1hcmtlZCB3aXRoIGNhbiBiZSBzcGVjaWZpZWQgYnkg
+cGFzc2luZwo+ID4gYSBmaWxlIGRlc2NyaXB0b3IgcmVmZXJpbmcgdG8gdGhlIHVzZXIgbmFtZXNw
+YWNlIGFzIGFuIGFyZ3VtZW50IHRvIHRoZQo+ID4gbmV3IG1vdW50X3NldGF0dHIoKSBzeXNjYWxs
+IHRvZ2V0aGVyIHdpdGggdGhlIG5ldyBNT1VOVF9BVFRSX0lETUFQIGZsYWcuCj4gPiBCeSBkZWZh
+dWx0IHZmc21vdW50cyBhcmUgbWFya2VkIHdpdGggdGhlIGluaXRpYWwgdXNlciBuYW1lc3BhY2Ug
+YW5kIG5vCj4gPiBiZWhhdmlvcmFsIG9yIHBlcmZvcm1hbmNlIGNoYW5nZXMgc2hvdWxkIGJlIG9i
+c2VydmVkLiBBbGwgbWFwcGluZwo+ID4gb3BlcmF0aW9ucyBhcmUgbm9wcyBmb3IgdGhlIGluaXRp
+YWwgdXNlciBuYW1lc3BhY2UuCj4gPiAKPiA+IFdoZW4gYSBmaWxlL2lub2RlIGlzIGFjY2Vzc2Vk
+IHRocm91Z2ggYW4gaWRtYXBwZWQgbW91bnQgdGhlIGlfdWlkIGFuZAo+ID4gaV9naWQgb2YgdGhl
+IGlub2RlIHdpbGwgYmUgcmVtYXBwZWQgYWNjb3JkaW5nIHRvIHRoZSB1c2VyIG5hbWVzcGFjZSB0
+aGUKPiA+IG1vdW50IGhhcyBiZWVuIG1hcmtlZCB3aXRoLiBXaGVuIGEgbmV3IG9iamVjdCBpcyBj
+cmVhdGVkIGJhc2VkIG9uIHRoZQo+ID4gZnN1aWQgYW5kIGZzZ2lkIG9mIHRoZSBjYWxsZXIgdGhl
+eSB3aWxsIHNpbWlsYXJseSBiZSByZW1hcHBlZCBhY2NvcmRpbmcKPiA+IHRvIHRoZSB1c2VyIG5h
+bWVzcGFjZSBvZiB0aGUgbW91bnQgdGhleSBjYXJlIGNyZWF0ZWQgZnJvbS4KPiA+IAo+ID4gVGhp
+cyBtZWFucyB0aGUgdXNlciBuYW1lc3BhY2Ugb2YgdGhlIG1vdW50IG5lZWRzIHRvIGJlIHBhc3Nl
+ZCBkb3duIGludG8KPiA+IGEgZmV3IHJlbGV2YW50IGlub2RlX29wZXJhdGlvbnMuIFRoaXMgbW9z
+dGx5IGluY2x1ZGVzIGlub2RlIG9wZXJhdGlvbnMKPiA+IHRoYXQgY3JlYXRlIGZpbGVzeXN0ZW0g
+b2JqZWN0cyBvciBjaGFuZ2UgZmlsZSBhdHRyaWJ1dGVzLgo+IAo+IFRoYXQncyByZWFsbHkgcXVp
+dGUgLi4uIG1lc3N5LgoKSSBkb24ndCBhZ3JlZS4gSXQncyBjaGFuZ2VzIGFsbCBhY3Jvc3MgdGhl
+IHZmcyBidXQgaXQncyBub3QgaGFja3kgaW4gYW55CndheSBzaW5jZSBpdCBjbGVhbmx5IHBhc3Nl
+cyBkb3duIGFuIGFkZGl0aW9uYWwgYXJndW1lbnQgKEknbSBiaWFzZWQgb2YKY291cnNlLikuIAoK
+PiAKPiBNYXliZSBJJ20gbWlzc2luZyBzb21ldGhpbmcsIGJ1dCBpZiB5b3UgaGF2ZSB0aGUgdXNl
+cl9ucyB0byBiZSB1c2VkCj4gZm9yIHRoZSBWRlMgb3BlcmF0aW9uIHdlIGFyZSBhYm91dCB0byBl
+eGVjdXRlIHRoZW4gd2h5IGNhbid0IHdlIHVzZQo+IHRoZSBzYW1lIG1vZGVsIGFzIGN1cnJlbnRf
+ZnN1aWQvY3VycmVudF9mc2dpZCgpIGZvciBwYXNzaW5nIHRoZQo+IGZpbGVzeXN0ZW0gY3JlZGVu
+dGlhbHMgZG93biB0byB0aGUgZmlsZXN5c3RlbSBvcGVyYXRpb25zPyAgaS5lLgo+IGF0dGFjaCBp
+dCB0byB0aGUgY3VycmVudC0+Y3JlZC0+ZnNfdXNlcm5zLCBhbmQgdGhlbiB0aGUgZmlsZXN5c3Rl
+bQo+IGNvZGUgdGhhdCBhY3R1YWxseSBuZWVkcyB0byBrbm93IHRoZSBjdXJyZW50IHVzZXJucyBj
+YW4gY2FsbAo+IGN1cnJlbnRfZnNfdXNlcl9ucygpIGluc3RlYWQgb2YgY3VycmVudF91c2VyX25z
+KCkuICBpLmUuCj4gCj4gI2RlZmluZSBjdXJyZW50X2ZzX3VzZXJfbnMoKQlcCj4gCShjdXJyZW50
+LT5jcmVkLT5mc191c2VybnMgPyBjdXJyZW50LT5jcmVkLT5mc191c2VybnMgXAo+IAkJCQkgIDog
+Y3VycmVudC0+Y3JlZC0+dXNlcm5zKQo+IAo+IEF0IHRoaXMgcG9pbnQsIHRoZSBmaWxlc3lzdGVt
+IHdpbGwgbm93IGFsd2F5cyBoYXZlIHRoZSBjb3JyZWN0Cj4gdXNlcm5zIGl0IGlzIHN1cHBvc2Vk
+IHRvIHVzZSBmb3IgbWFwcGluZyB0aGUgdWlkL2dpZCwgcmlnaHQ/CgpUaGFua3MgZm9yIHRoaXMg
+aW50ZXJlc3RpbmcgaWRlYSEgSSBoYXZlIHNvbWUgdHJvdWJsZXMgd2l0aCBpdCB0aG91Z2guCgpU
+aGlzIGFwcHJvYWNoIChhbHdheXMpIHNlZW1lZCBjb25jZXB0dWFsbHkgd3JvbmcgdG8gbWUuIExp
+a2UgVHljaG8gc2FpZApzb21ld2hlcmUgZWxzZSB0aGlzIGJhc2ljYWxseSB3b3VsZCBhY3QgbGlr
+ZSBhIGdsb2JhbCB2YXJpYWJsZSB3aGljaAppc24ndCBncmVhdC4KClRoZXJlJ3MgYWxzbyBhIHN1
+YnN0YW50aWFsIGRpZmZlcmVuY2UgYmV0d2VlbiBpbiB0aGF0IHRoZSBjdXJyZW50IGZzdWlkCmFu
+ZCBmc2dpZCBhcmUgYW4gYWN0dWFsIHByb3BlcnR5IG9mIHRoZSBjYWxsZXJzIGNyZWRzIHNvIHRv
+IGhhdmUgdGhlbSBpbgp0aGVyZSBtYWtlcyBwZXJmZWN0IHNlbnNlLiBCdXQgdGhlIHVzZXIgbmFt
+ZXNwYWNlIG9mIHRoZSB2ZnNtb3VudCBpcyBhCnByb3BlcnR5IG9mIHRoZSBtb3VudCBhbmQgYXMg
+c3VjaCBnbHVlaW5nIGl0IHRvIHRoZSBjYWxsZXJzIGNyZWRzIHdoZW4KY2FsbGluZyBpbnRvIHRo
+ZSB2ZnMgaXMganVzdCB3ZWlyZCBhbmQgSSB3b3VsZCB2ZXJ5IG11Y2ggbGlrZSB0byBhdm9pZAp0
+aGlzLiBJZiBpbm9kZSdzIHdvdWxkbid0IGhhdmUgYW4gaV9zYiBtZW1iZXIgd2Ugd291bGRuJ3Qg
+c3VkZGVubHkgc3RhcnQKdG8gcGFzcyBkb3duIHRoZSBzX3VzZXJfbnMgdmlhIHRoZSBjYWxsZXJz
+IGNyZWRzIHRvIHRoZSBmaWxlc3lzdGVtcy4KCkknbSBhbHNvIG5vdCBmb25kIG9mIGhhdmluZyB0
+byBjYWxsIHByZXBhcmVfY3JlZHMoKSBhbmQgb3ZlcnJpZGVfY3JlZHMoKQphbGwgYWNyb3NzIHRo
+ZSB2ZnMuIEl0J3MgbWVzc3kgYW5kIHByZXBhcmVfY3JlZHMoKSBpcyBlc3BlY2lhbGx5CnByb2Js
+ZW1hdGljIGR1cmluZyBSQ1UgcGF0aHdhbGsgd2hlcmUgd2UgY2FuJ3QgY2FsbCBpdC4gV2UgY291
+bGQKaW4gcGF0aF9pbml0KCkgYXQgdGhlIHN0YXJ0IG9mIGV2ZXJ5IGV2ZXJ5IGxvb2t1cCBvcGVy
+YXRpb24gY2FsbApwcmVwYXJlX2NyZWRzKCkgYW5kIHRoZW4gb3ZlcnJpZGUgdGhlbSB3aGVuIHdl
+IG5lZWQgdG8gc3dpdGNoIHRoZQpmc191c2VybnMgZ2xvYmFsIHZhcmlhYmxlIGFuZCB0aGVuIHB1
+dF9jcmVkcygpIGF0IHRoZSBlbmQgb2YgZXZlcnkgcGF0aAp3YWxrIGluIHRlcm1pbmF0ZV93YWxr
+KCkuIEJ1dCB0aGlzIG1lYW5zIHBlbmFsaXppbmcgZXZlcnkgbG9va3VwCm9wZXJhdGlvbnMgd2l0
+aCBhbiBhZGRpdGlvbmFsIHByZXBhcmVfY3JlZHMoKSB3aGljaCBuZWVkcyB0byBiZSBjYWxsZWQK
+YXQgbGVhc3Qgb25jZSwgSSB0aGluay4gVGhlbiBkdXJpbmcgbG9va3VwIHdlIHdvdWxkIG5lZWQg
+dG8Kb3ZlcnJpZGUvY2hhbmdlIHRoaXMgbmV3IGdsb2JhbCBmc191c2VybnMgdmFyaWFibGUgcG90
+ZW50aWFsbHkgYXQgZWFjaAptb3VudHBvaW50IGNyb3NzaW5nIHRvIHN3aXRjaCBiYWNrIHRvIHRo
+ZSBjb3JyZWN0IGZzX3VzZXJucyBmb3IgaWRtYXBwZWQKYW5kIG5vbi1pZG1hcHBlZCBtb3VudHMu
+IFdlJ2QgYWxzbyBuZWVkIHRvIHJlYXJyYW5nZSBhIGJ1bmNoIG9mCnRlcm1pbmF0ZV93YWxrKCkg
+Y2FsbHMgYW5kIHdlIHdvdWxkIGxpa2UgZW5kIHVwIHdpdGggYSBjb21wYXJhYmxlIGFtb3VudApv
+ZiBjaGFuZ2VzIG9ubHkgdGhhdCB0aGV5IHdvdWxkIGluZGVlZCBiZSBtb3JlIG1lc3N5IHNpbmNl
+IHdlJ3JlCnN0cmFwcGluZyBmc191c2VybnMgdG8gdGhlIGNhbGxlcidzIGNyZWRzLgoKSSBhbiBh
+bHRlcm5hdGl2ZSBtaWdodCBiZSB0byBoYXZlIGEgY29tYmluZWQgYXBwcm9hY2ggd2hlcmUgeW91
+IHBhc3MgdGhlCnVzZXIgbmFtZXNwYWNlIGFyb3VuZCBpbiB0aGUgdmZzIGJ1dCB3aGVuIGNhbGxp
+bmcgaW50byB0aGUgZmlsZXN5c3RlbQp1c2UgdGhlIGZzX3VzZXJucyBnbG9iYWwgdmFyaWFibGUg
+YXBwcm9hY2ggYnV0IEkgd291bGQgdmVyeSBtdWNoIHByZWZlcgp0byBhdm9pZCB0aGlzIGFuZCBp
+bnN0ZWFkIGNsZWFubHkgcGFzcyBkb3duIHRoZSB1c2VyIG5hbWVzcGFjZQpjb3JyZWN0bHkuIFRo
+YXQncyBtb3JlIHdvcmssIGl0J2xsIHRha2UgbG9uZ2VyIGJ1dCBJIGFuZCBvdGhlcnMgYXJlCmFy
+b3VuZCB0byBzZWUgdGhlc2UgY2hhbmdlcyB0aHJvdWdoLgoKPiAKPiBBbHNvLCBpZiB3ZSBhcmUg
+cGFzc2luZyB3b3JrIG9mZiB0byB3b3JrZXIgdGhyZWFkcywgZHVwbGljYXRpbmcKPiB0aGUgY3Vy
+cmVudCBjcmVkcyB3aWxsIGNhcHR1cmUgdGhpcyBpbmZvcm1hdGlvbiBhbmQgd29uJ3QgbGVhdmUK
+PiByYW5kb20gbGFuZG1pbmVzIHdoZXJlIHN0dWZmIGRvZXNuJ3Qgd29yayBhcyBpdCBzaG91bGQg
+YmVjYXVzZSB0aGUKPiB3b3JrZXIgdGhyZWFkIGlzIHVuYXdhcmUgb2YgdGhlIHVzZXJucyB0aGF0
+IGl0IGlzIHN1cHBvc2VkIHRvIGJlCj4gZG9pbmcgZmlsZXN5dHNlbSBvcGVyYXRpb25zIHVuZGVy
+Li4uCgpUaGF0IHNlZW1zIGxpa2UgYSBwcm9ibGVtIHRoYXQgY2FuIGJlIGhhbmRsZWQgYnkgc2lt
+cGx5IGtlZXBpbmcgdGhlCnVzZXJucyBhcm91bmQgc2ltaWxhciB0byBob3cgd2UgbmVlZCB0byBh
+bHJlYWR5IGtlZXAgY3JlZHMgYXJvdW5kLgoKQ2hyaXN0aWFuCgotLQpMaW51eC1hdWRpdCBtYWls
+aW5nIGxpc3QKTGludXgtYXVkaXRAcmVkaGF0LmNvbQpodHRwczovL3d3dy5yZWRoYXQuY29tL21h
+aWxtYW4vbGlzdGluZm8vbGludXgtYXVkaXQ=
 
