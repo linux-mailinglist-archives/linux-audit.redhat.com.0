@@ -2,100 +2,79 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [63.128.21.124])
-	by mail.lfdr.de (Postfix) with ESMTP id E6CF829F25A
-	for <lists+linux-audit@lfdr.de>; Thu, 29 Oct 2020 17:57:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2A26C29F278
+	for <lists+linux-audit@lfdr.de>; Thu, 29 Oct 2020 18:01:30 +0100 (CET)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-64-ZJNKkasVPsiy58W7UDdlbg-1; Thu, 29 Oct 2020 12:57:39 -0400
-X-MC-Unique: ZJNKkasVPsiy58W7UDdlbg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+ us-mta-538-TVa43LeVOxyQoN1CLdKQTA-1; Thu, 29 Oct 2020 13:01:26 -0400
+X-MC-Unique: TVa43LeVOxyQoN1CLdKQTA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2603A805F0C;
-	Thu, 29 Oct 2020 16:57:35 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 054FA5C26A;
-	Thu, 29 Oct 2020 16:57:35 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 03318100F79F;
+	Thu, 29 Oct 2020 17:00:08 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id C9DBC196FB;
+	Thu, 29 Oct 2020 17:00:07 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id C67FD18199F6;
-	Thu, 29 Oct 2020 16:57:34 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
-	[10.11.54.3])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 8FE6258111;
+	Thu, 29 Oct 2020 17:00:07 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+	[10.11.54.6])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 09TGj9qb003412 for <linux-audit@listman.util.phx.redhat.com>;
-	Thu, 29 Oct 2020 12:45:09 -0400
+	id 09TGaLAm001520 for <linux-audit@listman.util.phx.redhat.com>;
+	Thu, 29 Oct 2020 12:36:22 -0400
 Received: by smtp.corp.redhat.com (Postfix)
-	id 8B24310F271D; Thu, 29 Oct 2020 16:45:09 +0000 (UTC)
+	id D68A92156A4A; Thu, 29 Oct 2020 16:36:21 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
-	(mimecast01.extmail.prod.ext.rdu2.redhat.com [10.11.55.17])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 84E9210F1C0D
-	for <linux-audit@redhat.com>; Thu, 29 Oct 2020 16:45:06 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [207.211.31.81])
+	(mimecast04.extmail.prod.ext.rdu2.redhat.com [10.11.55.20])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id D14852156A3D
+	for <linux-audit@redhat.com>; Thu, 29 Oct 2020 16:36:19 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+	[207.211.31.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1FEA189FEEB
-	for <linux-audit@redhat.com>; Thu, 29 Oct 2020 16:45:06 +0000 (UTC)
-Received: from out01.mta.xmission.com (out01.mta.xmission.com
-	[166.70.13.231]) (Using TLS) by relay.mimecast.com with ESMTP id
-	us-mta-331-oznUKoQ5NuWRAATO6HgCuw-1; Thu, 29 Oct 2020 12:44:57 -0400
-X-MC-Unique: oznUKoQ5NuWRAATO6HgCuw-1
-Received: from in01.mta.xmission.com ([166.70.13.51])
-	by out01.mta.xmission.com with esmtps (TLS1.2) tls
-	TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.93)
-	(envelope-from <ebiederm@xmission.com>)
-	id 1kYB2Q-009eVE-Gs; Thu, 29 Oct 2020 10:44:34 -0600
-Received: from ip68-227-160-95.om.om.cox.net ([68.227.160.95]
-	helo=x220.xmission.com) by in01.mta.xmission.com with esmtpsa
-	(TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.87)
-	(envelope-from <ebiederm@xmission.com>)
-	id 1kYB2N-0000rc-Un; Thu, 29 Oct 2020 10:44:34 -0600
-From: ebiederm@xmission.com (Eric W. Biederman)
-To: Tycho Andersen <tycho@tycho.pizza>
-References: <20201029003252.2128653-1-christian.brauner@ubuntu.com>
-	<87pn51ghju.fsf@x220.int.ebiederm.org> <20201029161231.GA108315@cisco>
-Date: Thu, 29 Oct 2020 11:44:33 -0500
-In-Reply-To: <20201029161231.GA108315@cisco> (Tycho Andersen's message of
-	"Thu, 29 Oct 2020 10:12:31 -0600")
-Message-ID: <87blglc77y.fsf@x220.int.ebiederm.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
-MIME-Version: 1.0
-X-XM-SPF: eid=1kYB2N-0000rc-Un; ; ; mid=<87blglc77y.fsf@x220.int.ebiederm.org>;
-	; ; hst=in01.mta.xmission.com; ; ; ip=68.227.160.95; ; ;
-	frm=ebiederm@xmission.com; ; ; spf=neutral
-X-XM-AID: U2FsdGVkX18l/ky6v0TPp3RfG1uVSiI/idjNvZVspy0=
-X-SA-Exim-Connect-IP: 68.227.160.95
-X-SA-Exim-Mail-From: ebiederm@xmission.com
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on sa07.xmission.com
-X-Spam-Level: *
-X-Spam-Status: No, score=1.3 required=8.0 tests=ALL_TRUSTED,BAYES_50,
-	DCC_CHECK_NEGATIVE, T_TM2_M_HEADER_IN_MSG, XMNoVowels autolearn=disabled
-	version=3.4.2
-X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-	*  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-	*      [score: 0.5000]
-	*  1.5 XMNoVowels Alpha-numberic number with no vowels
-	*  0.0 T_TM2_M_HEADER_IN_MSG BODY: No description available.
-	* -0.0 DCC_CHECK_NEGATIVE Not listed in DCC
-	*      [sa07 1397; Body=1 Fuz1=1 Fuz2=1]
-X-Spam-DCC: XMission; sa07 1397; Body=1 Fuz1=1 Fuz2=1
-X-Spam-Combo: *;Tycho Andersen <tycho@tycho.pizza>
-X-Spam-Relay-Country: 
-X-Spam-Timing: total 1948 ms - load_scoreonly_sql: 0.04 (0.0%),
-	signal_user_changed: 11 (0.6%), b_tie_ro: 10 (0.5%), parse: 0.99
-	(0.1%), extract_message_metadata: 15 (0.8%), get_uri_detail_list: 1.95
-	(0.1%), tests_pri_-1000: 9 (0.5%), tests_pri_-950: 1.21 (0.1%),
-	tests_pri_-900: 1.08 (0.1%), tests_pri_-90: 220 (11.3%), check_bayes:
-	213 (10.9%), b_tokenize: 12 (0.6%), b_tok_get_all: 11 (0.5%),
-	b_comp_prob: 3.1 (0.2%), b_tok_touch_all: 183 (9.4%), b_finish: 0.92
-	(0.0%), tests_pri_0: 357 (18.3%), check_dkim_signature: 0.58 (0.0%),
-	check_dkim_adsp: 2.7 (0.1%), poll_dns_idle: 1319 (67.7%),
-	tests_pri_10: 2.1 (0.1%), tests_pri_500: 1327 (68.1%), rewrite_mail:
-	0.00 (0.0%)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 95AFD1021F63
+	for <linux-audit@redhat.com>; Thu, 29 Oct 2020 16:36:19 +0000 (UTC)
+Received: from mail-il1-f195.google.com (mail-il1-f195.google.com
+	[209.85.166.195]) (Using TLS) by relay.mimecast.com with ESMTP id
+	us-mta-553-GKcFRpAvMSm0PyvF3_zZtg-1; Thu, 29 Oct 2020 12:36:16 -0400
+X-MC-Unique: GKcFRpAvMSm0PyvF3_zZtg-1
+Received: by mail-il1-f195.google.com with SMTP id x7so3689061ili.5
+	for <linux-audit@redhat.com>; Thu, 29 Oct 2020 09:36:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=+1FzFFklP1YnmghHH9t5lyMT4QSfeCr4QK0lMLwAvZE=;
+	b=e7XgkvTPMtIS6tFqdVFTlA3oYrug+gyqvfihH/13VrZ6r972pvvO47CJdRt2YGWfb/
+	7NTbor/mfOH21gnsX6iIfD/lQdJB64K/CkL+3GUDlXf5BpJsuqccddMAtnmgL89Hmgm7
+	1FQ4VKyMLuXGX/9OyrEihAN5jmKKXb1FR1QA2jni62sNA7nqADVXUDE+bbySidNrouVc
+	61AmQSz6o8dz4QPRo1gHtCct+jc47CZGEXJXNDhTIxG76EbO7Sm8MyHyd3AGTw4yqhN2
+	oCiloSCuI9L20EDbBc+7T5wIPcjuJZ40Tq1wzG1eNig0pUrNuPWULnbVz7xfsOaA6Dsj
+	Sz5A==
+X-Gm-Message-State: AOAM531tJmkr4ZSCV5UpftI8zkt+8gfrZtDzrYfbLRnr+CVv5bPMDtTn
+	KMBfRlChaSpAOwljksOMPKq26A==
+X-Google-Smtp-Source: ABdhPJwdjJsI8P3ncUgKVI0MZeddl6/4SUR4eqZ1yA/w3w9keNoMZjKAVre0rxJASmFJuoRVIJjAng==
+X-Received: by 2002:a92:c7c7:: with SMTP id g7mr3777623ilk.303.1603989375791; 
+	Thu, 29 Oct 2020 09:36:15 -0700 (PDT)
+Received: from ircssh-2.c.rugged-nimbus-611.internal
+	(80.60.198.104.bc.googleusercontent.com. [104.198.60.80])
+	by smtp.gmail.com with ESMTPSA id t6sm2275768ilk.5.2020.10.29.09.36.14
+	(version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 29 Oct 2020 09:36:14 -0700 (PDT)
+Date: Thu, 29 Oct 2020 16:36:13 +0000
+From: Sargun Dhillon <sargun@sargun.me>
+To: Lennart Poettering <lennart@poettering.net>
 Subject: Re: [PATCH 00/34] fs: idmapped mounts
-X-Spam-Flag: No
-X-SA-Exim-Version: 4.2.1 (built Thu, 05 May 2016 13:38:54 -0600)
-X-SA-Exim-Scanned: Yes (on in01.mta.xmission.com)
+Message-ID: <20201029163612.GA15275@ircssh-2.c.rugged-nimbus-611.internal>
+References: <20201029003252.2128653-1-christian.brauner@ubuntu.com>
+	<87pn51ghju.fsf@x220.int.ebiederm.org>
+	<20201029160502.GA333141@gardel-login>
+MIME-Version: 1.0
+In-Reply-To: <20201029160502.GA333141@gardel-login>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
 	Definition; Similar Internal Domain=false;
 	Similar Monitored External Domain=false;
@@ -104,31 +83,36 @@ X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
 	Custom Display Name List=false; Reply-to Address Mismatch=false;
 	Targeted Threat Dictionary=false;
 	Mimecast Threat Dictionary=false; Custom Threat Dictionary=false
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
 X-loop: linux-audit@redhat.com
 X-Mailman-Approved-At: Thu, 29 Oct 2020 12:57:25 -0400
-Cc: Andy Lutomirski <luto@kernel.org>, Mimi Zohar <zohar@linux.ibm.com>,
-	Howells <dhowells@redhat.com>, Andreas Dilger <adilger.kernel@dilger.ca>,
+Cc: Phil Estes <estesp@gmail.com>, Amir Goldstein <amir73il@gmail.com>,
+	Mimi Zohar <zohar@linux.ibm.com>, David Howells <dhowells@redhat.com>,
+	Andreas Dilger <adilger.kernel@dilger.ca>,
+	containers@lists.linux-foundation.org,
 	Christian Brauner <christian.brauner@ubuntu.com>,
-	Miklos Szeredi <miklos@szeredi.hu>, smbarber@chromium.org,
+	Tycho Andersen <tycho@tycho.ws>, Miklos Szeredi <miklos@szeredi.hu>,
+	James Morris <jmorris@namei.org>, smbarber@chromium.org,
 	Christoph Hellwig <hch@infradead.org>,
 	linux-ext4@vger.kernel.org, Mrunal Patel <mpatel@redhat.com>,
-	Arnd Bergmann <arnd@arndb.de>, Jann Horn <jannh@google.com>,
-	selinux@vger.kernel.org, Josh Triplett <josh@joshtriplett.org>,
-	Forshee <seth.forshee@canonical.com>,
+	Serge Hallyn <serge@hallyn.com>, Arnd Bergmann <arnd@arndb.de>,
+	Jann Horn <jannh@google.com>, selinux@vger.kernel.org,
+	Josh Triplett <josh@joshtriplett.org>,
+	linux-fsdevel@vger.kernel.org, Aleksa Sarai <cyphar@cyphar.com>,
 	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Lennart Poettering <lennart@poettering.net>,
+	Andy Lutomirski <luto@kernel.org>,
 	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
 	Geoffrey Thomas <geofft@ldpreload.com>,
 	James Bottomley <James.Bottomley@hansenpartnership.com>,
 	John Johansen <john.johansen@canonical.com>, Theodore Tso <tytso@mit.edu>,
+	Seth Forshee <seth.forshee@canonical.com>,
 	Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
-	containers@lists.linux-foundation.org,
-	Jonathan Corbet <corbet@lwn.net>, Seth,
-	linux-unionfs@vger.kernel.org, David,
+	Jonathan Corbet <corbet@lwn.net>, linux-unionfs@vger.kernel.org,
 	linux-security-module@vger.kernel.org, linux-audit@redhat.com,
-	linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	Alban Crequy <alban@kinvolk.io>, linux-integrity@vger.kernel.org,
+	"Eric W. Biederman" <ebiederm@xmission.com>,
+	linux-api@vger.kernel.org, Alban Crequy <alban@kinvolk.io>,
+	linux-integrity@vger.kernel.org,
+	=?iso-8859-1?Q?St=E9phane?= Graber <stgraber@ubuntu.com>,
 	Todd Kjos <tkjos@google.com>
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
@@ -143,80 +127,95 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
 	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=linux-audit-bounces@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Disposition: inline
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-Tycho Andersen <tycho@tycho.pizza> writes:
+On Thu, Oct 29, 2020 at 05:05:02PM +0100, Lennart Poettering wrote:
+> On Do, 29.10.20 10:47, Eric W. Biederman (ebiederm@xmission.com) wrote:
+> 
+> > Is that the use case you are looking at removing the need for
+> > systemd-homed to avoid chowning after lugging encrypted home directories
+> > from one system to another?  Why would it be desirable to avoid the
+> > chown?
+> 
+> Yes, I am very interested in seeing Christian's work succeed, for the
+> usecase in systemd-homed. In systemd-homed each user gets their own
+> private file system, and these fs shall be owned by the user's local
+> UID, regardless in which system it is used. The UID should be an
+> artifact of the local, individual system in this model, and thus
+> the UID on of the same user/home on system A might be picked as 1010
+> and on another as 1543, and on a third as 1323, and it shouldn't
+> matter. This way, home directories become migratable without having to
+> universially sync UID assignments: it doesn't matter anymore what the
+> local UID is.
+> 
+> Right now we do a recursive chown() at login time to ensure the home
+> dir is properly owned. This has two disadvantages:
+> 
+> 1. It's slow. In particular on large home dirs, it takes a while to go
+>    through the whole user's homedir tree and chown/adjust ACLs for
+>    everything.
+> 
+> 2. Because it is so slow we take a shortcut right now: if the
+>    top-level home dir inode itself is owned by the correct user, we
+>    skip the recursive chowning. This means in the typical case where a
+>    user uses the same system most of the time, and thus the UID is
+>    stable we can avoid the slowness. But this comes at a drawback: if
+>    the user for some reason ends up with files in their homedir owned
+>    by an unrelated user, then we'll never notice or readjust.
+> 
+> > If the goal is to solve fragmented administration of uid assignment I
+> > suggest that it might be better to solve the administration problem so
+> > that all of the uids of interest get assigned the same way on all of the
+> > systems of interest.
+> 
+> Well, the goal is to make things simple and be able to use the home
+> dir everywhere without any prior preparation, without central UID
+> assignment authority.
+> 
+> The goal is to have a scheme that requires no administration, by
+> making the UID management problem go away. Hence, if you suggest
+> solving this by having a central administrative authority: this is
+> exactly what the model wants to get away from.
+> 
+> Or to say this differently: just because I personally use three
+> different computers, I certainly don't want to set up LDAP or sync
+> UIDs manually.
+> 
+> Lennart
+> 
+> --
+> Lennart Poettering, Berlin
 
-> Hi Eric,
->
-> On Thu, Oct 29, 2020 at 10:47:49AM -0500, Eric W. Biederman wrote:
->> Christian Brauner <christian.brauner@ubuntu.com> writes:
->> 
->> > Hey everyone,
->> >
->> > I vanished for a little while to focus on this work here so sorry for
->> > not being available by mail for a while.
->> >
->> > Since quite a long time we have issues with sharing mounts between
->> > multiple unprivileged containers with different id mappings, sharing a
->> > rootfs between multiple containers with different id mappings, and also
->> > sharing regular directories and filesystems between users with different
->> > uids and gids. The latter use-cases have become even more important with
->> > the availability and adoption of systemd-homed (cf. [1]) to implement
->> > portable home directories.
->> 
->> Can you walk us through the motivating use case?
->> 
->> As of this year's LPC I had the distinct impression that the primary use
->> case for such a feature was due to the RLIMIT_NPROC problem where two
->> containers with the same users still wanted different uid mappings to
->> the disk because the users were conflicting with each other because of
->> the per user rlimits.
->> 
->> Fixing rlimits is straight forward to implement, and easier to manage
->> for implementations and administrators.
->
-> Our use case is to have the same directory exposed to several
-> different containers which each have disjoint ID mappings.
+Can you help me understand systemd-homed a little bit?
 
-Why do the you have disjoint ID mappings for the users that are writing
-to disk with the same ID?
+In the man page it says:
 
->> Reading up on systemd-homed it appears to be a way to have encrypted
->> home directories.  Those home directories can either be encrypted at the
->> fs or at the block level.  Those home directories appear to have the
->> goal of being luggable between systems.  If the systems in question
->> don't have common administration of uids and gids after lugging your
->> encrypted home directory to another system chowning the files is
->> required.
->> 
->> Is that the use case you are looking at removing the need for
->> systemd-homed to avoid chowning after lugging encrypted home directories
->> from one system to another?  Why would it be desirable to avoid the
->> chown?
->
-> Not just systemd-homed, but LXD has to do this,
+systemd-homed is a system service that may be used to create, remove, change or 
+inspect home areas (directories and network mounts and real or loopback block 
+devices with a filesystem, optionally encrypted).
 
-I asked why the same disk users are assigned different kuids and the
-only reason I have heard that LXD does this is the RLIMIT_NPROC problem.
+It seems that the "underlay?" (If you'll call it that, maybe there is a better 
+term) can either be a standalone block device (this sounds close to systemd 
+machined?), a btrfs subvolume (which receives its own superblock (IIRC?, I might 
+be wrong. It's been a while since I've used btrfs), or just be a directory 
+that's mapped?
 
-Perhaps there is another reason.
+What decides whether it's just a directory and bind-mounted (or a similar 
+vfsmount), or an actual superblock?
 
-In part this is why I am eager to hear peoples use case, and why I was
-trying very hard to make certain we get the requirements.
+How is the mapping of "real UIDs" to "namespace UIDs" works when it's just a 
+bind mount? From the perspective of multiple user namespaces, are all 
+"underlying" UIDs mapped through, or if I try to look at another user's
+home directory will they not show up?
 
-I want the real requirements though and some thought, not just we did
-this and it hurts.  Changning the uids on write is a very hard problem,
-and not just in implementating it but also in maintaining and
-understanding what is going on.
-
-Eric
+Is there a reason you can't / don't / wont use overlayfs instead of bind mounts?
 
 --
 Linux-audit mailing list
