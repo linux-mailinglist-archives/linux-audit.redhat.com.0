@@ -2,117 +2,60 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [63.128.21.124])
-	by mail.lfdr.de (Postfix) with ESMTP id DF8582A36C9
-	for <lists+linux-audit@lfdr.de>; Mon,  2 Nov 2020 23:51:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9FCED2A3886
+	for <lists+linux-audit@lfdr.de>; Tue,  3 Nov 2020 02:20:05 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1604366404;
+	h=from:from:sender:sender:reply-to:subject:subject:date:date:
+	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+	 content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:list-id:list-help:
+	 list-unsubscribe:list-subscribe:list-post;
+	bh=L0XO3vYK9gfejewwdDwN8KtsVXwal/888Fdi3izMRxI=;
+	b=X+uPlSKJJGVifWwg0Z4hkiLnNiFnj2J4uKh3opTRghReMRmUQnWdKBpHX2RfvE4/eL2Tds
+	oGLy9KNCELi9SWsUtki+9iDMioEzg3A56puy2DISZwtB9SkQ2BUev0ZQ3kuZ/+6DPSJ7/8
+	vR4SANxL3fXUniWeF+fcVeBgMBK7pB4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-372-GFfg0AuyP76En-FL9vdmEg-1; Mon, 02 Nov 2020 17:51:37 -0500
-X-MC-Unique: GFfg0AuyP76En-FL9vdmEg-1
+ us-mta-590-Hjqf3kpoOQC2iCtI1aZUng-1; Mon, 02 Nov 2020 20:20:02 -0500
+X-MC-Unique: Hjqf3kpoOQC2iCtI1aZUng-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C9FBA1006C83;
-	Mon,  2 Nov 2020 22:51:32 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 099F81084C87;
+	Tue,  3 Nov 2020 01:19:57 +0000 (UTC)
 Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 3D29C5B4A5;
-	Mon,  2 Nov 2020 22:51:32 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 481CB5B4D8;
+	Tue,  3 Nov 2020 01:19:54 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id CDF3F180B658;
-	Mon,  2 Nov 2020 22:51:30 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
-	[10.11.54.5])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 00DE9181A06B;
+	Tue,  3 Nov 2020 01:19:48 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+	[10.5.11.13])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 0A2MpKSN022218 for <linux-audit@listman.util.phx.redhat.com>;
-	Mon, 2 Nov 2020 17:51:21 -0500
+	id 0A31JbiQ004942 for <linux-audit@listman.util.phx.redhat.com>;
+	Mon, 2 Nov 2020 20:19:37 -0500
 Received: by smtp.corp.redhat.com (Postfix)
-	id AE5075D230; Mon,  2 Nov 2020 22:51:20 +0000 (UTC)
+	id 6E6BB7366A; Tue,  3 Nov 2020 01:19:37 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from mimecast-mx02.redhat.com
-	(mimecast04.extmail.prod.ext.rdu2.redhat.com [10.11.55.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id A5A5A7CA4F
-	for <linux-audit@redhat.com>; Mon,  2 Nov 2020 22:51:17 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [205.139.110.61])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4DA95101CC67
-	for <linux-audit@redhat.com>; Mon,  2 Nov 2020 22:51:17 +0000 (UTC)
-Received: from sonic313-15.consmr.mail.ne1.yahoo.com
-	(sonic313-15.consmr.mail.ne1.yahoo.com [66.163.185.38]) (Using TLS) by
-	relay.mimecast.com with ESMTP id us-mta-272-cbmchGP5N72UTVoqEIyz4g-1;
-	Mon, 02 Nov 2020 17:51:15 -0500
-X-MC-Unique: cbmchGP5N72UTVoqEIyz4g-1
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
-	t=1604357474; bh=VwgKbZQkU2nWGS9yf6ido7LzpItxhP/ElCsIOxQMaC2=;
-	h=Subject:To:From:Date;
-	b=qDvibxH3BpqHE77ijvSwMjKt5Do0DYAtoPExV88gUWNIBimo0ZWy1m8jGycxeLlMMZrCFarKLpAZomZGKmRdeo6IOCB8EpmLo/ULeT0tfEBBhtiO+oQ8JKa9gTEoTYwu3WCYMRKBQJfkUCtdnLou5qW/sLxPc1E7NkClDksMVBO/MqJXcA8uQLggij0zzOlci1HJmyUpdklccRddMRl0nM7ec6SBZeepFbIX3DOV9FWxsUzyXOz3am75XfG5BM/XlxxB2jasua95TBllD1KFD78b44gJ8R4s6dhpjMuLowPmM8ZYPwRamd7TPVE/j1KPG28Ck6NpMtDjfqkrcD9wUQ==
-X-YMail-OSG: PRaNyLYVM1n2bIdT_U2ifrr5uH6kZHdXEF0Gc8eOSPI5uxWS39rDMFwIY9lVmWk
-	tvd_j9deV9dUejUNcLI8E.Pz33S2FQE6wZ8LEbhCQDbdz9kGXOty0MiktJ0B4hRQezdH4ZW9dKzU
-	tqivFYu6eChV4fVwXus2.ZcdOZAhNz0UfSwHMt5UFozTmPCrqGqwPDmi2.imgMofsy3UCF9vSzwL
-	TRB5CCTvMyXCOUJDLmKNmjt2xe3Hy.n1L_6b7shSIqnBVEPdA5vfIljv3277k.Sn.LmwNkQ.0_zd
-	21miPrFe9sSxWw6n4YZk5_6VDqeq0xEHBolb8nmJYjDGelgCFL5_a_XusluLGVraMh.9me2qhrFc
-	NLvFIuEezKQDhr4UHa2ukUmtPKu2a6fQttusP4KTc_59teIIPGuTfv41GvG2y2sPDXlsVuRsL8lL
-	MiIE.ia4gy.oiUC8FT3mmyqYhOiou51hyKvnUoY.oO8X88rbpAOCSHkinA5ShFT9FIWXCXPGt38A
-	jMFSEWk9eVeZKbg2sVsJCVxfl6QqllLWe7QI1vrDYYcIBJgLpaWBMfA.yKZU3RO1QN5y.6zAnYFh
-	85OellqElMml.oeXh8y2M3pklveQZ5vPPNI.jgAtG.AceqJOC9WGBq7zM6pU_BdiB_wu0rl0nKHQ
-	ukxqHIkRQs5ycEXr3xeTT3KZ5AMzebizgzTcWq__T9fb.CTbyeO2ZmS4pdeQ0RjTsqYRJFQ0CPww
-	1Z4XoFftf12hoCaWB4wXjk7j9_jqnmlC9TseF4QBfEBn7XYxxTXBV_tPM6zUwXyhwBkOillwUSID
-	uwr2QGaF.lybkrW7d135UPHk0eK3Mab.rC9SFUBdix71CqL6ruUELfzpe2vZ07VSpn3WPvIgejRT
-	I4OFbduWKIdQul71CKNrhs28DBgsuicpPkBXM.PWMtA4_cz2X6xciU7LGn3xb1QQqMkJ4jwHCqLu
-	DRimhfLJ2CJ8q_CIWLmA8QN8OSwi.cPPQIzKo4gh6NYobMP0Rv4A0EjB0ItmKn8afC3SILxPuvAm
-	6ga9heHeAnAJyv0WSC0Ud3SqYx4mX2M2M15eC6yB0VC8BMLhuHD9JvbzUjFEONgrEWdkAN1UlEGS
-	ycaqGx408Zrh23F2jRoax4WKF2kpug2fwYWK0ZsWSkMu3jzN5qiNxOKVOUiLGUMovghcKmD7vwGQ
-	rXSA3vGXpZEd7ARrBqhGGNO0i0vv_wTBKmWYTdQ7Wg6bcbQefg2iO1xkxkLWxmfMXqFx9MEdwrB_
-	d0cuIEMPpUAqfMZIRjtQoccRCY_YFrrBDJoyjQ5nDIF9fETs8kBa3ncz97SCYP60b6jsAmuWPxLs
-	jLBz6hIOit65294TdT76qsXyS9LkAVXZ4x6JANRG5my8d31rGrAymPyiwMVtRffmy.1knhhWASFp
-	W6vY_KqgSiOubwO3gSJrkDkv.LqEiOfNtsvnGwKQZN0bdsuL5tKItwQDX4ACif9fs3LNEYPBByms
-	E6.WaX_JbVbcRWZE9RpeWjsTpjSDbLbsgNuRa0975RbNfThq5S4bmxCFYwmu2VqS8QMutB6Kwqr6
-	UNpiu0tNsg1GTzj2_WqlJW5VRNOTeG.ptwQBSHrGeXwc.ZzUqUAvtipm02LAgI2thPu.7cQlq9yP
-	thrJ04qWtzEc01NGHftPcSfzAXtwWAjZnH5wcOxHU.4KycMpXKJqGZsqZWX26L368q592mV6B50L
-	JJvliKu1T5uFiXBLxrJ0G0SZOinhjnMn.6R5do2A3uj55.iGIMIDSPE9Zh.BWpPgYRyRveA5ySym
-	1yJaEYWjk7YA8BNdS7fKU84TIU43aXwqRzISO6r5J2xnomGvfBF.YW6OAofWM.KmxLnQGqZNvofZ
-	nBO3xouG7gJj_NxgkrF14l_EAlCO7DmIATSXp1LoYsVcGiUDrYLvRDqyNlmmOSCQoteMyVAVtael
-	AQ9QpKjvcbboAmVIMjPp.BS3cMdsj2q4VuP7MggHzVISfkRCtWICPvDMYef3Hv1Nxq9oHYM2ltT4
-	a8tZro32ZuKcdMX9MGl_RquIwcyZIlC9e5H_qVNX.sa5XnEBkhvfIbkp7wmKqqNreGl5m3Ap2adI
-	83YP6T7mlF04YfnwAaun8tYZMgWqgKflXEENjLY3ZDGSLj7yrQ88QWgr8915q032xnou8JSXGXTA
-	0S.IhXt6t_mvSFrVNs_mzeEDRa0blJCCmlUDKj920M6LuCWZXy7aUCrj8Wlw3c8BUv_qgjShDAWy
-	OSYT01EsuaLJNTVxbQOk39obltABU6lSvunv51QSSUJSVWJ8pLodSOm6mtPWdaj0n5BRx6BelcfA
-	FZ.YXI5jizHH_.Z9Gbgv_M3IZjSuslgO_TfBlEl09_iofRQhlyF5XEWIJ9QbMAlBxzVLfh4f09Ef
-	qEMLrS26QklsAaZMbzwDSRBzVNBbpR0hlGygRCMbOZGTgTdqYYbQikQQ0Na7Jcniy9a.DLICSMPZ
-	eSN5OwJtghbRonoDHlrCE4jixC9qnEEJMLwXvZ9sCVIUlDgnZYuiBMbPU5s.s3bMn0iWwsWgAFMz
-	a0dTC8PAR4iDKAkakMG8mFUT_RrdmpZ8uwDBpw5_OdPtsWycRDz2WomwG9fDCRIIPB4esPOcRsnq
-	4iQiDkPTeTgXMIJNw4S0KMEzBYEYT4gNtuGU_lN6BgJAfev7SDloVYguNJWkilxDXjzCgyCeaTUk
-	CGUiEvdBkmNcF1bo_bjcKg6nzy17j5suOVDJXT4LmfOOzafeLwgme.qK0wuYSSFPvFfgb1kkpU..
-	tL4z2pdTVJl7GZ8EVoAAenwkKXCxAKGwt3NWuDEi3QVR0ncVFVCTGtVSHsFtjkY_DTdCsKwJA6GR
-	iS8k4XDbuFdOu_uqWa_cz17baWv2Jfyh94AjHBt7a3cPGqz9fSpcwFLNPUtl3mLmZFAFQSi9hAuu
-	4apUxjKshCkeToJwiR_ZfVJh.hjeJ74S8abCnSronEQwEsA--
-Received: from sonic.gate.mail.ne1.yahoo.com by
-	sonic313.consmr.mail.ne1.yahoo.com with HTTP;
-	Mon, 2 Nov 2020 22:51:14 +0000
-Received: by smtp403.mail.gq1.yahoo.com (VZM Hermes SMTP Server) with ESMTPA
-	ID fa3f7b4475e22ed23aa62386af82e4db; 
-	Mon, 02 Nov 2020 22:51:12 +0000 (UTC)
+Received: from madcap2.tricolour.ca (unknown [10.10.110.8])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 887FD6EF59;
+	Tue,  3 Nov 2020 01:19:28 +0000 (UTC)
+Date: Mon, 2 Nov 2020 20:19:25 -0500
+From: Richard Guy Briggs <rgb@redhat.com>
+To: Casey Schaufler <casey@schaufler-ca.com>
 Subject: Re: [RFC PATCH] audit-testsuite: tests for subject and object
 	correctness
-To: Richard Guy Briggs <rgb@redhat.com>
+Message-ID: <20201103011925.GF55072@madcap2.tricolour.ca>
 References: <e4bf30e2-a92f-99b7-30d0-3e3473e30399.ref@schaufler-ca.com>
 	<e4bf30e2-a92f-99b7-30d0-3e3473e30399@schaufler-ca.com>
 	<20201102220834.GD55072@madcap2.tricolour.ca>
-From: Casey Schaufler <casey@schaufler-ca.com>
-Message-ID: <6c950188-a516-e9ed-caa5-42de40861596@schaufler-ca.com>
-Date: Mon, 2 Nov 2020 14:51:11 -0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
-	Thunderbird/78.4.0
+	<6c950188-a516-e9ed-caa5-42de40861596@schaufler-ca.com>
 MIME-Version: 1.0
-In-Reply-To: <20201102220834.GD55072@madcap2.tricolour.ca>
-X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
-	Definition; Similar Internal Domain=false;
-	Similar Monitored External Domain=false;
-	Custom External Domain=false; Mimecast External Domain=false;
-	Newly Observed Domain=false; Internal User Name=false;
-	Custom Display Name List=false; Reply-to Address Mismatch=false;
-	Targeted Threat Dictionary=false;
-	Mimecast Threat Dictionary=false; Custom Threat Dictionary=false
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+In-Reply-To: <6c950188-a516-e9ed-caa5-42de40861596@schaufler-ca.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-loop: linux-audit@redhat.com
 Cc: "linux-audit@redhat.com" <linux-audit@redhat.com>
 X-BeenThere: linux-audit@redhat.com
@@ -133,35 +76,61 @@ Authentication-Results: relay.mimecast.com;
 	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=linux-audit-bounces@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Disposition: inline
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
-T24gMTEvMi8yMDIwIDI6MDggUE0sIFJpY2hhcmQgR3V5IEJyaWdncyB3cm90ZToKPiBPbiAyMDIw
-LTExLTAyIDEzOjU0LCBDYXNleSBTY2hhdWZsZXIgd3JvdGU6Cj4+IFZlcmlmeSB0aGF0IHRoZXJl
-IGFyZSBzdWJqPSBhbmQgb2JqPSBmaWVsZHMgaW4gYSByZWNvcmQKPj4gaWYgYW5kIG9ubHkgaWYg
-dGhleSBhcmUgZXhwZWN0ZWQuIEEgc3lzdGVtIHdpdGhvdXQgYSBzZWN1cml0eQo+PiBtb2R1bGUg
-dGhhdCBwcm92aWRlcyB0aGVzZSBmaWVsZHMgc2hvdWxkIG5vdCBpbmNsdWRlIHRoZW0uCj4+IEEg
-c3lzdGVtIHdpdGggbXVsdGlwbGUgc2VjdXJpdHkgbW9kdWxlcyBwcm92aWRpbmcgdGhlc2UgZmll
-bGRzCj4+IChlLmcuIFNFTGludXggYW5kIEFwcEFybW9yKSBzaG91bGQgYWx3YXlzIHByb3ZpZGUg
-Ij8iIGZvciB0aGUKPj4gZGF0YSBhbmQgYWxzbyBpbmNsdWRlIGEgQVVESVRfTUFDX1RBU0tfQ09O
-VEVYVFMgb3IKPj4gQVVESVRfTUFDX09CSl9DT05URVhUUyByZWNvcmQuIFRoZSB0ZXN0IHVzZXMg
-dGhlIExTTSBsaXN0IGZyb20KPj4gL3N5cy9rZXJuZWwvc2VjdXJpdHkvbHNtIHRvIGRldGVybWlu
-ZSB3aGljaCBmb3JtYXQgaXMgZXhwZWN0ZWQuCj4+Cj4+IFNpZ25lZC1vZmYtYnk6IENhc2V5IFNj
-aGF1ZmxlciA8Y2FzZXlAc2NoYXVmbGVyLWNhLmNvbT4KPj4gLS0tCj4+ICB0ZXN0cy9NYWtlZmls
-ZSAgICAgICAgICAgICAgICAgICB8ICAgMSArCj4+ICB0ZXN0cy9tdWx0aXBsZV9jb250ZXh0cy9N
-YWtlZmlsZSB8ICAxMiArKysKPj4gIHRlc3RzL211bHRpcGxlX2NvbnRleHRzL3Rlc3QgICAgIHwg
-MTY2ICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysKPj4gIDMgZmlsZXMgY2hhbmdlZCwg
-MTc5IGluc2VydGlvbnMoKykKPj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCB0ZXN0cy9tdWx0aXBsZV9j
-b250ZXh0cy9NYWtlZmlsZQo+PiAgY3JlYXRlIG1vZGUgMTAwNzU1IHRlc3RzL211bHRpcGxlX2Nv
-bnRleHRzL3Rlc3QKPj4KPj4gZGlmZiAtLWdpdCBhL3Rlc3RzL01ha2VmaWxlIGIvdGVzdHMvTWFr
-ZWZpbGUKPj4gaW5kZXggYTdmMjQyYS4uZjIwZjZiMSAxMDA2NDQKPj4gLS0tIGEvdGVzdHMvTWFr
-ZWZpbGUKPj4gKysrIGIvdGVzdHMvTWFrZWZpbGUKPj4gQEAgLTE4LDYgKzE4LDcgQEAgVEVTVFMg
-Oj0gXAo+PiAgCWZpbGVfY3JlYXRlIFwKPj4gIAlmaWxlX2RlbGV0ZSBcCj4+ICAJZmlsZV9yZW5h
-bWUgXAo+PiArCW11bHRpcGxlX2NvbnRleHRzIFwKPiAiY29udGV4dCIgaXMgYSBiaXQgYW1iaWd1
-b3VzLiAgQ291bGQgdGhpcyBiZSBuYW1lZCBzb21ldGhpbmcgdG8gaW5kaWNhdGUKPiBhIHNlY3Vy
-aXR5IGNvbnRleHQgcmF0aGVyIHRoYW4gYW55IG90aGVyIHNvcnQsIHN1Y2ggYXMgYXVkaXQgb3Ig
-dXNlcgo+IGNvbnRleHQ/CgpXb3VsZCAic3Vial9vYmpfZmllbGRzIiBiZSBiZXR0ZXI/CsKgCgot
-LQpMaW51eC1hdWRpdCBtYWlsaW5nIGxpc3QKTGludXgtYXVkaXRAcmVkaGF0LmNvbQpodHRwczov
-L3d3dy5yZWRoYXQuY29tL21haWxtYW4vbGlzdGluZm8vbGludXgtYXVkaXQ=
+On 2020-11-02 14:51, Casey Schaufler wrote:
+> On 11/2/2020 2:08 PM, Richard Guy Briggs wrote:
+> > On 2020-11-02 13:54, Casey Schaufler wrote:
+> >> Verify that there are subj= and obj= fields in a record
+> >> if and only if they are expected. A system without a security
+> >> module that provides these fields should not include them.
+> >> A system with multiple security modules providing these fields
+> >> (e.g. SELinux and AppArmor) should always provide "?" for the
+> >> data and also include a AUDIT_MAC_TASK_CONTEXTS or
+> >> AUDIT_MAC_OBJ_CONTEXTS record. The test uses the LSM list from
+> >> /sys/kernel/security/lsm to determine which format is expected.
+> >>
+> >> Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
+> >> ---
+> >>  tests/Makefile                   |   1 +
+> >>  tests/multiple_contexts/Makefile |  12 +++
+> >>  tests/multiple_contexts/test     | 166 +++++++++++++++++++++++++++++++
+> >>  3 files changed, 179 insertions(+)
+> >>  create mode 100644 tests/multiple_contexts/Makefile
+> >>  create mode 100755 tests/multiple_contexts/test
+> >>
+> >> diff --git a/tests/Makefile b/tests/Makefile
+> >> index a7f242a..f20f6b1 100644
+> >> --- a/tests/Makefile
+> >> +++ b/tests/Makefile
+> >> @@ -18,6 +18,7 @@ TESTS := \
+> >>  	file_create \
+> >>  	file_delete \
+> >>  	file_rename \
+> >> +	multiple_contexts \
+> > "context" is a bit ambiguous.  Could this be named something to indicate
+> > a security context rather than any other sort, such as audit or user
+> > context?
+> 
+> Would "subj_obj_fields" be better?
+
+That is much more obvious to me.  Maybe even sec_context_multi, but I
+like your suggestion better?
+
+
+- RGB
+
+--
+Richard Guy Briggs <rgb@redhat.com>
+Sr. S/W Engineer, Kernel Security, Base Operating Systems
+Remote, Ottawa, Red Hat Canada
+IRC: rgb, SunRaycer
+Voice: +1.647.777.2635, Internal: (81) 32635
+
+--
+Linux-audit mailing list
+Linux-audit@redhat.com
+https://www.redhat.com/mailman/listinfo/linux-audit
 
