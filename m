@@ -2,120 +2,74 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [216.205.24.124])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D3602AC88A
-	for <lists+linux-audit@lfdr.de>; Mon,  9 Nov 2020 23:29:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 73C4D2AC8E1
+	for <lists+linux-audit@lfdr.de>; Mon,  9 Nov 2020 23:54:03 +0100 (CET)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-279-tqeuzopOP_Kv6Ork3i24ZQ-1; Mon, 09 Nov 2020 17:29:33 -0500
-X-MC-Unique: tqeuzopOP_Kv6Ork3i24ZQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+ us-mta-587-GJiaVwfOOAikMtP1frBI_g-1; Mon, 09 Nov 2020 17:53:59 -0500
+X-MC-Unique: GJiaVwfOOAikMtP1frBI_g-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1E165809DC9;
-	Mon,  9 Nov 2020 22:29:27 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 5024E756A6;
-	Mon,  9 Nov 2020 22:29:22 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6938064155;
+	Mon,  9 Nov 2020 22:53:54 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 99D8E5B4C1;
+	Mon,  9 Nov 2020 22:53:53 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 48DF9922F1;
-	Mon,  9 Nov 2020 22:29:15 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
-	[10.11.54.3])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 8D7BF180B658;
+	Mon,  9 Nov 2020 22:53:52 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+	[10.11.54.5])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 0A9MT6La028668 for <linux-audit@listman.util.phx.redhat.com>;
-	Mon, 9 Nov 2020 17:29:06 -0500
+	id 0A3EAsn5027533 for <linux-audit@listman.util.phx.redhat.com>;
+	Tue, 3 Nov 2020 09:10:55 -0500
 Received: by smtp.corp.redhat.com (Postfix)
-	id F1582111284D; Mon,  9 Nov 2020 22:29:05 +0000 (UTC)
+	id D1E7794646; Tue,  3 Nov 2020 14:10:54 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
-	(mimecast05.extmail.prod.ext.rdu2.redhat.com [10.11.55.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id E882F1112848
-	for <linux-audit@redhat.com>; Mon,  9 Nov 2020 22:29:02 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
-	[207.211.31.120])
+	(mimecast02.extmail.prod.ext.rdu2.redhat.com [10.11.55.18])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id CC5642EF97
+	for <linux-audit@redhat.com>; Tue,  3 Nov 2020 14:10:52 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [205.139.110.61])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BF47990E427
-	for <linux-audit@redhat.com>; Mon,  9 Nov 2020 22:29:02 +0000 (UTC)
-Received: from sonic306-28.consmr.mail.ne1.yahoo.com
-	(sonic306-28.consmr.mail.ne1.yahoo.com [66.163.189.90]) (Using TLS) by
-	relay.mimecast.com with ESMTP id us-mta-315-JLr9qUyGPKOZL-aFfcymOw-1;
-	Mon, 09 Nov 2020 17:29:00 -0500
-X-MC-Unique: JLr9qUyGPKOZL-aFfcymOw-1
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
-	t=1604960939; bh=ZnRAVgmgLxl39IUBafpZOoQ1pU8pJIz7KzIl/gbbWjO=;
-	h=To:From:Subject:Date:From:Subject;
-	b=ucJn03Dlr9YQUHpYiraSsjhpkvB0bbHkFJ5DuJc/x/VqAAQpCxIZ3SDQm2rvQVnqQtIts04XKfyNBQ7kfTxN6EEyE7NOu79S+7lTKtjC773JKxlsmJlfcJhf9ZD6hbfmYFJZNHQLLL2hbqPYe0ZE2JyqIae/tAm/p9qjQ901m9CO5/ZE6eMd+5DDlEt5OChJ30tjZJPq/d86pirNTzR4E0kU4b0Gd5G7D6NKIehX9aC4FrE/qjFirYo4qxhZ16XYNhRI3EoNBOp2h0roStU2Z6fK8sO9VZK8DoVPBq/zvAZ5UBD2d0IQw2cDHIOV7UhqhycomE8PmEinC+BEZF9rnQ==
-X-YMail-OSG: xiQBN6kVM1me6g_w2Q3h2C.PyMxp8FtbcKlrvJ3mkoIDRp3gFtSOpZrKJJ0V5NV
-	1a..Ldqt0OWXNtR3GVwRVoJCySk4c9aMhIEO4WK8pSLO2AvOifAcOJFZzWKWO4JXOirueDfN_nXU
-	Akpl.3RSEcNeqXJZBcXfYp6mO2bgfkJcwoCVPxT6IN6VmRBYhdXvqMyGI7gD24saVq88fjHuUbAh
-	Vd6KMa7BGu4hMne6TlDx87Nm2zrylkNQXBQmaf5H2tUWq2yCBSFbbmK8dyS_h_1MucCJpKDFyBpl
-	NoZtuN0AX.SRO7jPhtOpQ0XApbHkelMcfqWAgIG9pGFjBCbdBmwTY6f_yy9Y5IUWwzxyzW3esOWu
-	O2V6N6g5nqHmiuNYvEfz1HR2rKTwE9NX_6MU_NdMSOjQHT9YyfjqBaOFNl6PyI1A.pxfWkPmmJ5L
-	Mni_2RM2xBiC0PVT_.9GN9GRbmaZrbFnbGUVOT2rp3vRJ6Hstffj3kPrm3Q.hl9GQxpPDqeg_hBY
-	ge3PLzejkzAhlNtFMt0AjfORm9Iw41f_38PSou3HfNRQYzTJkHO7dCG2xKOG7OOKFqC_S_OloOwo
-	iaxFpCUnNLOhb.KY.xBdOnVQN7ySpej7240xpQgSZGoMPHSf36EZtLXY6PaOl8gQfj.bhuJKfSUa
-	.8IPw6AXd6dEwX4bPl.DPFxXVH2l9nAVjmgMRG581B3OPnaToSflslHYT.FfrA__aRZORbZDW.OC
-	KlhAKmOQvRwilpa4SoIJF._ax32UW0qRmqf0cp48uL2znW.Ix.NqLQIPzNhhC.xg7FW_X2R75Hn5
-	_TBFtC5dJuYZaM3vdWREjzs0Ijo20YepG6m1RpRUIlq35E9ZKgxSFG7dgA6oLSaq3jg48gCsLSB5
-	goej5exII0TZdcGxjF0Sy3CdJtqfC8EemC2f.Ba5Ug3OC4qFqsE.ZdtfZ7da45SM2hGTgBBRVZxN
-	ImpMn8RCEoRkq5FwhbXzzOeZzG.Vu6nmb7LVLv2LXz5xEXnY0N_dC.iHwLolbylncYWVKS5dBq4u
-	oIrCNnOYaY3wnjUYQZTVgHM42sujjjmmLAra2v5KNjN0GpZK_SyycLGyLfHF3FSWc8P3kTd_Tm3V
-	1UIogPrj63CCZUr0kP8lpmOa4_0NWK_F.JMKoUPKOc9.jzwiFfYwaJ_obSrJxEOrdqySIvUs3UD6
-	aTMkzRoFbS.3IDvYCYYhMcuZ2C1mJGJoyMyr_2PeI_gdbLhip3OyIU7xbAGX0EE9TQQVaGWIb.2k
-	W_x2wkapW0sBkl8RvLRzn7MA9qC23h2hfdkIolR6FOBHYlCNmsVKB_52fYXSUXonKFFW.yy7kAal
-	THtz9lrIcjgtip0E5gupIT13pDKV7Zty_1CQ2Y.bALjs18OQh2bOQu.hc_JE7u3kBFzal0N9waMa
-	D8c0Z7S3dME2yiXLUTCi7isdPXO8nbeZRq7JsVLpJoerJWzdDIttlowG7ZcVi7xVXU7mWWzDSUAq
-	HswRoQLOo_uolCp3lKllw8ThJDDm7iec3qamwNtJspx0N7ltsSbnQM3PsgOeG4f6P5gg._hVqDh4
-	Xa9QQnUQIy7uKvG_pSLGOv1Hxv5.ExwZwxLesyC0q2ka4fCtz4ZmWJQFUWhZDUZtiGIuB1DMFU1X
-	_vA_uTdFkFCQ2ToojD51E0xnQ1Ux.Mo13ihHrCygPM6T5c94TMoNw4V0aIgTFiONl4WVf7qviD75
-	sNtauX7Td6LLDUyBjo0qPGTtgZIpzqSqQfcslUyL4eMB2G.0SqRCABjM.cZpfn8E90gTgYGDKRXe
-	zhQ_Ureu5XcDGRERKTpc.f8Ifrv8DEue4u5av1MKwXXfEtez..Jmqyg7HK8675uPME_.CTQ55hJ_
-	f._230Es1_4XC1R59G46DQ.s4POVdwOJqth9LxGZnDH30Ff7DPqDLcjgls4LqH.9e63xtmKrKon9
-	jpwy4DH3S9NY140mppQUNKjXSk1YgLiekz5GXyiQHtXbPBJBti2gFmi9AGF7B_e7BtZZzU.Dx9DK
-	rkDg0P4VPsvGI3ypD9_F5A9SgUXd32TyufKs6BiQ5Wu33ACCCQjcanmxzZ.pHmd5eJonsAGbjkMW
-	tHv8lYNfIA9UO6zsEs5vwBGV9fQd73YMd6CP7hnxEzZvX8E.ZFvvjA6.lcp04BGbJLZGHM5n_Udy
-	i.u6f.vHAEpJENU1_Mwfd4fCGjmaAUOurYYtqH6QxTxnaQTV20xzi6IaqDGApAXEi3XLA1pP3cnM
-	kp9qTo8XAu.eBHPFKg_e9DCIYRX5uXuUD9GLIrZXvRiF0x5bhXZXY4Ss7cyrvtYvYgHQn5p2xz9V
-	lVCuC0BFCdOewySKHxzJ4eaXvZsvH2xWPRgQCkF8luDrb9mTmyKTtUg.8RuXLH59ZvMs4sNRgTdi
-	ThhxCxcw8dP8yH9O2C6yWWsrkJMabujKaaa_1wfj0EKBsf0bFfSGaq8mJz_ZOwczk9gHW.obJdrj
-	lgolYkjI2w9wvHTwVO92qsLc6i1a174czL9yX41xaAJTBFKZSNqm0s7AOzNqtEfCDJTw7PbaG91q
-	IYB0unTF233KEGnuhEN.hCSc8gHzrqAphBKedtZL_Wcmb1K1KzEoFuuKe4w2jyJBwY6kXji3KHnp
-	Mx1AVapoGiPFGNwzCKCrFNEVhxQZa2m4AZ1SnskH7BCfztAVu5EgvYCdrH0332bQgRwy7Pl3C.Et
-	E8zl1Pn6rsePTJN9bNZlosDfrPMi7PteBOtaLaa04EdSmKdLpD4IpF2uO87aDPeAg1sNiw5xFnBc
-	a1ol4Go5XsLuLQ7f5bzHvWhxCgsEXFLwfIbvSrrrXxyCrNaqoZxFn2C06mrOfusHOBeoA2M6Zj8g
-	2PFiy5rod7oc32nV.hKyqb0LA_yn8FhdFagk7T84MqJRrp0Z.qtOYlVDG6cQW_rHIqJUYk7Fwfbm
-	7d3BLX_M0KZfYyHBa1AVE505crEieSCW39A6DrmsqpiurbcFMe.FD3ju6DfbQMSnne_MVMp2LpTF
-	4IFwrroahHNtzOnQ8k31MRd8sZkEUKgq8bFgZFb38kJHBKssTctHiCFa2w6bOn3AZpj7f71B7B57
-	qiwfG6Xkn2v0Ft6EjE_WmHVcsAizJWPu3EPvHX3bmm0WXWsDPSE62yVabAdwI8Gk1royokIQrreo
-	1hXKwCXZZmZ6CbGFua1k_htc_XrtYQF4aNuPIq.DKxPXNwGiQB30e5Hmvj9TZ25WIeIYhA4HsSNF
-	SgLgoL64hBxDSMaszPKilVNpMLRIlfJV4RJ2WCxlh1LGHNapzg2gTsbRd1jiJy13EY5wD74sq6vE
-	3GbXIfFGrCcHs8fMC0gKE.vLcc0usnN8FFC_jOZA2g_DNl9d8HK9QORZsWgNX8fFalylClbUkrFO
-	p9xxQzQ2AQ_2T3ViZaNLy_DIHVe3mj3_zrDWe8OpBEBD7.uqDoeEHr_ww0FtuqiouArkgVWdCfiB
-	njyolNkevoCb0N4zlNhHV_ChA2x_SV9yekq8Rl1dr8iMaa.yIyloQVlIN6uNGRhsP4ZHLJ6W6_YE
-	xdA1XbqoG858cYUsaAYWHOCoiw6g5rpzOih5Qv58IN_hMfWw51B13
-Received: from sonic.gate.mail.ne1.yahoo.com by
-	sonic306.consmr.mail.ne1.yahoo.com with HTTP;
-	Mon, 9 Nov 2020 22:28:59 +0000
-Received: by smtp420.mail.gq1.yahoo.com (VZM Hermes SMTP Server) with ESMTPA
-	ID 20ea086e6e6c90586ab3a5e58b3b53f7; 
-	Mon, 09 Nov 2020 22:28:53 +0000 (UTC)
-To: John Johansen <john.johansen@canonical.com>,
-	Greg KH <gregkh@linuxfoundation.org>
-References: <20201104234114.11346-1-casey@schaufler-ca.com>
-	<20201104234114.11346-13-casey@schaufler-ca.com>
-	<20201105092245.GB3439341@kroah.com>
-	<31027d8e-50bc-70be-b4f2-a96a84de2bae@schaufler-ca.com>
-	<20201107091529.GA23328@kroah.com>
-	<04b4adf9-9313-7f5a-e7fe-6132e0c5fc4f@canonical.com>
-From: Casey Schaufler <casey@schaufler-ca.com>
-Subject: Re: [PATCH v22 12/23] LSM: Specify which LSM to display
-Message-ID: <496cad0c-9bca-24e9-6024-76a8b73754ed@schaufler-ca.com>
-Date: Mon, 9 Nov 2020 14:28:53 -0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
-	Thunderbird/78.4.0
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A57C48007A4
+	for <linux-audit@redhat.com>; Tue,  3 Nov 2020 14:10:52 +0000 (UTC)
+Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com
+	[209.85.208.67]) (Using TLS) by relay.mimecast.com with ESMTP id
+	us-mta-492-k13TeLBqMfqrvn5VJYbTnw-1; Tue, 03 Nov 2020 09:10:48 -0500
+X-MC-Unique: k13TeLBqMfqrvn5VJYbTnw-1
+Received: by mail-ed1-f67.google.com with SMTP id b9so8183733edu.10
+	for <linux-audit@redhat.com>; Tue, 03 Nov 2020 06:10:48 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=y8WQjpT9rqVrgeh99s8m7L7lW+jgLfIjyGz2M8+krP0=;
+	b=V4VQ9r1bV7pK2VYA6vb8+srl4/9f/dN/SYlHdgNz3ryTiKm2MZyuNxckw3aISR3sec
+	k331F17GBZyw2buEcA1azDVxwyMu9FfNOr4iEBqRtFt8Cw5Y9cEaUjoo1GWWsHRSaRmp
+	2Kl69M65Dw5nJkkZhNDwhSiQmHSIP4VSqpN+Evfw6V2m1gbh1RcmBEsiAtu1rihRWkBY
+	/PrneawWzj+s9axKx2+JiqK1NImiDMt5mCeVchJxA1Os065vxMcs3O0XxG2OA/OZfBF1
+	YW1wRWIFJ7ygNsTkTP29TAFx5rej9EDSzOLDNMsQIIoMesuTgo18o9LMPHkjdOaVbM6J
+	32ow==
+X-Gm-Message-State: AOAM530lZuA8Ca7giMT491Rk6OF70OauPa/nGYlpPeU91aGRP+D5Fr9C
+	fdztQkW67wXR2eGa8rMcycHIom17z4/j28gS/zHGPQ==
+X-Google-Smtp-Source: ABdhPJwp4QL8RwmQmcT2CoPcUplHSU9HiByLsXAEntwM01IPEN+3MiJMYkcJQ6Od81V70aDSuFwsTxILAnA/OMfjXrI=
+X-Received: by 2002:a05:6402:a57:: with SMTP id
+	bt23mr10741907edb.62.1604412647178; 
+	Tue, 03 Nov 2020 06:10:47 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <04b4adf9-9313-7f5a-e7fe-6132e0c5fc4f@canonical.com>
+References: <20201029003252.2128653-1-christian.brauner@ubuntu.com>
+	<87pn51ghju.fsf@x220.int.ebiederm.org>
+	<20201029155148.5odu4j2kt62ahcxq@yavin.dot.cyphar.com>
+	<87361xdm4c.fsf@x220.int.ebiederm.org>
+In-Reply-To: <87361xdm4c.fsf@x220.int.ebiederm.org>
+From: Alban Crequy <alban@kinvolk.io>
+Date: Tue, 3 Nov 2020 15:10:35 +0100
+Message-ID: <CADZs7q4abuN6n8HMrpe2R2kRBUDVPoYRNpezKk4cvXRk7CVHng@mail.gmail.com>
+Subject: Re: [PATCH 00/34] fs: idmapped mounts
+To: "Eric W. Biederman" <ebiederm@xmission.com>
 X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
 	Definition; Similar Internal Domain=false;
 	Similar Monitored External Domain=false;
@@ -124,14 +78,41 @@ X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
 	Custom Display Name List=false; Reply-to Address Mismatch=false;
 	Targeted Threat Dictionary=false;
 	Mimecast Threat Dictionary=false; Custom Threat Dictionary=false
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
+X-Mimecast-Bulk-Signature: yes
+X-Mimecast-Spam-Signature: bulk
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
 X-MIME-Autoconverted: from quoted-printable to 8bit by
-	lists01.pubmisc.prod.ext.phx2.redhat.com id 0A9MT6La028668
+	lists01.pubmisc.prod.ext.phx2.redhat.com id 0A3EAsn5027533
 X-loop: linux-audit@redhat.com
-Cc: selinux@vger.kernel.org, linux-api@vger.kernel.org, jmorris@namei.org,
-	linux-kernel@vger.kernel.org,
-	linux-security-module@vger.kernel.org, linux-audit@redhat.com,
-	casey.schaufler@intel.com, sds@tycho.nsa.gov
+X-Mailman-Approved-At: Mon, 09 Nov 2020 17:53:46 -0500
+Cc: Phil Estes <estesp@gmail.com>, Lennart Poettering <lennart@poettering.net>,
+	Amir Goldstein <amir73il@gmail.com>, Mimi Zohar <zohar@linux.ibm.com>,
+	David Howells <dhowells@redhat.com>,
+	Andreas Dilger <adilger.kernel@dilger.ca>,
+	Linux Containers <containers@lists.linux-foundation.org>,
+	Christian Brauner <christian.brauner@ubuntu.com>,
+	Tycho Andersen <tycho@tycho.ws>, Miklos Szeredi <miklos@szeredi.hu>,
+	James Morris <jmorris@namei.org>, smbarber@chromium.org,
+	Christoph Hellwig <hch@infradead.org>,
+	linux-ext4@vger.kernel.org, Mrunal Patel <mpatel@redhat.com>,
+	Serge Hallyn <serge@hallyn.com>, Arnd Bergmann <arnd@arndb.de>,
+	Jann Horn <jannh@google.com>, selinux@vger.kernel.org,
+	Josh Triplett <josh@joshtriplett.org>,
+	linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+	Aleksa Sarai <cyphar@cyphar.com>, Alexander Viro <viro@zeniv.linux.org.uk>,
+	Andy Lutomirski <luto@kernel.org>,
+	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
+	Geoffrey Thomas <geofft@ldpreload.com>,
+	James Bottomley <James.Bottomley@hansenpartnership.com>,
+	John Johansen <john.johansen@canonical.com>, Theodore Tso <tytso@mit.edu>,
+	Seth Forshee <seth.forshee@canonical.com>,
+	Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>, linux-unionfs@vger.kernel.org,
+	LSM <linux-security-module@vger.kernel.org>,
+	linux-audit@redhat.com, linux-api@vger.kernel.org,
+	linux-integrity <linux-integrity@vger.kernel.org>,
+	=?UTF-8?Q?St=C3=A9phane_Graber?= <stgraber@ubuntu.com>,
+	Todd Kjos <tkjos@google.com>
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -145,101 +126,105 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
 	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=linux-audit-bounces@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On 11/7/2020 2:05 PM, John Johansen wrote:
-> On 11/7/20 1:15 AM, Greg KH wrote:
->> On Fri, Nov 06, 2020 at 04:20:43PM -0800, Casey Schaufler wrote:
->>> On 11/5/2020 1:22 AM, Greg KH wrote:
->>>> On Wed, Nov 04, 2020 at 03:41:03PM -0800, Casey Schaufler wrote:
->>>>> Create a new entry "display" in the procfs attr directory for
->>>>> controlling which LSM security information is displayed for a
->>>>> process. A process can only read or write its own display value.
->>>>>
->>>>> The name of an active LSM that supplies hooks for
->>>>> human readable data may be written to "display" to set the
->>>>> value. The name of the LSM currently in use can be read from
->>>>> "display". At this point there can only be one LSM capable
->>>>> of display active. A helper function lsm_task_display() is
->>>>> provided to get the display slot for a task_struct.
->>>>>
->>>>> Setting the "display" requires that all security modules using
->>>>> setprocattr hooks allow the action. Each security module is
->>>>> responsible for defining its policy.
->>>>>
->>>>> AppArmor hook provided by John Johansen <john.johansen@canonical.com>
->>>>> SELinux hook provided by Stephen Smalley <sds@tycho.nsa.gov>
->>>>>
->>>>> Reviewed-by: Kees Cook <keescook@chromium.org>
->>>>> Acked-by: Stephen Smalley <sds@tycho.nsa.gov>
->>>>> Acked-by: Paul Moore <paul@paul-moore.com>
->>>>> Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
->>>>> Cc: linux-api@vger.kernel.org
->>>>> ---
->>>>>  fs/proc/base.c                       |   1 +
->>>>>  include/linux/lsm_hooks.h            |  17 +++
->>>>>  security/apparmor/include/apparmor.h |   3 +-
->>>>>  security/apparmor/lsm.c              |  32 +++++
->>>>>  security/security.c                  | 169 ++++++++++++++++++++++++---
->>>>>  security/selinux/hooks.c             |  11 ++
->>>>>  security/selinux/include/classmap.h  |   2 +-
->>>>>  security/smack/smack_lsm.c           |   7 ++
->>>>>  8 files changed, 223 insertions(+), 19 deletions(-)
->>>>>
->>>>> diff --git a/fs/proc/base.c b/fs/proc/base.c
->>>>> index 0f707003dda5..7432f24f0132 100644
->>>>> --- a/fs/proc/base.c
->>>>> +++ b/fs/proc/base.c
->>>>> @@ -2806,6 +2806,7 @@ static const struct pid_entry attr_dir_stuff[] = {
->>>>>  	ATTR(NULL, "fscreate",		0666),
->>>>>  	ATTR(NULL, "keycreate",		0666),
->>>>>  	ATTR(NULL, "sockcreate",	0666),
->>>>> +	ATTR(NULL, "display",		0666),
->>>> That's a vague name, any chance it can be more descriptive?
->>> Sure. How about lsm_display, or display_lsm? I wouldn't say that
->>> any of the files in /proc/*/attr have especially descriptive names,
->>> but that's hardly an excuse.
->> I still don't understand what "display" means in this context.  Perhaps
-> its the LSM thats context is being displayed on the shared interface,
-> ie. /proc/*/attr/*
->
-> thinking about it more owner or even interface_owner might be a better
-> name
-
-I was hoping for a single word, but I see how something more descriptive
-might be in order. How about "lsm_of_current"? Or "lsm_of_dot_slash_current",
-if you want to be pedantic. "format_of_current" isn't quite accurate, but
-might be easier for some people to understand. Maybe "interface_owning_lsm".
-
-/proc/*/attr/display answers the question "Which LSM is providing the data
-I see if I look in /proc/*/attr/current, prev or exec or if that process uses
-SO_PEERSEC".
-
-
->> documentation will help clear it up?
->>
-> yeah this needs documented.
-
-Agreed. I've noticed that nothing in /proc/*/attr seems documented
-in an orderly (documentation/ABI) fashion. I will have to fix some of
-that for a description of /proc/*/attr/whatever_it_ends_up_getting_called
-to make sense. Working on it.
-
->> thanks,
->>
->> greg k-h
->>
-
-
---
-Linux-audit mailing list
-Linux-audit@redhat.com
-https://www.redhat.com/mailman/listinfo/linux-audit
+T24gVGh1LCBPY3QgMjksIDIwMjAgYXQgNTozNyBQTSBFcmljIFcuIEJpZWRlcm1hbiA8ZWJpZWRl
+cm1AeG1pc3Npb24uY29tPiB3cm90ZToKPgo+IEFsZWtzYSBTYXJhaSA8Y3lwaGFyQGN5cGhhci5j
+b20+IHdyaXRlczoKPgo+ID4gT24gMjAyMC0xMC0yOSwgRXJpYyBXLiBCaWVkZXJtYW4gPGViaWVk
+ZXJtQHhtaXNzaW9uLmNvbT4gd3JvdGU6Cj4gPj4gQ2hyaXN0aWFuIEJyYXVuZXIgPGNocmlzdGlh
+bi5icmF1bmVyQHVidW50dS5jb20+IHdyaXRlczoKPiA+Pgo+ID4+ID4gSGV5IGV2ZXJ5b25lLAo+
+ID4+ID4KPiA+PiA+IEkgdmFuaXNoZWQgZm9yIGEgbGl0dGxlIHdoaWxlIHRvIGZvY3VzIG9uIHRo
+aXMgd29yayBoZXJlIHNvIHNvcnJ5IGZvcgo+ID4+ID4gbm90IGJlaW5nIGF2YWlsYWJsZSBieSBt
+YWlsIGZvciBhIHdoaWxlLgo+ID4+ID4KPiA+PiA+IFNpbmNlIHF1aXRlIGEgbG9uZyB0aW1lIHdl
+IGhhdmUgaXNzdWVzIHdpdGggc2hhcmluZyBtb3VudHMgYmV0d2Vlbgo+ID4+ID4gbXVsdGlwbGUg
+dW5wcml2aWxlZ2VkIGNvbnRhaW5lcnMgd2l0aCBkaWZmZXJlbnQgaWQgbWFwcGluZ3MsIHNoYXJp
+bmcgYQo+ID4+ID4gcm9vdGZzIGJldHdlZW4gbXVsdGlwbGUgY29udGFpbmVycyB3aXRoIGRpZmZl
+cmVudCBpZCBtYXBwaW5ncywgYW5kIGFsc28KPiA+PiA+IHNoYXJpbmcgcmVndWxhciBkaXJlY3Rv
+cmllcyBhbmQgZmlsZXN5c3RlbXMgYmV0d2VlbiB1c2VycyB3aXRoIGRpZmZlcmVudAo+ID4+ID4g
+dWlkcyBhbmQgZ2lkcy4gVGhlIGxhdHRlciB1c2UtY2FzZXMgaGF2ZSBiZWNvbWUgZXZlbiBtb3Jl
+IGltcG9ydGFudCB3aXRoCj4gPj4gPiB0aGUgYXZhaWxhYmlsaXR5IGFuZCBhZG9wdGlvbiBvZiBz
+eXN0ZW1kLWhvbWVkIChjZi4gWzFdKSB0byBpbXBsZW1lbnQKPiA+PiA+IHBvcnRhYmxlIGhvbWUg
+ZGlyZWN0b3JpZXMuCj4gPj4KPiA+PiBDYW4geW91IHdhbGsgdXMgdGhyb3VnaCB0aGUgbW90aXZh
+dGluZyB1c2UgY2FzZT8KPiA+Pgo+ID4+IEFzIG9mIHRoaXMgeWVhcidzIExQQyBJIGhhZCB0aGUg
+ZGlzdGluY3QgaW1wcmVzc2lvbiB0aGF0IHRoZSBwcmltYXJ5IHVzZQo+ID4+IGNhc2UgZm9yIHN1
+Y2ggYSBmZWF0dXJlIHdhcyBkdWUgdG8gdGhlIFJMSU1JVF9OUFJPQyBwcm9ibGVtIHdoZXJlIHR3
+bwo+ID4+IGNvbnRhaW5lcnMgd2l0aCB0aGUgc2FtZSB1c2VycyBzdGlsbCB3YW50ZWQgZGlmZmVy
+ZW50IHVpZCBtYXBwaW5ncyB0bwo+ID4+IHRoZSBkaXNrIGJlY2F1c2UgdGhlIHVzZXJzIHdlcmUg
+Y29uZmxpY3Rpbmcgd2l0aCBlYWNoIG90aGVyIGJlY2F1c2Ugb2YKPiA+PiB0aGUgcGVyIHVzZXIg
+cmxpbWl0cy4KPiA+Pgo+ID4+IEZpeGluZyBybGltaXRzIGlzIHN0cmFpZ2h0IGZvcndhcmQgdG8g
+aW1wbGVtZW50LCBhbmQgZWFzaWVyIHRvIG1hbmFnZQo+ID4+IGZvciBpbXBsZW1lbnRhdGlvbnMg
+YW5kIGFkbWluaXN0cmF0b3JzLgo+ID4KPiA+IFRoaXMgaXMgc2VwYXJhdGUgdG8gdGhlIHF1ZXN0
+aW9uIG9mICJpc29sYXRlZCB1c2VyIG5hbWVzcGFjZXMiIGFuZAo+ID4gbWFuYWdpbmcgZGlmZmVy
+ZW50IG1hcHBpbmdzIGJldHdlZW4gY29udGFpbmVycy4gVGhpcyBwYXRjaHNldCBpcyBzb2x2aW5n
+Cj4gPiB0aGUgc2FtZSBwcm9ibGVtIHRoYXQgc2hpZnRmcyBzb2x2ZWQgLS0gc2hhcmluZyBhIHNp
+bmdsZSBkaXJlY3RvcnkgdHJlZQo+ID4gYmV0d2VlbiBjb250YWluZXJzIHRoYXQgaGF2ZSBkaWZm
+ZXJlbnQgSUQgbWFwcGluZ3MuIHJsaW1pdHMgKG5vciBhbnkgb2YKPiA+IHRoZSBvdGhlciBwcm9w
+b3NhbHMgd2UgZGlzY3Vzc2VkIGF0IExQQykgd2lsbCBoZWxwIHdpdGggdGhpcyBwcm9ibGVtLgo+
+Cj4gRmlyc3QgYW5kIGZvcmVtb3N0OiBBIHVpZCBzaGlmdCBvbiB3cml0ZSB0byBhIGZpbGVzeXN0
+ZW0gaXMgYSBzZWN1cml0eQo+IGJ1ZyB3YWl0aW5nIHRvIGhhcHBlbi4gIFRoaXMgaXMgZXNwZWNp
+YWxseSBpbiB0aGUgY29udGV4dCBvZiBmYWNpbGl0aWVzCj4gbGlrZSBpb3VyaW5nLCB0aGF0IHBs
+YXkgdmVyeSBhZ3Jlc3NpdmUgZ2FtZXMgd2l0aCBob3cgcHJvY2VzcyBjb250ZXh0Cj4gbWFrZXMg
+aXQgdG8gIHN5c3RlbSBjYWxscy4KPgo+IFRoZSBvbmx5IHJlYXNvbiBjb250YWluZXJzIHdlcmUg
+bm90IGltbWVkaWF0ZWx5IGV4cGxvaXRhYmxlIHdoZW4gaW91cmluZwo+IHdhcyBpbnRyb2R1Y2Vk
+IGlzIGJlY2F1c2UgdGhlIG1lY2hhbmlzbXMgYXJlIGJ1aWx0IHNvIHRoYXQgZXZlbiBpZgo+IHNv
+bWV0aGluZyBlc2NhcGVzIGNvbnRhaW5tZW50IHRoZSBzZWN1cml0eSBwcm9wZXJ0aWVzIHN0aWxs
+IGFwcGx5Lgo+IENoYW5nZXMgdG8gdGhlIHVpZCB3aGVuIHdyaXRpbmcgdG8gdGhlIGZpbGVzeXN0
+ZW0gZG9lcyBub3QgaGF2ZSB0aGF0Cj4gcHJvcGVydHkuICBUaGUgdGluaWVzdCBzbGlwIGluIGNv
+bnRhaW5tZW50IHdpbGwgYmUgYSBzZWN1cml0eSBpc3N1ZS4KPgo+IFRoaXMgaXMgbm90IGV2ZW4g
+dGhlIGxlYXN0IGJpdCB0aGVvcmV0aWNhbC4gIEkgaGF2ZSBzZWVtIHJlcG9ydHMgb2YgaG93Cj4g
+c2hpdGZzK292ZXJsYXlmcyBjcmVhdGVkIGEgc2l0dWF0aW9uIHdoZXJlIGFueW9uZSBjb3VsZCBy
+ZWFkCj4gL2V0Yy9zaGFkb3cuCj4KPiBJZiB5b3UgYXJlIGdvaW5nIHRvIHdyaXRlIHVzaW5nIHRo
+ZSBzYW1lIHVpZCB0byBkaXNrIGZyb20gZGlmZmVyZW50Cj4gY29udGFpbmVycyB0aGUgcXVlc3Rp
+b24gYmVjb21lcyB3aHkgY2FuJ3QgdGhvc2UgY29udGFpbmVycyBjb25maWd1cmUKPiB0aG9zZSB1
+c2VycyB0byB1c2UgdGhlIHNhbWUga3VpZD8KPgo+IFdoYXQgZml4aW5nIHJsaW1pdHMgZG9lcyBp
+cyBpdCBmaXhlcyBvbmUgb2YgdGhlIHJlYXNvbnMgdGhhdCBkaWZmZXJlbnQKPiBjb250YWluZXJz
+IGNvdWxkIG5vdCBzaGFyZSB0aGUgc2FtZSBrdWlkIGZvciB1c2VycyB0aGF0IHdhbnQgdG8gd3Jp
+dGUgdG8KPiBkaXNrIHdpdGggdGhlIHNhbWUgdWlkLgo+Cj4KPiBJIGh1bWJseSBzdWdnZXN0IHRo
+YXQgaXQgd2lsbCBiZSBtb3JlIHNlY3VyZSwgYW5kIGVhc2llciB0byBtYWludGFpbiBmb3IKPiBi
+b3RoIGRldmVsb3BlcnMgYW5kIHVzZXJzIGlmIHdlIGZpeCB0aGUgcmVhc29ucyBwZW9wbGUgd2Fu
+dCBkaWZmZXJlbnQKPiBjb250YWluZXJzIHRvIGhhdmUgdGhlIHNhbWUgdXNlciBydW5uaW5nIHdp
+dGggZGlmZmVyZW50IGt1aWRzLgo+Cj4gSWYgbm90IHdoYXQgYXJlIHRoZSByZWFzb25zIHdlIGZ1
+bmRhbWVudGFsbHkgbmVlZCB0aGUgc2FtZSBvbi1kaXNrIHVzZXIKPiB1c2luZyBtdWx0aXBsZSBr
+dWlkcyBpbiB0aGUga2VybmVsPwoKSSB3b3VsZCBsaWtlIHRvIHVzZSB0aGlzIHBhdGNoIHNldCBp
+biB0aGUgY29udGV4dCBvZiBLdWJlcm5ldGVzLiBJCmRlc2NyaWJlZCBteSB0d28gcG9zc2libGUg
+c2V0dXBzIGluCmh0dHBzOi8vd3d3LnNwaW5pY3MubmV0L2xpc3RzL2xpbnV4LWNvbnRhaW5lcnMv
+bXNnMzY1MzcuaHRtbDoKCjEuIEVhY2ggS3ViZXJuZXRlcyBwb2QgaGFzIGl0cyBvd24gdXNlcm5z
+IGJ1dCB3aXRoIHRoZSBzYW1lIHVzZXIgaWQgbWFwcGluZwoyLiBFYWNoIEt1YmVybmV0ZXMgcG9k
+IGhhcyBpdHMgb3duIHVzZXJucyB3aXRoIG5vbi1vdmVybGFwcGluZyB1c2VyIGlkCm1hcHBpbmcg
+KHByb3ZpZGluZyBhZGRpdGlvbmFsIGlzb2xhdGlvbiBiZXR3ZWVuIHBvZHMpCgpCdXQgZXZlbiBp
+biB0aGUgc2V0dXAgd2hlcmUgYWxsIHBvZHMgcnVuIHdpdGggdGhlIHNhbWUgaWQgbWFwcGluZ3Ms
+CnRoaXMgcGF0Y2ggc2V0IGlzIHN0aWxsIHVzZWZ1bCB0byBtZSBmb3IgMiByZWFzb25zOgoKMS4g
+VG8gYXZvaWQgdGhlIGV4cGVuc2l2ZSByZWN1cnNpdmUgY2hvd24gb2YgdGhlIHJvb3Rmcy4gV2Ug
+Y2Fubm90Cm5lY2Vzc2FyaWx5IGV4dHJhY3QgdGhlIHRhcmJhbGwgZGlyZWN0bHkgd2l0aCB0aGUg
+cmlnaHQgdWlkcyBiZWNhdXNlCndlIG1pZ2h0IHVzZSB0aGUgc2FtZSBjb250YWluZXIgaW1hZ2Ug
+Zm9yIHByaXZpbGVnZWQgY29udGFpbmVycyAod2l0aAp0aGUgaG9zdCB1c2VybnMpIGFuZCB1bnBy
+aXZpbGVnZWQgY29udGFpbmVycyAod2l0aCBhIG5ldyB1c2VybnMpLCBzbwp3ZSBoYXZlIGF0IGxl
+YXN0IDIg4oCcbWFwcGluZ3PigJ0gKHRha2luZyBtb3JlIHRpbWUgYW5kIHJlc3VsdGluZyBpbiBt
+b3JlCnN0b3JhZ2Ugc3BhY2UpLiBBbHRob3VnaCB0aGUg4oCcbWV0YWNvcHnigJ0gbW91bnQgb3B0
+aW9uIGluIG92ZXJsYXlmcwpoZWxwcyB0byBtYWtlIHRoZSByZWN1cnNpdmUgY2hvd24gZmFzdGVy
+LCBpdCBjYW4gc3RpbGwgdGFrZSB0aW1lIHdpdGgKbGFyZ2UgY29udGFpbmVyIGltYWdlcyB3aXRo
+IGxvdHMgb2YgZmlsZXMuIEnigJlkIGxpa2UgdG8gdXNlIHRoaXMgcGF0Y2gKc2V0IHRvIHNldCB1
+cCB0aGUgcm9vdCBmcyBpbiBjb25zdGFudCB0aW1lLgoKMi4gVG8gbWFuYWdlIGxhcmdlIGV4dGVy
+bmFsIHZvbHVtZXMgKE5GUyBvciBvdGhlciBmaWxlc3lzdGVtcykuIEV2ZW4KaWYgYWRtaW5zIGNh
+biBkZWNpZGUgdG8gdXNlIHRoZSBzYW1lIGt1aWQgb24gYWxsIHRoZSBub2RlcyBvZiB0aGUKS3Vi
+ZXJuZXRlcyBjbHVzdGVyLCB0aGlzIGlzIGltcHJhY3RpY2FsIGZvciBtaWdyYXRpb24uIFBlb3Bs
+ZSBjYW4gaGF2ZQpleGlzdGluZyBLdWJlcm5ldGVzIGNsdXN0ZXJzIChjdXJyZW50bHkgd2l0aG91
+dCB1c2luZyB1c2VyIG5hbWVzcGFjZXMpCmFuZCBsYXJnZSBORlMgdm9sdW1lcy4gSWYgdGhleSB3
+YW50IHRvIHN3aXRjaCB0byBhIG5ldyB2ZXJzaW9uIG9mCkt1YmVybmV0ZXMgd2l0aCB0aGUgdXNl
+ciBuYW1lc3BhY2UgZmVhdHVyZSBlbmFibGVkLCB0aGV5IHdvdWxkIG5lZWQgdG8KcmVjdXJzaXZl
+bHkgY2hvd24gYWxsIHRoZSBmaWxlcyBvbiB0aGUgTkZTIHNoYXJlcy4gVGhpcyBjb3VsZCB0YWtl
+CnRpbWUgb24gbGFyZ2UgZmlsZXN5c3RlbXMgYW5kIHJlYWxpc3RpY2FsbHksIHdlIHdhbnQgdG8g
+c3VwcG9ydApyb2xsaW5nIHVwZGF0ZXMgd2hlcmUgc29tZSBub2RlcyB1c2UgdGhlIHByZXZpb3Vz
+IHZlcnNpb24gd2l0aG91dCB1c2VyCm5hbWVzcGFjZXMgYW5kIG5ldyBub2RlcyBhcmUgcHJvZ3Jl
+c3NpdmVseSBtaWdyYXRlZCB0byB0aGUgbmV3IHVzZXJucwp3aXRoIHRoZSBuZXcgaWQgbWFwcGlu
+Zy4gSWYgYm90aCBzZXRzIG9mIG5vZGVzIHVzZSB0aGUgc2FtZSBORlMgc2hhcmUsCnRoYXQgY2Fu
+4oCZdCB3b3JrLgoKQWxiYW4KCgotLQpMaW51eC1hdWRpdCBtYWlsaW5nIGxpc3QKTGludXgtYXVk
+aXRAcmVkaGF0LmNvbQpodHRwczovL3d3dy5yZWRoYXQuY29tL21haWxtYW4vbGlzdGluZm8vbGlu
+dXgtYXVkaXQ=
 
