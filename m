@@ -1,59 +1,61 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [63.128.21.124])
-	by mail.lfdr.de (Postfix) with ESMTP id 9BFF12AC8E0
-	for <lists+linux-audit@lfdr.de>; Mon,  9 Nov 2020 23:54:01 +0100 (CET)
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+	by mail.lfdr.de (Postfix) with ESMTP id 701222AC8E5
+	for <lists+linux-audit@lfdr.de>; Mon,  9 Nov 2020 23:54:06 +0100 (CET)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-562-NYplCNaWONWXsdgtl4pnQw-1; Mon, 09 Nov 2020 17:53:58 -0500
-X-MC-Unique: NYplCNaWONWXsdgtl4pnQw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+ us-mta-333-2uZeyVnJP_yCiLyTi_rLRg-1; Mon, 09 Nov 2020 17:54:03 -0500
+X-MC-Unique: 2uZeyVnJP_yCiLyTi_rLRg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F03DE1007B1D;
-	Mon,  9 Nov 2020 22:53:53 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 48B561007B01;
+	Mon,  9 Nov 2020 22:53:58 +0000 (UTC)
 Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id D42E25B4CB;
-	Mon,  9 Nov 2020 22:53:53 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 2630D3C04;
+	Mon,  9 Nov 2020 22:53:58 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 8D7B3CF64;
-	Mon,  9 Nov 2020 22:53:52 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
-	[10.11.54.6])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id E7768922FE;
+	Mon,  9 Nov 2020 22:53:57 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+	[10.11.54.4])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 0A7M5cxr002268 for <linux-audit@listman.util.phx.redhat.com>;
-	Sat, 7 Nov 2020 17:05:38 -0500
+	id 0A9MlLhH030933 for <linux-audit@listman.util.phx.redhat.com>;
+	Mon, 9 Nov 2020 17:47:21 -0500
 Received: by smtp.corp.redhat.com (Postfix)
-	id 2E6172166B28; Sat,  7 Nov 2020 22:05:38 +0000 (UTC)
+	id 59104200E1F1; Mon,  9 Nov 2020 22:47:21 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
-	(mimecast05.extmail.prod.ext.rdu2.redhat.com [10.11.55.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 2914E2166B27
-	for <linux-audit@redhat.com>; Sat,  7 Nov 2020 22:05:35 +0000 (UTC)
+	(mimecast06.extmail.prod.ext.rdu2.redhat.com [10.11.55.22])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 5378A200E21A
+	for <linux-audit@redhat.com>; Mon,  9 Nov 2020 22:47:19 +0000 (UTC)
 Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
 	[207.211.31.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BA11F80088F
-	for <linux-audit@redhat.com>; Sat,  7 Nov 2020 22:05:35 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2C804185A790
+	for <linux-audit@redhat.com>; Mon,  9 Nov 2020 22:47:19 +0000 (UTC)
 Received: from youngberry.canonical.com (youngberry.canonical.com
 	[91.189.89.112]) (Using TLS) by relay.mimecast.com with ESMTP id
-	us-mta-591-PJymYPfePMmtECxaolzoQg-1; Sat, 07 Nov 2020 17:05:32 -0500
-X-MC-Unique: PJymYPfePMmtECxaolzoQg-1
+	us-mta-559-GPNTZruROeyxEBwwgkID3A-1; Mon, 09 Nov 2020 17:47:17 -0500
+X-MC-Unique: GPNTZruROeyxEBwwgkID3A-1
 Received: from static-50-53-41-238.bvtn.or.frontiernet.net ([50.53.41.238]
 	helo=[192.168.192.153]) by youngberry.canonical.com with esmtpsa
 	(TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
 	(envelope-from <john.johansen@canonical.com>)
-	id 1kbWKp-0001TM-Vm; Sat, 07 Nov 2020 22:05:24 +0000
+	id 1kcFwK-00088K-3K; Mon, 09 Nov 2020 22:47:08 +0000
 Subject: Re: [PATCH v22 12/23] LSM: Specify which LSM to display
-To: Greg KH <gregkh@linuxfoundation.org>,
-	Casey Schaufler <casey@schaufler-ca.com>
+To: Casey Schaufler <casey@schaufler-ca.com>,
+	Greg KH <gregkh@linuxfoundation.org>
 References: <20201104234114.11346-1-casey@schaufler-ca.com>
 	<20201104234114.11346-13-casey@schaufler-ca.com>
 	<20201105092245.GB3439341@kroah.com>
 	<31027d8e-50bc-70be-b4f2-a96a84de2bae@schaufler-ca.com>
 	<20201107091529.GA23328@kroah.com>
+	<04b4adf9-9313-7f5a-e7fe-6132e0c5fc4f@canonical.com>
+	<496cad0c-9bca-24e9-6024-76a8b73754ed@schaufler-ca.com>
 From: John Johansen <john.johansen@canonical.com>
 Autocrypt: addr=john.johansen@canonical.com; prefer-encrypt=mutual; keydata=
 	LS0tLS1CRUdJTiBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tCgptUUlOQkU1bXJQb0JFQURB
@@ -130,12 +132,12 @@ Autocrypt: addr=john.johansen@canonical.com; prefer-encrypt=mutual; keydata=
 	MDNwYVBDakpoN1hxOXZBenlkTjVVL1VBPT0KPTZQL2IKLS0tLS1FTkQgUEdQIFBVQkxJQyBL
 	RVkgQkxPQ0stLS0tLQo=
 Organization: Canonical
-Message-ID: <04b4adf9-9313-7f5a-e7fe-6132e0c5fc4f@canonical.com>
-Date: Sat, 7 Nov 2020 14:05:20 -0800
+Message-ID: <5402979d-dd61-e294-a3d5-6d3bb63d3bcf@canonical.com>
+Date: Mon, 9 Nov 2020 14:47:04 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
 	Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201107091529.GA23328@kroah.com>
+In-Reply-To: <496cad0c-9bca-24e9-6024-76a8b73754ed@schaufler-ca.com>
 X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
 	Definition; Similar Internal Domain=false;
 	Similar Monitored External Domain=false;
@@ -144,7 +146,7 @@ X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
 	Custom Display Name List=false; Reply-to Address Mismatch=false;
 	Targeted Threat Dictionary=false;
 	Mimecast Threat Dictionary=false; Custom Threat Dictionary=false
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
 X-loop: linux-audit@redhat.com
 X-Mailman-Approved-At: Mon, 09 Nov 2020 17:53:46 -0500
 Cc: selinux@vger.kernel.org, linux-api@vger.kernel.org, jmorris@namei.org,
@@ -164,7 +166,7 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
 	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=linux-audit-bounces@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -173,76 +175,92 @@ Content-Language: en-US
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-On 11/7/20 1:15 AM, Greg KH wrote:
-> On Fri, Nov 06, 2020 at 04:20:43PM -0800, Casey Schaufler wrote:
->> On 11/5/2020 1:22 AM, Greg KH wrote:
->>> On Wed, Nov 04, 2020 at 03:41:03PM -0800, Casey Schaufler wrote:
->>>> Create a new entry "display" in the procfs attr directory for
->>>> controlling which LSM security information is displayed for a
->>>> process. A process can only read or write its own display value.
->>>>
->>>> The name of an active LSM that supplies hooks for
->>>> human readable data may be written to "display" to set the
->>>> value. The name of the LSM currently in use can be read from
->>>> "display". At this point there can only be one LSM capable
->>>> of display active. A helper function lsm_task_display() is
->>>> provided to get the display slot for a task_struct.
->>>>
->>>> Setting the "display" requires that all security modules using
->>>> setprocattr hooks allow the action. Each security module is
->>>> responsible for defining its policy.
->>>>
->>>> AppArmor hook provided by John Johansen <john.johansen@canonical.com>
->>>> SELinux hook provided by Stephen Smalley <sds@tycho.nsa.gov>
->>>>
->>>> Reviewed-by: Kees Cook <keescook@chromium.org>
->>>> Acked-by: Stephen Smalley <sds@tycho.nsa.gov>
->>>> Acked-by: Paul Moore <paul@paul-moore.com>
->>>> Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
->>>> Cc: linux-api@vger.kernel.org
->>>> ---
->>>>  fs/proc/base.c                       |   1 +
->>>>  include/linux/lsm_hooks.h            |  17 +++
->>>>  security/apparmor/include/apparmor.h |   3 +-
->>>>  security/apparmor/lsm.c              |  32 +++++
->>>>  security/security.c                  | 169 ++++++++++++++++++++++++---
->>>>  security/selinux/hooks.c             |  11 ++
->>>>  security/selinux/include/classmap.h  |   2 +-
->>>>  security/smack/smack_lsm.c           |   7 ++
->>>>  8 files changed, 223 insertions(+), 19 deletions(-)
->>>>
->>>> diff --git a/fs/proc/base.c b/fs/proc/base.c
->>>> index 0f707003dda5..7432f24f0132 100644
->>>> --- a/fs/proc/base.c
->>>> +++ b/fs/proc/base.c
->>>> @@ -2806,6 +2806,7 @@ static const struct pid_entry attr_dir_stuff[] = {
->>>>  	ATTR(NULL, "fscreate",		0666),
->>>>  	ATTR(NULL, "keycreate",		0666),
->>>>  	ATTR(NULL, "sockcreate",	0666),
->>>> +	ATTR(NULL, "display",		0666),
->>> That's a vague name, any chance it can be more descriptive?
+On 11/9/20 2:28 PM, Casey Schaufler wrote:
+> On 11/7/2020 2:05 PM, John Johansen wrote:
+>> On 11/7/20 1:15 AM, Greg KH wrote:
+>>> On Fri, Nov 06, 2020 at 04:20:43PM -0800, Casey Schaufler wrote:
+>>>> On 11/5/2020 1:22 AM, Greg KH wrote:
+>>>>> On Wed, Nov 04, 2020 at 03:41:03PM -0800, Casey Schaufler wrote:
+>>>>>> Create a new entry "display" in the procfs attr directory for
+>>>>>> controlling which LSM security information is displayed for a
+>>>>>> process. A process can only read or write its own display value.
+>>>>>>
+>>>>>> The name of an active LSM that supplies hooks for
+>>>>>> human readable data may be written to "display" to set the
+>>>>>> value. The name of the LSM currently in use can be read from
+>>>>>> "display". At this point there can only be one LSM capable
+>>>>>> of display active. A helper function lsm_task_display() is
+>>>>>> provided to get the display slot for a task_struct.
+>>>>>>
+>>>>>> Setting the "display" requires that all security modules using
+>>>>>> setprocattr hooks allow the action. Each security module is
+>>>>>> responsible for defining its policy.
+>>>>>>
+>>>>>> AppArmor hook provided by John Johansen <john.johansen@canonical.com>
+>>>>>> SELinux hook provided by Stephen Smalley <sds@tycho.nsa.gov>
+>>>>>>
+>>>>>> Reviewed-by: Kees Cook <keescook@chromium.org>
+>>>>>> Acked-by: Stephen Smalley <sds@tycho.nsa.gov>
+>>>>>> Acked-by: Paul Moore <paul@paul-moore.com>
+>>>>>> Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
+>>>>>> Cc: linux-api@vger.kernel.org
+>>>>>> ---
+>>>>>>  fs/proc/base.c                       |   1 +
+>>>>>>  include/linux/lsm_hooks.h            |  17 +++
+>>>>>>  security/apparmor/include/apparmor.h |   3 +-
+>>>>>>  security/apparmor/lsm.c              |  32 +++++
+>>>>>>  security/security.c                  | 169 ++++++++++++++++++++++++---
+>>>>>>  security/selinux/hooks.c             |  11 ++
+>>>>>>  security/selinux/include/classmap.h  |   2 +-
+>>>>>>  security/smack/smack_lsm.c           |   7 ++
+>>>>>>  8 files changed, 223 insertions(+), 19 deletions(-)
+>>>>>>
+>>>>>> diff --git a/fs/proc/base.c b/fs/proc/base.c
+>>>>>> index 0f707003dda5..7432f24f0132 100644
+>>>>>> --- a/fs/proc/base.c
+>>>>>> +++ b/fs/proc/base.c
+>>>>>> @@ -2806,6 +2806,7 @@ static const struct pid_entry attr_dir_stuff[] = {
+>>>>>>  	ATTR(NULL, "fscreate",		0666),
+>>>>>>  	ATTR(NULL, "keycreate",		0666),
+>>>>>>  	ATTR(NULL, "sockcreate",	0666),
+>>>>>> +	ATTR(NULL, "display",		0666),
+>>>>> That's a vague name, any chance it can be more descriptive?
+>>>> Sure. How about lsm_display, or display_lsm? I wouldn't say that
+>>>> any of the files in /proc/*/attr have especially descriptive names,
+>>>> but that's hardly an excuse.
+>>> I still don't understand what "display" means in this context.  Perhaps
+>> its the LSM thats context is being displayed on the shared interface,
+>> ie. /proc/*/attr/*
 >>
->> Sure. How about lsm_display, or display_lsm? I wouldn't say that
->> any of the files in /proc/*/attr have especially descriptive names,
->> but that's hardly an excuse.
+>> thinking about it more owner or even interface_owner might be a better
+>> name
 > 
-> I still don't understand what "display" means in this context.  Perhaps
-
-its the LSM thats context is being displayed on the shared interface,
-ie. /proc/*/attr/*
-
-thinking about it more owner or even interface_owner might be a better
-name
-
-
-> documentation will help clear it up?
+> I was hoping for a single word, but I see how something more descriptive
+> might be in order. How about "lsm_of_current"? Or "lsm_of_dot_slash_current",
+> if you want to be pedantic. "format_of_current" isn't quite accurate, but
+> might be easier for some people to understand. Maybe "interface_owning_lsm".
+> 
+> /proc/*/attr/display answers the question "Which LSM is providing the data
+> I see if I look in /proc/*/attr/current, prev or exec or if that process uses
+> SO_PEERSEC".
 > 
 
-yeah this needs documented.
+lsm_of_current or interface_lsm or interface_owning_lsm all wfm
 
-> thanks,
 > 
-> greg k-h
+>>> documentation will help clear it up?
+>>>
+>> yeah this needs documented.
+> 
+> Agreed. I've noticed that nothing in /proc/*/attr seems documented
+> in an orderly (documentation/ABI) fashion. I will have to fix some of
+> that for a description of /proc/*/attr/whatever_it_ends_up_getting_called
+> to make sense. Working on it.
+> 
+>>> thanks,
+>>>
+>>> greg k-h
+>>>
 > 
 
 --
