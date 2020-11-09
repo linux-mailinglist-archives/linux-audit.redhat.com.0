@@ -2,63 +2,52 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [63.128.21.124])
-	by mail.lfdr.de (Postfix) with ESMTP id 7C71C2AAB30
-	for <lists+linux-audit@lfdr.de>; Sun,  8 Nov 2020 14:39:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 470762AB92E
+	for <lists+linux-audit@lfdr.de>; Mon,  9 Nov 2020 14:07:44 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1604927263;
+	h=from:from:sender:sender:reply-to:subject:subject:date:date:
+	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+	 content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:list-id:list-help:
+	 list-unsubscribe:list-subscribe:list-post;
+	bh=D7e/PBFHboJbfhy2WKV080Mv/G/FyzUapKG+3GfVnKQ=;
+	b=b9qXJw7Pxyo9LKBlv+0n8ct+LTaf2U5d4Ls5NuE6+vrsf5pwVMY6kFXjRRVaqYTCsZjBkE
+	rJazgi6vLte5qDYJTvnYrOgJlqboRRo8mrlRTUpuV5v4BbXb5Cq3/W50xMmelRlWk1EExE
+	g+u+YhtN2Xq97l8SD6kAbISmiYdlmKc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-98-hDpqnuwzMWq3eEoTWBtLog-1; Sun, 08 Nov 2020 08:39:00 -0500
-X-MC-Unique: hDpqnuwzMWq3eEoTWBtLog-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+ us-mta-352-2OgS5Fg4Ph6zLtVB24XtcA-1; Mon, 09 Nov 2020 08:07:41 -0500
+X-MC-Unique: 2OgS5Fg4Ph6zLtVB24XtcA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1FB221868402;
-	Sun,  8 Nov 2020 13:38:55 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 8F3FD5C1D7;
-	Sun,  8 Nov 2020 13:38:51 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5ED131009E20;
+	Mon,  9 Nov 2020 13:07:34 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 1092A5D9DD;
+	Mon,  9 Nov 2020 13:07:32 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id BF71BCF54;
-	Sun,  8 Nov 2020 13:38:43 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
-	[10.11.54.3])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 6B5BB18408A1;
+	Mon,  9 Nov 2020 13:07:27 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+	[10.5.11.15])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 0A8DcWsX003855 for <linux-audit@listman.util.phx.redhat.com>;
-	Sun, 8 Nov 2020 08:38:32 -0500
+	id 0A9D7Hjh022650 for <linux-audit@listman.util.phx.redhat.com>;
+	Mon, 9 Nov 2020 08:07:17 -0500
 Received: by smtp.corp.redhat.com (Postfix)
-	id 3FB8B111145B; Sun,  8 Nov 2020 13:38:32 +0000 (UTC)
+	id E0DE975135; Mon,  9 Nov 2020 13:07:17 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from mimecast-mx02.redhat.com
-	(mimecast06.extmail.prod.ext.rdu2.redhat.com [10.11.55.22])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 3819A1111459
-	for <linux-audit@redhat.com>; Sun,  8 Nov 2020 13:38:29 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [205.139.110.61])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BD223185A78B
-	for <linux-audit@redhat.com>; Sun,  8 Nov 2020 13:38:29 +0000 (UTC)
-Received: from mail-ed1-f68.google.com (mail-ed1-f68.google.com
-	[209.85.208.68]) (Using TLS) by relay.mimecast.com with ESMTP id
-	us-mta-258-g8xVd-eTML-hkmQRFFdL7Q-1; Sun, 08 Nov 2020 08:38:27 -0500
-X-MC-Unique: g8xVd-eTML-hkmQRFFdL7Q-1
-Received: by mail-ed1-f68.google.com with SMTP id cq7so5722636edb.4
-	for <linux-audit@redhat.com>; Sun, 08 Nov 2020 05:38:26 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=eLUI6qJ482h6JkZaFKAhMOIBZuaLNxF5GQhUQ3mLfOY=;
-	b=NubSWYFsx7QemMT3Syu3z0wWc6UrLgNgl/cVYlU6z3gbkaJgJOTla+pif7aS6zHIqj
-	TdArkZ676AB/xMaWN7ieVxR/np/0PYB2GDUzUBBGe2DRWkIbO2U5fFHOX1A7X3L2p4OC
-	7L2N3/Mur0pRYgRJCwDeTzRTyfVL9YkbigDwVFFyrBhFjy8rRqR5DTr6d8w8oykiy49K
-	1B6eND6iW8V0EEjWwFj+RImKvhDR4Km2jqK8Pg72jKLIp7c2NFV8cmfoGwsaMEBioAnZ
-	eVd2Ts6aZqRMd9+mQA5WDYT6Yi/tp4i5VMDf34UQ36xTSMnfiCfmJaHMRthDCi/I4JJw
-	oX9w==
-X-Gm-Message-State: AOAM531Bay4BscPuXySOIlERXzOHh1gXy9pUW7JFPx2VtCK4tWxr/ArF
-	GsHTX5pbu3HJj+2TuKuxXmzuDC2dqWVUO+b7E9OF
-X-Google-Smtp-Source: ABdhPJz46oWmitktxiF4SHErW8/d09tnVwapebMvBMPn23my/f2ERqMvFidV0UtPtEphV9OP/tiyi7KYHcsyuT0R/7E=
-X-Received: by 2002:aa7:de01:: with SMTP id h1mr10780950edv.269.1604842705755; 
-	Sun, 08 Nov 2020 05:38:25 -0800 (PST)
-MIME-Version: 1.0
+Received: from madcap2.tricolour.ca (unknown [10.10.110.8])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 50EE27513B;
+	Mon,  9 Nov 2020 13:07:10 +0000 (UTC)
+Date: Mon, 9 Nov 2020 08:07:07 -0500
+From: Richard Guy Briggs <rgb@redhat.com>
+To: Casey Schaufler <casey@schaufler-ca.com>
+Subject: Re: [RFC PATCH] audit-testsuite: tests for subject and object
+	correctness
+Message-ID: <20201109130707.GQ55072@madcap2.tricolour.ca>
 References: <e4bf30e2-a92f-99b7-30d0-3e3473e30399.ref@schaufler-ca.com>
 	<e4bf30e2-a92f-99b7-30d0-3e3473e30399@schaufler-ca.com>
 	<20201102220834.GD55072@madcap2.tricolour.ca>
@@ -66,25 +55,12 @@ References: <e4bf30e2-a92f-99b7-30d0-3e3473e30399.ref@schaufler-ca.com>
 	<20201103011925.GF55072@madcap2.tricolour.ca>
 	<CAHC9VhS9vyNj_ygkWFQssFb3FDoQ3C1dekiFEFXMgTCOL1bqLg@mail.gmail.com>
 	<89a4f320-394e-c9b6-39d9-11f76b22f297@schaufler-ca.com>
+MIME-Version: 1.0
 In-Reply-To: <89a4f320-394e-c9b6-39d9-11f76b22f297@schaufler-ca.com>
-From: Paul Moore <paul@paul-moore.com>
-Date: Sun, 8 Nov 2020 08:38:14 -0500
-Message-ID: <CAHC9VhT7+m4D_mfHVxFHrrjwqVyCDPEbCHJAJ-tuJOjC2qPu6A@mail.gmail.com>
-Subject: Re: [RFC PATCH] audit-testsuite: tests for subject and object
-	correctness
-To: Casey Schaufler <casey@schaufler-ca.com>
-X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
-	Definition; Similar Internal Domain=false;
-	Similar Monitored External Domain=false;
-	Custom External Domain=false; Mimecast External Domain=false;
-	Newly Observed Domain=false; Internal User Name=false;
-	Custom Display Name List=false; Reply-to Address Mismatch=false;
-	Targeted Threat Dictionary=false;
-	Mimecast Threat Dictionary=false; Custom Threat Dictionary=false
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-loop: linux-audit@redhat.com
-Cc: Richard Guy Briggs <rgb@redhat.com>,
-	"linux-audit@redhat.com" <linux-audit@redhat.com>
+Cc: "linux-audit@redhat.com" <linux-audit@redhat.com>
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -98,25 +74,70 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
 	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=linux-audit-bounces@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Disposition: inline
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-On Fri, Nov 6, 2020 at 7:52 PM Casey Schaufler <casey@schaufler-ca.com> wrote:
+On 2020-11-06 16:51, Casey Schaufler wrote:
+> On 11/2/2020 7:31 PM, Paul Moore wrote:
+> > On Mon, Nov 2, 2020 at 8:19 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> >> On 2020-11-02 14:51, Casey Schaufler wrote:
+> >>> On 11/2/2020 2:08 PM, Richard Guy Briggs wrote:
+> >>>> On 2020-11-02 13:54, Casey Schaufler wrote:
+> >>>>> Verify that there are subj= and obj= fields in a record
+> >>>>> if and only if they are expected. A system without a security
+> >>>>> module that provides these fields should not include them.
+> >>>>> A system with multiple security modules providing these fields
+> >>>>> (e.g. SELinux and AppArmor) should always provide "?" for the
+> >>>>> data and also include a AUDIT_MAC_TASK_CONTEXTS or
+> >>>>> AUDIT_MAC_OBJ_CONTEXTS record. The test uses the LSM list from
+> >>>>> /sys/kernel/security/lsm to determine which format is expected.
+> >>>>>
+> >>>>> Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
+> >>>>> ---
+> >>>>>  tests/Makefile                   |   1 +
+> >>>>>  tests/multiple_contexts/Makefile |  12 +++
+> >>>>>  tests/multiple_contexts/test     | 166 +++++++++++++++++++++++++++++++
+> >>>>>  3 files changed, 179 insertions(+)
+> >>>>>  create mode 100644 tests/multiple_contexts/Makefile
+> >>>>>  create mode 100755 tests/multiple_contexts/test
+> >>>>>
+> >>>>> diff --git a/tests/Makefile b/tests/Makefile
+> >>>>> index a7f242a..f20f6b1 100644
+> >>>>> --- a/tests/Makefile
+> >>>>> +++ b/tests/Makefile
+> >>>>> @@ -18,6 +18,7 @@ TESTS := \
+> >>>>>    file_create \
+> >>>>>    file_delete \
+> >>>>>    file_rename \
+> >>>>> +  multiple_contexts \
+> >>>> "context" is a bit ambiguous.  Could this be named something to indicate
+> >>>> a security context rather than any other sort, such as audit or user
+> >>>> context?
+> >>> Would "subj_obj_fields" be better?
+> >> That is much more obvious to me.  Maybe even sec_context_multi, but I
+> >> like your suggestion better?
+> > How about just "multiple_lsms"?  It's relatively concise and better
+> > reflects what it is actually being tested IMHO.
+> 
 > I'm perfectly happy to call it whatever you'd prefer.
 > Anything substantive about the test itself?
 
-Nothing jumped out at me.  It's also worth mentioning that the
-acceptance bar for the audit-testsuite is much lower than the kernel
-for all the usual reasons.
+The test looked reasonable to me...
 
--- 
-paul moore
-www.paul-moore.com
+- RGB
+
+--
+Richard Guy Briggs <rgb@redhat.com>
+Sr. S/W Engineer, Kernel Security, Base Operating Systems
+Remote, Ottawa, Red Hat Canada
+IRC: rgb, SunRaycer
+Voice: +1.647.777.2635, Internal: (81) 32635
 
 --
 Linux-audit mailing list
