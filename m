@@ -2,61 +2,99 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [63.128.21.124])
-	by mail.lfdr.de (Postfix) with ESMTP id F1ADA2AE6C5
-	for <lists+linux-audit@lfdr.de>; Wed, 11 Nov 2020 04:04:28 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1605063867;
-	h=from:from:sender:sender:reply-to:subject:subject:date:date:
-	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-	 content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:list-id:list-help:
-	 list-unsubscribe:list-subscribe:list-post;
-	bh=xs2diXjFMyisUJu6F4j8aXTRuDDMi65LU59QZ9rEgJY=;
-	b=L/Eal+E+YSocjyJDPNzJZeBDXc6lSac8FBiJJB9ZN+IZLL+X6rnHSb9Ccr2JF6gOinceA6
-	DGaCzD2Jejby9ALsGLiygKOPJtLx2i7Lozec6rMRJcDMh69isJSgemEAEvK8O0/BUGwqbX
-	UmRMrm6O0sodftSo0ExNhpuJDX2U3Wg=
+	by mail.lfdr.de (Postfix) with ESMTP id 0499E2AF02F
+	for <lists+linux-audit@lfdr.de>; Wed, 11 Nov 2020 12:59:19 +0100 (CET)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-528-8sHyZ6xNO--IeHEo8DPhkw-1; Tue, 10 Nov 2020 22:04:25 -0500
-X-MC-Unique: 8sHyZ6xNO--IeHEo8DPhkw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+ us-mta-254-ZE1QGYQuOvilNWmlsdtqsw-1; Wed, 11 Nov 2020 06:59:17 -0500
+X-MC-Unique: ZE1QGYQuOvilNWmlsdtqsw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E893D1074655;
-	Wed, 11 Nov 2020 03:04:20 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id E528C413C;
-	Wed, 11 Nov 2020 03:04:19 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D4085835B49;
+	Wed, 11 Nov 2020 11:59:12 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id A4C7A27BB5;
+	Wed, 11 Nov 2020 11:59:12 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id EE1C344A7B;
-	Wed, 11 Nov 2020 03:04:18 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
-	[10.5.11.22])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 61532181A050;
+	Wed, 11 Nov 2020 11:59:12 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+	[10.11.54.5])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 0AB34DZv017741 for <linux-audit@listman.util.phx.redhat.com>;
-	Tue, 10 Nov 2020 22:04:13 -0500
+	id 0AADgomw019523 for <linux-audit@listman.util.phx.redhat.com>;
+	Tue, 10 Nov 2020 08:42:50 -0500
 Received: by smtp.corp.redhat.com (Postfix)
-	id C7027100238E; Wed, 11 Nov 2020 03:04:13 +0000 (UTC)
+	id E99812EFA3; Tue, 10 Nov 2020 13:42:49 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from madcap2.tricolour.ca (unknown [10.10.110.8])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id B82561002C09;
-	Wed, 11 Nov 2020 03:04:01 +0000 (UTC)
-Date: Tue, 10 Nov 2020 22:03:59 -0500
-From: Richard Guy Briggs <rgb@redhat.com>
-To: Paul Moore <paul@paul-moore.com>
-Subject: Re: [PATCH] audit: remove unused macros
-Message-ID: <20201111030359.GB55072@madcap2.tricolour.ca>
-References: <1604651482-9780-1-git-send-email-alex.shi@linux.alibaba.com>
-	<20201110152310.GB55411@madcap2.tricolour.ca>
-	<CAHC9VhQiQoZh8in+zoYa5hbTN_yL-=mt7nTQFN9GAyQZ+tz-Ww@mail.gmail.com>
+Received: from mimecast-mx02.redhat.com
+	(mimecast01.extmail.prod.ext.rdu2.redhat.com [10.11.55.17])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id E354D2EFB0
+	for <linux-audit@redhat.com>; Tue, 10 Nov 2020 13:42:46 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+	[205.139.110.120])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B01F6858290
+	for <linux-audit@redhat.com>; Tue, 10 Nov 2020 13:42:46 +0000 (UTC)
+Received: from mail.us.es (correo.us.es [193.147.175.20]) (Using TLS) by
+	relay.mimecast.com with ESMTP id us-mta-212-53Fzo6KfMva792cH4uDuUg-1;
+	Tue, 10 Nov 2020 08:42:44 -0500
+X-MC-Unique: 53Fzo6KfMva792cH4uDuUg-1
+Received: from antivirus1-rhel7.int (unknown [192.168.2.11])
+	by mail.us.es (Postfix) with ESMTP id 735BF396276
+	for <linux-audit@redhat.com>; Tue, 10 Nov 2020 14:37:18 +0100 (CET)
+Received: from antivirus1-rhel7.int (localhost [127.0.0.1])
+	by antivirus1-rhel7.int (Postfix) with ESMTP id 61CF0DA722
+	for <linux-audit@redhat.com>; Tue, 10 Nov 2020 14:37:18 +0100 (CET)
+Received: by antivirus1-rhel7.int (Postfix, from userid 99)
+	id 4A746DA852; Tue, 10 Nov 2020 14:37:18 +0100 (CET)
+X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on antivirus1-rhel7.int
+X-Spam-Level: 
+X-Spam-Status: No, score=-108.2 required=7.5 tests=ALL_TRUSTED,BAYES_50,
+	SMTPAUTH_US2,URIBL_BLOCKED,USER_IN_WELCOMELIST,USER_IN_WHITELIST
+	autolearn=disabled version=3.4.1
+Received: from antivirus1-rhel7.int (localhost [127.0.0.1])
+	by antivirus1-rhel7.int (Postfix) with ESMTP id ADF1ADA789;
+	Tue, 10 Nov 2020 14:37:15 +0100 (CET)
+Received: from 192.168.1.97 (192.168.1.97)
+	by antivirus1-rhel7.int (F-Secure/fsigk_smtp/550/antivirus1-rhel7.int); 
+	Tue, 10 Nov 2020 14:37:15 +0100 (CET)
+X-Virus-Status: clean(F-Secure/fsigk_smtp/550/antivirus1-rhel7.int)
+Received: from us.es (unknown [90.77.255.23])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested) (Authenticated sender: 1984lsi)
+	by entrada.int (Postfix) with ESMTPSA id 7CCF642EF9E0;
+	Tue, 10 Nov 2020 14:37:15 +0100 (CET)
+Date: Tue, 10 Nov 2020 14:37:15 +0100
+X-SMTPAUTHUS: auth mail.us.es
+From: Pablo Neira Ayuso <pablo@netfilter.org>
+To: Casey Schaufler <casey@schaufler-ca.com>
+Subject: Re: [PATCH v22 16/23] LSM: security_secid_to_secctx in netlink
+	netfilter
+Message-ID: <20201110133715.GA1890@salvia>
+References: <20201105004924.11651-1-casey@schaufler-ca.com>
+	<20201105004924.11651-17-casey@schaufler-ca.com>
 MIME-Version: 1.0
-In-Reply-To: <CAHC9VhQiQoZh8in+zoYa5hbTN_yL-=mt7nTQFN9GAyQZ+tz-Ww@mail.gmail.com>
+In-Reply-To: <20201105004924.11651-17-casey@schaufler-ca.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Virus-Scanned: ClamAV using ClamSMTP
+X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
+	Definition; Similar Internal Domain=false;
+	Similar Monitored External Domain=false;
+	Custom External Domain=false; Mimecast External Domain=false;
+	Newly Observed Domain=false; Internal User Name=false;
+	Custom Display Name List=false; Reply-to Address Mismatch=false;
+	Targeted Threat Dictionary=false;
+	Mimecast Threat Dictionary=false; Custom Threat Dictionary=false
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
 X-loop: linux-audit@redhat.com
-Cc: Alex Shi <alex.shi@linux.alibaba.com>, linux-kernel@vger.kernel.org,
-	linux-audit@redhat.com
+X-Mailman-Approved-At: Wed, 11 Nov 2020 06:57:51 -0500
+Cc: john.johansen@canonical.com, selinux@vger.kernel.org,
+	netdev@vger.kernel.org, jmorris@namei.org, linux-kernel@vger.kernel.org,
+	linux-security-module@vger.kernel.org, linux-audit@redhat.com,
+	netfilter-devel@vger.kernel.org, casey.schaufler@intel.com,
+	sds@tycho.nsa.gov
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -70,7 +108,7 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
 	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=linux-audit-bounces@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -79,112 +117,134 @@ Content-Disposition: inline
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-On 2020-11-10 21:47, Paul Moore wrote:
-> On Tue, Nov 10, 2020 at 10:23 AM Richard Guy Briggs <rgb@redhat.com> wrote:
-> > On 2020-11-06 16:31, Alex Shi wrote:
-> > > Some unused macros could cause gcc warning:
-> > > kernel/audit.c:68:0: warning: macro "AUDIT_UNINITIALIZED" is not used
-> > > [-Wunused-macros]
-> > > kernel/auditsc.c:104:0: warning: macro "AUDIT_AUX_IPCPERM" is not used
-> > > [-Wunused-macros]
-> > > kernel/auditsc.c:82:0: warning: macro "AUDITSC_INVALID" is not used
-> > > [-Wunused-macros]
-> > >
-> > > remove them to tame gcc.
-> > >
-> > > Signed-off-by: Alex Shi <alex.shi@linux.alibaba.com>
-> > > Cc: Paul Moore <paul@paul-moore.com>
-> > > Cc: Eric Paris <eparis@redhat.com>
-> > > Cc: linux-audit@redhat.com
-> > > Cc: linux-kernel@vger.kernel.org
-> > > ---
-> > >  kernel/audit.c   | 1 -
-> > >  kernel/auditsc.c | 3 ---
-> > >  2 files changed, 4 deletions(-)
-> > >
-> > > diff --git a/kernel/audit.c b/kernel/audit.c
-> > > index ac0aeaa99937..dfac1e0ca887 100644
-> > > --- a/kernel/audit.c
-> > > +++ b/kernel/audit.c
-> > > @@ -65,7 +65,6 @@
-> > >  /* No auditing will take place until audit_initialized == AUDIT_INITIALIZED.
-> > >   * (Initialization happens after skb_init is called.) */
-> > >  #define AUDIT_DISABLED               -1
-> > > -#define AUDIT_UNINITIALIZED  0
-> > >  #define AUDIT_INITIALIZED    1
-> > >  static int   audit_initialized;
-> >
-> > This one is part of a set, so it feels like it should stay, but the code
-> > is structured in such a way that it is not necessary.
-> 
-> Yes, I'd like for us to find a way to keep this if possible.  Let's
-> simply initialize "audit_initialized" to AUDIT_UNINITIALIZED in this
-> file.  At some point someone will surely complain about not needing to
-> initialize to zero, but we can deal with that later.
+Hi Casey,
 
-We could change them to an enum of 1,2,3.  ;-)
+On Wed, Nov 04, 2020 at 04:49:17PM -0800, Casey Schaufler wrote:
+> Change netlink netfilter interfaces to use lsmcontext
+> pointers, and remove scaffolding.
+> 
+> Reviewed-by: Kees Cook <keescook@chromium.org>
+> Reviewed-by: John Johansen <john.johansen@canonical.com>
+> Acked-by: Stephen Smalley <sds@tycho.nsa.gov>
+> Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
+> Cc: netdev@vger.kernel.org
+> Cc: netfilter-devel@vger.kernel.org
 
-> > > diff --git a/kernel/auditsc.c b/kernel/auditsc.c
-> > > index 183d79cc2e12..eeb4930d499f 100644
-> > > --- a/kernel/auditsc.c
-> > > +++ b/kernel/auditsc.c
-> > > @@ -80,7 +80,6 @@
-> > >  #include "audit.h"
-> > >
-> > >  /* flags stating the success for a syscall */
-> > > -#define AUDITSC_INVALID 0
-> > >  #define AUDITSC_SUCCESS 1
-> > >  #define AUDITSC_FAILURE 2
-> >
-> > Same here, but this one should really be fixed by using
-> > AUDITSC_INVALID as the value assigned to context->return_valid in
-> > __audit_free() to avoid using magic numbers.
-> 
-> Agreed.
-> 
-> We could probably explicitly set it in audit_alloc_context() as well
-> if we wanted to be complete.
+You can carry this tag in your follow up patches.
 
-Agreed.
+Acked-by: Pablo Neira Ayuso <pablo@netfilter.org>
 
-> > Similarly, the compared
-> > values in audit_filter_rules() under the AUDIT_EXIT and AUDIT_SUCCESS
-> > cases should be "ctx->return_valid != AUDITSC_INVALID" rather than just
-> > "ctx->return_valid".  Same in audit_log_exit().
-> 
-> Agreed.
-> 
-> > > @@ -102,8 +101,6 @@ struct audit_aux_data {
-> > >       int                     type;
-> > >  };
-> > >
-> > > -#define AUDIT_AUX_IPCPERM    0
-> > > -
-> >
-> > Hmmm, this one looks like it was orphaned 15 years ago a couple of
-> > months after it was introduced due to this commit:
-> > c04049939f88 Steve Grubb <sgrubb@redhat.com> 2005-05-13
-> >     ("AUDIT: Add message types to audit records")
-> >
-> > Introduced here:
-> > 8e633c3fb2a2 David Woodhouse <dwmw2@shinybook.infradead.org> 2005-03-01
-> >     ("Audit IPC object owner/permission changes.")
-> >
-> > I agree, remove it.
-> 
-> No arguments from me.
-> 
-> --
-> paul moore
+Thanks.
 
-- RGB
-
---
-Richard Guy Briggs <rgb@redhat.com>
-Sr. S/W Engineer, Kernel Security, Base Operating Systems
-Remote, Ottawa, Red Hat Canada
-IRC: rgb, SunRaycer
-Voice: +1.647.777.2635, Internal: (81) 32635
+> ---
+>  net/netfilter/nfnetlink_queue.c | 37 +++++++++++++--------------------
+>  1 file changed, 14 insertions(+), 23 deletions(-)
+> 
+> diff --git a/net/netfilter/nfnetlink_queue.c b/net/netfilter/nfnetlink_queue.c
+> index 84be5a49a157..0d8b83d84422 100644
+> --- a/net/netfilter/nfnetlink_queue.c
+> +++ b/net/netfilter/nfnetlink_queue.c
+> @@ -301,15 +301,13 @@ static int nfqnl_put_sk_uidgid(struct sk_buff *skb, struct sock *sk)
+>  	return -1;
+>  }
+>  
+> -static u32 nfqnl_get_sk_secctx(struct sk_buff *skb, char **secdata)
+> +static void nfqnl_get_sk_secctx(struct sk_buff *skb, struct lsmcontext *context)
+>  {
+> -	u32 seclen = 0;
+>  #if IS_ENABLED(CONFIG_NETWORK_SECMARK)
+>  	struct lsmblob blob;
+> -	struct lsmcontext context = { };
+>  
+>  	if (!skb || !sk_fullsock(skb->sk))
+> -		return 0;
+> +		return;
+>  
+>  	read_lock_bh(&skb->sk->sk_callback_lock);
+>  
+> @@ -318,14 +316,12 @@ static u32 nfqnl_get_sk_secctx(struct sk_buff *skb, char **secdata)
+>  		 * blob. security_secid_to_secctx() will know which security
+>  		 * module to use to create the secctx.  */
+>  		lsmblob_init(&blob, skb->secmark);
+> -		security_secid_to_secctx(&blob, &context);
+> -		*secdata = context.context;
+> +		security_secid_to_secctx(&blob, context);
+>  	}
+>  
+>  	read_unlock_bh(&skb->sk->sk_callback_lock);
+> -	seclen = context.len;
+>  #endif
+> -	return seclen;
+> +	return;
+>  }
+>  
+>  static u32 nfqnl_get_bridge_size(struct nf_queue_entry *entry)
+> @@ -398,12 +394,10 @@ nfqnl_build_packet_message(struct net *net, struct nfqnl_instance *queue,
+>  	struct net_device *indev;
+>  	struct net_device *outdev;
+>  	struct nf_conn *ct = NULL;
+> +	struct lsmcontext context = { };
+>  	enum ip_conntrack_info ctinfo;
+>  	struct nfnl_ct_hook *nfnl_ct;
+>  	bool csum_verify;
+> -	struct lsmcontext scaff; /* scaffolding */
+> -	char *secdata = NULL;
+> -	u32 seclen = 0;
+>  
+>  	size = nlmsg_total_size(sizeof(struct nfgenmsg))
+>  		+ nla_total_size(sizeof(struct nfqnl_msg_packet_hdr))
+> @@ -469,9 +463,9 @@ nfqnl_build_packet_message(struct net *net, struct nfqnl_instance *queue,
+>  	}
+>  
+>  	if ((queue->flags & NFQA_CFG_F_SECCTX) && entskb->sk) {
+> -		seclen = nfqnl_get_sk_secctx(entskb, &secdata);
+> -		if (seclen)
+> -			size += nla_total_size(seclen);
+> +		nfqnl_get_sk_secctx(entskb, &context);
+> +		if (context.len)
+> +			size += nla_total_size(context.len);
+>  	}
+>  
+>  	skb = alloc_skb(size, GFP_ATOMIC);
+> @@ -604,7 +598,8 @@ nfqnl_build_packet_message(struct net *net, struct nfqnl_instance *queue,
+>  	    nfqnl_put_sk_uidgid(skb, entskb->sk) < 0)
+>  		goto nla_put_failure;
+>  
+> -	if (seclen && nla_put(skb, NFQA_SECCTX, seclen, secdata))
+> +	if (context.len &&
+> +	    nla_put(skb, NFQA_SECCTX, context.len, context.context))
+>  		goto nla_put_failure;
+>  
+>  	if (ct && nfnl_ct->build(skb, ct, ctinfo, NFQA_CT, NFQA_CT_INFO) < 0)
+> @@ -632,10 +627,8 @@ nfqnl_build_packet_message(struct net *net, struct nfqnl_instance *queue,
+>  	}
+>  
+>  	nlh->nlmsg_len = skb->len;
+> -	if (seclen) {
+> -		lsmcontext_init(&scaff, secdata, seclen, 0);
+> -		security_release_secctx(&scaff);
+> -	}
+> +	if (context.len)
+> +		security_release_secctx(&context);
+>  	return skb;
+>  
+>  nla_put_failure:
+> @@ -643,10 +636,8 @@ nfqnl_build_packet_message(struct net *net, struct nfqnl_instance *queue,
+>  	kfree_skb(skb);
+>  	net_err_ratelimited("nf_queue: error creating packet message\n");
+>  nlmsg_failure:
+> -	if (seclen) {
+> -		lsmcontext_init(&scaff, secdata, seclen, 0);
+> -		security_release_secctx(&scaff);
+> -	}
+> +	if (context.len)
+> +		security_release_secctx(&context);
+>  	return NULL;
+>  }
+>  
+> -- 
+> 2.24.1
+> 
 
 --
 Linux-audit mailing list
