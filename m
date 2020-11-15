@@ -2,55 +2,57 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [63.128.21.124])
-	by mail.lfdr.de (Postfix) with ESMTP id D05502B3B6C
-	for <lists+linux-audit@lfdr.de>; Mon, 16 Nov 2020 03:16:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2EE152B3B46
+	for <lists+linux-audit@lfdr.de>; Mon, 16 Nov 2020 03:15:27 +0100 (CET)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-506-uMHERlwrOP25xuVg2XLZtg-1; Sun, 15 Nov 2020 21:15:26 -0500
-X-MC-Unique: uMHERlwrOP25xuVg2XLZtg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+ us-mta-30-HaNttZHVPpWDJwCG8ATG9w-1; Sun, 15 Nov 2020 21:15:24 -0500
+X-MC-Unique: HaNttZHVPpWDJwCG8ATG9w-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2A3FA80364B;
-	Mon, 16 Nov 2020 02:15:21 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id AC5FF1002C1B;
-	Mon, 16 Nov 2020 02:15:20 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7E95910866A6;
+	Mon, 16 Nov 2020 02:15:19 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 140A860C43;
+	Mon, 16 Nov 2020 02:15:19 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 5BDF15811D;
-	Mon, 16 Nov 2020 02:15:20 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
-	[10.11.54.4])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 9695C18005A2;
+	Mon, 16 Nov 2020 02:15:14 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+	[10.11.54.6])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 0AFAclWO025093 for <linux-audit@listman.util.phx.redhat.com>;
-	Sun, 15 Nov 2020 05:38:47 -0500
+	id 0AFAcdf1025074 for <linux-audit@listman.util.phx.redhat.com>;
+	Sun, 15 Nov 2020 05:38:39 -0500
 Received: by smtp.corp.redhat.com (Postfix)
-	id 276132028DCC; Sun, 15 Nov 2020 10:38:47 +0000 (UTC)
+	id 2FB7B2166BA0; Sun, 15 Nov 2020 10:38:39 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
-	(mimecast06.extmail.prod.ext.rdu2.redhat.com [10.11.55.22])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 22D29200E21B
-	for <linux-audit@redhat.com>; Sun, 15 Nov 2020 10:38:43 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [207.211.31.81])
+	(mimecast05.extmail.prod.ext.rdu2.redhat.com [10.11.55.21])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 2A9BB2166B44
+	for <linux-audit@redhat.com>; Sun, 15 Nov 2020 10:38:36 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+	[205.139.110.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 11631185A78B
-	for <linux-audit@redhat.com>; Sun, 15 Nov 2020 10:38:43 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D7F0E800883
+	for <linux-audit@redhat.com>; Sun, 15 Nov 2020 10:38:36 +0000 (UTC)
 Received: from youngberry.canonical.com (youngberry.canonical.com
 	[91.189.89.112]) (Using TLS) by relay.mimecast.com with ESMTP id
-	us-mta-57-DYV4jfUPN7qOghA8gNpXrg-1; Sun, 15 Nov 2020 05:38:38 -0500
-X-MC-Unique: DYV4jfUPN7qOghA8gNpXrg-1
+	us-mta-14-5jnMamf7O1mNJPu4gxF4XA-1; Sun, 15 Nov 2020 05:38:32 -0500
+X-MC-Unique: 5jnMamf7O1mNJPu4gxF4XA-1
 Received: from ip5f5af0a0.dynamic.kabel-deutschland.de ([95.90.240.160]
 	helo=wittgenstein.fritz.box) by youngberry.canonical.com with esmtpsa
 	(TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
 	(envelope-from <christian.brauner@ubuntu.com>)
-	id 1keFQH-0000Kt-2k; Sun, 15 Nov 2020 10:38:17 +0000
+	id 1keFQK-0000Kt-H5; Sun, 15 Nov 2020 10:38:20 +0000
 From: Christian Brauner <christian.brauner@ubuntu.com>
 To: Alexander Viro <viro@zeniv.linux.org.uk>,
 	Christoph Hellwig <hch@infradead.org>, linux-fsdevel@vger.kernel.org
-Subject: [PATCH v2 02/39] mount: make {lock,unlock}_mount_hash() static
-Date: Sun, 15 Nov 2020 11:36:41 +0100
-Message-Id: <20201115103718.298186-3-christian.brauner@ubuntu.com>
+Subject: [PATCH v2 03/39] namespace: only take read lock in
+	do_reconfigure_mnt()
+Date: Sun, 15 Nov 2020 11:36:42 +0100
+Message-Id: <20201115103718.298186-4-christian.brauner@ubuntu.com>
 In-Reply-To: <20201115103718.298186-1-christian.brauner@ubuntu.com>
 References: <20201115103718.298186-1-christian.brauner@ubuntu.com>
 MIME-Version: 1.0
@@ -63,7 +65,7 @@ X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
 	Targeted Threat Dictionary=false;
 	Mimecast Threat Dictionary=false; Custom Threat Dictionary=false
 X-Mimecast-Spam-Signature: yes
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
 X-loop: linux-audit@redhat.com
 X-Mailman-Approved-At: Sun, 15 Nov 2020 21:15:05 -0500
 Cc: Phil Estes <estesp@gmail.com>, Lennart Poettering <lennart@poettering.net>,
@@ -105,7 +107,7 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
 	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=linux-audit-bounces@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -113,65 +115,83 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-The helpers are only called in fs/namespace.c functions so there's no need to
-have them exposed in a header as Christoph pointed out.
+do_reconfigure_mnt() used to take the down_write(&sb->s_umount) lock
+which seems unnecessary since we're not changing the superblock. We're
+only checking whether it is already read-only. Setting other mount
+attributes is protected by lock_mount_hash() afaict and not by s_umount.
 
-Suggested-by: Christoph Hellwig <hch@lst.de>
+So I think the history of down_write(&sb->s_umount) lock being taken
+when setting mount attributes dates back to the introduction of
+MNT_READONLY in [2]. Afaict, this introduced the concept of having
+read-only mounts in contrast to just having a read-only superblock. When
+it got introduced it was simply plumbed into do_remount() which already
+took down_write(&sb->s_umount) because it was only used to actually
+change the superblock before [2]. Afaict, it would've already been
+possible back then to only use down_read(&sb->s_umount) for
+MS_BIND | MS_REMOUNT since actual mount options were protected by
+the vfsmount lock already. But that would've meant special casing the
+locking for MS_BIND | MS_REMOUNT in do_remount() which people might not
+have considered worth it.
+Then in [1] MS_BIND | MS_REMOUNT mount option changes were split out of
+do_remount() into do_reconfigure_mnt() but the down_write(&sb->s_umount)
+lock was simply copied over.
+Now that we have this be a separate helper only take
+the down_read(&sb->s_umount) lock since we're only interested in
+checking whether the super block is currently read-only and blocking any
+writers from changing it. Essentially, checking that the super block is
+read-only has the advantage that we can avoid having to go into the
+slowpath and through MNT_WRITE_HOLD and can simply set the read-only
+flag on the mount in set_mount_attributes().
+
+[1]: commit 43f5e655eff7 ("vfs: Separate changing mount flags full remount")
+[2]: commit 2e4b7fcd9260 ("[PATCH] r/o bind mounts: honor mount writer counts at remount")
+Cc: Christoph Hellwig <hch@lst.de>
 Cc: David Howells <dhowells@redhat.com>
 Cc: Al Viro <viro@zeniv.linux.org.uk>
 Cc: linux-fsdevel@vger.kernel.org
 Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
 ---
 /* v2 */
-- Christoph Hellwig:
-  - Add a patch to make {lock,unlock)_mount_hash() static.
+unchanged
 ---
- fs/mount.h     | 10 ----------
- fs/namespace.c | 10 ++++++++++
- 2 files changed, 10 insertions(+), 10 deletions(-)
+ fs/namespace.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/fs/mount.h b/fs/mount.h
-index c7abb7b394d8..562d96d57bad 100644
---- a/fs/mount.h
-+++ b/fs/mount.h
-@@ -125,16 +125,6 @@ static inline void get_mnt_ns(struct mnt_namespace *ns)
- 
- extern seqlock_t mount_lock;
- 
--static inline void lock_mount_hash(void)
--{
--	write_seqlock(&mount_lock);
--}
--
--static inline void unlock_mount_hash(void)
--{
--	write_sequnlock(&mount_lock);
--}
--
- struct proc_mounts {
- 	struct mnt_namespace *ns;
- 	struct path root;
 diff --git a/fs/namespace.c b/fs/namespace.c
-index f183161833ad..798bbf4f48ad 100644
+index 798bbf4f48ad..8497d149ecaa 100644
 --- a/fs/namespace.c
 +++ b/fs/namespace.c
-@@ -87,6 +87,16 @@ EXPORT_SYMBOL_GPL(fs_kobj);
-  */
- __cacheline_aligned_in_smp DEFINE_SEQLOCK(mount_lock);
+@@ -2512,10 +2512,6 @@ static int change_mount_ro_state(struct mount *mnt, unsigned int mnt_flags)
+ 	return 0;
+ }
  
-+static inline void lock_mount_hash(void)
-+{
-+	write_seqlock(&mount_lock);
-+}
-+
-+static inline void unlock_mount_hash(void)
-+{
-+	write_sequnlock(&mount_lock);
-+}
-+
- static inline struct hlist_head *m_hash(struct vfsmount *mnt, struct dentry *dentry)
+-/*
+- * Update the user-settable attributes on a mount.  The caller must hold
+- * sb->s_umount for writing.
+- */
+ static void set_mount_attributes(struct mount *mnt, unsigned int mnt_flags)
  {
- 	unsigned long tmp = ((unsigned long)mnt / L1_CACHE_BYTES);
+ 	mnt_flags |= mnt->mnt.mnt_flags & ~MNT_USER_SETTABLE_MASK;
+@@ -2565,13 +2561,17 @@ static int do_reconfigure_mnt(struct path *path, unsigned int mnt_flags)
+ 	if (!can_change_locked_flags(mnt, mnt_flags))
+ 		return -EPERM;
+ 
+-	down_write(&sb->s_umount);
++	/*
++	 * We're only checking whether the superblock is read-only not changing
++	 * it, so only take down_read(&sb->s_umount).
++	 */
++	down_read(&sb->s_umount);
+ 	lock_mount_hash();
+ 	ret = change_mount_ro_state(mnt, mnt_flags);
+ 	if (ret == 0)
+ 		set_mount_attributes(mnt, mnt_flags);
+ 	unlock_mount_hash();
+-	up_write(&sb->s_umount);
++	up_read(&sb->s_umount);
+ 
+ 	mnt_warn_timestamp_expiry(path, &mnt->mnt);
+ 
 -- 
 2.29.2
 
