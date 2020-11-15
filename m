@@ -2,55 +2,55 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [63.128.21.124])
-	by mail.lfdr.de (Postfix) with ESMTP id F07F62B3B64
-	for <lists+linux-audit@lfdr.de>; Mon, 16 Nov 2020 03:15:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 74F452B3B67
+	for <lists+linux-audit@lfdr.de>; Mon, 16 Nov 2020 03:15:49 +0100 (CET)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-520-i3F4yap5MTy-UVuwDHDhpw-1; Sun, 15 Nov 2020 21:15:44 -0500
-X-MC-Unique: i3F4yap5MTy-UVuwDHDhpw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+ us-mta-488-4723DXI3Oa6be29WdFtj_g-1; Sun, 15 Nov 2020 21:15:46 -0500
+X-MC-Unique: 4723DXI3Oa6be29WdFtj_g-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8137580475B;
-	Mon, 16 Nov 2020 02:15:37 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D397F81C478;
+	Mon, 16 Nov 2020 02:15:41 +0000 (UTC)
 Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 63C0A5B4CC;
-	Mon, 16 Nov 2020 02:15:37 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id B62AB6EF46;
+	Mon, 16 Nov 2020 02:15:41 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 2DAF05810E;
-	Mon, 16 Nov 2020 02:15:37 +0000 (UTC)
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 8854058113;
+	Mon, 16 Nov 2020 02:15:41 +0000 (UTC)
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
 	[10.11.54.5])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 0AFAlnab025955 for <linux-audit@listman.util.phx.redhat.com>;
-	Sun, 15 Nov 2020 05:47:49 -0500
+	id 0AFAnbBg026115 for <linux-audit@listman.util.phx.redhat.com>;
+	Sun, 15 Nov 2020 05:49:37 -0500
 Received: by smtp.corp.redhat.com (Postfix)
-	id E66C75EDCA; Sun, 15 Nov 2020 10:47:48 +0000 (UTC)
+	id 4A13E5D23C; Sun, 15 Nov 2020 10:49:37 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
 	(mimecast03.extmail.prod.ext.rdu2.redhat.com [10.11.55.19])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id E08A35D23F
-	for <linux-audit@redhat.com>; Sun, 15 Nov 2020 10:47:46 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [207.211.31.81])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 44E815EDC4
+	for <linux-audit@redhat.com>; Sun, 15 Nov 2020 10:49:37 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [207.211.31.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9584D811E79
-	for <linux-audit@redhat.com>; Sun, 15 Nov 2020 10:47:46 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 31632811E79
+	for <linux-audit@redhat.com>; Sun, 15 Nov 2020 10:49:37 +0000 (UTC)
 Received: from youngberry.canonical.com (youngberry.canonical.com
 	[91.189.89.112]) (Using TLS) by relay.mimecast.com with ESMTP id
-	us-mta-543-Sks7k8UZO9OUZcdZasI61w-1; Sun, 15 Nov 2020 05:47:44 -0500
-X-MC-Unique: Sks7k8UZO9OUZcdZasI61w-1
+	us-mta-143-DfHW-5SeNOK7zyEXcN6ojg-1; Sun, 15 Nov 2020 05:49:35 -0500
+X-MC-Unique: DfHW-5SeNOK7zyEXcN6ojg-1
 Received: from ip5f5af0a0.dynamic.kabel-deutschland.de ([95.90.240.160]
 	helo=wittgenstein.fritz.box) by youngberry.canonical.com with esmtpsa
 	(TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
 	(envelope-from <christian.brauner@ubuntu.com>)
-	id 1keFRS-0000Kt-Ok; Sun, 15 Nov 2020 10:39:31 +0000
+	id 1keFRW-0000Kt-5S; Sun, 15 Nov 2020 10:39:34 +0000
 From: Christian Brauner <christian.brauner@ubuntu.com>
 To: Alexander Viro <viro@zeniv.linux.org.uk>,
 	Christoph Hellwig <hch@infradead.org>, linux-fsdevel@vger.kernel.org
-Subject: [PATCH v2 25/39] init: handle idmapped mounts
-Date: Sun, 15 Nov 2020 11:37:04 +0100
-Message-Id: <20201115103718.298186-26-christian.brauner@ubuntu.com>
+Subject: [PATCH v2 26/39] ioctl: handle idmapped mounts
+Date: Sun, 15 Nov 2020 11:37:05 +0100
+Message-Id: <20201115103718.298186-27-christian.brauner@ubuntu.com>
 In-Reply-To: <20201115103718.298186-1-christian.brauner@ubuntu.com>
 References: <20201115103718.298186-1-christian.brauner@ubuntu.com>
 MIME-Version: 1.0
@@ -104,7 +104,7 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
 	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=linux-audit-bounces@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -112,7 +112,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-Enable the init helpers to handle idmapped mounts by passing down the mount's
+Enable generic ioctls to handle idmapped mounts by passing down the mount's
 user namespace.
 
 Cc: Christoph Hellwig <hch@lst.de>
@@ -124,49 +124,46 @@ Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
 /* v2 */
 patch introduced
 ---
- fs/init.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ fs/remap_range.c   | 7 +++++--
+ fs/verity/enable.c | 2 +-
+ 2 files changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/fs/init.c b/fs/init.c
-index 76f493600030..334e4c9c07eb 100644
---- a/fs/init.c
-+++ b/fs/init.c
-@@ -49,7 +49,7 @@ int __init init_chdir(const char *filename)
- 	error = kern_path(filename, LOOKUP_FOLLOW | LOOKUP_DIRECTORY, &path);
- 	if (error)
- 		return error;
--	error = inode_permission(&init_user_ns, path.dentry->d_inode,
-+	error = inode_permission(mnt_user_ns(path.mnt), path.dentry->d_inode,
- 				 MAY_EXEC | MAY_CHDIR);
- 	if (!error)
- 		set_fs_pwd(current->fs, &path);
-@@ -65,7 +65,7 @@ int __init init_chroot(const char *filename)
- 	error = kern_path(filename, LOOKUP_FOLLOW | LOOKUP_DIRECTORY, &path);
- 	if (error)
- 		return error;
--	error = inode_permission(&init_user_ns, path.dentry->d_inode,
-+	error = inode_permission(mnt_user_ns(path.mnt), path.dentry->d_inode,
- 				 MAY_EXEC | MAY_CHDIR);
- 	if (error)
- 		goto dput_and_out;
-@@ -120,7 +120,7 @@ int __init init_eaccess(const char *filename)
- 	error = kern_path(filename, LOOKUP_FOLLOW, &path);
- 	if (error)
- 		return error;
--	error = inode_permission(&init_user_ns, d_inode(path.dentry),
-+	error = inode_permission(mnt_user_ns(path.mnt), d_inode(path.dentry),
- 				 MAY_ACCESS);
- 	path_put(&path);
- 	return error;
-@@ -190,7 +190,7 @@ int __init init_link(const char *oldname, const char *newname)
- 	error = security_path_link(old_path.dentry, &new_path, new_dentry);
- 	if (error)
- 		goto out_dput;
--	error = vfs_link(old_path.dentry, &init_user_ns, 
-+	error = vfs_link(old_path.dentry, &init_user_ns,
- 			 new_path.dentry->d_inode, new_dentry, NULL);
- out_dput:
- 	done_path_create(&new_path, new_dentry);
+diff --git a/fs/remap_range.c b/fs/remap_range.c
+index 9e5b27641756..fe7f07228462 100644
+--- a/fs/remap_range.c
++++ b/fs/remap_range.c
+@@ -432,13 +432,16 @@ EXPORT_SYMBOL(vfs_clone_file_range);
+ /* Check whether we are allowed to dedupe the destination file */
+ static bool allow_file_dedupe(struct file *file)
+ {
++	struct user_namespace *user_ns = mnt_user_ns(file->f_path.mnt);
++	struct inode *inode = file_inode(file);
++
+ 	if (capable(CAP_SYS_ADMIN))
+ 		return true;
+ 	if (file->f_mode & FMODE_WRITE)
+ 		return true;
+-	if (uid_eq(current_fsuid(), file_inode(file)->i_uid))
++	if (uid_eq(current_fsuid(), i_uid_into_mnt(user_ns, inode)))
+ 		return true;
+-	if (!inode_permission(&init_user_ns, file_inode(file), MAY_WRITE))
++	if (!inode_permission(user_ns, inode, MAY_WRITE))
+ 		return true;
+ 	return false;
+ }
+diff --git a/fs/verity/enable.c b/fs/verity/enable.c
+index 7449ef0050f4..8b9ea0f0850f 100644
+--- a/fs/verity/enable.c
++++ b/fs/verity/enable.c
+@@ -369,7 +369,7 @@ int fsverity_ioctl_enable(struct file *filp, const void __user *uarg)
+ 	 * has verity enabled, and to stabilize the data being hashed.
+ 	 */
+ 
+-	err = inode_permission(&init_user_ns, inode, MAY_WRITE);
++	err = inode_permission(mnt_user_ns(filp->f_path.mnt), inode, MAY_WRITE);
+ 	if (err)
+ 		return err;
+ 
 -- 
 2.29.2
 
