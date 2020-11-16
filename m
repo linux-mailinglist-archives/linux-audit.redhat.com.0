@@ -1,60 +1,78 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [216.205.24.124])
-	by mail.lfdr.de (Postfix) with ESMTP id 14BEC2B3B61
-	for <lists+linux-audit@lfdr.de>; Mon, 16 Nov 2020 03:15:45 +0100 (CET)
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [63.128.21.124])
+	by mail.lfdr.de (Postfix) with ESMTP id 29D492B3B6B
+	for <lists+linux-audit@lfdr.de>; Mon, 16 Nov 2020 03:15:56 +0100 (CET)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-261-rQJDkbazNXKal8O3K9dfPQ-1; Sun, 15 Nov 2020 21:15:42 -0500
-X-MC-Unique: rQJDkbazNXKal8O3K9dfPQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+ us-mta-266-kyRKzzGeP-KHddBWTSyX7Q-1; Sun, 15 Nov 2020 21:15:51 -0500
+X-MC-Unique: kyRKzzGeP-KHddBWTSyX7Q-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 087881087D71;
-	Mon, 16 Nov 2020 02:15:36 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 49F10801FDF;
+	Mon, 16 Nov 2020 02:15:47 +0000 (UTC)
 Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id DA39A1C6;
-	Mon, 16 Nov 2020 02:15:35 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 29A285DA6B;
+	Mon, 16 Nov 2020 02:15:47 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id A719C5811B;
-	Mon, 16 Nov 2020 02:15:35 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
-	[10.11.54.4])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id F288A5811B;
+	Mon, 16 Nov 2020 02:15:46 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+	[10.11.54.3])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 0AFAkjm8025875 for <linux-audit@listman.util.phx.redhat.com>;
-	Sun, 15 Nov 2020 05:46:45 -0500
+	id 0AG0F5BW017959 for <linux-audit@listman.util.phx.redhat.com>;
+	Sun, 15 Nov 2020 19:15:05 -0500
 Received: by smtp.corp.redhat.com (Postfix)
-	id B7E27200E21B; Sun, 15 Nov 2020 10:46:45 +0000 (UTC)
+	id 99D0A1111422; Mon, 16 Nov 2020 00:15:05 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
-	(mimecast01.extmail.prod.ext.rdu2.redhat.com [10.11.55.17])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id B03D92028DCC
-	for <linux-audit@redhat.com>; Sun, 15 Nov 2020 10:46:42 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
-	[207.211.31.120])
+	(mimecast04.extmail.prod.ext.rdu2.redhat.com [10.11.55.20])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 94D8E1111424
+	for <linux-audit@redhat.com>; Mon, 16 Nov 2020 00:15:03 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [207.211.31.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1317D858290
-	for <linux-audit@redhat.com>; Sun, 15 Nov 2020 10:46:42 +0000 (UTC)
-Received: from youngberry.canonical.com (youngberry.canonical.com
-	[91.189.89.112]) (Using TLS) by relay.mimecast.com with ESMTP id
-	us-mta-189-0H8cE-2YOCmXhd3lob_GfQ-1; Sun, 15 Nov 2020 05:46:37 -0500
-X-MC-Unique: 0H8cE-2YOCmXhd3lob_GfQ-1
-Received: from ip5f5af0a0.dynamic.kabel-deutschland.de ([95.90.240.160]
-	helo=wittgenstein.fritz.box) by youngberry.canonical.com with esmtpsa
-	(TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
-	(envelope-from <christian.brauner@ubuntu.com>)
-	id 1keFSB-0000Kt-Fz; Sun, 15 Nov 2020 10:40:15 +0000
-From: Christian Brauner <christian.brauner@ubuntu.com>
-To: Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christoph Hellwig <hch@infradead.org>, linux-fsdevel@vger.kernel.org
-Subject: [PATCH v2 39/39] tests: add vfs/idmapped mounts test suite
-Date: Sun, 15 Nov 2020 11:37:18 +0100
-Message-Id: <20201115103718.298186-40-christian.brauner@ubuntu.com>
-In-Reply-To: <20201115103718.298186-1-christian.brauner@ubuntu.com>
-References: <20201115103718.298186-1-christian.brauner@ubuntu.com>
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 454EA101CC67
+	for <linux-audit@redhat.com>; Mon, 16 Nov 2020 00:15:03 +0000 (UTC)
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88]) (Using TLS)
+	by relay.mimecast.com with ESMTP id us-mta-173-g5GhsbcDMH6QesJFOs7_oA-1;
+	Sun, 15 Nov 2020 19:14:58 -0500
+X-MC-Unique: g5GhsbcDMH6QesJFOs7_oA-1
+IronPort-SDR: XXuj0AFHZszTiH/YEUP/LCgoHxWH1T0aGfCBXouVvyzLXaQqgHRjt8V/X2DRMcjrKCBIJKUJJX
+	OVAl9OIz7Pow==
+X-IronPort-AV: E=McAfee;i="6000,8403,9806"; a="188728310"
+X-IronPort-AV: E=Sophos;i="5.77,481,1596524400"; 
+	d="gz'50?scan'50,208,50";a="188728310"
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+	15 Nov 2020 16:13:52 -0800
+IronPort-SDR: uF/LxzrzvwFkrgMK+kexFD6i50wW5c3MCab3thQbsxrswqnjgLdVj1tp73QJxhZZIJ4V5WRkT7
+	dvLJkx+V+EVw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,481,1596524400"; 
+	d="gz'50?scan'50,208,50";a="361949914"
+Received: from lkp-server01.sh.intel.com (HELO 2e68b9ba5db3) ([10.239.97.150])
+	by fmsmga002.fm.intel.com with ESMTP; 15 Nov 2020 16:13:49 -0800
+Received: from kbuild by 2e68b9ba5db3 with local (Exim 4.92)
+	(envelope-from <lkp@intel.com>)
+	id 1keS9V-0000Jo-5R; Mon, 16 Nov 2020 00:13:49 +0000
+Date: Mon, 16 Nov 2020 08:13:00 +0800
+From: kernel test robot <lkp@intel.com>
+To: Casey Schaufler <casey@schaufler-ca.com>, casey.schaufler@intel.com,
+	jmorris@namei.org, linux-security-module@vger.kernel.org,
+	selinux@vger.kernel.org
+Subject: Re: [PATCH v22 19/23] audit: add support for non-syscall auxiliary
+	records
+Message-ID: <202011160826.93P4VgVc-lkp@intel.com>
+References: <20201105004924.11651-20-casey@schaufler-ca.com>
 MIME-Version: 1.0
+In-Reply-To: <20201105004924.11651-20-casey@schaufler-ca.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
 	Definition; Similar Internal Domain=false;
 	Similar Monitored External Domain=false;
@@ -63,35 +81,11 @@ X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
 	Custom Display Name List=false; Reply-to Address Mismatch=false;
 	Targeted Threat Dictionary=false;
 	Mimecast Threat Dictionary=false; Custom Threat Dictionary=false
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
 X-loop: linux-audit@redhat.com
 X-Mailman-Approved-At: Sun, 15 Nov 2020 21:15:05 -0500
-Cc: Phil Estes <estesp@gmail.com>, Lennart Poettering <lennart@poettering.net>,
-	Mimi Zohar <zohar@linux.ibm.com>,
-	James Bottomley <James.Bottomley@hansenpartnership.com>,
-	Andreas Dilger <adilger.kernel@dilger.ca>,
-	containers@lists.linux-foundation.org,
-	Christian Brauner <christian.brauner@ubuntu.com>,
-	Christoph Hellwig <hch@lst.de>, Tycho Andersen <tycho@tycho.ws>,
-	Jonathan Corbet <corbet@lwn.net>,
-	James Morris <jmorris@namei.org>, smbarber@chromium.org,
-	linux-ext4@vger.kernel.org, Mrunal Patel <mpatel@redhat.com>,
-	Serge Hallyn <serge@hallyn.com>, Arnd Bergmann <arnd@arndb.de>,
-	Jann Horn <jannh@google.com>, selinux@vger.kernel.org,
-	Josh Triplett <josh@joshtriplett.org>,
-	Seth Forshee <seth.forshee@canonical.com>,
-	Aleksa Sarai <cyphar@cyphar.com>, Andy Lutomirski <luto@kernel.org>,
-	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
-	Geoffrey Thomas <geofft@ldpreload.com>,
-	David Howells <dhowells@redhat.com>,
-	John Johansen <john.johansen@canonical.com>, Theodore Tso <tytso@mit.edu>,
-	Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
-	linux-security-module@vger.kernel.org, linux-audit@redhat.com,
-	"Eric W. Biederman" <ebiederm@xmission.com>,
-	linux-api@vger.kernel.org, Alban Crequy <alban@kinvolk.io>,
-	linux-integrity@vger.kernel.org,
-	=?UTF-8?q?St=C3=A9phane=20Graber?= <stgraber@ubuntu.com>,
-	Todd Kjos <tkjos@google.com>
+Cc: john.johansen@canonical.com, kbuild-all@lists.01.org,
+	linux-audit@redhat.com
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -105,4112 +99,665 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
 	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=linux-audit-bounces@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: multipart/mixed; boundary="82I3+IH0IqGh5yIs"
+Content-Disposition: inline
+
+--82I3+IH0IqGh5yIs
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+Hi Casey,
+
+I love your patch! Yet something to improve:
+
+[auto build test ERROR on nf-next/master]
+[also build test ERROR on nf/master linus/master v5.10-rc3 next-20201113]
+[cannot apply to security/next-testing]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/0day-ci/linux/commits/Casey-Schaufler/LSM-Module-stacking-for-AppArmor/20201105-091817
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pablo/nf-next.git master
+config: alpha-randconfig-r021-20201104 (attached as .config)
+compiler: alpha-linux-gcc (GCC) 9.3.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/0day-ci/linux/commit/cf770098fb2f8114b0ac138baec96c9891bf56ba
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Casey-Schaufler/LSM-Module-stacking-for-AppArmor/20201105-091817
+        git checkout cf770098fb2f8114b0ac138baec96c9891bf56ba
+        # save the attached .config to linux build tree
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-9.3.0 make.cross ARCH=alpha 
+
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
+
+All errors (new ones prefixed by >>):
+
+   In file included from include/linux/fsnotify.h:16,
+                    from fs/nfs/unlink.c:18:
+>> include/linux/audit.h:563:1: error: expected identifier or '(' before '+' token
+     563 | +static inline struct audit_context *audit_alloc_local(gfp_t gfpflags)
+         | ^
+
+vim +563 include/linux/audit.h
+
+   559	
+   560	extern int audit_n_rules;
+   561	extern int audit_signals;
+   562	#else /* CONFIG_AUDITSYSCALL */
+ > 563	+static inline struct audit_context *audit_alloc_local(gfp_t gfpflags)
+   564	{
+   565		return NULL;
+   566	}
+   567	static inline void audit_free_context(struct audit_context *context)
+   568	{ }
+   569	static inline int audit_alloc(struct task_struct *task)
+   570	{
+   571		return 0;
+   572	}
+   573	static inline void audit_free(struct task_struct *task)
+   574	{ }
+   575	static inline void audit_syscall_entry(int major, unsigned long a0,
+   576					       unsigned long a1, unsigned long a2,
+   577					       unsigned long a3)
+   578	{ }
+   579	static inline void audit_syscall_exit(void *pt_regs)
+   580	{ }
+   581	static inline bool audit_dummy_context(void)
+   582	{
+   583		return true;
+   584	}
+   585	static inline void audit_set_context(struct task_struct *task, struct audit_context *ctx)
+   586	{ }
+   587	static inline struct audit_context *audit_context(void)
+   588	{
+   589		return NULL;
+   590	}
+   591	static inline struct filename *audit_reusename(const __user char *name)
+   592	{
+   593		return NULL;
+   594	}
+   595	static inline void audit_getname(struct filename *name)
+   596	{ }
+   597	static inline void audit_getcwd(void)
+   598	{ }
+   599	static inline void audit_inode(struct filename *name,
+   600					const struct dentry *dentry,
+   601					unsigned int aflags)
+   602	{ }
+   603	static inline void audit_file(struct file *file)
+   604	{
+   605	}
+   606	static inline void audit_inode_parent_hidden(struct filename *name,
+   607					const struct dentry *dentry)
+   608	{ }
+   609	static inline void audit_inode_child(struct inode *parent,
+   610					     const struct dentry *dentry,
+   611					     const unsigned char type)
+   612	{ }
+   613	static inline void audit_core_dumps(long signr)
+   614	{ }
+   615	static inline void audit_seccomp(unsigned long syscall, long signr, int code)
+   616	{ }
+   617	static inline void audit_seccomp_actions_logged(const char *names,
+   618							const char *old_names, int res)
+   619	{ }
+   620	static inline void audit_ipc_obj(struct kern_ipc_perm *ipcp)
+   621	{ }
+   622	static inline void audit_ipc_set_perm(unsigned long qbytes, uid_t uid,
+   623						gid_t gid, umode_t mode)
+   624	{ }
+   625	static inline void audit_bprm(struct linux_binprm *bprm)
+   626	{ }
+   627	static inline int audit_socketcall(int nargs, unsigned long *args)
+   628	{
+   629		return 0;
+   630	}
+   631	
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+
+--82I3+IH0IqGh5yIs
+Content-Type: application/gzip
+Content-Disposition: attachment; filename=".config.gz"
+Content-Transfer-Encoding: base64
+
+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
+xiMk3Tl4PmgEPCgnPN9qZRP8H1z95ZanzAEA
+--82I3+IH0IqGh5yIs
 Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-
-This adds a whole test suite for idmapped mounts but in order to ensure that
-there are no regression for the vfs itself it also includes tests for correct
-functionality on non-idmapped mounts. The following tests are currently
-available with more to come in the future:
-
-01. create_delete_rename: test that basic file interactions work for idmapped mounts
-02. create_delete_rename_userns: test that basic file interactions work for
-    idmapped mounts from within user namespaces
-03. hardlinks: verify that hardlinks work correctly
-04. rename: verity tat rename works correctly
-05. create_userns: verify that file creation in user namespaces works from idmapped mounts
-06. create_userns_device_node: verify that device node creation fails inside user
-    namespace from idmapped mounts.
-07. expected_uid_gid: verify that file ownership works correctly on idmapped mounts
-08. expected_uid_gid_userns: verify that file ownership works correctly on
-    idmapped mounts inside user namespaces
-09. expected_fscaps_userns: verify that filesystem capabilities work correctly on
-    idmapped mounts and inside user namespaces
-10. expected_fscaps_reverse: verify that filesystem capabilities work correctly
-    on idmapped mounts and inside user namespaces where we map from unprivileged
-    ids to privileged ids
-11. setid_binaries: verify that suid and sgid binaries work correctly on idmapped mounts
-12. setid_binaries_reverse: verify that suid and sgid binaries work correctly on
-    idmapped mounts where we map from unprivileged ids to privileged ids
-13. setid_binaries_userns: verify that suid and sgid binaries work correctly on
-    idmapped mounts inside user namespaces
-14. idmap_mount_tree: verify that idmapping a whole mount tree works correctly
-15. idmap_mount_tree_invalid: verify that idmapping a mount tree with a mount of
-    a filesystem that doesn't support being idmapped yet fails
-16. sticky_bit_unlink: verify that unlinking in sticky directories works correctly
-17. sticky_bit_unlink_idmapped: verify that unlinking in sticky directories works
-    correctly on idmapped mounts
-18. sticky_bit_unlink_idmapped_userns: verify that unlinking in sticky directories works
-    correctly on idmapped mounts inside user namespaces
-19. sticky_bit_rename_idmapped: verify that renaminging in sticky directories works
-    correctly on idmapped mounts
-20. sticky_bit_rename_idmapped_userns: verify that renaming in sticky directories works
-    correctly on idmapped mounts inside user namespaces
-21. follow_symlinks: test that following protected symlinks works correctly
-22. follow_symlinks_idmapped: test that following symlinks works correctly on idmapped mounts
-23. follow_symlinks_idmapped_userns: test that following symlinks works correctly
-    on idmapped mounts inside user namespaces
-24. invalid_fd_negative: test that negative fds are rejected when idmapping mounts
-25. invalid_fd_large: test that excessively large fds are rejected when idmappings mounts
-26. invalid_fd_closed: test that closed fds are rejected when idmapping mounts
-27. invalid_fd_initial_userns: test that fds referencing the initial user namespace are rejected
-28. attached_mount_inside_current_mount_namespace: test that attached mounts can be idmapped
-29. attached_mount_outside_current_mount_namespace: test that attached mounts
-    can't be idmapped if we are in a different user namespace
-30. detached_mount_inside_current_mount_namespace: test that detached mounts can be idmapped
-31. detached_mount_outside_current_mount_namespace: test that detached mounts can
-    be idmapped outside of our current user namespace
-32. change_idmapping: test that idmapped mounts can't be changed
-
-Output:
- TAP version 13
- 1..33
- # Starting 33 tests from 2 test cases.
- #  RUN           core.invalid_fd_negative ...
- #            OK  core.invalid_fd_negative
- ok 1 core.invalid_fd_negative
- #  RUN           core.invalid_fd_large ...
- #            OK  core.invalid_fd_large
- ok 2 core.invalid_fd_large
- #  RUN           core.invalid_fd_closed ...
- #            OK  core.invalid_fd_closed
- ok 3 core.invalid_fd_closed
- #  RUN           core.invalid_fd_initial_userns ...
- #            OK  core.invalid_fd_initial_userns
- ok 4 core.invalid_fd_initial_userns
- #  RUN           core.attached_mount_inside_current_mount_namespace ...
- #            OK  core.attached_mount_inside_current_mount_namespace
- ok 5 core.attached_mount_inside_current_mount_namespace
- #  RUN           core.attached_mount_outside_current_mount_namespace ...
- #            OK  core.attached_mount_outside_current_mount_namespace
- ok 6 core.attached_mount_outside_current_mount_namespace
- #  RUN           core.detached_mount_inside_current_mount_namespace ...
- #            OK  core.detached_mount_inside_current_mount_namespace
- ok 7 core.detached_mount_inside_current_mount_namespace
- #  RUN           core.detached_mount_outside_current_mount_namespace ...
- #            OK  core.detached_mount_outside_current_mount_namespace
- ok 8 core.detached_mount_outside_current_mount_namespace
- #  RUN           core.change_idmapping ...
- #            OK  core.change_idmapping
- ok 9 core.change_idmapping
- #  RUN           core.create_delete_rename ...
- #            OK  core.create_delete_rename
- ok 10 core.create_delete_rename
- #  RUN           core.create_delete_rename_userns ...
- #            OK  core.create_delete_rename_userns
- ok 11 core.create_delete_rename_userns
- #  RUN           core.hardlinks ...
- #            OK  core.hardlinks
- ok 12 core.hardlinks
- #  RUN           core.rename ...
- #            OK  core.rename
- ok 13 core.rename
- #  RUN           core.create_userns ...
- #            OK  core.create_userns
- ok 14 core.create_userns
- #  RUN           core.create_userns_device_node ...
- #            OK  core.create_userns_device_node
- ok 15 core.create_userns_device_node
- #  RUN           core.expected_uid_gid ...
- #            OK  core.expected_uid_gid
- ok 16 core.expected_uid_gid
- #  RUN           core.expected_uid_gid_userns ...
- #            OK  core.expected_uid_gid_userns
- ok 17 core.expected_uid_gid_userns
- #  RUN           core.expected_fscaps_userns ...
- #            OK  core.expected_fscaps_userns
- ok 18 core.expected_fscaps_userns
- #  RUN           core.expected_fscaps_reverse ...
- #            OK  core.expected_fscaps_reverse
- ok 19 core.expected_fscaps_reverse
- #  RUN           core.setid_binaries ...
- #            OK  core.setid_binaries
- ok 20 core.setid_binaries
- #  RUN           core.setid_binaries_reverse ...
- #            OK  core.setid_binaries_reverse
- ok 21 core.setid_binaries_reverse
- #  RUN           core.setid_binaries_userns ...
- #            OK  core.setid_binaries_userns
- ok 22 core.setid_binaries_userns
- #  RUN           core.idmap_mount_tree ...
- #            OK  core.idmap_mount_tree
- ok 23 core.idmap_mount_tree
- #  RUN           core.idmap_mount_tree_invalid ...
- #            OK  core.idmap_mount_tree_invalid
- ok 24 core.idmap_mount_tree_invalid
- #  RUN           core.sticky_bit_unlink ...
- #            OK  core.sticky_bit_unlink
- ok 25 core.sticky_bit_unlink
- #  RUN           core.sticky_bit_unlink_idmapped ...
- #            OK  core.sticky_bit_unlink_idmapped
- ok 26 core.sticky_bit_unlink_idmapped
- #  RUN           core.sticky_bit_unlink_idmapped_userns ...
- #            OK  core.sticky_bit_unlink_idmapped_userns
- ok 27 core.sticky_bit_unlink_idmapped_userns
- #  RUN           core.sticky_bit_rename ...
- #            OK  core.sticky_bit_rename
- ok 28 core.sticky_bit_rename
- #  RUN           core.sticky_bit_rename_idmapped ...
- #            OK  core.sticky_bit_rename_idmapped
- ok 29 core.sticky_bit_rename_idmapped
- #  RUN           core.sticky_bit_rename_idmapped_userns ...
- #            OK  core.sticky_bit_rename_idmapped_userns
- ok 30 core.sticky_bit_rename_idmapped_userns
- #  RUN           core.follow_symlinks ...
- #            OK  core.follow_symlinks
- ok 31 core.follow_symlinks
- #  RUN           core.follow_symlinks_idmapped ...
- #            OK  core.follow_symlinks_idmapped
- ok 32 core.follow_symlinks_idmapped
- #  RUN           core.follow_symlinks_idmapped_userns ...
- #            OK  core.follow_symlinks_idmapped_userns
- ok 33 core.follow_symlinks_idmapped_userns
- # PASSED: 33 / 33 tests passed.
- # Totals: pass:33 fail:0 xfail:0 xpass:0 skip:0 error:0
-
-Cc: Christoph Hellwig <hch@lst.de>
-Cc: David Howells <dhowells@redhat.com>
-Cc: Al Viro <viro@zeniv.linux.org.uk>
-Cc: linux-fsdevel@vger.kernel.org
-Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
----
-/* v2 */
-patch introduced
----
- .../testing/selftests/idmap_mounts/.gitignore |    1 +
- tools/testing/selftests/idmap_mounts/Makefile |    7 +-
- tools/testing/selftests/idmap_mounts/core.c   | 3476 +++++++++++++++++
- .../testing/selftests/idmap_mounts/internal.h |   33 +-
- tools/testing/selftests/idmap_mounts/utils.c  |  136 +
- tools/testing/selftests/idmap_mounts/utils.h  |   17 +
- tools/testing/selftests/idmap_mounts/xattr.c  |  126 +-
- 7 files changed, 3664 insertions(+), 132 deletions(-)
- create mode 100644 tools/testing/selftests/idmap_mounts/core.c
- create mode 100644 tools/testing/selftests/idmap_mounts/utils.c
- create mode 100644 tools/testing/selftests/idmap_mounts/utils.h
-
-diff --git a/tools/testing/selftests/idmap_mounts/.gitignore b/tools/testing/selftests/idmap_mounts/.gitignore
-index 18c5e90522ad..03c7198482d2 100644
---- a/tools/testing/selftests/idmap_mounts/.gitignore
-+++ b/tools/testing/selftests/idmap_mounts/.gitignore
-@@ -1 +1,2 @@
-+core
- xattr
-diff --git a/tools/testing/selftests/idmap_mounts/Makefile b/tools/testing/selftests/idmap_mounts/Makefile
-index 1d495c99d924..67697b788353 100644
---- a/tools/testing/selftests/idmap_mounts/Makefile
-+++ b/tools/testing/selftests/idmap_mounts/Makefile
-@@ -1,9 +1,12 @@
- # SPDX-License-Identifier: GPL-2.0
- # Makefile for mount selftests.
- CFLAGS = -g -I../../../../usr/include/ -Wall -O2 -pthread
-+LDLIBS += -lcap
- 
--TEST_GEN_FILES += xattr
-+TEST_GEN_FILES = xattr
-+TEST_GEN_FILES += core
- 
- include ../lib.mk
- 
--$(OUTPUT)/xattr: xattr.c internal.h
-+$(OUTPUT)/xattr: xattr.c internal.h utils.c utils.h
-+$(OUTPUT)/core: core.c internal.h utils.c utils.h
-diff --git a/tools/testing/selftests/idmap_mounts/core.c b/tools/testing/selftests/idmap_mounts/core.c
-new file mode 100644
-index 000000000000..23909a55beb8
---- /dev/null
-+++ b/tools/testing/selftests/idmap_mounts/core.c
-@@ -0,0 +1,3476 @@
-+// SPDX-License-Identifier: GPL-2.0
-+#define _GNU_SOURCE
-+#include <dirent.h>
-+#include <errno.h>
-+#include <fcntl.h>
-+#include <grp.h>
-+#include <limits.h>
-+#include <linux/capability.h>
-+#include <sys/capability.h>
-+#include <linux/limits.h>
-+#include <sched.h>
-+#include <stdbool.h>
-+#include <sys/fsuid.h>
-+#include <sys/sysmacros.h>
-+#include <sys/mount.h>
-+#include <sys/stat.h>
-+#include <sys/types.h>
-+#include <unistd.h>
-+#include <sys/acl.h>
-+#include <sys/xattr.h>
-+
-+#include "internal.h"
-+#include "utils.h"
-+#include "../kselftest_harness.h"
-+
-+#define IMAGE_FILE1 "ext4_1.img"
-+#define IMAGE_FILE2 "ext4_2.img"
-+#define IMAGE_ROOT_MNT1 "mnt_root_1"
-+#define IMAGE_ROOT_MNT2_RELATIVE "mnt_root_2"
-+#define IMAGE_ROOT_MNT2 IMAGE_ROOT_MNT1 "/" IMAGE_ROOT_MNT2_RELATIVE
-+#define FILESYSTEM_MOUNT1 IMAGE_ROOT_MNT2 "/fs_root_1"
-+#define MNT_TARGET1 "mnt_target1"
-+#define MNT_TARGET2 "mnt_target2"
-+#define FILE1 "file1"
-+#define FILE1_RENAME "file1_rename"
-+#define FILE2 "file2"
-+#define FILE2_RENAME "file2_rename"
-+#define DIR1 "dir1"
-+#define DIR1_RENAME "dir1_rename"
-+#define HARDLINK1 "hardlink1"
-+#define SYMLINK1 "symlink1"
-+#define SYMLINK_USER1 "symlink_user1"
-+#define SYMLINK_USER2 "symlink_user2"
-+#define SYMLINK_USER3 "symlink_user3"
-+#define CHRDEV1 "chrdev1"
-+
-+/* Attempt to de-conflict with the selftests tree. */
-+#ifndef SKIP
-+#define SKIP(s, ...)	XFAIL(s, ##__VA_ARGS__)
-+#endif
-+
-+static bool symlinks_protected(void)
-+{
-+	int fd;
-+	ssize_t ret;
-+	char buf[256];
-+
-+	fd = open("/proc/sys/fs/protected_symlinks", O_RDONLY | O_CLOEXEC);
-+	if (fd < 0)
-+		return false;
-+
-+	ret = read(fd, buf, sizeof(buf));
-+	close(fd);
-+	if (ret < sizeof(int))
-+		return false;
-+
-+	return atoi(buf) >= 1;
-+}
-+
-+/**
-+ * caps_down - lower all effective caps
-+ */
-+static bool caps_down(void)
-+{
-+	cap_t caps = NULL;
-+	int ret = -1;
-+	bool fret = false;
-+
-+	caps = cap_get_proc();
-+	if (!caps)
-+		goto out;
-+
-+	ret = cap_clear_flag(caps, CAP_EFFECTIVE);
-+	if (ret)
-+		goto out;
-+
-+	ret = cap_set_proc(caps);
-+	if (ret)
-+		goto out;
-+
-+	fret = true;
-+
-+out:
-+	cap_free(caps);
-+	return fret;
-+}
-+
-+/**
-+ * expected_uid_gid - check whether file is owned by the provided uid and gid
-+ */
-+static bool expected_uid_gid(int dfd, const char *path, int flags,
-+			     uid_t expected_uid, gid_t expected_gid)
-+{
-+	int ret;
-+	struct stat st;
-+
-+	ret = fstatat(dfd, path, &st, flags);
-+	if (ret < 0)
-+		return false;
-+
-+	return st.st_uid == expected_uid && st.st_gid == expected_gid;
-+}
-+
-+/**
-+ * is_setid - check whether file is S_ISUID and S_ISGID
-+ */
-+static bool is_setid(int dfd, const char *path, int flags)
-+{
-+	int ret;
-+	struct stat st;
-+
-+	ret = fstatat(dfd, path, &st, flags);
-+	if (ret < 0)
-+		return false;
-+
-+	return (st.st_mode & S_ISUID) || (st.st_mode & S_ISGID);
-+}
-+
-+/**
-+ * is_sticky - check whether file is S_ISUID and S_ISGID
-+ */
-+static bool is_sticky(int dfd, const char *path, int flags)
-+{
-+	int ret;
-+	struct stat st;
-+
-+	ret = fstatat(dfd, path, &st, flags);
-+	if (ret < 0)
-+		return false;
-+
-+	return (st.st_mode & S_ISVTX) > 0;
-+}
-+
-+/**
-+ * rm_r - recursively remove all files
-+ */
-+static int rm_r(const char *dirname)
-+{
-+	DIR *dir;
-+	int ret;
-+	struct dirent *direntp;
-+
-+	dir = opendir(dirname);
-+	if (!dir)
-+		return -1;
-+
-+	while ((direntp = readdir(dir))) {
-+		char buf[PATH_MAX];
-+		struct stat st;
-+
-+		if (!strcmp(direntp->d_name, ".") ||
-+		    !strcmp(direntp->d_name, ".."))
-+			continue;
-+
-+		snprintf(buf, sizeof(buf), "%s/%s", dirname, direntp->d_name);
-+		ret = lstat(buf, &st);
-+		if (ret < 0 && errno != ENOENT)
-+			break;
-+
-+		if (S_ISDIR(st.st_mode))
-+			ret = rm_r(buf);
-+		else
-+			ret = unlink(buf);
-+		if (ret < 0 && errno != ENOENT)
-+			break;
-+	}
-+
-+	ret = rmdir(dirname);
-+	closedir(dir);
-+	return ret;
-+}
-+
-+/**
-+ * umount_r - recursively umount all mounts
-+ */
-+static void umount_r(const char *path)
-+{
-+	DIR *dir;
-+	int ret;
-+	struct dirent *direntp;
-+
-+	dir = opendir(path);
-+	if (!dir)
-+		return;
-+
-+	while ((direntp = readdir(dir))) {
-+		char buf[PATH_MAX];
-+		struct stat st;
-+
-+		if (!strcmp(direntp->d_name, ".") ||
-+		    !strcmp(direntp->d_name, ".."))
-+			continue;
-+
-+		snprintf(buf, sizeof(buf), "%s/%s", path, direntp->d_name);
-+		umount2(buf, MNT_DETACH);
-+
-+		ret = lstat(buf, &st);
-+		if (ret < 0 && errno != ENOENT)
-+			break;
-+
-+		if (!S_ISDIR(st.st_mode))
-+			continue;
-+
-+		umount_r(buf);
-+	}
-+
-+	umount2(path, MNT_DETACH);
-+	closedir(dir);
-+}
-+
-+/**
-+ * chown_r - recursively change ownership of all files
-+ */
-+static int chown_r(const char *dirname, uid_t uid, gid_t gid)
-+{
-+	DIR *dir;
-+	int ret;
-+	struct dirent *direntp;
-+
-+	dir = opendir(dirname);
-+	if (!dir)
-+		return -1;
-+
-+	while ((direntp = readdir(dir))) {
-+		char buf[PATH_MAX];
-+		struct stat st;
-+
-+		if (!strcmp(direntp->d_name, ".") ||
-+		    !strcmp(direntp->d_name, ".."))
-+			continue;
-+
-+		snprintf(buf, sizeof(buf), "%s/%s", dirname, direntp->d_name);
-+		ret = lstat(buf, &st);
-+		if (ret < 0 && errno != ENOENT)
-+			break;
-+
-+		if (S_ISDIR(st.st_mode))
-+			ret = chown_r(buf, uid, gid);
-+		else
-+			ret = chown(buf, uid, gid);
-+		if (ret < 0 && errno != ENOENT)
-+			break;
-+	}
-+
-+	ret = chown(dirname, uid, gid);
-+	closedir(dir);
-+	return ret;
-+}
-+
-+/**
-+ * fd_to_fd - transfer data from one fd to another
-+ */
-+static int fd_to_fd(int from, int to)
-+{
-+	for (;;) {
-+		uint8_t buf[PATH_MAX];
-+		uint8_t *p = buf;
-+		ssize_t bytes_to_write;
-+		ssize_t bytes_read;
-+
-+		bytes_read = read_nointr(from, buf, sizeof buf);
-+		if (bytes_read < 0)
-+			return -1;
-+		if (bytes_read == 0)
-+			break;
-+
-+		bytes_to_write = (size_t)bytes_read;
-+		do {
-+			ssize_t bytes_written;
-+
-+			bytes_written = write_nointr(to, p, bytes_to_write);
-+			if (bytes_written < 0)
-+				return -1;
-+
-+			bytes_to_write -= bytes_written;
-+			p += bytes_written;
-+		} while (bytes_to_write > 0);
-+	}
-+
-+	return 0;
-+}
-+
-+static int sys_execveat(int fd, const char *path, char **argv, char **envp,
-+			int flags)
-+{
-+#ifdef __NR_execveat
-+	return syscall(__NR_execveat, fd, path, argv, envp, flags);
-+#else
-+	errno = ENOSYS;
-+	return -1;
-+#endif
-+}
-+
-+#ifndef VFS_CAP_U32_3
-+#define VFS_CAP_U32_3 2
-+#endif
-+
-+#ifndef VFS_CAP_U32
-+#define VFS_CAP_U32 VFS_CAP_U32_3
-+#endif
-+
-+#ifndef VFS_CAP_REVISION_1
-+#define VFS_CAP_REVISION_1 0x01000000
-+#endif
-+
-+#ifndef VFS_CAP_REVISION_2
-+#define VFS_CAP_REVISION_2 0x02000000
-+#endif
-+
-+#ifndef VFS_CAP_REVISION_3
-+#define VFS_CAP_REVISION_3 0x03000000
-+struct vfs_ns_cap_data {
-+	__le32 magic_etc;
-+	struct {
-+		__le32 permitted;
-+		__le32 inheritable;
-+	} data[VFS_CAP_U32];
-+	__le32 rootid;
-+};
-+#endif
-+
-+#if __BYTE_ORDER == __BIG_ENDIAN
-+#define cpu_to_le16(w16) le16_to_cpu(w16)
-+#define le16_to_cpu(w16) ((u_int16_t)((u_int16_t)(w16) >> 8) | (u_int16_t)((u_int16_t)(w16) << 8))
-+#define cpu_to_le32(w32) le32_to_cpu(w32)
-+#define le32_to_cpu(w32)                                                                       \
-+	((u_int32_t)((u_int32_t)(w32) >> 24) | (u_int32_t)(((u_int32_t)(w32) >> 8) & 0xFF00) | \
-+	 (u_int32_t)(((u_int32_t)(w32) << 8) & 0xFF0000) | (u_int32_t)((u_int32_t)(w32) << 24))
-+#elif __BYTE_ORDER == __LITTLE_ENDIAN
-+#define cpu_to_le16(w16) ((u_int16_t)(w16))
-+#define le16_to_cpu(w16) ((u_int16_t)(w16))
-+#define cpu_to_le32(w32) ((u_int32_t)(w32))
-+#define le32_to_cpu(w32) ((u_int32_t)(w32))
-+#else
-+#error Expected endianess macro to be set
-+#endif
-+
-+/**
-+ * expected_dummy_vfs_caps_uid - check vfs caps are stored with the provided uid
-+ */
-+static bool expected_dummy_vfs_caps_uid(int fd, uid_t expected_uid)
-+{
-+#define __cap_raised_permitted(x, ns_cap_data)                                 \
-+	((ns_cap_data.data[(x) >> 5].permitted) & (1 << ((x)&31)))
-+	struct vfs_ns_cap_data ns_xattr = {};
-+	ssize_t ret;
-+
-+	ret = fgetxattr(fd, "security.capability", &ns_xattr, sizeof(ns_xattr));
-+	if (ret < 0 || ret == 0)
-+		return false;
-+
-+	if (ns_xattr.magic_etc & VFS_CAP_REVISION_3)
-+		return (le32_to_cpu(ns_xattr.rootid) == expected_uid) && (__cap_raised_permitted(CAP_NET_RAW, ns_xattr) > 0);
-+
-+	return false;
-+}
-+
-+/**
-+ * set_dummy_vfs_caps - set dummy vfs caps for the provided uid
-+ */
-+static int set_dummy_vfs_caps(int fd, int flags, int rootuid)
-+{
-+#define __raise_cap_permitted(x, ns_cap_data)                                  \
-+	ns_cap_data.data[(x) >> 5].permitted |= (1 << ((x)&31))
-+
-+	struct vfs_ns_cap_data ns_xattr;
-+
-+	memset(&ns_xattr, 0, sizeof(ns_xattr));
-+	__raise_cap_permitted(CAP_NET_RAW, ns_xattr);
-+	ns_xattr.magic_etc |= VFS_CAP_REVISION_3 | VFS_CAP_FLAGS_EFFECTIVE;
-+	ns_xattr.rootid = cpu_to_le32(rootuid);
-+
-+	return fsetxattr(fd, "security.capability",
-+			 &ns_xattr, sizeof(ns_xattr), flags);
-+}
-+
-+FIXTURE(core)
-+{
-+	/* fd for the main test directory */
-+	int test_dir_fd;
-+	/* the absolute path to the main test directory */
-+	char test_dir_path[PATH_MAX];
-+
-+	/* fd for test test filesystem image */
-+	int img_fd;
-+	/* fd for the mountpoint of the test fs image */
-+	int img_mnt_fd;
-+
-+	/* temporary buffer */
-+	char cmdline[3 * PATH_MAX];
-+
-+	/* open_tree fd for the mountpoint of the test fs image */
-+	int target1_mnt_fd_attached;
-+
-+	/* detached open_tree fd for the mountpoint of the test fs image */
-+	int target1_mnt_fd_detached;
-+};
-+
-+FIXTURE_SETUP(core)
-+{
-+	struct mount_attr attr = {
-+		.attr_set	= 0,
-+		.attr_clr	= 0,
-+		.propagation	= MAKE_PROPAGATION_PRIVATE,
-+	};
-+
-+	self->img_fd = -EBADF;
-+	self->img_mnt_fd = -EBADF;
-+
-+	/* create separate mount namespace with mount propagation turned off */
-+	ASSERT_EQ(unshare(CLONE_NEWNS), 0);
-+	ASSERT_EQ(sys_mount_setattr(-1, "/", AT_RECURSIVE, &attr, sizeof(attr)), 0);
-+
-+	/* create unique test directory */
-+	snprintf(self->test_dir_path, sizeof(self->test_dir_path),
-+		 "/idmap_mount_core_XXXXXX");
-+	ASSERT_NE(mkdtemp(self->test_dir_path), NULL);
-+	self->test_dir_fd = open(self->test_dir_path, O_CLOEXEC | O_DIRECTORY);
-+	ASSERT_GE(self->test_dir_fd, 0);
-+	ASSERT_EQ(fchmod(self->test_dir_fd, 0777), 0);
-+
-+	/* create filesystem image */
-+	self->img_fd = openat(self->test_dir_fd, IMAGE_FILE1, O_CREAT | O_WRONLY, 0600);
-+	ASSERT_GE(self->img_fd, 0);
-+	ASSERT_EQ(ftruncate(self->img_fd, 1024 * 2048), 0);
-+	snprintf(self->cmdline, sizeof(self->cmdline),
-+		 "mkfs.ext4 -q %s/" IMAGE_FILE1, self->test_dir_path);
-+	ASSERT_EQ(system(self->cmdline), 0);
-+
-+	/* create mountpoint for image */
-+	ASSERT_EQ(mkdirat(self->test_dir_fd, IMAGE_ROOT_MNT1, 0777), 0);
-+
-+	/* mount image */
-+	snprintf(self->cmdline, sizeof(self->cmdline),
-+		 "mount -o loop -t ext4 %s/" IMAGE_FILE1 " %s/" IMAGE_ROOT_MNT1,
-+		 self->test_dir_path, self->test_dir_path);
-+	ASSERT_EQ(system(self->cmdline), 0);
-+
-+	/* stash fd for the image mountpoint */
-+	self->img_mnt_fd = openat(self->test_dir_fd, IMAGE_ROOT_MNT1, O_DIRECTORY | O_CLOEXEC, 0);
-+	ASSERT_GE(self->img_mnt_fd, 0);
-+
-+	/* create mountpoint for bind-mount */
-+	ASSERT_EQ(mkdirat(self->test_dir_fd, MNT_TARGET1, 0777), 0);
-+
-+	/* create new detached mount from image mountpoint */
-+	self->target1_mnt_fd_detached = sys_open_tree(self->test_dir_fd,
-+						      IMAGE_ROOT_MNT1,
-+						      AT_NO_AUTOMOUNT |
-+						      AT_SYMLINK_NOFOLLOW |
-+						      OPEN_TREE_CLOEXEC |
-+						      OPEN_TREE_CLONE);
-+	ASSERT_GE(self->target1_mnt_fd_detached, 0);
-+
-+	/* create attached mount from image mountpoint */
-+	self->target1_mnt_fd_attached = sys_open_tree(self->test_dir_fd,
-+						      IMAGE_ROOT_MNT1,
-+						      AT_NO_AUTOMOUNT |
-+						      AT_SYMLINK_NOFOLLOW |
-+						      OPEN_TREE_CLOEXEC);
-+	ASSERT_GE(self->target1_mnt_fd_attached, 0);
-+}
-+
-+FIXTURE_TEARDOWN(core)
-+{
-+	EXPECT_EQ(close(self->test_dir_fd), 0);
-+	EXPECT_EQ(close(self->img_fd), 0);
-+	EXPECT_EQ(close(self->img_mnt_fd), 0);
-+	EXPECT_EQ(close(self->target1_mnt_fd_attached), 0);
-+	EXPECT_EQ(close(self->target1_mnt_fd_detached), 0);
-+	umount_r(self->test_dir_path);
-+	rm_r(self->test_dir_path);
-+}
-+
-+/**
-+ * Validate that negative fd values are rejected.
-+ */
-+TEST_F(core, invalid_fd_negative)
-+{
-+	struct mount_attr attr = {
-+		.attr_set	= MOUNT_ATTR_IDMAP,
-+		.userns_fd	= -EBADF,
-+	};
-+
-+	ASSERT_NE(sys_mount_setattr(-1, "/", 0, &attr, sizeof(attr)), 0) {
-+		TH_LOG("failure: created idmapped mount with negative fd");
-+	}
-+}
-+
-+/**
-+ * Validate that excessively large fd values are rejected.
-+ */
-+TEST_F(core, invalid_fd_large)
-+{
-+	struct mount_attr attr = {
-+		.attr_set	= MOUNT_ATTR_IDMAP,
-+		.userns_fd	= INT64_MAX,
-+	};
-+
-+	ASSERT_NE(sys_mount_setattr(-1, "/", 0, &attr, sizeof(attr)), 0) {
-+		TH_LOG("failure: created idmapped mount with too large fd value");
-+	}
-+}
-+
-+/**
-+ * Validate that closed fd values are rejected.
-+ */
-+TEST_F(core, invalid_fd_closed)
-+{
-+	int fd;
-+	struct mount_attr attr = {
-+		.attr_set = MOUNT_ATTR_IDMAP,
-+	};
-+
-+	fd = open("/dev/null", O_RDONLY | O_CLOEXEC);
-+	ASSERT_GE(fd, 0);
-+	ASSERT_GE(close(fd), 0);
-+
-+	attr.userns_fd = fd;
-+	ASSERT_NE(sys_mount_setattr(-1, "/", 0, &attr, sizeof(attr)), 0) {
-+		TH_LOG("failure: created idmapped mount with closed fd");
-+	}
-+}
-+
-+/**
-+ * Validate that the initial user namespace is rejected.
-+ */
-+TEST_F(core, invalid_fd_initial_userns)
-+{
-+	struct mount_attr attr = {
-+		.attr_set = MOUNT_ATTR_IDMAP,
-+	};
-+
-+	attr.userns_fd = open("/proc/1/ns/user", O_RDONLY | O_CLOEXEC);
-+	ASSERT_GE(attr.userns_fd, 0);
-+	ASSERT_NE(sys_mount_setattr(-1, "/", 0, &attr, sizeof(attr)), 0) {
-+		TH_LOG("failure: created idmapped mount with initial user namespace");
-+	}
-+	ASSERT_EQ(errno, EPERM);
-+	ASSERT_EQ(close(attr.userns_fd), 0);
-+}
-+
-+/**
-+ * Validate that an attached mount in our mount namespace can be idmapped.
-+ * (The kernel enforces that the mount's mount namespace and the caller's mount
-+ *  namespace match.)
-+ */
-+TEST_F(core, attached_mount_inside_current_mount_namespace)
-+{
-+	struct mount_attr attr = {
-+		.attr_set = MOUNT_ATTR_IDMAP,
-+	};
-+
-+	attr.userns_fd	= get_userns_fd(0, 10000, 10000);
-+	ASSERT_GE(attr.userns_fd, 0);
-+	ASSERT_EQ(sys_mount_setattr(self->target1_mnt_fd_attached, "",
-+				    AT_EMPTY_PATH, &attr, sizeof(attr)), 0) {
-+		TH_LOG("%m - failure: failed to idmap mount %d(%s/" MNT_TARGET1 ")",
-+		       self->target1_mnt_fd_attached, self->test_dir_path);
-+	}
-+	ASSERT_EQ(close(attr.userns_fd), 0);
-+}
-+
-+/**
-+ * Validate that idmapping a mount is rejected if the mount's mount namespace
-+ * and our mount namespace don't match.
-+ * (The kernel enforces that the mount's mount namespace and the caller's mount
-+ *  namespace match.)
-+ */
-+TEST_F(core, attached_mount_outside_current_mount_namespace)
-+{
-+	struct mount_attr attr = {
-+		.attr_set = MOUNT_ATTR_IDMAP,
-+	};
-+
-+	ASSERT_EQ(unshare(CLONE_NEWNS), 0);
-+
-+	attr.userns_fd	= get_userns_fd(0, 10000, 10000);
-+	ASSERT_GE(attr.userns_fd, 0);
-+	ASSERT_NE(sys_mount_setattr(self->target1_mnt_fd_attached, "",
-+				    AT_EMPTY_PATH, &attr, sizeof(attr)), 0) {
-+		TH_LOG("%m - failure: managed to idmap mount %d(%s/" MNT_TARGET1 ")",
-+		       self->target1_mnt_fd_attached, self->test_dir_path);
-+	}
-+	ASSERT_EQ(close(attr.userns_fd), 0);
-+}
-+
-+/**
-+ * Validate that an attached mount in our mount namespace can be idmapped.
-+ */
-+TEST_F(core, detached_mount_inside_current_mount_namespace)
-+{
-+	struct mount_attr attr = {
-+		.attr_set = MOUNT_ATTR_IDMAP,
-+	};
-+
-+	/* Changing mount properties on a detached mount. */
-+	attr.userns_fd	= get_userns_fd(0, 10000, 10000);
-+	ASSERT_GE(attr.userns_fd, 0);
-+	ASSERT_EQ(sys_mount_setattr(self->target1_mnt_fd_detached, "",
-+				    AT_EMPTY_PATH, &attr, sizeof(attr)), 0) {
-+		TH_LOG("%m - failure: failed to idmap mount %d(%s/" MNT_TARGET1 ")",
-+		       self->target1_mnt_fd_detached, self->test_dir_path);
-+	}
-+	ASSERT_EQ(close(attr.userns_fd), 0);
-+}
-+
-+/**
-+ * Validate that a detached mount not in our mount namespace can be idmapped.
-+ */
-+TEST_F(core, detached_mount_outside_current_mount_namespace)
-+{
-+	struct mount_attr attr = {
-+		.attr_set = MOUNT_ATTR_IDMAP,
-+	};
-+
-+	ASSERT_EQ(unshare(CLONE_NEWNS), 0);
-+	attr.userns_fd	= get_userns_fd(0, 10000, 10000);
-+	ASSERT_EQ(sys_mount_setattr(self->target1_mnt_fd_detached, "",
-+				    AT_EMPTY_PATH, &attr, sizeof(attr)), 0) {
-+		TH_LOG("%m - failure: failed to idmap mount %d(%s/" MNT_TARGET1 ")",
-+		       self->target1_mnt_fd_detached, self->test_dir_path);
-+	}
-+	ASSERT_EQ(close(attr.userns_fd), 0);
-+}
-+
-+/**
-+ * Validate that currently changing the idmapping of an idmapped mount fails.
-+ */
-+TEST_F(core, change_idmapping)
-+{
-+	struct mount_attr attr = {
-+		.attr_set = MOUNT_ATTR_IDMAP,
-+	};
-+
-+	attr.userns_fd	= get_userns_fd(0, 10000, 10000);
-+	ASSERT_GE(attr.userns_fd, 0);
-+	ASSERT_EQ(sys_mount_setattr(self->target1_mnt_fd_detached, "",
-+				    AT_EMPTY_PATH, &attr, sizeof(attr)), 0) {
-+		TH_LOG("%m - failure: failed to idmap mount %d(%s/" MNT_TARGET1 ")",
-+		       self->target1_mnt_fd_detached, self->test_dir_path);
-+	}
-+	ASSERT_EQ(close(attr.userns_fd), 0);
-+
-+	/* Change idmapping on a detached mount that is already idmapped. */
-+	attr.userns_fd	= get_userns_fd(0, 20000, 10000);
-+	ASSERT_GE(attr.userns_fd, 0);
-+	ASSERT_NE(sys_mount_setattr(self->target1_mnt_fd_detached, "",
-+				    AT_EMPTY_PATH, &attr, sizeof(attr)), 0) {
-+		TH_LOG("failure: managed to change idmapping of already idmapped mount %d(%s/" MNT_TARGET1 ")",
-+		       self->target1_mnt_fd_detached, self->test_dir_path);
-+	}
-+	ASSERT_EQ(close(attr.userns_fd), 0);
-+}
-+
-+/**
-+ * Validate that basic file operations on idmapped mounts.
-+ */
-+TEST_F(core, create_delete_rename)
-+{
-+	int file1_fd = -EBADF, hardlink_target_fd = -EBADF;
-+	struct mount_attr attr = {
-+		.attr_set = MOUNT_ATTR_IDMAP,
-+	};
-+
-+	/* create hardlink target */
-+	hardlink_target_fd = openat(self->img_mnt_fd, FILE1, O_CREAT | O_EXCL | O_CLOEXEC, 0644);
-+	ASSERT_GE(hardlink_target_fd, 0);
-+	ASSERT_EQ(close(hardlink_target_fd), 0);
-+
-+	/* create directory for rename test */
-+	ASSERT_EQ(mkdirat(self->img_mnt_fd, DIR1, 0700), 0);
-+
-+	/* change ownership of all files to uid 0 */
-+	snprintf(self->cmdline, sizeof(self->cmdline), "%s/" IMAGE_ROOT_MNT1,
-+		 self->test_dir_path);
-+	ASSERT_EQ(chown_r(self->cmdline, 0, 0), 0);
-+
-+	/* Changing mount properties on a detached mount. */
-+	attr.userns_fd	= get_userns_fd(0, 10000, 10000);
-+	ASSERT_GE(attr.userns_fd, 0);
-+	ASSERT_EQ(sys_mount_setattr(self->target1_mnt_fd_detached, "",
-+				    AT_EMPTY_PATH, &attr, sizeof(attr)), 0) {
-+		TH_LOG("%m - failure: failed to idmap mount %d(%s/" MNT_TARGET1 ")",
-+		       self->target1_mnt_fd_detached, self->test_dir_path);
-+	}
-+	ASSERT_EQ(close(attr.userns_fd), 0);
-+
-+	/*
-+	 * The caller's fsids don't have a mappings in the idmapped mount so
-+	 * any file creation must fail.
-+	 */
-+
-+	/* create hardlink */
-+	ASSERT_NE(linkat(self->target1_mnt_fd_detached, FILE1, self->target1_mnt_fd_detached, HARDLINK1, 0), 0);
-+	ASSERT_EQ(errno, EOVERFLOW);
-+
-+	/* try to rename a file */
-+	ASSERT_NE(renameat2(self->target1_mnt_fd_detached, FILE1,
-+			    self->target1_mnt_fd_detached, FILE1_RENAME, 0), 0);
-+	ASSERT_EQ(errno, EOVERFLOW);
-+
-+	/* try to rename a directory */
-+	ASSERT_NE(renameat2(self->target1_mnt_fd_detached, DIR1,
-+			    self->target1_mnt_fd_detached, DIR1_RENAME, 0), 0);
-+	ASSERT_EQ(errno, EOVERFLOW);
-+
-+	/*
-+	 * The caller is privileged over the inode so file deletion must work.
-+	 */
-+
-+	/* remove file */
-+	ASSERT_EQ(unlinkat(self->target1_mnt_fd_detached, FILE1, 0), 0);
-+
-+	/* remove directory */
-+	ASSERT_EQ(unlinkat(self->target1_mnt_fd_detached, DIR1, AT_REMOVEDIR), 0);
-+
-+	/*
-+	 * The caller's fsids don't have a mappings in the idmapped mount so
-+	 * any file creation must fail.
-+	 */
-+
-+	/* create regular file via open() */
-+	file1_fd = openat(self->target1_mnt_fd_detached, FILE1, O_CREAT | O_EXCL | O_CLOEXEC, 0644);
-+	ASSERT_LT(file1_fd, 0);
-+	ASSERT_EQ(errno, EOVERFLOW);
-+
-+	/* create regular file via mknod */
-+	ASSERT_NE(mknodat(self->target1_mnt_fd_detached, FILE2, S_IFREG | 0000, 0), 0);
-+	ASSERT_EQ(errno, EOVERFLOW);
-+
-+	/* create character device */
-+	ASSERT_NE(mknodat(self->target1_mnt_fd_detached, CHRDEV1, S_IFCHR | 0644,
-+			  makedev(5, 1)), 0);
-+	ASSERT_EQ(errno, EOVERFLOW);
-+
-+	/* create symlink */
-+	ASSERT_NE(symlinkat(FILE2, self->target1_mnt_fd_detached, SYMLINK1), 0);
-+	ASSERT_EQ(errno, EOVERFLOW);
-+
-+	/* create directory */
-+	ASSERT_NE(mkdirat(self->target1_mnt_fd_detached, DIR1, 0700), 0);
-+	ASSERT_EQ(errno, EOVERFLOW);
-+}
-+
-+/**
-+ * Validate that basic file operations on idmapped mounts from a user
-+ * namespace.
-+ */
-+TEST_F(core, create_delete_rename_userns)
-+{
-+	int file1_fd = -EBADF;
-+	pid_t pid;
-+	struct mount_attr attr = {
-+		.attr_set = MOUNT_ATTR_IDMAP,
-+	};
-+
-+	/* change ownership of all files to uid 0 */
-+	snprintf(self->cmdline, sizeof(self->cmdline), "%s/" IMAGE_ROOT_MNT1,
-+		 self->test_dir_path);
-+	ASSERT_EQ(chown_r(self->cmdline, 0, 0), 0);
-+
-+	/* Changing mount properties on a detached mount. */
-+	attr.userns_fd	= get_userns_fd(0, 10000, 10000);
-+	ASSERT_GE(attr.userns_fd, 0);
-+	ASSERT_EQ(sys_mount_setattr(self->target1_mnt_fd_detached, "",
-+				    AT_EMPTY_PATH, &attr, sizeof(attr)), 0) {
-+		TH_LOG("%m - failure: failed to idmap mount %d(%s/" MNT_TARGET1 ")",
-+		       self->target1_mnt_fd_detached, self->test_dir_path);
-+	}
-+
-+	pid = fork();
-+	ASSERT_GE(pid, 0);
-+	if (pid == 0) {
-+		/* Switch to  user namespace where uid 10000 maps to 0. */
-+		ASSERT_EQ(setns(attr.userns_fd, CLONE_NEWUSER), 0);
-+		ASSERT_EQ(setresgid(0, 0, 0), 0);
-+		ASSERT_EQ(setresuid(0, 0, 0), 0);
-+
-+		/* create regular file via open() */
-+		file1_fd = openat(self->target1_mnt_fd_detached,
-+				  FILE1, O_CREAT | O_EXCL | O_CLOEXEC, 0644);
-+		ASSERT_GT(file1_fd, 0);
-+		ASSERT_EQ(close(file1_fd), 0);
-+
-+		/* create regular file via mknod */
-+		ASSERT_EQ(mknodat(self->target1_mnt_fd_detached,
-+				  FILE2, S_IFREG | 0000, 0), 0);
-+
-+		/* create symlink */
-+		ASSERT_EQ(symlinkat(FILE2, self->target1_mnt_fd_detached,
-+				    SYMLINK1), 0);
-+
-+		/* create directory */
-+		ASSERT_EQ(mkdirat(self->target1_mnt_fd_detached,
-+				  DIR1, 0700), 0);
-+
-+		/* try to rename a file */
-+		ASSERT_EQ(renameat2(self->target1_mnt_fd_detached, FILE1,
-+				    self->target1_mnt_fd_detached, FILE1_RENAME,
-+				    0), 0);
-+
-+		ASSERT_EQ(expected_uid_gid(self->target1_mnt_fd_detached,
-+					   FILE1_RENAME, 0, 0, 0), true);
-+
-+		/* try to rename a file */
-+		ASSERT_EQ(renameat2(self->target1_mnt_fd_detached, DIR1,
-+				    self->target1_mnt_fd_detached, DIR1_RENAME,
-+				    0), 0);
-+
-+		ASSERT_EQ(expected_uid_gid(self->target1_mnt_fd_detached,
-+					   DIR1_RENAME, 0, 0, 0), true);
-+
-+		/* remove file */
-+		ASSERT_EQ(unlinkat(self->target1_mnt_fd_detached,
-+				   FILE1_RENAME, 0), 0);
-+
-+		/* remove directory */
-+		ASSERT_EQ(unlinkat(self->target1_mnt_fd_detached,
-+				   DIR1_RENAME, AT_REMOVEDIR), 0);
-+
-+		exit(EXIT_SUCCESS);
-+	}
-+	ASSERT_EQ(wait_for_pid(pid), 0);
-+
-+	ASSERT_EQ(close(attr.userns_fd), 0);
-+}
-+
-+TEST_F(core, hardlinks)
-+{
-+	int file1_fd = -EBADF, open_tree_fd = -EBADF;
-+	struct mount_attr attr1 = {
-+		.attr_set = MOUNT_ATTR_IDMAP,
-+	};
-+
-+	struct mount_attr attr2 = {
-+		.attr_set = MOUNT_ATTR_IDMAP,
-+	};
-+
-+	file1_fd = openat(self->img_mnt_fd, FILE1, O_CREAT | O_EXCL | O_CLOEXEC, 0644);
-+	ASSERT_GE(file1_fd, 0);
-+	ASSERT_EQ(close(file1_fd), 0);
-+
-+	/* Chown all files to an unprivileged user. */
-+	snprintf(self->cmdline, sizeof(self->cmdline), "%s/" IMAGE_ROOT_MNT1,
-+		 self->test_dir_path);
-+	ASSERT_EQ(chown_r(self->cmdline, 10000, 10000), 0);
-+
-+	/* Changing mount properties on a detached mount. */
-+	attr1.userns_fd	= get_userns_fd(10000, 0, 10000);
-+	ASSERT_GE(attr1.userns_fd, 0);
-+	ASSERT_EQ(sys_mount_setattr(self->target1_mnt_fd_detached, "",
-+				    AT_EMPTY_PATH, &attr1, sizeof(attr1)), 0) {
-+		TH_LOG("%m - failure: failed to idmap mount %d(%s/" MNT_TARGET1 ")",
-+		       self->target1_mnt_fd_detached, self->test_dir_path);
-+	}
-+
-+	/* Create detached mount. */
-+	open_tree_fd = sys_open_tree(self->test_dir_fd, IMAGE_ROOT_MNT1,
-+				     AT_NO_AUTOMOUNT | AT_SYMLINK_NOFOLLOW |
-+				     OPEN_TREE_CLOEXEC | OPEN_TREE_CLONE |
-+				     AT_RECURSIVE);
-+	ASSERT_GE(open_tree_fd, 0);
-+
-+	/* Changing mount properties on a detached mount. */
-+	attr2.userns_fd	= get_userns_fd(10000, 0, 10000);
-+	ASSERT_GE(attr2.userns_fd, 0);
-+	ASSERT_EQ(sys_mount_setattr(open_tree_fd, "",
-+				    AT_EMPTY_PATH, &attr2, sizeof(attr2)), 0) {
-+		TH_LOG("%m - failure: failed to idmap mount %d(%s/" MNT_TARGET2 ")",
-+		       open_tree_fd, self->test_dir_path);
-+	}
-+
-+	/* we're crossing a mountpoint so this must fail
-+	 *
-+	 * Note that this must also fail for non-idmapped mounts but here we're
-+	 * interested in making sure we're not introducing an accidental way to
-+	 * violate that restriction or that suddenly this becomes possible.
-+	 */
-+	ASSERT_NE(linkat(self->target1_mnt_fd_detached, FILE1, open_tree_fd, HARDLINK1, 0), 0);
-+	ASSERT_EQ(errno, EXDEV);
-+
-+	ASSERT_EQ(close(attr1.userns_fd), 0);
-+	ASSERT_EQ(close(attr2.userns_fd), 0);
-+}
-+
-+TEST_F(core, rename)
-+{
-+	int file1_fd = -EBADF, open_tree_fd = -EBADF;
-+	struct mount_attr attr1 = {
-+		.attr_set = MOUNT_ATTR_IDMAP,
-+	};
-+
-+	struct mount_attr attr2 = {
-+		.attr_set = MOUNT_ATTR_IDMAP,
-+	};
-+
-+	file1_fd = openat(self->img_mnt_fd, FILE1, O_CREAT | O_EXCL | O_CLOEXEC, 0644);
-+	ASSERT_GE(file1_fd, 0);
-+	ASSERT_EQ(close(file1_fd), 0);
-+
-+	/* Chown all files to an unprivileged user. */
-+	snprintf(self->cmdline, sizeof(self->cmdline), "%s/" IMAGE_ROOT_MNT1,
-+		 self->test_dir_path);
-+	ASSERT_EQ(chown_r(self->cmdline, 10000, 10000), 0);
-+
-+	/* Changing mount properties on a detached mount. */
-+	attr1.userns_fd	= get_userns_fd(10000, 0, 10000);
-+	ASSERT_GE(attr1.userns_fd, 0);
-+	ASSERT_EQ(sys_mount_setattr(self->target1_mnt_fd_detached, "",
-+				    AT_EMPTY_PATH, &attr1, sizeof(attr1)), 0) {
-+		TH_LOG("%m - failure: failed to idmap mount %d(%s/" MNT_TARGET1 ")",
-+		       self->target1_mnt_fd_detached, self->test_dir_path);
-+	}
-+
-+	/* Create detached mount. */
-+	open_tree_fd = sys_open_tree(self->test_dir_fd, IMAGE_ROOT_MNT1,
-+				     AT_NO_AUTOMOUNT | AT_SYMLINK_NOFOLLOW |
-+				     OPEN_TREE_CLOEXEC | OPEN_TREE_CLONE |
-+				     AT_RECURSIVE);
-+	ASSERT_GE(open_tree_fd, 0);
-+
-+	/* Changing mount properties on a detached mount. */
-+	attr2.userns_fd	= get_userns_fd(10000, 0, 10000);
-+	ASSERT_GE(attr2.userns_fd, 0);
-+	ASSERT_EQ(sys_mount_setattr(open_tree_fd, "",
-+				    AT_EMPTY_PATH, &attr2, sizeof(attr2)), 0) {
-+		TH_LOG("%m - failure: failed to idmap mount %d(%s/" MNT_TARGET2 ")",
-+		       open_tree_fd, self->test_dir_path);
-+	}
-+
-+	/* we're crossing a mountpoint so this must fail
-+	 *
-+	 * Note that this must also fail for non-idmapped mounts but here we're
-+	 * interested in making sure we're not introducing an accidental way to
-+	 * violate that restriction or that suddenly this becomes possible.
-+	 */
-+	ASSERT_NE(renameat2(self->target1_mnt_fd_detached, FILE1,
-+			    open_tree_fd, FILE1_RENAME, 0), 0);
-+
-+	ASSERT_EQ(close(attr1.userns_fd), 0);
-+	ASSERT_EQ(close(attr2.userns_fd), 0);
-+}
-+
-+/**
-+ * Validate that a caller whose fsids map into the idmapped mount within it's
-+ * user namespace can create files.
-+ */
-+TEST_F(core, create_userns)
-+{
-+	int file1_fd = -EBADF;
-+	pid_t pid;
-+	struct mount_attr attr = {
-+		.attr_set = MOUNT_ATTR_IDMAP,
-+	};
-+
-+	/* Changing mount properties on a detached mount. */
-+	attr.userns_fd	= get_userns_fd(0, 10000, 10000);
-+	ASSERT_GE(attr.userns_fd, 0);
-+	ASSERT_EQ(sys_mount_setattr(self->target1_mnt_fd_detached, "",
-+				    AT_EMPTY_PATH, &attr, sizeof(attr)), 0) {
-+		TH_LOG("%m - failure: failed to idmap mount %d(%s/" MNT_TARGET1 ")",
-+		       self->target1_mnt_fd_detached, self->test_dir_path);
-+	}
-+
-+	pid = fork();
-+	ASSERT_GE(pid, 0);
-+	if (pid == 0) {
-+		/* Switch to user namespace where uid 10000 maps to 0. */
-+		ASSERT_EQ(setns(attr.userns_fd, CLONE_NEWUSER), 0);
-+		ASSERT_EQ(setresgid(0, 0, 0), 0);
-+		ASSERT_EQ(setresuid(0, 0, 0), 0);
-+
-+		/* create regular file via open() */
-+		file1_fd = openat(self->target1_mnt_fd_detached,
-+				  FILE1, O_CREAT | O_EXCL | O_CLOEXEC, 0644);
-+		ASSERT_GE(file1_fd, 0);
-+		ASSERT_EQ(close(file1_fd), 0);
-+
-+		/* create regular file via mknod */
-+		ASSERT_EQ(mknodat(self->target1_mnt_fd_detached,
-+				  FILE2, S_IFREG | 0000, 0), 0);
-+
-+		/* create hardlink */
-+		ASSERT_EQ(linkat(self->target1_mnt_fd_detached,
-+				 FILE1,
-+				 self->target1_mnt_fd_detached,
-+				 HARDLINK1, 0), 0);
-+
-+		/* create symlink */
-+		ASSERT_EQ(symlinkat(FILE2, self->target1_mnt_fd_detached,
-+				    SYMLINK1), 0);
-+
-+		/* create directory */
-+		ASSERT_EQ(mkdirat(self->target1_mnt_fd_detached,
-+				  DIR1, 0700), 0);
-+
-+		exit(EXIT_SUCCESS);
-+	}
-+	ASSERT_EQ(wait_for_pid(pid), 0);
-+	ASSERT_EQ(close(attr.userns_fd), 0);
-+}
-+
-+/**
-+ * Validate that a caller whose fsids map into the idmapped mount within it's
-+ * user namespace cannot create any device nodes.
-+ */
-+TEST_F(core, create_userns_device_node)
-+{
-+	pid_t pid;
-+	struct mount_attr attr = {
-+		.attr_set = MOUNT_ATTR_IDMAP,
-+	};
-+
-+	/* Changing mount properties on a detached mount. */
-+	attr.userns_fd	= get_userns_fd(0, 10000, 10000);
-+	ASSERT_GE(attr.userns_fd, 0);
-+	ASSERT_EQ(sys_mount_setattr(self->target1_mnt_fd_detached, "",
-+				    AT_EMPTY_PATH, &attr, sizeof(attr)), 0) {
-+		TH_LOG("%m - failure: failed to idmap mount %d(%s/" MNT_TARGET1 ")",
-+		       self->target1_mnt_fd_detached, self->test_dir_path);
-+	}
-+
-+	pid = fork();
-+	ASSERT_GE(pid, 0);
-+	if (pid == 0) {
-+		/* Switch to user namespace where uid 10000 maps to 0. */
-+		ASSERT_EQ(setns(attr.userns_fd, CLONE_NEWUSER), 0);
-+		ASSERT_EQ(setresgid(0, 0, 0), 0);
-+		ASSERT_EQ(setresuid(0, 0, 0), 0);
-+
-+		/* create character device */
-+		ASSERT_NE(mknodat(self->target1_mnt_fd_detached,
-+				  CHRDEV1, S_IFCHR | 0644, makedev(5, 1)), 0);
-+
-+		exit(EXIT_SUCCESS);
-+	}
-+	ASSERT_EQ(wait_for_pid(pid), 0);
-+
-+	ASSERT_EQ(close(attr.userns_fd), 0);
-+}
-+
-+/**
-+ * Validate that changing file ownership works correctly on idmapped mounts.
-+ */
-+TEST_F(core, expected_uid_gid)
-+{
-+	int file1_fd = -EBADF;
-+	uid_t fsuid;
-+	gid_t fsgid;
-+	struct mount_attr attr = {
-+		.attr_set = MOUNT_ATTR_IDMAP,
-+	};
-+
-+	/* create regular file via open() */
-+	file1_fd = openat(self->img_mnt_fd, FILE1, O_CREAT | O_EXCL | O_CLOEXEC, 0644);
-+	ASSERT_GE(file1_fd, 0);
-+
-+	/* create regular file via mknod */
-+	ASSERT_EQ(mknodat(self->img_mnt_fd, FILE2, S_IFREG | 0000, 0), 0);
-+
-+	/* create character device */
-+	ASSERT_EQ(mknodat(self->img_mnt_fd, CHRDEV1, S_IFCHR | 0644,
-+			  makedev(5, 1)), 0);
-+
-+	/* create hardlink */
-+	ASSERT_EQ(linkat(self->img_mnt_fd, FILE1, self->img_mnt_fd, HARDLINK1, 0), 0);
-+
-+	/* create symlink */
-+	ASSERT_EQ(symlinkat(FILE2, self->img_mnt_fd, SYMLINK1), 0);
-+
-+	/* create directory */
-+	ASSERT_EQ(mkdirat(self->img_mnt_fd, DIR1, 0700), 0);
-+
-+	/* retrieve fsids */
-+	fsuid = setfsuid(-1);
-+	fsgid = setfsgid(-1);
-+
-+	/* Changing mount properties on a detached mount. */
-+	attr.userns_fd	= get_userns_fd(0, 10000, 10000);
-+	ASSERT_GE(attr.userns_fd, 0);
-+	ASSERT_EQ(sys_mount_setattr(self->target1_mnt_fd_detached, "",
-+				    AT_EMPTY_PATH, &attr, sizeof(attr)), 0) {
-+		TH_LOG("%m - failure: failed to idmap mount %d(%s/" MNT_TARGET1 ")",
-+		       self->target1_mnt_fd_detached, self->test_dir_path);
-+	}
-+	ASSERT_EQ(close(attr.userns_fd), 0);
-+
-+	/*
-+	 * Validate that all files created through the image mountpoint are
-+	 * owned by the callers fsuid and fsgid.
-+	 */
-+	ASSERT_EQ(expected_uid_gid(self->img_mnt_fd, FILE1,
-+		  0, fsuid, fsgid), true);
-+
-+	ASSERT_EQ(expected_uid_gid(self->img_mnt_fd, FILE2,
-+		  0, fsuid, fsgid), true);
-+
-+	ASSERT_EQ(expected_uid_gid(self->img_mnt_fd, HARDLINK1,
-+		  0, fsuid, fsgid), true);
-+
-+	ASSERT_EQ(expected_uid_gid(self->img_mnt_fd, CHRDEV1,
-+		  0, fsuid, fsgid), true);
-+
-+	ASSERT_EQ(expected_uid_gid(self->img_mnt_fd, SYMLINK1,
-+		  0, fsuid, fsgid), true);
-+
-+	ASSERT_EQ(expected_uid_gid(self->img_mnt_fd, DIR1,
-+		  0, fsuid, fsgid), true);
-+
-+	/*
-+	 * Validate that all files are owned by the uid and gid specified in
-+	 * the idmapping of the mount they are accessed from.
-+	 */
-+	ASSERT_EQ(expected_uid_gid(self->target1_mnt_fd_detached, FILE1,
-+		  0, 10000, 10000), true);
-+
-+	ASSERT_EQ(expected_uid_gid(self->target1_mnt_fd_detached, FILE2,
-+		  0, 10000, 10000), true);
-+
-+	ASSERT_EQ(expected_uid_gid(self->target1_mnt_fd_detached, HARDLINK1,
-+		  0, 10000, 10000), true);
-+
-+	ASSERT_EQ(expected_uid_gid(self->target1_mnt_fd_detached, CHRDEV1,
-+		  0, 10000, 10000), true);
-+
-+	ASSERT_EQ(expected_uid_gid(self->target1_mnt_fd_detached, SYMLINK1,
-+		  0, 10000, 10000), true);
-+
-+	ASSERT_EQ(expected_uid_gid(self->target1_mnt_fd_detached, DIR1,
-+		  0, 10000, 10000), true);
-+
-+	/* Change ownership throught original image mountpoint. */
-+	ASSERT_EQ(fchownat(self->img_mnt_fd, FILE1, 1000, 1000, 0), 0);
-+
-+	/* Verify correct ownership through original image mountpoint. */
-+	ASSERT_EQ(expected_uid_gid(self->img_mnt_fd, FILE1,
-+		  0, 1000, 1000), true);
-+
-+	ASSERT_EQ(expected_uid_gid(self->img_mnt_fd, HARDLINK1,
-+		  0, 1000, 1000), true);
-+
-+	/* Verify correct ownership through idmapped mountpoint. */
-+	ASSERT_EQ(expected_uid_gid(self->target1_mnt_fd_detached, FILE1,
-+		  0, 11000, 11000), true);
-+
-+	ASSERT_EQ(expected_uid_gid(self->target1_mnt_fd_detached, HARDLINK1,
-+		  0, 11000, 11000), true);
-+
-+	/* Change ownership throught idmapped mountpoint. */
-+	ASSERT_EQ(fchownat(self->target1_mnt_fd_detached, DIR1,
-+			   11000, 11000, 0), 0);
-+
-+	/* Verify correct ownership through original image mountpoint. */
-+	ASSERT_EQ(expected_uid_gid(self->img_mnt_fd, DIR1,
-+		  0, 1000, 1000), true);
-+
-+	/* Verify correct ownership through idmapped mountpoint. */
-+	ASSERT_EQ(expected_uid_gid(self->target1_mnt_fd_detached, DIR1,
-+		  0, 11000, 11000), true);
-+
-+	/* Change ownership throught idmapped mountpoint. */
-+	ASSERT_EQ(fchownat(self->target1_mnt_fd_detached, FILE1,
-+			   11000, 11000, 0), 0);
-+	ASSERT_EQ(fchownat(self->target1_mnt_fd_detached, FILE2,
-+			   11000, 11000, 0), 0);
-+	ASSERT_EQ(fchownat(self->target1_mnt_fd_detached, CHRDEV1,
-+			   11000, 11000, 0), 0);
-+	ASSERT_EQ(fchownat(self->target1_mnt_fd_detached, SYMLINK1,
-+			   11000, 11000, 0), 0);
-+	ASSERT_EQ(fchownat(self->target1_mnt_fd_detached, DIR1,
-+			   11000, 11000, 0), 0);
-+
-+	/*
-+	 * Validate that all files are owned by the uid and gid specified in
-+	 * the idmapping of the mount they are accessed from.
-+	 */
-+	ASSERT_EQ(expected_uid_gid(self->target1_mnt_fd_detached, FILE1,
-+		  0, 11000, 11000), true);
-+
-+	ASSERT_EQ(expected_uid_gid(self->target1_mnt_fd_detached, FILE2,
-+		  0, 11000, 11000), true);
-+
-+	ASSERT_EQ(expected_uid_gid(self->target1_mnt_fd_detached, HARDLINK1,
-+		  0, 11000, 11000), true);
-+
-+	ASSERT_EQ(expected_uid_gid(self->target1_mnt_fd_detached, CHRDEV1,
-+		  0, 11000, 11000), true);
-+
-+	ASSERT_EQ(expected_uid_gid(self->target1_mnt_fd_detached, SYMLINK1,
-+		  0, 11000, 11000), true);
-+
-+	ASSERT_EQ(expected_uid_gid(self->target1_mnt_fd_detached, DIR1,
-+		  0, 11000, 11000), true);
-+
-+	/*
-+	 * Try to change to an id for which we do not have an idmapping from
-+	 * the idmapped mountpoint. This must fail.
-+	 */
-+	ASSERT_NE(fchownat(self->target1_mnt_fd_detached, FILE1,
-+			   30000, 30000, 0), 0);
-+	ASSERT_NE(fchownat(self->target1_mnt_fd_detached, FILE2,
-+			   30000, 30000, 0), 0);
-+	ASSERT_NE(fchownat(self->target1_mnt_fd_detached, CHRDEV1,
-+			   30000, 30000, 0), 0);
-+	ASSERT_NE(fchownat(self->target1_mnt_fd_detached, SYMLINK1,
-+			   30000, 30000, 0), 0);
-+	ASSERT_NE(fchownat(self->target1_mnt_fd_detached, DIR1,
-+			   30000, 30000, 0), 0);
-+
-+	ASSERT_EQ(close(file1_fd), 0);
-+}
-+
-+/**
-+ * Validate that changing file ownership in a user namespace with a matching
-+ * idmapping works correctly on idmapped mounts.
-+ */
-+TEST_F(core, expected_uid_gid_userns)
-+{
-+	int file1_fd = -EBADF;
-+	pid_t pid;
-+	struct mount_attr attr = {
-+		.attr_set = MOUNT_ATTR_IDMAP,
-+	};
-+
-+	/* create regular file via open() */
-+	file1_fd = openat(self->img_mnt_fd, FILE1, O_CREAT | O_EXCL | O_CLOEXEC, 0644);
-+	ASSERT_GE(file1_fd, 0);
-+
-+	/* create regular file via mknod */
-+	ASSERT_EQ(mknodat(self->img_mnt_fd, FILE2, S_IFREG | 0000, 0), 0);
-+
-+	/* create character device */
-+	ASSERT_EQ(mknodat(self->img_mnt_fd, CHRDEV1, S_IFCHR | 0644,
-+			  makedev(5, 1)), 0);
-+
-+	/* create hardlink */
-+	ASSERT_EQ(linkat(self->img_mnt_fd, FILE1, self->img_mnt_fd, HARDLINK1, 0), 0);
-+
-+	/* create symlink */
-+	ASSERT_EQ(symlinkat(FILE2, self->img_mnt_fd, SYMLINK1), 0);
-+
-+	/* create directory */
-+	ASSERT_EQ(mkdirat(self->img_mnt_fd, DIR1, 0700), 0);
-+
-+	/* change ownership of all files to uid 0 */
-+	snprintf(self->cmdline, sizeof(self->cmdline), "%s/" IMAGE_ROOT_MNT1,
-+		 self->test_dir_path);
-+	ASSERT_EQ(chown_r(self->cmdline, 0, 0), 0);
-+
-+	/* Changing mount properties on a detached mount. */
-+	attr.userns_fd	= get_userns_fd(0, 10000, 10000);
-+	ASSERT_GE(attr.userns_fd, 0);
-+	ASSERT_EQ(sys_mount_setattr(self->target1_mnt_fd_detached, "",
-+				    AT_EMPTY_PATH, &attr, sizeof(attr)), 0) {
-+		TH_LOG("%m - failure: failed to idmap mount %d(%s/" MNT_TARGET1 ")",
-+		       self->target1_mnt_fd_detached, self->test_dir_path);
-+	}
-+
-+	pid = fork();
-+	ASSERT_GE(pid, 0);
-+	if (pid == 0) {
-+		/* Switch to  user namespace where uid 10000 maps to 0. */
-+		ASSERT_EQ(setns(attr.userns_fd, CLONE_NEWUSER), 0);
-+		ASSERT_EQ(setresgid(0, 0, 0), 0);
-+		ASSERT_EQ(setresuid(0, 0, 0), 0);
-+
-+		/*
-+		 * All files are now owned by uid 0 if accessed through the
-+		 * idmapped mountpoint.
-+		 */
-+		ASSERT_EQ(expected_uid_gid(self->target1_mnt_fd_detached,
-+					   FILE1, 0, 0, 0), true);
-+
-+		ASSERT_EQ(expected_uid_gid(self->target1_mnt_fd_detached,
-+					   FILE2, 0, 0, 0), true);
-+
-+		ASSERT_EQ(expected_uid_gid(self->target1_mnt_fd_detached,
-+					   HARDLINK1, 0, 0, 0), true);
-+
-+		ASSERT_EQ(expected_uid_gid(self->target1_mnt_fd_detached,
-+					   CHRDEV1, 0, 0, 0), true);
-+
-+		ASSERT_EQ(expected_uid_gid(self->target1_mnt_fd_detached,
-+					   SYMLINK1, 0, 0, 0), true);
-+
-+		ASSERT_EQ(expected_uid_gid(self->target1_mnt_fd_detached,
-+					   DIR1, 0, 0, 0), true);
-+
-+		/* Change ownership throught idmapped mountpoint. */
-+		ASSERT_EQ(fchownat(self->target1_mnt_fd_detached,
-+				   FILE1, 1000, 1000, 0), 0);
-+		ASSERT_EQ(fchownat(self->target1_mnt_fd_detached,
-+				   FILE2, 1000, 1000, 0), 0);
-+		ASSERT_EQ(fchownat(self->target1_mnt_fd_detached,
-+				   CHRDEV1, 1000, 1000, 0), 0);
-+		ASSERT_EQ(fchownat(self->target1_mnt_fd_detached,
-+				   SYMLINK1, 1000, 1000, 0), 0);
-+		ASSERT_EQ(fchownat(self->target1_mnt_fd_detached,
-+				   DIR1, 1000, 1000, 0), 0);
-+
-+		/*
-+		 * All files are now owned by uid 1000 if accessed through the
-+		 * idmapped mountpoint.
-+		 */
-+		ASSERT_EQ(expected_uid_gid(self->target1_mnt_fd_detached,
-+					   FILE1, 0, 1000, 1000), true);
-+
-+		ASSERT_EQ(expected_uid_gid(self->target1_mnt_fd_detached,
-+					   FILE2, 0, 1000, 1000), true);
-+
-+		ASSERT_EQ(expected_uid_gid(self->target1_mnt_fd_detached,
-+					   HARDLINK1, 0, 1000, 1000), true);
-+
-+		ASSERT_EQ(expected_uid_gid(self->target1_mnt_fd_detached,
-+					   CHRDEV1, 0, 1000, 1000), true);
-+
-+		ASSERT_EQ(expected_uid_gid(self->target1_mnt_fd_detached,
-+					   SYMLINK1, 0, 1000, 1000), true);
-+
-+		ASSERT_EQ(expected_uid_gid(self->target1_mnt_fd_detached,
-+					   DIR1, 0, 1000, 1000), true);
-+
-+		/*
-+		 * Try to change to an id for which we do not have an idmapping
-+		 * from the idmapped mountpoint. This must fail.
-+		 */
-+		ASSERT_NE(fchownat(self->target1_mnt_fd_detached,
-+				   FILE1, 30000, 30000, 0), 0);
-+		ASSERT_NE(fchownat(self->target1_mnt_fd_detached,
-+				   FILE2, 30000, 30000, 0), 0);
-+		ASSERT_NE(fchownat(self->target1_mnt_fd_detached,
-+				   CHRDEV1, 30000, 30000, 0), 0);
-+		ASSERT_NE(fchownat(self->target1_mnt_fd_detached,
-+				   SYMLINK1, 30000, 30000, 0), 0);
-+		ASSERT_NE(fchownat(self->target1_mnt_fd_detached,
-+				   DIR1, 30000, 30000, 0), 0);
-+
-+		exit(EXIT_SUCCESS);
-+	}
-+	ASSERT_EQ(wait_for_pid(pid), 0);
-+
-+	/*
-+	 * All files are owned by uid 10000 if accessed through the image
-+	 * mountpoint.
-+	 */
-+	ASSERT_EQ(expected_uid_gid(self->img_mnt_fd,
-+				  FILE1, 0, 1000, 1000), true);
-+
-+	ASSERT_EQ(expected_uid_gid(self->img_mnt_fd,
-+				   FILE2, 0, 1000, 1000), true);
-+
-+	ASSERT_EQ(expected_uid_gid(self->img_mnt_fd,
-+				   HARDLINK1, 0, 1000, 1000), true);
-+
-+	ASSERT_EQ(expected_uid_gid(self->img_mnt_fd,
-+				   CHRDEV1, 0, 1000, 1000), true);
-+
-+	ASSERT_EQ(expected_uid_gid(self->img_mnt_fd,
-+				   SYMLINK1, 0, 1000, 1000), true);
-+
-+	ASSERT_EQ(expected_uid_gid(self->img_mnt_fd,
-+				   DIR1, 0, 1000, 1000), true);
-+
-+	ASSERT_EQ(close(file1_fd), 0);
-+	ASSERT_EQ(close(attr.userns_fd), 0);
-+}
-+
-+/**
-+ * Validate that setting namespaced filesystem capabilities works correctly on
-+ * idmapped mounts.
-+ */
-+TEST_F(core, expected_fscaps_userns)
-+{
-+	pid_t pid;
-+	int file1_fd = -EBADF, file1_fd2 = -EBADF;
-+	struct mount_attr attr = {
-+		.attr_set = MOUNT_ATTR_IDMAP,
-+	};
-+
-+	file1_fd = openat(self->img_mnt_fd, FILE1, O_CREAT | O_EXCL | O_CLOEXEC, 0644);
-+	ASSERT_GE(file1_fd, 0);
-+	ASSERT_EQ(close(file1_fd), 0);
-+
-+	/* Changing mount properties on a detached mount. */
-+	attr.userns_fd	= get_userns_fd(0, 10000, 10000);
-+	ASSERT_GE(attr.userns_fd, 0);
-+	ASSERT_EQ(sys_mount_setattr(self->target1_mnt_fd_detached, "",
-+				    AT_EMPTY_PATH, &attr, sizeof(attr)), 0) {
-+		TH_LOG("%m - failure: failed to idmap mount %d(%s/" MNT_TARGET1 ")",
-+		       self->target1_mnt_fd_detached, self->test_dir_path);
-+	}
-+
-+	file1_fd = openat(self->target1_mnt_fd_detached, FILE1, O_RDWR | O_CLOEXEC, 0);
-+	ASSERT_GE(file1_fd, 0);
-+
-+	/*
-+	 * uid 10000 maps to 0 in the mount's user namespace and uid 0 has a
-+	 * mapping in our current user namespace and in the superblock's
-+	 * namespace so this must succeed.
-+	 */
-+	ASSERT_EQ(set_dummy_vfs_caps(file1_fd, 0, 10000), 0);
-+	ASSERT_EQ(expected_dummy_vfs_caps_uid(file1_fd, 10000), true);
-+
-+	/*
-+	 * uid 0 maps to 10000 in the mount's user namespace but uid 10000
-+	 * doesn't have a mapping in our current user namespace so this must
-+	 * fails.
-+	 */
-+	ASSERT_NE(set_dummy_vfs_caps(file1_fd, 0, 0), 0);
-+
-+	file1_fd2 = openat(self->img_mnt_fd, FILE1, O_RDWR | O_CLOEXEC, 0);
-+	ASSERT_GE(file1_fd2, 0);
-+	ASSERT_EQ(expected_dummy_vfs_caps_uid(file1_fd2, 0), true);
-+
-+	ASSERT_EQ(fremovexattr(file1_fd, "security.capability"), 0);
-+	ASSERT_EQ(expected_dummy_vfs_caps_uid(file1_fd2, 0), false);
-+
-+	pid = fork();
-+	ASSERT_GE(pid, 0);
-+	if (pid == 0) {
-+		/* Switch to a user namespace where uid 10000 maps to 0. */
-+		ASSERT_EQ(setns(attr.userns_fd, CLONE_NEWUSER), 0);
-+		ASSERT_EQ(setresgid(0, 0, 0), 0);
-+		ASSERT_EQ(setresuid(0, 0, 0), 0);
-+
-+		/*
-+		 * uid 0 maps to 10000 in the mount's user namespace and uid 10000
-+		 * has a mapping in our current user namespace and in the superblock's
-+		 * user namespace so this must succeed.
-+		 */
-+		ASSERT_EQ(set_dummy_vfs_caps(file1_fd, 0, 0), 0);
-+		ASSERT_EQ(expected_dummy_vfs_caps_uid(file1_fd, 0), true);
-+		exit(EXIT_SUCCESS);
-+	}
-+	ASSERT_EQ(wait_for_pid(pid), 0);
-+
-+	ASSERT_EQ(expected_dummy_vfs_caps_uid(file1_fd2, 0), true);
-+
-+	ASSERT_EQ(close(file1_fd), 0);
-+	ASSERT_EQ(close(file1_fd2), 0);
-+	ASSERT_EQ(close(attr.userns_fd), 0);
-+}
-+
-+/**
-+ * Validate that setting filesystem capabilities works correctly on idmapped
-+ * mounts where all files on disk are owned by uid and gid 10000.
-+ */
-+TEST_F(core, expected_fscaps_reverse)
-+{
-+	int file1_fd = -EBADF, file1_fd2 = -EBADF;
-+	struct mount_attr attr = {
-+		.attr_set = MOUNT_ATTR_IDMAP,
-+	};
-+
-+	file1_fd = openat(self->img_mnt_fd, FILE1, O_CREAT | O_EXCL | O_CLOEXEC, 0644);
-+	ASSERT_GE(file1_fd, 0);
-+	ASSERT_EQ(close(file1_fd), 0);
-+
-+	/* Chown all files to an unprivileged user. */
-+	snprintf(self->cmdline, sizeof(self->cmdline), "%s/" IMAGE_ROOT_MNT1,
-+		 self->test_dir_path);
-+	ASSERT_EQ(chown_r(self->cmdline, 10000, 10000), 0);
-+
-+	/* Changing mount properties on a detached mount. */
-+	attr.userns_fd	= get_userns_fd(10000, 0, 10000);
-+	ASSERT_GE(attr.userns_fd, 0);
-+	ASSERT_EQ(sys_mount_setattr(self->target1_mnt_fd_detached, "",
-+				    AT_EMPTY_PATH, &attr, sizeof(attr)), 0) {
-+		TH_LOG("%m - Failed to idmap mount %d(%s/" MNT_TARGET1 ")",
-+		       self->target1_mnt_fd_detached, self->test_dir_path);
-+	}
-+	ASSERT_EQ(close(attr.userns_fd), 0);
-+
-+	ASSERT_EQ(sys_move_mount(self->target1_mnt_fd_detached, "",
-+				 self->test_dir_fd, MNT_TARGET1,
-+				 MOVE_MOUNT_F_EMPTY_PATH), 0) {
-+		TH_LOG("%m - Failed to attached detached mount %d(%s/" IMAGE_FILE1 ") to %s/" MNT_TARGET1,
-+		       self->target1_mnt_fd_detached, self->test_dir_path,
-+		       self->test_dir_path);
-+	}
-+
-+	snprintf(self->cmdline, sizeof(self->cmdline),
-+		 "setcap cap_dac_override,cap_sys_tty_config+ep %s/" MNT_TARGET1 "/" FILE1,
-+		 self->test_dir_path);
-+	ASSERT_EQ(system(self->cmdline), 0);
-+
-+	file1_fd = openat(self->target1_mnt_fd_detached, FILE1, O_RDWR | O_CLOEXEC, 0);
-+	ASSERT_GE(file1_fd, 0);
-+	ASSERT_EQ(set_dummy_vfs_caps(file1_fd, 0, 0), 0);
-+	ASSERT_EQ(expected_dummy_vfs_caps_uid(file1_fd, 0), true);
-+
-+	ASSERT_NE(set_dummy_vfs_caps(file1_fd, 0, 10000), 0);
-+
-+	file1_fd2 = openat(self->img_mnt_fd, FILE1, O_RDWR | O_CLOEXEC, 0);
-+	ASSERT_GE(file1_fd2, 0);
-+	ASSERT_EQ(expected_dummy_vfs_caps_uid(file1_fd2, 10000), true);
-+
-+	ASSERT_EQ(fremovexattr(file1_fd, "security.capability"), 0);
-+	ASSERT_EQ(expected_dummy_vfs_caps_uid(file1_fd2, 0), false);
-+
-+	ASSERT_EQ(close(file1_fd), 0);
-+	ASSERT_EQ(close(file1_fd2), 0);
-+}
-+
-+/**
-+ * Validate that when the IDMAP_MOUNT_TEST_RUN_SETID environment variable is
-+ * set to 1 that we are executed with setid privileges and if set to 0 we are
-+ * not. If the env variable isn't set the tests are not run.
-+ */
-+static void __attribute__((constructor)) setuid_rexec(void)
-+{
-+	const char *expected_euid_str, *expected_egid_str, *rexec;
-+
-+	rexec = getenv("IDMAP_MOUNT_TEST_RUN_SETID");
-+	/* This is a regular test-suite run. */
-+	if (!rexec)
-+		return;
-+
-+	expected_euid_str = getenv("EXPECTED_EUID");
-+	expected_egid_str = getenv("EXPECTED_EGID");
-+
-+	if (expected_euid_str && expected_egid_str) {
-+		uid_t expected_euid;
-+		gid_t expected_egid;
-+
-+		expected_euid = atoi(expected_euid_str);
-+		expected_egid = atoi(expected_egid_str);
-+
-+		if (strcmp(rexec, "1") == 0) {
-+			/* we're expecting to run setid */
-+			if ((getuid() != geteuid()) &&
-+			    (expected_euid == geteuid()) &&
-+			    (getgid() != getegid()) &&
-+			    (expected_egid == getegid()))
-+				exit(EXIT_SUCCESS);
-+		} else if (strcmp(rexec, "0") == 0) {
-+			/* we're expecting to not run setid */
-+			if ((getuid() == geteuid()) &&
-+			    (expected_euid == geteuid()) &&
-+			    (getgid() == getegid()) &&
-+			    (expected_egid == getegid()))
-+				exit(EXIT_SUCCESS);
-+		}
-+	}
-+
-+	exit(EXIT_FAILURE);
-+}
-+
-+/**
-+ * Validate that setid transitions are handled correctly on idmapped mounts.
-+ */
-+TEST_F(core, setid_binaries)
-+{
-+	int file1_fd = -EBADF, exec_fd = -EBADF;
-+	pid_t pid;
-+
-+	struct mount_attr attr = {
-+		.attr_set = MOUNT_ATTR_IDMAP,
-+	};
-+
-+	/* create a file to be used as setuid binary */
-+	file1_fd = openat(self->img_mnt_fd, FILE1, O_CREAT | O_EXCL | O_RDWR | O_CLOEXEC, 0644);
-+	ASSERT_GE(file1_fd, 0);
-+
-+	/* open our own executable */
-+	exec_fd = openat(-EBADF, "/proc/self/exe", O_RDONLY | O_CLOEXEC, 0000);
-+	ASSERT_GE(exec_fd, 0);
-+
-+	/* copy our own executable into the file we created */
-+	ASSERT_EQ(fd_to_fd(exec_fd, file1_fd), 0);
-+
-+	/* Chown all files to an unprivileged user. */
-+	snprintf(self->cmdline, sizeof(self->cmdline), "%s/" IMAGE_ROOT_MNT1,
-+		 self->test_dir_path);
-+	ASSERT_EQ(chown_r(self->cmdline, 10000, 10000), 0);
-+
-+	/* chown the file to the uid and gid we want to assume */
-+	ASSERT_EQ(fchown(file1_fd, 5000, 5000), 0);
-+
-+	/* set the setid bits and grant execute permissions to the group */
-+	ASSERT_EQ(fchmod(file1_fd, S_IXGRP | S_IEXEC | S_ISUID | S_ISGID), 0);
-+
-+	/* Verify that the sid bits got raised. */
-+	ASSERT_EQ(is_setid(self->img_mnt_fd, FILE1, 0), true);
-+
-+	ASSERT_EQ(close(exec_fd), 0);
-+	ASSERT_EQ(close(file1_fd), 0);
-+
-+	/* Changing mount properties on a detached mount. */
-+	attr.userns_fd	= get_userns_fd(0, 10000, 10000);
-+	ASSERT_GE(attr.userns_fd, 0);
-+	ASSERT_EQ(sys_mount_setattr(self->target1_mnt_fd_detached, "",
-+				    AT_EMPTY_PATH, &attr, sizeof(attr)), 0) {
-+		TH_LOG("%m - failure: failed to idmap mount %d(%s/" MNT_TARGET1 ")",
-+		       self->target1_mnt_fd_detached, self->test_dir_path);
-+	}
-+	ASSERT_EQ(close(attr.userns_fd), 0);
-+
-+	/* Verify we run setid binary as uid and gid 5000 from original image mount. */
-+	pid = fork();
-+	ASSERT_GE(pid, 0);
-+	if (pid == 0) {
-+		static char *envp[] = {
-+			"IDMAP_MOUNT_TEST_RUN_SETID=1",
-+			"EXPECTED_EUID=5000",
-+			"EXPECTED_EGID=5000",
-+			NULL,
-+		};
-+		static char *argv[] = {
-+			NULL,
-+		};
-+
-+		ASSERT_EQ(expected_uid_gid(self->img_mnt_fd, FILE1, 0, 5000, 5000), true);
-+		ASSERT_EQ(sys_execveat(self->img_mnt_fd, FILE1, argv, envp, 0), 0) {
-+			TH_LOG("%m - failure: failed to execute setuid binary");
-+		}
-+
-+		exit(EXIT_FAILURE);
-+	}
-+	ASSERT_EQ(wait_for_pid(pid), 0);
-+
-+	/*
-+	 * A detached mount will have an anonymous mount namespace attached to
-+	 * it. This means that we can't execute setid binaries on a detached
-+	 * mount because the mnt_may_suid() helper will fail the check_mount()
-+	 * part of its check which compares the caller's mount namespace to the
-+	 * detached mount's mount namespace. Since by definition an anonymous
-+	 * mount namespace is not equale to any mount namespace currently in
-+	 * use this can't work. So attach the mount to the filesystem first
-+	 * before performing this check.
-+	 */
-+	ASSERT_EQ(sys_move_mount(self->target1_mnt_fd_detached, "",
-+				 self->test_dir_fd, MNT_TARGET1,
-+				 MOVE_MOUNT_F_EMPTY_PATH), 0) {
-+		TH_LOG("%m - Failed to attached detached mount %d(%s/" IMAGE_FILE1 ") to %s/" MNT_TARGET1,
-+		       self->target1_mnt_fd_detached, self->test_dir_path,
-+		       self->test_dir_path);
-+	}
-+
-+	/* Verify we run setid binary as uid and gid 10000 from idmapped mount mount. */
-+	pid = fork();
-+	ASSERT_GE(pid, 0);
-+	if (pid == 0) {
-+		static char *envp[] = {
-+			"IDMAP_MOUNT_TEST_RUN_SETID=1",
-+			"EXPECTED_EUID=15000",
-+			"EXPECTED_EGID=15000",
-+			NULL,
-+		};
-+		static char *argv[] = {
-+			NULL,
-+		};
-+
-+		ASSERT_EQ(expected_uid_gid(self->target1_mnt_fd_detached, FILE1, 0, 15000, 15000), true);
-+		ASSERT_EQ(sys_execveat(self->target1_mnt_fd_detached, FILE1, argv, envp, 0), 0) {
-+			TH_LOG("%m - Failed to execute setuid binary");
-+		}
-+
-+		exit(EXIT_FAILURE);
-+	}
-+
-+	ASSERT_GE(wait_for_pid(pid), 0);
-+}
-+
-+/**
-+ * Validate that setid transitions are handled correctly on idmapped
-+ * mounts where all files on disk are owned by uid and gid 10000.
-+ */
-+TEST_F(core, setid_binaries_reverse)
-+{
-+	int file1_fd = -EBADF, exec_fd = -EBADF;
-+	pid_t pid;
-+
-+	struct mount_attr attr = {
-+		.attr_set = MOUNT_ATTR_IDMAP,
-+	};
-+
-+	/* create a file to be used as setuid binary */
-+	file1_fd = openat(self->img_mnt_fd, FILE1,
-+			  O_CREAT | O_EXCL | O_RDWR | O_CLOEXEC, 0644);
-+	ASSERT_GE(file1_fd, 0);
-+
-+	/* open our own executable */
-+	exec_fd = openat(-EBADF, "/proc/self/exe", O_RDONLY | O_CLOEXEC, 0000);
-+	ASSERT_GE(exec_fd, 0);
-+
-+	ASSERT_EQ(fd_to_fd(exec_fd, file1_fd), 0);
-+	ASSERT_EQ(close(exec_fd), 0);
-+	ASSERT_EQ(close(file1_fd), 0);
-+
-+	/* chown all files to uid and gid 15000 */
-+	snprintf(self->cmdline, sizeof(self->cmdline), "%s/" IMAGE_ROOT_MNT1,
-+		 self->test_dir_path);
-+	ASSERT_EQ(chown_r(self->cmdline, 15000, 15000), 0);
-+
-+	/* Set setid bits on the newly chowned binary. */
-+	ASSERT_EQ(fchmodat(self->img_mnt_fd, FILE1,
-+			   S_IXGRP | S_IEXEC | S_ISUID | S_ISGID, 0), 0);
-+
-+	/* Verify that the sid bits got raised. */
-+	ASSERT_EQ(is_setid(self->img_mnt_fd, FILE1, 0), true);
-+
-+	/* Changing mount properties on a detached mount. */
-+	attr.userns_fd	= get_userns_fd(10000, 0, 10000);
-+	ASSERT_GE(attr.userns_fd, 0);
-+	ASSERT_EQ(sys_mount_setattr(self->target1_mnt_fd_detached, "",
-+				    AT_EMPTY_PATH, &attr, sizeof(attr)), 0) {
-+		TH_LOG("%m - failure: failed to idmap mount %d(%s/" MNT_TARGET1 ")",
-+		       self->target1_mnt_fd_detached, self->test_dir_path);
-+	}
-+	ASSERT_EQ(close(attr.userns_fd), 0);
-+
-+	/* Attach the mount to the filesystem. */
-+	ASSERT_EQ(sys_move_mount(self->target1_mnt_fd_detached, "",
-+				 self->test_dir_fd, MNT_TARGET1,
-+				 MOVE_MOUNT_F_EMPTY_PATH), 0) {
-+		TH_LOG("%m - failure: failed to attached detached mount %d(%s/" IMAGE_FILE1 ") to %s/" MNT_TARGET1,
-+		       self->target1_mnt_fd_detached, self->test_dir_path,
-+		       self->test_dir_path);
-+	}
-+
-+	/* Verify we run setid binary as uid and gid 5000 from idmapped mount mount. */
-+	pid = fork();
-+	ASSERT_GE(pid, 0);
-+	if (pid == 0) {
-+		static char *envp[] = {
-+			"IDMAP_MOUNT_TEST_RUN_SETID=1",
-+			"EXPECTED_EUID=5000",
-+			"EXPECTED_EGID=5000",
-+			NULL,
-+		};
-+		static char *argv[] = {
-+			NULL,
-+		};
-+
-+		ASSERT_EQ(expected_uid_gid(self->target1_mnt_fd_detached, FILE1, 0, 5000, 5000), true);
-+		ASSERT_EQ(sys_execveat(self->target1_mnt_fd_detached, FILE1, argv, envp, 0), 0) {
-+			TH_LOG("%m - Failed to execute setuid binary");
-+		}
-+
-+		exit(EXIT_FAILURE);
-+	}
-+	ASSERT_EQ(wait_for_pid(pid), 0);
-+
-+	/* Verify we run setid binary as uid and gid 15000 from original image mount. */
-+	pid = fork();
-+	ASSERT_GE(pid, 0);
-+	if (pid == 0) {
-+		static char *envp[] = {
-+			"IDMAP_MOUNT_TEST_RUN_SETID=1",
-+			"EXPECTED_EUID=15000",
-+			"EXPECTED_EGID=15000",
-+			NULL,
-+		};
-+		static char *argv[] = {
-+			NULL,
-+		};
-+
-+		ASSERT_EQ(expected_uid_gid(self->img_mnt_fd, FILE1, 0, 15000, 15000), true);
-+		ASSERT_EQ(sys_execveat(self->img_mnt_fd, FILE1, argv, envp, 0), 0) {
-+			TH_LOG("%m - Failed to execute setuid binary");
-+		}
-+
-+		exit(EXIT_FAILURE);
-+	}
-+	ASSERT_EQ(wait_for_pid(pid), 0);
-+}
-+
-+/**
-+ * Validate that setid transitions are handled correctly on idmapped mounts
-+ * running in a user namespace where the uid and gid of the setid binary have
-+ * no mapping.
-+ */
-+TEST_F(core, setid_binaries_userns)
-+{
-+	int file1_fd = -EBADF, exec_fd = -EBADF;
-+	pid_t pid;
-+
-+	struct mount_attr attr = {
-+		.attr_set = MOUNT_ATTR_IDMAP,
-+	};
-+
-+	/* create a file to be used as setuid binary */
-+	file1_fd = openat(self->img_mnt_fd, FILE1, O_CREAT | O_EXCL | O_RDWR | O_CLOEXEC, 0644);
-+	ASSERT_GE(file1_fd, 0);
-+
-+	/* open our own executable */
-+	exec_fd = openat(-EBADF, "/proc/self/exe", O_RDONLY | O_CLOEXEC, 0000);
-+	ASSERT_GE(exec_fd, 0);
-+
-+	/* copy our own executable into the file we created */
-+	ASSERT_EQ(fd_to_fd(exec_fd, file1_fd), 0);
-+
-+	/* chown the file to the uid and gid we want to assume */
-+	ASSERT_EQ(fchown(file1_fd, 5000, 5000), 0);
-+
-+	/* set the setid bits and grant execute permissions to the group */
-+	ASSERT_EQ(fchmod(file1_fd, S_IXGRP | S_IEXEC | S_ISUID | S_ISGID), 0);
-+
-+	/* Verify that the sid bits got raised. */
-+	ASSERT_EQ(is_setid(self->img_mnt_fd, FILE1, 0), true);
-+
-+	ASSERT_EQ(close(exec_fd), 0);
-+	ASSERT_EQ(close(file1_fd), 0);
-+
-+	/* Changing mount properties on a detached mount. */
-+	attr.userns_fd	= get_userns_fd(0, 10000, 10000);
-+	ASSERT_GE(attr.userns_fd, 0);
-+	ASSERT_EQ(sys_mount_setattr(self->target1_mnt_fd_detached, "",
-+				    AT_EMPTY_PATH, &attr, sizeof(attr)), 0) {
-+		TH_LOG("%m - failure: failed to idmap mount %d(%s/" MNT_TARGET1 ")",
-+		       self->target1_mnt_fd_detached, self->test_dir_path);
-+	}
-+
-+	/*
-+	 * A detached mount will have an anonymous mount namespace attached to
-+	 * it. This means that we can't execute setid binaries on a detached
-+	 * mount because the mnt_may_suid() helper will fail the check_mount()
-+	 * part of its check which compares the caller's mount namespace to the
-+	 * detached mount's mount namespace. Since by definition an anonymous
-+	 * mount namespace is not equale to any mount namespace currently in
-+	 * use this can't work. So attach the mount to the filesystem first
-+	 * before performing this check.
-+	 */
-+	ASSERT_EQ(sys_move_mount(self->target1_mnt_fd_detached, "",
-+				 self->test_dir_fd, MNT_TARGET1,
-+				 MOVE_MOUNT_F_EMPTY_PATH), 0) {
-+		TH_LOG("%m - Failed to attached detached mount %d(%s/" IMAGE_FILE1 ") to %s/" MNT_TARGET1,
-+		       self->target1_mnt_fd_detached, self->test_dir_path,
-+		       self->test_dir_path);
-+	}
-+
-+	/* Verify we run setid binary as uid and gid 5000 from original image mount. */
-+	pid = fork();
-+	ASSERT_GE(pid, 0);
-+	if (pid == 0) {
-+		static char *envp[] = {
-+			"IDMAP_MOUNT_TEST_RUN_SETID=1",
-+			"EXPECTED_EUID=5000",
-+			"EXPECTED_EGID=5000",
-+			NULL,
-+		};
-+		static char *argv[] = {
-+			NULL,
-+		};
-+
-+		/* Switch to user namespace where uid 10000 maps to 0. */
-+		ASSERT_EQ(setns(attr.userns_fd, CLONE_NEWUSER), 0);
-+		ASSERT_EQ(setresgid(0, 0, 0), 0);
-+		ASSERT_EQ(setresuid(0, 0, 0), 0);
-+
-+		ASSERT_EQ(expected_uid_gid(self->target1_mnt_fd_detached, FILE1, 0, 5000, 5000), true);
-+		ASSERT_EQ(sys_execveat(self->target1_mnt_fd_detached, FILE1, argv, envp, 0), 0) {
-+			TH_LOG("%m - failure: failed to execute setuid binary");
-+		}
-+
-+		exit(EXIT_FAILURE);
-+	}
-+	ASSERT_EQ(wait_for_pid(pid), 0);
-+
-+	file1_fd = openat(self->img_mnt_fd, FILE1, O_RDWR | O_CLOEXEC, 0644);
-+	ASSERT_GE(file1_fd, 0);
-+
-+	/* chown the file to the uid and gid we want to assume */
-+	ASSERT_EQ(fchown(file1_fd, 30000, 30000), 0);
-+
-+	/* set the setid bits and grant execute permissions to other users */
-+	ASSERT_EQ(fchmod(file1_fd, S_IXOTH | S_IEXEC | S_ISUID | S_ISGID), 0);
-+
-+	ASSERT_EQ(close(file1_fd), 0);
-+
-+	/*
-+	 * Verify that we can't assume a uid and gid of a setid binary for
-+	 * which we have no mapping in our user namespace.
-+	 */
-+	pid = fork();
-+	ASSERT_GE(pid, 0);
-+	if (pid == 0) {
-+		char expected_euid[100];
-+		char expected_egid[100];
-+		static char *envp[4] = {
-+			NULL,
-+			NULL,
-+			NULL,
-+			NULL,
-+		};
-+		static char *argv[] = {
-+			NULL,
-+		};
-+
-+		/* Switch to user namespace where uid 10000 maps to 0. */
-+		ASSERT_EQ(setns(attr.userns_fd, CLONE_NEWUSER), 0);
-+		ASSERT_EQ(setresgid(0, 0, 0), 0);
-+		ASSERT_EQ(setresuid(0, 0, 0), 0);
-+
-+		envp[0] = "IDMAP_MOUNT_TEST_RUN_SETID=0";
-+		snprintf(expected_euid, sizeof(expected_euid), "EXPECTED_EUID=%d", geteuid());
-+		envp[1] = expected_euid;
-+		snprintf(expected_egid, sizeof(expected_egid), "EXPECTED_egid=%d", getegid());
-+		envp[2] = expected_egid;
-+		ASSERT_EQ(expected_uid_gid(self->target1_mnt_fd_detached, FILE1, 0, 65534, 65534), true);
-+		ASSERT_EQ(sys_execveat(self->target1_mnt_fd_detached, FILE1, argv, envp, 0), 0) {
-+			TH_LOG("%m - Failed to execute setuid binary");
-+		}
-+
-+		exit(EXIT_FAILURE);
-+	}
-+	ASSERT_GE(wait_for_pid(pid), 0);
-+
-+	ASSERT_EQ(close(attr.userns_fd), 0);
-+}
-+
-+/**
-+ * Validate that idmapping a whole mount tree works correctly.
-+ */
-+TEST_F(core, idmap_mount_tree)
-+{
-+	int img_fd2 = -EBADF, img_mnt_fd2 = -EBADF, file1_fd = -EBADF,
-+	    open_tree_fd = -EBADF;
-+	struct mount_attr attr = {
-+		.attr_set = MOUNT_ATTR_IDMAP,
-+	};
-+
-+	/* create filesystem image */
-+	img_fd2 = openat(self->test_dir_fd, IMAGE_FILE2,
-+			 O_CREAT | O_WRONLY, 0600);
-+	ASSERT_GE(img_fd2, 0);
-+	ASSERT_EQ(ftruncate(img_fd2, 1024 * 2048), 0);
-+	ASSERT_EQ(close(img_fd2), 0);
-+	snprintf(self->cmdline, sizeof(self->cmdline),
-+		 "mkfs.ext4 -q %s/" IMAGE_FILE2, self->test_dir_path);
-+	ASSERT_EQ(system(self->cmdline), 0);
-+
-+	/* create mountpoint for image */
-+	ASSERT_EQ(mkdirat(self->test_dir_fd, IMAGE_ROOT_MNT2, 0777), 0);
-+	snprintf(self->cmdline, sizeof(self->cmdline),
-+		 "mount -o loop -t ext4 %s/" IMAGE_FILE2 " %s/" IMAGE_ROOT_MNT2,
-+		 self->test_dir_path, self->test_dir_path);
-+	ASSERT_EQ(system(self->cmdline), 0);
-+	img_mnt_fd2 = openat(self->test_dir_fd, IMAGE_ROOT_MNT2,
-+			     O_DIRECTORY | O_CLOEXEC, 0);
-+	ASSERT_GE(img_mnt_fd2, 0);
-+
-+	/* Create files in first filesystem. */
-+	file1_fd = openat(self->img_mnt_fd, FILE1, O_CREAT | O_EXCL | O_CLOEXEC, 0644);
-+	ASSERT_GE(file1_fd, 0);
-+	ASSERT_EQ(close(file1_fd), 0);
-+
-+	ASSERT_EQ(mknodat(self->img_mnt_fd, FILE2, S_IFREG | 0000, 0), 0);
-+
-+	ASSERT_EQ(mknodat(self->img_mnt_fd, CHRDEV1, S_IFCHR | 0644,
-+			  makedev(5, 1)), 0);
-+
-+	ASSERT_EQ(linkat(self->img_mnt_fd, FILE1, self->img_mnt_fd, HARDLINK1, 0), 0);
-+
-+	ASSERT_EQ(symlinkat(FILE2, self->img_mnt_fd, SYMLINK1), 0);
-+
-+	ASSERT_EQ(mkdirat(self->img_mnt_fd, DIR1, 0700), 0);
-+
-+	/* Chown all files to 1000. */
-+	snprintf(self->cmdline, sizeof(self->cmdline), "%s/" IMAGE_ROOT_MNT1,
-+		 self->test_dir_path);
-+	ASSERT_EQ(chown_r(self->cmdline, 1000, 1000), 0);
-+
-+	/* Create files in second filesystem. */
-+	file1_fd = openat(img_mnt_fd2, FILE1, O_CREAT | O_EXCL | O_CLOEXEC, 0644);
-+	ASSERT_GE(file1_fd, 0);
-+	ASSERT_EQ(close(file1_fd), 0);
-+
-+	ASSERT_EQ(mknodat(img_mnt_fd2, FILE2, S_IFREG | 0000, 0), 0);
-+
-+	ASSERT_EQ(mknodat(img_mnt_fd2, CHRDEV1, S_IFCHR | 0644,
-+			  makedev(5, 1)), 0);
-+
-+	ASSERT_EQ(linkat(img_mnt_fd2, FILE1, img_mnt_fd2, HARDLINK1, 0), 0);
-+
-+	ASSERT_EQ(symlinkat(FILE2, img_mnt_fd2, SYMLINK1), 0);
-+
-+	ASSERT_EQ(mkdirat(img_mnt_fd2, DIR1, 0700), 0);
-+	ASSERT_EQ(close(img_mnt_fd2), 0);
-+
-+	/* Chown all files to 1000. */
-+	snprintf(self->cmdline, sizeof(self->cmdline), "%s/" IMAGE_ROOT_MNT2,
-+		 self->test_dir_path);
-+	ASSERT_EQ(chown_r(self->cmdline, 1000, 1000), 0);
-+
-+	/* Create detached mount. */
-+	open_tree_fd = sys_open_tree(self->test_dir_fd, IMAGE_ROOT_MNT1,
-+				     AT_NO_AUTOMOUNT | AT_SYMLINK_NOFOLLOW |
-+				     OPEN_TREE_CLOEXEC | OPEN_TREE_CLONE |
-+				     AT_RECURSIVE);
-+	ASSERT_GE(open_tree_fd, 0);
-+
-+	/* Changing mount properties on a detached mount. */
-+	attr.userns_fd	= get_userns_fd(0, 10000, 10000);
-+	ASSERT_GE(attr.userns_fd, 0);
-+	ASSERT_EQ(sys_mount_setattr(open_tree_fd, "",
-+				    AT_EMPTY_PATH | AT_RECURSIVE, &attr,
-+				    sizeof(attr)), 0) {
-+		TH_LOG("%m - Failed to idmap mount %d(%s/" MNT_TARGET1 ")",
-+		       open_tree_fd, self->test_dir_path);
-+	}
-+	ASSERT_EQ(close(attr.userns_fd), 0);
-+
-+	/*
-+	 * All files created through the original image mountpoint  are owned
-+	 * by uid 0.
-+	 */
-+	ASSERT_EQ(expected_uid_gid(open_tree_fd, FILE1, 0, 11000, 11000), true);
-+
-+	ASSERT_EQ(expected_uid_gid(open_tree_fd, FILE2, 0, 11000, 11000), true);
-+
-+	ASSERT_EQ(expected_uid_gid(open_tree_fd, HARDLINK1, 0, 11000, 11000), true);
-+
-+	ASSERT_EQ(expected_uid_gid(open_tree_fd, CHRDEV1, 0, 11000, 11000), true);
-+
-+	ASSERT_EQ(expected_uid_gid(open_tree_fd, SYMLINK1, 0, 11000, 11000), true);
-+
-+	ASSERT_EQ(expected_uid_gid(open_tree_fd, DIR1, 0, 11000, 11000), true);
-+
-+	/*
-+	 * All files created through the original image mountpoint  are owned
-+	 * by uid 0.
-+	 */
-+	ASSERT_EQ(expected_uid_gid(open_tree_fd,
-+				   IMAGE_ROOT_MNT2_RELATIVE "/" FILE1, 0, 11000,
-+				   11000), true);
-+
-+	ASSERT_EQ(expected_uid_gid(open_tree_fd,
-+				   IMAGE_ROOT_MNT2_RELATIVE "/" FILE2, 0, 11000,
-+				   11000), true);
-+
-+	ASSERT_EQ(expected_uid_gid(open_tree_fd,
-+				   IMAGE_ROOT_MNT2_RELATIVE "/" HARDLINK1, 0,
-+				   11000, 11000), true);
-+
-+	ASSERT_EQ(expected_uid_gid(open_tree_fd,
-+				   IMAGE_ROOT_MNT2_RELATIVE "/" CHRDEV1, 0,
-+				   11000, 11000), true);
-+
-+	ASSERT_EQ(expected_uid_gid(open_tree_fd,
-+				   IMAGE_ROOT_MNT2_RELATIVE "/" SYMLINK1, 0,
-+				   11000, 11000), true);
-+
-+	ASSERT_EQ(expected_uid_gid(open_tree_fd,
-+				   IMAGE_ROOT_MNT2_RELATIVE "/" DIR1, 0, 11000,
-+				   11000), true);
-+
-+	ASSERT_EQ(close(open_tree_fd), 0);
-+}
-+
-+/**
-+ * Validate that idmapping a mount tree with an unsupported filesystem
-+ * somehwere in the tree fails.
-+ */
-+TEST_F(core, idmap_mount_tree_invalid)
-+{
-+	int img_fd2 = -EBADF, img_mnt_fd2 = -EBADF, open_tree_fd = -EBADF;
-+	struct mount_attr attr = {
-+		.attr_set = MOUNT_ATTR_IDMAP,
-+	};
-+
-+	/* create filesystem image */
-+	img_fd2 = openat(self->test_dir_fd, IMAGE_FILE2,
-+			 O_CREAT | O_WRONLY, 0600);
-+	ASSERT_GE(img_fd2, 0);
-+	ASSERT_EQ(ftruncate(img_fd2, 1024 * 2048), 0);
-+	ASSERT_EQ(close(img_fd2), 0);
-+	snprintf(self->cmdline, sizeof(self->cmdline),
-+		 "mkfs.ext4 -q %s/" IMAGE_FILE2, self->test_dir_path);
-+	ASSERT_EQ(system(self->cmdline), 0);
-+
-+	/* create mountpoint for image */
-+	ASSERT_EQ(mkdirat(self->test_dir_fd, IMAGE_ROOT_MNT2, 0777), 0);
-+	snprintf(self->cmdline, sizeof(self->cmdline),
-+		 "mount -o loop -t ext4 %s/" IMAGE_FILE2 " %s/" IMAGE_ROOT_MNT2,
-+		 self->test_dir_path, self->test_dir_path);
-+	ASSERT_EQ(system(self->cmdline), 0);
-+	img_mnt_fd2 = openat(self->test_dir_fd, IMAGE_ROOT_MNT2,
-+			     O_DIRECTORY | O_CLOEXEC, 0);
-+	ASSERT_GE(img_mnt_fd2, 0);
-+
-+	/* create mount of currently unsupported filesystem */
-+	ASSERT_EQ(mkdirat(self->test_dir_fd, FILESYSTEM_MOUNT1, 0777), 0);
-+	snprintf(self->cmdline, sizeof(self->cmdline), "%s/" FILESYSTEM_MOUNT1, self->test_dir_path);
-+	ASSERT_EQ(mount(NULL, self->cmdline, "tmpfs", 0, NULL), 0);
-+
-+	/* Create detached mount. */
-+	open_tree_fd = sys_open_tree(self->test_dir_fd, IMAGE_ROOT_MNT1,
-+				     AT_NO_AUTOMOUNT | AT_SYMLINK_NOFOLLOW |
-+				     OPEN_TREE_CLOEXEC | OPEN_TREE_CLONE |
-+				     AT_RECURSIVE);
-+	ASSERT_GE(open_tree_fd, 0);
-+
-+	/* Changing mount properties on a detached mount. */
-+	attr.userns_fd	= get_userns_fd(0, 10000, 10000);
-+	ASSERT_GE(attr.userns_fd, 0);
-+	ASSERT_NE(sys_mount_setattr(open_tree_fd, "",
-+				    AT_EMPTY_PATH | AT_RECURSIVE, &attr,
-+				    sizeof(attr)), 0) {
-+		TH_LOG("Managed to idmap mount %d(%s/" MNT_TARGET1 ")",
-+		       open_tree_fd, self->test_dir_path);
-+	}
-+	ASSERT_EQ(close(attr.userns_fd), 0);
-+}
-+
-+/**
-+ * Validate that the sticky bit behaves correctly on regular mounts for unlink
-+ * operations.
-+ */
-+TEST_F(core, sticky_bit_unlink)
-+{
-+	pid_t pid;
-+	int dir_fd = -EBADF;
-+
-+	/* create directory */
-+	ASSERT_EQ(mkdirat(self->img_mnt_fd, DIR1, 0000), 0);
-+	dir_fd = openat(self->img_mnt_fd, DIR1, O_DIRECTORY | O_CLOEXEC);
-+	ASSERT_GE(dir_fd, 0);
-+	ASSERT_EQ(fchown(dir_fd, 0, 0), 0);
-+	ASSERT_EQ(fchmod(dir_fd, 0777), 0);
-+
-+	/* create regular file via mknod */
-+	ASSERT_EQ(mknodat(dir_fd, FILE1, S_IFREG | 0000, 0), 0);
-+	ASSERT_EQ(fchownat(dir_fd, FILE1, 0, 0, 0), 0);
-+	ASSERT_EQ(fchmodat(dir_fd, FILE1, 0644, 0), 0);
-+
-+	/* create regular file via mknod */
-+	ASSERT_EQ(mknodat(dir_fd, FILE2, S_IFREG | 0000, 0), 0);
-+	ASSERT_EQ(fchownat(dir_fd, FILE2, 2000, 2000, 0), 0);
-+	ASSERT_EQ(fchmodat(dir_fd, FILE2, 0644, 0), 0);
-+
-+	/*
-+	 * The sticky bit is not set so we must be able to delete files not
-+	 * owned by us.
-+	 */
-+	pid = fork();
-+	ASSERT_GE(pid, 0);
-+	if (pid == 0) {
-+		ASSERT_EQ(setresgid(1000, 1000, 1000), 0);
-+		ASSERT_EQ(setresuid(1000, 1000, 1000), 0);
-+		ASSERT_EQ(caps_down(), true);
-+
-+		ASSERT_EQ(unlinkat(dir_fd, FILE1, 0), 0);
-+		ASSERT_EQ(unlinkat(dir_fd, FILE2, 0), 0);
-+
-+		exit(EXIT_SUCCESS);
-+	}
-+	ASSERT_EQ(wait_for_pid(pid), 0);
-+
-+	/* set sticky bit */
-+	ASSERT_EQ(fchmod(dir_fd, 0777 | S_ISVTX), 0);
-+	/* validate sticky bit is set */
-+	ASSERT_EQ(is_sticky(self->img_mnt_fd, DIR1, 0), true);
-+
-+	/* create regular file via mknod */
-+	ASSERT_EQ(mknodat(dir_fd, FILE1, S_IFREG | 0000, 0), 0);
-+	ASSERT_EQ(fchownat(dir_fd, FILE1, 0, 0, 0), 0);
-+	ASSERT_EQ(fchmodat(dir_fd, FILE1, 0644, 0), 0);
-+
-+	/* create regular file via mknod */
-+	ASSERT_EQ(mknodat(dir_fd, FILE2, S_IFREG | 0000, 0), 0);
-+	ASSERT_EQ(fchownat(dir_fd, FILE2, 2000, 2000, 0), 0);
-+	ASSERT_EQ(fchmodat(dir_fd, FILE2, 0644, 0), 0);
-+
-+	/*
-+	 * The sticky bit is set so we must not be able to delete files not
-+	 * owned by us.
-+	 */
-+	pid = fork();
-+	ASSERT_GE(pid, 0);
-+	if (pid == 0) {
-+		ASSERT_EQ(setresgid(1000, 1000, 1000), 0);
-+		ASSERT_EQ(setresuid(1000, 1000, 1000), 0);
-+		ASSERT_EQ(caps_down(), true);
-+
-+		ASSERT_NE(unlinkat(dir_fd, FILE1, 0), 0);
-+		ASSERT_EQ(errno, EPERM);
-+		ASSERT_NE(unlinkat(dir_fd, FILE2, 0), 0);
-+		ASSERT_EQ(errno, EPERM);
-+
-+		exit(EXIT_SUCCESS);
-+	}
-+	ASSERT_EQ(wait_for_pid(pid), 0);
-+
-+	/*
-+	 * The sticky bit is set and we own the files so we must be able to
-+	 * delete the files now.
-+	 */
-+	pid = fork();
-+	ASSERT_GE(pid, 0);
-+	if (pid == 0) {
-+		/* change ownership */
-+		ASSERT_EQ(fchownat(dir_fd, FILE1, 1000, -1, 0), 0);
-+		ASSERT_EQ(expected_uid_gid(dir_fd, FILE1, 0, 1000, 0), true);
-+		ASSERT_EQ(fchownat(dir_fd, FILE2, 1000, -1, 0), 0);
-+		ASSERT_EQ(expected_uid_gid(dir_fd, FILE2, 0, 1000, 2000), true);
-+
-+		ASSERT_EQ(setresgid(1000, 1000, 1000), 0);
-+		ASSERT_EQ(setresuid(1000, 1000, 1000), 0);
-+		ASSERT_EQ(caps_down(), true);
-+
-+		ASSERT_EQ(unlinkat(dir_fd, FILE1, 0), 0);
-+		ASSERT_EQ(unlinkat(dir_fd, FILE2, 0), 0);
-+
-+		exit(EXIT_SUCCESS);
-+	}
-+	ASSERT_EQ(wait_for_pid(pid), 0);
-+
-+	/* change uid to unprivileged user */
-+	ASSERT_EQ(fchown(dir_fd, 1000, -1), 0);
-+	ASSERT_EQ(fchmod(dir_fd, 0777 | S_ISVTX), 0);
-+	/* validate sticky bit is set */
-+	ASSERT_EQ(is_sticky(self->img_mnt_fd, DIR1, 0), true);
-+
-+	/* create regular file via mknod */
-+	ASSERT_EQ(mknodat(dir_fd, FILE1, S_IFREG | 0000, 0), 0);
-+	ASSERT_EQ(fchownat(dir_fd, FILE1, 0, 0, 0), 0);
-+	ASSERT_EQ(fchmodat(dir_fd, FILE1, 0644, 0), 0);
-+
-+	/* create regular file via mknod */
-+	ASSERT_EQ(mknodat(dir_fd, FILE2, S_IFREG | 0000, 0), 0);
-+	ASSERT_EQ(fchownat(dir_fd, FILE2, 2000, 2000, 0), 0);
-+	ASSERT_EQ(fchmodat(dir_fd, FILE2, 0644, 0), 0);
-+
-+	/*
-+	 * The sticky bit is set and we own the directory so we must be able to
-+	 * delete the files now.
-+	 */
-+	pid = fork();
-+	ASSERT_GE(pid, 0);
-+	if (pid == 0) {
-+		ASSERT_EQ(setresgid(1000, 1000, 1000), 0);
-+		ASSERT_EQ(setresuid(1000, 1000, 1000), 0);
-+		ASSERT_EQ(caps_down(), true);
-+
-+		ASSERT_EQ(unlinkat(dir_fd, FILE1, 0), 0);
-+		ASSERT_EQ(unlinkat(dir_fd, FILE2, 0), 0);
-+
-+		exit(EXIT_SUCCESS);
-+	}
-+	ASSERT_EQ(wait_for_pid(pid), 0);
-+
-+	ASSERT_EQ(close(dir_fd), 0);
-+}
-+
-+/**
-+ * Validate that the sticky bit behaves correctly on idmapped mounts for unlink
-+ * operations.
-+ */
-+TEST_F(core, sticky_bit_unlink_idmapped)
-+{
-+	pid_t pid;
-+	int dir_fd = -EBADF, open_tree_fd = -EBADF;
-+	struct mount_attr attr = {
-+		.attr_set = MOUNT_ATTR_IDMAP,
-+	};
-+
-+	/* create directory */
-+	ASSERT_EQ(mkdirat(self->img_mnt_fd, DIR1, 0000), 0);
-+	dir_fd = openat(self->img_mnt_fd, DIR1, O_DIRECTORY | O_CLOEXEC);
-+	ASSERT_GE(dir_fd, 0);
-+	ASSERT_EQ(fchown(dir_fd, 10000, 10000), 0);
-+	ASSERT_EQ(fchmod(dir_fd, 0777), 0);
-+
-+	/* create regular file via mknod */
-+	ASSERT_EQ(mknodat(dir_fd, FILE1, S_IFREG | 0000, 0), 0);
-+	ASSERT_EQ(fchownat(dir_fd, FILE1, 10000, 10000, 0), 0);
-+	ASSERT_EQ(fchmodat(dir_fd, FILE1, 0644, 0), 0);
-+
-+	/* create regular file via mknod */
-+	ASSERT_EQ(mknodat(dir_fd, FILE2, S_IFREG | 0000, 0), 0);
-+	ASSERT_EQ(fchownat(dir_fd, FILE2, 12000, 12000, 0), 0);
-+	ASSERT_EQ(fchmodat(dir_fd, FILE2, 0644, 0), 0);
-+
-+	/* Create detached mount. */
-+	open_tree_fd = sys_open_tree(self->img_mnt_fd, DIR1,
-+				     AT_NO_AUTOMOUNT | AT_SYMLINK_NOFOLLOW |
-+				     OPEN_TREE_CLOEXEC | OPEN_TREE_CLONE |
-+				     AT_RECURSIVE);
-+	ASSERT_GE(open_tree_fd, 0);
-+
-+	/* Changing mount properties on a detached mount. */
-+	attr.userns_fd	= get_userns_fd(10000, 0, 10000);
-+	ASSERT_GE(attr.userns_fd, 0);
-+	ASSERT_EQ(sys_mount_setattr(open_tree_fd, "",
-+				    AT_EMPTY_PATH | AT_RECURSIVE, &attr,
-+				    sizeof(attr)), 0) {
-+		TH_LOG("%m - Failed to idmap mount %d(%s/" MNT_TARGET1 ")",
-+		       open_tree_fd, self->test_dir_path);
-+	}
-+
-+	/*
-+	 * The sticky bit is not set so we must be able to delete files not
-+	 * owned by us.
-+	 */
-+	pid = fork();
-+	ASSERT_GE(pid, 0);
-+	if (pid == 0) {
-+		ASSERT_EQ(setresgid(1000, 1000, 1000), 0);
-+		ASSERT_EQ(setresuid(1000, 1000, 1000), 0);
-+		ASSERT_EQ(caps_down(), true);
-+
-+		ASSERT_EQ(unlinkat(open_tree_fd, FILE1, 0), 0);
-+		ASSERT_EQ(errno, EPERM);
-+		ASSERT_EQ(unlinkat(open_tree_fd, FILE2, 0), 0);
-+		ASSERT_EQ(errno, EPERM);
-+
-+		exit(EXIT_SUCCESS);
-+	}
-+	ASSERT_EQ(wait_for_pid(pid), 0);
-+
-+	/* set sticky bit */
-+	ASSERT_EQ(fchmod(dir_fd, 0777 | S_ISVTX), 0);
-+	/* validate sticky bit is set */
-+	ASSERT_EQ(is_sticky(self->img_mnt_fd, DIR1, 0), true);
-+
-+	/* create regular file via mknod */
-+	ASSERT_EQ(mknodat(dir_fd, FILE1, S_IFREG | 0000, 0), 0);
-+	ASSERT_EQ(fchownat(dir_fd, FILE1, 10000, 10000, 0), 0);
-+	ASSERT_EQ(fchmodat(dir_fd, FILE1, 0644, 0), 0);
-+
-+	/* create regular file via mknod */
-+	ASSERT_EQ(mknodat(dir_fd, FILE2, S_IFREG | 0000, 0), 0);
-+	ASSERT_EQ(fchownat(dir_fd, FILE2, 12000, 12000, 0), 0);
-+	ASSERT_EQ(fchmodat(dir_fd, FILE2, 0644, 0), 0);
-+
-+	/*
-+	 * The sticky bit is set so we must not be able to delete files not
-+	 * owned by us.
-+	 */
-+	pid = fork();
-+	ASSERT_GE(pid, 0);
-+	if (pid == 0) {
-+		ASSERT_EQ(setresgid(1000, 1000, 1000), 0);
-+		ASSERT_EQ(setresuid(1000, 1000, 1000), 0);
-+		ASSERT_EQ(caps_down(), true);
-+
-+		ASSERT_NE(unlinkat(open_tree_fd, FILE1, 0), 0);
-+		ASSERT_EQ(errno, EPERM);
-+		ASSERT_NE(unlinkat(open_tree_fd, FILE2, 0), 0);
-+		ASSERT_EQ(errno, EPERM);
-+
-+		exit(EXIT_SUCCESS);
-+	}
-+	ASSERT_EQ(wait_for_pid(pid), 0);
-+
-+	/*
-+	 * The sticky bit is set and we own the files so we must be able to
-+	 * delete the files now.
-+	 */
-+	pid = fork();
-+	ASSERT_GE(pid, 0);
-+	if (pid == 0) {
-+		/* change ownership */
-+		ASSERT_EQ(fchownat(dir_fd, FILE1, 11000, -1, 0), 0);
-+		ASSERT_EQ(expected_uid_gid(dir_fd, FILE1, 0, 11000, 10000), true);
-+		ASSERT_EQ(fchownat(dir_fd, FILE2, 11000, -1, 0), 0);
-+		ASSERT_EQ(expected_uid_gid(dir_fd, FILE2, 0, 11000, 12000), true);
-+
-+		ASSERT_EQ(setresgid(1000, 1000, 1000), 0);
-+		ASSERT_EQ(setresuid(1000, 1000, 1000), 0);
-+		ASSERT_EQ(caps_down(), true);
-+
-+		ASSERT_EQ(unlinkat(open_tree_fd, FILE1, 0), 0);
-+		ASSERT_EQ(unlinkat(open_tree_fd, FILE2, 0), 0);
-+
-+		exit(EXIT_SUCCESS);
-+	}
-+	ASSERT_EQ(wait_for_pid(pid), 0);
-+
-+	/* change uid to unprivileged user */
-+	ASSERT_EQ(fchown(dir_fd, 11000, -1), 0);
-+	ASSERT_EQ(fchmod(dir_fd, 0777 | S_ISVTX), 0);
-+	/* validate sticky bit is set */
-+	ASSERT_EQ(is_sticky(self->img_mnt_fd, DIR1, 0), true);
-+
-+	/* create regular file via mknod */
-+	ASSERT_EQ(mknodat(dir_fd, FILE1, S_IFREG | 0000, 0), 0);
-+	ASSERT_EQ(fchownat(dir_fd, FILE1, 10000, 10000, 0), 0);
-+	ASSERT_EQ(fchmodat(dir_fd, FILE1, 0644, 0), 0);
-+
-+	/* create regular file via mknod */
-+	ASSERT_EQ(mknodat(dir_fd, FILE2, S_IFREG | 0000, 0), 0);
-+	ASSERT_EQ(fchownat(dir_fd, FILE2, 12000, 12000, 0), 0);
-+	ASSERT_EQ(fchmodat(dir_fd, FILE2, 0644, 0), 0);
-+
-+	/*
-+	 * The sticky bit is set and we own the directory so we must be able to
-+	 * delete the files now.
-+	 */
-+	pid = fork();
-+	ASSERT_GE(pid, 0);
-+	if (pid == 0) {
-+		ASSERT_EQ(setresgid(1000, 1000, 1000), 0);
-+		ASSERT_EQ(setresuid(1000, 1000, 1000), 0);
-+		ASSERT_EQ(caps_down(), true);
-+
-+		ASSERT_EQ(unlinkat(open_tree_fd, FILE1, 0), 0);
-+		ASSERT_EQ(unlinkat(open_tree_fd, FILE2, 0), 0);
-+
-+		exit(EXIT_SUCCESS);
-+	}
-+	ASSERT_EQ(wait_for_pid(pid), 0);
-+
-+	ASSERT_EQ(close(dir_fd), 0);
-+	ASSERT_EQ(close(attr.userns_fd), 0);
-+}
-+
-+/**
-+ * Validate that the sticky bit behaves correctly on idmapped mounts for unlink
-+ * operations in a user namespace.
-+ */
-+TEST_F(core, sticky_bit_unlink_idmapped_userns)
-+{
-+	pid_t pid;
-+	int dir_fd = -EBADF, open_tree_fd = -EBADF;
-+	struct mount_attr attr = {
-+		.attr_set = MOUNT_ATTR_IDMAP,
-+	};
-+
-+	/* create directory */
-+	ASSERT_EQ(mkdirat(self->img_mnt_fd, DIR1, 0000), 0);
-+	dir_fd = openat(self->img_mnt_fd, DIR1, O_DIRECTORY | O_CLOEXEC);
-+	ASSERT_GE(dir_fd, 0);
-+	ASSERT_EQ(fchown(dir_fd, 0, 0), 0);
-+	ASSERT_EQ(fchmod(dir_fd, 0777), 0);
-+
-+	/* create regular file via mknod */
-+	ASSERT_EQ(mknodat(dir_fd, FILE1, S_IFREG | 0000, 0), 0);
-+	ASSERT_EQ(fchownat(dir_fd, FILE1, 0, 0, 0), 0);
-+	ASSERT_EQ(fchmodat(dir_fd, FILE1, 0644, 0), 0);
-+
-+	/* create regular file via mknod */
-+	ASSERT_EQ(mknodat(dir_fd, FILE2, S_IFREG | 0000, 0), 0);
-+	ASSERT_EQ(fchownat(dir_fd, FILE2, 2000, 2000, 0), 0);
-+	ASSERT_EQ(fchmodat(dir_fd, FILE2, 0644, 0), 0);
-+
-+	/* Create detached mount. */
-+	open_tree_fd = sys_open_tree(self->img_mnt_fd, DIR1,
-+				     AT_NO_AUTOMOUNT | AT_SYMLINK_NOFOLLOW |
-+				     OPEN_TREE_CLOEXEC | OPEN_TREE_CLONE |
-+				     AT_RECURSIVE);
-+	ASSERT_GE(open_tree_fd, 0);
-+
-+	/* Changing mount properties on a detached mount. */
-+	attr.userns_fd	= get_userns_fd(0, 10000, 10000);
-+	ASSERT_GE(attr.userns_fd, 0);
-+	ASSERT_EQ(sys_mount_setattr(open_tree_fd, "",
-+				    AT_EMPTY_PATH | AT_RECURSIVE, &attr,
-+				    sizeof(attr)), 0) {
-+		TH_LOG("%m - Failed to idmap mount %d(%s/" MNT_TARGET1 ")",
-+		       open_tree_fd, self->test_dir_path);
-+	}
-+
-+	/*
-+	 * The sticky bit is not set so we must be able to delete files not
-+	 * owned by us.
-+	 */
-+	pid = fork();
-+	ASSERT_GE(pid, 0);
-+	if (pid == 0) {
-+		ASSERT_EQ(setns(attr.userns_fd, CLONE_NEWUSER), 0);
-+		ASSERT_EQ(setresgid(1000, 1000, 1000), 0);
-+		ASSERT_EQ(setresuid(1000, 1000, 1000), 0);
-+		ASSERT_EQ(caps_down(), true);
-+
-+		ASSERT_EQ(unlinkat(open_tree_fd, FILE1, 0), 0);
-+		ASSERT_EQ(unlinkat(open_tree_fd, FILE2, 0), 0);
-+
-+		exit(EXIT_SUCCESS);
-+	}
-+	ASSERT_EQ(wait_for_pid(pid), 0);
-+
-+	/* set sticky bit */
-+	ASSERT_EQ(fchmod(dir_fd, 0777 | S_ISVTX), 0);
-+	/* validate sticky bit is set */
-+	ASSERT_EQ(is_sticky(self->img_mnt_fd, DIR1, 0), true);
-+
-+	/* create regular file via mknod */
-+	ASSERT_EQ(mknodat(dir_fd, FILE1, S_IFREG | 0000, 0), 0);
-+	ASSERT_EQ(fchownat(dir_fd, FILE1, 0, 0, 0), 0);
-+	ASSERT_EQ(fchmodat(dir_fd, FILE1, 0644, 0), 0);
-+
-+	/* create regular file via mknod */
-+	ASSERT_EQ(mknodat(dir_fd, FILE2, S_IFREG | 0000, 0), 0);
-+	ASSERT_EQ(fchownat(dir_fd, FILE2, 2000, 2000, 0), 0);
-+	ASSERT_EQ(fchmodat(dir_fd, FILE2, 0644, 0), 0);
-+
-+	/*
-+	 * The sticky bit is set so we must not be able to delete files not
-+	 * owned by us.
-+	 */
-+	pid = fork();
-+	ASSERT_GE(pid, 0);
-+	if (pid == 0) {
-+		ASSERT_EQ(setns(attr.userns_fd, CLONE_NEWUSER), 0);
-+		ASSERT_EQ(setresgid(1000, 1000, 1000), 0);
-+		ASSERT_EQ(setresuid(1000, 1000, 1000), 0);
-+		ASSERT_EQ(caps_down(), true);
-+
-+		ASSERT_NE(unlinkat(dir_fd, FILE1, 0), 0);
-+		ASSERT_EQ(errno, EPERM);
-+		ASSERT_NE(unlinkat(dir_fd, FILE2, 0), 0);
-+		ASSERT_EQ(errno, EPERM);
-+
-+		ASSERT_NE(unlinkat(open_tree_fd, FILE1, 0), 0);
-+		ASSERT_EQ(errno, EPERM);
-+		ASSERT_NE(unlinkat(open_tree_fd, FILE2, 0), 0);
-+		ASSERT_EQ(errno, EPERM);
-+
-+		exit(EXIT_SUCCESS);
-+	}
-+	ASSERT_EQ(wait_for_pid(pid), 0);
-+
-+	/*
-+	 * The sticky bit is set and we own the files so we must be able to
-+	 * delete the files now.
-+	 */
-+	pid = fork();
-+	ASSERT_GE(pid, 0);
-+	if (pid == 0) {
-+		/* change ownership */
-+		ASSERT_EQ(fchownat(dir_fd, FILE1, 1000, -1, 0), 0);
-+		ASSERT_EQ(expected_uid_gid(dir_fd, FILE1, 0, 1000, 0), true);
-+		ASSERT_EQ(fchownat(dir_fd, FILE2, 1000, -1, 0), 0);
-+		ASSERT_EQ(expected_uid_gid(dir_fd, FILE2, 0, 1000, 2000), true);
-+
-+		ASSERT_EQ(setns(attr.userns_fd, CLONE_NEWUSER), 0);
-+		ASSERT_EQ(setresgid(1000, 1000, 1000), 0);
-+		ASSERT_EQ(setresuid(1000, 1000, 1000), 0);
-+		ASSERT_EQ(caps_down(), true);
-+
-+		/* we don't own the file from the original mount */
-+		ASSERT_NE(unlinkat(dir_fd, FILE1, 0), 0);
-+		ASSERT_EQ(errno, EPERM);
-+		ASSERT_NE(unlinkat(dir_fd, FILE2, 0), 0);
-+		ASSERT_EQ(errno, EPERM);
-+
-+		/* we own the file from the idmapped mount */
-+		ASSERT_EQ(unlinkat(open_tree_fd, FILE1, 0), 0);
-+		ASSERT_EQ(unlinkat(open_tree_fd, FILE2, 0), 0);
-+
-+		exit(EXIT_SUCCESS);
-+	}
-+	ASSERT_EQ(wait_for_pid(pid), 0);
-+
-+	/* change uid to unprivileged user */
-+	ASSERT_EQ(fchown(dir_fd, 1000, -1), 0);
-+	ASSERT_EQ(fchmod(dir_fd, 0777 | S_ISVTX), 0);
-+	/* validate sticky bit is set */
-+	ASSERT_EQ(is_sticky(self->img_mnt_fd, DIR1, 0), true);
-+
-+	/* create regular file via mknod */
-+	ASSERT_EQ(mknodat(dir_fd, FILE1, S_IFREG | 0000, 0), 0);
-+	ASSERT_EQ(fchownat(dir_fd, FILE1, 0, 0, 0), 0);
-+	ASSERT_EQ(fchmodat(dir_fd, FILE1, 0644, 0), 0);
-+
-+	/* create regular file via mknod */
-+	ASSERT_EQ(mknodat(dir_fd, FILE2, S_IFREG | 0000, 0), 0);
-+	ASSERT_EQ(fchownat(dir_fd, FILE2, 2000, 2000, 0), 0);
-+	ASSERT_EQ(fchmodat(dir_fd, FILE2, 0644, 0), 0);
-+
-+	/*
-+	 * The sticky bit is set and we own the directory so we must be able to
-+	 * delete the files now.
-+	 */
-+	pid = fork();
-+	ASSERT_GE(pid, 0);
-+	if (pid == 0) {
-+		ASSERT_EQ(setns(attr.userns_fd, CLONE_NEWUSER), 0);
-+		ASSERT_EQ(setresgid(1000, 1000, 1000), 0);
-+		ASSERT_EQ(setresuid(1000, 1000, 1000), 0);
-+		ASSERT_EQ(caps_down(), true);
-+
-+		/* we don't own the directory from the original mount */
-+		ASSERT_NE(unlinkat(dir_fd, FILE1, 0), 0);
-+		ASSERT_EQ(errno, EPERM);
-+		ASSERT_NE(unlinkat(dir_fd, FILE2, 0), 0);
-+		ASSERT_EQ(errno, EPERM);
-+
-+		/* we own the file from the idmapped mount */
-+		ASSERT_EQ(unlinkat(open_tree_fd, FILE1, 0), 0);
-+		ASSERT_EQ(unlinkat(open_tree_fd, FILE2, 0), 0);
-+
-+		exit(EXIT_SUCCESS);
-+	}
-+	ASSERT_EQ(wait_for_pid(pid), 0);
-+
-+	ASSERT_EQ(close(dir_fd), 0);
-+	ASSERT_EQ(close(attr.userns_fd), 0);
-+}
-+
-+/**
-+ * Validate that the sticky bit behaves correctly on regular mounts for rename
-+ * operations.
-+ */
-+TEST_F(core, sticky_bit_rename)
-+{
-+	pid_t pid;
-+	int dir_fd = -EBADF;
-+
-+	/* create directory */
-+	ASSERT_EQ(mkdirat(self->img_mnt_fd, DIR1, 0000), 0);
-+	dir_fd = openat(self->img_mnt_fd, DIR1, O_DIRECTORY | O_CLOEXEC);
-+	ASSERT_GE(dir_fd, 0);
-+	ASSERT_EQ(fchown(dir_fd, 0, 0), 0);
-+	ASSERT_EQ(fchmod(dir_fd, 0777), 0);
-+
-+	/* create regular file via mknod */
-+	ASSERT_EQ(mknodat(dir_fd, FILE1, S_IFREG | 0000, 0), 0);
-+	ASSERT_EQ(fchownat(dir_fd, FILE1, 0, 0, 0), 0);
-+	ASSERT_EQ(fchmodat(dir_fd, FILE1, 0644, 0), 0);
-+
-+	/* create regular file via mknod */
-+	ASSERT_EQ(mknodat(dir_fd, FILE2, S_IFREG | 0000, 0), 0);
-+	ASSERT_EQ(fchownat(dir_fd, FILE2, 2000, 2000, 0), 0);
-+	ASSERT_EQ(fchmodat(dir_fd, FILE2, 0644, 0), 0);
-+
-+	/*
-+	 * The sticky bit is not set so we must be able to delete files not
-+	 * owned by us.
-+	 */
-+	pid = fork();
-+	ASSERT_GE(pid, 0);
-+	if (pid == 0) {
-+		ASSERT_EQ(setresgid(1000, 1000, 1000), 0);
-+		ASSERT_EQ(setresuid(1000, 1000, 1000), 0);
-+		ASSERT_EQ(caps_down(), true);
-+
-+		ASSERT_EQ(renameat2(dir_fd, FILE1, dir_fd, FILE1_RENAME, 0), 0);
-+		ASSERT_EQ(renameat2(dir_fd, FILE1_RENAME, dir_fd, FILE1, 0), 0);
-+		ASSERT_EQ(renameat2(dir_fd, FILE2, dir_fd, FILE2_RENAME, 0), 0);
-+		ASSERT_EQ(renameat2(dir_fd, FILE2_RENAME, dir_fd, FILE2, 0), 0);
-+
-+		exit(EXIT_SUCCESS);
-+	}
-+	ASSERT_EQ(wait_for_pid(pid), 0);
-+
-+	/* set sticky bit */
-+	ASSERT_EQ(fchmod(dir_fd, 0777 | S_ISVTX), 0);
-+	/* validate sticky bit is set */
-+	ASSERT_EQ(is_sticky(self->img_mnt_fd, DIR1, 0), true);
-+
-+	/*
-+	 * The sticky bit is set so we must not be able to delete files not
-+	 * owned by us.
-+	 */
-+	pid = fork();
-+	ASSERT_GE(pid, 0);
-+	if (pid == 0) {
-+		ASSERT_EQ(setresgid(1000, 1000, 1000), 0);
-+		ASSERT_EQ(setresuid(1000, 1000, 1000), 0);
-+		ASSERT_EQ(caps_down(), true);
-+
-+		ASSERT_NE(renameat2(dir_fd, FILE1, dir_fd, FILE1_RENAME, 0), 0);
-+		ASSERT_EQ(errno, EPERM);
-+		ASSERT_NE(renameat2(dir_fd, FILE2, dir_fd, FILE2_RENAME, 0), 0);
-+		ASSERT_EQ(errno, EPERM);
-+
-+		exit(EXIT_SUCCESS);
-+	}
-+	ASSERT_EQ(wait_for_pid(pid), 0);
-+
-+	/*
-+	 * The sticky bit is set and we own the files so we must be able to
-+	 * delete the files now.
-+	 */
-+	pid = fork();
-+	ASSERT_GE(pid, 0);
-+	if (pid == 0) {
-+		/* change ownership */
-+		ASSERT_EQ(fchownat(dir_fd, FILE1, 1000, -1, 0), 0);
-+		ASSERT_EQ(expected_uid_gid(dir_fd, FILE1, 0, 1000, 0), true);
-+		ASSERT_EQ(fchownat(dir_fd, FILE2, 1000, -1, 0), 0);
-+		ASSERT_EQ(expected_uid_gid(dir_fd, FILE2, 0, 1000, 2000), true);
-+
-+		ASSERT_EQ(setresgid(1000, 1000, 1000), 0);
-+		ASSERT_EQ(setresuid(1000, 1000, 1000), 0);
-+		ASSERT_EQ(caps_down(), true);
-+
-+		ASSERT_EQ(renameat2(dir_fd, FILE1, dir_fd, FILE1_RENAME, 0), 0);
-+		ASSERT_EQ(renameat2(dir_fd, FILE1_RENAME, dir_fd, FILE1, 0), 0);
-+		ASSERT_EQ(renameat2(dir_fd, FILE2, dir_fd, FILE2_RENAME, 0), 0);
-+		ASSERT_EQ(renameat2(dir_fd, FILE2_RENAME, dir_fd, FILE2, 0), 0);
-+
-+		exit(EXIT_SUCCESS);
-+	}
-+	ASSERT_EQ(wait_for_pid(pid), 0);
-+
-+	/* change uid to unprivileged user */
-+	ASSERT_EQ(fchown(dir_fd, 1000, -1), 0);
-+	ASSERT_EQ(fchmod(dir_fd, 0777 | S_ISVTX), 0);
-+	/* validate sticky bit is set */
-+	ASSERT_EQ(is_sticky(self->img_mnt_fd, DIR1, 0), true);
-+
-+	/* create regular file via mknod */
-+	ASSERT_EQ(fchownat(dir_fd, FILE1, 0, 0, 0), 0);
-+	ASSERT_EQ(fchmodat(dir_fd, FILE1, 0644, 0), 0);
-+
-+	/* create regular file via mknod */
-+	ASSERT_EQ(fchownat(dir_fd, FILE2, 2000, 2000, 0), 0);
-+	ASSERT_EQ(fchmodat(dir_fd, FILE2, 0644, 0), 0);
-+
-+	/*
-+	 * The sticky bit is set and we own the directory so we must be able to
-+	 * delete the files now.
-+	 */
-+	pid = fork();
-+	ASSERT_GE(pid, 0);
-+	if (pid == 0) {
-+		ASSERT_EQ(setresgid(1000, 1000, 1000), 0);
-+		ASSERT_EQ(setresuid(1000, 1000, 1000), 0);
-+
-+		ASSERT_EQ(renameat2(dir_fd, FILE1, dir_fd, FILE1_RENAME, 0), 0);
-+		ASSERT_EQ(renameat2(dir_fd, FILE1_RENAME, dir_fd, FILE1, 0), 0);
-+		ASSERT_EQ(renameat2(dir_fd, FILE2, dir_fd, FILE2_RENAME, 0), 0);
-+		ASSERT_EQ(renameat2(dir_fd, FILE2_RENAME, dir_fd, FILE2, 0), 0);
-+
-+		exit(EXIT_SUCCESS);
-+	}
-+	ASSERT_EQ(wait_for_pid(pid), 0);
-+
-+	ASSERT_EQ(close(dir_fd), 0);
-+}
-+
-+/**
-+ * Validate that the sticky bit behaves correctly on idmapped mounts for rename
-+ * operations.
-+ */
-+TEST_F(core, sticky_bit_rename_idmapped)
-+{
-+	pid_t pid;
-+	int dir_fd = -EBADF, open_tree_fd = -EBADF;
-+	struct mount_attr attr = {
-+		.attr_set = MOUNT_ATTR_IDMAP,
-+	};
-+
-+	/* create directory */
-+	ASSERT_EQ(mkdirat(self->img_mnt_fd, DIR1, 0000), 0);
-+	dir_fd = openat(self->img_mnt_fd, DIR1, O_DIRECTORY | O_CLOEXEC);
-+	ASSERT_GE(dir_fd, 0);
-+	ASSERT_EQ(fchown(dir_fd, 10000, 10000), 0);
-+	ASSERT_EQ(fchmod(dir_fd, 0777), 0);
-+
-+	/* create regular file via mknod */
-+	ASSERT_EQ(mknodat(dir_fd, FILE1, S_IFREG | 0000, 0), 0);
-+	ASSERT_EQ(fchownat(dir_fd, FILE1, 10000, 10000, 0), 0);
-+	ASSERT_EQ(fchmodat(dir_fd, FILE1, 0644, 0), 0);
-+
-+	/* create regular file via mknod */
-+	ASSERT_EQ(mknodat(dir_fd, FILE2, S_IFREG | 0000, 0), 0);
-+	ASSERT_EQ(fchownat(dir_fd, FILE2, 12000, 12000, 0), 0);
-+	ASSERT_EQ(fchmodat(dir_fd, FILE2, 0644, 0), 0);
-+
-+	/* Create detached mount. */
-+	open_tree_fd = sys_open_tree(self->img_mnt_fd, DIR1,
-+				     AT_NO_AUTOMOUNT | AT_SYMLINK_NOFOLLOW |
-+				     OPEN_TREE_CLOEXEC | OPEN_TREE_CLONE |
-+				     AT_RECURSIVE);
-+	ASSERT_GE(open_tree_fd, 0);
-+
-+	/* Changing mount properties on a detached mount. */
-+	attr.userns_fd	= get_userns_fd(10000, 0, 10000);
-+	ASSERT_GE(attr.userns_fd, 0);
-+	ASSERT_EQ(sys_mount_setattr(open_tree_fd, "",
-+				    AT_EMPTY_PATH | AT_RECURSIVE, &attr,
-+				    sizeof(attr)), 0) {
-+		TH_LOG("%m - Failed to idmap mount %d(%s/" MNT_TARGET1 ")",
-+		       open_tree_fd, self->test_dir_path);
-+	}
-+
-+	/*
-+	 * The sticky bit is not set so we must be able to delete files not
-+	 * owned by us.
-+	 */
-+	pid = fork();
-+	ASSERT_GE(pid, 0);
-+	if (pid == 0) {
-+		ASSERT_EQ(setresgid(1000, 1000, 1000), 0);
-+		ASSERT_EQ(setresuid(1000, 1000, 1000), 0);
-+		ASSERT_EQ(caps_down(), true);
-+
-+		ASSERT_EQ(renameat2(open_tree_fd, FILE1, open_tree_fd, FILE1_RENAME, 0), 0);
-+		ASSERT_EQ(renameat2(open_tree_fd, FILE1_RENAME, open_tree_fd, FILE1, 0), 0);
-+		ASSERT_EQ(renameat2(open_tree_fd, FILE2, open_tree_fd, FILE2_RENAME, 0), 0);
-+		ASSERT_EQ(renameat2(open_tree_fd, FILE2_RENAME, open_tree_fd, FILE2, 0), 0);
-+
-+		exit(EXIT_SUCCESS);
-+	}
-+	ASSERT_EQ(wait_for_pid(pid), 0);
-+
-+	/* set sticky bit */
-+	ASSERT_EQ(fchmod(dir_fd, 0777 | S_ISVTX), 0);
-+	/* validate sticky bit is set */
-+	ASSERT_EQ(is_sticky(self->img_mnt_fd, DIR1, 0), true);
-+
-+	ASSERT_EQ(fchownat(dir_fd, FILE1, 10000, 10000, 0), 0);
-+	ASSERT_EQ(fchmodat(dir_fd, FILE1, 0644, 0), 0);
-+
-+	ASSERT_EQ(fchownat(dir_fd, FILE2, 12000, 12000, 0), 0);
-+	ASSERT_EQ(fchmodat(dir_fd, FILE2, 0644, 0), 0);
-+
-+	/*
-+	 * The sticky bit is set so we must not be able to delete files not
-+	 * owned by us.
-+	 */
-+	pid = fork();
-+	ASSERT_GE(pid, 0);
-+	if (pid == 0) {
-+		ASSERT_EQ(setresgid(1000, 1000, 1000), 0);
-+		ASSERT_EQ(setresuid(1000, 1000, 1000), 0);
-+		ASSERT_EQ(caps_down(), true);
-+
-+		ASSERT_NE(renameat2(open_tree_fd, FILE1, open_tree_fd, FILE1_RENAME, 0), 0);
-+		ASSERT_EQ(errno, EPERM);
-+		ASSERT_NE(renameat2(open_tree_fd, FILE2, open_tree_fd, FILE2_RENAME, 0), 0);
-+		ASSERT_EQ(errno, EPERM);
-+
-+		exit(EXIT_SUCCESS);
-+	}
-+	ASSERT_EQ(wait_for_pid(pid), 0);
-+
-+	/*
-+	 * The sticky bit is set and we own the files so we must be able to
-+	 * delete the files now.
-+	 */
-+	pid = fork();
-+	ASSERT_GE(pid, 0);
-+	if (pid == 0) {
-+		/* change ownership */
-+		ASSERT_EQ(fchownat(dir_fd, FILE1, 11000, -1, 0), 0);
-+		ASSERT_EQ(expected_uid_gid(dir_fd, FILE1, 0, 11000, 10000), true);
-+		ASSERT_EQ(fchownat(dir_fd, FILE2, 11000, -1, 0), 0);
-+		ASSERT_EQ(expected_uid_gid(dir_fd, FILE2, 0, 11000, 12000), true);
-+
-+		ASSERT_EQ(setresgid(1000, 1000, 1000), 0);
-+		ASSERT_EQ(setresuid(1000, 1000, 1000), 0);
-+		ASSERT_EQ(caps_down(), true);
-+
-+		ASSERT_EQ(renameat2(open_tree_fd, FILE1, open_tree_fd, FILE1_RENAME, 0), 0);
-+		ASSERT_EQ(renameat2(open_tree_fd, FILE1_RENAME, open_tree_fd, FILE1, 0), 0);
-+		ASSERT_EQ(renameat2(open_tree_fd, FILE2, open_tree_fd, FILE2_RENAME, 0), 0);
-+		ASSERT_EQ(renameat2(open_tree_fd, FILE2_RENAME, open_tree_fd, FILE2, 0), 0);
-+
-+		exit(EXIT_SUCCESS);
-+	}
-+	ASSERT_EQ(wait_for_pid(pid), 0);
-+
-+	/* change uid to unprivileged user */
-+	ASSERT_EQ(fchown(dir_fd, 11000, -1), 0);
-+	ASSERT_EQ(fchmod(dir_fd, 0777 | S_ISVTX), 0);
-+	/* validate sticky bit is set */
-+	ASSERT_EQ(is_sticky(self->img_mnt_fd, DIR1, 0), true);
-+
-+	/* create regular file via mknod */
-+	ASSERT_EQ(fchownat(dir_fd, FILE1, 10000, 10000, 0), 0);
-+	ASSERT_EQ(fchmodat(dir_fd, FILE1, 0644, 0), 0);
-+
-+	/* create regular file via mknod */
-+	ASSERT_EQ(fchownat(dir_fd, FILE2, 12000, 12000, 0), 0);
-+	ASSERT_EQ(fchmodat(dir_fd, FILE2, 0644, 0), 0);
-+
-+	/*
-+	 * The sticky bit is set and we own the directory so we must be able to
-+	 * delete the files now.
-+	 */
-+	pid = fork();
-+	ASSERT_GE(pid, 0);
-+	if (pid == 0) {
-+		ASSERT_EQ(setresgid(1000, 1000, 1000), 0);
-+		ASSERT_EQ(setresuid(1000, 1000, 1000), 0);
-+		ASSERT_EQ(caps_down(), true);
-+
-+		ASSERT_EQ(renameat2(open_tree_fd, FILE1, open_tree_fd, FILE1_RENAME, 0), 0);
-+		ASSERT_EQ(renameat2(open_tree_fd, FILE1_RENAME, open_tree_fd, FILE1, 0), 0);
-+		ASSERT_EQ(renameat2(open_tree_fd, FILE2, open_tree_fd, FILE2_RENAME, 0), 0);
-+		ASSERT_EQ(renameat2(open_tree_fd, FILE2_RENAME, open_tree_fd, FILE2, 0), 0);
-+
-+		exit(EXIT_SUCCESS);
-+	}
-+	ASSERT_EQ(wait_for_pid(pid), 0);
-+
-+	ASSERT_EQ(close(dir_fd), 0);
-+	ASSERT_EQ(close(attr.userns_fd), 0);
-+}
-+
-+/**
-+ * Validate that the sticky bit behaves correctly on idmapped mounts for rename
-+ * operations in a user namespace.
-+ */
-+TEST_F(core, sticky_bit_rename_idmapped_userns)
-+{
-+	pid_t pid;
-+	int dir_fd = -EBADF, open_tree_fd = -EBADF;
-+	struct mount_attr attr = {
-+		.attr_set = MOUNT_ATTR_IDMAP,
-+	};
-+
-+	/* create directory */
-+	ASSERT_EQ(mkdirat(self->img_mnt_fd, DIR1, 0000), 0);
-+	dir_fd = openat(self->img_mnt_fd, DIR1, O_DIRECTORY | O_CLOEXEC);
-+	ASSERT_GE(dir_fd, 0);
-+	ASSERT_EQ(fchown(dir_fd, 0, 0), 0);
-+	ASSERT_EQ(fchmod(dir_fd, 0777), 0);
-+
-+	/* create regular file via mknod */
-+	ASSERT_EQ(mknodat(dir_fd, FILE1, S_IFREG | 0000, 0), 0);
-+	ASSERT_EQ(fchownat(dir_fd, FILE1, 0, 0, 0), 0);
-+	ASSERT_EQ(fchmodat(dir_fd, FILE1, 0644, 0), 0);
-+
-+	/* create regular file via mknod */
-+	ASSERT_EQ(mknodat(dir_fd, FILE2, S_IFREG | 0000, 0), 0);
-+	ASSERT_EQ(fchownat(dir_fd, FILE2, 2000, 2000, 0), 0);
-+	ASSERT_EQ(fchmodat(dir_fd, FILE2, 0644, 0), 0);
-+
-+	/* Create detached mount. */
-+	open_tree_fd = sys_open_tree(self->img_mnt_fd, DIR1,
-+				     AT_NO_AUTOMOUNT | AT_SYMLINK_NOFOLLOW |
-+				     OPEN_TREE_CLOEXEC | OPEN_TREE_CLONE |
-+				     AT_RECURSIVE);
-+	ASSERT_GE(open_tree_fd, 0);
-+
-+	/* Changing mount properties on a detached mount. */
-+	attr.userns_fd	= get_userns_fd(0, 10000, 10000);
-+	ASSERT_GE(attr.userns_fd, 0);
-+	ASSERT_EQ(sys_mount_setattr(open_tree_fd, "",
-+				    AT_EMPTY_PATH | AT_RECURSIVE, &attr,
-+				    sizeof(attr)), 0) {
-+		TH_LOG("%m - Failed to idmap mount %d(%s/" MNT_TARGET1 ")",
-+		       open_tree_fd, self->test_dir_path);
-+	}
-+
-+	/*
-+	 * The sticky bit is not set so we must be able to delete files not
-+	 * owned by us.
-+	 */
-+	pid = fork();
-+	ASSERT_GE(pid, 0);
-+	if (pid == 0) {
-+		ASSERT_EQ(setns(attr.userns_fd, CLONE_NEWUSER), 0);
-+		ASSERT_EQ(setresgid(1000, 1000, 1000), 0);
-+		ASSERT_EQ(setresuid(1000, 1000, 1000), 0);
-+		ASSERT_EQ(caps_down(), true);
-+
-+		ASSERT_EQ(renameat2(open_tree_fd, FILE1, open_tree_fd, FILE1_RENAME, 0), 0);
-+		ASSERT_EQ(renameat2(open_tree_fd, FILE1_RENAME, open_tree_fd, FILE1, 0), 0);
-+		ASSERT_EQ(renameat2(open_tree_fd, FILE2, open_tree_fd, FILE2_RENAME, 0), 0);
-+		ASSERT_EQ(renameat2(open_tree_fd, FILE2_RENAME, open_tree_fd, FILE2, 0), 0);
-+
-+		exit(EXIT_SUCCESS);
-+	}
-+	ASSERT_EQ(wait_for_pid(pid), 0);
-+
-+	/* set sticky bit */
-+	ASSERT_EQ(fchmod(dir_fd, 0777 | S_ISVTX), 0);
-+	/* validate sticky bit is set */
-+	ASSERT_EQ(is_sticky(self->img_mnt_fd, DIR1, 0), true);
-+
-+	ASSERT_EQ(fchownat(dir_fd, FILE1, 0, 0, 0), 0);
-+	ASSERT_EQ(fchmodat(dir_fd, FILE1, 0644, 0), 0);
-+
-+	ASSERT_EQ(fchownat(dir_fd, FILE2, 2000, 2000, 0), 0);
-+	ASSERT_EQ(fchmodat(dir_fd, FILE2, 0644, 0), 0);
-+
-+	/*
-+	 * The sticky bit is set so we must not be able to delete files not
-+	 * owned by us.
-+	 */
-+	pid = fork();
-+	ASSERT_GE(pid, 0);
-+	if (pid == 0) {
-+		ASSERT_EQ(setns(attr.userns_fd, CLONE_NEWUSER), 0);
-+		ASSERT_EQ(setresgid(1000, 1000, 1000), 0);
-+		ASSERT_EQ(setresuid(1000, 1000, 1000), 0);
-+		ASSERT_EQ(caps_down(), true);
-+
-+		ASSERT_NE(renameat2(dir_fd, FILE1, dir_fd, FILE1_RENAME, 0), 0);
-+		ASSERT_EQ(errno, EPERM);
-+		ASSERT_NE(renameat2(dir_fd, FILE2, dir_fd, FILE2_RENAME, 0), 0);
-+		ASSERT_EQ(errno, EPERM);
-+
-+		ASSERT_NE(renameat2(open_tree_fd, FILE1, open_tree_fd, FILE1_RENAME, 0), 0);
-+		ASSERT_EQ(errno, EPERM);
-+		ASSERT_NE(renameat2(open_tree_fd, FILE2, open_tree_fd, FILE2_RENAME, 0), 0);
-+		ASSERT_EQ(errno, EPERM);
-+
-+		exit(EXIT_SUCCESS);
-+	}
-+	ASSERT_EQ(wait_for_pid(pid), 0);
-+
-+	/*
-+	 * The sticky bit is set and we own the files so we must be able to
-+	 * delete the files now.
-+	 */
-+	pid = fork();
-+	ASSERT_GE(pid, 0);
-+	if (pid == 0) {
-+		/* change ownership */
-+		ASSERT_EQ(fchownat(dir_fd, FILE1, 1000, -1, 0), 0);
-+		ASSERT_EQ(expected_uid_gid(dir_fd, FILE1, 0, 1000, 0), true);
-+		ASSERT_EQ(fchownat(dir_fd, FILE2, 1000, -1, 0), 0);
-+		ASSERT_EQ(expected_uid_gid(dir_fd, FILE2, 0, 1000, 2000), true);
-+
-+		ASSERT_EQ(setns(attr.userns_fd, CLONE_NEWUSER), 0);
-+		ASSERT_EQ(setresgid(1000, 1000, 1000), 0);
-+		ASSERT_EQ(setresuid(1000, 1000, 1000), 0);
-+		ASSERT_EQ(caps_down(), true);
-+
-+		/* we don't own the file from the original mount */
-+		ASSERT_NE(renameat2(dir_fd, FILE1, dir_fd, FILE1_RENAME, 0), 0);
-+		ASSERT_EQ(errno, EPERM);
-+		ASSERT_NE(renameat2(dir_fd, FILE2, dir_fd, FILE2_RENAME, 0), 0);
-+		ASSERT_EQ(errno, EPERM);
-+
-+		/* we own the file from the idmapped mount */
-+		ASSERT_EQ(renameat2(open_tree_fd, FILE1, open_tree_fd, FILE1_RENAME, 0), 0);
-+		ASSERT_EQ(renameat2(open_tree_fd, FILE1_RENAME, open_tree_fd, FILE1, 0), 0);
-+		ASSERT_EQ(renameat2(open_tree_fd, FILE2, open_tree_fd, FILE2_RENAME, 0), 0);
-+		ASSERT_EQ(renameat2(open_tree_fd, FILE2_RENAME, open_tree_fd, FILE2, 0), 0);
-+
-+		exit(EXIT_SUCCESS);
-+	}
-+	ASSERT_EQ(wait_for_pid(pid), 0);
-+
-+	/* change uid to unprivileged user */
-+	ASSERT_EQ(fchown(dir_fd, 1000, -1), 0);
-+	ASSERT_EQ(fchmod(dir_fd, 0777 | S_ISVTX), 0);
-+	/* validate sticky bit is set */
-+	ASSERT_EQ(is_sticky(self->img_mnt_fd, DIR1, 0), true);
-+
-+	ASSERT_EQ(fchownat(dir_fd, FILE1, 0, 0, 0), 0);
-+	ASSERT_EQ(fchmodat(dir_fd, FILE1, 0644, 0), 0);
-+
-+	ASSERT_EQ(fchownat(dir_fd, FILE2, 2000, 2000, 0), 0);
-+	ASSERT_EQ(fchmodat(dir_fd, FILE2, 0644, 0), 0);
-+
-+	/*
-+	 * The sticky bit is set and we own the directory so we must be able to
-+	 * delete the files now.
-+	 */
-+	pid = fork();
-+	ASSERT_GE(pid, 0);
-+	if (pid == 0) {
-+		ASSERT_EQ(setns(attr.userns_fd, CLONE_NEWUSER), 0);
-+		ASSERT_EQ(setresgid(1000, 1000, 1000), 0);
-+		ASSERT_EQ(setresuid(1000, 1000, 1000), 0);
-+		ASSERT_EQ(caps_down(), true);
-+
-+		/* we don't own the directory from the original mount */
-+		ASSERT_NE(renameat2(dir_fd, FILE1, dir_fd, FILE1_RENAME, 0), 0);
-+		ASSERT_EQ(errno, EPERM);
-+		ASSERT_NE(renameat2(dir_fd, FILE2, dir_fd, FILE2_RENAME, 0), 0);
-+		ASSERT_EQ(errno, EPERM);
-+
-+		/* we own the file from the idmapped mount */
-+		ASSERT_EQ(renameat2(open_tree_fd, FILE1, open_tree_fd, FILE1_RENAME, 0), 0);
-+		ASSERT_EQ(renameat2(open_tree_fd, FILE1_RENAME, open_tree_fd, FILE1, 0), 0);
-+		ASSERT_EQ(renameat2(open_tree_fd, FILE2, open_tree_fd, FILE2_RENAME, 0), 0);
-+		ASSERT_EQ(renameat2(open_tree_fd, FILE2_RENAME, open_tree_fd, FILE2, 0), 0);
-+
-+		exit(EXIT_SUCCESS);
-+	}
-+	ASSERT_EQ(wait_for_pid(pid), 0);
-+
-+	ASSERT_EQ(close(dir_fd), 0);
-+	ASSERT_EQ(close(attr.userns_fd), 0);
-+}
-+
-+/**
-+ * Validate that protected symlinks work correctly.
-+ */
-+TEST_F(core, follow_symlinks)
-+{
-+	int dir_fd = -EBADF, fd = -EBADF;
-+	pid_t pid;
-+
-+	if (!symlinks_protected())
-+		SKIP(return, "Symlinks are not protected. Skipping test");
-+
-+	/* create directory */
-+	ASSERT_EQ(mkdirat(self->img_mnt_fd, DIR1, 0000), 0);
-+	dir_fd = openat(self->img_mnt_fd, DIR1, O_DIRECTORY | O_CLOEXEC);
-+	ASSERT_GE(dir_fd, 0);
-+	ASSERT_EQ(fchown(dir_fd, 0, 0), 0);
-+	ASSERT_EQ(fchmod(dir_fd, 0777 | S_ISVTX), 0);
-+	/* validate sticky bit is set */
-+	ASSERT_EQ(is_sticky(self->img_mnt_fd, DIR1, 0), true);
-+
-+	/* create regular file via mknod */
-+	ASSERT_EQ(mknodat(dir_fd, FILE1, S_IFREG | 0000, 0), 0);
-+	ASSERT_EQ(fchownat(dir_fd, FILE1, 0, 0, 0), 0);
-+	ASSERT_EQ(fchmodat(dir_fd, FILE1, 0644, 0), 0);
-+
-+	/* create symlinks */
-+	ASSERT_EQ(symlinkat(FILE1, dir_fd, SYMLINK_USER1), 0);
-+	ASSERT_EQ(fchownat(dir_fd, SYMLINK_USER1, 0, 0, AT_SYMLINK_NOFOLLOW), 0);
-+	ASSERT_EQ(expected_uid_gid(dir_fd, SYMLINK_USER1, AT_SYMLINK_NOFOLLOW, 0, 0), true);
-+	ASSERT_EQ(expected_uid_gid(dir_fd, FILE1, 0, 0, 0), true);
-+
-+	ASSERT_EQ(symlinkat(FILE1, dir_fd, SYMLINK_USER2), 0);
-+	ASSERT_EQ(fchownat(dir_fd, SYMLINK_USER2, 1000, 1000, AT_SYMLINK_NOFOLLOW), 0);
-+	ASSERT_EQ(expected_uid_gid(dir_fd, SYMLINK_USER2, AT_SYMLINK_NOFOLLOW, 1000, 1000), true);
-+	ASSERT_EQ(expected_uid_gid(dir_fd, FILE1, 0, 0, 0), true);
-+
-+	ASSERT_EQ(symlinkat(FILE1, dir_fd, SYMLINK_USER3), 0);
-+	ASSERT_EQ(fchownat(dir_fd, SYMLINK_USER3, 2000, 2000, AT_SYMLINK_NOFOLLOW), 0);
-+	ASSERT_EQ(expected_uid_gid(dir_fd, SYMLINK_USER3, AT_SYMLINK_NOFOLLOW, 2000, 2000), true);
-+	ASSERT_EQ(expected_uid_gid(dir_fd, FILE1, 0, 0, 0), true);
-+
-+	/* validate file can be directly read */
-+	fd = openat(dir_fd, FILE1, O_RDONLY | O_CLOEXEC, 0);
-+	ASSERT_GE(fd, 0);
-+	ASSERT_EQ(close(fd), 0);
-+
-+	/* validate file can be read through own symlink */
-+	fd = openat(dir_fd, SYMLINK_USER1, O_RDONLY | O_CLOEXEC, 0);
-+	ASSERT_GE(fd, 0);
-+	ASSERT_EQ(close(fd), 0);
-+
-+	pid = fork();
-+	ASSERT_GE(pid, 0);
-+	if (pid == 0) {
-+		ASSERT_EQ(setresgid(1000, 1000, 1000), 0);
-+		ASSERT_EQ(setresuid(1000, 1000, 1000), 0);
-+		ASSERT_EQ(caps_down(), true);
-+
-+		/* validate file can be directly read */
-+		fd = openat(dir_fd, FILE1, O_RDONLY | O_CLOEXEC, 0);
-+		ASSERT_GE(fd, 0);
-+		ASSERT_EQ(close(fd), 0);
-+
-+		/* validate file can be read through own symlink */
-+		fd = openat(dir_fd, SYMLINK_USER2, O_RDONLY | O_CLOEXEC, 0);
-+		ASSERT_GE(fd, 0);
-+		ASSERT_EQ(close(fd), 0);
-+
-+		/* validate file can be read through root symlink */
-+		fd = openat(dir_fd, SYMLINK_USER1, O_RDONLY | O_CLOEXEC, 0);
-+		ASSERT_GE(fd, 0);
-+		ASSERT_EQ(close(fd), 0);
-+
-+		/* validate file can't be read through other users symlink */
-+		fd = openat(dir_fd, SYMLINK_USER3, O_RDONLY | O_CLOEXEC, 0);
-+		ASSERT_LT(fd, 0);
-+		ASSERT_EQ(errno, EACCES);
-+
-+		exit(EXIT_SUCCESS);
-+	}
-+	ASSERT_EQ(wait_for_pid(pid), 0);
-+
-+	pid = fork();
-+	ASSERT_GE(pid, 0);
-+	if (pid == 0) {
-+		ASSERT_EQ(setresgid(2000, 2000, 2000), 0);
-+		ASSERT_EQ(setresuid(2000, 2000, 2000), 0);
-+		ASSERT_EQ(caps_down(), true);
-+
-+		/* validate file can be directly read */
-+		fd = openat(dir_fd, FILE1, O_RDONLY | O_CLOEXEC, 0);
-+		ASSERT_GE(fd, 0);
-+		ASSERT_EQ(close(fd), 0);
-+
-+		/* validate file can be read through own symlink */
-+		fd = openat(dir_fd, SYMLINK_USER3, O_RDONLY | O_CLOEXEC, 0);
-+		ASSERT_GE(fd, 0);
-+		ASSERT_EQ(close(fd), 0);
-+
-+		/* validate file can be read through root symlink */
-+		fd = openat(dir_fd, SYMLINK_USER1, O_RDONLY | O_CLOEXEC, 0);
-+		ASSERT_GE(fd, 0);
-+		ASSERT_EQ(close(fd), 0);
-+
-+		/* validate file can't be read through other users symlink */
-+		fd = openat(dir_fd, SYMLINK_USER2, O_RDONLY | O_CLOEXEC, 0);
-+		ASSERT_LT(fd, 0);
-+		ASSERT_EQ(errno, EACCES);
-+
-+		exit(EXIT_SUCCESS);
-+	}
-+
-+	ASSERT_EQ(wait_for_pid(pid), 0);
-+}
-+
-+/**
-+ * Validate that protected symlinks work correctly on idmapped mounts.
-+ */
-+TEST_F(core, follow_symlinks_idmapped)
-+{
-+	int dir_fd = -EBADF, fd = -EBADF, open_tree_fd = -EBADF;
-+	pid_t pid;
-+	struct mount_attr attr = {
-+		.attr_set = MOUNT_ATTR_IDMAP,
-+	};
-+
-+	if (!symlinks_protected())
-+		SKIP(return, "Symlinks are not protected. Skipping test");
-+
-+	/* create directory */
-+	ASSERT_EQ(mkdirat(self->img_mnt_fd, DIR1, 0000), 0);
-+	dir_fd = openat(self->img_mnt_fd, DIR1, O_DIRECTORY | O_CLOEXEC);
-+	ASSERT_GE(dir_fd, 0);
-+	ASSERT_EQ(fchown(dir_fd, 10000, 10000), 0);
-+	ASSERT_EQ(fchmod(dir_fd, 0777 | S_ISVTX), 0);
-+	/* validate sticky bit is set */
-+	ASSERT_EQ(is_sticky(self->img_mnt_fd, DIR1, 0), true);
-+
-+	/* create regular file via mknod */
-+	ASSERT_EQ(mknodat(dir_fd, FILE1, S_IFREG | 0000, 0), 0);
-+	ASSERT_EQ(fchownat(dir_fd, FILE1, 10000, 10000, 0), 0);
-+	ASSERT_EQ(fchmodat(dir_fd, FILE1, 0644, 0), 0);
-+
-+	/* create symlinks */
-+	ASSERT_EQ(symlinkat(FILE1, dir_fd, SYMLINK_USER1), 0);
-+	ASSERT_EQ(fchownat(dir_fd, SYMLINK_USER1, 10000, 10000, AT_SYMLINK_NOFOLLOW), 0);
-+	ASSERT_EQ(expected_uid_gid(dir_fd, SYMLINK_USER1, AT_SYMLINK_NOFOLLOW, 10000, 10000), true);
-+	ASSERT_EQ(expected_uid_gid(dir_fd, FILE1, 0, 10000, 10000), true);
-+
-+	ASSERT_EQ(symlinkat(FILE1, dir_fd, SYMLINK_USER2), 0);
-+	ASSERT_EQ(fchownat(dir_fd, SYMLINK_USER2, 11000, 11000, AT_SYMLINK_NOFOLLOW), 0);
-+	ASSERT_EQ(expected_uid_gid(dir_fd, SYMLINK_USER2, AT_SYMLINK_NOFOLLOW, 11000, 11000), true);
-+	ASSERT_EQ(expected_uid_gid(dir_fd, FILE1, 0, 10000, 10000), true);
-+
-+	ASSERT_EQ(symlinkat(FILE1, dir_fd, SYMLINK_USER3), 0);
-+	ASSERT_EQ(fchownat(dir_fd, SYMLINK_USER3, 12000, 12000, AT_SYMLINK_NOFOLLOW), 0);
-+	ASSERT_EQ(expected_uid_gid(dir_fd, SYMLINK_USER3, AT_SYMLINK_NOFOLLOW, 12000, 12000), true);
-+	ASSERT_EQ(expected_uid_gid(dir_fd, FILE1, 0, 10000, 10000), true);
-+
-+	/* Create detached mount. */
-+	open_tree_fd = sys_open_tree(self->img_mnt_fd, DIR1,
-+				     AT_NO_AUTOMOUNT | AT_SYMLINK_NOFOLLOW |
-+				     OPEN_TREE_CLOEXEC | OPEN_TREE_CLONE |
-+				     AT_RECURSIVE);
-+	ASSERT_GE(open_tree_fd, 0);
-+
-+	/* Changing mount properties on a detached mount. */
-+	attr.userns_fd	= get_userns_fd(10000, 0, 10000);
-+	ASSERT_GE(attr.userns_fd, 0);
-+	ASSERT_EQ(sys_mount_setattr(open_tree_fd, "",
-+				    AT_EMPTY_PATH | AT_RECURSIVE, &attr,
-+				    sizeof(attr)), 0) {
-+		TH_LOG("%m - Failed to idmap mount %d(%s/" MNT_TARGET1 ")",
-+		       open_tree_fd, self->test_dir_path);
-+	}
-+
-+	/* validate file can be directly read */
-+	fd = openat(open_tree_fd, FILE1, O_RDONLY | O_CLOEXEC, 0);
-+	ASSERT_GE(fd, 0);
-+	ASSERT_EQ(close(fd), 0);
-+
-+	/* validate file can be read through own symlink */
-+	fd = openat(open_tree_fd, SYMLINK_USER1, O_RDONLY | O_CLOEXEC, 0);
-+	ASSERT_GE(fd, 0);
-+	ASSERT_EQ(close(fd), 0);
-+
-+	pid = fork();
-+	ASSERT_GE(pid, 0);
-+	if (pid == 0) {
-+		ASSERT_EQ(setresgid(1000, 1000, 1000), 0);
-+		ASSERT_EQ(setresuid(1000, 1000, 1000), 0);
-+		ASSERT_EQ(caps_down(), true);
-+
-+		/* validate file can be directly read */
-+		fd = openat(open_tree_fd, FILE1, O_RDONLY | O_CLOEXEC, 0);
-+		ASSERT_GE(fd, 0);
-+		ASSERT_EQ(close(fd), 0);
-+
-+		/* validate file can be read through own symlink */
-+		fd = openat(open_tree_fd, SYMLINK_USER2, O_RDONLY | O_CLOEXEC, 0);
-+		ASSERT_GE(fd, 0);
-+		ASSERT_EQ(close(fd), 0);
-+
-+		/* validate file can be read through root symlink */
-+		fd = openat(open_tree_fd, SYMLINK_USER1, O_RDONLY | O_CLOEXEC, 0);
-+		ASSERT_GE(fd, 0);
-+		ASSERT_EQ(close(fd), 0);
-+
-+		/* validate file can't be read through other users symlink */
-+		fd = openat(open_tree_fd, SYMLINK_USER3, O_RDONLY | O_CLOEXEC, 0);
-+		ASSERT_LT(fd, 0);
-+		ASSERT_EQ(errno, EACCES);
-+
-+		exit(EXIT_SUCCESS);
-+	}
-+	ASSERT_EQ(wait_for_pid(pid), 0);
-+
-+	pid = fork();
-+	ASSERT_GE(pid, 0);
-+	if (pid == 0) {
-+		ASSERT_EQ(setresgid(2000, 2000, 2000), 0);
-+		ASSERT_EQ(setresuid(2000, 2000, 2000), 0);
-+		ASSERT_EQ(caps_down(), true);
-+
-+		/* validate file can be directly read */
-+		fd = openat(open_tree_fd, FILE1, O_RDONLY | O_CLOEXEC, 0);
-+		ASSERT_GE(fd, 0);
-+		ASSERT_EQ(close(fd), 0);
-+
-+		/* validate file can be read through own symlink */
-+		fd = openat(open_tree_fd, SYMLINK_USER3, O_RDONLY | O_CLOEXEC, 0);
-+		ASSERT_GE(fd, 0);
-+		ASSERT_EQ(close(fd), 0);
-+
-+		/* validate file can be read through root symlink */
-+		fd = openat(open_tree_fd, SYMLINK_USER1, O_RDONLY | O_CLOEXEC, 0);
-+		ASSERT_GE(fd, 0);
-+		ASSERT_EQ(close(fd), 0);
-+
-+		/* validate file can't be read through other users symlink */
-+		fd = openat(open_tree_fd, SYMLINK_USER2, O_RDONLY | O_CLOEXEC, 0);
-+		ASSERT_LT(fd, 0);
-+		ASSERT_EQ(errno, EACCES);
-+
-+		exit(EXIT_SUCCESS);
-+	}
-+	ASSERT_EQ(wait_for_pid(pid), 0);
-+
-+	ASSERT_EQ(close(dir_fd), 0);
-+	ASSERT_EQ(close(open_tree_fd), 0);
-+	ASSERT_EQ(close(attr.userns_fd), 0);
-+}
-+
-+/**
-+ * Validate that protected symlinks work correctly on idmapped mounts inside a
-+ * user namespace.
-+ */
-+TEST_F(core, follow_symlinks_idmapped_userns)
-+{
-+	int dir_fd = -EBADF, fd = -EBADF, open_tree_fd = -EBADF;
-+	pid_t pid;
-+	struct mount_attr attr = {
-+		.attr_set = MOUNT_ATTR_IDMAP,
-+	};
-+
-+	if (!symlinks_protected())
-+		SKIP(return, "Symlinks are not protected. Skipping test");
-+
-+	/* create directory */
-+	ASSERT_EQ(mkdirat(self->img_mnt_fd, DIR1, 0000), 0);
-+	dir_fd = openat(self->img_mnt_fd, DIR1, O_DIRECTORY | O_CLOEXEC);
-+	ASSERT_GE(dir_fd, 0);
-+	ASSERT_EQ(fchown(dir_fd, 0, 0), 0);
-+	ASSERT_EQ(fchmod(dir_fd, 0777 | S_ISVTX), 0);
-+	/* validate sticky bit is set */
-+	ASSERT_EQ(is_sticky(self->img_mnt_fd, DIR1, 0), true);
-+
-+	/* create regular file via mknod */
-+	ASSERT_EQ(mknodat(dir_fd, FILE1, S_IFREG | 0000, 0), 0);
-+	ASSERT_EQ(fchownat(dir_fd, FILE1, 0, 0, 0), 0);
-+	ASSERT_EQ(fchmodat(dir_fd, FILE1, 0644, 0), 0);
-+
-+	/* create symlinks */
-+	ASSERT_EQ(symlinkat(FILE1, dir_fd, SYMLINK_USER1), 0);
-+	ASSERT_EQ(fchownat(dir_fd, SYMLINK_USER1, 0, 0, AT_SYMLINK_NOFOLLOW), 0);
-+	ASSERT_EQ(expected_uid_gid(dir_fd, SYMLINK_USER1, AT_SYMLINK_NOFOLLOW, 0, 0), true);
-+	ASSERT_EQ(expected_uid_gid(dir_fd, FILE1, 0, 0, 0), true);
-+
-+	ASSERT_EQ(symlinkat(FILE1, dir_fd, SYMLINK_USER2), 0);
-+	ASSERT_EQ(fchownat(dir_fd, SYMLINK_USER2, 1000, 1000, AT_SYMLINK_NOFOLLOW), 0);
-+	ASSERT_EQ(expected_uid_gid(dir_fd, SYMLINK_USER2, AT_SYMLINK_NOFOLLOW, 1000, 1000), true);
-+	ASSERT_EQ(expected_uid_gid(dir_fd, FILE1, 0, 0, 0), true);
-+
-+	ASSERT_EQ(symlinkat(FILE1, dir_fd, SYMLINK_USER3), 0);
-+	ASSERT_EQ(fchownat(dir_fd, SYMLINK_USER3, 2000, 2000, AT_SYMLINK_NOFOLLOW), 0);
-+	ASSERT_EQ(expected_uid_gid(dir_fd, SYMLINK_USER3, AT_SYMLINK_NOFOLLOW, 2000, 2000), true);
-+	ASSERT_EQ(expected_uid_gid(dir_fd, FILE1, 0, 0, 0), true);
-+
-+	/* Create detached mount. */
-+	open_tree_fd = sys_open_tree(self->img_mnt_fd, DIR1,
-+				     AT_NO_AUTOMOUNT | AT_SYMLINK_NOFOLLOW |
-+				     OPEN_TREE_CLOEXEC | OPEN_TREE_CLONE |
-+				     AT_RECURSIVE);
-+	ASSERT_GE(open_tree_fd, 0);
-+
-+	/* Changing mount properties on a detached mount. */
-+	attr.userns_fd	= get_userns_fd(0, 10000, 10000);
-+	ASSERT_GE(attr.userns_fd, 0);
-+	ASSERT_EQ(sys_mount_setattr(open_tree_fd, "",
-+				    AT_EMPTY_PATH | AT_RECURSIVE, &attr,
-+				    sizeof(attr)), 0) {
-+		TH_LOG("%m - Failed to idmap mount %d(%s/" MNT_TARGET1 ")",
-+		       open_tree_fd, self->test_dir_path);
-+	}
-+
-+	/* validate file can be directly read */
-+	fd = openat(open_tree_fd, FILE1, O_RDONLY | O_CLOEXEC, 0);
-+	ASSERT_GE(fd, 0);
-+	ASSERT_EQ(close(fd), 0);
-+
-+	/* validate file can be read through own symlink */
-+	fd = openat(open_tree_fd, SYMLINK_USER1, O_RDONLY | O_CLOEXEC, 0);
-+	ASSERT_GE(fd, 0);
-+	ASSERT_EQ(close(fd), 0);
-+
-+	pid = fork();
-+	ASSERT_GE(pid, 0);
-+	if (pid == 0) {
-+		ASSERT_EQ(setns(attr.userns_fd, CLONE_NEWUSER), 0);
-+		ASSERT_EQ(setresgid(1000, 1000, 1000), 0);
-+		ASSERT_EQ(setresuid(1000, 1000, 1000), 0);
-+		ASSERT_EQ(caps_down(), true);
-+
-+		/* validate file can be directly read */
-+		fd = openat(open_tree_fd, FILE1, O_RDONLY | O_CLOEXEC, 0);
-+		ASSERT_GE(fd, 0);
-+		ASSERT_EQ(close(fd), 0);
-+
-+		/* validate file can be read through own symlink */
-+		fd = openat(open_tree_fd, SYMLINK_USER2, O_RDONLY | O_CLOEXEC, 0);
-+		ASSERT_GE(fd, 0);
-+		ASSERT_EQ(close(fd), 0);
-+
-+		/* validate file can be read through root symlink */
-+		fd = openat(open_tree_fd, SYMLINK_USER1, O_RDONLY | O_CLOEXEC, 0);
-+		ASSERT_GE(fd, 0);
-+		ASSERT_EQ(close(fd), 0);
-+
-+		/* validate file can't be read through other users symlink */
-+		fd = openat(open_tree_fd, SYMLINK_USER3, O_RDONLY | O_CLOEXEC, 0);
-+		ASSERT_LT(fd, 0);
-+		ASSERT_EQ(errno, EACCES);
-+
-+		exit(EXIT_SUCCESS);
-+	}
-+	ASSERT_EQ(wait_for_pid(pid), 0);
-+
-+	pid = fork();
-+	ASSERT_GE(pid, 0);
-+	if (pid == 0) {
-+		ASSERT_EQ(setns(attr.userns_fd, CLONE_NEWUSER), 0);
-+		ASSERT_EQ(setresgid(2000, 2000, 2000), 0);
-+		ASSERT_EQ(setresuid(2000, 2000, 2000), 0);
-+		ASSERT_EQ(caps_down(), true);
-+
-+		/* validate file can be directly read */
-+		fd = openat(open_tree_fd, FILE1, O_RDONLY | O_CLOEXEC, 0);
-+		ASSERT_GE(fd, 0);
-+		ASSERT_EQ(close(fd), 0);
-+
-+		/* validate file can be read through own symlink */
-+		fd = openat(open_tree_fd, SYMLINK_USER3, O_RDONLY | O_CLOEXEC, 0);
-+		ASSERT_GE(fd, 0);
-+		ASSERT_EQ(close(fd), 0);
-+
-+		/* validate file can be read through root symlink */
-+		fd = openat(open_tree_fd, SYMLINK_USER1, O_RDONLY | O_CLOEXEC, 0);
-+		ASSERT_GE(fd, 0);
-+		ASSERT_EQ(close(fd), 0);
-+
-+		/* validate file can't be read through other users symlink */
-+		fd = openat(open_tree_fd, SYMLINK_USER2, O_RDONLY | O_CLOEXEC, 0);
-+		ASSERT_LT(fd, 0);
-+		ASSERT_EQ(errno, EACCES);
-+
-+		exit(EXIT_SUCCESS);
-+	}
-+
-+	ASSERT_EQ(wait_for_pid(pid), 0);
-+
-+	ASSERT_EQ(close(dir_fd), 0);
-+	ASSERT_EQ(close(open_tree_fd), 0);
-+	ASSERT_EQ(close(attr.userns_fd), 0);
-+}
-+
-+TEST_HARNESS_MAIN
-diff --git a/tools/testing/selftests/idmap_mounts/internal.h b/tools/testing/selftests/idmap_mounts/internal.h
-index 252803f35d71..a7d648c305cc 100644
---- a/tools/testing/selftests/idmap_mounts/internal.h
-+++ b/tools/testing/selftests/idmap_mounts/internal.h
-@@ -4,8 +4,16 @@
- #define __IDMAP_INTERNAL_H
- 
- #define _GNU_SOURCE
--
--#include "../kselftest_harness.h"
-+#include <errno.h>
-+#include <linux/types.h>
-+#include <sched.h>
-+#include <signal.h>
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <string.h>
-+#include <syscall.h>
-+#include <sys/types.h>
-+#include <unistd.h>
- 
- #ifndef __NR_mount_setattr
- 	#if defined __alpha__
-@@ -26,6 +34,14 @@
- 		#define __NR_mount_setattr 441
- 	#endif
- 
-+struct mount_attr {
-+	__u64 attr_set;
-+	__u64 attr_clr;
-+	__u64 propagation;
-+	__u64 userns_fd;
-+};
-+#endif
-+
- #ifndef __NR_open_tree
- 	#if defined __alpha__
- 		#define __NR_open_tree 538
-@@ -66,15 +82,6 @@
- 	#endif
- #endif
- 
--
--struct mount_attr {
--	__u64 attr_set;
--	__u64 attr_clr;
--	__u64 propagation;
--	__u64 userns;
--};
--#endif
--
- #ifndef MOVE_MOUNT_F_EMPTY_PATH
- #define MOVE_MOUNT_F_EMPTY_PATH 0x00000004 /* Empty from path permitted */
- #endif
-@@ -95,6 +102,10 @@ struct mount_attr {
- #define AT_RECURSIVE 0x8000 /* Apply to the entire subtree */
- #endif
- 
-+#ifndef MAKE_PROPAGATION_PRIVATE
-+#define MAKE_PROPAGATION_PRIVATE 2
-+#endif
-+
- static inline int sys_mount_setattr(int dfd, const char *path, unsigned int flags,
- 				    struct mount_attr *attr, size_t size)
- {
-diff --git a/tools/testing/selftests/idmap_mounts/utils.c b/tools/testing/selftests/idmap_mounts/utils.c
-new file mode 100644
-index 000000000000..34ea3a7f9393
---- /dev/null
-+++ b/tools/testing/selftests/idmap_mounts/utils.c
-@@ -0,0 +1,136 @@
-+// SPDX-License-Identifier: GPL-2.0
-+#define _GNU_SOURCE
-+#include <fcntl.h>
-+#include <linux/limits.h>
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <sched.h>
-+#include <sys/mount.h>
-+#include <sys/stat.h>
-+#include <sys/types.h>
-+#include <sys/wait.h>
-+
-+#include "internal.h"
-+
-+ssize_t read_nointr(int fd, void *buf, size_t count)
-+{
-+	ssize_t ret;
-+
-+	do {
-+		ret = read(fd, buf, count);
-+	} while (ret < 0 && errno == EINTR);
-+
-+	return ret;
-+}
-+
-+ssize_t write_nointr(int fd, const void *buf, size_t count)
-+{
-+	ssize_t ret;
-+
-+	do {
-+		ret = write(fd, buf, count);
-+	} while (ret < 0 && errno == EINTR);
-+
-+	return ret;
-+}
-+
-+static int write_file(const char *path, const void *buf, size_t count)
-+{
-+	int fd;
-+	ssize_t ret;
-+
-+	fd = open(path, O_WRONLY | O_CLOEXEC | O_NOCTTY | O_NOFOLLOW);
-+	if (fd < 0)
-+		return -1;
-+
-+	ret = write_nointr(fd, buf, count);
-+	close(fd);
-+	if (ret < 0 || (size_t)ret != count)
-+		return -1;
-+
-+	return 0;
-+}
-+
-+static int map_ids(pid_t pid, unsigned long nsid, unsigned long hostid,
-+		   unsigned long range)
-+{
-+	char map[100], procfile[256];
-+
-+	snprintf(procfile, sizeof(procfile), "/proc/%d/setgroups", pid);
-+	if (write_file(procfile, "deny", sizeof("deny") - 1) &&
-+	    errno != ENOENT)
-+		return -1;
-+
-+	snprintf(procfile, sizeof(procfile), "/proc/%d/uid_map", pid);
-+	snprintf(map, sizeof(map), "%lu %lu %lu", nsid, hostid, range);
-+	if (write_file(procfile, map, strlen(map)))
-+		return -1;
-+
-+
-+	snprintf(procfile, sizeof(procfile), "/proc/%d/gid_map", pid);
-+	snprintf(map, sizeof(map), "%lu %lu %lu", nsid, hostid, range);
-+	if (write_file(procfile, map, strlen(map)))
-+		return -1;
-+
-+	return 0;
-+}
-+
-+#define __STACK_SIZE (8 * 1024 * 1024)
-+pid_t do_clone(int (*fn)(void *), void *arg, int flags)
-+{
-+	void *stack;
-+
-+	stack = malloc(__STACK_SIZE);
-+	if (!stack)
-+		return -ENOMEM;
-+
-+#ifdef __ia64__
-+	return __clone2(fn, stack, __STACK_SIZE, flags | SIGCHLD, arg, NULL);
-+#else
-+	return clone(fn, stack + __STACK_SIZE, flags | SIGCHLD, arg, NULL);
-+#endif
-+}
-+
-+static int get_userns_fd_cb(void *data)
-+{
-+	return kill(getpid(), SIGSTOP);
-+}
-+
-+int get_userns_fd(unsigned long nsid, unsigned long hostid, unsigned long range)
-+{
-+	int ret;
-+	pid_t pid;
-+	char path[256];
-+
-+	pid = do_clone(get_userns_fd_cb, NULL, CLONE_NEWUSER | CLONE_NEWNS);
-+	if (pid < 0)
-+		return -errno;
-+
-+	ret = map_ids(pid, nsid, hostid, range);
-+	if (ret < 0)
-+		return ret;
-+
-+	snprintf(path, sizeof(path), "/proc/%d/ns/user", pid);
-+	ret = open(path, O_RDONLY | O_CLOEXEC);
-+	kill(pid, SIGKILL);
-+	return ret;
-+}
-+
-+int wait_for_pid(pid_t pid)
-+{
-+	int status, ret;
-+
-+again:
-+	ret = waitpid(pid, &status, 0);
-+	if (ret == -1) {
-+		if (errno == EINTR)
-+			goto again;
-+
-+		return -1;
-+	}
-+
-+	if (!WIFEXITED(status))
-+		return -1;
-+
-+	return WEXITSTATUS(status);
-+}
-diff --git a/tools/testing/selftests/idmap_mounts/utils.h b/tools/testing/selftests/idmap_mounts/utils.h
-new file mode 100644
-index 000000000000..1f52997af99d
---- /dev/null
-+++ b/tools/testing/selftests/idmap_mounts/utils.h
-@@ -0,0 +1,17 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+
-+#ifndef __IDMAP_UTILS_H
-+#define __IDMAP_UTILS_H
-+
-+#define _GNU_SOURCE
-+
-+#include "../kselftest_harness.h"
-+
-+extern pid_t do_clone(int (*fn)(void *), void *arg, int flags);
-+extern int get_userns_fd(unsigned long nsid, unsigned long hostid,
-+			 unsigned long range);
-+extern ssize_t read_nointr(int fd, void *buf, size_t count);
-+extern int wait_for_pid(pid_t pid);
-+extern ssize_t write_nointr(int fd, const void *buf, size_t count);
-+
-+#endif /* __IDMAP_UTILS_H */
-diff --git a/tools/testing/selftests/idmap_mounts/xattr.c b/tools/testing/selftests/idmap_mounts/xattr.c
-index 58e88f92f958..0625e3fe53ac 100644
---- a/tools/testing/selftests/idmap_mounts/xattr.c
-+++ b/tools/testing/selftests/idmap_mounts/xattr.c
-@@ -8,102 +8,9 @@
- #include <linux/limits.h>
- 
- #include "internal.h"
-+#include "utils.h"
- #include "../kselftest_harness.h"
- 
--static ssize_t write_nointr(int fd, const void *buf, size_t count)
--{
--	ssize_t ret;
--
--	do {
--		ret = write(fd, buf, count);
--	} while (ret < 0 && errno == EINTR);
--
--	return ret;
--}
--
--static int write_file(const char *path, const void *buf, size_t count)
--{
--	int fd;
--	ssize_t ret;
--
--	fd = open(path, O_WRONLY | O_CLOEXEC | O_NOCTTY | O_NOFOLLOW);
--	if (fd < 0)
--		return -1;
--
--	ret = write_nointr(fd, buf, count);
--	close(fd);
--	if (ret < 0 || (size_t)ret != count)
--		return -1;
--
--	return 0;
--}
--
--static int map_ids(pid_t pid, unsigned long nsid, unsigned long hostid,
--		   unsigned long range)
--{
--	char map[100], procfile[256];
--
--	snprintf(procfile, sizeof(procfile), "/proc/%d/setgroups", pid);
--	if (write_file(procfile, "deny", sizeof("deny") - 1) &&
--	    errno != ENOENT)
--		return -1;
--
--	snprintf(procfile, sizeof(procfile), "/proc/%d/uid_map", pid);
--	snprintf(map, sizeof(map), "%lu %lu %lu", nsid, hostid, range);
--	if (write_file(procfile, map, strlen(map)))
--		return -1;
--
--
--	snprintf(procfile, sizeof(procfile), "/proc/%d/gid_map", pid);
--	snprintf(map, sizeof(map), "%lu %lu %lu", nsid, hostid, range);
--	if (write_file(procfile, map, strlen(map)))
--		return -1;
--
--	return 0;
--}
--
--#define __STACK_SIZE (8 * 1024 * 1024)
--static pid_t do_clone(int (*fn)(void *), void *arg, int flags)
--{
--	void *stack;
--
--	stack = malloc(__STACK_SIZE);
--	if (!stack)
--		return -ENOMEM;
--
--#ifdef __ia64__
--	return __clone2(fn, stack, __STACK_SIZE, flags | SIGCHLD, arg, NULL);
--#else
--	return clone(fn, stack + __STACK_SIZE, flags | SIGCHLD, arg, NULL);
--#endif
--}
--
--static int get_userns_fd_cb(void *data)
--{
--	return kill(getpid(), SIGSTOP);
--}
--
--static int get_userns_fd(unsigned long nsid, unsigned long hostid,
--			 unsigned long range)
--{
--	int ret;
--	pid_t pid;
--	char path[256];
--
--	pid = do_clone(get_userns_fd_cb, NULL, CLONE_NEWUSER | CLONE_NEWNS);
--	if (pid < 0)
--		return -errno;
--
--	ret = map_ids(pid, nsid, hostid, range);
--	if (ret < 0)
--		return ret;
--
--	snprintf(path, sizeof(path), "/proc/%d/ns/user", pid);
--	ret = open(path, O_RDONLY | O_CLOEXEC);
--	kill(pid, SIGKILL);
--	return ret;
--}
--
- struct run_as_data {
- 	int userns;
- 	int (*f)(void *data);
-@@ -132,25 +39,6 @@ static int run_in_cb(void *data)
- 	return rad->f(rad->data);
- }
- 
--static int wait_for_pid(pid_t pid)
--{
--	int status, ret;
--
--again:
--	ret = waitpid(pid, &status, 0);
--	if (ret == -1) {
--		if (errno == EINTR)
--			goto again;
--
--		return -1;
--	}
--
--	if (!WIFEXITED(status))
--		return -1;
--
--	return WEXITSTATUS(status);
--}
--
- static int run_in(int userns, int (*f)(void *), void *f_data)
- {
- 	pid_t pid;
-@@ -245,8 +133,8 @@ TEST_F(ext4_xattr, setattr_didnt_work)
- 				 MOVE_MOUNT_F_EMPTY_PATH), 0);
- 
- 	attr.attr_set = MOUNT_ATTR_IDMAP;
--	attr.userns = get_userns_fd(100010, 100020, 5);
--	ASSERT_GE(attr.userns, 0);
-+	attr.userns_fd = get_userns_fd(100010, 100020, 5);
-+	ASSERT_GE(attr.userns_fd, 0);
- 	ret = sys_mount_setattr(mount_fd, "", AT_EMPTY_PATH | AT_RECURSIVE,
- 				    &attr, sizeof(attr));
- 	ASSERT_EQ(close(mount_fd), 0);
-@@ -261,24 +149,24 @@ TEST_F(ext4_xattr, setattr_didnt_work)
- 
- 	snprintf(ssb.path, sizeof(ssb.path), "/tmp/ext4/source/foo");
- 	ssb.uid = 4294967295;
--	EXPECT_EQ(run_in(attr.userns, getacl_should_be_uid, &ssb), 0);
-+	EXPECT_EQ(run_in(attr.userns_fd, getacl_should_be_uid, &ssb), 0);
- 
- 	snprintf(ssb.path, sizeof(ssb.path), "/tmp/ext4/dest/foo");
- 	ssb.uid = 100010;
--	EXPECT_EQ(run_in(attr.userns, getacl_should_be_uid, &ssb), 0);
-+	EXPECT_EQ(run_in(attr.userns_fd, getacl_should_be_uid, &ssb), 0);
- 
- 	/*
- 	 * now, dir is owned by someone else in the user namespace, but we can
- 	 * still read it because of acls
- 	 */
- 	ASSERT_EQ(chown("/tmp/ext4/source/foo", 100012, 100012), 0);
--	EXPECT_EQ(run_in(attr.userns, ls_path, "/tmp/ext4/dest/foo"), 0);
-+	EXPECT_EQ(run_in(attr.userns_fd, ls_path, "/tmp/ext4/dest/foo"), 0);
- 
- 	/*
- 	 * if we delete the acls, the ls should fail because it's 700.
- 	 */
- 	ASSERT_EQ(system("setfacl --remove-all /tmp/ext4/source/foo"), 0);
--	EXPECT_NE(run_in(attr.userns, ls_path, "/tmp/ext4/dest/foo"), 0);
-+	EXPECT_NE(run_in(attr.userns_fd, ls_path, "/tmp/ext4/dest/foo"), 0);
- }
- 
- TEST_HARNESS_MAIN
--- 
-2.29.2
+Content-Disposition: inline
 
 --
 Linux-audit mailing list
 Linux-audit@redhat.com
 https://www.redhat.com/mailman/listinfo/linux-audit
+--82I3+IH0IqGh5yIs--
 
