@@ -2,109 +2,77 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [216.205.24.124])
-	by mail.lfdr.de (Postfix) with ESMTP id 621BA2BB70A
-	for <lists+linux-audit@lfdr.de>; Fri, 20 Nov 2020 21:41:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 67F2F2BB83F
+	for <lists+linux-audit@lfdr.de>; Fri, 20 Nov 2020 22:23:16 +0100 (CET)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-435-ODJCSXcQPKSofys_GoceZw-1; Fri, 20 Nov 2020 15:41:02 -0500
-X-MC-Unique: ODJCSXcQPKSofys_GoceZw-1
+ us-mta-567-SOxv1Fs4NUSg4mOts9F1Iw-1; Fri, 20 Nov 2020 16:23:13 -0500
+X-MC-Unique: SOxv1Fs4NUSg4mOts9F1Iw-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 220F918BA294;
-	Fri, 20 Nov 2020 20:40:57 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 062305C1D5;
-	Fri, 20 Nov 2020 20:40:57 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 10A465B365;
+	Fri, 20 Nov 2020 21:23:08 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 0F2885C224;
+	Fri, 20 Nov 2020 21:23:05 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 927F5180954D;
-	Fri, 20 Nov 2020 20:40:56 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
-	[10.11.54.6])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 0BFFF4BB7B;
+	Fri, 20 Nov 2020 21:23:01 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+	[10.11.54.3])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 0AKKeqQR002385 for <linux-audit@listman.util.phx.redhat.com>;
-	Fri, 20 Nov 2020 15:40:53 -0500
+	id 0AKLG5ov006913 for <linux-audit@listman.util.phx.redhat.com>;
+	Fri, 20 Nov 2020 16:16:05 -0500
 Received: by smtp.corp.redhat.com (Postfix)
-	id 9FCCD2166B2B; Fri, 20 Nov 2020 20:40:52 +0000 (UTC)
+	id 941D0115D354; Fri, 20 Nov 2020 21:16:05 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
-	(mimecast05.extmail.prod.ext.rdu2.redhat.com [10.11.55.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 9A6202166B28
-	for <linux-audit@redhat.com>; Fri, 20 Nov 2020 20:40:50 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [205.139.110.61])
+	(mimecast04.extmail.prod.ext.rdu2.redhat.com [10.11.55.20])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 904B5115D350
+	for <linux-audit@redhat.com>; Fri, 20 Nov 2020 21:16:03 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [207.211.31.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 17C9B803DCE
-	for <linux-audit@redhat.com>; Fri, 20 Nov 2020 20:40:50 +0000 (UTC)
-Received: from sonic317-38.consmr.mail.ne1.yahoo.com
-	(sonic317-38.consmr.mail.ne1.yahoo.com [66.163.184.49]) (Using TLS) by
-	relay.mimecast.com with ESMTP id us-mta-74-lm3XgX8SNSit9K2GoiY_SA-1;
-	Fri, 20 Nov 2020 15:40:47 -0500
-X-MC-Unique: lm3XgX8SNSit9K2GoiY_SA-1
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
-	t=1605904846; bh=81Cpu7mvk7z0vmGNAmuWCRhB/FXZvR9qhmtroMCs3+a=;
-	h=From:To:Subject:Date:From:Subject;
-	b=dp0UE5v6w5iSODnjCW0+s71wbjuLG7Yx2FNVsvF+N/URJ8g5pdjULI3FzrmLphJ1T//jOrddWvo+5mAHWunKtARUUl4cUprS9PgBsloxJzCbgEmhGtQZcA3hA/zzCCo4EuqVUzpsTK2z5Uv3JHOuoX33wTKBPgtKaTM6PAABjs8p/Y2LdYws4sC0ObxEMlovPVGUEYwxUWZ1r19pVkvcI3N9iNqSuEWDFytWKK5zelQdhHY6NDJzQy5senh4B9+eHGhrINtv8kr5eCPTlPOrRYki8znB6Jp963bu8hrH6dXSWnYyZANRb3BCPNI5eVzqM51r0G8fFnEbKyXwJIgsjA==
-X-YMail-OSG: QEJ.gLkVM1lnDGmiGcbWtMD97I1p5_lv5qCQMR7BBOH_NXWRqjZX6BIrmOuWcxt
-	9uRulLo.lyjnNh3iOgQzjGFRKlzoKR.7xiGkWcvbolWUbzrnRXMzAm3Ry.mWMj.tx561X3NhOL0S
-	nUqPaEqhh_.a_Rm.ek9EGWGPN3hcsn1NUFYBcBmeGO2vIUHmb7JPIXxAVNjF.ZxeDyqLz.urYexy
-	JzXJXAYEjGmICr_z2xnhX3.cnSmi03_XMFB9zjVWxA5JwhflTOzQ3GcKuGCjnNcC8sn40Bu7JScd
-	v6ER0HIrfvh4a524aGG4EVarDcJRNxznXT9sOUvIN8N4UJfyF5o2ojsn3seY1hdi5JQkHjtK5wG9
-	4NgAaeEfFiM7QfR0_7B0IN8ZGiB0gFDtZXpB.2ZLQP8cXJZBjxps7YCJvkblS5zTYs.sTiBOIyYA
-	Wp7DbE5LmcZofVZy4Bvp62vW2tdjKFi97MwgKsZQ81jjZNXvBh4hCVLUjzuV.PnjQHhEAHZKiuu6
-	0YEaO3RJ9ZNr_2VZ7F_p_LOxkvQZ3tk.bkuuD1Gyc_dOGpcf0VDpWFJpAI9Ze8Nq8N8lML5uMfNa
-	AHy9qynMlUCkfvNoIAeBl6xr.jtcuxgKitInaamUNk6k22kodEBQb1ks0i.zCbQtBb5TSLLk3pFX
-	EmQ5KOIWZENObWQ6pTnTZ_kahuBqPOYbtcmnmfe..kxQ1UJ1.idJ8WRoR1h.zA1j3JW6JZU_MdZq
-	q19lb6thWWPM8TuRKCiPzJK65tVs6daD8Rk5MVFmX_FBGGtfOrplQHYHmdkVJjAwsmD.q3sWPiz3
-	TiMHNPyf8WYbGd5gjzCDtuHCAy4i1LUP5M..wCc22IwOWizU.bWeX8PyiY.pmA8boXr4_6O1eAKe
-	mMAOGj4.0rhPgNRT.tcz36PLhZMZuZm3Y3dtZ9WccC.zwWNmnO1X73E0KZDhOfeygOYlxZn5ELgW
-	Tf0L1IDx2h85fwo9RU3YRMlXv0Y5b1zXl2JEaEUwIfIKi_ZZjqRMHFZwMAiqe0Xzjfg7R4VYB2gW
-	WlGuvl8bfCfscfRmB0he17vf7Yko__qkHBZZhciZ1BGIhQ0vb6cuNqnR78pdGbSE3jQlE1imNRRN
-	KzMb2SrH0q7wG4R3MQmFegfnHExLM8rL7ISJ5GMYNReX9ELHsFLLGR4VSfqtJujG7jqMC0ZSq6h.
-	_mfzppAzs12abgqWrXcSiyzWsRbhz7YF_13rGiB5n4sJX5b_Ve.0pDRM8KSvUsk5cl0FUSz0aiuQ
-	2bAI0L9SUBQsUavEWgAj_HKMmeG2sR9IQpeMiSkqdEYvxYMdKGNgb1WdWGJBzA8XAOX_ayfWbI4o
-	2KdvbktnFeyD8L5LPokNrXm.VsL2AB9A78Lm21pAUP9.7xh6aCLU5zBnh4u_tAta.bufmsybUICO
-	nnnk2_bdnR20uix2QPstpUvk.neLGxTYvDeDMs8FlKQHYCKzGfhl8dWPSiOwHzFazdM.6ZcOtp9B
-	Pj3t.VL.tDwAEZsiipDh_ZQ4a7IW7Zvx4wyPcRrQHewkfMiPltRoz_j6n3DR1kbgmdOMdIK5LGmC
-	9cMoYpljK_elZLWxSkBMt_mdUvB5PhpK0aIgWI2o2oZ3nFiYceZWwBkm2BRMJqypX6gAshaqp7nS
-	oaV0GTJAGWlS0ZbvkZkNjxtnoJkj1gDpGgPkBpDeHT4SML91OXAbaBU5VSoO9iEgXY.2zjh.W8vN
-	OQJkbSnIMjclCgu8ernh1PpXvcvTUd5mUHiYColmVsJdoLO6VXYnyQ5rrHK.mIMBV3oUXquyO0kf
-	B2Dx_tDTXmi7CsdSjyfUrFElGfGj10acrsPXNpVR2tWd3znRQBSRp5BjSqyGLLF7R_oPXieA0gaA
-	KkAc6tY9B.64nEKAT6bncPGmBrrgMIqk50K4Rm40lJ_idtA1w1iSOlGgeCpk4LXCq1RraM.RBWqJ
-	DGM28QizcAVQ3yN2c0aiQiDQLka8hMAH06IytQisddGKGBVVM5fVzP2_TDnKAmTt7TnG.RBY8GBG
-	oJOwDfSwdgx46Cgcx26N_WLHw9fZNGDMAkPyq_Ctfnw8tn4uxBqDXcnFw0SL45Uhs0zmKLANyHvi
-	F677TNE_B74407YtP4UyuVloDxmZEyedaV2cx0H1fZUfpH0RkTBNBRT5FvhGqxUEzOlQOq3HXEsl
-	YGU7IwbO1C.N0kVTAgJ0rAXS_c1Lb0PUZwsi3Twlq.OpEtvGBgxN6HkBTzsofzuwfiVrlEZllJul
-	q3.VcsW1EU49IktTM5SSyiSio72rhM9m1phjuVF3oOSpjkVL_qlaIARCdbvACWTMAKrwnu_ReaQp
-	BY40zvOyeB7Bm2Hk3ss2FK2AukoSbMxvK6xt__0xgVABilBn4KNwHwxqJuNjZW1cs3_iaOkbcC2k
-	qhEMDqEASpOU9q7A0tho0dT52cR6zYjICrnkjAuHd4wdj_zm85z0lTytHCBH5z0xz3GJOMpqO.NZ
-	LAxPGoISxObvGJczQwDqXKRkySIa0AP8drIAjRUt.rCVqTmvwbcJBmuVBD2uJwjHZA.KwH29CgEt
-	RD2PepJ9QzuV3PgYgcp0xp876fZHckL2IIQzNPOw0Ps.CcPpWFmkzcubk8Wjzh9Pl_wgxjxSz5CQ
-	sAxs76NSm_JzWQWLgYQA0GSjZJpqoCuTp.WD2qmDZqDV12Xpx_XyOqxQrLZrUWBwd8nCaCGCCn9l
-	wKa7_3o9I_.Ff3QwFeuKzZx1ZNXhAR_ryAD_rrhoshF2XczO6RUpUOySLR6WCXPESaM_ibfIwq41
-	DofM2RwvEeVbdS8e659741vRuvFW2reHZ3KDlViciC8BpdT3UQV7c5DfnJfSgDmcUquVH904xpJn
-	psQLbe..8wvIT06qZ1mNeL3DWdOBQ5KEStlBgQPTVKw06RbP_TIsdTTHy7zJgO2Kv8HbJ.CQMsS_
-	3BpDJ_9mRPDClJpUEErZiy1dyBHUMD5w5SUv0k4MS.8qynvRAadfBX8w_SKyfZNpIRQhl1BpL5KQ
-	6owO6VpAMineoFYml12jBkii.CovMQqkphX7RTJACofNJKS63ByX93SYvUqw7H04DQ2bKrFX7.rf
-	7ZcZKHoXu5GAhackZr8YHm091ZpVDRFW7wtAQECHNkmCItZXkk6aPpZCDbAO2b7RxKkdO8ayNJWi
-	pL.9nsqr2zWpr90nfb1OVAfEQqIF2xqpPYpIuDo2ID7JLU.rK_vLKeTbZSHspfk.nt.ovfrJqmA.
-	fgWGzdyF3almS6.7ChKPSRPVcJYvxDEivqHkxeAyGGBRR0Qj4ecC7Tny_uOumgkeGxLYguh9CYbW
-	aGYwP_RLr15QVszu.Uv44v77vZCVeYqncgXWD_dLBcJvP8Uf7Wg3.BULb.pO2umwbMTtVnw--
-Received: from sonic.gate.mail.ne1.yahoo.com by
-	sonic317.consmr.mail.ne1.yahoo.com with HTTP;
-	Fri, 20 Nov 2020 20:40:46 +0000
-Received: by smtp425.mail.gq1.yahoo.com (VZM Hermes SMTP Server) with ESMTPA
-	ID ece91be106397a13102061f9b7764c23; 
-	Fri, 20 Nov 2020 20:40:42 +0000 (UTC)
-From: Casey Schaufler <casey@schaufler-ca.com>
-To: casey.schaufler@intel.com, jmorris@namei.org,
-	linux-security-module@vger.kernel.org, selinux@vger.kernel.org
-Subject: [PATCH v23 23/23] AppArmor: Remove the exclusive flag
-Date: Fri, 20 Nov 2020 12:15:07 -0800
-Message-Id: <20201120201507.11993-24-casey@schaufler-ca.com>
-In-Reply-To: <20201120201507.11993-1-casey@schaufler-ca.com>
-References: <20201120201507.11993-1-casey@schaufler-ca.com>
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5D6C1103B803
+	for <linux-audit@redhat.com>; Fri, 20 Nov 2020 21:16:03 +0000 (UTC)
+Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
+	[209.85.210.194]) (Using TLS) by relay.mimecast.com with ESMTP id
+	us-mta-497-XjiE2OePOamlUnDdnXL4dA-1; Fri, 20 Nov 2020 16:16:01 -0500
+X-MC-Unique: XjiE2OePOamlUnDdnXL4dA-1
+Received: by mail-pf1-f194.google.com with SMTP id t8so9068363pfg.8
+	for <linux-audit@redhat.com>; Fri, 20 Nov 2020 13:16:00 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to;
+	bh=h3PVNgWJ4wv679ueVcfOMGTzPLuWakBRGW5tpcXVwpU=;
+	b=qiOjVaeqDDUaJ51nOby5BNZT3KU+c3rxm5up32V73BaaRxcl1RtW7sSbzzknmPBD4o
+	l/FVLwiwSYh5+kTtEeJKD05eutUk4Gl/WQAewZoYYRTPwqBnPUPCOWoFjijWOG/+u78b
+	zINcQeYqIpILvoCfAnjKjQ2o8bmWV6VtJRYwXRPFAYo3WoGkNuvOt25T5f9f+t0umW1v
+	ug/Ne1HrAJygAhvKKMXsfgYlZnleXnkA0XfmsjUyoD/gowBtU8t25Pd9qvdndbJP0Dtw
+	PVc4aPOoApW9elZnsu66WWiq4Cm+ReR0ZUCJuG6DnPL9l/UBGR4ZorV8Wk/byN1yduRR
+	2IOA==
+X-Gm-Message-State: AOAM530K86PdaaXfZJPSZvMGQxpNUxD29fZ1T+4JJG3NGC68GQBZyIJn
+	JzyTIqwzhAhE3wVgw4KpiaK43A==
+X-Google-Smtp-Source: ABdhPJxKoNsqmJfw8FXBuNWzYTFCvMP4QSPsIPE4HroDYde9n5FBnmXaYeQPf9Hkrj1TBoT0dMj64g==
+X-Received: by 2002:aa7:8ac1:0:b029:197:7198:e943 with SMTP id
+	b1-20020aa78ac10000b02901977198e943mr14806170pfd.58.1605906959108;
+	Fri, 20 Nov 2020 13:15:59 -0800 (PST)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+	by smtp.gmail.com with ESMTPSA id
+	k9sm4598556pfi.188.2020.11.20.13.15.57
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Fri, 20 Nov 2020 13:15:58 -0800 (PST)
+Date: Fri, 20 Nov 2020 13:15:57 -0800
+From: Kees Cook <keescook@chromium.org>
+To: Christian Brauner <christian.brauner@ubuntu.com>
+Subject: Re: [PATCH v2 39/39] tests: add vfs/idmapped mounts test suite
+Message-ID: <202011201300.B158F1E4B@keescook>
+References: <20201115103718.298186-1-christian.brauner@ubuntu.com>
+	<20201115103718.298186-40-christian.brauner@ubuntu.com>
 MIME-Version: 1.0
+In-Reply-To: <20201115103718.298186-40-christian.brauner@ubuntu.com>
 X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
 	Definition; Similar Internal Domain=false;
 	Similar Monitored External Domain=false;
@@ -113,10 +81,36 @@ X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
 	Custom Display Name List=false; Reply-to Address Mismatch=false;
 	Targeted Threat Dictionary=false;
 	Mimecast Threat Dictionary=false; Custom Threat Dictionary=false
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
 X-loop: linux-audit@redhat.com
-Cc: john.johansen@canonical.com, linux-kernel@vger.kernel.org,
-	linux-audit@redhat.com, sds@tycho.nsa.gov
+X-Mailman-Approved-At: Fri, 20 Nov 2020 16:22:55 -0500
+Cc: Phil Estes <estesp@gmail.com>, Lennart Poettering <lennart@poettering.net>,
+	Mimi Zohar <zohar@linux.ibm.com>, David Howells <dhowells@redhat.com>,
+	Andreas Dilger <adilger.kernel@dilger.ca>,
+	containers@lists.linux-foundation.org,
+	Christoph Hellwig <hch@lst.de>, Tycho Andersen <tycho@tycho.ws>,
+	Jonathan Corbet <corbet@lwn.net>,
+	James Morris <jmorris@namei.org>, smbarber@chromium.org,
+	Christoph Hellwig <hch@infradead.org>,
+	linux-ext4@vger.kernel.org, Mrunal Patel <mpatel@redhat.com>,
+	Serge Hallyn <serge@hallyn.com>, Arnd Bergmann <arnd@arndb.de>,
+	Jann Horn <jannh@google.com>, selinux@vger.kernel.org,
+	Josh Triplett <josh@joshtriplett.org>,
+	linux-fsdevel@vger.kernel.org, Aleksa Sarai <cyphar@cyphar.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Andy Lutomirski <luto@kernel.org>,
+	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
+	Geoffrey Thomas <geofft@ldpreload.com>,
+	James Bottomley <James.Bottomley@hansenpartnership.com>,
+	John Johansen <john.johansen@canonical.com>, Theodore Tso <tytso@mit.edu>,
+	Seth Forshee <seth.forshee@canonical.com>,
+	Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
+	linux-security-module@vger.kernel.org, linux-audit@redhat.com,
+	"Eric W. Biederman" <ebiederm@xmission.com>,
+	linux-api@vger.kernel.org, Alban Crequy <alban@kinvolk.io>,
+	linux-integrity@vger.kernel.org,
+	=?iso-8859-1?Q?St=E9phane?= Graber <stgraber@ubuntu.com>,
+	Todd Kjos <tkjos@google.com>
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -135,71 +129,46 @@ Authentication-Results: relay.mimecast.com;
 	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=linux-audit-bounces@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Disposition: inline
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-With the inclusion of the interface LSM process attribute
-mechanism AppArmor no longer needs to be treated as an
-"exclusive" security module. Remove the flag that indicates
-it is exclusive. Remove the stub getpeersec_dgram AppArmor
-hook as it has no effect in the single LSM case and
-interferes in the multiple LSM case.
+On Sun, Nov 15, 2020 at 11:37:18AM +0100, Christian Brauner wrote:
+> This adds a whole test suite for idmapped mounts but in order to ensure that
+> there are no regression for the vfs itself it also includes tests for correct
+> functionality on non-idmapped mounts. The following tests are currently
+> available with more to come in the future:
 
-Acked-by: Stephen Smalley <sds@tycho.nsa.gov>
-Acked-by: John Johansen <john.johansen@canonical.com>
-Reviewed-by: Kees Cook <keescook@chromium.org>
-Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
----
- security/apparmor/lsm.c | 20 +-------------------
- 1 file changed, 1 insertion(+), 19 deletions(-)
+Awesome! :)
 
-diff --git a/security/apparmor/lsm.c b/security/apparmor/lsm.c
-index 36be7bdc917b..29e8bbdba37c 100644
---- a/security/apparmor/lsm.c
-+++ b/security/apparmor/lsm.c
-@@ -1129,22 +1129,6 @@ static int apparmor_socket_getpeersec_stream(struct socket *sock,
- 	return error;
- }
- 
--/**
-- * apparmor_socket_getpeersec_dgram - get security label of packet
-- * @sock: the peer socket
-- * @skb: packet data
-- * @secid: pointer to where to put the secid of the packet
-- *
-- * Sets the netlabel socket state on sk from parent
-- */
--static int apparmor_socket_getpeersec_dgram(struct socket *sock,
--					    struct sk_buff *skb, u32 *secid)
--
--{
--	/* TODO: requires secid support */
--	return -ENOPROTOOPT;
--}
--
- /**
-  * apparmor_sock_graft - Initialize newly created socket
-  * @sk: child sock
-@@ -1248,8 +1232,6 @@ static struct security_hook_list apparmor_hooks[] __lsm_ro_after_init = {
- #endif
- 	LSM_HOOK_INIT(socket_getpeersec_stream,
- 		      apparmor_socket_getpeersec_stream),
--	LSM_HOOK_INIT(socket_getpeersec_dgram,
--		      apparmor_socket_getpeersec_dgram),
- 	LSM_HOOK_INIT(sock_graft, apparmor_sock_graft),
- #ifdef CONFIG_NETWORK_SECMARK
- 	LSM_HOOK_INIT(inet_conn_request, apparmor_inet_conn_request),
-@@ -1918,7 +1900,7 @@ static int __init apparmor_init(void)
- 
- DEFINE_LSM(apparmor) = {
- 	.name = "apparmor",
--	.flags = LSM_FLAG_LEGACY_MAJOR | LSM_FLAG_EXCLUSIVE,
-+	.flags = LSM_FLAG_LEGACY_MAJOR,
- 	.enabled = &apparmor_enabled,
- 	.blobs = &apparmor_blob_sizes,
- 	.init = apparmor_init,
+Some glitches in the build, though... something about the ordering or
+the Make rules produces odd results on a failure:
+
+$ make
+gcc -g -I../../../../usr/include/ -Wall -O2 -pthread    xattr.c internal.h utils.c utils.h -lcap -o /home/kees/src/linux-build/seccomp/tools/testing/selftests/idmap_mounts/xattr
+gcc -g -I../../../../usr/include/ -Wall -O2 -pthread    core.c internal.h utils.c utils.h -lcap -o /home/kees/src/linux-build/seccomp/tools/testing/selftests/idmap_mounts/core
+core.c:19:10: fatal error: sys/acl.h: No such file or directory
+   19 | #include <sys/acl.h>
+      |          ^~~~~~~~~~~
+compilation terminated.
+make: *** [../lib.mk:139: /home/kees/src/linux-build/seccomp/tools/testing/selftests/idmap_mounts/core]
+Error 1
+$ make
+make: Nothing to be done for 'all'.
+$ file xattr core
+xattr: ELF 64-bit LSB shared object, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=7a3c1951e54f20e657b4181c1be77c7183a54f81, for GNU/Linux 3.2.0, with debug_info, not stripped
+core:  GCC precompiled header (version 014) for C
+
+Even after I install libacl1-dev, I still get a "core" file output which
+breaks attempts to build again. :)
+
+
+Is there any way to have the test suite not depend on
+__NR_mount_setattr? Running this test on older kernels fails everything.
+
+
 -- 
-2.24.1
+Kees Cook
 
 --
 Linux-audit mailing list
