@@ -2,71 +2,71 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [63.128.21.124])
-	by mail.lfdr.de (Postfix) with ESMTP id 3EA062BFEB4
-	for <lists+linux-audit@lfdr.de>; Mon, 23 Nov 2020 04:24:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E0CC32BFEB3
+	for <lists+linux-audit@lfdr.de>; Mon, 23 Nov 2020 04:24:46 +0100 (CET)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-362-uuui5ctSO4WMQyHsEKqfdQ-1; Sun, 22 Nov 2020 22:24:44 -0500
-X-MC-Unique: uuui5ctSO4WMQyHsEKqfdQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+ us-mta-556-gjkv_Bd0OnCy8R9C2VnN3A-1; Sun, 22 Nov 2020 22:24:44 -0500
+X-MC-Unique: gjkv_Bd0OnCy8R9C2VnN3A-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3A4D15205;
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3A535520F;
 	Mon, 23 Nov 2020 03:24:39 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 8D7115D9DD;
+Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 8D2B660BF3;
 	Mon, 23 Nov 2020 03:24:38 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 25B5A4A7C6;
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 25E35180954D;
 	Mon, 23 Nov 2020 03:24:33 +0000 (UTC)
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
 	[10.11.54.4])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 0AMLJDFX013373 for <linux-audit@listman.util.phx.redhat.com>;
-	Sun, 22 Nov 2020 16:19:13 -0500
+	id 0AMMHuOP018988 for <linux-audit@listman.util.phx.redhat.com>;
+	Sun, 22 Nov 2020 17:17:56 -0500
 Received: by smtp.corp.redhat.com (Postfix)
-	id 6C5642026D14; Sun, 22 Nov 2020 21:19:13 +0000 (UTC)
+	id 48EB22026D14; Sun, 22 Nov 2020 22:17:56 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
-	(mimecast05.extmail.prod.ext.rdu2.redhat.com [10.11.55.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 67B382026D12
-	for <linux-audit@redhat.com>; Sun, 22 Nov 2020 21:19:11 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
-	[205.139.110.120])
+	(mimecast04.extmail.prod.ext.rdu2.redhat.com [10.11.55.20])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 449DA2026D12
+	for <linux-audit@redhat.com>; Sun, 22 Nov 2020 22:17:54 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [207.211.31.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 131BE800157
-	for <linux-audit@redhat.com>; Sun, 22 Nov 2020 21:19:11 +0000 (UTC)
-Received: from mail-ed1-f68.google.com (mail-ed1-f68.google.com
-	[209.85.208.68]) (Using TLS) by relay.mimecast.com with ESMTP id
-	us-mta-492-JvElV7mzOQSq4YesF2oA1g-1; Sun, 22 Nov 2020 16:19:08 -0500
-X-MC-Unique: JvElV7mzOQSq4YesF2oA1g-1
-Received: by mail-ed1-f68.google.com with SMTP id t9so15083439edq.8
-	for <linux-audit@redhat.com>; Sun, 22 Nov 2020 13:19:08 -0800 (PST)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0399C103B800
+	for <linux-audit@redhat.com>; Sun, 22 Nov 2020 22:17:54 +0000 (UTC)
+Received: from mail-ej1-f67.google.com (mail-ej1-f67.google.com
+	[209.85.218.67]) (Using TLS) by relay.mimecast.com with ESMTP id
+	us-mta-161-8Z2l8BFdNBKr0vYOhCNxnQ-1; Sun, 22 Nov 2020 17:17:51 -0500
+X-MC-Unique: 8Z2l8BFdNBKr0vYOhCNxnQ-1
+Received: by mail-ej1-f67.google.com with SMTP id a16so20683904ejj.5
+	for <linux-audit@redhat.com>; Sun, 22 Nov 2020 14:17:51 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=TnYAfYzK9z2CU6n9f6EQEQr3kUIpHz74aN1sscdy0dE=;
-	b=N5X8gIXPYI9ijP+aH5yDWRcl+lwc6G5KjXqOItsd56RYPsglmcZ88Zy5iXSV+/oAjn
-	m0pp/pfejyRkxZ4RkRsGgeTL/FRDJs3oZRfYpZoh6rSQjQVnWDcqL7D9/OeGO8yBqnFB
-	Y3vSrPXAdkoJuqOIFXU2iuomII2f9Tcr+64kN0zqNjh+4cs5bWkF4kBQTjnz4bxDo/Xw
-	0bn2qfbU7ptz3o6YAdlym49L6DJqjKm5fhuSk5ttyGBTjWlv/yWsbZxs5fWUy28vOK9i
-	tJzIXMolGLXhCqAfYC+/k0eKh+KHWrGPGeBp+XN5H2lsWUfMb/y7QFoj2NweOW9YNTfV
-	LSFA==
-X-Gm-Message-State: AOAM533LMNXAXak45tHOV4uRJLDxvcveIhyQ/z+wugY4QeT52lCqqj0d
-	j9a/6HJzzD7kFYLZoofHnl3QCbHLzEC0MeShpl/3
-X-Google-Smtp-Source: ABdhPJxWDVFzpcLiB/ip+VH1A679zZkgv5lzs7PTKex+TlERHeuhuyes1CoTwmWTuMvWpYfUdNgQEs+SrGqG31WGjjs=
-X-Received: by 2002:aa7:de01:: with SMTP id h1mr44059484edv.269.1606079946987; 
-	Sun, 22 Nov 2020 13:19:06 -0800 (PST)
+	bh=T4CY2UVVySQTR/IgGfrcAE9Yvfw8Rpt8ESDEqvgdlV0=;
+	b=iKxHTnYB0oiDsWkudZStizuqvOjjg8ElKuNNU29ZVKY00KnJIZKw5O63RSK4S/FyQl
+	XsbDYtWzkJqrIb1Tm2xBnX48VmddH7tIka1yT+CdxTkOe85MEeYFLnHGI4vCD+bdzzaT
+	P7KO4gS546C+FErVQ++Pl04OwlWikk5Jjullp8uF0bdw1tXBFzjjS6UJfmhCl1uN7Gw8
+	dvZPWCyzkc53sMgLvYxUdPK18dKV5+a4WQ41IfjJW2yoRx/wdFog7LDlgqxeh+wvhbGH
+	MvKwl3csEHaGFLYliyViQme3/lPJDF949qs94H+3hU01Bd52w45NtwsUqMc0p1JpNjRe
+	hSFA==
+X-Gm-Message-State: AOAM533WbYFcyN6JnNbJSzHxYpsyRQMp8Yx+5fzB6DrnD8MfomTncZ55
+	Sd1Rb6wrb8l3rzYt8haxlCa3HNTzC/iqeKzlBO98
+X-Google-Smtp-Source: ABdhPJw12xuRZoIeL/vGVBoUF4Pp6Vi1slczsoOA2TmXfkvzw8XIX8310DsMH/5qvds2YuOjg+U0QMN2daNuxBFO/6M=
+X-Received: by 2002:a17:906:7c9:: with SMTP id
+	m9mr40871916ejc.178.1606083470433; 
+	Sun, 22 Nov 2020 14:17:50 -0800 (PST)
 MIME-Version: 1.0
 References: <20201115103718.298186-1-christian.brauner@ubuntu.com>
-	<20201115103718.298186-15-christian.brauner@ubuntu.com>
-In-Reply-To: <20201115103718.298186-15-christian.brauner@ubuntu.com>
+	<20201115103718.298186-32-christian.brauner@ubuntu.com>
+In-Reply-To: <20201115103718.298186-32-christian.brauner@ubuntu.com>
 From: Paul Moore <paul@paul-moore.com>
-Date: Sun, 22 Nov 2020 16:18:55 -0500
-Message-ID: <CAHC9VhRqk1WMXyHTsrLcJnpxMPgJs_CxeG2uCaaBGgHqK_jj=g@mail.gmail.com>
-Subject: Re: [PATCH v2 14/39] commoncap: handle idmapped mounts
+Date: Sun, 22 Nov 2020 17:17:39 -0500
+Message-ID: <CAHC9VhQ5gcOa0+KKDtKEgg_v4SZV2hPdaKUbPGJAQrVB8mn0jA@mail.gmail.com>
+Subject: Re: [PATCH v2 31/39] audit: handle idmapped mounts
 To: Christian Brauner <christian.brauner@ubuntu.com>
 X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
 	Definition; Similar Internal Domain=false;
@@ -82,8 +82,7 @@ X-Mailman-Approved-At: Sun, 22 Nov 2020 22:24:23 -0500
 Cc: Phil Estes <estesp@gmail.com>, Lennart Poettering <lennart@poettering.net>,
 	Mimi Zohar <zohar@linux.ibm.com>, David Howells <dhowells@redhat.com>,
 	Andreas Dilger <adilger.kernel@dilger.ca>,
-	containers@lists.linux-foundation.org,
-	Christoph Hellwig <hch@lst.de>, Tycho Andersen <tycho@tycho.ws>,
+	containers@lists.linux-foundation.org, Tycho Andersen <tycho@tycho.ws>,
 	Jonathan Corbet <corbet@lwn.net>,
 	James Morris <jmorris@namei.org>, smbarber@chromium.org,
 	Christoph Hellwig <hch@infradead.org>,
@@ -119,7 +118,7 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
 	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=linux-audit-bounces@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -127,81 +126,31 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-On Sun, Nov 15, 2020 at 5:39 AM Christian Brauner
+On Sun, Nov 15, 2020 at 5:43 AM Christian Brauner
 <christian.brauner@ubuntu.com> wrote:
-> When interacting with user namespace and non-user namespace aware
-> filesystem capabilities the vfs will perform various security checks to
-> determine whether or not the filesystem capabilities can be used by the
-> caller (e.g. during exec), or even whether they need to be removed. The
-> main infrastructure for this resides in the capability codepaths but they
-> are called through the LSM security infrastructure even though they are not
-> technically an LSM or optional. This extends the existing security hooks
-> security_inode_removexattr(), security_inode_killpriv(),
-> security_inode_getsecurity() to pass down the mount's user namespace and
-> makes them aware of idmapped mounts.
-> In order to actually get filesystem capabilities from disk the capability
-> infrastructure exposes the get_vfs_caps_from_disk() helper. For user
-> namespace aware filesystem capabilities a root uid is stored alongside the
-> capabilities.
-> In order to determine whether the caller can make use of the filesystem
-> capability or whether it needs to be ignored it is translated according to
-> the superblock's user namespace. If it can be translated to uid 0 according
-> to that id mapping the caller can use the filesystem capabilities stored on
-> disk. If we are accessing the inode that holds the filesystem capabilities
-> through an idmapped mount we need to map the root uid according to the
-> mount's user namespace.
-> Afterwards the checks are identical to non-idmapped mounts. Reading
-> filesystem caps from disk enforces that the root uid associated with the
-> filesystem capability must have a mapping in the superblock's user
-> namespace and that the caller is either in the same user namespace or is a
-> descendant of the superblock's user namespace. For filesystems that are
-> mountable inside user namespace the container can just mount the filesystem
-> and won't usually need to idmap it. If it does create an idmapped mount it
-> can mark it with a user namespace it has created and which is therefore a
-> descendant of the s_user_ns. For filesystems that are not mountable inside
-> user namespaces the descendant rule is trivially true because the s_user_ns
-> will be the initial user namespace.
 >
-> If the initial user namespace is passed all operations are a nop so
-> non-idmapped mounts will not see a change in behavior and will also not see
-> any performance impact.
->
-> Cc: Christoph Hellwig <hch@lst.de>
-> Cc: David Howells <dhowells@redhat.com>
-> Cc: Al Viro <viro@zeniv.linux.org.uk>
-> Cc: linux-fsdevel@vger.kernel.org
+> Audit will sometimes log the inode's i_uid and i_gid. Enable audit to log the
+> mapped inode when it is accessed from an idmapped mount.
+
+I mentioned this in an earlier patch in this patchset, but it is worth
+repeating here: audit currently records information in the context of
+the initial/host namespace and I believe it should probably stay that
+way until the rest of the namespace smarts that Richard is working on
+is merged.  If we do change the context of the inode's UID and GID
+information it has the potential to create a rather odd looking audit
+record with inconsistent credentials and the filters would yield some
+very interesting results.
+
 > Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
-
-...
-
-> diff --git a/kernel/auditsc.c b/kernel/auditsc.c
-> index 8dba8f0983b5..ddb9213a3e81 100644
-> --- a/kernel/auditsc.c
-> +++ b/kernel/auditsc.c
-> @@ -1944,7 +1944,7 @@ static inline int audit_copy_fcaps(struct audit_names *name,
->         if (!dentry)
->                 return 0;
->
-> -       rc = get_vfs_caps_from_disk(dentry, &caps);
-> +       rc = get_vfs_caps_from_disk(&init_user_ns, dentry, &caps);
->         if (rc)
->                 return rc;
->
-> @@ -2495,7 +2495,8 @@ int __audit_log_bprm_fcaps(struct linux_binprm *bprm,
->         ax->d.next = context->aux;
->         context->aux = (void *)ax;
->
-> -       get_vfs_caps_from_disk(bprm->file->f_path.dentry, &vcaps);
-> +       get_vfs_caps_from_disk(mnt_user_ns(bprm->file->f_path.mnt),
-> +                              bprm->file->f_path.dentry, &vcaps);
-
-As audit currently records information in the context of the
-initial/host namespace I'm guessing we don't want the mnt_user_ns()
-call above; it seems like &init_user_ns would be the right choice
-(similar to audit_copy_fcaps()), yes?
-
->         ax->fcap.permitted = vcaps.permitted;
->         ax->fcap.inheritable = vcaps.inheritable;
+> ---
+> /* v2 */
+> unchanged
+> ---
+>  fs/namei.c            | 14 +++++++-------
+>  include/linux/audit.h | 10 ++++++----
+>  ipc/mqueue.c          |  8 ++++----
+>  kernel/auditsc.c      | 26 ++++++++++++++------------
+>  4 files changed, 31 insertions(+), 27 deletions(-)
 
 -- 
 paul moore
