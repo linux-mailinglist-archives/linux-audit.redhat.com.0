@@ -2,72 +2,77 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [63.128.21.124])
-	by mail.lfdr.de (Postfix) with ESMTP id E0CC32BFEB3
-	for <lists+linux-audit@lfdr.de>; Mon, 23 Nov 2020 04:24:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C02052C0D26
+	for <lists+linux-audit@lfdr.de>; Mon, 23 Nov 2020 15:22:43 +0100 (CET)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-556-gjkv_Bd0OnCy8R9C2VnN3A-1; Sun, 22 Nov 2020 22:24:44 -0500
-X-MC-Unique: gjkv_Bd0OnCy8R9C2VnN3A-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+ us-mta-346-MM9eyel5OV2xXMUFe_i6VQ-1; Mon, 23 Nov 2020 09:22:40 -0500
+X-MC-Unique: MM9eyel5OV2xXMUFe_i6VQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3A535520F;
-	Mon, 23 Nov 2020 03:24:39 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8F2835225;
+	Mon, 23 Nov 2020 14:22:34 +0000 (UTC)
 Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 8D2B660BF3;
-	Mon, 23 Nov 2020 03:24:38 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 160F419D7C;
+	Mon, 23 Nov 2020 14:22:33 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 25E35180954D;
-	Mon, 23 Nov 2020 03:24:33 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
-	[10.11.54.4])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 3036A180954D;
+	Mon, 23 Nov 2020 14:22:28 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+	[10.11.54.3])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 0AMMHuOP018988 for <linux-audit@listman.util.phx.redhat.com>;
-	Sun, 22 Nov 2020 17:17:56 -0500
+	id 0ANEMIxc003607 for <linux-audit@listman.util.phx.redhat.com>;
+	Mon, 23 Nov 2020 09:22:18 -0500
 Received: by smtp.corp.redhat.com (Postfix)
-	id 48EB22026D14; Sun, 22 Nov 2020 22:17:56 +0000 (UTC)
+	id 80C5A1004041; Mon, 23 Nov 2020 14:22:18 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
-	(mimecast04.extmail.prod.ext.rdu2.redhat.com [10.11.55.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 449DA2026D12
-	for <linux-audit@redhat.com>; Sun, 22 Nov 2020 22:17:54 +0000 (UTC)
+	(mimecast03.extmail.prod.ext.rdu2.redhat.com [10.11.55.19])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 7B8AC1111455
+	for <linux-audit@redhat.com>; Mon, 23 Nov 2020 14:22:15 +0000 (UTC)
 Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [207.211.31.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0399C103B800
-	for <linux-audit@redhat.com>; Sun, 22 Nov 2020 22:17:54 +0000 (UTC)
-Received: from mail-ej1-f67.google.com (mail-ej1-f67.google.com
-	[209.85.218.67]) (Using TLS) by relay.mimecast.com with ESMTP id
-	us-mta-161-8Z2l8BFdNBKr0vYOhCNxnQ-1; Sun, 22 Nov 2020 17:17:51 -0500
-X-MC-Unique: 8Z2l8BFdNBKr0vYOhCNxnQ-1
-Received: by mail-ej1-f67.google.com with SMTP id a16so20683904ejj.5
-	for <linux-audit@redhat.com>; Sun, 22 Nov 2020 14:17:51 -0800 (PST)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 83A45811E99
+	for <linux-audit@redhat.com>; Mon, 23 Nov 2020 14:22:15 +0000 (UTC)
+Received: from youngberry.canonical.com (youngberry.canonical.com
+	[91.189.89.112]) (Using TLS) by relay.mimecast.com with ESMTP id
+	us-mta-431-wTx4oX53MNmatZUxwOtfkA-1; Mon, 23 Nov 2020 09:22:10 -0500
+X-MC-Unique: wTx4oX53MNmatZUxwOtfkA-1
+Received: from mail-pg1-f200.google.com ([209.85.215.200])
+	by youngberry.canonical.com with esmtps
+	(TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
+	(envelope-from <andreas.hasenack@canonical.com>) id 1khCjJ-0002an-Cx
+	for Linux-audit@redhat.com; Mon, 23 Nov 2020 14:22:09 +0000
+Received: by mail-pg1-f200.google.com with SMTP id f19so12591353pgm.4
+	for <Linux-audit@redhat.com>; Mon, 23 Nov 2020 06:22:09 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=T4CY2UVVySQTR/IgGfrcAE9Yvfw8Rpt8ESDEqvgdlV0=;
-	b=iKxHTnYB0oiDsWkudZStizuqvOjjg8ElKuNNU29ZVKY00KnJIZKw5O63RSK4S/FyQl
-	XsbDYtWzkJqrIb1Tm2xBnX48VmddH7tIka1yT+CdxTkOe85MEeYFLnHGI4vCD+bdzzaT
-	P7KO4gS546C+FErVQ++Pl04OwlWikk5Jjullp8uF0bdw1tXBFzjjS6UJfmhCl1uN7Gw8
-	dvZPWCyzkc53sMgLvYxUdPK18dKV5+a4WQ41IfjJW2yoRx/wdFog7LDlgqxeh+wvhbGH
-	MvKwl3csEHaGFLYliyViQme3/lPJDF949qs94H+3hU01Bd52w45NtwsUqMc0p1JpNjRe
-	hSFA==
-X-Gm-Message-State: AOAM533WbYFcyN6JnNbJSzHxYpsyRQMp8Yx+5fzB6DrnD8MfomTncZ55
-	Sd1Rb6wrb8l3rzYt8haxlCa3HNTzC/iqeKzlBO98
-X-Google-Smtp-Source: ABdhPJw12xuRZoIeL/vGVBoUF4Pp6Vi1slczsoOA2TmXfkvzw8XIX8310DsMH/5qvds2YuOjg+U0QMN2daNuxBFO/6M=
-X-Received: by 2002:a17:906:7c9:: with SMTP id
-	m9mr40871916ejc.178.1606083470433; 
-	Sun, 22 Nov 2020 14:17:50 -0800 (PST)
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=HDqWrRZqepSmUwPSGjh+bbTDunyNb3I3rpkf534+t88=;
+	b=TmOtbwbaYUd+S0JMyUY49arII503HMI+AFWzVJgH72e0wrV0zVUTwWJW+KFKJ0DYuG
+	P5UQvmAeR/DgzPDAsnNY8LYWBx0Ous8ZEj9Ryb0HNGBg0eJs7A8x4nlMmksuMtGiJ4dv
+	1XI0XnFQsbE9yqL6gMoJZHRB2jnn1MIQsQr62A9agcUdVb5+cRC8OVjv2lBvSJiziwvQ
+	stAufatd59X5g6mqGALbVYrMj1Ib9VNzlHZchXJF54oe+a3O5PD4hTj4iGJ1Dx3W+xKL
+	EArj/tWU52J1lnV499whdLdoHXeMTkXUt6Bi4Fy1KQgxdQx2lpq65knuadYCgVfUkXm+
+	pKuw==
+X-Gm-Message-State: AOAM530NAsnHBNTAwEwfmjA/h4uwJTMkURN/n9Oj8NOErDyvAu+piqOr
+	byKYGa9zYefA6orYIDUzoe4KW238DOhF4WORwMLzd7mDpn6vAdbKJdf1bYgmPTe4r1YSrO8seSj
+	LR6qA4CVr8vHij+mbOZaQYer6Yr9V+CYDkZV03tnWf4tC4EQzhg==
+X-Received: by 2002:a17:902:a504:b029:d8:ebc7:a864 with SMTP id
+	s4-20020a170902a504b02900d8ebc7a864mr23077731plq.60.1606141327951;
+	Mon, 23 Nov 2020 06:22:07 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxjRezQnmaS0dtJLg+5sUf7J7y8Ea/t4tQJUEfuSzBUOQjzSdWGuEhqLXkwIiPc5T/M5etWS97NkuHrBQbo9XY=
+X-Received: by 2002:a17:902:a504:b029:d8:ebc7:a864 with SMTP id
+	s4-20020a170902a504b02900d8ebc7a864mr23077723plq.60.1606141327697;
+	Mon, 23 Nov 2020 06:22:07 -0800 (PST)
 MIME-Version: 1.0
-References: <20201115103718.298186-1-christian.brauner@ubuntu.com>
-	<20201115103718.298186-32-christian.brauner@ubuntu.com>
-In-Reply-To: <20201115103718.298186-32-christian.brauner@ubuntu.com>
-From: Paul Moore <paul@paul-moore.com>
-Date: Sun, 22 Nov 2020 17:17:39 -0500
-Message-ID: <CAHC9VhQ5gcOa0+KKDtKEgg_v4SZV2hPdaKUbPGJAQrVB8mn0jA@mail.gmail.com>
-Subject: Re: [PATCH v2 31/39] audit: handle idmapped mounts
-To: Christian Brauner <christian.brauner@ubuntu.com>
+From: Andreas Hasenack <andreas@canonical.com>
+Date: Mon, 23 Nov 2020 11:21:56 -0300
+Message-ID: <CANYNYEE1kBF1mDFUGhd7uJUHX8Bth9Qmhk0WKE4V+nNaYCnz0w@mail.gmail.com>
+Subject: Clarification on log rotation
+To: Linux-audit@redhat.com
 X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
 	Definition; Similar Internal Domain=false;
 	Similar Monitored External Domain=false;
@@ -76,35 +81,8 @@ X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
 	Custom Display Name List=false; Reply-to Address Mismatch=false;
 	Targeted Threat Dictionary=false;
 	Mimecast Threat Dictionary=false; Custom Threat Dictionary=false
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
 X-loop: linux-audit@redhat.com
-X-Mailman-Approved-At: Sun, 22 Nov 2020 22:24:23 -0500
-Cc: Phil Estes <estesp@gmail.com>, Lennart Poettering <lennart@poettering.net>,
-	Mimi Zohar <zohar@linux.ibm.com>, David Howells <dhowells@redhat.com>,
-	Andreas Dilger <adilger.kernel@dilger.ca>,
-	containers@lists.linux-foundation.org, Tycho Andersen <tycho@tycho.ws>,
-	Jonathan Corbet <corbet@lwn.net>,
-	James Morris <jmorris@namei.org>, smbarber@chromium.org,
-	Christoph Hellwig <hch@infradead.org>,
-	linux-ext4@vger.kernel.org, Mrunal Patel <mpatel@redhat.com>,
-	Serge Hallyn <serge@hallyn.com>, Arnd Bergmann <arnd@arndb.de>,
-	Jann Horn <jannh@google.com>, selinux@vger.kernel.org,
-	Josh Triplett <josh@joshtriplett.org>,
-	linux-fsdevel@vger.kernel.org, Aleksa Sarai <cyphar@cyphar.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Andy Lutomirski <luto@kernel.org>,
-	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
-	Geoffrey Thomas <geofft@ldpreload.com>,
-	James Bottomley <James.Bottomley@hansenpartnership.com>,
-	John Johansen <john.johansen@canonical.com>, Theodore Tso <tytso@mit.edu>,
-	Seth Forshee <seth.forshee@canonical.com>,
-	Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
-	linux-security-module@vger.kernel.org, linux-audit@redhat.com,
-	"Eric W. Biederman" <ebiederm@xmission.com>,
-	linux-api@vger.kernel.org, Alban Crequy <alban@kinvolk.io>,
-	linux-integrity@vger.kernel.org,
-	=?UTF-8?Q?St=C3=A9phane_Graber?= <stgraber@ubuntu.com>,
-	Todd Kjos <tkjos@google.com>
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -118,7 +96,7 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
 	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=linux-audit-bounces@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -126,35 +104,25 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-On Sun, Nov 15, 2020 at 5:43 AM Christian Brauner
-<christian.brauner@ubuntu.com> wrote:
->
-> Audit will sometimes log the inode's i_uid and i_gid. Enable audit to log the
-> mapped inode when it is accessed from an idmapped mount.
+Hi,
 
-I mentioned this in an earlier patch in this patchset, but it is worth
-repeating here: audit currently records information in the context of
-the initial/host namespace and I believe it should probably stay that
-way until the rest of the namespace smarts that Richard is working on
-is merged.  If we do change the context of the inode's UID and GID
-information it has the potential to create a rather odd looking audit
-record with inconsistent credentials and the filters would yield some
-very interesting results.
+I'm checking auditd's native logrotation mechanism.
 
-> Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
-> ---
-> /* v2 */
-> unchanged
-> ---
->  fs/namei.c            | 14 +++++++-------
->  include/linux/audit.h | 10 ++++++----
->  ipc/mqueue.c          |  8 ++++----
->  kernel/auditsc.c      | 26 ++++++++++++++------------
->  4 files changed, 31 insertions(+), 27 deletions(-)
+The auditd.conf manpage states this for num_logs:
 
--- 
-paul moore
-www.paul-moore.com
+"The excess log check  is  only  done  on startup and when a
+reconfigure results in a space check."
+
+I kept generating events, and truth be told, no rotation happened once
+the logfile size was above max_log_file. At least not after a few
+minutes.
+
+When does a space check happens, besides on a restart? Just external
+events likg SIGUSR1 and perhaps SIGHUP?
+
+Since these are external events, how do sysadmins deal with log
+rotation: completely ignore auditd's native mechanism and setup
+logrotate as usual?
 
 --
 Linux-audit mailing list
