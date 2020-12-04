@@ -1,54 +1,86 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [63.128.21.124])
-	by mail.lfdr.de (Postfix) with ESMTP id DAE252CE6A5
-	for <lists+linux-audit@lfdr.de>; Fri,  4 Dec 2020 04:43:49 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1607053428;
-	h=from:from:sender:sender:reply-to:subject:subject:date:date:
-	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-	 content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:list-id:list-help:
-	 list-unsubscribe:list-subscribe:list-post;
-	bh=TexKt5etHesOPPvQKZW4BBceAqSfv/s00WCX378fKZI=;
-	b=NjKRQaDSAKb0SCQSa/sIkZJfsrg1VfC6vUoJAhEhiJn310TNghbs6oYhT9fLIJ3kssOd+I
-	s1pl6GuUvJLzwI8j5UVNlLMN61TqZny+RawgqW16rYqBZ60B4Vd2DiSnXqHQL2kNi6q1On
-	NFpYwMLvsMFJbWL8VXY9eCf7e8v0mmA=
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+	by mail.lfdr.de (Postfix) with ESMTP id A6C3C2CF5C2
+	for <lists+linux-audit@lfdr.de>; Fri,  4 Dec 2020 21:41:57 +0100 (CET)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-580-I_r2dtU5N_erUUWtZ0cSRw-1; Thu, 03 Dec 2020 22:43:47 -0500
-X-MC-Unique: I_r2dtU5N_erUUWtZ0cSRw-1
+ us-mta-569-kQWqDdzzOgGjfcC9cSBv8w-1; Fri, 04 Dec 2020 15:41:53 -0500
+X-MC-Unique: kQWqDdzzOgGjfcC9cSBv8w-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B3C983E74B;
-	Fri,  4 Dec 2020 03:43:41 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 157591A890;
-	Fri,  4 Dec 2020 03:43:40 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 344D5193ECE2;
+	Fri,  4 Dec 2020 20:41:48 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 3C80019C46;
+	Fri,  4 Dec 2020 20:41:44 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id DF9AB4A7C6;
-	Fri,  4 Dec 2020 03:43:36 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
-	[10.5.11.22])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 6C2311809C9F;
+	Fri,  4 Dec 2020 20:41:37 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+	[10.11.54.5])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 0B43hR1j013276 for <linux-audit@listman.util.phx.redhat.com>;
-	Thu, 3 Dec 2020 22:43:27 -0500
+	id 0B4KfOGJ003359 for <linux-audit@listman.util.phx.redhat.com>;
+	Fri, 4 Dec 2020 15:41:24 -0500
 Received: by smtp.corp.redhat.com (Postfix)
-	id 9D4861001B2C; Fri,  4 Dec 2020 03:43:27 +0000 (UTC)
+	id 06FC6108489; Fri,  4 Dec 2020 20:41:24 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from madcap2.tricolour.ca (unknown [10.10.110.26])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 24E5E1002382;
-	Fri,  4 Dec 2020 03:43:19 +0000 (UTC)
-From: Richard Guy Briggs <rgb@redhat.com>
-To: Linux-Audit Mailing List <linux-audit@redhat.com>
-Subject: [RFC PATCH ghau10 v1] fix FEATURE_VERSION vs FEATURE_BITMAP
-Date: Thu,  3 Dec 2020 22:42:36 -0500
-Message-Id: <20201204034236.1543287-1-rgb@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Received: from mimecast-mx02.redhat.com
+	(mimecast03.extmail.prod.ext.rdu2.redhat.com [10.11.55.19])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 0161410848E
+	for <linux-audit@redhat.com>; Fri,  4 Dec 2020 20:41:21 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+	[207.211.31.120])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 770D5811E76
+	for <linux-audit@redhat.com>; Fri,  4 Dec 2020 20:41:21 +0000 (UTC)
+Received: from mail-ej1-f65.google.com (mail-ej1-f65.google.com
+	[209.85.218.65]) (Using TLS) by relay.mimecast.com with ESMTP id
+	us-mta-13-SiAodQiPNmunFjG3E-cXFw-1; Fri, 04 Dec 2020 15:41:19 -0500
+X-MC-Unique: SiAodQiPNmunFjG3E-cXFw-1
+Received: by mail-ej1-f65.google.com with SMTP id qw4so10529167ejb.12
+	for <linux-audit@redhat.com>; Fri, 04 Dec 2020 12:41:19 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=9pAcCIIsmZ0qyxd5Lc3PNAsVbvTSn6MwxyLLFIcFYsE=;
+	b=Z7KxJn2pNzgB/3Jb+GWcr/yaFF/vFV9sxXvDFC3PT7icAIq1r92q/r2kpsmjUDxXR5
+	3VZi75MJXjTkNU9sSc+CkLYarcwey0nvVjXuxUyvlIzWMamurlP6ZpkVuc6mt4hHtaUx
+	epyjOYPdiSlN9gLpYZNPKc0SJiLjrUUdRqyTysLwcnT9KJAC/MqaBYZYbaO4UCXlm0F5
+	4ZguYLvG2HKa3p4ZG105x8L1d/bzp+R5fldxPl0qaJTNWWBM8FCThnoGby/o8mUmdgJb
+	YrK38ApYUADjTJqdduWZ/hmeQioNtl89VD8uKdt7l71pCYCCUJtR1wfXqzeg9aGe1Gct
+	V2Sg==
+X-Gm-Message-State: AOAM533T3UT3sei3X3sS3qZLsqPPsb+vFCFxRXwiVw/0Xxw1R0I2E4gp
+	S9OtsRd/hlJ9R9Fwq0HJFvrc2XT/A08n92fZR6vyXzHlUn5h
+X-Google-Smtp-Source: ABdhPJwquVauODkpCvOB2tSkuFqhync8numf/prOgkG+7VaBjXTdU42jASAwg0pq0psa92qtDa+55sZaE9j/mHUotw4=
+X-Received: by 2002:a17:906:268c:: with SMTP id
+	t12mr8688010ejc.91.1607114478027; 
+	Fri, 04 Dec 2020 12:41:18 -0800 (PST)
+MIME-Version: 1.0
+References: <20200701213244.GA1817@linux-kernel-dev> <20883376.EfDdHjke4D@x2>
+	<CAHC9VhQyMD3XiP91u__SwOH-toAa=YBaCrwtvE8dVRVdh-wA0g@mail.gmail.com>
+	<5413598.DvuYhMxLoT@x2>
+In-Reply-To: <5413598.DvuYhMxLoT@x2>
+From: Paul Moore <paul@paul-moore.com>
+Date: Fri, 4 Dec 2020 15:41:06 -0500
+Message-ID: <CAHC9VhSF7BynebKq0o0Dec7qB5D0CNWLt9uj=Ky_72W0C-BJcg@mail.gmail.com>
+Subject: Re: [PATCH v2] audit: report audit wait metric in audit status reply
+To: Steve Grubb <sgrubb@redhat.com>
+X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
+	Definition; Similar Internal Domain=false;
+	Similar Monitored External Domain=false;
+	Custom External Domain=false; Mimecast External Domain=false;
+	Newly Observed Domain=false; Internal User Name=false;
+	Custom Display Name List=false; Reply-to Address Mismatch=false;
+	Targeted Threat Dictionary=false;
+	Mimecast Threat Dictionary=false; Custom Threat Dictionary=false
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
 X-loop: linux-audit@redhat.com
-Cc: Richard Guy Briggs <rgb@redhat.com>
+Cc: Richard Guy Briggs <rgb@redhat.com>, linux-audit@redhat.com
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -60,7 +92,6 @@ List-Post: <mailto:linux-audit@redhat.com>
 List-Help: <mailto:linux-audit-request@redhat.com?subject=help>
 List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
-MIME-Version: 1.0
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
@@ -71,151 +102,58 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-Untangle AUDIT_FEATURE_VERSION and AUDIT_FEATURE_BITMAP since they have nothing
-to do with each other.
+On Thu, Dec 3, 2020 at 9:47 PM Steve Grubb <sgrubb@redhat.com> wrote:
+> On Thursday, December 3, 2020 9:16:52 PM EST Paul Moore wrote:
+> > > > > Author:     Richard Guy Briggs <rgb@redhat.com>
+> > > > > AuthorDate: 2014-11-17 15:51:01 -0500
+> > > > > Commit:     Paul Moore <pmoore@redhat.com>
+> > > > > CommitDate: 2014-11-17 16:53:51 -0500
+> > > > > ("audit: convert status version to a feature bitmap")
+> > > > > It was introduced specifically to enable distributions to selectively
+> > > > > backport features.  It was converted away from AUDIT_VERSION.
+> > > > >
+> > > > > There are other ways to detect the presence of
+> > > > > backlog_wait_time_actual
+> > > > > as I mentioned above.
+> > > >
+> > > > Let me be blunt - I honestly don't care what Steve's audit userspace
+> > > > does to detect this.  I've got my own opinion, but Steve's audit
+> > > > userspace is not my project to manage and I think we've established
+> > > > over the years that Steve and I have very different views on what
+> > > > constitutes good design.
+> > >
+> > > And guessing what might be in buffers of different sizes is good design?
+> > > The FEATURE_BITMAP was introduced to get rid of this ambiguity.
+> >
+> > There is just soo much to unpack in your comment Steve, but let me
+> > keep it short ...
+> >
+> > - This is an enterprise distro problem, not an upstream problem.  The
+> > problems you are talking about are not a problem for upstream.
+>
+> You may look at it that way. I do not. Audit -userspace is also an upstream
+> for a lot of distros and I need to make this painless for them. So, while you
+> may think of this being a backport problem for Red Hat to solve, I think of
+> this as a generic problem that I'd like to solve for Debian, Suse, Ubuntu,
+> Arch, Gentoo, anyone using audit. We both are upstream.
 
-AUDIT_FEATURE_VERSION is a method to enable and lock certain audit features in
-the kernel.  Threre are currently only two.
+I intentionally said "enterprise Linux distributions", I never singled
+out RH/IBM.  Contrary to what RH/IBM marketing may have me believe, I
+don't consider RHEL to be the only "enterprise Linux distribution" :)
 
-AUDIT_FEATURE_BITMAP is a method to determine what features exist in the kernel
-implementation of audit.  There are currently seven.
+Beyond that, while I haven't looked at all of the distros you list
+above, I know a few of them typically only backport fixes, not new
+features.  Further, as I mentioned previously in this thread, there is
+a way to backport this feature in a safe manner without using the
+feature bits.  Eeeeeven further, if there wasn't a way to backport
+this feature safely (and let me stress agai that you can backport this
+safely), I would still consider that to be a distro problem and not an
+upstream kernel problem.  The upstream kernel is not responsible for
+enabling or supporting arbitrary combinations of patches.
 
-fixes: a22f13a548d2f26b3fb05b31599f5b12f56d3d07 ("Fix compile time feature detection in auditctl")
-fixes: 74327320a25b2d889708002908d6a051b4dfea51 ("Fix compile time feature detection in auditctl")
-fixes: f588248775b4f8180b846bbc1681bc54e07871ed ("Better detect struct audit_status existence")
-fixes: bed754a651f47f5a83bbf565609e4936b0270269 ("Fix building on old kernels")
-Please see issue page https://github.com/linux-audit/audit-userspace/issues/10
-
-Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
----
- lib/libaudit.c         | 12 ++++--------
- lib/libaudit.h         |  2 +-
- lib/netlink.c          |  6 ++----
- src/auditctl-listing.c |  3 +--
- src/auditctl.c         |  6 ++----
- 5 files changed, 10 insertions(+), 19 deletions(-)
-
-diff --git a/lib/libaudit.c b/lib/libaudit.c
-index 37bf508cf07a..de22e9281969 100644
---- a/lib/libaudit.c
-+++ b/lib/libaudit.c
-@@ -540,8 +540,7 @@ int audit_reset_lost(int fd)
- 
- int audit_set_feature(int fd, unsigned feature, unsigned value, unsigned lock)
- {
--#if defined(HAVE_DECL_AUDIT_FEATURE_VERSION) && \
--    defined(HAVE_STRUCT_AUDIT_STATUS_FEATURE_BITMAP)
-+#if defined(HAVE_DECL_AUDIT_FEATURE_VERSION)
- 	int rc;
- 	struct audit_features f;
- 
-@@ -565,8 +564,7 @@ int audit_set_feature(int fd, unsigned feature, unsigned value, unsigned lock)
- 
- int audit_request_features(int fd)
- {
--#if defined(HAVE_DECL_AUDIT_FEATURE_VERSION) && \
--    defined(HAVE_STRUCT_AUDIT_STATUS_FEATURE_BITMAP)
-+#if defined(HAVE_DECL_AUDIT_FEATURE_VERSION)
- 	int rc;
- 	struct audit_features f;
- 
-@@ -585,8 +583,7 @@ int audit_request_features(int fd)
- 
- extern int  audit_set_loginuid_immutable(int fd)
- {
--#if defined(HAVE_DECL_AUDIT_FEATURE_VERSION) && \
--    defined(HAVE_STRUCT_AUDIT_STATUS_FEATURE_BITMAP)
-+#if defined(HAVE_DECL_AUDIT_FEATURE_VERSION)
- 	return audit_set_feature(fd, AUDIT_FEATURE_LOGINUID_IMMUTABLE, 1, 1);
- #else
- 	errno = EINVAL;
-@@ -607,8 +604,7 @@ static void load_feature_bitmap(void)
- 		return;
- 	}
- 
--#if defined(HAVE_DECL_AUDIT_FEATURE_VERSION) && \
--    defined(HAVE_STRUCT_AUDIT_STATUS_FEATURE_BITMAP)
-+#if defined(HAVE_STRUCT_AUDIT_STATUS_FEATURE_BITMAP)
- 	if ((rc = audit_request_status(fd)) > 0) {
- 		struct audit_reply rep;
- 		int i;
-diff --git a/lib/libaudit.h b/lib/libaudit.h
-index ec880eeb89ec..2305cf55d166 100644
---- a/lib/libaudit.h
-+++ b/lib/libaudit.h
-@@ -514,7 +514,7 @@ struct audit_reply {
- 	struct nlmsgerr         *error;
- 	struct audit_sig_info   *signal_info;
- 	struct daemon_conf      *conf;
--#ifdef AUDIT_FEATURE_BITMAP_ALL
-+#ifdef AUDIT_FEATURE_VERSION
- 	struct audit_features	*features;
- #endif
- 	};
-diff --git a/lib/netlink.c b/lib/netlink.c
-index 5b2028fda7e8..9525b8d833c0 100644
---- a/lib/netlink.c
-+++ b/lib/netlink.c
-@@ -147,8 +147,7 @@ static int adjust_reply(struct audit_reply *rep, int len)
- 	rep->error    = NULL;
- 	rep->signal_info = NULL;
- 	rep->conf     = NULL;
--#if defined(HAVE_DECL_AUDIT_FEATURE_VERSION) && \
--    defined(HAVE_STRUCT_AUDIT_STATUS_FEATURE_BITMAP)
-+#if defined(HAVE_DECL_AUDIT_FEATURE_VERSION)
- 	rep->features = NULL;
- #endif
- 	if (!NLMSG_OK(rep->nlh, (unsigned int)len)) {
-@@ -173,8 +172,7 @@ static int adjust_reply(struct audit_reply *rep, int len)
- 		case AUDIT_GET:   
- 			rep->status  = NLMSG_DATA(rep->nlh); 
- 			break;
--#if defined(HAVE_DECL_AUDIT_FEATURE_VERSION) && \
--    defined(HAVE_STRUCT_AUDIT_STATUS_FEATURE_BITMAP)
-+#if defined(HAVE_DECL_AUDIT_FEATURE_VERSION)
- 		case AUDIT_GET_FEATURE:
- 			rep->features =  NLMSG_DATA(rep->nlh);
- 			break;
-diff --git a/src/auditctl-listing.c b/src/auditctl-listing.c
-index 6eb3b56bbc79..2b4b43caa9d2 100644
---- a/src/auditctl-listing.c
-+++ b/src/auditctl-listing.c
-@@ -567,8 +567,7 @@ int audit_print_reply(struct audit_reply *rep, int fd)
- #endif
- 			printed = 1;
- 			break;
--#if defined(HAVE_DECL_AUDIT_FEATURE_VERSION) && \
--    defined(HAVE_STRUCT_AUDIT_STATUS_FEATURE_BITMAP)
-+#if defined(HAVE_DECL_AUDIT_FEATURE_VERSION)
- 		case AUDIT_GET_FEATURE:
- 			{
- 			uint32_t mask = AUDIT_FEATURE_TO_MASK(
-diff --git a/src/auditctl.c b/src/auditctl.c
-index 29f7215b94b6..3891db56bee7 100644
---- a/src/auditctl.c
-+++ b/src/auditctl.c
-@@ -133,8 +133,7 @@ static void usage(void)
-      "    -v                  Version\n"
-      "    -w <path>           Insert watch at <path>\n"
-      "    -W <path>           Remove watch at <path>\n"
--#if defined(HAVE_DECL_AUDIT_FEATURE_VERSION) && \
--    defined(HAVE_STRUCT_AUDIT_STATUS_FEATURE_BITMAP)
-+#if defined(HAVE_DECL_AUDIT_FEATURE_VERSION)
-      "    --loginuid-immutable  Make loginuids unchangeable once set\n"
- #endif
- #if HAVE_DECL_AUDIT_VERSION_BACKLOG_WAIT_TIME == 1 || \
-@@ -449,8 +448,7 @@ static int parse_syscall(const char *optarg)
- 
- static struct option long_opts[] =
- {
--#if defined(HAVE_DECL_AUDIT_FEATURE_VERSION) && \
--    defined(HAVE_STRUCT_AUDIT_STATUS_FEATURE_BITMAP)
-+#if defined(HAVE_DECL_AUDIT_FEATURE_VERSION)
-   {"loginuid-immutable", 0, NULL, 1},
- #endif
- #if HAVE_DECL_AUDIT_VERSION_BACKLOG_WAIT_TIME == 1 || \
 -- 
-2.18.4
+paul moore
+www.paul-moore.com
 
 --
 Linux-audit mailing list
