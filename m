@@ -2,79 +2,73 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [216.205.24.124])
-	by mail.lfdr.de (Postfix) with ESMTP id 3843A2D19E4
-	for <lists+linux-audit@lfdr.de>; Mon,  7 Dec 2020 20:43:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 29C9D2D1BC8
+	for <lists+linux-audit@lfdr.de>; Mon,  7 Dec 2020 22:14:23 +0100 (CET)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-217-DYg7IItgNlmHjcXqjZt0-A-1; Mon, 07 Dec 2020 14:43:50 -0500
-X-MC-Unique: DYg7IItgNlmHjcXqjZt0-A-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+ us-mta-173-UeOjabdgM-qSsyWQzv00Gw-1; Mon, 07 Dec 2020 16:14:19 -0500
+X-MC-Unique: UeOjabdgM-qSsyWQzv00Gw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9D32E8049C0;
-	Mon,  7 Dec 2020 19:43:44 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 0068E5C1A1;
-	Mon,  7 Dec 2020 19:43:41 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A1AE785818B;
+	Mon,  7 Dec 2020 21:14:11 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id E6AEA2B394;
+	Mon,  7 Dec 2020 21:14:09 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 613674E58E;
-	Mon,  7 Dec 2020 19:43:34 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
-	[10.11.54.5])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id A4A47180954D;
+	Mon,  7 Dec 2020 21:14:04 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+	[10.11.54.3])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 0B7JhNf4016416 for <linux-audit@listman.util.phx.redhat.com>;
-	Mon, 7 Dec 2020 14:43:23 -0500
+	id 0B7LDs0p024388 for <linux-audit@listman.util.phx.redhat.com>;
+	Mon, 7 Dec 2020 16:13:54 -0500
 Received: by smtp.corp.redhat.com (Postfix)
-	id 8F40A80549; Mon,  7 Dec 2020 19:43:23 +0000 (UTC)
+	id AD6C11112844; Mon,  7 Dec 2020 21:13:54 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
 	(mimecast05.extmail.prod.ext.rdu2.redhat.com [10.11.55.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 8826449C38
-	for <linux-audit@redhat.com>; Mon,  7 Dec 2020 19:43:21 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id A8D071112843
+	for <linux-audit@redhat.com>; Mon,  7 Dec 2020 21:13:52 +0000 (UTC)
 Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [207.211.31.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 00CE3800140
-	for <linux-audit@redhat.com>; Mon,  7 Dec 2020 19:43:21 +0000 (UTC)
-Received: from mail-il1-f193.google.com (mail-il1-f193.google.com
-	[209.85.166.193]) (Using TLS) by relay.mimecast.com with ESMTP id
-	us-mta-565-fOgHV8vmNh-SOCMUemdIXg-1; Mon, 07 Dec 2020 14:43:17 -0500
-X-MC-Unique: fOgHV8vmNh-SOCMUemdIXg-1
-Received: by mail-il1-f193.google.com with SMTP id t9so9000513ilf.2
-	for <linux-audit@redhat.com>; Mon, 07 Dec 2020 11:43:17 -0800 (PST)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5B1F2802A5D
+	for <linux-audit@redhat.com>; Mon,  7 Dec 2020 21:13:52 +0000 (UTC)
+Received: from mail-ot1-f66.google.com (mail-ot1-f66.google.com
+	[209.85.210.66]) (Using TLS) by relay.mimecast.com with ESMTP id
+	us-mta-141-n_h3lJDHMHi62_nqTuwI1w-1; Mon, 07 Dec 2020 16:13:47 -0500
+X-MC-Unique: n_h3lJDHMHi62_nqTuwI1w-1
+Received: by mail-ot1-f66.google.com with SMTP id j12so13879519ota.7;
+	Mon, 07 Dec 2020 13:13:47 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language;
-	bh=AGGMyWJfgni+7aB4gPtl/7pxlCXxnQVh33pk+pAIU6k=;
-	b=EpwrVkfAymZ6Cq34SoUSWo/OzO7RKihtd5WFO+Qg5WdEhx+bfvcRv5weqB/Hh6dNN7
-	WiJVOdvTWPqVIwcxbkz6cT1urIV9uhzmBmrk7ERpWjPnROz7rf8xjoWi9FWuarOZx7YT
-	OTYuXcT/HGjSFfGVhQsh+rmDQbhpXfmvFt849Tozr4FpRBp7SjU4NO1tF9wKNOWKqSoZ
-	nXscSc4zPGNVB3pBlQAb80vZh3bH1GIv732ah4xiTbeX0H4EhqkRYuooPFIIMR4QSCGc
-	5m+hfKNWajnqtPowvoAsi6j0t75rdROU6YHvvfY8kf5UAYJkBrPs8Yn23gRenvO7cH2o
-	Nyvg==
-X-Gm-Message-State: AOAM53157rViyc/Q2LhhCtVG2+rf5N8v2ccQNZo8quVjJOboKQLPZcEX
-	/WjmC2hrzvsb6MKOqO+3YGuRABp1Gb7LLYzj
-X-Google-Smtp-Source: ABdhPJzV2dFPt/fe2cEmh5pmuDSiPG0PcMvgmyPvTk1atCYS57F5+l0rQ5Z8zlhOO0N97iHmj5iI4Q==
-X-Received: by 2002:a92:358e:: with SMTP id c14mr22277227ilf.69.1607370195954; 
-	Mon, 07 Dec 2020 11:43:15 -0800 (PST)
-Received: from ?IPv6:2607:f768:200:b:ffff:ffff:ffff:edd8?
-	([2607:f768:200:b:ffff:ffff:ffff:edd8])
-	by smtp.gmail.com with ESMTPSA id c2sm4575982ila.71.2020.12.07.11.43.14
-	for <linux-audit@redhat.com>
-	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Mon, 07 Dec 2020 11:43:15 -0800 (PST)
-Subject: Re: [PATCH v2] audit: report audit wait metric in audit status reply
-To: linux-audit@redhat.com
-References: <20200701213244.GA1817@linux-kernel-dev>
-	<CAHC9VhTctHCCrm4Q1cPdFX-6NXEtmjEPmw6rvUoxOq8UUmycxA@mail.gmail.com>
-From: Lenny Bruzenak <lenny@magitekltd.com>
-Message-ID: <3fb7e274-c442-8025-ba27-bc27f445640a@magitekltd.com>
-Date: Mon, 7 Dec 2020 12:43:14 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
-	Thunderbird/68.10.0
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=9D6gTb6aUF11LFnyBmZ1EsGCba0TdUjRe1PBGUlZjZs=;
+	b=Wpgt8+vaPqsI1VO8KhFiBNLnKZAaxRmEIBCcbh2gsZRlMmQ2yINL9J6bJ10gn8alhT
+	dtIXjNdgOOjN/fY9UqDaNltNvmWO5gk7guTTd1BOY3ySYWk/JTTPdKSVz+v2+nria85j
+	Ehmmx3ptX9X06e3q6KI0guYHlrPJ6euVKryLEh1adT3b4RQPy9XelSmflb+qMyu3ZX+R
+	Etwezr82Zk/GmMANsTg03wCiIE1mi/AR6qFBIa6QLRymSEHXv3Tr9fjjbQ0bHf58r1I9
+	ow7xKvljz6tCg1vRpblVe9xWo0vs3ulsuNT0v2otttDXitV0XyIArcOo0PkXheDXKnsb
+	RWtg==
+X-Gm-Message-State: AOAM532jAsG4RtkClMlRb8f9d/rYMcb8IaOV2PP211sUATr6AES/mEua
+	J8OWvqUDQfPyOjVFTYlQ3lbkyZT1P+GEDfTxuixgmsFPBTY7dA==
+X-Google-Smtp-Source: ABdhPJz5votKUVBHkhfhT26yArDs5MwINpSyHhdMTXtol4oSLxNP+8ViNiM+2b5g+jR0LyqMiz/WAyzzm+FHVqFWHUM=
+X-Received: by 2002:a9d:68c3:: with SMTP id i3mr15039370oto.31.1607375626693; 
+	Mon, 07 Dec 2020 13:13:46 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAHC9VhTctHCCrm4Q1cPdFX-6NXEtmjEPmw6rvUoxOq8UUmycxA@mail.gmail.com>
+References: <20200701213244.GA1817@linux-kernel-dev> <20883376.EfDdHjke4D@x2>
+	<CAHC9VhQyMD3XiP91u__SwOH-toAa=YBaCrwtvE8dVRVdh-wA0g@mail.gmail.com>
+	<5413598.DvuYhMxLoT@x2>
+	<CAHC9VhSF7BynebKq0o0Dec7qB5D0CNWLt9uj=Ky_72W0C-BJcg@mail.gmail.com>
+In-Reply-To: <CAHC9VhSF7BynebKq0o0Dec7qB5D0CNWLt9uj=Ky_72W0C-BJcg@mail.gmail.com>
+From: Max Englander <max.englander@gmail.com>
+Date: Mon, 7 Dec 2020 16:13:35 -0500
+Message-ID: <CAK50otVNjgLM+_Sn4-i2tz0GGNOcW2fK-YHHayZWZhks4XNmUg@mail.gmail.com>
+Subject: Re: [PATCH v2] audit: report audit wait metric in audit status reply
+To: Paul Moore <paul@paul-moore.com>
 X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
 	Definition; Similar Internal Domain=false;
 	Similar Monitored External Domain=false;
@@ -83,8 +77,9 @@ X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
 	Custom Display Name List=false; Reply-to Address Mismatch=false;
 	Targeted Threat Dictionary=false;
 	Mimecast Threat Dictionary=false; Custom Threat Dictionary=false
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
 X-loop: linux-audit@redhat.com
+Cc: Richard Guy Briggs <rgb@redhat.com>, linux-audit@redhat.com
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -98,145 +93,260 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
 	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=linux-audit-bounces@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: multipart/mixed; boundary="===============6025767226831272681=="
+Content-Type: multipart/mixed; boundary="===============2844387291367945947=="
 
-This is a multi-part message in MIME format.
---===============6025767226831272681==
-Content-Type: multipart/alternative;
-	boundary="------------F9A0F5E0F5070A2268614FAC"
-Content-Language: en-US
+--===============2844387291367945947==
+Content-Type: multipart/alternative; boundary="0000000000003ff25205b5e64d70"
 
-This is a multi-part message in MIME format.
---------------F9A0F5E0F5070A2268614FAC
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+--0000000000003ff25205b5e64d70
+Content-Type: text/plain; charset="UTF-8"
 
-On 7/2/20 2:42 PM, Paul Moore wrote:
+On Fri, Dec 4, 2020 at 3:41 PM Paul Moore <paul@paul-moore.com> wrote:
 
->>   #define AUDIT_FEATURE_BITMAP_BACKLOG_LIMIT     0x00000001
->>   #define AUDIT_FEATURE_BITMAP_BACKLOG_WAIT_TIME 0x00000002
->> @@ -348,6 +349,7 @@ enum {
->>   #define AUDIT_FEATURE_BITMAP_SESSIONID_FILTER  0x00000010
->>   #define AUDIT_FEATURE_BITMAP_LOST_RESET                0x00000020
->>   #define AUDIT_FEATURE_BITMAP_FILTER_FS         0x00000040
->> +#define AUDIT_FEATURE_BITMAP_BACKLOG_WAIT_SUM  0x00000080
-> In an effort not to exhaust the feature bitmap too quickly, I've been
-> restricting it to only those features that would cause breakage with
-> userspace.  I haven't looked closely at Steve's userspace in quite a
-> while, but I'm guessing it can key off the structure size and doesn't
-> need this entry in the bitmap, right?  Let me rephrase, if userspace
-> needs to key off anything, it*should*  key off the structure size and
-> not a new flag in the bitmask;)
+> On Thu, Dec 3, 2020 at 9:47 PM Steve Grubb <sgrubb@redhat.com> wrote:
+> > On Thursday, December 3, 2020 9:16:52 PM EST Paul Moore wrote:
+> > > > > > Author:     Richard Guy Briggs <rgb@redhat.com>
+> > > > > > AuthorDate: 2014-11-17 15:51:01 -0500
+> > > > > > Commit:     Paul Moore <pmoore@redhat.com>
+> > > > > > CommitDate: 2014-11-17 16:53:51 -0500
+> > > > > > ("audit: convert status version to a feature bitmap")
+> > > > > > It was introduced specifically to enable distributions to
+> selectively
+> > > > > > backport features.  It was converted away from AUDIT_VERSION.
+> > > > > >
+> > > > > > There are other ways to detect the presence of
+> > > > > > backlog_wait_time_actual
+> > > > > > as I mentioned above.
+> > > > >
+> > > > > Let me be blunt - I honestly don't care what Steve's audit
+> userspace
+> > > > > does to detect this.  I've got my own opinion, but Steve's audit
+> > > > > userspace is not my project to manage and I think we've established
+> > > > > over the years that Steve and I have very different views on what
+> > > > > constitutes good design.
+> > > >
+> > > > And guessing what might be in buffers of different sizes is good
+> design?
+> > > > The FEATURE_BITMAP was introduced to get rid of this ambiguity.
+> > >
+> > > There is just soo much to unpack in your comment Steve, but let me
+> > > keep it short ...
+> > >
+> > > - This is an enterprise distro problem, not an upstream problem.  The
+> > > problems you are talking about are not a problem for upstream.
+> >
+> > You may look at it that way. I do not. Audit -userspace is also an
+> upstream
+> > for a lot of distros and I need to make this painless for them. So,
+> while you
+> > may think of this being a backport problem for Red Hat to solve, I think
+> of
+> > this as a generic problem that I'd like to solve for Debian, Suse,
+> Ubuntu,
+> > Arch, Gentoo, anyone using audit. We both are upstream.
 >
-> Also, I'm assuming that older userspace doesn't blow-up if it sees the
-> larger structure size?  That's even more important.
+> I intentionally said "enterprise Linux distributions", I never singled
+> out RH/IBM.  Contrary to what RH/IBM marketing may have me believe, I
+> don't consider RHEL to be the only "enterprise Linux distribution" :)
 >
-Paul,
+> Beyond that, while I haven't looked at all of the distros you list
+> above, I know a few of them typically only backport fixes, not new
+> features.  Further, as I mentioned previously in this thread, there is
+> a way to backport this feature in a safe manner without using the
+> feature bits.  Eeeeeven further, if there wasn't a way to backport
+> this feature safely (and let me stress agai that you can backport this
+> safely), I would still consider that to be a distro problem and not an
+> upstream kernel problem.  The upstream kernel is not responsible for
+> enabling or supporting arbitrary combinations of patches.
+>
+> --
+> paul moore
+> www.paul-moore.com
+>
+> --
+> Linux-audit mailing list
+> Linux-audit@redhat.com
+> https://www.redhat.com/mailman/listinfo/linux-audit
+>
+>
+Hi Steve, Paul,
 
-This change does seem to the untrained eye to be in line with the 
-existing FEATURE_BITMAP definitions. I appreciate your intent on not 
-exhausting the available space, but at some point if that happens is 
-there any reasonable way to expand? I'm sure you have some thoughts, or 
-is this "it" as far as features could go (the last available bits)?
+I'm replying with the Gmail UI since I don't have my Mutt setup handy, so
+apologies for any formatting which doesn't align with the mailing list best
+ practices!
 
-Max,
+First off, my apologies for being late to the thread, and for submitting
+code
+to the kernel and user space which aren't playing nicely with each other.
 
-It's a pretty good feature. I agree with your original problem 
-assessment; this is an area I'm always looking at. I've got questions 
-I'll post separately as they are not germane to this thread.
+It sounds like there's a decision to be made around whether or not to use
+the bitmap feature flags which I probably am probably not in a position to
+help decide. However, I'm more than happy to fix my userspace PR so
+that it does not rely on the feature flag space using the approach Paul
+outlined, in spite of the drawbacks, if that ends up being the decision.
 
+Steve, I understand your preference to rely on the feature bitmap since it
+is a more reliable way to determine the availability of a feature than
+key size, but if you're open to Paul's recommendations in spite of the
+drawbacks, I'll make the changes to my patch as soon as I can to unblock
+your work.
 
-As an interested user I'm hoping for a resolution on this, so that the 
-userspace release can happen, as this seems to be a beneficial change 
-which I could make use of when available.
+Separately, since there is tension between these two approaches
+(structure size and bitmap), I wonder if Paul/Steve you would be open
+to a third way.
 
+For example, I can imagine adding additional bitmap
+spaces (FEATURE_BITMAP_2, FEATURE_BITMAP_3, etc.).
+Alternately, I can imagine each feature being assigned a unique u64
+ID, and user space programs querying the kernel to see whether a
+a particular feature is enabled.
 
-Thx,
+I'm not familiar enough with the kernel to be able to judge how sound
+either idea is (or if these have been considered and rejected in the past)
+but if you all think a third way is viable, I'd be happy to start a separate
+mailing thread to try to thread the competing requirements of the kernel
+and userspace, and contribute code if we can find a solution.
 
-LCB
+Max
 
+--0000000000003ff25205b5e64d70
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
--- 
-Lenny Bruzenak
-MagitekLTD
+<div dir=3D"ltr"><div dir=3D"ltr"></div><div class=3D"gmail_quote"><div dir=
+=3D"ltr" class=3D"gmail_attr">On Fri, Dec 4, 2020 at 3:41 PM Paul Moore &lt=
+;<a href=3D"mailto:paul@paul-moore.com">paul@paul-moore.com</a>&gt; wrote:<=
+br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
+x;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Thu, Dec 3, 2=
+020 at 9:47 PM Steve Grubb &lt;<a href=3D"mailto:sgrubb@redhat.com" target=
+=3D"_blank">sgrubb@redhat.com</a>&gt; wrote:<br>
+&gt; On Thursday, December 3, 2020 9:16:52 PM EST Paul Moore wrote:<br>
+&gt; &gt; &gt; &gt; &gt; Author:=C2=A0 =C2=A0 =C2=A0Richard Guy Briggs &lt;=
+<a href=3D"mailto:rgb@redhat.com" target=3D"_blank">rgb@redhat.com</a>&gt;<=
+br>
+&gt; &gt; &gt; &gt; &gt; AuthorDate: 2014-11-17 15:51:01 -0500<br>
+&gt; &gt; &gt; &gt; &gt; Commit:=C2=A0 =C2=A0 =C2=A0Paul Moore &lt;<a href=
+=3D"mailto:pmoore@redhat.com" target=3D"_blank">pmoore@redhat.com</a>&gt;<b=
+r>
+&gt; &gt; &gt; &gt; &gt; CommitDate: 2014-11-17 16:53:51 -0500<br>
+&gt; &gt; &gt; &gt; &gt; (&quot;audit: convert status version to a feature =
+bitmap&quot;)<br>
+&gt; &gt; &gt; &gt; &gt; It was introduced specifically to enable distribut=
+ions to selectively<br>
+&gt; &gt; &gt; &gt; &gt; backport features.=C2=A0 It was converted away fro=
+m AUDIT_VERSION.<br>
+&gt; &gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt; &gt; There are other ways to detect the presence of<br>
+&gt; &gt; &gt; &gt; &gt; backlog_wait_time_actual<br>
+&gt; &gt; &gt; &gt; &gt; as I mentioned above.<br>
+&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt; Let me be blunt - I honestly don&#39;t care what Steve&=
+#39;s audit userspace<br>
+&gt; &gt; &gt; &gt; does to detect this.=C2=A0 I&#39;ve got my own opinion,=
+ but Steve&#39;s audit<br>
+&gt; &gt; &gt; &gt; userspace is not my project to manage and I think we&#3=
+9;ve established<br>
+&gt; &gt; &gt; &gt; over the years that Steve and I have very different vie=
+ws on what<br>
+&gt; &gt; &gt; &gt; constitutes good design.<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; And guessing what might be in buffers of different sizes is =
+good design?<br>
+&gt; &gt; &gt; The FEATURE_BITMAP was introduced to get rid of this ambigui=
+ty.<br>
+&gt; &gt;<br>
+&gt; &gt; There is just soo much to unpack in your comment Steve, but let m=
+e<br>
+&gt; &gt; keep it short ...<br>
+&gt; &gt;<br>
+&gt; &gt; - This is an enterprise distro problem, not an upstream problem.=
+=C2=A0 The<br>
+&gt; &gt; problems you are talking about are not a problem for upstream.<br=
+>
+&gt;<br>
+&gt; You may look at it that way. I do not. Audit -userspace is also an ups=
+tream<br>
+&gt; for a lot of distros and I need to make this painless for them. So, wh=
+ile you<br>
+&gt; may think of this being a backport problem for Red Hat to solve, I thi=
+nk of<br>
+&gt; this as a generic problem that I&#39;d like to solve for Debian, Suse,=
+ Ubuntu,<br>
+&gt; Arch, Gentoo, anyone using audit. We both are upstream.<br>
+<br>
+I intentionally said &quot;enterprise Linux distributions&quot;, I never si=
+ngled<br>
+out RH/IBM.=C2=A0 Contrary to what RH/IBM marketing may have me believe, I<=
+br>
+don&#39;t consider RHEL to be the only &quot;enterprise Linux distribution&=
+quot; :)<br>
+<br>
+Beyond that, while I haven&#39;t looked at all of the distros you list<br>
+above, I know a few of them typically only backport fixes, not new<br>
+features.=C2=A0 Further, as I mentioned previously in this thread, there is=
+<br>
+a way to backport this feature in a safe manner without using the<br>
+feature bits.=C2=A0 Eeeeeven further, if there wasn&#39;t a way to backport=
+<br>
+this feature safely (and let me stress agai that you can backport this<br>
+safely), I would still consider that to be a distro problem and not an<br>
+upstream kernel problem.=C2=A0 The upstream kernel is not responsible for<b=
+r>
+enabling or supporting arbitrary combinations of patches.<br>
+<br>
+-- <br>
+paul moore<br>
+<a href=3D"http://www.paul-moore.com" rel=3D"noreferrer" target=3D"_blank">=
+www.paul-moore.com</a><br>
+<br>
+--<br>
+Linux-audit mailing list<br>
+<a href=3D"mailto:Linux-audit@redhat.com" target=3D"_blank">Linux-audit@red=
+hat.com</a><br>
+<a href=3D"https://www.redhat.com/mailman/listinfo/linux-audit" rel=3D"nore=
+ferrer" target=3D"_blank">https://www.redhat.com/mailman/listinfo/linux-aud=
+it</a><br>
+<br></blockquote><div><br></div><div>Hi Steve, Paul,=C2=A0</div><div><br></=
+div><div>I&#39;m replying with the Gmail UI since I don&#39;t have my Mutt =
+setup handy, so=C2=A0</div><div>apologies for any formatting which doesn&#3=
+9;t align with the=C2=A0mailing list best</div><div>=C2=A0practices!</div><=
+div><br></div><div>First off, my apologies for being late to the thread, an=
+d for submitting code</div><div>to the kernel and user space which aren&#39=
+;t playing nicely with each other.</div><div><br></div><div>It sounds like =
+there&#39;s a decision to be made around whether or not to use</div><div>th=
+e bitmap feature flags which I probably am probably not in a position to</d=
+iv><div>help decide. However, I&#39;m more than happy to fix my userspace P=
+R so</div><div>that it does=C2=A0not rely on the feature flag space using t=
+he approach Paul</div><div>outlined, in spite of the drawbacks, if that end=
+s up being the decision.</div><div><br></div><div>Steve, I understand your =
+preference to rely on the feature bitmap since it</div><div>is a more relia=
+ble way to determine the availability of a feature than</div><div>key size,=
+ but if you&#39;re open to Paul&#39;s recommendations in spite of the</div>=
+<div>drawbacks, I&#39;ll make the changes to my patch as soon as I can to u=
+nblock</div><div>your work.</div><div><br></div><div>Separately, since ther=
+e is tension between these two approaches<br></div><div>(structure size and=
+ bitmap), I wonder if Paul/Steve you would be open</div><div>to a third way=
+.=C2=A0</div><div><br></div><div>For example, I can imagine adding addition=
+al bitmap<br></div><div>spaces (FEATURE_BITMAP_2, FEATURE_BITMAP_3, etc.).<=
+/div><div>Alternately, I can imagine each feature being assigned a unique u=
+64</div><div>ID, and user space programs querying the kernel to see whether=
+ a</div><div>a particular feature is enabled.</div><div><br></div><div>I&#3=
+9;m not familiar enough with the kernel to be able to judge how sound</div>=
+<div>either idea is (or if these have been considered and rejected in the p=
+ast)</div><div>but if you all think a third way is viable, I&#39;d be happy=
+ to start a separate</div><div>mailing thread to try to thread the competin=
+g requirements of the kernel</div><div>and userspace, and contribute code i=
+f we can find a solution.</div><div><br></div><div>Max=C2=A0</div></div></d=
+iv>
 
+--0000000000003ff25205b5e64d70--
 
---------------F9A0F5E0F5070A2268614FAC
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 7bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p>On 7/2/20 2:42 PM, Paul Moore wrote:<br>
-    </p>
-    <blockquote type="cite"
-cite="mid:CAHC9VhTctHCCrm4Q1cPdFX-6NXEtmjEPmw6rvUoxOq8UUmycxA@mail.gmail.com">
-      <blockquote type="cite" style="font-size: large; color: #000000;">
-        <pre class="moz-quote-pre" wrap=""> #define AUDIT_FEATURE_BITMAP_BACKLOG_LIMIT     0x00000001
- #define AUDIT_FEATURE_BITMAP_BACKLOG_WAIT_TIME 0x00000002
-@@ -348,6 +349,7 @@ enum {
- #define AUDIT_FEATURE_BITMAP_SESSIONID_FILTER  0x00000010
- #define AUDIT_FEATURE_BITMAP_LOST_RESET                0x00000020
- #define AUDIT_FEATURE_BITMAP_FILTER_FS         0x00000040
-+#define AUDIT_FEATURE_BITMAP_BACKLOG_WAIT_SUM  0x00000080
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">In an effort not to exhaust the feature bitmap too quickly, I've been
-restricting it to only those features that would cause breakage with
-userspace.  I haven't looked closely at Steve's userspace in quite a
-while, but I'm guessing it can key off the structure size and doesn't
-need this entry in the bitmap, right?  Let me rephrase, if userspace
-needs to key off anything, it <b class="moz-txt-star"><span class="moz-txt-tag">*</span>should<span class="moz-txt-tag">*</span></b> key off the structure size and
-not a new flag in the bitmask <span class="moz-smiley-s3" title=";)"><span>;)</span></span>
-
-Also, I'm assuming that older userspace doesn't blow-up if it sees the
-larger structure size?  That's even more important.
-
-</pre>
-    </blockquote>
-    <p>Paul, <br>
-    </p>
-    <p>This change does seem to the untrained eye to be in line with the
-      existing FEATURE_BITMAP definitions. I appreciate your intent on
-      not exhausting the available space, but at some point if that
-      happens is there any reasonable way to expand? I'm sure you have
-      some thoughts, or is this "it" as far as features could go (the
-      last available bits)?<br>
-    </p>
-    <p>Max,</p>
-    <p>It's a pretty good feature. I agree with your original problem
-      assessment; this is an area I'm always looking at. I've got
-      questions I'll post separately as they are not germane to this
-      thread.</p>
-    <p><br>
-    </p>
-    <p>As an interested user I'm hoping for a resolution on this, so
-      that the userspace release can happen, as this seems to be a
-      beneficial change which I could make use of when available.<br>
-    </p>
-    <p><br>
-    </p>
-    <p>Thx,</p>
-    <p>LCB</p>
-    <br>
-    <pre class="moz-signature" cols="72">-- 
-Lenny Bruzenak
-MagitekLTD</pre>
-  </body>
-</html>
-
---------------F9A0F5E0F5070A2268614FAC--
-
---===============6025767226831272681==
+--===============2844387291367945947==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -246,5 +356,5 @@ Content-Disposition: inline
 Linux-audit mailing list
 Linux-audit@redhat.com
 https://www.redhat.com/mailman/listinfo/linux-audit
---===============6025767226831272681==--
+--===============2844387291367945947==--
 
