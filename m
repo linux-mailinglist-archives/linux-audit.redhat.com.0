@@ -1,59 +1,62 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [63.128.21.124])
-	by mail.lfdr.de (Postfix) with ESMTP id C0A032D1FA3
-	for <lists+linux-audit@lfdr.de>; Tue,  8 Dec 2020 01:57:19 +0100 (CET)
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+	by mail.lfdr.de (Postfix) with ESMTP id C1DF42D2028
+	for <lists+linux-audit@lfdr.de>; Tue,  8 Dec 2020 02:35:04 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1607389038;
+	s=mimecast20190719; t=1607391303;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=j44T110tfLh+yEwD3qHKL/DypWIxKy9IHHB+3tDsLyY=;
-	b=Y5lRSTvMHrmPmRMu6nJTF3v0ttpzlPsgTWB3akaOukQ+of3jdKvg8Zc2o18GsN6mqnH7sv
-	Tmfc2FrJcxy2EfbsaCdT+VlyEYRcOaNauMt59oEOr/OjLBpVaYeOMIPAtzlBr8xYYVAQxR
-	YgpepGCz//r+mgDbbxxsQEnNJMFEedE=
+	bh=gRccDsyy+/RQ++WJ56nDLe3/eEZouqY9FEbG0QUHEOw=;
+	b=PxIclA1dRP2Y0A9lMJBuxoiVkpfBBwOL01Sua/cD/BvYVrlHkr/Hqi+MErkwz7LRR1O4uL
+	DrIFZV55WT5PIYUO/WY1DOPbwU7FaB82eLIiXoOfDwjtteTAeTzSjIkRCO6LfgHb+O24X/
+	e4dd9g263bFYyGgZwD+hd0Vyq1o9zXY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-72-5hDc5iEHMHCnSY9vZifqTg-1; Mon, 07 Dec 2020 19:57:16 -0500
-X-MC-Unique: 5hDc5iEHMHCnSY9vZifqTg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+ us-mta-277-DBdPy3XnP1uzv7pUSfstmA-1; Mon, 07 Dec 2020 20:35:01 -0500
+X-MC-Unique: DBdPy3XnP1uzv7pUSfstmA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D1733180E461;
-	Tue,  8 Dec 2020 00:57:10 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id E776A1002393;
-	Tue,  8 Dec 2020 00:57:05 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4EC91107ACE3;
+	Tue,  8 Dec 2020 01:34:56 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 59D295C1A1;
+	Tue,  8 Dec 2020 01:34:55 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id C4B1D180954D;
-	Tue,  8 Dec 2020 00:56:58 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
-	[10.5.11.14])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id C56AD4BB7B;
+	Tue,  8 Dec 2020 01:34:52 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+	[10.5.11.22])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 0B80uowx011153 for <linux-audit@listman.util.phx.redhat.com>;
-	Mon, 7 Dec 2020 19:56:50 -0500
+	id 0B81YiDF013396 for <linux-audit@listman.util.phx.redhat.com>;
+	Mon, 7 Dec 2020 20:34:44 -0500
 Received: by smtp.corp.redhat.com (Postfix)
-	id 0814C5D9D0; Tue,  8 Dec 2020 00:56:50 +0000 (UTC)
+	id D685310016FE; Tue,  8 Dec 2020 01:34:44 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from madcap2.tricolour.ca (unknown [10.10.110.30])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id D8EDE5D9C6;
-	Tue,  8 Dec 2020 00:56:42 +0000 (UTC)
-Date: Mon, 7 Dec 2020 19:56:40 -0500
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 8E5D910023AD;
+	Tue,  8 Dec 2020 01:34:37 +0000 (UTC)
+Date: Mon, 7 Dec 2020 20:34:35 -0500
 From: Richard Guy Briggs <rgb@redhat.com>
-To: Lenny Bruzenak <lenny@magitekltd.com>
-Subject: Re: lost events on boot
-Message-ID: <20201208005640.GO986374@madcap2.tricolour.ca>
-References: <d5da10fe-8a97-a43a-6178-827dfadbe574@magitekltd.com>
+To: Steve Grubb <sgrubb@redhat.com>
+Subject: Re: [PATCH v2] audit: report audit wait metric in audit status reply
+Message-ID: <20201208013435.GU1762914@madcap2.tricolour.ca>
+References: <20200701213244.GA1817@linux-kernel-dev>
+	<20201207212100.GN986374@madcap2.tricolour.ca>
+	<CAK50otWFQveN3GSBVEz07cnSR90YOb0QeiX-PJzB4W2rkJ02ow@mail.gmail.com>
+	<2046910.irdbgypaU6@x2>
 MIME-Version: 1.0
-In-Reply-To: <d5da10fe-8a97-a43a-6178-827dfadbe574@magitekltd.com>
+In-Reply-To: <2046910.irdbgypaU6@x2>
 User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-loop: linux-audit@redhat.com
-Cc: "Linux-audit@redhat.com" <linux-audit@redhat.com>
+Cc: linux-audit@redhat.com
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -67,7 +70,7 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
 	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=linux-audit-bounces@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -76,74 +79,33 @@ Content-Disposition: inline
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-On 2020-12-07 16:28, Lenny Bruzenak wrote:
-> Apologies if this has been answered. I searched and found some
-> relevant-looking dialog 2 years ago (on 12/14/2018) that Paul/RGB/Ondrej
-> were discussing, however I do not see the answer.
+On 2020-12-07 18:28, Steve Grubb wrote:
+> Hello Max,
 > 
-> I'm running userspace 2.8.5 , kernel 3.10.0-1160.
+> On Monday, December 7, 2020 4:28:14 PM EST Max Englander wrote:
+> > Steve, I'm happy to make changes to the userspace PR based on
+> > Richard's suggestions, if that sounds good to you. I'll follow up in
+> > the PR to discuss it more
 > 
-> I have boot parameters "audit=1 ... audit_backlog_limit=8192" .
-> 
-> Immediately after boot, I use "auditctl -s and see hundreds (varies, between
-> 119-330) of lost records.
-> 
-> 
-> So I cleaned out all the audit data, rebooted again and examined the events.
-> 
-> They are numbered sequentially 1-515. I counted the events and they match
-> (515).
-> 
-> 
-> So my questions are these:
-> 
->  * Is this "lost" value accurate?
+> The only issue is new userspace on old kernel. I think if we use both the 
+> configure macro in addition to a size check, then it will at least allow 
+> forward and backward compatibility.
 
-Not entirely on that vintage of kernel.  It counted a lost message even
-if it was later delivered via the audit_skb_hold_queue, IIRC.  Paul
-re-did the queues to avoid this false report.  That change went into
-v4.10-rc1:
-	2016-12-14 c6480207fdf7 ("audit: rework the audit queue handling")
-It was too disruptive to backport to the 3.10.0-xxx vintage kernel you
-are running.
+Are you talking about a new userspace compiled on a new kernel header
+file run on an old kernel?  That would be less reliable and need the
+size check.  The bitmap would be the most reliable in that scenario.
 
->  * If the numbering doesn't indicate any gaps, what does that tell me?
+By configure macro are you talking about the presence of that audit
+status mask bit, or the presence of that struct audit_status member?
 
-Messages that went through the hold queue, IIRC.
+> Other metrics would be good. I'd like to see a max_backlog to know if we are 
+> wasting memory. It would just record the highwater mark since auditing was 
+> enabled.
 
->    The kernel is supplying the serial number (right?), so is it
->    discarding the events without assigning a serial number?
+That would be covered with this issue:
+	https://github.com/linux-audit/audit-kernel/issues/63
 
-Yes, the kernel assigns the serial numbers.  Sometimes.  Some buffers
-never get allocated and therefore no serial number assigned due to full
-queues or memory pressure.  Other buffers get dropped when queues are
-full and there is no choice but to drop a message.  This is true before
-and after Paul's queue re-write.
-
->  * Do I have something wrong with my kernel boot parameters?
-
-Not likely.  From what you have described above it sounds like you have
-done what you can.
-
-> I'd have thought that 8k buffers would be enough, and certainly if I only
-> have 515 events, should be. Unless, each record inside the event is adding.
-
-If your kernel command line is larger than your lost count and your
-serial number when you check it after boot, you should be in good shape.
-
-> I also then counted each record, not just events, and got around 1600, so
-> I'd have thought that even multi-record events would have fit. I guess that
-> depends on the buffer size.
-
-Good thinking, and you are correct.  That backlog limit may need to be
-increased for more recent kernels since there are more events caught and
-some events have more records.
-
-> Appreciate the help in advance; thanks.
-
-I hope this helps.
-
-> LCB
+> -Steve
 
 - RGB
 
