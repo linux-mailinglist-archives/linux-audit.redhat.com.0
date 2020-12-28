@@ -1,100 +1,99 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [63.128.21.124])
-	by mail.lfdr.de (Postfix) with ESMTP id 922C22E6A68
-	for <lists+linux-audit@lfdr.de>; Mon, 28 Dec 2020 20:23:05 +0100 (CET)
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+	by mail.lfdr.de (Postfix) with ESMTP id 94F4D2E6A92
+	for <lists+linux-audit@lfdr.de>; Mon, 28 Dec 2020 21:09:18 +0100 (CET)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-352-PnLvnAtvPlGLYJWKsLxq9Q-1; Mon, 28 Dec 2020 14:22:58 -0500
-X-MC-Unique: PnLvnAtvPlGLYJWKsLxq9Q-1
+ us-mta-391-UxNR5rX5NwaVbHlv1gqUbQ-1; Mon, 28 Dec 2020 15:09:15 -0500
+X-MC-Unique: UxNR5rX5NwaVbHlv1gqUbQ-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 56F59801817;
-	Mon, 28 Dec 2020 19:22:51 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F12088015A8;
+	Mon, 28 Dec 2020 20:09:09 +0000 (UTC)
 Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 288871B469;
-	Mon, 28 Dec 2020 19:22:48 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 7974118219;
+	Mon, 28 Dec 2020 20:09:09 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id D1C371809C9F;
-	Mon, 28 Dec 2020 19:22:36 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
-	[10.11.54.4])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 6BE8118095C9;
+	Mon, 28 Dec 2020 20:09:06 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+	[10.11.54.6])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 0BSJMKZT031528 for <linux-audit@listman.util.phx.redhat.com>;
-	Mon, 28 Dec 2020 14:22:20 -0500
+	id 0BSK6WNX004157 for <linux-audit@listman.util.phx.redhat.com>;
+	Mon, 28 Dec 2020 15:06:32 -0500
 Received: by smtp.corp.redhat.com (Postfix)
-	id 83BFA2026D47; Mon, 28 Dec 2020 19:22:20 +0000 (UTC)
+	id 58EAD2166B28; Mon, 28 Dec 2020 20:06:32 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
-	(mimecast03.extmail.prod.ext.rdu2.redhat.com [10.11.55.19])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 7EC5C2026DE4
-	for <linux-audit@redhat.com>; Mon, 28 Dec 2020 19:22:18 +0000 (UTC)
+	(mimecast02.extmail.prod.ext.rdu2.redhat.com [10.11.55.18])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 53C222166B27
+	for <linux-audit@redhat.com>; Mon, 28 Dec 2020 20:06:29 +0000 (UTC)
 Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
-	[207.211.31.120])
+	[205.139.110.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1DF17811E76
-	for <linux-audit@redhat.com>; Mon, 28 Dec 2020 19:22:18 +0000 (UTC)
-Received: from sonic309-27.consmr.mail.ne1.yahoo.com
-	(sonic309-27.consmr.mail.ne1.yahoo.com [66.163.184.153]) (Using TLS) by
-	relay.mimecast.com with ESMTP id us-mta-567-f__OYPhTMaWKBBftDBL7Og-1;
-	Mon, 28 Dec 2020 14:22:15 -0500
-X-MC-Unique: f__OYPhTMaWKBBftDBL7Og-1
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D6C638007DF
+	for <linux-audit@redhat.com>; Mon, 28 Dec 2020 20:06:29 +0000 (UTC)
+Received: from sonic317-38.consmr.mail.ne1.yahoo.com
+	(sonic317-38.consmr.mail.ne1.yahoo.com [66.163.184.49]) (Using TLS) by
+	relay.mimecast.com with ESMTP id us-mta-558-j6X9pWaHOXOkNrS7yywKTg-1;
+	Mon, 28 Dec 2020 15:06:27 -0500
+X-MC-Unique: j6X9pWaHOXOkNrS7yywKTg-1
 X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
-	t=1609183335; bh=7ihie2lXaLVBJCMe31qwLFQfVpfHoMK6i2yo0gbOQQ4=;
+	t=1609185986; bh=4Cxx3YpjZ3C5iG7rLwC66A6nTNFHE/8m1yqTy9NSdpk=;
 	h=Subject:To:From:Date:From:Subject;
-	b=ulQMD6NGC7aps2AE5JjFCO4PgT3R+I0MF//yIEuO8NGOdCSCe9lvIom14dJHS9+E3tYjxjkDyM6rkQxoRPQ6SU3aqV8J9XBRNhWQ6LtU+T6Vtn7NWsCsrQbu8ysxFSOZfznFcyeiLlG1BwL9iuAohNBosxCYGgzQ4MdphedoawnqWnuFcaomjXdGIAgrxHEJol3XJXIm/XVzJ92+8h4jeeBH1DjSSPZyLUBPNR8YO/ixomlhp83AEnHs+rnSvhN0qO/rpJChiu61kOFpcKlEtVEGTIEbNnFdQW6QWmgc7JbrHykeL4IUvIUYmwVo7DTtPKO30ZIKYOexQhGuTMPSfA==
-X-YMail-OSG: B.M6758VM1kCV9eHCEZRdR5rIzpNkfEQW1nUe8WxD7tCqiLHNcqfqpRwbt828Cx
-	PTHF26yFpRgp70Md3KTJ_udD6gAwMm3klH.guu07YsDDQqglR2NrTUiIERkBCA94Drtt8p9iUgxw
-	1j_Cd5IjXHxGvnnjG2_oeI4r1emq9oVqdWphEgqRbwXwzGgaJ3orMDOkZg8rGEE8R4jHeh4IXsWy
-	ucdm85KnVIEFjAWLLUnzK9hHrCo5ByakLOGFI8T6Lt9k4fF4corX6YHSvOmqkIOYogHfgj9crcWF
-	P4WaWErKjlUtdQS4dY1r.6WNTIIizkL3igKmx34cMke_JFdJMrkpsVs8nE8bJYtS3DceYLIqou3v
-	XHUBD5.nB1OnPf1sQvN9OcmVQ8wLOAJqzysVhZXc3hDMDtlP1t1tw6i2iAIYsJ0fkMAofoHN4tyM
-	Cx2KYdtJ4xyLOp4riZtk6MCWZ._jlttwfJVAn9sNjBNoaOZceKRX3HdYXQmkAmrak5YFPzHO_yp_
-	Mjcv4d8VR3KgCWCJhCCIeZv1ERU7e8Lr1SNWR8FdJndC_VTVz1ZqGGMzGuRZl.IUQkepnRoqZy0z
-	rsUW3LnIz2gzwT8BuJKqc4C7sj8r623e9evQ21ABTBVg4dYtPV9HYbeNFK1cnDrqzMyeOLQT4d..
-	NQjvz2FbsydgFKqkuEFz6stIHo93lcXnZZIUHST3qIb396Ph_8kXqvX7Gcwc_nmIPvdU6cuHRO.L
-	5EQjd5PmmG8VShf72zhXIkEBDcHMoaV6a7npcDdNJ3ofJQerXce1pNwY1Y_S6Ccxsb4u1A8g5NwR
-	yFBHTu2RSV8VDSWNW02fI9C2BbEXw3J5DWi8O0CrP_JA6T.n.E4AcyrM_DkPrt9.d4fEbABYt0cr
-	2PV1d9I91aW2uFpXUjdc1AkHGQVW2VXRA1zc2axfhcmaGq1P0lbDb_1kp2RkquAAyeELyYNtQSPa
-	eh8.g2R.wltk0.F5NOis6gxmHNCElhCHMwgEXrcm20PTtLx7WwLmqoJ.fNyQZi7wVbicyv1jTXdY
-	jWZr5ULqhyCy.9Gcs__n1kP.N8iMzYxQDgsDGuaVu4CWOCl8NdxdI1r_T09DSh91fvLjPuUtwBDo
-	DXdFXj892.onGJJ8Xn1rdwOS7O9kUY74VarBQ1yqOlEdRHwPK1weBaLIH1SS4Fp6y9BnfDTgGdB_
-	rb44y07RDIah2T0SQgupGn4E4zO3RuGzqcnbkn2WLxpF1qS8qOU5_bk6cb0dA9eFZzIey4sUyiZH
-	PJKZP90X.CxUMyZWl14nblbt_sCM3lkPTMS3aMdewYYfOtrW3tcz2RnZe9ycxEM41MhfmEYTOqwe
-	TYlESjoNHRzjhPKxDF6_yFaxAZSvB2RqHij46y.xOR7pKkvtVtXwlwFKAhMehEN_eCLc77Ctn_mF
-	JWwcOA.BWZzr4.mUXNypn.POix_57XKqQ1IyrbkqhJkJMAs2AFt1IUWlJRIkdvuB_8L5i.S7RVwE
-	bwR66_qLL3eJEILUpcXz7C4_rCSNSvWr2.KClSRLBe6O2h0SqbnaYjw9Zctexu9jlK62l2wgQZhp
-	pZKPuBv20LcWIk8Rrx3eKsOon7dAJ25R7yJktWwbsITu80a5Gjks511MQkkKKzEcqjP_pR8956w6
-	1UoQyIwrxCV17udE961IlJLCHS4Iddk3h74jng9jF5KKXUhUSFTpKtVdyC9m0xtF9j7RUkJUbuNt
-	_1myRw4lcyDndEZJPbqWLHEivV1zPYGuACWhdZNy3nQLFI6PDANBDQfs3_0LnKMRyFjlJx9OnbvW
-	q0W0Sd0LHWGNrgYGC8FU54XyVVT0N4EJbWctZ6ksqsG7DHceyIHm3ySIXH5gjnhAf2N81q0laZaR
-	EaC_Mcsq0Ey5P7HIImzGuVZypK_p3glf1Bdfv1kenAchWc56zEP92Ut7GeoOT2rQzp4nXnqZPi9T
-	Xl7TPcCec9f2aHbNAFhkUyCBUorcJ81EbswDjXFrFF3i7SqIRG7BfWUVyX.aZmahIWz.p74lFv.e
-	b5SUAYAFm6oqns2pDPY4KOcxQk2IPpMzsVhrtOdsvxTUXTptcACq._ydnexEi0BO4Ez6i4E8dnNz
-	gRnJH6CqPbjRUsotmlw09YNZY9Zye1WIUH8w_55uBIf1CJB1ueYPhu1fiMQzeQzwsVY8uleSTtTc
-	25xqRO44XQl1m3FQ12xvw_iJgNqdPcMDgfJhkqyICMlBWt6sFUTaVG5llTMV5Vkm8Q6V0zbZktVQ
-	8yx7TdIyVYpGLg5TO6Qr6nlKNlZ3t4wD129CLuDUC.pJXUe6FF4hosUc1haUbG8PWRiiQM32GnTL
-	g_rJgHyIGckAZ17_5qNzSdWzTUDBv621_3O2Tai2n2RuiFqRpEfZKGEorYaORlOk407NtSscZSCa
-	RTXv1SHomjMiZ6WmJFpvhyr0o_UYKWeo0htLhpa8yyaabYyNrfk0M6.L6qt1OzhfWgfo6_OtueBw
-	8xgHS_n4et85hWGPUgk_ow8nSh3tCtzS4v6gftpWBSaUqDQfBUKRSWXUbeWIB80SZA7o8XDyqPiT
-	oaNkMaYOwugl49Kp7.7EiasU7jOcDoTLzco0A8F4tFXCkr9Ij0qG63NZddgIHDNLdERHfc17_5VJ
-	xqBfa6OZLjqH8bWBXNvGgK67rKYdo89iDU17niJ6M.1OhkZkfJxgL4.4c_fVvjtDRg4IqK.OBnQ9
-	.82GPgPkK0fyi4Ct3mM.zCAxRTOu0gyZuRWQuzHvsp_.1rIF4YIF6MVpv7PKTtZllHvCmaGqF9Ta
-	Lmd9ZzvS1ZZbUPbvIrizsKeoNo.OQVJoQRszfMdGzepNThl24E58n5F.ZspscZmdimdJ_18L3_cR
-	kDqn1bi8aiY9LEmCrzPdcS_ou4lDRBgUZgqZ9vWPNGt2BDz0SXnNnhBofAUdSaNc3eRimRC27_D_
-	yNJvy3gq4MD9t1dI7SLcMiJCObobiWkxnMU.F8Ow07X3jT9yGhXLlp.GVpK6VbajBqEjnA3X0HDU
-	1XE_GzEmyH25YRwIoLNpfRN_xuK1yMeP0j5Z0qacqIUrwaFKcOEUebWPlpAbVN.1HKmTGAMoCtE5
-	FB193AHJcGc3iEQPjfQ4BZlEjkJIZCzjb9Nx3uG27BW01ITjdU1UAvTFb4absB1.hnySzYNUx9p.
-	yZA.NZvoaFA2SVnAC9qFZzj4UKbg_JpgLGg--
+	b=lEoLZTAbxND96Q2UxRupGMNW5qx2JU4uhJUIhfNicqZY9pD0y41e3v+ESeO0Oz675eAJx68O9apdglcVUJwjFXIWHSgBuMXzS9eTSmlEvRa3Xb51iG/hL6amwBcXku/CfIeVko2bHGycv95fq1GyCp3/hBW6HEujvse4jURS9He4gkPONAWWha5wYz3mTFC6wWgdM5IoM0OOJlEKKiqB1QP0Mwi0I78+SINOqajZc7lvArUBiSwkJ8GDdwqamW7qBh4KRbRPu8ptR48V9qB8A6aHL0+MtDZ8tYR2nPlmhSKIiqdo3fw83912IIc9+NS9Y0kE0OpkL64QPOoRxn8+Bw==
+X-YMail-OSG: pgTuvrAVM1l7NYsNNBbxGy0EZFHz4n1shaJGzloNw0Ls_GpWFA1yPxU46IZG4oU
+	nDAFXsKaSVEYydEYA1nzCrqYpByQL1AyI76p8698eUhqhCXtAj5pD5Ger3zJZmfYPrIKSxUa9FkV
+	enbr5ekxvueDX6q6QtFiFbBudXzsW2i5_70ABOyD_uxxz6qzUJ1mgiSo043R9Y999dGvl8xI59..
+	6jGpcP7vi7.lRtYAnlPcnPGSW0.OtdnCBYaHhEBUPQ8hoZfy3iDENCHR04KGZnGx8ddP0RXpVY1Y
+	9hoKV81iwEMLvq0GrnfkB1Q5IZ8GBxHIPNacZ4VSyvSXif_EzQAh7NenuXf2j6NLrNb5RoyTqA6G
+	Yn94eJAb04Gn8g_GsQEU.AW5axp1bPnPqvzzgxMlx7nyjhAizGA9mo.DVWI.eIHBZpyHZju4zStY
+	zzaqom3Z4ipgUtZTWlUs95hdfyhgsf1VQYU07Ps9WuoLvKSz3P7PGMOphIzldzxjfaT8HOcfoNm7
+	wPgB_gDzRKj3I0XkuNwPaoZitjZpj9ZI7ymll7EYE8IJJdnaYT5fz0VH4Atdeexv0khiTjIcEkEJ
+	0SMhUrbjDn8B_7rx19_drff2XDPLc09DunPdDkH.2rU_hwKPBrS4cU7hMzYsmPPZCXHFIp6.k8iG
+	WFyXmQc7CoEVxRuktkLUJCUF6_WYjG2CN6HuGysZjdzZxX2W90.9qOTl5VIW371Js8lVdjM4N2eD
+	H1AwxRSuWx_Bkk6RpxMOL5zJDGiqvjjCguRiLeb8hCHM4mN_FqiUx2vlUktUBgOfGmk_EVwQi_mJ
+	JaFWWdBHOLxpLbc7d1mcjKTHd8srpB6_oimrhmKqoGrKAim.Uq5INVpUbqa8clC5sGf6paSZsgbK
+	99ERcVHsgfKWapjX8j_4M6tXMrBvOMR.P6WWb2idBBPOEWt86gqC0OBMrXYSewYF._vlXIYP.QU7
+	A9bKnmHkVnfoFFDi3Ygs4LTlsvvMZR0svIE70Q0PzlvSGxgowqPr9XL7seGYJ_gFDocdaJsn1jYs
+	Za8OH_W5_Na9KT7eAV1WrZwUJrxiSMG6JGFc235rf4yLUNpRQnjOWTNHdNTpyeprB86vreZpIZTG
+	32qY0.4OlcUN.nXrexa7iLxnxbMMbIAjDrmoCPIzhYA9m3FtrJjGEoFHfoGyMuUP4nLlRVvjk6Zl
+	6GjvgpUB.U3POoRF9TD_QZKokoaVei0edwDKZgjZr_VadOkK56hOPZp4bmJtQOkb1TT9tTieTFYg
+	RkwZOetItWEYvrJu7qqajXdvE_cO32bczXXy6h6DEL7aXuzLrSKIxoLGaZUyrcMx3LOCE9nphPFv
+	GSlfi8T2jPXttlwJtukCss.SgkUy9ly3RRWVNdKk3N_qJuggxfyHZ5tXXga5U5SPBzqhTP466KXI
+	zK3.LYSDgWCzkuOQstIwH.GaJKO4IyRcXz31XERVBsrocM4ZZ6GQCrPSSzt6gEPbuvj7meR21r8a
+	6OyiAbLcBkgazcCWwM.Y5F04OrLvtI1itKyT7jnjUDUYLDs6hrLLLMdMRqh70_RWoz6cb1.mtlMt
+	zCo4f_6a_kuQGUC8cybCU4UI_xzjXxOLfyVU1R4XLqZ5TyU7rSk4hZX1HiCwg0X_Mt6fbd.zyRWQ
+	hPH4GPBat8mfrZ7qfk0iyKKiUgl7dWOQCG50dUBs1EM0D1E9_ZLv3Npl0WSMToKXqtZviqwalG3C
+	ycJ7XBYsRVQdLMjB8FEtnF76OuG_uVf29TXud_natS02DYhpoFop1A8pBFdQ8xYhzfLPtndozCLG
+	MKwAeoNlSYkF37AAU4GTkiED9atwPtrCeL1.NlUhamtSYO3hDrTN_DVNao5eEWi3WHrWc7PT0ubj
+	9lZrf5jJ_xQeURGKWqd1JTy0AaByzKNKvxJbSE.IUJXKVi0uaihdo605XTLR0tZ2Ew3UW46tNu3F
+	NMU0lDuD8JRQ01QR.Y.4ayTsfHZGJHRUt3EUVOAMe4vs22hhuXUhuInF_GXZPLLdk7dZDgqKq9i6
+	NcOWd3JIY8vpVLZZlmGiOZ9l1slV6GKXzxXLzMTHh4PAW4h0ufEoA390knhhDou7t2Ya8rzfGqje
+	mTwb9jx.YVfuGasUweoL3PuZvIxiMOXSEnV3S_2QALRvtYe3zhUoQ.8HGSoI8fDOlVo9pbM4TEgZ
+	KwSAWQs_kCIRBLANQ2RIMzGMO4rFKn6FuhPtDMKOsTRz2NbuKJA3ybvk6m7tJ0U09rQIeEJMhJa8
+	fRE7u7KtZg0mNipzhA9gWP6eXFQrF1F.6pFAUBXsjgfEhi0j2E05A7MkuuMOfARlas9D5Knt8qRs
+	wslxJa.MqhTTWIvcSZeBM7nPrc9nKUTjy1av_3.IBBK1cDdS46cYXzB6SmzRpKaHmYgDUyL1AnHt
+	GA7hrZxOAIfokT0s6N0HplDbmxSqEUHaULV2o1fu8wPwYSbpX_6vLuhaEh1jchwetZnarFeXKZP2
+	7pIKiE6Ln9e3XfNZYDTHUSDJrwoLA7IIphHYquOKGzcUR57AxIx0BUTPwJGVwdidva2YJdcM7xRj
+	SApOuqdjjoILetS92yptMxneW4UA.9m1ddTLKdF.tPYhlHHVflJmwRXOjwqkVX.ulJPr9tZXb.HO
+	65oRfeYPvhdgN3ixeBQf3ytWEeRpPASLGnRyJm_a0Tj35pmYGTv.d9KJJvZVm2AmwPRRtnOlTqGB
+	Qs6xiIz5ZKae1FPyVGkMucrQOknycTrG25oRtsOF7_.fA3Qs3QPhJayVbDH0tbGnr37okOX2PP.T
+	VfahQBTUFBbjnCBu8IHFkySYXAdhbc5CWESX9ikAHxOZ1AgkKIwrx6_Bs.wr9HDfCPX5IZ7Z1qJj
+	tslI9cGu.nVYsNiTukXspH86.fz.ZyS.DPe7R1Acfc2JVd9pBhOR06Qf89gfInfWjtB3UDqLxkny
+	QaC1SR0hUUrf90Obgw8SlnYJS_MUv4cVIMqC1sEh.yyi074Gl33eIxPc42EaPTjvBQV8wHMmFdH_
+	kbHmjHW0xvQl6gONAAuhBIKq8IN8h1Vijmsy6azdFsIOFAmSlbuFNSpMdypzGmaUwNnuugw1yULQ
+	tenWfskchET6L27SJ64zAlgKJZSRXabVK
 Received: from sonic.gate.mail.ne1.yahoo.com by
-	sonic309.consmr.mail.ne1.yahoo.com with HTTP;
-	Mon, 28 Dec 2020 19:22:15 +0000
-Received: by smtp408.mail.ne1.yahoo.com (VZM Hermes SMTP Server) with ESMTPA
-	ID a6826294e264b601a154bfa5fd362599; 
-	Mon, 28 Dec 2020 19:22:12 +0000 (UTC)
+	sonic317.consmr.mail.ne1.yahoo.com with HTTP;
+	Mon, 28 Dec 2020 20:06:26 +0000
+Received: by smtp421.mail.ne1.yahoo.com (VZM Hermes SMTP Server) with ESMTPA
+	ID b01905f8d95e2b254c7aa58e888394de; 
+	Mon, 28 Dec 2020 20:06:26 +0000 (UTC)
 Subject: Re: [PATCH v23 02/23] LSM: Create and manage the lsmblob data
 	structure.
 To: Mimi Zohar <zohar@linux.ibm.com>, casey.schaufler@intel.com,
@@ -102,14 +101,14 @@ To: Mimi Zohar <zohar@linux.ibm.com>, casey.schaufler@intel.com,
 	selinux@vger.kernel.org
 References: <20201120201507.11993-1-casey@schaufler-ca.com>
 	<20201120201507.11993-3-casey@schaufler-ca.com>
-	<903c37e9036d167958165ab700e646c1622a9c40.camel@linux.ibm.com>
+	<b0e154a0db21fcb42303c7549fd44135e571ab00.camel@linux.ibm.com>
 From: Casey Schaufler <casey@schaufler-ca.com>
-Message-ID: <c88bc01f-3b65-f320-b42b-5ecde3e29448@schaufler-ca.com>
-Date: Mon, 28 Dec 2020 11:22:09 -0800
+Message-ID: <886fcd04-6a08-d78c-dc82-301c991e5ad8@schaufler-ca.com>
+Date: Mon, 28 Dec 2020 12:06:24 -0800
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
 	Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <903c37e9036d167958165ab700e646c1622a9c40.camel@linux.ibm.com>
+In-Reply-To: <b0e154a0db21fcb42303c7549fd44135e571ab00.camel@linux.ibm.com>
 X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
 	Definition; Similar Internal Domain=false;
 	Similar Monitored External Domain=false;
@@ -118,9 +117,9 @@ X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
 	Custom Display Name List=false; Reply-to Address Mismatch=false;
 	Targeted Threat Dictionary=false;
 	Mimecast Threat Dictionary=false; Custom Threat Dictionary=false
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
 X-MIME-Autoconverted: from quoted-printable to 8bit by
-	lists01.pubmisc.prod.ext.phx2.redhat.com id 0BSJMKZT031528
+	lists01.pubmisc.prod.ext.phx2.redhat.com id 0BSK6WNX004157
 X-loop: linux-audit@redhat.com
 Cc: john.johansen@canonical.com, linux-kernel@vger.kernel.org,
 	linux-audit@redhat.com, bpf@vger.kernel.org, sds@tycho.nsa.gov
@@ -146,186 +145,114 @@ Content-Language: en-US
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-On 12/28/2020 9:54 AM, Mimi Zohar wrote:
+On 12/28/2020 11:24 AM, Mimi Zohar wrote:
 > Hi Casey,
 >
 > On Fri, 2020-11-20 at 12:14 -0800, Casey Schaufler wrote:
->> When more than one security module is exporting data to
->> audit and networking sub-systems a single 32 bit integer
->> is no longer sufficient to represent the data. Add a
->> structure to be used instead.
+>> diff --git a/security/security.c b/security/security.c
+>> index 5da8b3643680..d01363cb0082 100644
+>> --- a/security/security.c
+>> +++ b/security/security.c
 >>
->> The lsmblob structure is currently an array of
->> u32 "secids". There is an entry for each of the
->> security modules built into the system that would
->> use secids if active. The system assigns the module
->> a "slot" when it registers hooks. If modules are
->> compiled in but not registered there will be unused
->> slots.
+>> @@ -2510,7 +2526,24 @@ int security_key_getsecurity(struct key *key, char **_buffer)
 >>
->> A new lsm_id structure, which contains the name
->> of the LSM and its slot number, is created. There
->> is an instance for each LSM, which assigns the name
->> and passes it to the infrastructure to set the slot.
+>>  int security_audit_rule_init(u32 field, u32 op, char *rulestr, void **lsmrule)
+>>  {
+>> -       return call_int_hook(audit_rule_init, 0, field, op, rulestr, lsmrule);
+>> +       struct security_hook_list *hp;
+>> +       bool one_is_good = false;
+>> +       int rc = 0;
+>> +       int trc;
+>> +
+>> +       hlist_for_each_entry(hp, &security_hook_heads.audit_rule_init, list) {
+>> +               if (WARN_ON(hp->lsmid->slot < 0 || hp->lsmid->slot >= lsm_slot))
+>> +                       continue;
+>> +               trc = hp->hook.audit_rule_init(field, op, rulestr,
+>> +                                              &lsmrule[hp->lsmid->slot]);
+>> +               if (trc == 0)
+>> +                       one_is_good = true;
+>> +               else
+>> +                       rc = trc;
+>> +       }
+>> +       if (one_is_good)
+>> +               return 0;
+>> +       return rc;
+>>  }
+> So the same string may be defined by multiple LSMs.
+
+Yes. Any legal AppArmor label would also be a legal Smack label.
+
+>>  int security_audit_rule_known(struct audit_krule *krule)
+>> @@ -2518,14 +2551,31 @@ int security_audit_rule_known(struct audit_krule *krule)
+>>         return call_int_hook(audit_rule_known, 0, krule);
+>>  }
 >>
->> The audit rules data is expanded to use an array of
->> security module data rather than a single instance.
->> Because IMA uses the audit rule functions it is
->> affected as well.
-> This patch is quite large, even without the audit rule change.  I would
-> limit this patch to the new lsm_id structure changes.  The audit rule
-> change should be broken out as a separate patch so that the audit
-> changes aren't hidden.
+>> -void security_audit_rule_free(void *lsmrule)
+>> +void security_audit_rule_free(void **lsmrule)
+>>  {
+>> -       call_void_hook(audit_rule_free, lsmrule);
+>> +       struct security_hook_list *hp;
+>> +
+>> +       hlist_for_each_entry(hp, &security_hook_heads.audit_rule_free, list) {
+>> +               if (WARN_ON(hp->lsmid->slot < 0 || hp->lsmid->slot >= lsm_slot))
+>> +                       continue;
+>> +               hp->hook.audit_rule_free(lsmrule[hp->lsmid->slot]);
+>> +       }
+>>  }
+>>
+> If one LSM frees the string, then the string is deleted from all LSMs. 
+> I don't understand how this safe.
 
-Breaking up the patch in any meaningful way would require
-scaffolding code that is as extensive and invasive as the
-final change. I can do that if you really need it, but it
-won't be any easier to read.
+The audit system doesn't have a way to specify which LSM
+a watched label is associated with. Even if we added one,
+we'd still have to address the current behavior. Assigning
+the watch to all modules means that seeing the string
+in any module is sufficient to generate the event.
 
-> In addition, here are a few high level nits:
-> - The (patch description) body of the explanation, line wrapped at 75
-> columns, which will be copied to the permanent changelog to describe
-> this patch. (Refer  Documentation/process/submitting-patches.rst.)
+>
+>> -int security_audit_rule_match(u32 secid, u32 field, u32 op, void *lsmrule)
+>> +int security_audit_rule_match(u32 secid, u32 field, u32 op, void **lsmrule)
+>>  {
+>> -       return call_int_hook(audit_rule_match, 0, secid, field, op, lsmrule);
+>> +       struct security_hook_list *hp;
+>> +       int rc;
+>> +
+>> +       hlist_for_each_entry(hp, &security_hook_heads.audit_rule_match, list) {
+>> +               if (WARN_ON(hp->lsmid->slot < 0 || hp->lsmid->slot >= lsm_slot))
+>> +                       continue;
+>> +               rc = hp->hook.audit_rule_match(secid, field, op,
+>> +                                              &lsmrule[hp->lsmid->slot]);
+>> +               if (rc)
+>> +                       return rc;
+> Suppose that there is an IMA dont_measure or dont_appraise rule, if one
+> LSM matches, then this returns true, causing any measurement or
+> integrity verification to be skipped.
 
-Will fix.
+Yes, that is correct. Like the audit system, you're doing a string based
+lookup, which pretty well has to work this way. I have proposed compound
+label specifications in the past, but even if we accepted something like
+"apparmor=dates,selinux=figs" we'd still have to be compatible with the
+old style inputs.
 
-> - The brief kernel-doc descriptions should not have a trailing period. 
-> Nor should kernel-doc variable definitions have a trailing period. 
-> Example(s) inline below.  (The existing kernel-doc is mostly correct.)
+>
+> Sample policy rules:
+> dont_measure obj_type=foo_log
+> dont_appraise obj_type=foo_log
+>
+> Are there any plans to prevent label collisions or at least notify of a
+> label collision?
 
-Will fix.
+What would that look like? You can't say that Smack isn't allowed
+to use valid AppArmor labels. How would Smack know? If the label is
+valid to both, how would you decide which LSM gets to use it?
 
-> - For some reason existing comments that span multiple lines aren't
-> formatted properly.   In those cases, where there is another change,
-> please fix the comment and function description.
-
-Can you give an example? There are multiple comment styles
-used in the various components.
-
-> thanks,
 >
 > Mimi
-
-I don't see any comments on the ima code changes. I really
-don't want to spin a new patch set that does nothing but change
-two periods in comments only to find out two months from now
-that the code changes are completely borked. I really don't
-want to go through the process of breaking up the patch that has
-been widely Acked if there's no reason to expect it would require
-significant work otherwise.
-
 >
->> Acked-by: Stephen Smalley <sds@tycho.nsa.gov>
->> Acked-by: Paul Moore <paul@paul-moore.com>
->> Acked-by: John Johansen <john.johansen@canonical.com>
->> Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
->> Cc: <bpf@vger.kernel.org>
->> Cc: linux-audit@redhat.com
->> Cc: linux-security-module@vger.kernel.org
->> Cc: selinux@vger.kernel.org
->> ---
->> diff --git a/include/linux/security.h b/include/linux/security.h
->> index bc2725491560..fdb6e95c98e8 100644
->> --- a/include/linux/security.h
->> +++ b/include/linux/security.h
->> @@ -132,6 +132,65 @@ enum lockdown_reason {
->>
->>  extern const char *const lockdown_reasons[LOCKDOWN_CONFIDENTIALITY_MAX+1];
->>
->> +/*
->> + * Data exported by the security modules
->> + *
->> + * Any LSM that provides secid or secctx based hooks must be included.
->> + */
->> +#define LSMBLOB_ENTRIES ( \
->> +	(IS_ENABLED(CONFIG_SECURITY_SELINUX) ? 1 : 0) + \
->> +	(IS_ENABLED(CONFIG_SECURITY_SMACK) ? 1 : 0) + \
->> +	(IS_ENABLED(CONFIG_SECURITY_APPARMOR) ? 1 : 0) + \
->> +	(IS_ENABLED(CONFIG_BPF_LSM) ? 1 : 0))
->> +
->> +struct lsmblob {
->> +	u32     secid[LSMBLOB_ENTRIES];
->> +};
->> +
->> +#define LSMBLOB_INVALID		-1	/* Not a valid LSM slot number */
->> +#define LSMBLOB_NEEDED		-2	/* Slot requested on initialization */
->> +#define LSMBLOB_NOT_NEEDED	-3	/* Slot not requested */
->> +
->> +/**
->> + * lsmblob_init - initialize an lsmblob structure.
-> Only this kernel-doc brief description is suffixed with a period.  
-> Please remove.
->
->> + * @blob: Pointer to the data to initialize
->> + * @secid: The initial secid value
->> + *
->> + * Set all secid for all modules to the specified value.
->> + */
->> +static inline void lsmblob_init(struct lsmblob *blob, u32 secid)
->> +{
->> +	int i;
->> +
->> +	for (i = 0; i < LSMBLOB_ENTRIES; i++)
->> +		blob->secid[i] = secid;
->> +}
->> +
->> +/**
->> + * lsmblob_is_set - report if there is an value in the lsmblob
->> + * @blob: Pointer to the exported LSM data
->> + *
->> + * Returns true if there is a secid set, false otherwise
->> + */
->> +static inline bool lsmblob_is_set(struct lsmblob *blob)
->> +{
->> +	struct lsmblob empty = {};
->> +
->> +	return !!memcmp(blob, &empty, sizeof(*blob));
->> +}
->> +
->> +/**
->> + * lsmblob_equal - report if the two lsmblob's are equal
->> + * @bloba: Pointer to one LSM data
->> + * @blobb: Pointer to the other LSM data
->> + *
->> + * Returns true if all entries in the two are equal, false otherwise
->> + */
->> +static inline bool lsmblob_equal(struct lsmblob *bloba, struct lsmblob *blobb)
->> +{
->> +	return !memcmp(bloba, blobb, sizeof(*bloba));
->> +}
->> +
->>  /* These functions are in security/commoncap.c */
->>  extern int cap_capable(const struct cred *cred, struct user_namespace *ns,
->> diff --git a/security/integrity/ima/ima_policy.c b/security/integrity/ima/ima_policy.c
->> index 9b5adeaa47fc..cd393aaa17d5 100644
->> --- a/security/integrity/ima/ima_policy.c
->> +++ b/security/integrity/ima/ima_policy.c
->>  	} lsm[MAX_LSM_RULES];
->> @@ -88,6 +88,22 @@ struct ima_rule_entry {
->>  	struct ima_template_desc *template;
->>  };
->>
->> +/**
->> + * ima_lsm_isset - Is a rule set for any of the active security modules
->> + * @rules: The set of IMA rules to check.
-> Nor do kernel-doc variable definitions have a trailing period.
->
->> + *
->> + * If a rule is set for any LSM return true, otherwise return false.
->> + */
->> +static inline bool ima_lsm_isset(void *rules[])
->> +{
->> +	int i;
->> +
->> +	for (i = 0; i < LSMBLOB_ENTRIES; i++)
->> +		if (rules[i])
->> +			return true;
->> +	return false;
->> +}
->> +
->>  /*
->>   * Without LSM specific knowledge, the default policy can only be
->>   * written in terms of .action, .func, .mask, .fsmagic, .uid, and .fowner
+>> +       }
+>> +       return 0;
+>>  }
+>>  #endif /* CONFIG_AUDIT */
 
 
 --
