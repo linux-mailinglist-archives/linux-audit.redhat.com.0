@@ -2,94 +2,67 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [216.205.24.124])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C87C2F0526
-	for <lists+linux-audit@lfdr.de>; Sun, 10 Jan 2021 05:40:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B4092F339F
+	for <lists+linux-audit@lfdr.de>; Tue, 12 Jan 2021 16:10:50 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1610464249;
+	h=from:from:sender:sender:reply-to:subject:subject:date:date:
+	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+	 content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:list-id:list-help:
+	 list-unsubscribe:list-subscribe:list-post;
+	bh=J4fGgR8VoVgwKXHyLSS2eRM6RzTNdL1CPFVUfmoB+Lw=;
+	b=KIGEeDJVofqkkUS9XEC7wrADt8CgJvG6hNwZHxm7iqbHEEpJ19iMijSwkZI+4QFABlyDSN
+	0fe3iahDOq+aFKzTpNZLxrvD8Sc1yKlVuAVLN/3BNEjHwtdxkYSAPDL1gLE5tpXF+LMU9m
+	VcHpTENbFE9bgWd62SwufSwiwHnvBwo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-299-C2pn_GHhOxOtZvUVVdSTtQ-1; Sat, 09 Jan 2021 23:40:30 -0500
-X-MC-Unique: C2pn_GHhOxOtZvUVVdSTtQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+ us-mta-501-G4uZ49bHOr26MEKmn7bsGg-1; Tue, 12 Jan 2021 10:10:46 -0500
+X-MC-Unique: G4uZ49bHOr26MEKmn7bsGg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5A639180A093;
-	Sun, 10 Jan 2021 04:40:20 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id B7E251002391;
-	Sun, 10 Jan 2021 04:40:17 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9185F801B13;
+	Tue, 12 Jan 2021 15:10:40 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 2E32B5D9CD;
+	Tue, 12 Jan 2021 15:10:39 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 5B375180954D;
-	Sun, 10 Jan 2021 04:40:03 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
-	[10.11.54.5])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 55AEA4BB7B;
+	Tue, 12 Jan 2021 15:10:35 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+	[10.5.11.14])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 10A4dl11024638 for <linux-audit@listman.util.phx.redhat.com>;
-	Sat, 9 Jan 2021 23:39:48 -0500
+	id 10CFAKCh006928 for <linux-audit@listman.util.phx.redhat.com>;
+	Tue, 12 Jan 2021 10:10:20 -0500
 Received: by smtp.corp.redhat.com (Postfix)
-	id 9D56744006; Sun, 10 Jan 2021 04:39:47 +0000 (UTC)
+	id D57565D9EF; Tue, 12 Jan 2021 15:10:20 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from mimecast-mx02.redhat.com
-	(mimecast04.extmail.prod.ext.rdu2.redhat.com [10.11.55.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 9749844005
-	for <linux-audit@redhat.com>; Sun, 10 Jan 2021 04:39:45 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
-	[205.139.110.120])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 038C9101A53F
-	for <linux-audit@redhat.com>; Sun, 10 Jan 2021 04:39:45 +0000 (UTC)
-Received: from icp-osb-irony-out5.external.iinet.net.au
-	(icp-osb-irony-out5.external.iinet.net.au [203.59.1.221]) by
-	relay.mimecast.com with ESMTP id us-mta-442-OzQgmMPEN0uFx2EU3Yu42A-1;
-	Sat, 09 Jan 2021 23:39:38 -0500
-X-MC-Unique: OzQgmMPEN0uFx2EU3Yu42A-1
-X-SMTP-MATCH: 1
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: =?us-ascii?q?A2B1DgBMhPpf/1enWttiHQEBAQEJARI?=
-	=?us-ascii?q?BBQUBR4FIgXyBJVdhhD+JBIYighYDOE2DH4psi1CBXAsBAQEBAQEBAQEsCQE?=
-	=?us-ascii?q?CBAEBhEQEAgKBcSY4EwIQAQEBBQEBAQEBBgMBhlIMhXMBAQEBAgEjBC8zCwg?=
-	=?us-ascii?q?GAggcDgICVwYBLYJASwGCVQEBDx8QrAN2fzOEPwGBBhOCLAaBDYE8BoE4hnI?=
-	=?us-ascii?q?BgkyDcjWBTT+BETaCLjU+gl0CAheEXoJgBIFUBmQGARQXBFwTGAkRBgKBDwE?=
-	=?us-ascii?q?XAREOARdvjx6DUIh3imuQLmUsB4J6gRcFC4ZPgTWSNCKiYIYgGI1aixaRLzk?=
-	=?us-ascii?q?ahj6BejMaH4IWGIEQTxkNVo5wAQgBgkKKVxUwMAI1AgYKAQEDCVkBAYpLLII?=
-	=?us-ascii?q?aAQE?=
-X-IPAS-Result: =?us-ascii?q?A2B1DgBMhPpf/1enWttiHQEBAQEJARIBBQUBR4FIgXyBJ?=
-	=?us-ascii?q?VdhhD+JBIYighYDOE2DH4psi1CBXAsBAQEBAQEBAQEsCQECBAEBhEQEAgKBc?=
-	=?us-ascii?q?SY4EwIQAQEBBQEBAQEBBgMBhlIMhXMBAQEBAgEjBC8zCwgGAggcDgICVwYBL?=
-	=?us-ascii?q?YJASwGCVQEBDx8QrAN2fzOEPwGBBhOCLAaBDYE8BoE4hnIBgkyDcjWBTT+BE?=
-	=?us-ascii?q?TaCLjU+gl0CAheEXoJgBIFUBmQGARQXBFwTGAkRBgKBDwEXAREOARdvjx6DU?=
-	=?us-ascii?q?Ih3imuQLmUsB4J6gRcFC4ZPgTWSNCKiYIYgGI1aixaRLzkahj6BejMaH4IWG?=
-	=?us-ascii?q?IEQTxkNVo5wAQgBgkKKVxUwMAI1AgYKAQEDCVkBAYpLLIIaAQE?=
-X-IronPort-AV: E=Sophos;i="5.79,335,1602518400"; 
-	d="scan'208,217";a="354931096"
-Received: from 219-90-167-87.ip.adam.com.au (HELO swtf.swtf.dyndns.org)
-	([219.90.167.87]) by icp-osb-irony-out5.iinet.net.au with ESMTP;
-	10 Jan 2021 12:39:35 +0800
-Message-ID: <b54cbdc20be119eff5c33074df8bed671ae5571f.camel@iinet.net.au>
-Subject: Re: Occasional delayed output of events
-From: Burn Alting <burn.alting@iinet.net.au>
-To: Steve Grubb <sgrubb@redhat.com>, Linux Audit <linux-audit@redhat.com>
-Date: Sun, 10 Jan 2021 15:39:34 +1100
-In-Reply-To: <8368b5c67757f2de8f664bc2eef5f5ca153a0c87.camel@iinet.net.au>
-References: <30c5dbc14368a1919717e2f39d2d4c29463c3108.camel@iinet.net.au>
-	<5426593.DvuYhMxLoT@x2>
-	<1340951117184f479e4f5dc75766fba91ed2c085.camel@iinet.net.au>
-	<2756596.e9J7NaK4W3@x2>
-	<8368b5c67757f2de8f664bc2eef5f5ca153a0c87.camel@iinet.net.au>
-Mime-Version: 1.0
-X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
-	Definition; Similar Internal Domain=false;
-	Similar Monitored External Domain=false;
-	Custom External Domain=false; Mimecast External Domain=false;
-	Newly Observed Domain=false; Internal User Name=false;
-	Custom Display Name List=false; Reply-to Address Mismatch=false;
-	Targeted Threat Dictionary=false;
-	Mimecast Threat Dictionary=false; Custom Threat Dictionary=false
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+Received: from madcap2.tricolour.ca (unknown [10.10.110.8])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id B919D5D9CD;
+	Tue, 12 Jan 2021 15:10:05 +0000 (UTC)
+From: Richard Guy Briggs <rgb@redhat.com>
+To: Linux Containers List <containers@lists.linux-foundation.org>,
+	Linux API <linux-api@vger.kernel.org>,
+	Linux-Audit Mailing List <linux-audit@redhat.com>,
+	Linux FSdevel <linux-fsdevel@vger.kernel.org>,
+	LKML <linux-kernel@vger.kernel.org>,
+	Linux NetDev Upstream Mailing List <netdev@vger.kernel.org>,
+	Netfilter Devel List <netfilter-devel@vger.kernel.org>
+Subject: [PATCH ghak90 v11 00/11] audit: implement container identifier
+Date: Tue, 12 Jan 2021 10:09:28 -0500
+Message-Id: <cover.1610399347.git.rgb@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-loop: linux-audit@redhat.com
+Cc: Jens Axboe <axboe@kernel.dk>, Neil Horman <nhorman@tuxdriver.com>,
+	Richard Guy Briggs <rgb@redhat.com>, David Howells <dhowells@redhat.com>,
+	"Eric W. Biederman" <ebiederm@xmission.com>,
+	Simo Sorce <simo@redhat.com>, Eric Paris <eparis@parisplace.org>,
+	Christian Brauner <christian.brauner@ubuntu.com>,
+	mpatel@redhat.com, Serge Hallyn <serge@hallyn.com>
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
-Reply-To: burn@swtf.dyndns.org
 List-Id: Linux Audit Discussion <linux-audit.redhat.com>
 List-Unsubscribe: <https://www.redhat.com/mailman/options/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=unsubscribe>
@@ -98,340 +71,414 @@ List-Post: <mailto:linux-audit@redhat.com>
 List-Help: <mailto:linux-audit-request@redhat.com?subject=help>
 List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
+MIME-Version: 1.0
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
 	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=linux-audit-bounces@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/mixed; boundary="===============0364301096953537423=="
-
---===============0364301096953537423==
-Content-Type: multipart/alternative; boundary="=-LrRWnz/q6YM56X8Bm7cQ"
-
---=-LrRWnz/q6YM56X8Bm7cQ
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-
-On Tue, 2021-01-05 at 07:12 +1100, Burn Alting wrote:
-> On Mon, 2021-01-04 at 09:46 -0500, Steve Grubb wrote:
-> > On Monday, January 4, 2021 2:55:25 AM EST Burn Alting wrote:
-> > > On Sun, 2021-01-03 at 10:41 -0500, Steve Grubb wrote:
-> > > > On Friday, January 1, 2021 4:22:33 PM EST Burn Alting wrote:
-> > > > > Sometimes, events recorded in /var/log/audit/audit.log appear someseconds
-> > > > > past co- located events which results inauparse:au_check_events()
-> > > > > marking  these events complete before theyare. An example of this can be
-> > > > > seen below with the offending event id44609.
-> > > > > This has been plaguing me for a year or two and this morning was thefirst
-> > > > > time I still had access to the raw audit.log files (I monitor a lotof
-> > > > > event types and the log files roll over fairly quickly).The example below
-> > > > > is from a fully patched Centos 7 but I have also seenthis on a patched
-> > > > > Fedora 32.
-> > > > > Has this been seen before? Do we need to re-evaluate how
-> > > > > auparse'completes' an event (ie 2 seconds is too quick).
-> > > > 
-> > > > I have never seen this. But on the way to disk, auditd only does
-> > > > lightprocessing of the event.  If the format is enriched, it looks things
-> > > > upon a record by record basis. It does not collect events until they
-> > > > arecomplete - it dumps it to disk as soon as it can tack on the
-> > > > extrainformation.
-> > > > So, the question would be, does this delay happen on the way to disk? Oris
-> > > > this an artifact of post processing the logs with an auparse basedutility?
-> > > > Can this be observed repeatedly on the same raw logs? If so,then maybe
-> > > > auparse does have some issue. But if this is a postprocessing issue, then
-> > > > the wall clock doesn't matter because this eventshould have collected up
-> > > > together.
-> > > > I'd say this merits some investigation.
-> > > 
-> > > OK. I think this needs to be addressed on two fronts. There may be
-> > > more.A.  Within post processing ... a 2 second timeout is not sufficient.
-> > > Iwould suggest we modify auparse.c:au_check_events() to i) perform theevent
-> > > type checks first, then  ii) increase the timeout of 2 seconds to be a larger
-> > > value based onempirical tests.
-> > 
-> > In the post processing, there are 2 use cases. The first is events that are on
-> > disk. In this usage, the 2 second timeout does not come into effect because the
-> > events are run through probably within nanoseconds or microseconds at the worst.
-> > The only time it would come into effect is if the terminating record is missing.
-> 
-> In this first case, the 2 second timeout is on the event's time, not the
-> 'processing time'.  See ausearch-lol.c:check_events() and
-> auparse.c:au_get_ready_event().
-> And I use the checkpointing code to avoid the incomplete event issue.
-> 
-> In my case, I have not lost records, it's just that an event has arrived on disk
-> with an event time more than 2 seconds after the previously written event.
-> Basically,
-> a. The event was delayed getting to auditd and we look to the kernel for a
-> solution.
-> b. The event arrived at a reasonable point in time at auditd and for some reason
-> auditd delayed it's printing (by the way I tend to use RAW log format, not
-> enriched.
-> 
-> In either case, I believe ausearch-lol.c:check_events() and
-> auparse.c:au_get_ready_event() do need to be changed as we have complete events
-> written by auditd
-> which these two routines fail to process properly.
-> 
-Changing the two second timeout in ausearch-lol.c:check_events() and, one assumes
-in  auparse.c:au_get_ready_event() (but I have not tested the auparse code) fixes
-the processing  of the delayed event.
-Changing the value to say 10 seconds fixes my example use case, but given the kernel
-or auditd could emit an event with a larger delay, should this be a configuration
-item in /etc/audit/auditd.conf?
-
-I have raised both a bugzilla report (
-https://bugzilla.redhat.com/show_bug.cgi?id=1914603) and Issue (
-https://github.com/linux-audit/audit-userspace/issues/148)
-
-How do you want me to proceed ... a simple change to 10 seconds or a more versatile
-configuration item in auditd.conf?
-I can perform either and issue a PR if so required.
- 
-> > The other use case is realtime processing as an audispd plugin. In this use case
-> > the wall clock could matter because records could potentially get lost due to
-> > overflows or another plugin taking too long. This is the use case where the wall
-> > clock matters. And again, it matters when records get lost or delayed in
-> > transit. As long as everything is flowing, it should not factor into event
-> > processing.
-> > > B. I will build a temporary auditd daemon to perform some empirical testingto
-> > > see how long events can reside within the daemon. I may need someadvice on
-> > > this. I assume that the code that sets the timestamp is
-> > > insrc/auditd.c:send_audit_event().
-> > 
-> > This is only for audit daemon's internal events. For all "real" events, it's set
-> > in the kernel.
-> 
-> If that is the case and the kernel is establishing the timestamp, then either the
-> kernel has delayed the eventsarrival at the daemon or the daemon has delayed it's
-> writing.
-> > > If so, I will see if I can put orchestration debug code in to monitor
-> > > anevent's 'time in daemon' until this point. I will then report on this.
-> > > I believe given that AUDIT_PROCTITLE and AUDIT_EOE is fairly widespread,then
-> > > the testing switch in A. will not be a big issue (time cost wise). Itwill also
-> > > mean that if we over compensate the timeout that would causeadditional memory
-> > > cost in auparse() then this is mittigated.
-> > 
-> > I'd suggest breaking up the event completion tests so that an exact collection
-> > termination reason code could be associated to the event.
-> > > With respect to 'There may be more' fronts. Are there other points in
-> > > the'audit ecosystem' that makes use of the '2 second timeout'.
-> > 
-> > Ausearch/report has its own special copy of the event collection logic. It
-> > should be nearly identical to what auparse does.
-> 
-> They appear identical  ... ausearch-lol.c:check_events() and
-> auparse.c:au_get_ready_event().
-> > > I will start work on this, this coming weekend if the above makes sense.
-> > 
-> > One other thought, the current shipping code is audit-3.0, doing a diff between
-> > it and audit-2.8.5 for the auparse directory does show some differences in event
-> > collection/grouping/next_event. A lot of the differences are cosmetic to fix
-> > extra whitespace or indentation. But if you skip all that, there are some real
-> > changes that probably were because of bug reports. For example,
-> 
-> I will go through these, although this occurs on my Centos 7's (audit-2.8.5-
-> 4.el7.x86_64) as well as my 8's (audit-3.0-0.17.20191104git1c2f876.el8.x86_64).
-> > @@ -259,15 +260,6 @@ static event_list_t *au_get_ready_event(        if (lowest
-> > && lowest->status == EBS_COMPLETE) {                lowest->status =
-> > EBS_EMPTY;                au->au_ready--;-               // Try to consolidate
-> > the array so that we iterate-               // over a smaller portion next
-> > time-               if (lowest == &lol->array[lol->maxi])
-> > {-                       au_lolnode *ptr = lowest;-                       while
-> > (ptr->status == EBS_EMPTY && lol->maxi > 0)
-> > {-                               lol->maxi--;-                               ptr
-> > = &lol->array[lol
-> > ->maxi];-                       }-               }                return lowest-
-> > >l;        }
-> > and
-> > @@ -1536,6 +1550,13 @@ static int
-> > au_auparse_next_event(auparse                aup_list_create(l);                
-> > aup_list_set_event(l, &e);                aup_list_append(l, au->cur_buf, au-
-> > >list_idx, au-
-> > > line_number);
-> > +               // Eat standalone EOE - main event was already marked
-> > complete+               if (l->head->type == AUDIT_EOE)
-> > {+                       au->cur_buf =
-> > NULL;+                       aup_list_clear(l);+                       free(l);+
-> >                        continue;+               }                if
-> > (au_lol_append(au->au_lo, l) == NULL) {                        free((char
-> > *)e.host); #ifdef LOL_EVENTS_DEBUG01
-> > I don't know if those have an effect on what you are seeing. But that is the
-> > only substantial changes that I can see.
-> > -Steve
-
-Burn
-
---=-LrRWnz/q6YM56X8Bm7cQ
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-
-<html dir=3D"ltr"><head></head><body style=3D"text-align:left; direction:lt=
-r;"><div>On Tue, 2021-01-05 at 07:12 +1100, Burn Alting wrote:</div><blockq=
-uote type=3D"cite" style=3D"margin:0 0 0 .8ex; border-left:2px #729fcf soli=
-d;padding-left:1ex"><div>On Mon, 2021-01-04 at 09:46 -0500, Steve Grubb wro=
-te:</div><blockquote type=3D"cite" style=3D"margin:0 0 0 .8ex; border-left:=
-2px #729fcf solid;padding-left:1ex"><pre>On Monday, January 4, 2021 2:55:25=
- AM EST Burn Alting wrote:</pre><blockquote type=3D"cite" style=3D"margin:0=
- 0 0 .8ex; border-left:2px #729fcf solid;padding-left:1ex"><pre>On Sun, 202=
-1-01-03 at 10:41 -0500, Steve Grubb wrote:</pre><blockquote type=3D"cite" s=
-tyle=3D"margin:0 0 0 .8ex; border-left:2px #729fcf solid;padding-left:1ex">=
-<pre>On Friday, January 1, 2021 4:22:33 PM EST Burn Alting wrote:</pre><blo=
-ckquote type=3D"cite" style=3D"margin:0 0 0 .8ex; border-left:2px #729fcf s=
-olid;padding-left:1ex"><pre>Sometimes, events recorded in /var/log/audit/au=
-dit.log appear some</pre><pre>seconds past co- located events which results=
- in</pre><pre>auparse:au_check_events() marking  these events complete befo=
-re they</pre><pre>are. An example of this can be seen below with the offend=
-ing event id</pre><pre>44609.</pre><br><pre>This has been plaguing me for a=
- year or two and this morning was the</pre><pre>first time I still had acce=
-ss to the raw audit.log files (I monitor a lot</pre><pre>of event types and=
- the log files roll over fairly quickly).</pre><pre>The example below is fr=
-om a fully patched Centos 7 but I have also seen</pre><pre>this on a patche=
-d Fedora 32.</pre><br><pre>Has this been seen before? Do we need to re-eval=
-uate how auparse</pre><pre>'completes' an event (ie 2 seconds is too quick)=
-.</pre></blockquote><br><pre>I have never seen this. But on the way to disk=
-, auditd only does light</pre><pre>processing of the event.  If the format =
-is enriched, it looks things up</pre><pre>on a record by record basis. It d=
-oes not collect events until they are</pre><pre>complete - it dumps it to d=
-isk as soon as it can tack on the extra</pre><pre>information.</pre><br><pr=
-e>So, the question would be, does this delay happen on the way to disk? Or<=
-/pre><pre>is this an artifact of post processing the logs with an auparse b=
-ased</pre><pre>utility? Can this be observed repeatedly on the same raw log=
-s? If so,</pre><pre>then maybe auparse does have some issue. But if this is=
- a post</pre><pre>processing issue, then the wall clock doesn't matter beca=
-use this event</pre><pre>should have collected up together.</pre><br><pre>I=
-'d say this merits some investigation.</pre></blockquote><br><pre>OK. I thi=
-nk this needs to be addressed on two fronts. There may be more.</pre><pre>A=
-.  Within post processing ... a 2 second timeout is not sufficient. I</pre>=
-<pre>would suggest we modify auparse.c:au_check_events() to i) perform the<=
-/pre><pre>event type checks first, then</pre><pre>  ii) increase the timeou=
-t of 2 seconds to be a larger value based on</pre><pre>empirical tests.</pr=
-e></blockquote><br><pre>In the post processing, there are 2 use cases. The =
-first is events that are on </pre><pre>disk. In this usage, the 2 second ti=
-meout does not come into effect because </pre><pre>the events are run throu=
-gh probably within nanoseconds or microseconds at the </pre><pre>worst. The=
- only time it would come into effect is if the terminating record </pre><pr=
-e>is missing.</pre></blockquote><div><br></div><div>In this first case, the=
- 2 second timeout is on the event's time, not the 'processing time'.  See a=
-usearch-lol.c:check_events() and auparse.c:au_get_ready_event().</div><div>=
-And I use the checkpointing code to avoid the incomplete event issue.</div>=
-<div><br></div><div>In my case, I have not lost records, it's just that an =
-event has arrived on disk with an event time more than 2 seconds after the =
-previously written event.</div><div>Basically,</div><div>a. The event was d=
-elayed getting to auditd and we look to the kernel for a solution.</div><di=
-v>b. The event arrived at a reasonable point in time at auditd and for some=
- reason auditd delayed it's printing (by the way I tend to use RAW log form=
-at, not enriched.</div><div><br></div><div>In either case, I believe ausear=
-ch-lol.c:check_events() and auparse.c:au_get_ready_event() do need to be ch=
-anged as we have complete events written by auditd</div><div>which these tw=
-o routines fail to process properly.</div><div><br></div></blockquote><div>=
-Changing the two second timeout in ausearch-lol.c:check_events() and, one a=
-ssumes in  auparse.c:au_get_ready_event() (but I have not tested the aupars=
-e code) fixes the processing  of the delayed event.</div><div>Changing the =
-value to say 10 seconds fixes my example use case, but given the kernel or =
-auditd could emit an event with a larger delay, should this be a configurat=
-ion item in /etc/audit/auditd.conf?</div><div><br></div><div>I have raised =
-both a bugzilla report (<a href=3D"https://bugzilla.redhat.com/show_bug.cgi=
-?id=3D1914603">https://bugzilla.redhat.com/show_bug.cgi?id=3D1914603</a>) a=
-nd Issue (<a href=3D"https://github.com/linux-audit/audit-userspace/issues/=
-148">https://github.com/linux-audit/audit-userspace/issues/148</a>)</div><d=
-iv><br></div><div>How do you want me to proceed ... a simple change to 10 s=
-econds or a more versatile configuration item in auditd.conf?</div><div>I c=
-an perform either and issue a PR if so required.</div><div> </div><blockquo=
-te type=3D"cite" style=3D"margin:0 0 0 .8ex; border-left:2px #729fcf solid;=
-padding-left:1ex"><blockquote type=3D"cite" style=3D"margin:0 0 0 .8ex; bor=
-der-left:2px #729fcf solid;padding-left:1ex"><br><pre>The other use case is=
- realtime processing as an audispd plugin. In this use </pre><pre>case the =
-wall clock could matter because records could potentially get lost </pre><p=
-re>due to overflows or another plugin taking too long. This is the use case=
- where </pre><pre>the wall clock matters. And again, it matters when record=
-s get lost or </pre><pre>delayed in transit. As long as everything is flowi=
-ng, it should not factor </pre><pre>into event processing.</pre><br><blockq=
-uote type=3D"cite" style=3D"margin:0 0 0 .8ex; border-left:2px #729fcf soli=
-d;padding-left:1ex"><pre>B. I will build a temporary auditd daemon to perfo=
-rm some empirical testing</pre><pre>to see how long events can reside withi=
-n the daemon. I may need some</pre><pre>advice on this. I assume that the c=
-ode that sets the timestamp is in</pre><pre>src/auditd.c:send_audit_event()=
-.</pre></blockquote><br><pre>This is only for audit daemon's internal event=
-s. For all "real" events, it's </pre><pre>set in the kernel.</pre></blockqu=
-ote><div><br></div><div>If that is the case and the kernel is establishing =
-the timestamp, then either the kernel has delayed the events</div><div>arri=
-val at the daemon or the daemon has delayed it's writing.</div><div><br></d=
-iv><blockquote type=3D"cite" style=3D"margin:0 0 0 .8ex; border-left:2px #7=
-29fcf solid;padding-left:1ex"><br><blockquote type=3D"cite" style=3D"margin=
-:0 0 0 .8ex; border-left:2px #729fcf solid;padding-left:1ex"><pre>If so, I =
-will see if I can put orchestration debug code in to monitor an</pre><pre>e=
-vent's 'time in daemon' until this point. I will then report on this.</pre>=
-<br><pre>I believe given that AUDIT_PROCTITLE and AUDIT_EOE is fairly wides=
-pread,</pre><pre>then the testing switch in A. will not be a big issue (tim=
-e cost wise). It</pre><pre>will also mean that if we over compensate the ti=
-meout that would cause</pre><pre>additional memory cost in auparse() then t=
-his is mittigated.</pre></blockquote><br><pre>I'd suggest breaking up the e=
-vent completion tests so that an exact </pre><pre>collection termination re=
-ason code could be associated to the event.</pre><br><blockquote type=3D"ci=
-te" style=3D"margin:0 0 0 .8ex; border-left:2px #729fcf solid;padding-left:=
-1ex"><pre>With respect to 'There may be more' fronts. Are there other point=
-s in the</pre><pre>'audit ecosystem' that makes use of the '2 second timeou=
-t'.</pre></blockquote><br><pre>Ausearch/report has its own special copy of =
-the event collection logic. It </pre><pre>should be nearly identical to wha=
-t auparse does.</pre></blockquote><div><br></div><div>They appear identical=
-  ... ausearch-lol.c:check_events() and auparse.c:au_get_ready_event().</di=
-v><blockquote type=3D"cite" style=3D"margin:0 0 0 .8ex; border-left:2px #72=
-9fcf solid;padding-left:1ex"><br><blockquote type=3D"cite" style=3D"margin:=
-0 0 0 .8ex; border-left:2px #729fcf solid;padding-left:1ex"><pre>I will sta=
-rt work on this, this coming weekend if the above makes sense.</pre></block=
-quote><br><pre>One other thought, the current shipping code is audit-3.0, d=
-oing a diff </pre><pre>between it and audit-2.8.5 for the auparse directory=
- does show some </pre><pre>differences in event collection/grouping/next_ev=
-ent. A lot of the differences </pre><pre>are cosmetic to fix extra whitespa=
-ce or indentation. But if you skip all that, </pre><pre>there are some real=
- changes that probably were because of bug reports. For </pre><pre>example,=
-</pre></blockquote><br><pre>I will go through these, although this occurs o=
-n my Centos 7's (audit-2.8.5-4.el7.x86_64) as well as my 8's (audit-3.0-0.1=
-7.20191104git1c2f876.el8.x86_64).</pre><br><blockquote type=3D"cite" style=
-=3D"margin:0 0 0 .8ex; border-left:2px #729fcf solid;padding-left:1ex"><br>=
-<pre>@@ -259,15 +260,6 @@ static event_list_t *au_get_ready_event(</pre><pr=
-e>        if (lowest &amp;&amp; lowest-&gt;status =3D=3D EBS_COMPLETE) {</p=
-re><pre>                lowest-&gt;status =3D EBS_EMPTY;</pre><pre>        =
-        au-&gt;au_ready--;</pre><pre>-               // Try to consolidate =
-the array so that we iterate</pre><pre>-               // over a smaller po=
-rtion next time</pre><pre>-               if (lowest =3D=3D &amp;lol-&gt;ar=
-ray[lol-&gt;maxi]) {</pre><pre>-                       au_lolnode *ptr =3D =
-lowest;</pre><pre>-                       while (ptr-&gt;status =3D=3D EBS_=
-EMPTY &amp;&amp; lol-&gt;maxi &gt; 0) {</pre><pre>-                        =
-       lol-&gt;maxi--;</pre><pre>-                               ptr =3D &a=
-mp;lol-&gt;array[lol-&gt;maxi];</pre><pre>-                       }</pre><p=
-re>-               }</pre><pre>                return lowest-&gt;l;</pre><p=
-re>        }</pre><br><pre>and</pre><br><pre>@@ -1536,6 +1550,13 @@ static =
-int au_auparse_next_event(auparse</pre><pre>                aup_list_create=
-(l);</pre><pre>                aup_list_set_event(l, &amp;e);</pre><pre>   =
-             aup_list_append(l, au-&gt;cur_buf, au-&gt;list_idx, au-</pre><=
-blockquote type=3D"cite" style=3D"margin:0 0 0 .8ex; border-left:2px #729fc=
-f solid;padding-left:1ex"><pre>line_number);</pre></blockquote><pre>+      =
-         // Eat standalone EOE - main event was already marked </pre><pre>c=
-omplete</pre><pre>+               if (l-&gt;head-&gt;type =3D=3D AUDIT_EOE)=
- {</pre><pre>+                       au-&gt;cur_buf =3D NULL;</pre><pre>+  =
-                     aup_list_clear(l);</pre><pre>+                       f=
-ree(l);</pre><pre>+                       continue;</pre><pre>+            =
-   }</pre><pre>                if (au_lol_append(au-&gt;au_lo, l) =3D=3D NU=
-LL) {</pre><pre>                        free((char *)e.host);</pre><pre> #i=
-fdef LOL_EVENTS_DEBUG01</pre><br><pre>I don't know if those have an effect =
-on what you are seeing. But that is the </pre><pre>only substantial changes=
- that I can see.</pre><br><pre>-Steve</pre></blockquote></blockquote><div><=
-br></div><div>Burn</div></body></html>
-
---=-LrRWnz/q6YM56X8Bm7cQ--
-
---===============0364301096953537423==
 Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+
+Implement kernel audit container identifier.
+
+This patchset is an eighth based on the proposal document (V4) posted:
+	https://www.redhat.com/archives/linux-audit/2019-September/msg00052.html
+
+The first patch was the last patch from ghak81 that was absorbed into
+this patchset since its primary justification is the rest of this
+patchset.  It abstracts the audit kernel internal api to be able to better
+regulate audit operations.
+
+The second patch implements the proc fs write to set the audit container
+identifier of a process, emitting an AUDIT_CONTAINER_OP record to
+announce the registration of that audit container identifier on that
+process.  The ID can be read from the same file.  This patch requires
+userspace support for record acceptance and proper type display.  The ID is
+stored as an object that includes owner information to check for
+descendancy, allow process injection into a container and prevent id reuse
+by other orchestrators.  The same record type is emitted once all tasks
+using that audit container identifier have exited.
+
+The 3rd implements the auxiliary record AUDIT_CONTAINER_ID if an audit
+container identifier is associated with an event.  This patch requires
+userspace support for proper type display.
+
+The 4th adds audit daemon signalling provenance through audit_sig_info2.
+
+The 5th creates a local audit context to be able to bind a standalone
+record with a locally created auxiliary record.
+
+The 6th patch adds audit container identifier records to the user
+standalone records.
+
+The 7th adds audit container identifier filtering to the exit,
+exclude and user lists.  This patch adds the AUDIT_CONTID field and
+requires auditctl userspace support for the --contid option.
+
+The 8th adds network namespace audit container identifier labelling
+based on member tasks' audit container identifier labels which supports
+standalone netfilter records that don't have a task context and lists
+each container to which that net namespace belongs.
+
+The 9th checks that the target is a descendant for nesting and
+refactors to avoid a duplicate of the copied function.
+
+The 10th adds tracking and reporting for container nesting.  
+This enables kernel filtering and userspace searches of nested audit
+container identifiers.
+
+The 11th adds a mechanism to allow a process to be designated as a
+container orchestrator/engine in non-init user namespaces.
+
+
+Example: Set an audit container identifier of 123456 to the "sleep" task:
+
+  sleep 2&
+  child=$!
+  echo 123456 > /proc/$child/audit_containerid; echo $?
+  ausearch -ts recent -i -m container_op
+  echo child:$child contid:$( cat /proc/$child/audit_containerid)
+
+This should produce an event such as:
+
+  type=PROCTITLE msg=audit(2020-11-26 11:03:36.566:174604) : proctitle=-bash
+  type=SYSCALL msg=audit(2020-11-26 11:03:36.566:174604) : arch=x86_64 syscall=write success=no exit=ENOTUNIQ(Name not unique on network) a0=0x1 a1=0x55cf347b27c0a2=0x7 a3=0x55cf3480ded0 items=0 ppid=483 pid=507 auid=root uid=root gid=root euid=root suid=root fsuid=root egid=root sgid=root fsgid=root tty=ttyS0 ses=1 comm=bash exe=/usr/bin/bash subj=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023 key=(null)
+  type=CONTAINER_OP msg=audit(2020-11-26 11:03:36.566:174604) : op=set opid=9069 contid=123456 old-contid=unset
+
+Example: Set a filter on an audit container identifier 123459 on /tmp/tmpcontainerid:
+
+  contid=123459
+  key=tmpcontainerid
+  auditctl -a exit,always -F dir=/tmp -F perm=wa -F contid=$contid -F key=$key
+  perl -e "sleep 1; open(my \$tmpfile, '>', \"/tmp/$key\"); close(\$tmpfile);" &
+  child=$!
+  echo $contid > /proc/$child/audit_containerid
+  sleep 2
+  ausearch -i -ts recent -k $key
+  auditctl -d exit,always -F dir=/tmp -F perm=wa -F contid=$contid -F key=$key
+  rm -f /tmp/$key
+
+This should produce an event such as:
+
+  type=CONTAINER_ID msg=audit(2020-11-26 12:46:31.707:26953) : record=1 contid=123459
+  type=PROCTITLE msg=audit(2020-11-26 12:46:31.707:26953) : proctitle=perl -e sleep 1; open(my $tmpfile, '>', "/tmp/tmpcontainerid"); close($tmpfile);
+  type=PATH msg=audit(2020-11-26 12:46:31.707:26953) : item=1 name=/tmp/tmpcontainerid inode=25656 dev=00:26 mode=file,644 ouid=root ogid=root rdev=00:00 obj=unconfined_u:object_r:user_tmp_t:s0 nametype=CREATE cap_fp=none cap_fi=none cap_fe=0 cap_fver=0
+  type=PATH msg=audit(2020-11-26 12:46:31.707:26953) : item=0 name=/tmp/ inode=8985 dev=00:26 mode=dir,sticky,777 ouid=root ogid=root rdev=00:00 obj=system_u:object_r:tmp_t:s0 nametype=PARENT cap_fp=none cap_fi=none cap_fe=0 cap_fver=0
+  type=CWD msg=audit(2020-11-26 12:46:31.707:26953) : cwd=/root
+  type=SYSCALL msg=audit(2020-11-26 12:46:31.707:26953) : arch=x86_64 syscall=openat success=yes exit=3 a0=0xffffffffffffff9c a1=0x5621f2b81900 a2=O_WRONLY|O_CREAT|O_TRUNC a3=0x1b6 items=2 ppid=628 pid=2232 auid=root uid=root gid=root euid=root suid=root fsuid=root egid=root sgid=root fsgid=root tty=ttyS0 ses=1 comm=perl exe=/usr/bin/perl subj=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023 key=tmpcontainerid record=1
+
+Example: Test multiple containers on one netns:
+
+  sleep 5 &
+  child1=$!
+  containerid1=123451
+  echo $containerid1 > /proc/$child1/audit_containerid
+  sleep 5 &
+  child2=$!
+  containerid2=123452
+  echo $containerid2 > /proc/$child2/audit_containerid
+  iptables -I INPUT -i lo -p icmp --icmp-type echo-request -j AUDIT --type accept
+  iptables -I INPUT  -t mangle -i lo -p icmp --icmp-type echo-request -j MARK --set-mark 0x12345555
+  sleep 1;
+  bash -c "ping -q -c 1 127.0.0.1 >/dev/null 2>&1"
+  sleep 1;
+  ausearch -i -m NETFILTER_PKT -ts boot|grep mark=0x12345555
+  ausearch -i -m NETFILTER_PKT -ts boot|grep contid=|grep $containerid1|grep $containerid2
+
+This would produce an event such as:
+
+  type=NETFILTER_PKT msg=audit(2020-11-26 14:16:13.369:244) : mark=0x12345555 saddr=127.0.0.1 daddr=127.0.0.1 proto=icmp record=1
+  type=CONTAINER_ID msg=audit(2020-11-26 14:16:13.369:244) : record=1 contid=123452,123451
+
+
+Includes the last patch of https://github.com/linux-audit/audit-kernel/issues/81
+Please see the github audit kernel issue for the main feature:
+  https://github.com/linux-audit/audit-kernel/issues/90
+and the kernel filter code:
+  https://github.com/linux-audit/audit-kernel/issues/91
+and the network support:
+  https://github.com/linux-audit/audit-kernel/issues/92
+Please see the github audit userspace issue for supporting record types:
+  https://github.com/linux-audit/audit-userspace/issues/51
+and filter code:
+  https://github.com/linux-audit/audit-userspace/issues/40
+Please see the github audit testsuiite issue for the test case:
+  https://github.com/linux-audit/audit-testsuite/issues/64
+  https://github.com/rgbriggs/audit-testsuite/tree/ghat64-contid
+  https://githu.com/linux-audit/audit-testsuite/pull/91
+Please see the github audit wiki for the feature overview:
+  https://github.com/linux-audit/audit-kernel/wiki/RFE-Audit-Container-ID
+
+The code is also posted at:
+  git://toccata2.tricolour.ca/linux-2.6-rgb.git ghak90-contid.v11
+
+Changelog:
+v11
+- rebase on audit/next 5.11-rc2
+- drop ack nhorman/omosnace: hide audit task struct in sched (01/11)
+- drop ack serge/nhorman/omosnace: log drop (02/11)
+- drop ack sgrubb: added "record=" field (03/11)
+- drop ack nhorman/omosnace: track container of signalled process (03/11)
+- drop ack nhorman/omosnace: restructure audit_sig_info2 for nesting; reap adtsk (04/11)
+- drop ack nhorman/omosnace: redo rcu/spin locking, added "record=" field (08/11)
+- update event sample (02/11)
+- update event sample (03/11)
+- update event sample (08/11)
+- rename sigflag to sigcount (04/11)
+- move contid dup check in audit_set_contid from 04/11 (03/11)
+
+v10
+- rebase on ghak124, ghak96, ghak84, actual wait, 5.9-rc1, ghak120, 5.10-rc1, io_uring
+- localize struct audit_task_info to audit.c, move related functions from proc/base.c, audit.h, auditsc.c to audit.c
+- add Documentation/ABI for /proc/PID/audit_*containerid
+- convert from rcu to spin lock around contid put and optimize other spinlock use
+- swap task_lock and tasklist_lock in audit_set_contid (deadlock with sys_prlimit64)
+- restructure audit_set_contid intro (elsif ladder)
+- open code audit_contid_valid and audit_contid_set
+- rename contobj_get to contobj_get_bytask, contobj_hold to contobj_get
+- squash in audit contid drop, change new contid to -1
+- squash in proc audit contid read
+- add count param to audit_contobj_put to reduce locking, free target_cid keyed on target_pid
+- add record= field to CONTAINER_ID record to link to OBJ_PID, SYSCALL, NETFILTER_PKT
+- add helper function audit_log_container_id_ctx
+- rename audit_sig_atsk to audit_sig_adtsk
+- add missing contobj_put in audit_log_exit and of audit_sig_cid in AUDIT_SIGNAL_INFO
+- switch from -ESHUTDOWN to -ENOTUNIQ for as yet unreaped contid
+- add helper audit_contid_comparator in audit.c (part of hide)
+- move audit_contobj_netns to audit.c (part of hide)
+- fix spin_lock with irq option for network interrupt support
+- add missing check for audit_get_capcontid in audit_set_contid
+- check individual patch complilation
+- patch description cleanups (in_syscall vs local, contid nesting examples)
+- remove unnecessary audit_log_format() calls
+- remove unnecessary rcu locking around net_generic call()
+
+v9
+- rebase on v5.8-rc1
+- fix whitespace and oversize lines where practicable
+- remove harmless duplicate S_IRUSR in capcontid
+- return -EBUSY for both threading and children (drop -EALREADY)
+- return -EEXIST if already set and not nesting (drop -ECHILD)
+- fix unbalanced brace and remove elseif ladder
+- drop check for same contid set again as redundant (drop -EADDRINUSE)
+- get reference to contobj's parent taskstruct
+- protect all contid list updates with audit_contobj_list_lock
+- protect refcounts with rcu read lock
+- convert _audit_contobj to _audit_contobj_get, which calls _audit_contobj_hold
+- convert audit_log_container_id() and audit_log_contid() from u64 to contobj, simplifying
+- issue death certificate on contid after exit of last task
+- keep contobj ref to block reuse with -ESHUTDOWN until auditd exit or signal info
+- report all contids nested
+- rework sig_info2 format to accommodate contid list
+- fix zero-length array in include/linux/audit.h struct audit_sig_info2 data[]
+- found bug in audit_alloc_local, don't check audit_ever_enabled, since all callers check audit_enabled
+- remove warning at declaration of audit_sig_cid of reuse since reuse is now blocked
+- report descendancy checking errcodes under -EXDEV (drop -EBADSLT)
+- add missed check, replace audit_contid_isowner with audit_contid_isnesting
+- limit calls to audit_log_format() with if(iter->parent) ...
+- list only one contid in contid, nested in old-contid to avoid duplication
+- switch to comma delimiter, carrat modifier in nested contid list
+- special case -1 for AUDIT_CID_UNSET printing
+- drop contid depth limit and netns contid limit patches
+- enforce capcontid policy on contid write and read
+- squash conversion to contobj into contid intro patch
+
+v8
+- rebase on v5.5-rc1 audit/next
+- remove subject attrs in CONTAINER_OP record
+- group audit_contid_list_lock with audit_contid_hash
+- in audit_{set,log}_contid(), break out of loop after finding target
+- use target var to size kmalloc
+- rework audit_cont_owner() to bool audit_contid_isowner() and move to where used
+- create static void audit_cont_hold(struct audit_contobj *cont) { refcount_inc(&cont->refcount); }
+- rename audit_cont{,_*} refs to audit_contobj{,_*}
+- prefix special local functions with _ [audit_contobj*()]
+- protect contid list traversals with rcu_read_lock() and updates with audit_contid_list_lock
+- protect real_parent in audit_contid_depth() with rcu_dereference
+- give new contid field nesting format in patch description
+- squash task_is_descendant()
+- squash support for NETFILTER_PKT into network namespaces
+- limit nesting depth based on record length overflow, bandwidth and storage
+- implent control for audit container identifier nesting depth limit
+- make room for audit_bpf patches (bump CONTAINER_ID to 1335)
+- squash proc interface into capcontid
+- remove netlink access to loginuid/sessionid/contid/capcontid
+- delete 32k contid limit patch
+- document potential overlap between signal delivery and contid reuse
+- document audit_contobj_list_lock coverage
+- document disappearing orch task injection limitation
+- limit the number of containers that can be associated with a network namespace
+- implent control for audit container identifier netns count limit 
+
+v7
+- remove BUG() in audit_comparator64()
+- rebase on v5.2-rc1 audit/next
+- resolve merge conflict with ghak111 (signal_info regardless syscall)
+- resolve merge conflict with ghak73 (audit_field_valid)
+- resolve merge conflict with ghak64 (saddr_fam filter)
+- resolve merge conflict with ghak10 (ntp audit) change AUDIT_CONTAINER_ID from 1332 to 1334
+- rebase on v5.3-rc1 audit/next
+- track container owner
+- only permit setting contid of descendants for nesting
+- track drop of contid and permit reuse
+- track and report container nesting
+- permit filtering on any nested contid
+- set/get contid and loginuid/sessionid via netlink
+- implement capcontid to enable orchestrators in non-init user
+  namespaces
+- limit number of containers
+- limit depth of container nesting
+
+v6
+- change TMPBUFLEN from 11 to 21 to cover the decimal value of contid
+  u64 (nhorman)
+- fix bug overwriting ctx in struct audit_sig_info, move cid above
+  ctx[0] (nhorman)
+- fix bug skipping remaining fields and not advancing bufp when copying
+  out contid in audit_krule_to_data (omosnacec)
+- add acks, tidy commit descriptions, other formatting fixes (checkpatch
+  wrong on audit_log_lost)
+- cast ull for u64 prints
+- target_cid tracking was moved from the ptrace/signal patch to
+  container_op
+- target ptrace and signal records were moved from the ptrace/signal
+  patch to container_id
+- auditd signaller tracking was moved to a new AUDIT_SIGNAL_INFO2
+  request and record
+- ditch unnecessary list_empty() checks
+- check for null net and aunet in audit_netns_contid_add()
+- swap CONTAINER_OP contid/old-contid order to ease parsing
+
+v5
+- address loginuid and sessionid syscall scope in ghak104
+- address audit_context in CONFIG_AUDIT vs CONFIG_AUDITSYSCALL in ghak105
+- remove tty patch, addressed in ghak106
+- rebase on audit/next v5.0-rc1
+  w/ghak59/ghak104/ghak103/ghak100/ghak107/ghak105/ghak106/ghak105sup
+- update CONTAINER_ID to CONTAINER_OP in patch description
+- move audit_context in audit_task_info to CONFIG_AUDITSYSCALL
+- move audit_alloc() and audit_free() out of CONFIG_AUDITSYSCALL and into
+  CONFIG_AUDIT and create audit_{alloc,free}_syscall
+- use plain kmem_cache_alloc() rather than kmem_cache_zalloc() in audit_alloc()
+- fix audit_get_contid() declaration type error
+- move audit_set_contid() from auditsc.c to audit.c
+- audit_log_contid() returns void
+- audit_log_contid() handed contid rather than tsk
+- switch from AUDIT_CONTAINER to AUDIT_CONTAINER_ID for aux record
+- move audit_log_contid(tsk/contid) & audit_contid_set(tsk)/audit_contid_valid(contid)
+- switch from tsk to current
+- audit_alloc_local() calls audit_log_lost() on failure to allocate a context
+- add AUDIT_USER* non-syscall contid record
+- cosmetic cleanup double parens, goto out on err
+- ditch audit_get_ns_contid_list_lock(), fix aunet lock race
+- switch from all-cpu read spinlock to rcu, keep spinlock for write
+- update audit_alloc_local() to use ktime_get_coarse_real_ts64()
+- add nft_log support
+- add call from do_exit() in audit_free() to remove contid from netns
+- relegate AUDIT_CONTAINER ref= field (was op=) to debug patch
+
+v4
+- preface set with ghak81:"collect audit task parameters"
+- add shallyn and sgrubb acks
+- rename feature bitmap macro
+- rename cid_valid() to audit_contid_valid()
+- rename AUDIT_CONTAINER_ID to AUDIT_CONTAINER_OP
+- delete audit_get_contid_list() from headers
+- move work into inner if, delete "found"
+- change netns contid list function names
+- move exports for audit_log_contid audit_alloc_local audit_free_context to non-syscall patch
+- list contids CSV
+- pass in gfp flags to audit_alloc_local() (fix audit_alloc_context callers)
+- use "local" in lieu of abusing in_syscall for auditsc_get_stamp()
+- read_lock(&tasklist_lock) around children and thread check
+- task_lock(tsk) should be taken before first check of tsk->audit
+- add spin lock to contid list in aunet
+- restrict /proc read to CAP_AUDIT_CONTROL
+- remove set again prohibition and inherited flag
+- delete contidion spelling fix from patchset, send to netdev/linux-wireless
+
+v3
+- switched from containerid in task_struct to audit_task_info (depends on ghak81)
+- drop INVALID_CID in favour of only AUDIT_CID_UNSET
+- check for !audit_task_info, throw -ENOPROTOOPT on set
+- changed -EPERM to -EEXIST for parent check
+- return AUDIT_CID_UNSET if !audit_enabled
+- squash child/thread check patch into AUDIT_CONTAINER_ID patch
+- changed -EPERM to -EBUSY for child check
+- separate child and thread checks, use -EALREADY for latter
+- move addition of op= from ptrace/signal patch to AUDIT_CONTAINER patch
+- fix && to || bashism in ptrace/signal patch
+- uninline and export function for audit_free_context()
+- drop CONFIG_CHANGE, FEATURE_CHANGE, ANOM_ABEND, ANOM_SECCOMP patches
+- move audit_enabled check (xt_AUDIT)
+- switched from containerid list in struct net to net_generic's struct audit_net
+- move containerid list iteration into audit (xt_AUDIT)
+- create function to move namespace switch into audit
+- switched /proc/PID/ entry from containerid to audit_containerid
+- call kzalloc with GFP_ATOMIC on in_atomic() in audit_alloc_context()
+- call kzalloc with GFP_ATOMIC on in_atomic() in audit_log_container_info()
+- use xt_net(par) instead of sock_net(skb->sk) to get net
+- switched record and field names: initial CONTAINER_ID, aux CONTAINER, field CONTID
+- allow to set own contid
+- open code audit_set_containerid
+- add contid inherited flag
+- ccontainerid and pcontainerid eliminated due to inherited flag
+- change name of container list funcitons
+- rename containerid to contid
+- convert initial container record to syscall aux
+- fix spelling mistake of contidion in net/rfkill/core.c to avoid contid name collision
+
+v2
+- add check for children and threads
+- add network namespace container identifier list
+- add NETFILTER_PKT audit container identifier logging
+- patch description and documentation clean-up and example
+- reap unused ppid
+
+Richard Guy Briggs (11):
+  audit: collect audit task parameters
+  audit: add container id
+  audit: log container info of syscalls
+  audit: add contid support for signalling the audit daemon
+  audit: add support for non-syscall auxiliary records
+  audit: add containerid support for user records
+  audit: add containerid filtering
+  audit: add support for containerid to network namespaces
+  audit: contid check descendancy and nesting
+  audit: track container nesting
+  audit: add capcontid to set contid outside init_user_ns
+
+ .../ABI/testing/procfs-audit_containerid      |  29 +
+ fs/io-wq.c                                    |   8 +-
+ fs/io_uring.c                                 |  16 +-
+ fs/proc/base.c                                | 110 ++-
+ include/linux/audit.h                         |  83 +-
+ include/linux/sched.h                         |  10 +-
+ include/uapi/linux/audit.h                    |  10 +-
+ init/init_task.c                              |   3 +-
+ init/main.c                                   |   2 +
+ kernel/audit.c                                | 878 +++++++++++++++++-
+ kernel/audit.h                                |  19 +
+ kernel/auditfilter.c                          |  46 +
+ kernel/auditsc.c                              | 109 ++-
+ kernel/fork.c                                 |   1 -
+ kernel/nsproxy.c                              |   4 +
+ kernel/sched/core.c                           |  33 +
+ net/netfilter/nft_log.c                       |  14 +-
+ net/netfilter/xt_AUDIT.c                      |  14 +-
+ security/selinux/nlmsgtab.c                   |   1 +
+ security/yama/yama_lsm.c                      |  33 -
+ 20 files changed, 1295 insertions(+), 128 deletions(-)
+ create mode 100644 Documentation/ABI/testing/procfs-audit_containerid
+
+-- 
+2.18.4
 
 --
 Linux-audit mailing list
 Linux-audit@redhat.com
 https://www.redhat.com/mailman/listinfo/linux-audit
---===============0364301096953537423==--
 
