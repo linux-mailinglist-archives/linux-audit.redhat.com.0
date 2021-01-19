@@ -1,93 +1,58 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [216.205.24.124])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F95D2FBB39
-	for <lists+linux-audit@lfdr.de>; Tue, 19 Jan 2021 16:32:54 +0100 (CET)
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [63.128.21.124])
+	by mail.lfdr.de (Postfix) with ESMTP id CF7F42FBD04
+	for <lists+linux-audit@lfdr.de>; Tue, 19 Jan 2021 17:57:37 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1611075456;
+	h=from:from:sender:sender:reply-to:subject:subject:date:date:
+	 message-id:message-id:to:to:cc:mime-version:mime-version:
+	 content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:list-id:list-help:
+	 list-unsubscribe:list-subscribe:list-post;
+	bh=JExp1w8mcDiPH9YkbK51hnRbLHc8Qx4tDrpQ5dr7PuI=;
+	b=UBWmTHHK62sdY97T6CyQ9NBDNtgjjDndXSPTvGVwIBrgmMBMa2l1X0zmJUbudRDrMYXeyl
+	uB2dV241gdl/qG/NERlkReeVUNj3yzQLAtd52RLbp21pTJBPP8SK9UxZ+/Jl/D9QsGJsMp
+	gPf58GnHCzFZgoXsuHlXbecMOjOVlI4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-483-7MMQ8PZwPUK71pjB6_QLEQ-1; Tue, 19 Jan 2021 10:32:50 -0500
-X-MC-Unique: 7MMQ8PZwPUK71pjB6_QLEQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+ us-mta-382-ifAlwH-rOu-_iWcwRo8xfA-1; Tue, 19 Jan 2021 11:57:33 -0500
+X-MC-Unique: ifAlwH-rOu-_iWcwRo8xfA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 00FD81005513;
-	Tue, 19 Jan 2021 15:32:43 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 41ED63AA2;
-	Tue, 19 Jan 2021 15:32:39 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 90D6A1966320;
+	Tue, 19 Jan 2021 16:57:27 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 4A64719CB2;
+	Tue, 19 Jan 2021 16:57:26 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 40F3A1809C9F;
-	Tue, 19 Jan 2021 15:32:34 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
-	[10.11.54.5])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 618164BB7B;
+	Tue, 19 Jan 2021 16:57:22 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+	[10.5.11.11])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 10JFW5Nd028112 for <linux-audit@listman.util.phx.redhat.com>;
-	Tue, 19 Jan 2021 10:32:05 -0500
+	id 10JGutCj005224 for <linux-audit@listman.util.phx.redhat.com>;
+	Tue, 19 Jan 2021 11:56:55 -0500
 Received: by smtp.corp.redhat.com (Postfix)
-	id 895B0946AF; Tue, 19 Jan 2021 15:32:05 +0000 (UTC)
+	id A3E5019C93; Tue, 19 Jan 2021 16:56:55 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from mimecast-mx02.redhat.com
-	(mimecast06.extmail.prod.ext.rdu2.redhat.com [10.11.55.22])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 833F59465C
-	for <linux-audit@redhat.com>; Tue, 19 Jan 2021 15:32:03 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [205.139.110.61])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3794D187504E
-	for <linux-audit@redhat.com>; Tue, 19 Jan 2021 15:32:03 +0000 (UTC)
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com
-	[209.85.216.47]) (Using TLS) by relay.mimecast.com with ESMTP id
-	us-mta-86-XBhjdx-EMhS50YpJjyhoJA-1; Tue, 19 Jan 2021 10:31:59 -0500
-X-MC-Unique: XBhjdx-EMhS50YpJjyhoJA-1
-Received: by mail-pj1-f47.google.com with SMTP id g15so98439pjd.2
-	for <linux-audit@redhat.com>; Tue, 19 Jan 2021 07:31:59 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language;
-	bh=UXa66pl7g1kVsc6KUzWQexW/iargUA6ZTgKdXa1jx3c=;
-	b=RL+d840OM5BrVecMcpKydfQMml7ICD6bygJnH2wVshAOvzLWWlyB6LB3JANS+o1jzi
-	ZOViTBNRj4Dd0wyCfcQ0THFBqoK9Uy3B+iRjS9wGVebYiAj8nAPK6+gioc2qISy73SEA
-	pJi824V8aDKbHytedhMqNmwyv26a9LLflugORhHN3Z9dF5v464T3KTFolp7vMtxgwOFk
-	y1T9ZxFHtX69bDrwWnEil2KY3NZZNo+iyRn+b7yQrkhzIYt4nB2WrzTozTD4FUDzjCug
-	4/qzyxDoaTVJ9E5LeO5U0DdOxnIAxPqXSz84IP/wzu8+0d5gh7iqpwQg/0OYmipGLhni
-	s3KA==
-X-Gm-Message-State: AOAM5323LdOUwF/NPNjYwWkWkciSskTMPBSBpekPqabSXW6exUmjlz/y
-	sw4aHpXQ16UwmVgRHxdd1NT6F6gEnVI7pOKp
-X-Google-Smtp-Source: ABdhPJzDC8OFa4ViIA4U6AVU/z+6ePu4koL0JOCeMmE9Zyt4NcfU53TDXUtu3RudOuN6fRa7LvNG/g==
-X-Received: by 2002:a17:90b:33ca:: with SMTP id
-	lk10mr238668pjb.186.1611070318129; 
-	Tue, 19 Jan 2021 07:31:58 -0800 (PST)
-Received: from [192.168.1.3] (47-220-175-246.gtwncmkt04.res.dyn.suddenlink.net.
-	[47.220.175.246]) by smtp.gmail.com with ESMTPSA id
-	bk18sm3747032pjb.41.2021.01.19.07.31.56 for <linux-audit@redhat.com>
-	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Tue, 19 Jan 2021 07:31:57 -0800 (PST)
-Subject: Re: Occasional delayed output of events
-To: linux-audit@redhat.com
-References: <30c5dbc14368a1919717e2f39d2d4c29463c3108.camel@iinet.net.au>
-	<5445873.DvuYhMxLoT@x2>
-	<17715c36170.27df.85c95baa4474aabc7814e68940a78392@paul-moore.com>
-	<3095712.44csPzL39Z@x2>
-	<CAHC9VhT_yd=zEusQga507jA43S_stCb2kAmd_sN6fLNcdLDdWg@mail.gmail.com>
-	<9a7ed1203fa7ec67000aa68281a215354c2ed5f5.camel@iinet.net.au>
-From: Lenny Bruzenak <lenny@magitekltd.com>
-Message-ID: <f88bcc6a-e8a8-61e3-af61-d2897df892d0@magitekltd.com>
-Date: Tue, 19 Jan 2021 09:31:55 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
-	Thunderbird/68.10.0
+Received: from x2.localnet (ovpn-116-90.rdu2.redhat.com [10.10.116.90])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 43E8019C84;
+	Tue, 19 Jan 2021 16:56:52 +0000 (UTC)
+From: Steve Grubb <sgrubb@redhat.com>
+To: Linux-Audit Mailing List <linux-audit@redhat.com>
+Subject: Re: AuditRule Questions
+Date: Tue, 19 Jan 2021 11:56:51 -0500
+Message-ID: <2759467.e9J7NaK4W3@x2>
+Organization: Red Hat
+In-Reply-To: <61239576.993577.1611062133080@mail.yahoo.com>
+References: <61239576.993577.1611062133080.ref@mail.yahoo.com>
+	<61239576.993577.1611062133080@mail.yahoo.com>
 MIME-Version: 1.0
-In-Reply-To: <9a7ed1203fa7ec67000aa68281a215354c2ed5f5.camel@iinet.net.au>
-X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
-	Definition; Similar Internal Domain=false;
-	Similar Monitored External Domain=false;
-	Custom External Domain=false; Mimecast External Domain=false;
-	Newly Observed Domain=false; Internal User Name=false;
-	Custom Display Name List=false; Reply-to Address Mismatch=false;
-	Targeted Threat Dictionary=false;
-	Mimecast Threat Dictionary=false; Custom Threat Dictionary=false
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-loop: linux-audit@redhat.com
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
@@ -102,127 +67,131 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
 	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=linux-audit-bounces@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: multipart/mixed; boundary="===============1037276031376299376=="
-
-This is a multi-part message in MIME format.
---===============1037276031376299376==
-Content-Type: multipart/alternative;
-	boundary="------------BAA07ACB9C6C01D80DC25991"
-Content-Language: en-US
-
-This is a multi-part message in MIME format.
---------------BAA07ACB9C6C01D80DC25991
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-
-On 1/19/21 2:18 AM, Burn Alting wrote:
-
->> Anyway, my test setup isn't likely able to reproduce such a scenario
->> without some significant tweaks, so perhaps those of you who have seen
->> this problem (Burn, and anyone else?) could shed some light into the
->> state of the system when the ordering problem occurred.
->
-> I tend to have a rigorous auditing posture (see the rules loaded in
-> https://github.com/linux-audit/audit-userspace/issues/148) which is
-> not normal for most. Perhaps, Paul, you have hit the nail on the head
-> by stating that this 'severe delay' is not that unreasonable given my
-> rules posture and we just need to 'deal with it' in user space.
-> We still get the event data, I just need to adjust the user space
-> tools to deal with this occurrence.
-> As for what the system is doing, in my home case it's a Centos 7 VM
-> running a tomcat service which only gets busy every 20 minutes and the
-> other is a HPE Z800 running Centos 8 with 4-5 VM's mostly dormant. I
-> can put any code in these hosts to assist in 'validating'/testing the
-> delay. Advise and I will run.
-
-
-Looking at the records which appear to be delayed (in OP), I see that
-they are PATH (w/PROCTITLE). Just curious, is the path involved part of
-a networked FS, or something like a VM shared directory?
-
-Thx,
-
-LCB
-
--- 
-Lenny Bruzenak
-MagitekLTD
-
-
---------------BAA07ACB9C6C01D80DC25991
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 7bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p>On 1/19/21 2:18 AM, Burn Alting wrote:<br>
-    </p>
-    <blockquote type="cite"
-      cite="mid:9a7ed1203fa7ec67000aa68281a215354c2ed5f5.camel@iinet.net.au">
-      <blockquote type="cite" style="margin:0 0 0 .8ex; border-left:2px
-        #729fcf solid;padding-left:1ex">
-        <pre>
-</pre>
-        <pre>Anyway, my test setup isn't likely able to reproduce such a scenario</pre>
-        <pre>without some significant tweaks, so perhaps those of you who have seen</pre>
-        <pre>this problem (Burn, and anyone else?) could shed some light into the</pre>
-        <pre>state of the system when the ordering problem occurred.</pre>
-      </blockquote>
-      <div><br>
-      </div>
-      <div>I tend to have a rigorous auditing posture (see the rules
-        loaded in <a
-          href="https://github.com/linux-audit/audit-userspace/issues/148"
-          moz-do-not-send="true">https://github.com/linux-audit/audit-userspace/issues/148</a>)
-        which is not normal for most. Perhaps, Paul, you have hit the
-        nail on the head by stating that this 'severe delay' is not that
-        unreasonable given my rules posture and we just need to 'deal
-        with it' in user space.</div>
-      <div>We still get the event data, I just need to adjust the user
-        space tools to deal with this occurrence.</div>
-      <div>
-        As for what the system is doing, in my home case it's a Centos 7
-        VM running a tomcat service which only gets busy every 20
-        minutes and the other is a HPE Z800 running Centos 8 with 4-5
-        VM's mostly dormant. I can put any code in these hosts to assist
-        in 'validating'/testing the delay. Advise and I will run.</div>
-    </blockquote>
-    <p><br>
-    </p>
-    <p>Looking at the records which appear to be delayed (in OP), I see
-      that they are PATH (w/PROCTITLE). Just curious, is the path
-      involved part of a networked FS, or something like a VM shared
-      directory? <br>
-    </p>
-    <p>Thx,</p>
-    <p>LCB<br>
-    </p>
-    <pre class="moz-signature" cols="72">-- 
-Lenny Bruzenak
-MagitekLTD</pre>
-  </body>
-</html>
-
---------------BAA07ACB9C6C01D80DC25991--
-
---===============1037276031376299376==
 Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+
+On Tuesday, January 19, 2021 8:15:33 AM EST Joe Wulf wrote:
+> 1. In audit rules 2.8.5 (front portion of the rules):
+> 
+> ## Unsuccessful file access (any other opens) This has to go last.
+> -a always,exit -F arch=b32 -S
+> open,creat,truncate,ftruncate,openat,open_by_handle_at -F exit=-EACCES-a
+> always,exit -F arch=b64 -S
+> open,creat,truncate,ftruncate,openat,open_by_handle_at -F exit=-EACCES-a
+> always,exit -F arch=b32 -S
+> open,creat,truncate,ftruncate,openat,open_by_handle_at -F exit=-EPERM-a
+> always,exit -F arch=b64 -S
+> open,creat,truncate,ftruncate,openat,open_by_handle_at  -F exit=-EPERM
+> Whereas in audit rules 3.0, the same portion of the same rules looks like:
+> -a always,exit -F arch=b32 -S
+> open,creat,truncate,ftruncate,openat,open_by_handle_at -F exit=-EACCES-a
+> always,exit -F arch=b32 -S
+> open,creat,truncate,ftruncate,openat,open_by_handle_at -F exit=-EPERM-a
+> always,exit -F arch=b64 -S
+> open,truncate,ftruncate,creat,openat,open_by_handle_at -F exit=-EACCES-a
+> always,exit -F arch=b64 -S
+> open,truncate,ftruncate,creat,openat,open_by_handle_at  -F exit=-EPERM
+> 
+> The ordering of the syscalls differs between the two, as well as the
+> sequential order of the rules themselves. I better understand that the
+> first audit-rule matched 'wins'.-  Please help me understand the reason
+> for the change in sequence, but also for the change in the order of the
+> syscalls (i.e. between 2.8.5 and 3.0).
+
+There were several 3.0 alpha releases. I'm not sure which one you are calling 
+3.0. Because I can't find an exact match. Based on the text above, I do not 
+see the syscall ordering changed at all. The only thing that I see is in 
+2.8.5 they are grouped by exit code whereas 3.0 is grouped by arch. Since 
+this group of rules all have the same key, they are working as a team. That 
+means that what matters is the placement of this group of rules relative to 
+other groups of rules is what matters. In both cases a syscall can ever only 
+match one of them - the exit code either is or isn't EPERM, it either is or 
+isn't b32.
+
+
+> 2.  I notice there are many rules across the entire set (both 2.8.5 and
+> 3.0) that define their key with "-F key=<name>", and others simply with
+> "-k <name>".-  Why are their two methods for KEY naming, and does one have
+> a distinct meaning, or precedence, over the other?
+
+This is explained in the audit.rules man page in the discussion about 
+watches. Way back in 2005, there was the idea of filesystem watches. The 
+syntax for them was
+
+-w path-to-file -p permissions -k keyname
+
+The initial implementation was found to have some limits and it was rewritten 
+around 2006 around a new syscall API. The old syscall API was deprecated, 
+too. This new syscall API was capable of handling pathes. So, that means the 
+following is equivalent to the above
+
+-a always,exit -F path=path-to-file -F perm=permissions -F key=keyname
+
+But to preserve backwards compatibility, auditctl translates the first form 
+into the second under the covers. You cannot mix the two notations in the 
+same rule or auditctl will reject it.
+
+> Are their some 'rule' types where '-k' is appropriate, whereas '-F key=" is
+> not, thus they are not truly 100% interchangeable?
+
+Hopefully above makes this clear.
+
+> -  If both methods ARE equivalent
+> throughout ALL of the audit.rules content, would it be reasonable to
+> standardize on one method in v3.0.x of your rules going forward?
+
+It appears that all rules have been standardized around the syscall method 
+except for the nispom and stig rules which are no longer preferred. I suppose 
+at some point I should just drop nispom since no one has asked about meeting 
+it in 12 or 13 years. At this point, the ospp rules are the recommended rule 
+set.
+
+ 
+> 3.  For a RHEL 7.x (and even 8.x) system where the hardware is x86_64 and
+> there is no reasonable expectation to install or operate 'ANY' 32bit
+> software, is there any value, or system performance penalty, to totally
+> eliminating all 'b32' rules?
+
+You could. But then I'd add  "21-no32bit.rules"  to detect if something tries 
+to use it to evade detection. The 32 bit ABI is available even on 64 bit 
+systems.
+
+
+> 4.  On the grub/kernel commandline, I can add:  'audit=1' -and-
+> 'audit_backlog_limit=####'.  I looked for solutions to address the issue I
+> was having, and found one here: 
+> https://access.redhat.com/solutions/19327; I found another somewhat
+> helpful reference here: 
+> https://blog.siphos.be/2015/05/audit-buffering-and-rate-limiting; though
+> it doesn't make good recommendations for the kernel parameter sizing (if
+> that is a good thing to do in RHEL 7/RHEL 8). -  Is there good relevance
+> in RHEL 7, or RHEL 8 to adding this option to the grub/kernel
+> commandline?-  Is there an upper-limit in setting the number? -  What is
+> the correlation of this grub/kernel item, to the '-b ####' rule in
+> /etc/audit/rules.d/audit.rules?  Are they (or should they be treated as)
+> mutually exclusive? -  In the 2nd reference, what process do you suggest
+> for me to determine optimal values for 'kernel.printk_ratelimit'  -and - 
+> 'kernel.printk_ratelimit_burst', as well as for grub/kernel
+> 'audit_backlog_limit=####' and audit.rules '-b ####'? -  This link also
+> seems relevant to the sysctl param's valuations: 
+> https://topic.alibabacloud.com/a/linux-system-log-__ratelimitn-callbacks-s
+> uppressed_1_16_30164105.html-  Does values for 'kernel.printk_ratelimit =
+> 1';   -and-   'kernel.printk_ratelimit_burst = 1024' seem reasonable?
+
+I covered this topic here:
+
+http://security-plus-data-science.blogspot.com/2017/05/a-suggested-change-for-rhel-7-disa-stig.html
+
+-Steve
+
 
 --
 Linux-audit mailing list
 Linux-audit@redhat.com
 https://www.redhat.com/mailman/listinfo/linux-audit
---===============1037276031376299376==--
 
