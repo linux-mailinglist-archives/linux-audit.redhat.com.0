@@ -1,79 +1,93 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [216.205.24.124])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D17D2FB3E6
-	for <lists+linux-audit@lfdr.de>; Tue, 19 Jan 2021 09:20:48 +0100 (CET)
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [63.128.21.124])
+	by mail.lfdr.de (Postfix) with ESMTP id 47B142FB645
+	for <lists+linux-audit@lfdr.de>; Tue, 19 Jan 2021 14:16:25 +0100 (CET)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-31-LXWGruE7NdSceURIrzl4Ow-1; Tue, 19 Jan 2021 03:20:44 -0500
-X-MC-Unique: LXWGruE7NdSceURIrzl4Ow-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+ us-mta-418-c58lhtkCMx2EEtcUQwpHTg-1; Tue, 19 Jan 2021 08:16:21 -0500
+X-MC-Unique: c58lhtkCMx2EEtcUQwpHTg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 85F7B94D187;
-	Tue, 19 Jan 2021 08:20:06 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id D0D825272D;
-	Tue, 19 Jan 2021 08:19:57 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DA1788144F9;
+	Tue, 19 Jan 2021 13:16:13 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id DA9CC5C8AA;
+	Tue, 19 Jan 2021 13:16:09 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 2ADCB4BB7B;
-	Tue, 19 Jan 2021 08:19:49 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
-	[10.11.54.4])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id E729B1809C9F;
+	Tue, 19 Jan 2021 13:16:05 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+	[10.11.54.5])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 10J8J65v006816 for <linux-audit@listman.util.phx.redhat.com>;
-	Tue, 19 Jan 2021 03:19:06 -0500
+	id 10JDFe9S008680 for <linux-audit@listman.util.phx.redhat.com>;
+	Tue, 19 Jan 2021 08:15:40 -0500
 Received: by smtp.corp.redhat.com (Postfix)
-	id 5944F2026D11; Tue, 19 Jan 2021 08:19:06 +0000 (UTC)
+	id A60EE8A4D5; Tue, 19 Jan 2021 13:15:40 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
-	(mimecast01.extmail.prod.ext.rdu2.redhat.com [10.11.55.17])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 539B22026D12
-	for <linux-audit@redhat.com>; Tue, 19 Jan 2021 08:19:02 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [205.139.110.61])
+	(mimecast03.extmail.prod.ext.rdu2.redhat.com [10.11.55.19])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 9BFB294620
+	for <linux-audit@redhat.com>; Tue, 19 Jan 2021 13:15:38 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+	[207.211.31.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0F953858EEC
-	for <linux-audit@redhat.com>; Tue, 19 Jan 2021 08:19:02 +0000 (UTC)
-Received: from icp-osb-irony-out9.external.iinet.net.au
-	(icp-osb-irony-out9.external.iinet.net.au [203.59.1.226]) by
-	relay.mimecast.com with ESMTP id us-mta-464-ykEJCCLXMlGyWD3WJK-o6A-1;
-	Tue, 19 Jan 2021 03:18:56 -0500
-X-MC-Unique: ykEJCCLXMlGyWD3WJK-o6A-1
-X-SMTP-MATCH: 1
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: =?us-ascii?q?A2A2DQDVlAZg/3zSRWpiHQEBAQEJARI?=
-	=?us-ascii?q?BBQUBR4FIgXYGgSVXYoQ/iQSGNoIWAziDbJYxDIFcCwEBAQEBAQEBASwJAQI?=
-	=?us-ascii?q?EAQGERAQCAoFyJjgTAhABAQEFAQEBAQEGAwGGUgyFcwEBAQECASMzIwULCwg?=
-	=?us-ascii?q?QHA4CAlcGARKCW0sBglUBAQ8fEK4tdoEyhEABgQYTgh4GgQ2BPQaBOIZ2AYJ?=
-	=?us-ascii?q?Og3I1gU0/gUeCYz6CXQKBRYMzgmAEgV0IAVgGgQYZCAoGIAJPFD0IHwFXCSY?=
-	=?us-ascii?q?Cj0ILgyWIe4pxkRMsB4J6gRcFC4ZRgTeSOSKDKpAQjzCGIhiNYYscmEmBejM?=
-	=?us-ascii?q?aH4IWGIEPUBkNgUqMYxeDTopsMDA3AgYKAQEDCVkBAYlOLYIXAQE?=
-X-IPAS-Result: =?us-ascii?q?A2A2DQDVlAZg/3zSRWpiHQEBAQEJARIBBQUBR4FIgXYGg?=
-	=?us-ascii?q?SVXYoQ/iQSGNoIWAziDbJYxDIFcCwEBAQEBAQEBASwJAQIEAQGERAQCAoFyJ?=
-	=?us-ascii?q?jgTAhABAQEFAQEBAQEGAwGGUgyFcwEBAQECASMzIwULCwgQHA4CAlcGARKCW?=
-	=?us-ascii?q?0sBglUBAQ8fEK4tdoEyhEABgQYTgh4GgQ2BPQaBOIZ2AYJOg3I1gU0/gUeCY?=
-	=?us-ascii?q?z6CXQKBRYMzgmAEgV0IAVgGgQYZCAoGIAJPFD0IHwFXCSYCj0ILgyWIe4pxk?=
-	=?us-ascii?q?RMsB4J6gRcFC4ZRgTeSOSKDKpAQjzCGIhiNYYscmEmBejMaH4IWGIEPUBkNg?=
-	=?us-ascii?q?UqMYxeDTopsMDA3AgYKAQEDCVkBAYlOLYIXAQE?=
-X-IronPort-AV: E=Sophos;i="5.79,358,1602518400"; 
-	d="scan'208,217";a="298621503"
-Received: from 106-69-210-124.dyn.iinet.net.au (HELO swtf.swtf.dyndns.org)
-	([106.69.210.124]) by icp-osb-irony-out9.iinet.net.au with ESMTP;
-	19 Jan 2021 16:18:52 +0800
-Message-ID: <9a7ed1203fa7ec67000aa68281a215354c2ed5f5.camel@iinet.net.au>
-Subject: Re: Occasional delayed output of events
-From: Burn Alting <burn.alting@iinet.net.au>
-To: Paul Moore <paul@paul-moore.com>, Steve Grubb <sgrubb@redhat.com>
-Date: Tue, 19 Jan 2021 19:18:51 +1100
-In-Reply-To: <CAHC9VhT_yd=zEusQga507jA43S_stCb2kAmd_sN6fLNcdLDdWg@mail.gmail.com>
-References: <30c5dbc14368a1919717e2f39d2d4c29463c3108.camel@iinet.net.au>
-	<5445873.DvuYhMxLoT@x2>
-	<17715c36170.27df.85c95baa4474aabc7814e68940a78392@paul-moore.com>
-	<3095712.44csPzL39Z@x2>
-	<CAHC9VhT_yd=zEusQga507jA43S_stCb2kAmd_sN6fLNcdLDdWg@mail.gmail.com>
-Mime-Version: 1.0
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2567C811E84
+	for <linux-audit@redhat.com>; Tue, 19 Jan 2021 13:15:38 +0000 (UTC)
+Received: from sonic315-20.consmr.mail.ne1.yahoo.com
+	(sonic315-20.consmr.mail.ne1.yahoo.com [66.163.190.146]) (Using TLS) by
+	relay.mimecast.com with ESMTP id us-mta-283-DW0CyGHCOM6tOrSKbTu7cw-1;
+	Tue, 19 Jan 2021 08:15:35 -0500
+X-MC-Unique: DW0CyGHCOM6tOrSKbTu7cw-1
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
+	t=1611062134; bh=ND66DXlh/bbLw5z5przeWYJgZ0xSgPJGjOhRL8uarrG=;
+	h=Date:From:To:Subject:From:Subject:Reply-To;
+	b=Y2BC+jaRYUj3BtzVOYHJ0dOJ8/QnXlYz29dLJOINexu0+eD+09NHIgUCuOqJkFLpr929Z3mQTgjUTx82JVhQMW6eBqt4KdfaZAYAu5qrNKRJ9h1qttQM3/Z2HME+AE8qBdKBDSH4qUrzCURnZiUaumKaeWiXdUejSHWNRnPmQlEp2UXBZzZ6VlCq0dGFc0FxiBZ+GrVMxMgfkAPyTuwV0WlVUavzOblwgv1z7uN4kJvK7dRAtdGcsU3TyrW2j91tiQytaf2oIxlq9xXITYNxl7OWcx5EJPgWymoiGF2SZyY3rUnR5O+Rqwas3+ZeAl/Fq0gFNnGIk2jh/TNviCC+wA==
+X-YMail-OSG: wbrlEH0VM1mvzRnI5L_z7qGBDzt_uRRLksEZiTSWM.1t.ABryuyJyiFzA_.bq5I
+	xU4csWF5807Dra9MtsfJ2yGTRbvvZ4nFqpz_TzzDYwVFJEQe7uhDpnX8xhOvmNl7AJKh5jyG67Au
+	a1QIhNOPI1hDChroFSrY.uCDotKvtWVbBVGn4v721K6APB2DYfhh5_skD_KL1.eKmMSb5W4aC1.s
+	7W4Y0osxzyvNiLNxsJ9gZMRvTSDY1tsoBlMvskC_LJJYfpNl81WKp01E_dDVqx39x1rwqrkExkSN
+	tqlROVYuhfpSglUio3MtUAzdhkQ55B7rX5xPHAC9oU8wEOlGM8IZ170_9O5bOCimWSw7SPpLYw3d
+	0etkEwyt_ZbRR7xSICjwmwWbLBccm9pTr.drg2ycssro74wxQKc_aw4.1iEvADJr3CDflv6n5778
+	soQ3eX2ZVSUJtkewbgrus4qA2VeEAyMY7DSzKrLNVGIIQlDxbkLCmoddEqVfek43xih4UklWOMJL
+	Xg3nHKdBL.Rwdtg_hC2_i_qiRDVdM9LcvTfJRZNihM7uGeZjegQWdwtKyP8UM3Efliga9s8tTzZI
+	V.fJi_v2T6HZTmmyHLxXZFiCk_JuWnJ_76HQDYmZC2mPhM3BzF00.7Ow2idhDTDWPa1rpxAenF_b
+	aIF5LjY.xffH9C7uKSmD23KgCHah9xbsrkxih8vZ3qpAfOzlWbhSnmE1KDZ_3T1Vs2aRlWGOoKvf
+	htHm9BwJ3ZUek3Y65veiL3cbUumJEsmmSaLLl0fho2RXHt8eQv1had9nvG0RcJ2HnVpRUsrKUOyG
+	99HqzJvgsxYm7k27P0.2sSRkP0qUSggRowKav1PSI4cU5CmwkHAZl6mNuBJ8vIV2gxq3KpNIuA37
+	PduB62RbrylFqDPY8lf97IAfei9Na4DOPPshZTIEUNYd_Yt_7UMh7G_P.899RIruOFPXc.0FpkBY
+	ZbRUF5rPNbtW8_lSwp0k_qE1IUqRWbvz3jtl5JSGFgrPKzTqwJ8Zz0xi_BwG9N10dGj9mZOz.NJR
+	sRyT7tIluuvZsGv83oa4ShPEVag5mV.Dw9WY58HBybS_axQ4zIl1EvYAn9UeZQXT4hbfuoqwoYjO
+	mf_12aLRxWGmxFYyuS3Fq1iBldvmRBqtzgzqd4Gaww91izm6jeU5dl4LTGHuKDHlYp1xOwKt9AP5
+	I9jbSigcGwkrPPymw3AdEPWNbeIqIj4l1Iu2QaO3AnIeJd.0EYtEgZjEEikNNdw.Qh7PyFERnwXw
+	hIrsczBqZTbn5FNpQjPNLdUsKN9u5SUSDOTKkLABBnIhdoWpR5cyggW_DzCL1hCjM2SagMT0I21N
+	c6EaJtmFQIAwVBiuFbUKhQmCMQD0nR.YO4ZNZ0r7vAiz8LJojZsP3S1ykh5cH.JlKz.TC5U6rBgh
+	ryPnWtUdUbnc0R9iFPrMHyxxxhEi1HyuE5Y7X3dCVwWtbbMHu05TP_ngI8TByyFAOmVAessPpFGe
+	42xNbxezdkIBB1PTuiB72vIH15o4vmrbneLZmpGdRROwEIcv4hAC.Y4VVj2V6uqrtgOP0HOG6erW
+	1Mky8ldIM_TdPiWzFOB.vxp.OXitZ4Jwbed1a.uwZNbRDiN2zE3Aw7585VDQMNAEaXg5asraruA2
+	B9WzVETT.Jp6ZAioHkEMD5lfwcRhkv_lXfAG7zIuazRVgiKO7dyxWAPHyuP6b0kyPuIaHT5AAEpl
+	zzCWElxmbsqoRvTq6DQKu17V7ad8w.gbuyOiziJHQcLdAopvvuLbwEK7tgxyzqMAykxoC2D3KFNf
+	OEPxlqEdBhXiB7ipI4r.W4xE_4TS0POmjTVcef1WPR8ExCsWIxE7eidiH.TzWmLoJXbZWCKT2P9_
+	ecwFtP9dC.j7KMIg0fJ2IfK5NRor1w8CtQ4Pettkdx5.kHufxKERiOOTqNtM.NfVs4bI7BP5Tmi3
+	V_9bW7IL04.Oq0g55sTeqdyX82Q7HMCijAnWh44rN.qWxiqa6UHrlLptsYVgdKw4eTDv7Y25NloN
+	n_CHFs_Fr0UWJFZYU8BREXF5ZmZuusYzUej.zIS3V3FoFsqqO_5bON2op3NuZe4r2uXcxuOAX8mI
+	WQlQTTtBqSmQjxpfnBRjc2z2idp0P.XWlsYXJxvrK4UCjVOFAFw7obyy4.8WhlBUgSt1NU_2y7bQ
+	UZU58jK534X_eLxm79kl115gTMCsnFIk6qwvGXOVZh20GqzY.SihXh7Kkin2PXvpg_kUBoCx4v5x
+	xNhSKSgWgr5Zj1egGm6vNwmK8RXrZ9W45IeUVLkWybIBTcV8PlTDKQJDlaAqkw3DLw_GvquYkJrL
+	1lUAf8nWGJ.9Iox46sWVw0_BSxYaTtjBeayIHBo5Yj8v3ktZ93v.F9vsmjGxbDZqcZm7pOkja
+Received: from sonic.gate.mail.ne1.yahoo.com by
+	sonic315.consmr.mail.ne1.yahoo.com with HTTP;
+	Tue, 19 Jan 2021 13:15:34 +0000
+Date: Tue, 19 Jan 2021 13:15:33 +0000 (UTC)
+From: Joe Wulf <joe_wulf@yahoo.com>
+To: Linux-Audit Mailing List <linux-audit@redhat.com>
+Message-ID: <61239576.993577.1611062133080@mail.yahoo.com>
+Subject: AuditRule Questions
+MIME-Version: 1.0
+References: <61239576.993577.1611062133080.ref@mail.yahoo.com>
 X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
 	Definition; Similar Internal Domain=false;
 	Similar Monitored External Domain=false;
@@ -82,13 +96,11 @@ X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
 	Custom Display Name List=false; Reply-to Address Mismatch=false;
 	Targeted Threat Dictionary=false;
 	Mimecast Threat Dictionary=false; Custom Threat Dictionary=false
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
 X-loop: linux-audit@redhat.com
-Cc: Richard Guy Briggs <rgb@redhat.com>, Linux Audit <linux-audit@redhat.com>
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
-Reply-To: burn@swtf.dyndns.org
 List-Id: Linux Audit Discussion <linux-audit.redhat.com>
 List-Unsubscribe: <https://www.redhat.com/mailman/options/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=unsubscribe>
@@ -99,213 +111,174 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
 	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=linux-audit-bounces@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/mixed; boundary="===============6047398537258989037=="
+Content-Type: multipart/mixed; boundary="===============3254624810712656270=="
 
---===============6047398537258989037==
-Content-Type: multipart/alternative; boundary="=-7aBpHuT6KhTsK6hVQg9S"
+--===============3254624810712656270==
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_993576_1961242940.1611062133078"
 
---=-7aBpHuT6KhTsK6hVQg9S
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-
-On Mon, 2021-01-18 at 15:36 -0500, Paul Moore wrote:
-> On Mon, Jan 18, 2021 at 9:31 AM Steve Grubb <sgrubb@redhat.com> wrote:
-> > On Monday, January 18, 2021 8:54:30 AM EST Paul Moore wrote:
-> > > > > > I like the N of M concept but there would be a LOT of change
-> > > > > > -especiallyfor all the non-kernel event sources. The EOE would be the
-> > > > > > mostseamless, but at a cost. My preference is to allow the 2 second
-> > > > > > 'timer'to be configurable.
-> > > > > 
-> > > > > Agree with Burn, numbering the records coming up from the kernel isgoing
-> > > > > to be a real nightmare, and not something to consider lightly.Especially
-> > > > > when it sounds like we don't yet have a root cause for theissue.
-> > > > 
-> > > > A very long time ago, we had numbered records. But it was decided
-> > > > thatthere's no real point in it and we'd rather just save disk space.
-> > > 
-> > > With the current kernel code, adding numbered records is not something totake
-> > > lightly.
-> > 
-> > That's why I'm saying we had it and it was removed. I could imagine that ifyou
-> > had auditing of the kill syscall enabled and a whole process group wasbeing
-> > killed, you could have hundreds of records that need numbering. No goodway to
-> > know in advance how many records make up the event.
-> 
-> You only mentioned disk space concerns so it wasn't clear to me thatyou were in
-> agreement about this being a bad idea.  Regardless, I'mglad to see we are on the
-> same page about this.
-> > > > I know that the kernel does not serialize the events headed for userspace.
-> > > > But I'm curious how an event gets stuck and others can jump aheadwhile one
-> > > > that's already inflight can get hung for 4 seconds before it'snext record
-> > > > goes out?
-> > > 
-> > > Have you determined that the problem is the kernel?
-> > 
-> > I assume so because the kernel adds the timestamp and choses what hits thesocket
-> > next. Auditd does no ordering of events. It just looks up the textevent ID, some
-> > minor translation if the enriched format is being used, andwrites it to disk. It
-> > can handle well over 100k records per second.
-> 
-> Feel free to insert the old joke about assumptions.
-> I guess I was hoping for a bit more understanding of the problem andperhaps some
-> actual data indicating the kernel was the source of theproblem.  Conjecture based
-> on how things are supposed to work can bemisleading.
-> > > Initially it was looking like it was a userspace issue, is that no longerthe
-> > > general thought?
-> > 
-> > I don't see how user space could cause this. Even if auditd was slow,
-> > itshouldn't take 4 seconds to write to disk and then come back to read
-> > anotherrecord. And even it did, why would the newest record go out before
-> > completingone that's in progress? Something in the kernel chooses what's next.
-> > Isuspect that might need looking at.
-> 
-> See above.
-> > > Also, is there a reliable reproducer yet?
-> > 
-> > I don't know of one. But, I suppose we could modify ausearch to look forexamples
-> > of this.
-> 
-> The kernel queuing is a rather complicated affair due to the need togracefully
-> handle auditd failing, fallbacks to the console, andmulticast groups all while
-> handling extreme pressure (e.g. auditing*every* syscall) and not destroying the
-> responsiveness of the system(we actually can still make forward progress if you
-> are auditing*every* syscall).  With that complexity comes a number of cornercases,
-> and I imagine there are a few cases where the system is underextreme pressure
-> and/or the auditd daemon is dead and/or starved fromCPU time.  As I know Richard
-> is reading this, to be clear I'm talkingabout the hold/retry queues and the
-> UNICAST_RETRIES case.  The severedelays you are talking about in this thread seem
-> severe, but perhapsif the system is under enough pressure to cause the ordering
-> issues inthe first place such a delay is to be expected.
-> Anyway, my test setup isn't likely able to reproduce such a scenariowithout some
-> significant tweaks, so perhaps those of you who have seenthis problem (Burn, and
-> anyone else?) could shed some light into thestate of the system when the ordering
-> problem occurred.
-
-I tend to have a rigorous auditing posture (see the rules loaded in 
-https://github.com/linux-audit/audit-userspace/issues/148) which is not normal for
-most. Perhaps, Paul, you have hit the nail on the head by stating that this 'severe
-delay' is not that unreasonable given my rules posture and we just need to 'deal
-with it' in user space.We still get the event data, I just need to adjust the user
-space tools to deal with this occurrence.
-As for what the system is doing, in my home case it's a Centos 7 VM running a tomcat
-service which only gets busy every 20 minutes and the other is a HPE Z800 running
-Centos 8 with 4-5 VM's mostly dormant. I can put any code in these hosts to assist
-in 'validating'/testing the delay. Advise and I will run.
-
---=-7aBpHuT6KhTsK6hVQg9S
-Content-Type: text/html; charset="utf-8"
+------=_Part_993576_1961242940.1611062133078
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<html dir=3D"ltr"><head></head><body style=3D"text-align:left; direction:lt=
-r;"><div>On Mon, 2021-01-18 at 15:36 -0500, Paul Moore wrote:</div><blockqu=
-ote type=3D"cite" style=3D"margin:0 0 0 .8ex; border-left:2px #729fcf solid=
-;padding-left:1ex"><pre>On Mon, Jan 18, 2021 at 9:31 AM Steve Grubb &lt;</p=
-re><a href=3D"mailto:sgrubb@redhat.com"><pre>sgrubb@redhat.com</pre></a><pr=
-e>&gt; wrote:</pre><blockquote type=3D"cite" style=3D"margin:0 0 0 .8ex; bo=
-rder-left:2px #729fcf solid;padding-left:1ex"><pre>On Monday, January 18, 2=
-021 8:54:30 AM EST Paul Moore wrote:</pre><blockquote type=3D"cite" style=
-=3D"margin:0 0 0 .8ex; border-left:2px #729fcf solid;padding-left:1ex"><blo=
-ckquote type=3D"cite" style=3D"margin:0 0 0 .8ex; border-left:2px #729fcf s=
-olid;padding-left:1ex"><blockquote type=3D"cite" style=3D"margin:0 0 0 .8ex=
-; border-left:2px #729fcf solid;padding-left:1ex"><blockquote type=3D"cite"=
- style=3D"margin:0 0 0 .8ex; border-left:2px #729fcf solid;padding-left:1ex=
-"><pre>I like the N of M concept but there would be a LOT of change -</pre>=
-<pre>especially</pre><pre>for all the non-kernel event sources. The EOE wou=
-ld be the most</pre><pre>seamless, but at a cost. My preference is to allow=
- the 2 second 'timer'</pre><pre>to be configurable.</pre></blockquote><pre>=
-<br></pre><pre>Agree with Burn, numbering the records coming up from the ke=
-rnel is</pre><pre>going to be a real nightmare, and not something to consid=
-er lightly.</pre><pre>Especially when it sounds like we don't yet have a ro=
-ot cause for the</pre><pre>issue.</pre></blockquote><pre><br></pre><pre>A v=
-ery long time ago, we had numbered records. But it was decided that</pre><p=
-re>there's no real point in it and we'd rather just save disk space.</pre><=
-/blockquote><pre><br></pre><pre>With the current kernel code, adding number=
-ed records is not something to</pre><pre>take lightly.</pre></blockquote><p=
-re><br></pre><pre>That's why I'm saying we had it and it was removed. I cou=
-ld imagine that if</pre><pre>you had auditing of the kill syscall enabled a=
-nd a whole process group was</pre><pre>being killed, you could have hundred=
-s of records that need numbering. No good</pre><pre>way to know in advance =
-how many records make up the event.</pre></blockquote><pre><br></pre><pre>Y=
-ou only mentioned disk space concerns so it wasn't clear to me that</pre><p=
-re>you were in agreement about this being a bad idea.  Regardless, I'm</pre=
-><pre>glad to see we are on the same page about this.</pre><pre><br></pre><=
-blockquote type=3D"cite" style=3D"margin:0 0 0 .8ex; border-left:2px #729fc=
-f solid;padding-left:1ex"><blockquote type=3D"cite" style=3D"margin:0 0 0 .=
-8ex; border-left:2px #729fcf solid;padding-left:1ex"><blockquote type=3D"ci=
-te" style=3D"margin:0 0 0 .8ex; border-left:2px #729fcf solid;padding-left:=
-1ex"><pre>I know that the kernel does not serialize the events headed for u=
-ser</pre><pre>space. But I'm curious how an event gets stuck and others can=
- jump ahead</pre><pre>while one that's already inflight can get hung for 4 =
-seconds before it's</pre><pre>next record goes out?</pre></blockquote><pre>=
-<br></pre><pre>Have you determined that the problem is the kernel?</pre></b=
-lockquote><pre><br></pre><pre>I assume so because the kernel adds the times=
-tamp and choses what hits the</pre><pre>socket next. Auditd does no orderin=
-g of events. It just looks up the text</pre><pre>event ID, some minor trans=
-lation if the enriched format is being used, and</pre><pre>writes it to dis=
-k. It can handle well over 100k records per second.</pre></blockquote><pre>=
-<br></pre><pre>Feel free to insert the old joke about assumptions.</pre><pr=
-e><br></pre><pre>I guess I was hoping for a bit more understanding of the p=
-roblem and</pre><pre>perhaps some actual data indicating the kernel was the=
- source of the</pre><pre>problem.  Conjecture based on how things are suppo=
-sed to work can be</pre><pre>misleading.</pre><pre><br></pre><blockquote ty=
-pe=3D"cite" style=3D"margin:0 0 0 .8ex; border-left:2px #729fcf solid;paddi=
-ng-left:1ex"><blockquote type=3D"cite" style=3D"margin:0 0 0 .8ex; border-l=
-eft:2px #729fcf solid;padding-left:1ex"><pre>Initially it was looking like =
-it was a userspace issue, is that no longer</pre><pre>the general thought?<=
-/pre></blockquote><pre><br></pre><pre>I don't see how user space could caus=
-e this. Even if auditd was slow, it</pre><pre>shouldn't take 4 seconds to w=
-rite to disk and then come back to read another</pre><pre>record. And even =
-it did, why would the newest record go out before completing</pre><pre>one =
-that's in progress? Something in the kernel chooses what's next. I</pre><pr=
-e>suspect that might need looking at.</pre></blockquote><pre><br></pre><pre=
->See above.</pre><pre><br></pre><blockquote type=3D"cite" style=3D"margin:0=
- 0 0 .8ex; border-left:2px #729fcf solid;padding-left:1ex"><blockquote type=
-=3D"cite" style=3D"margin:0 0 0 .8ex; border-left:2px #729fcf solid;padding=
--left:1ex"><pre>Also, is there a reliable reproducer yet?</pre></blockquote=
-><pre><br></pre><pre>I don't know of one. But, I suppose we could modify au=
-search to look for</pre><pre>examples of this.</pre></blockquote><pre><br><=
-/pre><pre>The kernel queuing is a rather complicated affair due to the need=
- to</pre><pre>gracefully handle auditd failing, fallbacks to the console, a=
-nd</pre><pre>multicast groups all while handling extreme pressure (e.g. aud=
-iting</pre><pre>*every* syscall) and not destroying the responsiveness of t=
-he system</pre><pre>(we actually can still make forward progress if you are=
- auditing</pre><pre>*every* syscall).  With that complexity comes a number =
-of corner</pre><pre>cases, and I imagine there are a few cases where the sy=
-stem is under</pre><pre>extreme pressure and/or the auditd daemon is dead a=
-nd/or starved from</pre><pre>CPU time.  As I know Richard is reading this, =
-to be clear I'm talking</pre><pre>about the hold/retry queues and the UNICA=
-ST_RETRIES case.  The severe</pre><pre>delays you are talking about in this=
- thread seem severe, but perhaps</pre><pre>if the system is under enough pr=
-essure to cause the ordering issues in</pre><pre>the first place such a del=
-ay is to be expected.</pre><pre><br></pre><pre>Anyway, my test setup isn't =
-likely able to reproduce such a scenario</pre><pre>without some significant=
- tweaks, so perhaps those of you who have seen</pre><pre>this problem (Burn=
-, and anyone else?) could shed some light into the</pre><pre>state of the s=
-ystem when the ordering problem occurred.</pre></blockquote><div><br></div>=
-<div>I tend to have a rigorous auditing posture (see the rules loaded in <a=
- href=3D"https://github.com/linux-audit/audit-userspace/issues/148">https:/=
-/github.com/linux-audit/audit-userspace/issues/148</a>) which is not normal=
- for most. Perhaps, Paul, you have hit the nail on the head by stating that=
- this 'severe delay' is not that unreasonable given my rules posture and we=
- just need to 'deal with it' in user space.</div><div>We still get the even=
-t data, I just need to adjust the user space tools to deal with this occurr=
-ence.</div><div>
-As for what the system is doing, in my home case it's a Centos 7 VM running=
- a tomcat service which only gets busy every 20 minutes and the other is a =
-HPE Z800 running Centos 8 with 4-5 VM's mostly dormant. I can put any code =
-in these hosts to assist in 'validating'/testing the delay. Advise and I wi=
-ll run.</div><div><br></div><blockquote type=3D"cite" style=3D"margin:0 0 0=
- .8ex; border-left:2px #729fcf solid;padding-left:1ex"><pre><br></pre></blo=
-ckquote></body></html>
+1. In audit rules 2.8.5 (front portion of the rules):
 
---=-7aBpHuT6KhTsK6hVQg9S--
+## Unsuccessful file access (any other opens) This has to go last.
+-a always,exit -F arch=3Db32 -S open,creat,truncate,ftruncate,openat,open_b=
+y_handle_at=C2=A0-F exit=3D-EACCES-a always,exit -F arch=3Db64 -S open,crea=
+t,truncate,ftruncate,openat,open_by_handle_at=C2=A0-F exit=3D-EACCES-a alwa=
+ys,exit -F arch=3Db32 -S open,creat,truncate,ftruncate,openat,open_by_handl=
+e_at=C2=A0-F exit=3D-EPERM-a always,exit -F arch=3Db64 -S open,creat,trunca=
+te,ftruncate,openat,open_by_handle_at =C2=A0-F exit=3D-EPERM
+Whereas in audit rules 3.0, the same portion of the same rules looks like:
+-a always,exit -F arch=3Db32 -S open,creat,truncate,ftruncate,openat,open_b=
+y_handle_at=C2=A0-F exit=3D-EACCES-a always,exit -F arch=3Db32 -S open,crea=
+t,truncate,ftruncate,openat,open_by_handle_at=C2=A0-F exit=3D-EPERM-a alway=
+s,exit -F arch=3Db64 -S open,truncate,ftruncate,creat,openat,open_by_handle=
+_at=C2=A0-F exit=3D-EACCES-a always,exit -F arch=3Db64 -S open,truncate,ftr=
+uncate,creat,openat,open_by_handle_at =C2=A0-F exit=3D-EPERM
 
---===============6047398537258989037==
+The ordering of the syscalls differs between the two, as well as the sequen=
+tial order of the rules themselves. I better understand that the first audi=
+t-rule matched 'wins'.-=C2=A0 Please help me understand the reason for the =
+change in sequence, but also for the change in the order of the syscalls (i=
+.e. between 2.8.5 and 3.0).
+
+
+2.=C2=A0 I notice there are many rules across the entire set (both 2.8.5 an=
+d 3.0) that define their key with "-F key=3D<name>", and others simply with=
+ "-k <name>".-=C2=A0 Why are their two methods for KEY naming, and does one=
+ have a distinct meaning, or precedence, over the other?-=C2=A0 Are their s=
+ome 'rule' types where '-k' is appropriate, whereas '-F key=3D" is not, thu=
+s they are not truly 100% interchangeable?
+-=C2=A0 If both methods ARE equivalent throughout ALL of the audit.rules co=
+ntent, would it be reasonable to standardize on one method in v3.0.x of you=
+r rules going forward?
+
+
+3.=C2=A0 For a RHEL 7.x (and even 8.x) system where the hardware is x86_64 =
+and there is no reasonable expectation to install or operate 'ANY' 32bit so=
+ftware, is there any value, or system performance penalty, to totally elimi=
+nating all 'b32' rules?
+
+
+4.=C2=A0 On the grub/kernel commandline, I can add:=C2=A0 'audit=3D1' -and-=
+ 'audit_backlog_limit=3D####'.=C2=A0 I looked for solutions to address the =
+issue I was having, and found one here:=C2=A0 https://access.redhat.com/sol=
+utions/19327; I found another somewhat helpful reference here:=C2=A0 https:=
+//blog.siphos.be/2015/05/audit-buffering-and-rate-limiting; though it doesn=
+'t make good recommendations for the kernel parameter sizing (if that is a =
+good thing to do in RHEL 7/RHEL 8).
+-=C2=A0 Is there good relevance in RHEL 7, or RHEL 8 to adding this option =
+to the grub/kernel commandline?-=C2=A0 Is there an upper-limit in setting t=
+he number?
+ -=C2=A0 What is the correlation of this grub/kernel item, to the '-b ####'=
+ rule in /etc/audit/rules.d/audit.rules?=C2=A0 Are they (or should they be =
+treated as) mutually exclusive?
+-=C2=A0 In the 2nd reference, what process do you suggest for me to determi=
+ne optimal values for 'kernel.printk_ratelimit'=C2=A0 -and -=C2=A0 'kernel.=
+printk_ratelimit_burst', as well as for grub/kernel 'audit_backlog_limit=3D=
+####' and audit.rules '-b ####'?
+-=C2=A0 This link also seems relevant to the sysctl param's valuations:=C2=
+=A0 https://topic.alibabacloud.com/a/linux-system-log-__ratelimitn-callback=
+s-suppressed_1_16_30164105.html-=C2=A0 Does values for 'kernel.printk_ratel=
+imit =3D 1';=C2=A0=C2=A0 -and- =C2=A0 'kernel.printk_ratelimit_burst =3D 10=
+24' seem reasonable?
+
+
+Thank you.
+
+R,-Joe
+
+------=_Part_993576_1961242940.1611062133078
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<html><head></head><body><div class=3D"ydp1daa47edyahoo-style-wrap" style=
+=3D"font-family:Helvetica Neue, Helvetica, Arial, sans-serif;font-size:16px=
+;"><div id=3D"ydp1daa47edyiv0174219782"><div><div class=3D"ydp1daa47edyiv01=
+74219782ydpcb0c3aa3yahoo-style-wrap" style=3D"font-family:Helvetica Neue, H=
+elvetica, Arial, sans-serif;font-size:16px;"><div dir=3D"ltr">1. In audit r=
+ules 2.8.5 (front portion of the rules):<br></div><div dir=3D"ltr"><blockqu=
+ote><div dir=3D"ltr">## Unsuccessful file access (any other opens) This has=
+ to go last.<br><div>-a always,exit -F arch=3Db32 -S open,creat,truncate,ft=
+runcate,openat,open_by_handle_at<span>&nbsp;-F exit=3D-EACCES</span></div><=
+div>-a always,exit -F arch=3Db64 -S open,creat,truncate,ftruncate,openat,op=
+en_by_handle_at<span>&nbsp;-F exit=3D-EACCES</span></div><div>-a always,exi=
+t -F arch=3Db32 -S open,creat,truncate,ftruncate,openat,open_by_handle_at<s=
+pan>&nbsp;-F exit=3D-EPERM</span></div><div>-a always,exit -F arch=3Db64 -S=
+ open,creat,truncate,ftruncate,openat,open_by_handle_at <span>&nbsp;-F exit=
+=3D-EPERM</span></div></div></blockquote><div dir=3D"ltr">Whereas in audit =
+rules 3.0, the same portion of the same rules looks like:</div><div dir=3D"=
+ltr"><blockquote><div dir=3D"ltr"><div>-a always,exit -F arch=3Db32 -S open=
+,creat,truncate,ftruncate,openat,open_by_handle_at<span>&nbsp;-F exit=3D-EA=
+CCES</span></div><div>-a always,exit -F arch=3Db32 -S open,creat,truncate,f=
+truncate,openat,open_by_handle_at<span>&nbsp;-F exit=3D-EPERM</span></div><=
+div>-a always,exit -F arch=3Db64 -S open,truncate,ftruncate,creat,openat,op=
+en_by_handle_at<span>&nbsp;-F exit=3D-EACCES</span></div><div>-a always,exi=
+t -F arch=3Db64 -S open,truncate,ftruncate,creat,openat,open_by_handle_at <=
+span>&nbsp;-F exit=3D-EPERM</span></div></div></blockquote><div dir=3D"ltr"=
+><br></div><div dir=3D"ltr">The ordering of the syscalls differs between th=
+e two, as well as the sequential order of the rules themselves. I better un=
+derstand that the first audit-rule matched 'wins'.</div><div dir=3D"ltr">-&=
+nbsp; Please help me understand the reason for the change in sequence, but =
+also for the change in the order of the syscalls (i.e. between 2.8.5 and 3.=
+0).<br></div><div dir=3D"ltr"><br></div><div dir=3D"ltr"><br></div><div dir=
+=3D"ltr">2.&nbsp; I notice there are many rules across the entire set (both=
+ 2.8.5 and 3.0) that define their key with "-F key=3D&lt;name&gt;", and oth=
+ers simply with "-k &lt;name&gt;".</div><div dir=3D"ltr">-&nbsp; Why are th=
+eir two methods for KEY naming, and does one have a distinct meaning, or pr=
+ecedence, over the other?</div><div dir=3D"ltr">-&nbsp; Are their some 'rul=
+e' types where '-k' is appropriate, whereas '-F key=3D" is not, thus they a=
+re not truly 100% interchangeable?<br></div><div dir=3D"ltr" data-setdir=3D=
+"false">-&nbsp; If both methods ARE equivalent throughout ALL of the audit.=
+rules content, would it be reasonable to standardize on one method in v3.0.=
+x of your rules going forward?<br></div></div></div><div dir=3D"ltr"><br></=
+div><div dir=3D"ltr"><br></div><div dir=3D"ltr">3.&nbsp; For a RHEL 7.x (an=
+d even 8.x) system where the hardware is x86_64 and there is no reasonable =
+expectation to install or operate 'ANY' 32bit software, is there any value,=
+ or system performance penalty, to totally eliminating all 'b32' rules?<br>=
+</div><div dir=3D"ltr"><br></div><div dir=3D"ltr"><br></div><div dir=3D"ltr=
+" data-setdir=3D"false">4.&nbsp; On the grub/kernel commandline, I can add:=
+&nbsp; '<b>audit=3D1</b>' -and- '<b>audit_backlog_limit=3D####</b>'.&nbsp; =
+I looked for solutions to address the issue I was having, and found one her=
+e:&nbsp; <a href=3D"https://access.redhat.com/solutions/19327" rel=3D"nofol=
+low" target=3D"_blank">https://access.redhat.com/solutions/19327</a>; I fou=
+nd another somewhat helpful reference here:&nbsp; <a href=3D"https://blog.s=
+iphos.be/2015/05/audit-buffering-and-rate-limiting;" rel=3D"nofollow" targe=
+t=3D"_blank">https://blog.siphos.be/2015/05/audit-buffering-and-rate-limiti=
+ng;</a> though it doesn't make good recommendations for the kernel paramete=
+r sizing (if that is a good thing to do in RHEL 7/RHEL 8).<br></div><div di=
+r=3D"ltr" data-setdir=3D"false">-&nbsp; Is there good relevance in RHEL 7, =
+or RHEL 8 to adding this option to the grub/kernel commandline?</div><div d=
+ir=3D"ltr" data-setdir=3D"false">-&nbsp; Is there an upper-limit in setting=
+ the number?<br> </div><div dir=3D"ltr" data-setdir=3D"false">-&nbsp; What =
+is the correlation of this grub/kernel item, to the '-b ####' rule in /etc/=
+audit/rules.d/audit.rules?&nbsp; Are they (or should they be treated as) mu=
+tually exclusive?<br></div><div dir=3D"ltr" data-setdir=3D"false">-&nbsp; I=
+n the 2nd reference, what process do you suggest for me to determine optima=
+l values for <code></code>'kernel.printk_ratelimit'&nbsp; -and -&nbsp; 'ker=
+nel.printk_ratelimit_burst', as well as for grub/kernel 'audit_backlog_limi=
+t=3D####' and audit.rules '-b ####'?<br></div><div dir=3D"ltr" data-setdir=
+=3D"false">-&nbsp; This link also seems relevant to the sysctl param's valu=
+ations:&nbsp; <a href=3D"https://topic.alibabacloud.com/a/linux-system-log-=
+__ratelimitn-callbacks-suppressed_1_16_30164105.html" rel=3D"nofollow" targ=
+et=3D"_blank">https://topic.alibabacloud.com/a/linux-system-log-__ratelimit=
+n-callbacks-suppressed_1_16_30164105.html</a></div><div dir=3D"ltr" data-se=
+tdir=3D"false">-&nbsp; Does values for 'kernel.printk_ratelimit =3D 1';&nbs=
+p;&nbsp; -and- &nbsp; 'kernel.printk_ratelimit_burst =3D 1024' seem reasona=
+ble?<br></div><div dir=3D"ltr"><br></div><div dir=3D"ltr" data-setdir=3D"fa=
+lse"><br></div><div dir=3D"ltr" data-setdir=3D"false">Thank you.<br></div><=
+br><div dir=3D"ltr">R,</div><div dir=3D"ltr">-Joe<br></div></div></div></di=
+v></div></body></html>
+------=_Part_993576_1961242940.1611062133078--
+
+--===============3254624810712656270==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -315,5 +288,5 @@ Content-Disposition: inline
 Linux-audit mailing list
 Linux-audit@redhat.com
 https://www.redhat.com/mailman/listinfo/linux-audit
---===============6047398537258989037==--
+--===============3254624810712656270==--
 
