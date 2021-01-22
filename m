@@ -2,70 +2,71 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [216.205.24.124])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D19F300932
-	for <lists+linux-audit@lfdr.de>; Fri, 22 Jan 2021 18:03:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8193C3009D9
+	for <lists+linux-audit@lfdr.de>; Fri, 22 Jan 2021 18:32:19 +0100 (CET)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-533-t0U6lmpAP3W07cOYSQCiMQ-1; Fri, 22 Jan 2021 12:03:39 -0500
-X-MC-Unique: t0U6lmpAP3W07cOYSQCiMQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+ us-mta-567--z0mkE-sPkWLf1sNz33oEw-1; Fri, 22 Jan 2021 12:32:16 -0500
+X-MC-Unique: -z0mkE-sPkWLf1sNz33oEw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 805E7190B2A2;
-	Fri, 22 Jan 2021 17:03:32 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id E8FDB19C59;
-	Fri, 22 Jan 2021 17:03:29 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F2634184214C;
+	Fri, 22 Jan 2021 17:32:10 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id B1F1B5C230;
+	Fri, 22 Jan 2021 17:32:08 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id B4E65180954D;
-	Fri, 22 Jan 2021 17:03:22 +0000 (UTC)
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id A70FC4BB7B;
+	Fri, 22 Jan 2021 17:32:06 +0000 (UTC)
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
 	[10.11.54.6])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 10MH2qM8006828 for <linux-audit@listman.util.phx.redhat.com>;
-	Fri, 22 Jan 2021 12:02:52 -0500
+	id 10MHVfRT011878 for <linux-audit@listman.util.phx.redhat.com>;
+	Fri, 22 Jan 2021 12:31:41 -0500
 Received: by smtp.corp.redhat.com (Postfix)
-	id 8C3662166B33; Fri, 22 Jan 2021 17:02:52 +0000 (UTC)
+	id 63EEB2166B2F; Fri, 22 Jan 2021 17:31:41 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
-	(mimecast05.extmail.prod.ext.rdu2.redhat.com [10.11.55.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 862B12166B32
-	for <linux-audit@redhat.com>; Fri, 22 Jan 2021 17:02:50 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [207.211.31.81])
+	(mimecast01.extmail.prod.ext.rdu2.redhat.com [10.11.55.17])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 5EF662166B2B
+	for <linux-audit@redhat.com>; Fri, 22 Jan 2021 17:31:39 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+	[205.139.110.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4C5B580391A
-	for <linux-audit@redhat.com>; Fri, 22 Jan 2021 17:02:50 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0510485828A
+	for <linux-audit@redhat.com>; Fri, 22 Jan 2021 17:31:39 +0000 (UTC)
 Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com
 	[209.85.208.41]) (Using TLS) by relay.mimecast.com with ESMTP id
-	us-mta-231-6z0ks28KPRStNinWj9NDRQ-1; Fri, 22 Jan 2021 12:02:48 -0500
-X-MC-Unique: 6z0ks28KPRStNinWj9NDRQ-1
-Received: by mail-ed1-f41.google.com with SMTP id g24so7325043edw.9
-	for <linux-audit@redhat.com>; Fri, 22 Jan 2021 09:02:47 -0800 (PST)
+	us-mta-230-huC2aRUfMG-jF0HehiUiEg-1; Fri, 22 Jan 2021 12:31:36 -0500
+X-MC-Unique: huC2aRUfMG-jF0HehiUiEg-1
+Received: by mail-ed1-f41.google.com with SMTP id c2so7193483edr.11
+	for <linux-audit@redhat.com>; Fri, 22 Jan 2021 09:31:36 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=ke/qn9TuTwdPR0BXfRRkVX3tOOEqzWWEt/5038rSsL8=;
-	b=BhZQXaE7ZDqUcrugVRXy/+y6NEyAbWZLje9NBAdqnHeTNWhYLJTRAkjb+aQYFlmHTN
-	0eZ0wpcPqi+q+xrJ6OHdaYSZXfgZJX5yiOvOiJAQjgTciAhZJ9MjVyMmOk3hffWlAdX3
-	Mha7L9HXjDbuIy3EsmGjczvcwpmA1j5mMiqaj1Q5Kdy6fgl7j2ckSvuM+vU9zm7YRO0Z
-	Soi2Gr54jWHmrkVDBIo7EPGRwOqCPwYLvxir03nygOeUQX2+6tagCNJwTGZLh9KI204Z
-	C6vrs6I7cvnfGKErr2yiDnottJE2le5DH3zW7wKRSVCumXpsMUA4gO00zKrtQKb1pNIx
-	Dvdw==
-X-Gm-Message-State: AOAM530HJWhZY8uWsMOrDUaUElJ+0MWtgW63QWpHW7vkljd8Klfhi9lE
-	CWcu/d08jDFophoIeC3hi8OUeXvJ7aOesTY/lyaS
-X-Google-Smtp-Source: ABdhPJybDZzkx9A9kmPqgORexS85AdcYmlb17I2eS1sUIlOqyFmXdWgBdx1uneSguKJ/EwhMThDbPIiu+Bx0ORFpKeo=
-X-Received: by 2002:a05:6402:4391:: with SMTP id
-	o17mr3982066edc.196.1611334966855; 
-	Fri, 22 Jan 2021 09:02:46 -0800 (PST)
+	bh=ED60FKhK96gry/rcTB0tBDnaMgHxP/KjvgwSiQKPbwI=;
+	b=U5QcnP8GDUrbS9WWxfltDJRJo6DAju6Ro7E8WdB1bIV7/NBY1kkzksB4DkVJ4spRly
+	yU8KkvNIIyK0hqr0GCXDAcJNATycamUFwQfDLSP9+hRRwlC2hlbsZdEj9+KypRohVtO5
+	ny3dIsef0tMM1Etf2Xf/wxuIx4sUDjD4FHzaQde+erw+p63zv4byCLJ3H15US2GyS26Z
+	EPSB/YD7wmL1ZOoaU6+CKYV6nI3hyWRQuoPC2o6bKKHej+o68dDd9xp1ZTESSh+ls3NT
+	InDFDEN4RXEpVmx0Nq51/2edv9/KJizLQgpk0KX+rRFB1Tcaq7m7u7I8PJUD6FyHhhIu
+	eTHA==
+X-Gm-Message-State: AOAM533B9ZzqoJEHseV1j3ktGjJBE18b9oJa8vp2uVLr4nOPra99mcnk
+	IBDRYYwmU80vETCT+A9kuLnEjxj7uPIdPbNHKC9K
+X-Google-Smtp-Source: ABdhPJzZ2xbtnN29pvDRZOKvuQdspEPAK6EgCyF9t5NDUH8h5QSRcpwg4Uzy2BwRqyvnTNve4UYWqCcM6nUhPmFSG90=
+X-Received: by 2002:a05:6402:4389:: with SMTP id
+	o9mr4120649edc.164.1611336695427; 
+	Fri, 22 Jan 2021 09:31:35 -0800 (PST)
 MIME-Version: 1.0
-References: <202101212154272626110@zte.com.cn>
-In-Reply-To: <202101212154272626110@zte.com.cn>
+References: <202101212225030936472@zte.com.cn>
+In-Reply-To: <202101212225030936472@zte.com.cn>
 From: Paul Moore <paul@paul-moore.com>
-Date: Fri, 22 Jan 2021 12:02:35 -0500
-Message-ID: <CAHC9VhQuBFv83G05QQJLuOV903sFX7ijqjgpCvWH-dk7cbJCjg@mail.gmail.com>
-Subject: Re: [RFC, v2,
+Date: Fri, 22 Jan 2021 12:31:24 -0500
+Message-ID: <CAHC9VhSawMHjRsEuHCDhSq2JEpLxvQZ1u1tEg=cy4y9Ays4ogg@mail.gmail.com>
+Subject: Re: Fw:Re:Fw:Re:[RFC, v1,
 	1/1] audit: speed up syscall rule match while exiting syscall
 To: yang.yang29@zte.com.cn
 X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
@@ -92,7 +93,7 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
 	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=linux-audit-bounces@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -100,101 +101,92 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-On Thu, Jan 21, 2021 at 8:54 AM <yang.yang29@zte.com.cn> wrote:
+On Thu, Jan 21, 2021 at 9:25 AM <yang.yang29@zte.com.cn> wrote:
 >
-> From 72f3ecde58edb03d76cb359607fef98c1663d481 Mon Sep 17 00:00:00 2001
-> From: Yang Yang <yang.yang29@zte.com.cn>
-> Date: Thu, 21 Jan 2021 21:05:04 +0800
-> Subject: [PATCH] [RFC,v2,1/1] speed up syscall rule match while exiting syscall
->  audit_filter_syscall() traverses struct list_head audit_filter_list to find
->  out whether current syscall match one rule. This takes o(n), which is not
->  necessary, specially for user who add a very few syscall rules. On the other
->  hand, user may not much care about rule add/delete speed. So do o(n)
->  calculate at rule changing, and ease the burden of audit_filter_syscall().
+> Thanks for reply, I have sent a new patch with better performance.
+> The v1 patch uses mutex() is not necessary.
 >
->  Define audit_syscall[NR_syscalls], every element stands for one syscall.
->  audit_filter_syscall() checks audit_syscall[NR_syscalls].
->  audit_syscall[n] == 0 indicates no rule audit syscall n, do a quick exit.
->  audit_syscall[n] > 0 indicates at least one rule audit syscall n.
->  audit_syscall[n] update when syscall rule changes.
->
-> Signed-off-by: Yang Yang <yang.yang29@zte.com.cn>
-> ---
->  include/linux/audit.h |  2 ++
->  kernel/audit.c        |  4 ++++
->  kernel/auditfilter.c  | 30 ++++++++++++++++++++++++++++++
->  kernel/auditsc.c      |  5 ++++-
->  4 files changed, 40 insertions(+), 1 deletion(-)
+> Performance measurements:
+> 1.Environment
+> CPU: Intel(R) Core(TM) i7-6700 CPU @ 3.40GHz
+> Linux kernel version: 5.11-rc3
+> Audit version: 2.8.4
 
 ...
 
-> diff --git a/kernel/auditfilter.c b/kernel/auditfilter.c
-> index 333b3bc..9d3e703 100644
-> --- a/kernel/auditfilter.c
-> +++ b/kernel/auditfilter.c
-> @@ -926,6 +926,28 @@ static struct audit_entry *audit_find_rule(struct audit_entry *entry,
->  static u64 prio_low = ~0ULL/2;
->  static u64 prio_high = ~0ULL/2 - 1;
+> 2.2 Syscall absolute time
+> Test method:
+> Use ktime_get_real_ts64() in do_syscall_64() to calculate time.
+> Run command "chmod 777 /etc/fstab" with chown rules. Each test 10times and get average.
 >
-> +#ifdef CONFIG_AUDITSYSCALL
-> +static inline void update_auditing_syscall(struct audit_krule rule, bool add)
-> +{
-> +    int i;
-> +
-> +    /* syscall rule with type AUDIT_FILTER_EXIT */
-> +    if (rule.listnr == AUDIT_FILTER_EXIT && !rule.watch && !rule.tree) {
-> +        for (i = 0; i < NR_syscalls; i++) {
-> +            /* whether this rule include one syscall */
-> +            if (unlikely(audit_in_mask(&rule, i))) {
-> +                if (add == true)
-> +                    auditing_syscall[i]++;
-> +                else
-> +                    auditing_syscall[i]--;
-> +            }
-> +        }
-> +    }
-> +
-> +    return;
-> +}
-> +#endif
-> +
->  /* Add rule to given filterlist if not a duplicate. */
->  static inline int audit_add_rule(struct audit_entry *entry)
->  {
-> @@ -957,6 +979,10 @@ static inline int audit_add_rule(struct audit_entry *entry)
->                 return err;
->         }
+> do_syscall_64() time with 100 rules:
+> before this patch: 7604ns
+> after this patch: 5244ns, reduce 2360ns.
 >
-> +#ifdef CONFIG_AUDITSYSCALL
-> +    update_auditing_syscall(entry->rule, true);
-> +#endif
+> do_syscall_64() time with CIS rules:
+> before this patch: 6710ns
+> after this patch: 7293ns, increase 583ns.
+>
+> do_syscall_64() time with 10 rules:
+> before this patch: 5382ns
+> after this patch: 5171ns, reduce 211ns.
+>
+> do_syscall_64() time with 1 rule:
+> before this patch: 5361ns
+> after this patch: 5375ns, increase 14ns.
+>
+> do_syscall_64() time with no rules:
+> before this patch: 4735ns
+> after this patch: 4804ns, increase 69ns.
+>
+> Analyse:
+> With a few rules, performance is close.
+> With 100 rules, performance is better, but with CIS rules performance regress. Maybe relevant to certain syscall.
 
-I'm going to reply to your other email where we are discussing the
-performance of this patch, but I wanted to make one comment about the
-approach you've taken with the update_auditing_syscall() here.
+These numbers aren't particularly good in my opinion, the negative
+impact of the change to a small number of rules and to the CIS ruleset
+is not a good thing.  It also should be said that you are increasing
+the memory footprint, even if it is relatively small.
 
-First, naming things is hard, but the chosen name is not a good one in
-my opinion.  Something like audit_rule_syscall_mask_update() would
-probably be a better fit.
+However, if we take a step back and look at the motivation for this
+work I wonder if there are some things we can do to improve the
+per-syscall rule processing performance.  On thing that jumped out
+just now was this code in __audit_syscall_exit():
 
-Second, in order to minimize preprocessor clutter, it is better to use
-the following pattern:
+void __audit_syscall_exit(int success, long return_code)
+{
 
-  #ifdef CONFIG_FOO
-  int func(int arg)
-  {
-    /* important stuff */
+  /* ... */
+
+  /*
+   * we need to fix up the return code in the audit logs if the
+   * actual return codes are later going to be fixed up by the
+   * arch specific signal handlers ... */
+  if (unlikely(return_code <= -ERESTARTSYS) &&
+      (return_code >= -ERESTART_RESTARTBLOCK) &&
+      (return_code != -ENOIOCTLCMD))
+    context->return_code = -EINTR;
+  else
+    context->return_code  = return_code;
+
+  audit_filter_syscall(current, context,
+    &audit_filter_list[AUDIT_FILTER_EXIT]);
+  audit_filter_inodes(current, context);
+  if (context->current_state == AUDIT_RECORD_CONTEXT)
+    audit_log_exit();
   }
-  #else
-  int func(int arg)
-  {
-    return 0; /* appropriate return value */
-  }
-  #endif
 
-There are probably a few other comments on this patch, but I want us
-to discuss the performance impacts of this first as I'm not convinced
-this is a solution we want upstream.
+... in the snippet above the audit_filter_inodes() function/rules are
+given priority over the syscall rules in
+audit_filter_syscall(AUDIT_FILTER_EXIT), so why not first execute
+audit_filter_inodes() and only execute
+audit_filter_syscall(AUDIT_FILTER_EXIT) if necessary?  It may be that
+I'm missing something on this quick look at the code, but I think it
+is worth investigating.  It's also possible there are other similar
+improvements to made.
+
+There is similar code in __audit_free() but that should be less
+performance critical.
 
 -- 
 paul moore
