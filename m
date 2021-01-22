@@ -2,55 +2,72 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [216.205.24.124])
-	by mail.lfdr.de (Postfix) with ESMTP id 5CE302FEFF4
-	for <lists+linux-audit@lfdr.de>; Thu, 21 Jan 2021 17:16:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4D19F300932
+	for <lists+linux-audit@lfdr.de>; Fri, 22 Jan 2021 18:03:42 +0100 (CET)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-499-x8CPKev-MveCqctiRU4eUA-1; Thu, 21 Jan 2021 11:16:54 -0500
-X-MC-Unique: x8CPKev-MveCqctiRU4eUA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+ us-mta-533-t0U6lmpAP3W07cOYSQCiMQ-1; Fri, 22 Jan 2021 12:03:39 -0500
+X-MC-Unique: t0U6lmpAP3W07cOYSQCiMQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 402AE871805;
-	Thu, 21 Jan 2021 16:16:48 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 11FFB60BF3;
-	Thu, 21 Jan 2021 16:16:46 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 805E7190B2A2;
+	Fri, 22 Jan 2021 17:03:32 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id E8FDB19C59;
+	Fri, 22 Jan 2021 17:03:29 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id BEAA04BB7B;
-	Thu, 21 Jan 2021 16:16:40 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
-	[10.11.54.4])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id B4E65180954D;
+	Fri, 22 Jan 2021 17:03:22 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+	[10.11.54.6])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 10LGGC7j028626 for <linux-audit@listman.util.phx.redhat.com>;
-	Thu, 21 Jan 2021 11:16:12 -0500
+	id 10MH2qM8006828 for <linux-audit@listman.util.phx.redhat.com>;
+	Fri, 22 Jan 2021 12:02:52 -0500
 Received: by smtp.corp.redhat.com (Postfix)
-	id 08F2E2026D3A; Thu, 21 Jan 2021 16:16:12 +0000 (UTC)
+	id 8C3662166B33; Fri, 22 Jan 2021 17:02:52 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
 	(mimecast05.extmail.prod.ext.rdu2.redhat.com [10.11.55.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 010362026D35
-	for <linux-audit@redhat.com>; Thu, 21 Jan 2021 16:16:08 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
-	[205.139.110.120])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 862B12166B32
+	for <linux-audit@redhat.com>; Fri, 22 Jan 2021 17:02:50 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [207.211.31.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 881AA803C9F
-	for <linux-audit@redhat.com>; Thu, 21 Jan 2021 16:16:08 +0000 (UTC)
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15]) (Using TLS) by
-	relay.mimecast.com with ESMTP id us-mta-300-NWMlX1P0OjuT7kWzHnyXsw-1;
-	Thu, 21 Jan 2021 11:16:06 -0500
-X-MC-Unique: NWMlX1P0OjuT7kWzHnyXsw-1
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-	by mx2.suse.de (Postfix) with ESMTP id 8360CABD6;
-	Thu, 21 Jan 2021 16:16:03 +0000 (UTC)
-From: Enzo Matsumiya <ematsumiya@suse.de>
-To: linux-audit@redhat.com
-Subject: [RFC PATCH] audit.spec: create audit group for log read access
-Date: Thu, 21 Jan 2021 13:15:42 -0300
-Message-Id: <20210121161542.29406-1-ematsumiya@suse.de>
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4C5B580391A
+	for <linux-audit@redhat.com>; Fri, 22 Jan 2021 17:02:50 +0000 (UTC)
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com
+	[209.85.208.41]) (Using TLS) by relay.mimecast.com with ESMTP id
+	us-mta-231-6z0ks28KPRStNinWj9NDRQ-1; Fri, 22 Jan 2021 12:02:48 -0500
+X-MC-Unique: 6z0ks28KPRStNinWj9NDRQ-1
+Received: by mail-ed1-f41.google.com with SMTP id g24so7325043edw.9
+	for <linux-audit@redhat.com>; Fri, 22 Jan 2021 09:02:47 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=ke/qn9TuTwdPR0BXfRRkVX3tOOEqzWWEt/5038rSsL8=;
+	b=BhZQXaE7ZDqUcrugVRXy/+y6NEyAbWZLje9NBAdqnHeTNWhYLJTRAkjb+aQYFlmHTN
+	0eZ0wpcPqi+q+xrJ6OHdaYSZXfgZJX5yiOvOiJAQjgTciAhZJ9MjVyMmOk3hffWlAdX3
+	Mha7L9HXjDbuIy3EsmGjczvcwpmA1j5mMiqaj1Q5Kdy6fgl7j2ckSvuM+vU9zm7YRO0Z
+	Soi2Gr54jWHmrkVDBIo7EPGRwOqCPwYLvxir03nygOeUQX2+6tagCNJwTGZLh9KI204Z
+	C6vrs6I7cvnfGKErr2yiDnottJE2le5DH3zW7wKRSVCumXpsMUA4gO00zKrtQKb1pNIx
+	Dvdw==
+X-Gm-Message-State: AOAM530HJWhZY8uWsMOrDUaUElJ+0MWtgW63QWpHW7vkljd8Klfhi9lE
+	CWcu/d08jDFophoIeC3hi8OUeXvJ7aOesTY/lyaS
+X-Google-Smtp-Source: ABdhPJybDZzkx9A9kmPqgORexS85AdcYmlb17I2eS1sUIlOqyFmXdWgBdx1uneSguKJ/EwhMThDbPIiu+Bx0ORFpKeo=
+X-Received: by 2002:a05:6402:4391:: with SMTP id
+	o17mr3982066edc.196.1611334966855; 
+	Fri, 22 Jan 2021 09:02:46 -0800 (PST)
 MIME-Version: 1.0
+References: <202101212154272626110@zte.com.cn>
+In-Reply-To: <202101212154272626110@zte.com.cn>
+From: Paul Moore <paul@paul-moore.com>
+Date: Fri, 22 Jan 2021 12:02:35 -0500
+Message-ID: <CAHC9VhQuBFv83G05QQJLuOV903sFX7ijqjgpCvWH-dk7cbJCjg@mail.gmail.com>
+Subject: Re: [RFC, v2,
+	1/1] audit: speed up syscall rule match while exiting syscall
+To: yang.yang29@zte.com.cn
 X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
 	Definition; Similar Internal Domain=false;
 	Similar Monitored External Domain=false;
@@ -59,10 +76,9 @@ X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
 	Custom Display Name List=false; Reply-to Address Mismatch=false;
 	Targeted Threat Dictionary=false;
 	Mimecast Threat Dictionary=false; Custom Threat Dictionary=false
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-X-MIME-Autoconverted: from quoted-printable to 8bit by
-	lists01.pubmisc.prod.ext.phx2.redhat.com id 10LGGC7j028626
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
 X-loop: linux-audit@redhat.com
+Cc: linux-audit@redhat.com, linux-kernel@vger.kernel.org
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -76,7 +92,7 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
 	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=linux-audit-bounces@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -84,141 +100,105 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-This patch introduces a new "audit" group.
+On Thu, Jan 21, 2021 at 8:54 AM <yang.yang29@zte.com.cn> wrote:
+>
+> From 72f3ecde58edb03d76cb359607fef98c1663d481 Mon Sep 17 00:00:00 2001
+> From: Yang Yang <yang.yang29@zte.com.cn>
+> Date: Thu, 21 Jan 2021 21:05:04 +0800
+> Subject: [PATCH] [RFC,v2,1/1] speed up syscall rule match while exiting syscall
+>  audit_filter_syscall() traverses struct list_head audit_filter_list to find
+>  out whether current syscall match one rule. This takes o(n), which is not
+>  necessary, specially for user who add a very few syscall rules. On the other
+>  hand, user may not much care about rule add/delete speed. So do o(n)
+>  calculate at rule changing, and ease the burden of audit_filter_syscall().
+>
+>  Define audit_syscall[NR_syscalls], every element stands for one syscall.
+>  audit_filter_syscall() checks audit_syscall[NR_syscalls].
+>  audit_syscall[n] == 0 indicates no rule audit syscall n, do a quick exit.
+>  audit_syscall[n] > 0 indicates at least one rule audit syscall n.
+>  audit_syscall[n] update when syscall rule changes.
+>
+> Signed-off-by: Yang Yang <yang.yang29@zte.com.cn>
+> ---
+>  include/linux/audit.h |  2 ++
+>  kernel/audit.c        |  4 ++++
+>  kernel/auditfilter.c  | 30 ++++++++++++++++++++++++++++++
+>  kernel/auditsc.c      |  5 ++++-
+>  4 files changed, 40 insertions(+), 1 deletion(-)
 
-The purpose of this group is to restrict read access to audit.log file.
+...
 
-No users are added to this group by default in this patch; it's up to
-the user to do so.
+> diff --git a/kernel/auditfilter.c b/kernel/auditfilter.c
+> index 333b3bc..9d3e703 100644
+> --- a/kernel/auditfilter.c
+> +++ b/kernel/auditfilter.c
+> @@ -926,6 +926,28 @@ static struct audit_entry *audit_find_rule(struct audit_entry *entry,
+>  static u64 prio_low = ~0ULL/2;
+>  static u64 prio_high = ~0ULL/2 - 1;
+>
+> +#ifdef CONFIG_AUDITSYSCALL
+> +static inline void update_auditing_syscall(struct audit_krule rule, bool add)
+> +{
+> +    int i;
+> +
+> +    /* syscall rule with type AUDIT_FILTER_EXIT */
+> +    if (rule.listnr == AUDIT_FILTER_EXIT && !rule.watch && !rule.tree) {
+> +        for (i = 0; i < NR_syscalls; i++) {
+> +            /* whether this rule include one syscall */
+> +            if (unlikely(audit_in_mask(&rule, i))) {
+> +                if (add == true)
+> +                    auditing_syscall[i]++;
+> +                else
+> +                    auditing_syscall[i]--;
+> +            }
+> +        }
+> +    }
+> +
+> +    return;
+> +}
+> +#endif
+> +
+>  /* Add rule to given filterlist if not a duplicate. */
+>  static inline int audit_add_rule(struct audit_entry *entry)
+>  {
+> @@ -957,6 +979,10 @@ static inline int audit_add_rule(struct audit_entry *entry)
+>                 return err;
+>         }
+>
+> +#ifdef CONFIG_AUDITSYSCALL
+> +    update_auditing_syscall(entry->rule, true);
+> +#endif
 
-One use case for this is to use AppArmor denial notifications (aa-notify),
-which currently requires sudo. So, with this patch, instead of
-modifying sudo configuration, the user who wants to run aa-notify to
-read audit.log can just be added to the new audit group.
+I'm going to reply to your other email where we are discussing the
+performance of this patch, but I wanted to make one comment about the
+approach you've taken with the update_auditing_syscall() here.
 
-This patch already uses systemd-sysuser facilities to create system
-groups.
+First, naming things is hard, but the chosen name is not a good one in
+my opinion.  Something like audit_rule_syscall_mask_update() would
+probably be a better fit.
 
-Signed-off-by: Enzo Matsumiya <ematsumiya@suse.de>
----
- audit.spec              | 27 +++++++++++++++++++++++++--
- init.d/auditd.conf      |  2 +-
- system-group-audit.conf |  2 ++
- 3 files changed, 28 insertions(+), 3 deletions(-)
- create mode 100644 system-group-audit.conf
+Second, in order to minimize preprocessor clutter, it is better to use
+the following pattern:
 
-diff --git a/audit.spec b/audit.spec
-index 23153a60dc80..be6490b7ad09 100644
---- a/audit.spec
-+++ b/audit.spec
-@@ -7,22 +7,35 @@ License: GPLv2+
- Group: System Environment/Daemons
- URL: http://people.redhat.com/sgrubb/audit/
- Source0: http://people.redhat.com/sgrubb/audit/%{name}-%{version}.tar.gz
-+Source1: system-group-audit.conf
- BuildRequires: gcc swig
- BuildRequires: golang
- BuildRequires: krb5-devel libcap-ng-devel
- BuildRequires: kernel-headers >= 2.6.29
- BuildRequires: systemd
-+BuildRequires: sysuser-tools
- 
- Requires: %{name}-libs = %{version}-%{release}
- Requires(post): systemd coreutils
- Requires(preun): systemd initscripts
- Requires(postun): systemd coreutils initscript
-+Requires: group(audit)
- 
- %description
- The audit package contains the user space utilities for
- storing and searching the audit records generated by
- the audit subsystem in the Linux 2.6 and later kernels.
- 
-+%package -n system-group-audit
-+Summary:       System group 'audit'
-+License:       LGPL-2.1-or-later
-+Group:         System/Fhs
-+Provides:      group(audit)
-+%sysusers_requires
-+
-+%description -n system-group-audit
-+This package contains the system group 'audit' for restrict read access to logs.
-+
- %package libs
- Summary: Dynamic library for libaudit
- License: LGPLv2+
-@@ -98,13 +111,17 @@ behavior.
- 
- make CFLAGS="%{optflags}" %{?_smp_mflags}
- 
-+%sysusers_generate_pre %{SOURCE1} audit
-+
- %install
- mkdir -p $RPM_BUILD_ROOT/{sbin,etc/audit/plugins.d,etc/audit/rules.d}
- mkdir -p $RPM_BUILD_ROOT/%{_mandir}/{man5,man8}
- mkdir -p $RPM_BUILD_ROOT/%{_lib}
- mkdir -p $RPM_BUILD_ROOT/%{_libdir}/audit
--mkdir --mode=0700 -p $RPM_BUILD_ROOT/%{_var}/log/audit
-+mkdir --mode=0750 -p $RPM_BUILD_ROOT/%{_var}/log/audit
- mkdir -p $RPM_BUILD_ROOT/%{_var}/spool/audit
-+mkdir -p $RPM_BUILD_ROOT/%{_sysusersdir}
-+install -m 0644 %{SOURCE1} $RPM_BUILD_ROOT/%{_sysusersdir}/
- make DESTDIR=$RPM_BUILD_ROOT install
- 
- mkdir -p $RPM_BUILD_ROOT/%{_libdir}
-@@ -143,6 +160,8 @@ if [ "$files" -eq 0 ] ; then
- fi
- %systemd_post auditd.service
- 
-+%pre -n system-group-audit -f audit.pre
-+
- %preun
- %systemd_preun auditd.service
- if [ $1 -eq 0 ]; then
-@@ -228,7 +247,8 @@ fi
- %attr(750,root,root) %{_libexecdir}/initscripts/legacy-actions/auditd/state
- %attr(750,root,root) %{_libexecdir}/initscripts/legacy-actions/auditd/stop
- %ghost %{_localstatedir}/run/auditd.state
--%attr(-,root,-) %dir %{_var}/log/audit
-+%attr(750,root,audit) %dir %{_var}/log/audit
-+%ghost %config(noreplace) %attr(640,root,audit) %dir %{_var}/log/audit/audit.log
- %attr(750,root,root) %dir /etc/audit
- %attr(750,root,root) %dir /etc/audit/rules.d
- %attr(750,root,root) %dir /etc/audit/plugins.d
-@@ -238,6 +258,9 @@ fi
- %config(noreplace) %attr(640,root,root) /etc/audit/audit-stop.rules
- %config(noreplace) %attr(640,root,root) /etc/audit/plugins.d/af_unix.conf
- 
-+%files -n system-group-audit
-+%{_sysusersdir}/system-group-audit.conf
-+
- %files -n audispd-plugins
- %config(noreplace) %attr(640,root,root) /etc/audit/plugins.d/audispd-zos-remote.conf
- %config(noreplace) %attr(640,root,root) /etc/audit/zos-remote.conf
-diff --git a/init.d/auditd.conf b/init.d/auditd.conf
-index ff6a3352854f..0c68c00322f9 100644
---- a/init.d/auditd.conf
-+++ b/init.d/auditd.conf
-@@ -5,7 +5,7 @@
- local_events = yes
- write_logs = yes
- log_file = /var/log/audit/audit.log
--log_group = root
-+log_group = audit
- log_format = ENRICHED
- flush = INCREMENTAL_ASYNC
- freq = 50
-diff --git a/system-group-audit.conf b/system-group-audit.conf
-new file mode 100644
-index 000000000000..ea2ffb04b405
---- /dev/null
-+++ b/system-group-audit.conf
-@@ -0,0 +1,2 @@
-+# Type Name ID GECOS [HOME]
-+g audit -
+  #ifdef CONFIG_FOO
+  int func(int arg)
+  {
+    /* important stuff */
+  }
+  #else
+  int func(int arg)
+  {
+    return 0; /* appropriate return value */
+  }
+  #endif
+
+There are probably a few other comments on this patch, but I want us
+to discuss the performance impacts of this first as I'm not convinced
+this is a solution we want upstream.
+
 -- 
-2.30.0
-
+paul moore
+www.paul-moore.com
 
 --
 Linux-audit mailing list
