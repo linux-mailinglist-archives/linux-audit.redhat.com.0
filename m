@@ -2,59 +2,91 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [63.128.21.124])
-	by mail.lfdr.de (Postfix) with ESMTP id 078E930476A
-	for <lists+linux-audit@lfdr.de>; Tue, 26 Jan 2021 20:05:03 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1611687903;
-	h=from:from:sender:sender:reply-to:subject:subject:date:date:
-	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-	 content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:list-id:list-help:
-	 list-unsubscribe:list-subscribe:list-post;
-	bh=yWdwZL7/28S+6rSESEc1iJOeVNGCbY2WdE5+RNWlyzY=;
-	b=SsTjn5ktLeGYc5LUC0EEY5UaOUsXEk56YujUAzO048LyGeV+y5CuT0t4Fc8d0/HUKjaJod
-	ELTe8ns89oe6D+UHsTDo98YtMJzlK4yTjuEmzVztX3WOI6OwbuFU6U0bhSCUPZf20CvJwK
-	dtEb42z/TZj/JeybKqRSHWg9eqDqOR0=
+	by mail.lfdr.de (Postfix) with ESMTP id 34A08304991
+	for <lists+linux-audit@lfdr.de>; Tue, 26 Jan 2021 21:08:44 +0100 (CET)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-572-FIk7jvu_NZ2L0tf8832GSg-1; Tue, 26 Jan 2021 14:05:00 -0500
-X-MC-Unique: FIk7jvu_NZ2L0tf8832GSg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+ us-mta-504-WJGpVxBkPRSh6Rg9YIByfA-1; Tue, 26 Jan 2021 15:08:41 -0500
+X-MC-Unique: WJGpVxBkPRSh6Rg9YIByfA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 01EB3B8101;
-	Tue, 26 Jan 2021 19:04:55 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5A549190B2AD;
+	Tue, 26 Jan 2021 20:08:34 +0000 (UTC)
 Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id F09645F9A6;
-	Tue, 26 Jan 2021 19:04:53 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id EE6385D97F;
+	Tue, 26 Jan 2021 20:08:32 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 47FA6180954D;
-	Tue, 26 Jan 2021 19:04:52 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
-	[10.5.11.15])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 4FAD9180954D;
+	Tue, 26 Jan 2021 20:08:28 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+	[10.11.54.3])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 10QJ4TgY013876 for <linux-audit@listman.util.phx.redhat.com>;
-	Tue, 26 Jan 2021 14:04:29 -0500
+	id 10QK5oIA026985 for <linux-audit@listman.util.phx.redhat.com>;
+	Tue, 26 Jan 2021 15:05:50 -0500
 Received: by smtp.corp.redhat.com (Postfix)
-	id F20A55D766; Tue, 26 Jan 2021 19:04:28 +0000 (UTC)
+	id 3A4261003219; Tue, 26 Jan 2021 20:05:50 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from madcap2.tricolour.ca (unknown [10.10.110.8])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 6CDA15D760;
-	Tue, 26 Jan 2021 19:04:20 +0000 (UTC)
-Date: Tue, 26 Jan 2021 14:04:18 -0500
-From: Richard Guy Briggs <rgb@redhat.com>
-To: menglong8.dong@gmail.com
-Subject: Re: [PATCH] audit: Make audit_filter_syscall() return void
-Message-ID: <20210126190418.GM2015948@madcap2.tricolour.ca>
-References: <20210126131151.10418-1-yang.yang29@zte.com.cn>
+Received: from mimecast-mx02.redhat.com
+	(mimecast04.extmail.prod.ext.rdu2.redhat.com [10.11.55.20])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 36732100415A
+	for <linux-audit@redhat.com>; Tue, 26 Jan 2021 20:05:47 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+	[207.211.31.120])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DF35B101A562
+	for <linux-audit@redhat.com>; Tue, 26 Jan 2021 20:05:47 +0000 (UTC)
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com
+	[209.85.208.50]) (Using TLS) by relay.mimecast.com with ESMTP id
+	us-mta-543-XXLxbNCHNJWiaOqOVr3x0A-1; Tue, 26 Jan 2021 15:05:45 -0500
+X-MC-Unique: XXLxbNCHNJWiaOqOVr3x0A-1
+Received: by mail-ed1-f50.google.com with SMTP id n6so21257243edt.10
+	for <linux-audit@redhat.com>; Tue, 26 Jan 2021 12:05:45 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=ZzjmGy0oL0rvnaJhjHzvUitQdjvDnUa+214czaKdGnA=;
+	b=CBLkRMFBLRqLj241ENWGmwS+lzWtQpLnYTM6W6AEOm4+xzJ91CNOjI7LV5peQuRzwy
+	RQsnFJTMUoK3+SdiQSSKe/OyQ3qnphMaQRDvTv4Pj9+PUaio54b7dZO3ehbtHQL3/EgZ
+	HZrjIsSL+T5ZQ61iwO0PDCB3BAb3diDEdiA+ctO65yuiqeb19VE7IhtyUtivBss/P8JQ
+	TpPuH3LWAaej+UxAlDGm8X2SxdMq1gWjlxp8ARnEdKq2MYA2T1MdeAhh0GlD/j8V56lV
+	aT/0k2iT2ADZPyN6xVb3X/foNgEB0bwqrHuPwZK80gISos6CK74iYlhOGud+PuyO6obJ
+	QDQw==
+X-Gm-Message-State: AOAM532JFyXVn/JSMwbX6kbT8Mm6cTzxIha4S8bqNcYp25zHBvmx2VZx
+	CgoAOMHZZQHj/2k4WM1k+UGdFf3aA+ZTtfmuSUnIEdNk/lar
+X-Google-Smtp-Source: ABdhPJyMOLOliiATOkZ4ERhtuxbTd3QWUMvRFlx9Yy9aqe0YyblGN5PjNZyYAGPRFmjGlQK0P3fD+x5QxodPBG51rsw=
+X-Received: by 2002:a05:6402:54d:: with SMTP id
+	i13mr5868684edx.12.1611691543921; 
+	Tue, 26 Jan 2021 12:05:43 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210126131151.10418-1-yang.yang29@zte.com.cn>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+References: <20210126164108.1958-1-casey@schaufler-ca.com>
+	<20210126164108.1958-22-casey@schaufler-ca.com>
+	<20210126184246.GM1762914@madcap2.tricolour.ca>
+	<e9140e2a-a6ca-9d51-9db4-a0ec0dfd56cc@schaufler-ca.com>
+In-Reply-To: <e9140e2a-a6ca-9d51-9db4-a0ec0dfd56cc@schaufler-ca.com>
+From: Paul Moore <paul@paul-moore.com>
+Date: Tue, 26 Jan 2021 15:05:32 -0500
+Message-ID: <CAHC9VhRFQDoNwhdLf4FEJKZzrVq3a5nnAkWS373JSbabdj3Pow@mail.gmail.com>
+Subject: Re: [PATCH v24 21/25] audit: add support for non-syscall auxiliary
+	records
+To: Casey Schaufler <casey@schaufler-ca.com>
+X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
+	Definition; Similar Internal Domain=false;
+	Similar Monitored External Domain=false;
+	Custom External Domain=false; Mimecast External Domain=false;
+	Newly Observed Domain=false; Internal User Name=false;
+	Custom Display Name List=false; Reply-to Address Mismatch=false;
+	Targeted Threat Dictionary=false;
+	Mimecast Threat Dictionary=false; Custom Threat Dictionary=false
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
 X-loop: linux-audit@redhat.com
-Cc: Yang Yang <yang.yang29@zte.com.cn>, linux-audit@redhat.com,
-	linux-kernel@vger.kernel.org
+Cc: john.johansen@canonical.com, Richard Guy Briggs <rgb@redhat.com>,
+	James Morris <jmorris@namei.org>, linux-kernel@vger.kernel.org,
+	selinux@vger.kernel.org, linux-security-module@vger.kernel.org,
+	linux-audit@redhat.com, casey.schaufler@intel.com,
+	Stephen Smalley <sds@tycho.nsa.gov>
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -68,87 +100,45 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
 	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=linux-audit-bounces@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Disposition: inline
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-On 2021-01-26 05:11, menglong8.dong@gmail.com wrote:
-> From: Yang Yang <yang.yang29@zte.com.cn>
-> 
-> No invoker users the return value of audit_filter_syscall().
-> So make it return void.
+On Tue, Jan 26, 2021 at 1:58 PM Casey Schaufler <casey@schaufler-ca.com> wrote:
+>
+> On 1/26/2021 10:42 AM, Richard Guy Briggs wrote:
+> > On 2021-01-26 08:41, Casey Schaufler wrote:
+> >> Standalone audit records have the timestamp and serial number generated
+> >> on the fly and as such are unique, making them standalone.  This new
+> >> function audit_alloc_local() generates a local audit context that will
+> >> be used only for a standalone record and its auxiliary record(s).  The
+> >> context is discarded immediately after the local associated records are
+> >> produced.
+> >>
+> >> Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
+> >> Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
+> >> Cc: linux-audit@redhat.com
+> >> To: Richard Guy Briggs <rgb@redhat.com>
+> > This has been minorly bothering me for several revisions...  Is there a
+> > way for the development/authorship to be accurately reflected
+> > if/when this patch is merged before the contid patch set?
+>
+> I don't know the right way to do that because I had to pull
+> some of what was in the original patch out. Any way you would
+> like it done is fine with me.
 
-That was my oversight when ripping out the AUDIT_FILTER_ENTRY list:
-5260ecc2e048 <rgb@redhat.com> 2018-02-14 ("audit: deprecate the AUDIT_FILTER_ENTRY filter")
+I'm not sure if there is one perfect way.  I typically see either a
+"From: " line if the author is different from the submitter, or in
+more complex cases such as this it seems like a simple note giving
+credit in the description might be the best option.
 
-Might as well also amend the function comment block to remove the
-reference to syscall entry since that is no longer relevant.
-
-> Signed-off-by: Yang Yang <yang.yang29@zte.com.cn>
-
-Reviewed-by: Richard Guy Briggs <rgb@redhat.com>
-
-> ---
->  kernel/auditsc.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/kernel/auditsc.c b/kernel/auditsc.c
-> index ce8c9e2279ba..c8e16b9c0f21 100644
-> --- a/kernel/auditsc.c
-> +++ b/kernel/auditsc.c
-> @@ -804,7 +804,7 @@ static int audit_in_mask(const struct audit_krule *rule, unsigned long val)
->   * also not high enough that we already know we have to write an audit
->   * record (i.e., the state is AUDIT_SETUP_CONTEXT or AUDIT_BUILD_CONTEXT).
->   */
-> -static enum audit_state audit_filter_syscall(struct task_struct *tsk,
-> +static void audit_filter_syscall(struct task_struct *tsk,
->  					     struct audit_context *ctx,
->  					     struct list_head *list)
->  {
-> @@ -812,7 +812,7 @@ static enum audit_state audit_filter_syscall(struct task_struct *tsk,
->  	enum audit_state state;
->  
->  	if (auditd_test_task(tsk))
-> -		return AUDIT_DISABLED;
-> +		return;
->  
->  	rcu_read_lock();
->  	list_for_each_entry_rcu(e, list, list) {
-> @@ -821,11 +821,11 @@ static enum audit_state audit_filter_syscall(struct task_struct *tsk,
->  				       &state, false)) {
->  			rcu_read_unlock();
->  			ctx->current_state = state;
-> -			return state;
-> +			return;
->  		}
->  	}
->  	rcu_read_unlock();
-> -	return AUDIT_BUILD_CONTEXT;
-> +	return;
->  }
->  
->  /*
-> -- 
-> 2.25.1
-> 
-> --
-> Linux-audit mailing list
-> Linux-audit@redhat.com
-> https://www.redhat.com/mailman/listinfo/linux-audit
-
-- RGB
-
---
-Richard Guy Briggs <rgb@redhat.com>
-Sr. S/W Engineer, Kernel Security, Base Operating Systems
-Remote, Ottawa, Red Hat Canada
-IRC: rgb, SunRaycer
-Voice: +1.647.777.2635, Internal: (81) 32635
+-- 
+paul moore
+www.paul-moore.com
 
 --
 Linux-audit mailing list
