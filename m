@@ -2,77 +2,106 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [63.128.21.124])
-	by mail.lfdr.de (Postfix) with ESMTP id CACE8303C53
-	for <lists+linux-audit@lfdr.de>; Tue, 26 Jan 2021 13:00:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 659E93043EC
+	for <lists+linux-audit@lfdr.de>; Tue, 26 Jan 2021 17:42:23 +0100 (CET)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-128-FIH2Fj7ZP7mJn8aVR8UbSA-1; Tue, 26 Jan 2021 07:00:07 -0500
-X-MC-Unique: FIH2Fj7ZP7mJn8aVR8UbSA-1
+ us-mta-202-vnfq_DKAP-eHRhO11fF76Q-1; Tue, 26 Jan 2021 11:42:19 -0500
+X-MC-Unique: vnfq_DKAP-eHRhO11fF76Q-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 15C0F801AB4;
-	Tue, 26 Jan 2021 12:00:02 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BBDCEAFA80;
+	Tue, 26 Jan 2021 16:42:11 +0000 (UTC)
 Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 27E0A5C26D;
-	Tue, 26 Jan 2021 12:00:00 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 5A1AA5F9A6;
+	Tue, 26 Jan 2021 16:42:09 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id BF67B180954D;
-	Tue, 26 Jan 2021 11:59:56 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
-	[10.11.54.3])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id F3E77180954D;
+	Tue, 26 Jan 2021 16:42:03 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+	[10.11.54.6])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 10QBrjmF022530 for <linux-audit@listman.util.phx.redhat.com>;
-	Tue, 26 Jan 2021 06:53:45 -0500
+	id 10QGfOIr024882 for <linux-audit@listman.util.phx.redhat.com>;
+	Tue, 26 Jan 2021 11:41:24 -0500
 Received: by smtp.corp.redhat.com (Postfix)
-	id 78AC4110F739; Tue, 26 Jan 2021 11:53:45 +0000 (UTC)
+	id EE6E52166B2E; Tue, 26 Jan 2021 16:41:23 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
-	(mimecast06.extmail.prod.ext.rdu2.redhat.com [10.11.55.22])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 7409F110F738
-	for <linux-audit@redhat.com>; Tue, 26 Jan 2021 11:53:42 +0000 (UTC)
+	(mimecast04.extmail.prod.ext.rdu2.redhat.com [10.11.55.20])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id E88352166B2C
+	for <linux-audit@redhat.com>; Tue, 26 Jan 2021 16:41:21 +0000 (UTC)
 Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
 	[207.211.31.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 059671875049
-	for <linux-audit@redhat.com>; Tue, 26 Jan 2021 11:53:42 +0000 (UTC)
-Received: from icp-osb-irony-out3.external.iinet.net.au
-	(icp-osb-irony-out3.external.iinet.net.au [203.59.1.153]) by
-	relay.mimecast.com with ESMTP id us-mta-225-RJr167-jNh6aymD6cmqLBQ-1;
-	Tue, 26 Jan 2021 06:53:36 -0500
-X-MC-Unique: RJr167-jNh6aymD6cmqLBQ-1
-X-SMTP-MATCH: 1
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: =?us-ascii?q?A2DiBgCyARBg/3zSRWpiHAEBAQEBAQc?=
-	=?us-ascii?q?BARIBAQQEAQFHgUiDdASFIokEhj2CFgM4g2yWQYFcCwEBAQEBAQEBATUBAgQ?=
-	=?us-ascii?q?BAYREBAICgXkmOBMCEAEBAQUBAQEBAQYDAYZehXQBBSMzIxALCAYKHA4CAlc?=
-	=?us-ascii?q?GLoMLglYBAS6yUoEyhUcTgiMGgQ2BRIE4hnsBhkI1gU0/gUeCYz6ECINPgmA?=
-	=?us-ascii?q?Egj4GgQ9OgSEVBA0CWAKQLIJ6iH6Kc5ETLAeCeoEYBQuGUZN2IoMrkBqPM4Y?=
-	=?us-ascii?q?lGKpphmSBejMaH4IWGIEQTxkNnH4wZwIGCgEBAwlZAQGLOgEB?=
-X-IPAS-Result: =?us-ascii?q?A2DiBgCyARBg/3zSRWpiHAEBAQEBAQcBARIBAQQEAQFHg?=
-	=?us-ascii?q?UiDdASFIokEhj2CFgM4g2yWQYFcCwEBAQEBAQEBATUBAgQBAYREBAICgXkmO?=
-	=?us-ascii?q?BMCEAEBAQUBAQEBAQYDAYZehXQBBSMzIxALCAYKHA4CAlcGLoMLglYBAS6yU?=
-	=?us-ascii?q?oEyhUcTgiMGgQ2BRIE4hnsBhkI1gU0/gUeCYz6ECINPgmAEgj4GgQ9OgSEVB?=
-	=?us-ascii?q?A0CWAKQLIJ6iH6Kc5ETLAeCeoEYBQuGUZN2IoMrkBqPM4YlGKpphmSBejMaH?=
-	=?us-ascii?q?4IWGIEQTxkNnH4wZwIGCgEBAwlZAQGLOgEB?=
-X-IronPort-AV: E=Sophos;i="5.79,375,1602518400"; 
-	d="scan'208,217";a="307857507"
-Received: from 106-69-210-124.dyn.iinet.net.au (HELO swtf.swtf.dyndns.org)
-	([106.69.210.124]) by icp-osb-irony-out3.iinet.net.au with ESMTP;
-	26 Jan 2021 19:53:32 +0800
-Message-ID: <c878d2aa65ba99579c800a67c54dccea24b9b03d.camel@iinet.net.au>
-Subject: Re: Occasional delayed output of events
-From: Burn Alting <burn.alting@iinet.net.au>
-To: Steve Grubb <sgrubb@redhat.com>
-Date: Tue, 26 Jan 2021 22:53:31 +1100
-In-Reply-To: <01a61bf10b409134ec57c2d419a33623f16010a9.camel@iinet.net.au>
-References: <30c5dbc14368a1919717e2f39d2d4c29463c3108.camel@iinet.net.au>
-	<11685937.O9o76ZdvQC@x2>
-	<702bbf002465236ec84ff4f90b9e159ccc3f327d.camel@iinet.net.au>
-	<3094935.aeNJFYEL58@x2>
-	<01a61bf10b409134ec57c2d419a33623f16010a9.camel@iinet.net.au>
-Mime-Version: 1.0
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1E89B100FBC7
+	for <linux-audit@redhat.com>; Tue, 26 Jan 2021 16:41:21 +0000 (UTC)
+Received: from sonic307-15.consmr.mail.ne1.yahoo.com
+	(sonic307-15.consmr.mail.ne1.yahoo.com [66.163.190.38]) (Using TLS) by
+	relay.mimecast.com with ESMTP id us-mta-211-GFa-NDXYMZya_BHZOnfJvg-1;
+	Tue, 26 Jan 2021 11:41:18 -0500
+X-MC-Unique: GFa-NDXYMZya_BHZOnfJvg-1
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
+	t=1611679277; bh=LkAD6BzMmboM8mGmxmYSfxDeS5oDHbg20xw4jyA6wL/=;
+	h=From:To:Subject:Date:From:Subject:Reply-To;
+	b=iRsim9aGfCMpdIQlb9bT0lFR236h3ND9kZfEtvtGDmTXmchhQaJ1/4ieEOltQv2EY/b+qP8MJTePBsdZ16DbSN+KhD25yz16H5bT5U+cGJ1TAMgkFvaxyiiZlSVoB95yXs3KJDfMXVk/l0Q0XdMv4NEy/my1EJ0U4lfLs2A4g0aetBSiZvX7sCwmYOe+ER4EV2eg+yvbK269RHhgv6VahyYizvvBB7WYYIvtBBP0Ciijhr95POinnPCL3vCiOhzm+RTLHC8ePIj+2XvPThZ+Pg6nQW6fqAsQ7P38WrF2PnvN3s4NnoeIL2ySgTKgOaNXgJtSIrCj1mFoxhVB1MtGuA==
+X-YMail-OSG: jmqHbvgVM1nLIngHKZ7MJ7v5qIuhrUGQPr3.54ThNPEWuPt9JWfNET7bG.ZLWjM
+	dblgL0RHQeBLM8tApgX83i5mfXMODe6g04P444KNnY8lDJ_tI9hVuglFozdm6T6tgAqhgKTNMt1F
+	Cj0FVeMHPGtJMbJ_ob8Wck61GZf9Uk.RMQiPKAFjtC3XEKiIu8QZuTuWxLqb8eTfoOyCG0T90dNU
+	Gy3Mp18Eh1UNUgjgSZkPj45Wg.4VoKno4RtIOesEHpw7FUJi7bbi1aiJLPlAxMS5EAcvW4rB5F6.
+	AyO3DCqimgVNahHpQXa_.rbOKPwqSRZWu4Gr1qwM_CHrQW1hDEQsTnYOEUtLdLYS4AgO.ihyrC2V
+	xYBtdgVNwHK0GI1j_BrCVe_Bv8VaZcl_oSgfrnvgIoPyXbTc3jR8gP_2ybgw9Ea5Yeglgy3siboy
+	7jBzkolnOMm7_kV.vgtJuE06pQfbyIm1TV6rvYBJg6HOsQhvWCMOj3Hd6wWTgA6T7jMNW1.drxc1
+	vmfiIi2vnqiVEmo3XwtGYmJIopKHRe9VlCSZtzYzc0.aF_KNINtQZVf2vLDvfYGCLQxrSuTY1OjU
+	jkRPnvzXzf0aHOjXVwbkyMVded_1uPoSZh8h.KhOGcj3dbhqEBgi6uOS6.EgLc6Coqx8HfUbs_Pu
+	tzD9pzKEW7rMwoJHdeB8B5EkvQFoRF61.VMvN1qG3uFSNO1ypCeChRYQj0jGJv.WepIYPcTPuFcC
+	HsTXvPSBEwdE4K5vaWx8lnabamhbBAzetwAEMQNNondV7TWdKfL.knSgsDOAscIXvqbraiADj4kz
+	251E0yrcnwt9ROv1WZAiJqu9xrnsz4e54HwbsijsgT.J4Bt6Hz7zH_b12TTCJrWgVvG0Scircbo_
+	OTV1Fk8xC.I_hZFFXfheNzCEqHpD6DaQhqYx24imzVkLBf_iMFmZEKmisKbxxAGIdc56bI7EQKQ0
+	avyNPd2UhJhIhTqHFgeVuYOiqABBc0rANu7_HZ4s.cbDg0fm.DIykWxjXhp0P9B_BpatixjXFtDx
+	c53wSY9D3PvKpIqvV2vrFRDp0cGcvhLeJer8URpNf2YCVZ0J.Uof37Bv3QmLmf.ayp.QZy5X29aV
+	wqEOwLA8j716NCaawxsretFKGH9bwgLx5PNhJkWAtdT1w9w3JZq.OGfYtb0YVICyWgNKp9NtglH1
+	SJ79edvkexe.POpEEBHC.U0jER2wFyb2iHLeY28WYyOrxs.dB37waQPhhW2HwC8yBigYSz7Sd8xz
+	4CRsJ5vf2rRVXscpKzVmk3s1CTgFt4NZORPV3QOOVFzBYYuuNtenx1DH38i5VIUe_fwqMN0_TN4e
+	B3lk_XKADPc.NfXfC9HDi7M7EyfzNeoikkNlaecq65.Qn0PJPSFBMt._Pkko8IePqlvg3FeVo7nA
+	bX_0RuZ9i.MVz5V.iebrJCblmphPDFE889kzqPzYGiwwr73SLb2Q9C24oo7uLJcGzEt8Pai8esSg
+	XRngkPi_ZPUtEigpr851lZzX2QQn2rAvn0NegJV4eGg9BaQsAshnhaI1HJoZ8ecHZefmh7slHQg0
+	9VTkfFstgd0ptj8ntmMR._Bo4DoDYlhd35VclUPWd34.ld4ghJPm2dbK6Kq.pSOknRnkTqsy16gL
+	Ctq99v1wW01uqNKVRz7orry1XHmPS8Vi2Tr16ULURlpkHNQIKA_ztdxL6xGeSEPE7kcLJ0B.K.F3
+	p.XM3jyIHh2mcia39_3lc1rZa.HSk3Y1O9RjHiGl7VXQGyslhA5PItMs3IuN7uefdAVVjaq4ZmLt
+	HBGvYVRAwWTgooNq0SQRWDdhSEAjYACDnpI5.4naUsI3leUB5IGKQWD8enBWNUChRDa8CkoatiBA
+	66.jwwB1K.EsO_vdnwK37RtXzwFGwcAJktTmCWPLKnJIAiAOJJVr0tphUdiuNrT6ahZS0nJl._5i
+	Xkj88bAdRp8It3SxALaRnbfq4UewMYYdjeaLZPoyDJWf2osN7Q9z4M5ZrQKHDnSZgJBWFUesNv_u
+	CoXPX0DdaxI0DjBLXNdVRRE9_GbVPylr0bqrsaktRu6IPOAtIsFxJn.jFVUJh3WBszVPMeWYRHf3
+	HYwP_.z7zq4uyeXGpU9jmc3T6.S_KT63R.NhMTXPXarVylSiYvm8XpsfnLnwAqUi681DsgsRNwVZ
+	f9wF360ooa7q6JZJ7vY5zfEylE6ctZfDW2pLpj4yus7ew_kpb_m_NgHRe_gLqwHJ.CXmXWLGfiNm
+	MP2PxTk7tBFx_qDace93dSvgQ9kFB2t_.i9MpBBSLmOuMs5zP3cWI2cGchqMGui2UPiIAIXmPXZa
+	IRHRhGkESuosg3t4b8MyN8lkf1.M86AopkKJJUNw.VngD17OwN3hX7lj3QvQL2k.3ZLI.eS5j_1j
+	wLxeIHjzvrfCQgmR8BNfYpaZF3uG_zkuGgfN1kIvJedNWLwbZZf6lANpUYKgbQOwwC2Ia4NAG35T
+	WNL_2aRBeFIH7c3iEmtPiaPYjV1oDZ4zyOXq99PWXecRNXomWxt0C7VJct.WpzZofPrOf4fv7UnT
+	MbMBeE490gr1Pwt29e40bTURur6hj40VwMLYRmC_gSr0UfW5HqaF7CTrt2ecoZFO63JEt8O8EiKW
+	EenTwx6VMK0uivCuvrD8r0VH5kvrWRaM2Jtero4EtgAVMdu6Ai0tXt2t.rWgW.vHKPSkQRAEn_Fo
+	2jSZh.ySsg22cFFXx5Pk9NexpR.CmSTxqzfMJyBeJdxkMpmIW41ZbSrcYlUooH_Ala4Whyrk6.k0
+	AZ3kys_C5LBPLuJDOf5hXPyai2RORmDFhXvsLaERpgDmjsHlxUEECL6NmfY1xuGrCRx0u3vZdMx8
+	6NKf7DZfK1ixWVpasbpKT_nh68Fdl1gh.MTic7zh268umtO8WzK3GuJd4s.YTYHgHiBxQ_Hxrqj1
+	dFMI93JN2ELH6ode.i20o78i87abCFBkFhN1OsFmnpcHiu5tKM2innwwn6PvmcwGGdMj6wBZf8Mn
+	crSbGdj31bbBJti.A21buKKVOzc9Zb2f86HAcm3GFM6llQoXLIg6eBnxd_QyIfPehhreEvv_lViX
+	UPYNyjRLAdPX6Tg--
+Received: from sonic.gate.mail.ne1.yahoo.com by
+	sonic307.consmr.mail.ne1.yahoo.com with HTTP;
+	Tue, 26 Jan 2021 16:41:17 +0000
+Received: by smtp411.mail.ne1.yahoo.com (VZM Hermes SMTP Server) with ESMTPA
+	ID 8f46fdf5312c7bc4d9cf88a41d199906; 
+	Tue, 26 Jan 2021 16:41:12 +0000 (UTC)
+From: Casey Schaufler <casey@schaufler-ca.com>
+To: casey.schaufler@intel.com, jmorris@namei.org,
+	linux-security-module@vger.kernel.org, selinux@vger.kernel.org
+Subject: [PATCH v24 00/25] LSM: Module stacking for AppArmor
+Date: Tue, 26 Jan 2021 08:40:43 -0800
+Message-Id: <20210126164108.1958-1-casey@schaufler-ca.com>
+MIME-Version: 1.0
+References: <20210126164108.1958-1-casey.ref@schaufler-ca.com>
 X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
 	Definition; Similar Internal Domain=false;
 	Similar Monitored External Domain=false;
@@ -81,13 +110,13 @@ X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
 	Custom Display Name List=false; Reply-to Address Mismatch=false;
 	Targeted Threat Dictionary=false;
 	Mimecast Threat Dictionary=false; Custom Threat Dictionary=false
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
 X-loop: linux-audit@redhat.com
-Cc: Richard Guy Briggs <rgb@redhat.com>, Linux Audit <linux-audit@redhat.com>
+Cc: john.johansen@canonical.com, linux-kernel@vger.kernel.org,
+	linux-audit@redhat.com, sds@tycho.nsa.gov
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
-Reply-To: burn@swtf.dyndns.org
 List-Id: Linux Audit Discussion <linux-audit.redhat.com>
 List-Unsubscribe: <https://www.redhat.com/mailman/options/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=unsubscribe>
@@ -103,149 +132,414 @@ Authentication-Results: relay.mimecast.com;
 	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=linux-audit-bounces@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/mixed; boundary="===============8019951481000652889=="
-
---===============8019951481000652889==
-Content-Type: multipart/alternative; boundary="=-lJdnFKNg4TS1kMSotyIV"
-
---=-lJdnFKNg4TS1kMSotyIV
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-
-On Tue, 2021-01-26 at 11:29 +1100, Burn Alting wrote:
-> On Mon, 2021-01-25 at 19:20 -0500, Steve Grubb wrote:
-> > On Monday, January 25, 2021 7:11:45 PM EST Burn Alting wrote:
-> > > On Mon, 2021-01-25 at 18:53 -0500, Steve Grubb wrote:
-> > > > On Saturday, January 23, 2021 5:55:44 PM EST Burn Alting wrote:
-> > > > > > > How is the following for a way forward.a. I will author a patch to the
-> > > > > > > user space code to correctly parsethiscondition and submit it on the
-> > > > > > > weekend. It will be via a newconfiguration item to auditd.conf just in
-> > > > > > > case placing a fixedextended timeout (15-20 secs) affects memory usage
-> > > > > > > for users of theauparse library. This solves the initial problem
-> > > > > > > ofausearch/auparsefailing to parse generated audit.b. I am happy to
-> > > > > > > instrument whateveris recommended on my hosts at home (vm's and bare
-> > > > > > > metal) to providemore information, should we want to 'explain' the
-> > > > > > > occurrence, givenIsee this every week or two and report back.
-> > > > > > 
-> > > > > > Seems reasonable to me.
-> > > > > 
-> > > > > I can implement the 'end_of_event_timeout' change either asi. a command
-> > > > > line argument to ausearch/aureport (say --eoetmo secs) andanew pair of
-> > > > > library functions within the  auparse() stable
-> > > > > (sayauparse_set_eoe_timeout() and auparse_get_eoe_timeout())orii. a
-> > > > > configuration item in /etc/audit/auditd.conf, or
-> > > > > 
-> > > > > Which is your preference? Mine is i. as this is a user space
-> > > > > processingchange, not a demon change.
-> > > > 
-> > > > To be honest, I'm not entirely sure what we're seeing. I run some teststoday
-> > > > on my system. It's seeing issues also. I'd still like to treat theroot cause
-> > > > of this. But we do need to change the default. That I whatI'm trying to
-> > > > figure out.
-> > > > Back to your question, I'm wondering if we should do both? A
-> > > > changeabledefault in auditd.conf and an override on the command line.
-> > > 
-> > > So far, all items in /etc/audit/auditd.conf appear to only affect thedaemon.
-> > > Is this the right location to start adding non-daemonconfiguration items? (I
-> > > accept there is no other place).
-> > 
-> > ausearch/report/auparse all read the auditd.conf to find the canonical location
-> > for where the logs are supposed to be. So, they already read this file. I'd
-> > rather keep it there than make yet another config. The only drawback it that it
-> > might again confuse people that auditd really doesn't do anything with the
-> > records but just some light processing.
-> 
-> OK. I will put it in /etc/audit/auditd.conf
-
-One question with this solution. If the user does not have read permission to
-/etc/audit/auditd.conf, then any change cannot take effect. The default mode for
-this file is 640 to root, so a non-root user could never change the timeout.
-
-Should I also add
-- a command line argument to ausearch/aureport (say --eoetmo secs) and,
-- a pair of new auparse() functions - auparse_set_eoe_timeout() and
-auparse_get_eoe_timeout()
-so that non root users can make use of the new configuration item.
-
-Also, do you want the default timeout to be 2 seconds or should I make it higher.
-
-
-
---=-lJdnFKNg4TS1kMSotyIV
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-
-<html dir=3D"ltr"><head></head><body style=3D"text-align:left; direction:lt=
-r;"><div>On Tue, 2021-01-26 at 11:29 +1100, Burn Alting wrote:</div><blockq=
-uote type=3D"cite" style=3D"margin:0 0 0 .8ex; border-left:2px #729fcf soli=
-d;padding-left:1ex"><div>On Mon, 2021-01-25 at 19:20 -0500, Steve Grubb wro=
-te:</div><blockquote type=3D"cite" style=3D"margin:0 0 0 .8ex; border-left:=
-2px #729fcf solid;padding-left:1ex"><pre>On Monday, January 25, 2021 7:11:4=
-5 PM EST Burn Alting wrote:</pre><blockquote type=3D"cite" style=3D"margin:=
-0 0 0 .8ex; border-left:2px #729fcf solid;padding-left:1ex"><pre>On Mon, 20=
-21-01-25 at 18:53 -0500, Steve Grubb wrote:</pre><blockquote type=3D"cite" =
-style=3D"margin:0 0 0 .8ex; border-left:2px #729fcf solid;padding-left:1ex"=
-><pre>On Saturday, January 23, 2021 5:55:44 PM EST Burn Alting wrote:</pre>=
-<blockquote type=3D"cite" style=3D"margin:0 0 0 .8ex; border-left:2px #729f=
-cf solid;padding-left:1ex"><blockquote type=3D"cite" style=3D"margin:0 0 0 =
-.8ex; border-left:2px #729fcf solid;padding-left:1ex"><blockquote type=3D"c=
-ite" style=3D"margin:0 0 0 .8ex; border-left:2px #729fcf solid;padding-left=
-:1ex"><pre>How is the following for a way forward.</pre><pre>a. I will auth=
-or a patch to the user space code to correctly parse</pre><pre>this</pre><p=
-re>condition and submit it on the weekend. It will be via a new</pre><pre>c=
-onfiguration item to auditd.conf just in case placing a fixed</pre><pre>ext=
-ended timeout (15-20 secs) affects memory usage for users of the</pre><pre>=
-auparse library. This solves the initial problem of</pre><pre>ausearch/aupa=
-rse</pre><pre>failing to parse generated audit.b. I am happy to instrument =
-what</pre><pre>ever</pre><pre>is recommended on my hosts at home (vm's and =
-bare metal) to provide</pre><pre>more information, should we want to 'expla=
-in' the occurrence, given</pre><pre>I</pre><pre>see this every week or two =
-and report back.</pre></blockquote><br><pre>Seems reasonable to me.</pre></=
-blockquote><br><pre>I can implement the 'end_of_event_timeout' change eithe=
-r as</pre><pre>i. a command line argument to ausearch/aureport (say --eoetm=
-o secs) and</pre><pre>a</pre><pre>new pair of library functions within the =
- auparse() stable (say</pre><pre>auparse_set_eoe_timeout() and auparse_get_=
-eoe_timeout())</pre><pre>or</pre><pre>ii. a configuration item in /etc/audi=
-t/auditd.conf, or</pre><br><br><pre>Which is your preference? Mine is i. as=
- this is a user space processing</pre><pre>change, not a demon change.</pre=
-></blockquote><br><pre>To be honest, I'm not entirely sure what we're seein=
-g. I run some tests</pre><pre>today on my system. It's seeing issues also. =
-I'd still like to treat the</pre><pre>root cause of this. But we do need to=
- change the default. That I what</pre><pre>I'm trying to figure out.</pre><=
-br><pre>Back to your question, I'm wondering if we should do both? A change=
-able</pre><pre>default in auditd.conf and an override on the command line.<=
-/pre></blockquote><br><pre>So far, all items in /etc/audit/auditd.conf appe=
-ar to only affect the</pre><pre>daemon. Is this the right location to start=
- adding non-daemon</pre><pre>configuration items? (I accept there is no oth=
-er place).</pre></blockquote><br><pre>ausearch/report/auparse all read the =
-auditd.conf to find the canonical </pre><pre>location for where the logs ar=
-e supposed to be. So, they already read this </pre><pre>file. I'd rather ke=
-ep it there than make yet another config. The only drawback </pre><pre>it t=
-hat it might again confuse people that auditd really doesn't do anything </=
-pre><pre>with the records but just some light processing.</pre></blockquote=
-><br><pre>OK. I will put it in /etc/audit/auditd.conf</pre></blockquote><di=
-v><br></div><div>One question with this solution. If the user does not have=
- read permission to /etc/audit/auditd.conf, then any change cannot take eff=
-ect. The default mode for this file is 640 to root, so a non-root user coul=
-d never change the timeout.</div><div><br></div><div>Should I also add</div=
-><div>- a command line argument to ausearch/aureport (say --eoetmo secs) an=
-d,</div><div>- a pair of new auparse() functions - auparse_set_eoe_timeout(=
-) and auparse_get_eoe_timeout()</div><div>so that non root users can make u=
-se of the new configuration item.</div><div><br></div><div>Also, do you wan=
-t the default timeout to be 2 seconds or should I make it higher.</div><div=
-><br></div></body></html>
-
---=-lJdnFKNg4TS1kMSotyIV--
-
---===============8019951481000652889==
 Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+
+This patchset provides the changes required for
+the AppArmor security module to stack safely with any other.
+
+v24: Rebase to 5.11-rc1
+     Incorporate feedback from v23
+     - Address the IMA team's concerns about "label collisions".
+       A label collision occurs when there is ambiguity about
+       which of multiple LSMs is being targeted in the definition
+       of an integrity check rule.  A system with Smack and
+       AppArmor would be unable to distinguish which LSM is
+       important to an integrity rule referrencing the label
+       "unconfined" as that label is meaningful to both.
+       Provide a boot option to specify which LSM will be used in
+       IMA rules when multiple LSMs are present. (patch 04)
+       Pull LSM "slot" identification from later audit patches in
+       in support of this (patch 03).
+     - Pick up a few audit events that need to include supplimental
+       subject context records that had been missed in the
+       previous version.
+v23: Rebase to 5.10-rc4
+     Incorporate feedback from v22
+     - Change /proc/*/attr/display to /proc/*/attr/interface_lsm to
+       make the purpose clearer. (patch 0012)
+     - Include ABI documentation. (patch 0012, 0022)
+     - Introduce LSM documentation updates with the patches where
+       the interfaces are added rather than at the end. (patch 0012, 0022)
+     Include more maintainers and mail lists in To: and Cc: directives.
+v22: Rebase to 5.10-rc1
+v21: Rebase to 5.9-rc4
+     Incorporate feedback from v20
+     - Further revert UDS SO_PEERSEC to use scaffolding around
+       the interfaces that use lsmblobs and store only a single
+       secid. The possibility of multiple security modules
+       requiring data here is still a future problem.
+     - Incorporate Richard Guy Briggs' non-syscall auxiliary
+       records patch (patch 0019-0021) in place of my "supplimental"
+       records implementation. [I'm not sure I've given proper
+       attestation. I will correct as appropriate]
+v20: Rebase to 5.9-rc1
+     Change the BPF security module to use the lsmblob data. (patch 0002)
+     Repair length logic in subject label processing (patch 0015)
+     Handle -EINVAL from the empty BPF setprocattr hook (patch 0020)
+     Correct length processing in append_ctx() (patch 0022)
+v19: Rebase to 5.8-rc6
+     Incorporate feedback from v18
+     - Revert UDS SO_PEERSEC implementation to use lsmblobs
+       directly, rather than allocating as needed. The correct
+       treatment of out-of-memory conditions in the later case
+       is difficult to define. (patch 0005)
+     - Use a size_t in append_ctx() (patch 0021)
+     - Fix a memory leak when creating compound contexts. (patch 0021)
+     Fix build error when CONFIG_SECURITY isn't set (patch 0013)
+     Fix build error when CONFIG_SECURITY isn't set (patch 0020)
+     Fix build error when CONFIG_SECURITY isn't set (patch 0021)
+v18: Rebase to 5.8-rc3
+     Incorporate feedback from v17
+     - Null pointer checking in UDS (patch 0005)
+     Match changes in IMA code (patch 0012)
+     Fix the behavior of LSM context supplimental audit
+     records so that there's always exactly one when it's
+     appropriate for there to be one. This is a substantial
+     change that requires extention of the audit_context beyond
+     syscall events. (patch 0020)
+v17: Rebase to 5.7-rc4
+v16: Rebase to 5.6
+     Incorporate feedback from v15 - Thanks Stephen, Mimi and Paul
+     - Generally improve commit messages WRT scaffolding
+     - Comment ima_lsm_isset() (patch 0002)
+     - Some question may remain on IMA warning (patch 0002)
+     - Mark lsm_slot as __lsm_ro_after_init not __init_data (patch 0002)
+     - Change name of lsmblob variable in ima_match_rules() (patch 0003)
+     - Instead of putting a struct lsmblob into the unix_skb_parms
+       structure put a pointer to an allocated instance. There is
+       currently only space for 5 u32's in unix_skb_parms and it is
+       likely to get even tighter. Fortunately, the lifecycle
+       management of the allocated lsmblob is simple. (patch 0005)
+     - Dropped Acks due to the above change (patch 0005)
+     - Improved commentary on secmark labeling scaffolding. (patch 0006)
+     - Reduced secmark related labeling scaffolding. (patch 0006)
+     - Replace use of the zeroth entry of an lsmblob in scaffolding
+       with a function lsmblob_value() to hopefully make it less
+       obscure. (patch 0006)
+     - Convert security_secmark_relabel_packet to use lsmblob as
+       this reduces much of the most contentious scaffolding. (patch 0006)
+     - Dropped Acks due to the above change (patch 0006)
+     - Added BUILD_BUG_ON() for CIPSO tag 6. (patch 0018)
+     - Reworked audit subject information. Instead of adding fields in
+       the middle of existing records add a new record to the event. When
+       a separate record is required use subj="?". (patch 0020)
+     - Dropped Acks due to the above change (patch 0020)
+     - Reworked audit object information. Instead of adding fields in
+       the middle of existing records add a new record to the event. When
+       a separate record is required use obj="?". (patch 0021)
+     - Dropped Acks due to the above change (patch 0021)
+     - Enhanced documentation (patch 0022)
+     - Removed unnecessary error code check in security_getprocattr()
+       (patch 0021)
+v15: Rebase to 5.6-rc1
+     - Revise IMA data use (patch 0002)
+     Incorporate feedback from v14
+     - Fix lockdown module registration naming (patch 0002)
+     - Revise how /proc/self/attr/context is gathered. (patch 0022)
+     - Revise access modes on /proc/self/attr/context. (patch 0022)
+     - Revise documentation on LSM external interfaces. (patch 0022)
+v14: Rebase to 5.5-rc5
+     Incorporate feedback from v13
+     - Use an array of audit rules (patch 0002)
+     - Significant change, removed Acks (patch 0002)
+     - Remove unneeded include (patch 0013)
+     - Use context.len correctly (patch 0015)
+     - Reorder code to be more sensible (patch 0016)
+     - Drop SO_PEERCONTEXT as it's not needed yet (patch 0023)
+v13: Rebase to 5.5-rc2
+     Incorporate feedback from v12
+     - Print lsmblob size with %z (Patch 0002)
+     - Convert lockdown LSM initialization. (Patch 0002)
+     - Restore error check in nft_secmark_compute_secid (Patch 0006)
+     - Correct blob scaffolding in ima_must_appraise() (Patch 0009)
+     - Make security_setprocattr() clearer (Patch 0013)
+     - Use lsm_task_display more widely (Patch 0013)
+     - Use passed size in lsmcontext_init() (Patch 0014)
+     - Don't add a smack_release_secctx() hook (Patch 0014)
+     - Don't print warning in security_release_secctx() (Patch 0014)
+     - Don't duplicate the label in nfs4_label_init_security() (Patch 0016)
+     - Remove reviewed-by as code has significant change (Patch 0016)
+     - Send the entire lsmblob for Tag 6 (Patch 0019)
+     - Fix description of socket_getpeersec_stream parameters (Patch 0023)
+     - Retain LSMBLOB_FIRST. What was I thinking? (Patch 0023)
+     - Add compound context to LSM documentation (Patch 0023)
+v12: Rebase to 5.5-rc1
+     Fixed a couple of incorrect contractions in the text.
+v11: Rebase to 5.4-rc6
+     Incorporate feedback from v10
+     - Disambiguate reading /proc/.../attr/display by restricting
+       all use of the interface to the current process.
+     - Fix a merge error in AppArmor's display attribute check
+v10: Ask the security modules if the display can be changed.
+v9: There is no version 9
+v8: Incorporate feedback from v7
+    - Minor clean-up in display value management
+    - refactor "compound" context creation to use a common
+      append_ctx() function.
+v7: Incorporate feedback from v6
+    - Make setting the display a privileged operation. The
+      availability of compound contexts reduces the need for
+      setting the display.
+v6: Incorporate feedback from v5
+    - Add subj_<lsm>= and obj_<lsm>= fields to audit records
+    - Add /proc/.../attr/context to get the full context in
+      lsmname\0value\0... format as suggested by Simon McVittie
+    - Add SO_PEERCONTEXT for getsockopt() to get the full context
+      in the same format, also suggested by Simon McVittie.
+    - Add /sys/kernel/security/lsm_display_default to provide
+      the display default value.
+v5: Incorporate feedback from v4
+    - Initialize the lsmcontext in security_secid_to_secctx()
+    - Clear the lsmcontext in all security_release_secctx() cases
+    - Don't use the "display" on strictly internal context
+      interfaces.
+    - The SELinux binder hooks check for cases where the context
+      "display" isn't compatible with SELinux.
+v4: Incorporate feedback from v3
+    - Mark new lsm_<blob>_alloc functions static
+    - Replace the lsm and slot fields of the security_hook_list
+      with a pointer to a LSM allocated lsm_id structure. The
+      LSM identifies if it needs a slot explicitly. Use the
+      lsm_id rather than make security_add_hooks return the
+      slot value.
+    - Validate slot values used in security.c
+    - Reworked the "display" process attribute handling so that
+      it works right and doesn't use goofy list processing.
+    - fix display value check in dentry_init_security
+    - Replace audit_log of secids with '?' instead of deleting
+      the audit log
+v3: Incorporate feedback from v2
+    - Make lsmblob parameter and variable names more
+      meaningful, changing "le" and "l" to "blob".
+    - Improve consistency of constant naming.
+    - Do more sanity checking during LSM initialization.
+    - Be a bit clearer about what is temporary scaffolding.
+    - Rather than clutter security_getpeersec_dgram with
+      otherwise unnecessary checks remove the apparmor
+      stub, which does nothing useful.
+
+Patch 01 moves management of the sock security blob
+from the individual modules to the infrastructure.
+
+Patches 02-03 introduce a structure "lsmblob" that will gradually
+replace the "secid" as a shorthand for security module information.
+At this point lsmblob contains an array of u32 secids, one "slot"
+for each of the security modules compiled into the kernel that
+used secids. A "slot" is allocated when a security module requests
+one.
+
+Patch 04 provides mechanism for the IMA subsystem to identify
+explicitly which LSM is subject to IMA policy. This includes
+a boot option for specifying the default and an additional option
+in IMA rules "lsm=".
+
+Patches 05-13 change LSM interfaces to use the lsmblob instead
+of secids. It is important that the lsmblob be a fixed size entity
+that does not have to be allocated. Several of the places
+where it is used would have performance and/or locking
+issues with dynamic allocation.
+
+Patch 14 provides a mechanism for a process to identify which
+security module's hooks should be used when displaying or
+converting a security context string.  A new interface
+/proc/self/attr/interface_lsm contains the name of the security
+module to show. Reading from this file will present the name of
+the module, while writing to it will set the value. Only names
+of active security modules are accepted. Internally, the name
+is translated to the appropriate "slot" number for the module
+which is then stored in the task security blob. Setting the
+display requires that all modules using the /proc interfaces
+allow the transition. The interface LSM of other processess
+can be neither read nor written. All suggested cases for
+reading the interface LSM of a different process have race
+conditions.
+
+Patch 15 Starts the process of changing how a security
+context is represented. Since it is possible for a
+security context to have been generated by more than one
+security module it is now necessary to note which module
+created a security context so that the correct "release"
+hook can be called. There are several places where the
+module that created a security context cannot be inferred.
+
+This is achieved by introducing a "lsmcontext" structure
+which contains the context string, its length and the
+"slot" number of the security module that created it.
+The security_release_secctx() interface is changed,
+replacing the (string,len) pointer pair with a lsmcontext
+pointer.
+
+Patches 16-18 convert the security interfaces from
+(string,len) pointer pairs to a lsmcontext pointer.
+The slot number identifying the creating module is
+added by the infrastructure. Where the security context
+is stored for extended periods the data type is changed.
+
+The Netlabel code is converted to save lsmblob structures
+instead of secids in Patch 19. This is not strictly
+necessary as there can only be one security module that
+uses Netlabel at this point. Using a lsmblob is much
+cleaner, as the interfaces that use the data have all
+been converted.
+
+Patch 20 adds checks to the binder hooks which verify
+that both ends of a transaction use the same interface LSM.
+
+Patches 21-23 add addition audit records for subject and
+object LSM data when there are multiple security modules
+with such data. The AUDIT_MAC_TASK_CONTEXTS record is used
+in conjuction with a "subj=?" field to identify the subject
+data. The AUDIT_MAC_OBJ_CONTEXTS record is used in conjuction
+with a "obj=?" field to identify the object data.  The
+AUDIT_MAC_TASK_CONTEXTS record identifies the security module
+with the data: "subj_selinux=xyz_t subj_apparmor=abc". The
+AUDIT_MAC_OBJ_CONTEXTS record identifies the security module
+with the data: "obj_selinux=xyz_t obj_apparmor=abc".  While
+AUDIT_MAC_TASK_CONTEXTS records will always contain an entry
+for each possible security modules, AUDIT_MAC_OBJ_CONTEXTS
+records will only contain entries for security modules for
+which the object in question has data.
+
+An example of the MAC_TASK_CONTEXTS (1420) record is:
+
+    type=UNKNOWN[1420]
+    msg=audit(1600880931.832:113)
+    subj_apparmor==unconfined
+    subj_smack=_
+
+An example of the MAC_OBJ_CONTEXTS (1421) record is:
+
+    type=UNKNOWN[1421]
+    msg=audit(1601152467.009:1050):
+    obj_selinux=unconfined_u:object_r:user_home_t:s0
+
+Patch 24 adds a new interface for getting the compound security
+contexts, /proc/self/attr/context.  An example of the content
+of this file is:
+
+    selinux\0one_u:one_r:one_t:s0-s0:c0.c1023\0apparmor\0unconfined\0
+
+Finally, with all interference on the AppArmor hooks removed,
+Patch 25 removes the exclusive bit from AppArmor. An unnecessary
+stub hook was also removed.
+
+The Ubuntu project is using an earlier version of this patchset in
+their distribution to enable stacking for containers.
+
+Performance measurements to date have the change within the "noise".
+The sockperf and dbench results are on the order of 0.2% to 0.8%
+difference, with better performance being as common as worse. The
+benchmarks were run with AppArmor and Smack on Ubuntu.
+
+https://github.com/cschaufler/lsm-stacking.git#stack-5.11-rc1-v24
+
+Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
+
+
+Casey Schaufler (25):
+  LSM: Infrastructure management of the sock security
+  LSM: Add the lsmblob data structure.
+  LSM: provide lsm name and id slot mappings
+  IMA: avoid label collisions with stacked LSMs
+  LSM: Use lsmblob in security_audit_rule_match
+  LSM: Use lsmblob in security_kernel_act_as
+  LSM: Use lsmblob in security_secctx_to_secid
+  LSM: Use lsmblob in security_secid_to_secctx
+  LSM: Use lsmblob in security_ipc_getsecid
+  LSM: Use lsmblob in security_task_getsecid
+  LSM: Use lsmblob in security_inode_getsecid
+  LSM: Use lsmblob in security_cred_getsecid
+  IMA: Change internal interfaces to use lsmblobs
+  LSM: Specify which LSM to display
+  LSM: Ensure the correct LSM context releaser
+  LSM: Use lsmcontext in security_secid_to_secctx
+  LSM: Use lsmcontext in security_inode_getsecctx
+  LSM: security_secid_to_secctx in netlink netfilter
+  NET: Store LSM netlabel data in a lsmblob
+  LSM: Verify LSM display sanity in binder
+  audit: add support for non-syscall auxiliary records
+  Audit: Add new record for multiple process LSM  attributes
+  Audit: Add a new record for multiple object LSM attributes
+  LSM: Add /proc attr entry for full LSM context
+  AppArmor: Remove the exclusive flag
+
+ Documentation/ABI/testing/ima_policy          |   8 +-
+ Documentation/ABI/testing/procfs-attr-context |  14 +
+ .../ABI/testing/procfs-attr-lsm_display       |  22 +
+ Documentation/security/lsm.rst                |  28 +
+ drivers/android/binder.c                      |  26 +-
+ fs/ceph/xattr.c                               |   6 +-
+ fs/nfs/nfs4proc.c                             |   8 +-
+ fs/nfsd/nfs4xdr.c                             |  20 +-
+ fs/proc/base.c                                |   2 +
+ include/linux/audit.h                         |  43 +-
+ include/linux/cred.h                          |   3 +-
+ include/linux/lsm_hooks.h                     |  36 +-
+ include/linux/security.h                      | 185 +++++-
+ include/net/netlabel.h                        |  11 +-
+ include/net/scm.h                             |  15 +-
+ include/net/xfrm.h                            |  13 +-
+ include/uapi/linux/audit.h                    |   2 +
+ kernel/audit.c                                | 175 ++++--
+ kernel/audit.h                                |  11 +-
+ kernel/auditfilter.c                          |  36 +-
+ kernel/auditsc.c                              | 191 +++---
+ kernel/cred.c                                 |  12 +-
+ net/ipv4/cipso_ipv4.c                         |  26 +-
+ net/ipv4/ip_sockglue.c                        |  12 +-
+ net/netfilter/nf_conntrack_netlink.c          |  24 +-
+ net/netfilter/nf_conntrack_standalone.c       |  11 +-
+ net/netfilter/nfnetlink_queue.c               |  38 +-
+ net/netfilter/nft_meta.c                      |  10 +-
+ net/netfilter/xt_SECMARK.c                    |   7 +-
+ net/netlabel/netlabel_domainhash.c            |   4 +-
+ net/netlabel/netlabel_kapi.c                  |   6 +-
+ net/netlabel/netlabel_unlabeled.c             | 106 ++--
+ net/netlabel/netlabel_unlabeled.h             |   2 +-
+ net/netlabel/netlabel_user.c                  |  23 +-
+ net/netlabel/netlabel_user.h                  |   2 +-
+ net/xfrm/xfrm_policy.c                        |  10 +-
+ net/xfrm/xfrm_state.c                         |  20 +-
+ security/apparmor/include/apparmor.h          |   3 +-
+ security/apparmor/include/net.h               |   6 +-
+ security/apparmor/include/procattr.h          |   2 +-
+ security/apparmor/lsm.c                       | 105 ++--
+ security/apparmor/procattr.c                  |  22 +-
+ security/bpf/hooks.c                          |  12 +-
+ security/commoncap.c                          |   7 +-
+ security/integrity/ima/ima.h                  |  15 +-
+ security/integrity/ima/ima_api.c              |  17 +-
+ security/integrity/ima/ima_appraise.c         |   6 +-
+ security/integrity/ima/ima_main.c             |  54 +-
+ security/integrity/ima/ima_policy.c           |  97 ++-
+ security/integrity/integrity_audit.c          |   6 +-
+ security/loadpin/loadpin.c                    |   8 +-
+ security/lockdown/lockdown.c                  |   7 +-
+ security/safesetid/lsm.c                      |   8 +-
+ security/security.c                           | 561 ++++++++++++++++--
+ security/selinux/hooks.c                      |  99 ++--
+ security/selinux/include/classmap.h           |   2 +-
+ security/selinux/include/objsec.h             |   5 +
+ security/selinux/include/security.h           |   1 +
+ security/selinux/netlabel.c                   |  25 +-
+ security/selinux/ss/services.c                |   4 +-
+ security/smack/smack.h                        |   6 +
+ security/smack/smack_access.c                 |   2 +-
+ security/smack/smack_lsm.c                    |  91 +--
+ security/smack/smack_netfilter.c              |   8 +-
+ security/smack/smackfs.c                      |  13 +-
+ security/tomoyo/tomoyo.c                      |   8 +-
+ security/yama/yama_lsm.c                      |   7 +-
+ 67 files changed, 1741 insertions(+), 634 deletions(-)
+ create mode 100644 Documentation/ABI/testing/procfs-attr-context
+ create mode 100644 Documentation/ABI/testing/procfs-attr-lsm_display
+
+-- 
+2.25.4
 
 --
 Linux-audit mailing list
 Linux-audit@redhat.com
 https://www.redhat.com/mailman/listinfo/linux-audit
---===============8019951481000652889==--
 
