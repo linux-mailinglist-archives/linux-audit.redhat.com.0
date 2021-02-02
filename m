@@ -2,113 +2,61 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [216.205.24.124])
-	by mail.lfdr.de (Postfix) with ESMTP id D0AD130C902
-	for <lists+linux-audit@lfdr.de>; Tue,  2 Feb 2021 19:07:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 08B5230CE52
+	for <lists+linux-audit@lfdr.de>; Tue,  2 Feb 2021 22:57:54 +0100 (CET)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-127-27O86bS3MDu9I4NgJ3G-0A-1; Tue, 02 Feb 2021 13:07:28 -0500
-X-MC-Unique: 27O86bS3MDu9I4NgJ3G-0A-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+ us-mta-469-XAypGpvEMAW2IXAU1fbrbQ-1; Tue, 02 Feb 2021 16:57:51 -0500
+X-MC-Unique: XAypGpvEMAW2IXAU1fbrbQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 93B238049C0;
-	Tue,  2 Feb 2021 18:07:16 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id BE76B6F98C;
-	Tue,  2 Feb 2021 18:07:14 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 78E5281620;
+	Tue,  2 Feb 2021 21:57:46 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 5695910016DB;
+	Tue,  2 Feb 2021 21:57:46 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id AE54E50038;
-	Tue,  2 Feb 2021 18:07:10 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
-	[10.11.54.6])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id BE48A18095CE;
+	Tue,  2 Feb 2021 21:57:45 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+	[10.11.54.3])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 112I6iwq023222 for <linux-audit@listman.util.phx.redhat.com>;
-	Tue, 2 Feb 2021 13:06:44 -0500
+	id 112LUgqI015921 for <linux-audit@listman.util.phx.redhat.com>;
+	Tue, 2 Feb 2021 16:30:42 -0500
 Received: by smtp.corp.redhat.com (Postfix)
-	id 2F5792166B2A; Tue,  2 Feb 2021 18:06:44 +0000 (UTC)
+	id 99CF31102E1E; Tue,  2 Feb 2021 21:30:42 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
-	(mimecast04.extmail.prod.ext.rdu2.redhat.com [10.11.55.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 2A1772166B27
-	for <linux-audit@redhat.com>; Tue,  2 Feb 2021 18:06:41 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [205.139.110.61])
+	(mimecast03.extmail.prod.ext.rdu2.redhat.com [10.11.55.19])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 918471134CC9
+	for <linux-audit@redhat.com>; Tue,  2 Feb 2021 21:30:39 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+	[207.211.31.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3E8E4101A560
-	for <linux-audit@redhat.com>; Tue,  2 Feb 2021 18:06:41 +0000 (UTC)
-Received: from sonic307-15.consmr.mail.ne1.yahoo.com
-	(sonic307-15.consmr.mail.ne1.yahoo.com [66.163.190.38]) (Using TLS) by
-	relay.mimecast.com with ESMTP id us-mta-344-ddFKyN2WPvy_PhocnAsNeQ-1;
-	Tue, 02 Feb 2021 13:06:38 -0500
-X-MC-Unique: ddFKyN2WPvy_PhocnAsNeQ-1
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
-	t=1612289198; bh=KsrlqM5OHzy9Aywsqwu8aQS1km6LVWfDIQYwYdfcds/=;
-	h=Subject:To:From:Date:From:Subject:Reply-To;
-	b=p4M/nKQ3YAoXqA//DTGYpdM6RKd+Xo0RUt8RwX2vhm1c5oTViGJrwxvkEmBDt8PaWdaWrItJ78O76dsceq+In8g5e208AkusaDmDrI5FnvX8vKAD2OqhVhp1Fk8c6vIv+lTQH6Fwp4qsOUHYxV5UBxeZ+Ak23fxuyGdjuDtbpYtE/nrPD8HGyPffXyNVlUzAuerv3zkRaKf1kSzHgtfVUiTA7JCvBW1zP1bg/cBubnu0DnVQIRYvOuXqnZTxD8+/hwGb0ealTR86Ka9mJgJd7g8LWdmuo2AoI2nyWDGIUEiKJHg3/I8QxaX8dfmjb7DWMFCymcgGiYk5H1RjvBdASQ==
-X-YMail-OSG: cPypzh0VM1kMwv2Q4BIswcIGJhfwCxn6Shchaipebl27u6A.Af9a.DcAPg.WJrD
-	x4Mz4rM1uoYhq.KY1SUqgiK294YKKfYi6aryGPPTFnSOr37TyBqlKY7u1FkN0Y.vaaeCyTEmm7RK
-	8l5PE4XqSdr.X9U6WSo7EnS00zXHrVhRJV.Tx75QjBjcaJ6gXd8qCHykL7.2z8yglQRfaLuHIAGA
-	ZNnc4kXiDHc0VGaanVuuBV99VobFladV69iDURM6dNkJPdt_Hnhq971uG4tqIq6DboY60AvyTozd
-	ibQAeJs8gmKeeTpBoCXBhR0QiuBBaO6Ai3QHEsh8D19.ZXGnQjb7LZ5SkoPg1abzHr76V6XHuqEA
-	mvVlRmXLPWkWlblSIkTWBgRxzNd8WxJYyuk10fqfrqhEor_W29XeBGreHZB9Hw25VLccYjnTRrJ8
-	1OBKtYb1pRgMWfhWTGCVzH1qZ_Nm9fd7b77YIrUTFbOuQbECV0MF2uHtg9bnD4EdxJ8ODOKQzXmr
-	nrz.hAMCyoR9.T63WVNkpdQ3sEcV3hVu4m7aZAH_itrJjjCwuqEyRQMXTMrvyuIYLut4Ys816QDN
-	RCZdv5nRrR8s62vZNJm9aYVhOus6fNn24oRIgYotcFZvvBfXOKEUKCfbb6BjBtJbGzVwqAAdppdS
-	qUQ3EbEEKucDjJRO5CHNo.3f8vfRMjHgbuucKCsf4KF_uRGEDikScMauo9_p4ZZvkJQ0kbYbkAiV
-	LTY0aBWjos3WwgLZ0ORQES7bsKJSffqokJt1V44bEcekOz1qnZr33e6G6zP7717wRt9lf5RJL8xS
-	aFJH75VMI39TG4GE.TWwPO0q83ADn3dF6VxuipAGCEOxWJNcuWKSA8kinSS257suWIG58USHt_Tt
-	Z6d.V7rMlyDmuXeoNbuJRW5884aqQDLC8SFJ8fqu099ZfKtUnsnIQwU6KWbAHOuLutVybAJ6RJBZ
-	iCaEXNK7nMO7a_nIM8IL321QfINSkwQnEVY3BDTcJme9ifKZWPEMUeHxyGmbzM8bdPmeb7o19h13
-	EA5av_uoxLMartOAmen5OcgVWBXZ1mUFjYUa_4Lj0h_K5mj2MjsH0wk8guOM1lH6MUbShmNakNQJ
-	g0pRXUFHFyRuEgE_lvDFgw_MAk2YXHPqk1kbrseELbeJ1rVqtjCuYNdkii2iWnbMVi3BCiflGbV7
-	w49BEkfNuIMr0bi4ggSmVelV8YUeo8GnycuThWpXTcM_1YFQiPXCIJwlZ.fkbE0F.1UmR1R6ViTJ
-	B6x7jFouqLuYoBQsUFmwZT2UnpUQKlBUhm4owCQ929q0FV8aprf8HKH75TXY1e1igfluJak6vj17
-	FgpycGeK1xd.gMhZO6oD.Cdmm8g6hrH3rbt2nf4cebHhmi3PWSMaCPilMPIg5hXNWTs_fkDpi9AO
-	y6BIxhzfytEpTFhqZEqfdKRqndIY9nbJ2G_IOf3_nRiAguq8a.SPEyxA1vDg_BS0JIBryG149d9L
-	G6nOmpyZ1yy_.N4CbdPwUgvZkOBLyS17fEjd4vGfakOB6U9cbfQuW27e.8dM4btkBrVOzA3JtJrF
-	WXBVjS3N_pUrGNqBrpacNG_u8bpKkbkeHyTLNqSpMeZauR06cBaCjVMT2Q0IRmEqllL5yZLgCKzH
-	xxnhAY.3zmizzLQyTJ7X5AhZIr6g8DIrd7NHcMYkEYonccMGqUl0DOMHDS_bv7qFqeUPIlbMCnC0
-	xcRJFDrRlHkglk8ynbA7na4ClINraCdIaxlQZH.A9q4tragNyt1r.Xl1bThFnbqV.SSEqVWczUQG
-	L5gcR8CLSdHOsgCx4moX97boRoQ5sqqsRgE2MJpAqlHw352JXTIaKb82BA06UMkSUW.oCiyDvpI9
-	ZeVpnSEdbVOTUziP2lpblX1HbxV8_2F0w.mA0uBQl7apFVrOEsQIxGKO5yFB_T2wC2AQY50hD.yv
-	IehWRTp_ZuX1PxnKThFhZPkndKMHtZuF6jtbMvJs0t1Tt1EdynXxcHpj30ukiHon4XoEX7Dn5ecE
-	uCZZQo8DHGULqvoM6fqUC0KUphsJksAV6h0wnCCgIXs1FWK8p6pNTpO8bZ81_BuHtAZh6eTZKmzO
-	ralT___MZKfXBekMxkwmVl5_nX9_dlKirFIya7QLqqJdut25B.XFyz.tg02QxEDzyYK6kKNEuQ_x
-	J8FMnxJJtlPXMa.VN6vOqN2G5_sdk36zd7fRTDFSi4H89J0dnGKrBEN5YJK1fxTbfd.nznIpi0YV
-	fAPmpWK29uk.CaQN4F_8jOhfKCiMhV7P74odyTK3BOiTDiYpZMNND64h8TOYj7jMhnvAfTXtgPnZ
-	alnhB75_P8ZyqJ3D9MaedP5afHKJ3R140VSCXAF90J.TK9JxA6K_PNmIyxLzHPvlLtPc6OKMJ_hB
-	EOMdxdREKDzaIsF5VkHfUiTwD9voJVZW1M0B3xTqo0KP.iDYwSst2C6J.Z_8vKxpBKWejrT35Oqm
-	DnjiNnEVS95a8gWJE4CEAsHokLw0xu9.9V9EenNj.tivumCMgqfMUPJ636f3gkjgAPmk98n5M.ua
-	jfzXHF0iqp.t4ofq5pZmC_KeX7sbyyT35T9TjbY8NATMATTDU6cd5_.S4zjnPMo43eHkzgqdWzoa
-	ZTkosvZBlpSkphV85dNzTWWFgEknX4LxwkIX1z.J_bCuGCR1JQDdPlA4D7.txzjPXbpYKBzD.JDA
-	DwiVDKBbn2yTKSceYA9G8MK8ZxWbuNVaUHvIz8ifMC9KXdp6xwIwJzRWdibAIT2UlV3wTB112dvu
-	LNJ_5ujqKyV2XXt6BtQIxnYOC2tBUphLOtjQByV.YuerFhDMzaXVEx.gjSZzu8xcQxVV44mIhsaS
-	llYDdFU23ZsOTW.jMScmIq785tWfY3mmzkpLJHX4F5mwghNMYajtBMjrd6j0Ur_g5BiSkiLZopS8
-	g7sdRxILm26sj84ClbjAZyPqZ.ieVOC0WGTDLuG9CjHmThjrTngkoCRzv.0_i9GrrVliKxCdEG66
-	mwoSUFWYMVMIqe.3ByGHgIFns6NPSQq_znXT8f32_uLhVZQnrQ_KzySATQjWQ6JdKW5BZ7addHb2
-	1IAsvzcrts2hpujDumdU1DYPzfkE6JTeJwsMXEe3D2bxClHKK7XjGAA2oMcuzZJQ-
-Received: from sonic.gate.mail.ne1.yahoo.com by
-	sonic307.consmr.mail.ne1.yahoo.com with HTTP;
-	Tue, 2 Feb 2021 18:06:38 +0000
-Received: by smtp415.mail.gq1.yahoo.com (VZM Hermes SMTP Server) with ESMTPA
-	ID 2e19b6b38051dbf5ab33afec7d37668e; 
-	Tue, 02 Feb 2021 18:06:31 +0000 (UTC)
-Subject: Re: [PATCH v24 00/25] LSM: Module stacking for AppArmor
-To: Topi Miettinen <toiwoton@gmail.com>, casey.schaufler@intel.com,
-	jmorris@namei.org, linux-security-module@vger.kernel.org,
-	selinux@vger.kernel.org
-References: <20210126164108.1958-1-casey.ref@schaufler-ca.com>
-	<20210126164108.1958-1-casey@schaufler-ca.com>
-	<31ba0fe7-afdf-8f7d-e7a7-8f15d8c690a4@gmail.com>
-	<c810406d-2197-9529-a8cb-2f289e9c248c@schaufler-ca.com>
-	<c5c40a66-b36d-73ab-6c92-f4d1f5f4ad35@gmail.com>
-From: Casey Schaufler <casey@schaufler-ca.com>
-Message-ID: <3ac446c9-1af7-04dd-561d-6ec1dbb146b9@schaufler-ca.com>
-Date: Tue, 2 Feb 2021 10:06:29 -0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
-	Thunderbird/78.6.1
-MIME-Version: 1.0
-In-Reply-To: <c5c40a66-b36d-73ab-6c92-f4d1f5f4ad35@gmail.com>
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 38B51811764
+	for <linux-audit@redhat.com>; Tue,  2 Feb 2021 21:30:39 +0000 (UTC)
+Received: from alln-iport-7.cisco.com (alln-iport-7.cisco.com
+	[173.37.142.94]) (Using TLS) by relay.mimecast.com with ESMTP id
+	us-mta-345-I7ovUg-GO4WcocRn6yJwRg-1; Tue, 02 Feb 2021 16:30:35 -0500
+X-MC-Unique: I7ovUg-GO4WcocRn6yJwRg-1
+X-IronPort-AV: E=Sophos;i="5.79,396,1602547200"; d="scan'208";a="639763896"
+Received: from rcdn-core-7.cisco.com ([173.37.93.143])
+	by alln-iport-7.cisco.com with ESMTP/TLS/DHE-RSA-SEED-SHA;
+	02 Feb 2021 21:29:31 +0000
+Received: from zorba.cisco.com ([10.24.3.200])
+	by rcdn-core-7.cisco.com (8.15.2/8.15.2) with ESMTP id 112LTUJ6026870; 
+	Tue, 2 Feb 2021 21:29:30 GMT
+From: Daniel Walker <danielwa@cisco.com>
+To: Paul Moore <paul@paul-moore.com>, Eric Paris <eparis@redhat.com>
+Subject: [PATCH 1/2] audit: show user land backtrace as part of audit context
+	messages
+Date: Tue,  2 Feb 2021 13:29:28 -0800
+Message-Id: <20210202212930.18845-1-danielwa@cisco.com>
+X-Auto-Response-Suppress: DR, OOF, AutoReply
+X-Outbound-SMTP-Client: 10.24.3.200, [10.24.3.200]
+X-Outbound-Node: rcdn-core-7.cisco.com
 X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
 	Definition; Similar Internal Domain=false;
 	Similar Monitored External Domain=false;
@@ -117,12 +65,12 @@ X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
 	Custom Display Name List=false; Reply-to Address Mismatch=false;
 	Targeted Threat Dictionary=false;
 	Mimecast Threat Dictionary=false; Custom Threat Dictionary=false
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-X-MIME-Autoconverted: from quoted-printable to 8bit by
-	lists01.pubmisc.prod.ext.phx2.redhat.com id 112I6iwq023222
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
 X-loop: linux-audit@redhat.com
-Cc: john.johansen@canonical.com, linux-kernel@vger.kernel.org,
-	linux-audit@redhat.com, sds@tycho.nsa.gov
+X-Mailman-Approved-At: Tue, 02 Feb 2021 16:57:02 -0500
+Cc: linux-audit@redhat.com, Ruslan Bilovol <rbilovol@cisco.com>,
+	Victor Kamensky <kamensky@cisco.com>,
+	linux-kernel@vger.kernel.org, xe-linux-external@cisco.com
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -134,140 +82,254 @@ List-Post: <mailto:linux-audit@redhat.com>
 List-Help: <mailto:linux-audit-request@redhat.com?subject=help>
 List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
+MIME-Version: 1.0
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
 	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=linux-audit-bounces@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
-T24gMi8yLzIwMjEgOToxMiBBTSwgVG9waSBNaWV0dGluZW4gd3JvdGU6Cj4gT24gMi4yLjIwMjEg
-MTcuMzAsIENhc2V5IFNjaGF1ZmxlciB3cm90ZToKPj4gT24gMi8yLzIwMjEgNDowNSBBTSwgVG9w
-aSBNaWV0dGluZW4gd3JvdGU6Cj4+PiBPbiAyNi4xLjIwMjEgMTguNDAsIENhc2V5IFNjaGF1Zmxl
-ciB3cm90ZToKPj4+PiBUaGlzIHBhdGNoc2V0IHByb3ZpZGVzIHRoZSBjaGFuZ2VzIHJlcXVpcmVk
-IGZvcgo+Pj4+IHRoZSBBcHBBcm1vciBzZWN1cml0eSBtb2R1bGUgdG8gc3RhY2sgc2FmZWx5IHdp
-dGggYW55IG90aGVyLgo+Pj4KPj4+IEluIG15IHRlc3QsIHdoZW4ga2VybmVsIGNvbW1hbmQgbGlu
-ZSBoYXMgYXBwYXJtb3IgYmVmb3JlIHNlbGludXggaW4gbHNtPSBlbnRyeSwgdGhlIGJvb3QgaXMg
-bm90IHN1Y2Nlc3NmdWwgd2l0aCBlbmZvcmNpbmc9MToKPj4+IHN5c3RlbWRbMV06IEZhaWxlZCB0
-byBjb21wdXRlIGluaXQgbGFiZWwsIGlnbm9yaW5nLgo+Pj4gc3lzdGVtZFsxXTogRmFpbGVkIHRv
-IHNldCBTRUxpbnV4IHNlY3VyaXR5IGNvbnRleHQgc3lzdGVtX3U6b2JqZWN0X3I6Y2dyb3VwX3Q6
-czAgZm9yIC9zeXMvZnMvY2dyb3VwOiBJbnZhbGlkIGFyZ3VtZW50Cj4+PiBzeXN0ZW1kWzFdOiBG
-YWlsZWQgdG8gc2V0IFNFTGludXggc2VjdXJpdHkgY29udGV4dCBzeXN0ZW1fdTpvYmplY3Rfcjpw
-c3RvcmVfdDpzMCBmb3IgL3N5cy9mcy9wc3RvcmU6IEludmFsaWQgYXJndW1lbnQKPj4+IHN5c3Rl
-bWRbMV06IEZhaWxlZCB0byBzZXQgU0VMaW51eCBzZWN1cml0eSBjb250ZXh0IHN5c3RlbV91Om9i
-amVjdF9yOnN5c2ZzX3Q6czAgZm9yIC9zeXMvZmlybXdhcmUvZWZpL2VmaXZhcnM6IEludmFsaWQg
-YXJndW1lbnQKPj4+IC4uLgo+Pj4gRmFpbGVkIHRvIGRyb3AgY2FwYWJpbGl0eSBib3VuZGluZyBz
-ZXQgb2YgdXNlcm1vZGUgaGVscGVyczogT3BlcmF0aW9uIG5vdCBwZXJtaXR0ZWQKPj4+IEZhaWxl
-ZCB0byBkcm9wIGNhcGFiaWxpdHkgYm91bmRpbmcgc2V0IG9mIHVzZXJtb2RlIGhlbHBlcnMuCj4+
-PiBzeXN0ZW1kWzFdOiBGcmVlemluZyBleGVjdXRpb24uCj4+Cj4+IFN5c3RlbWQgaGFzIGV4dGVu
-c2l2ZSBzdXBwb3J0IGZvciBTRUxpbnV4LiBUaGF0J3MgZ29vZC4KPj4gSXQgZG9lc24ndCBoYXZl
-IGFuIHVuZGVyc3RhbmRpbmcgb2Ygd2hhdCBuZWVkcyB0byBiZSBkb25lCj4+IGlmIFNFTGludXgg
-aXMgYWN0aXZlIGJ1dCBub3QgdGhlIGRlZmF1bHQgc2VjdXJpdHkgbW9kdWxlCj4+IGZvciBpbnRl
-cmZhY2VzIGluY2x1ZGluZyBTT19QRUVSU0VDIGFuZCAvcHJvYy8qL2F0dHIvKi4KPj4gVGhhdCdz
-IGdvaW5nIHRvIHRha2Ugc29tZSB3b3JrLgo+Cj4gT2suIFdoYXQgd2lsbCBiZSB0aGUgcmVwbGFj
-ZW1lbnQgZm9yIFNPX1BFRVJTRUM/IFN5c3RlbWQgY2FsbHMgZ2V0c29ja29wdChmZCwgU09MX1NP
-Q0tFVCwgU09fUEVFUlNFQywgcywgJm4pLgoKRGVhbGluZyB3aXRoIFNPX1BFRVJTRUMgaGFzIGJl
-ZW4gZGlzY3Vzc2VkIGF0IGxlbmd0aCwgYW5kIEkKd291bGRuJ3Qgc2F5IHRoYXQgYW55b25lIGlz
-IHJlYWxseSBoYXBweSB3aXRoIHRoZSBjb25jbHVzaW9ucy4KVGhlIHBhdGNoIHNldCBwcmVzZW50
-ZWQgdXNlcyB0aGUgaW50ZXJmYWNlX2xzbSB0byBkZXRlcm1pbmUKd2hpY2ggbW9kdWxlJ3MgZGF0
-YSBpcyBwcmVzZW50ZWQgaW4gU09fUEVFUlNFQy4gVGhlIGludGVyZmFjZV9sc20KaXMgY29udHJv
-bGxlZCBieSB3cml0aW5nIHRoZSBkZXNpcmVkIHNlY3VyaXR5IG1vZHVsZSBuYW1lIHRvCi9wcm9j
-L3NlbGYvYXR0ci9pbnRlcmZhY2VfbHNtLiBUaGUgYWRkaXRpb24gb2YgU09fUEVFUkNPTlRFWFQs
-CndoaWNoIHdvdWxkIGNvbnRhaW4gYWxsIGFjdGl2ZSBzZWN1cml0eSBtb2R1bGUgZGF0YSwgaGFz
-IGJlZW4KcHJvcG9zZWQgYXMgYSBmb2xsb3ctb24gYnV0IGlzIG5vdCBpbmNsdWRlZCBpbiB0aGlz
-IHBhdGNoIHNldC4KCj4KPiBJcyB0aGUgL3Byb2MgcGFydCBzb21ldGhpbmcgdGhhdCBzaG91bGQg
-YmUgZml4ZWQgb24gc3lzdGVtZCBzaWRlLCBvciBjYW4gcGVyaGFwcyB0aGUgU0VMaW51eCBsaWJy
-YXJpZXMgaGlkZSB0aGlzIGZyb20gYXBwbGljYXRpb25zPwoKSXQncyB1bmZvcnR1bmF0ZSB0aGF0
-IHRoZSBlYXJseSBkYXlzIG9mIHRoZSBMU00gd2hlcmUgZG9taW5hdGVkCmJ5IHRoZSBtaW5kc2V0
-IHRoYXQgc2VjdXJpdHkgaGFkIHRvIGJlIGEgY29tcGxldGUgc29sdXRpb24uIEkKd2FzIGluIHRo
-YXQgY2FtcCBteXNlbGYgZm9yIGEgZ29vZCBsb25nIHRpbWUsIGJ1dCBjYW1lIHRvCnJlY29nbml6
-ZSB0aGF0IGF0dGVtcHRpbmcgdG8gc29sdmUgYWxsIHNlY3VyaXR5IHByb2JsZW1zIGZvcgpldmVy
-eW9uZSB1c2luZyBvbmUgbWVjaGFuaXNtIHdhcyBkZXN0aW5lZCB0byBleGNlc3MuIEJlY2F1c2UK
-dXNlci1zcGFjZSBkZXZlbG9wbWVudCBoYXMgYXNzdW1lZCBhIHNpbmdsZSBMU00gZm9yIHNvIGxv
-bmcgaXQncwpoYXJkIHRvIGltYWdpbmUgdGhhdCB0aGVyZSB3b24ndCBuZWVkIHRvIGJlIGNoYW5n
-ZXMgaW4gYm90aCB0aGUKbGlicmFyaWVzIGFuZCB0aGUgcHJvZ3JhbXMuIEJlY2F1c2UgU0VMaW51
-eCBoYXMgdGhlIGxvbmdlc3QKaGlzdG9yeSBhbmQgbW9zdCBjb21wbGV0ZSBkaXN0cmlidXRpb24g
-aW50ZWdyYXRpb24gaXQgd2lsbCBhbHNvCmhhdmUgdGhlIG1vc3QgdHJvdWJsZSB3aXRoIHNoYXJp
-bmcgdGhlIExTTSBzdGFjay4gCgo+Cj4+Cj4+Pgo+Pj4gUHJvYmFibHkgU0VMaW51eCBsaWJyYXJp
-ZXMgY2FuJ3QgZmluZCBvciBzZXQgdGhlIGxhYmVscyBmb3IgdGhlIFBJRDEgb3IgYW55IGZpbGUg
-c3lzdGVtcy4gQmVmb3JlIHRoZSBpbml0IGxhYmVsIG1lc3NhZ2UsIHN5c3RlbWQgY2FsbHMgZ2V0
-Y29uX3JhdygpLCBnZXRmaWxlY29uX3JhdygpLCBzdHJpbmdfdG9fc2VjdXJpdHlfY2xhc3MoKSBh
-bmQgc2VjdXJpdHlfY29tcHV0ZV9jcmVhdGVfcmF3KCksIHNvIG9uZSBvZiB0aGVzZSBkb24ndCB1
-bmRlcnN0YW5kIHRoZSBMU00gc3RhY2tpbmcuCj4+Cj4+IFRoYXQgaXMgY29ycmVjdC4KPj4KPj4+
-Cj4+PiBBbHNvIHRoZSBwb2xpY3kgbmVlZHMgdXBkYXRpbmcgdG8gaGFuZGxlIHByb2Nlc3MyOnNl
-dGRpc3BsYXk6Cj4+PiBTRUxpbnV4OsKgIFBlcm1pc3Npb24gc2V0ZGlzcGxheSBpbiBjbGFzcyBw
-cm9jZXNzMiBub3QgZGVmaW5lZCBpbiBwb2xpY3kuCj4+PiBTRUxpbnV4OiB0aGUgYWJvdmUgdW5r
-bm93biBjbGFzc2VzIGFuZCBwZXJtaXNzaW9ucyB3aWxsIGJlIGRlbmllZAo+Pj4KPj4+IFdpdGgg
-ZW5mb3JjaW5nPTAsIG1hbnkgc2VydmljZXMgc3RhcnQsIGJ1dCBmb3IgZXhhbXBsZSBzeXN0ZW1k
-LWpvdXJuYWxkIGRvZXNuJ3QuIFRoaXMgaXMgcHJvYmFibHkgcmVsYXRlZCB0byB0aGUgZWFybGll
-ciBwcm9ibGVtIHdpdGggbGFiZWxzIChtYXliZSBsaWJyYXJpZXMgdHJ5IHRvIHVzZSBTRUxpbnV4
-IGxhYmVscyB3aGVyZSBrZXJuZWwgd2FudHMgQXBwQXJtb3IgcHJvZmlsZXMpOgo+Pj4gc3lzdGVt
-ZFsxXTogRmFpbGVkIHRvIHNldCBTRUxpbnV4IHNlY3VyaXR5IGNvbnRleHQgc3lzdGVtX3U6b2Jq
-ZWN0X3I6aW5pdF9ydW50aW1lX3Q6czAgZm9yIC9ydW4vc3lzdGVtZC91bml0cy9pbnZvY2F0aW9u
-OnN5c3RlbWQtdXNlci1zZXNzaW9ucy5zZXJ2aWNlOiBJbnZhbGlkIGFyZ3VtZW50Cj4+Cj4+IFRo
-aXMgaXMgYWxzbyBhbiBhcnRpZmFjdCBvZiBzeXN0ZW1kIHNlZWluZyBBcHBBcm1vciBpbmZvcm1h
-dGlvbgo+PiBpbnN0ZWFkIG9mIFNFTGludXggY29udGV4dHMuCj4KPiBXaWxsIFNFTGludXggbGli
-cmFyaWVzIGNob29zZSBhdXRvbWF0aWNhbGx5IHRoZSBjb3JyZWN0IHdheSB0byBzZXQgbGFiZWxz
-IGluIHRoZSBmdXR1cmU/CgpJIGV4cGVjdCBzbyBldmVudHVhbGx5LiBUaGUgU0VMaW51eCBkZXZl
-bG9wZXJzIGhhdmUgbm90IGJlZW4KZXNwZWNpYWxseSBlbnRodXNpYXN0aWMgYWJvdXQgdGhlIHBy
-b3NwZWN0IG9mIG1vZHVsZSBzdGFja2luZy4KT25jZSBpdCBpcyBhdmFpbGFibGUgSSBleHBlY3Qg
-dG8gc2VlIHNvbWUgYWNjb21tb2RhdGlvbiwgYnV0Cm5vdCBuZWNlc3NhcmlseSB0byB0aGUgbGV2
-ZWwgeW91IG1pZ2h0IGxpa2UuIFRoZSBwYXRjaCBzZXQgaGVyZQppcyBzdHJvbmdseSBpbmZsdWVu
-Y2VkIGJ5IHRoZSBhc3N1bXB0aW9uIHRoYXQgcHV0dGluZyB0aGUgbW9zdApoaWdobHkgaW50ZWdy
-YXRlZCBtb2R1bGUgZmlyc3QgKFNFTGludXggb24gRmVkb3JhLCBBcHBBcm1vciBvbgpVYnVudHUs
-IFNtYWNrIG9uIFRpemVuLCAuLi4pIGlzIGdvaW5nIHRvIGdldCB5b3UgbW9zdCBvZiB3aGF0Cnlv
-dSBuZWVkLiBXaG9ldmVyIHdhbnRzIHRvIGFkZCBTbWFjayB0byBVYnVudHUgaXMgZ29pbmcgdG8g
-aGF2ZQpzb21lIHdvcmsgdG8gZG8uCgpTdGFja2luZyBBcHBBcm1vciB3aXRoIFNFTGludXggaXMg
-YSByZWFsIHVzZSBjYXNlIGluIHRoZSBjb250YWluZXIKd29ybGQsIGJ1dCB0aGF0J3Mgbm90IHRo
-ZSByZWFsIGZvY3VzIG9mIHRoaXMgZWZmb3J0LiBJIGhhdmUgc2VlbgpzZXZlcmFsIGNhc2VzIHdo
-ZXJlIHNlY3VyaXR5IGZlYXR1cmVzIGhhdmUgbm90IGJlZW4gaW1wbGVtZW50ZWQKYmVjYXVzZSB0
-aGV5IGNvdWxkbid0IGJlIGFkZGVkIHRvIGEgc3lzdGVtIHRoYXQgYWxzbyByZXF1aXJlZApTRUxp
-bnV4LCBBcHBBcm1vciBvciBTbWFjay4gSSBoYXZlIHNlZW4gbWFueSBwcm9wb3NhbHMgZm9yIGNo
-YW5nZXMKdG8gZXhpc3Rpbmcgc2VjdXJpdHkgbW9kdWxlcyB0aGF0IHdoZXJlIG91dHNpZGUgdGhl
-aXIgc2NvcGUganVzdApiZWNhdXNlIHRoZXJlIHdhcyBubyBvdGhlciB3YXkuCgo+Cj4+Pgo+Pj4g
-U3dpdGNoaW5nIHRoZSBvcmRlciBzbyB0aGF0IGFwcGFybW9yIGlzIGFmdGVyIHNlbGludXgsIGJv
-b3QgaXMgc3VjY2Vzc2Z1bC4gTG9hZGluZyBBcHBBcm1vciBwcm9maWxlcyBuZWVkcyBhIHBlcm1p
-c3Npb24gZnJvbSBTRUxpbnV4Ogo+Pj4KPj4+IEZlYiAwMiAwODo1MzoxNSBhdWRpdFs5NjNdOiBB
-VkMgYXZjOsKgIGRlbmllZMKgIHsgbWFjX2FkbWluIH0gZm9ywqAgcGlkPTk2MyBjb21tPSJhcHBh
-cm1vcl9wYXJzZXIiIGNhcGFiaWxpdHk9MzMgc2NvbnRleHQ9c3lzdGVtX3U6c3lzdGVtX3I6aW5p
-dHJjX3Q6czAgdGNvbnRleHQ9c3lzdGVtX3U6c3lzdGVtX3I6aW5pdHJjX3Q6czAgdGNsYXNzPWNh
-cGFiaWxpdHkyIHBlcm1pc3NpdmU9MAo+Pj4gRmViIDAyIDA4OjUzOjE1IGF1ZGl0Wzk2M106IEFW
-QyBhcHBhcm1vcj0iU1RBVFVTIiBvcGVyYXRpb249InByb2ZpbGVfcmVwbGFjZSIgaW5mbz0ibm90
-IHBvbGljeSBhZG1pbiIgZXJyb3I9LTEzIHByb2ZpbGU9InVuY29uZmluZWQiIHBpZD05NjMgY29t
-bT0iYXBwYXJtb3JfcGFyc2VyIgo+Pj4gRmViIDAyIDA4OjUzOjE1IGF1ZGl0OiBBVURJVDE0MjAg
-c3Vial9zZWxpbnV4PXN5c3RlbV91OnN5c3RlbV9yOmluaXRyY190OnMwIHN1YmpfYXBwYXJtb3I9
-PXVuY29uZmluZWQKPj4+IEZlYiAwMiAwODo1MzoxNSBhdWRpdFs5NjNdOiBTWVNDQUxMIGFyY2g9
-YzAwMDAwM2Ugc3lzY2FsbD0xIHN1Y2Nlc3M9bm8gZXhpdD0tMTMgYTA9NyBhMT03YThmMmZmMDRm
-ODAgYTI9MWUwOSBhMz0wIGl0ZW1zPTAgcHBpZD05NjEgcGlkPTk2MyBhdWlkPTQyOTQ5NjcyOTUg
-dWlkPTAgZ2lkPTAgZXVpZD0wIHN1aWQ9MCBmc3VpZD0wIGVnaWQ9MCBzZ2lkPTAgZnNnaWQ9MCB0
-dHk9KG5vbmUpIHNlcz00Mjk0OTY3Mjk1IGNvbW09ImFwcGFybW9yX3BhcnNlciIgZXhlPSIvdXNy
-L3NiaW4vYXBwYXJtb3JfcGFyc2VyIiBzdWJqPT8ga2V5PShudWxsKQo+Pj4gRmViIDAyIDA4OjUz
-OjE1IGF1ZGl0OiBQUk9DVElUTEUgcHJvY3RpdGxlPTJGNzM2MjY5NkUyRjYxNzA3MDYxNzI2RDZG
-NzI1RjcwNjE3MjczNjU3MjAwMkQyRDc3NzI2OTc0NjUyRDYzNjE2MzY4NjUwMDJEMkQ3MjY1NzA2
-QzYxNjM2NTAwMkQyRDAwMkY2NTc0NjMyRjYxNzA3MDYxNzI2RDZGNzIyRTY0Cj4+PiBGZWIgMDIg
-MDg6NTM6MTUgYXBwYXJtb3Iuc3lzdGVtZFs5NjNdOiAvc2Jpbi9hcHBhcm1vcl9wYXJzZXI6IFVu
-YWJsZSB0byByZXBsYWNlICIvbGliL3N5c3RlbWQvc3lzdGVtZC1yZXNvbHZlZCIuwqAgUGVybWlz
-c2lvbiBkZW5pZWQ7IGF0dGVtcHRlZCB0byBsb2FkIGEgcHJvZmlsZSB3aGlsZSBjb25maW5lZD8K
-Pj4+Cj4+PiBUaGlzIGp1c3Qgc2VlbXMgdG8gbmVlZCBURSBydWxlcyBmb3IgdGhlIGFwcGFybW9y
-X3BhcnNlci4KPj4+Cj4+PiBEb3VibGUgZXF1YWwgc2lnbiBpbiBzdWJqX2FwcGFybW9yPT11bmNv
-bmZpbmVkIGxvb2tzIG9kZCwgc2hvdWxkIHRoYXQgYmUganVzdCBvbmUgbGlrZSBzdWJqX3NlbGlu
-dXg/Cj4+Cj4+IFRoZSBhdWRpdCBjb2RlIGlzIHJlcG9ydGluZyB3aGF0IEFwcEFybW9yIHByb3Zp
-ZGVzLgo+PiBJIGFncmVlIHRoYXQgdGhpcyBsb29rcyBvZGQuCj4+Cj4+Pgo+Pj4KPj4+IFRvb2xz
-IGxpa2UgcHMsIGFuZCBLREUgYW5kIEdub21lIFN5c3RlbSBNb25pdG9ycyBvbmx5IHNob3cgU0VM
-aW51eCBjb250ZXh0LCBidXQgaXQgd291bGQgYmUgbmljZSBpZiBNQUMgY29udGV4dHMgZm9yIGFs
-bCBlbmFibGVkIExTTXMgd2VyZSBzaG93bi4KPj4KPj4gSSBhZ3JlZS4gSG93IHRoaXMgc2hvdWxk
-IGJlIGRvbmUgaGFzIGJlZW4gYSB0b3BpYyBvZgo+PiBsaXZlbHkgZGViYXRlIGZvciBzb21lIHRp
-bWUuCj4+Cj4+Pgo+Pj4gLVRvcGkKPj4KPj4gVGhhbmsgeW91IGZvciB0aGlzIHJlcG9ydC4gV2hp
-Y2ggZGlzdHJpYnV0aW9uIGFyZSB5b3UgdXNpbmc/Cj4+IEkgaGF2ZSBiZWVuIHRlc3Rpbmcgd2l0
-aCBGZWRvcmEgKFNFTGludXggKyBBcHBBcm1vcikgYW5kIFVidW50dQo+PiAoQXBwQXJtb3IgKyBT
-bWFjaykuIEkgd291bGQgYmUgdmVyeSBpbnRlcmVzdGVkIHRvIHNlZSBob3cgYQo+PiBkaXN0cmli
-dXRpb24gdGhhdCBkb2Vzbid0IHVzZSBzeXN0ZW1kIGJlaGF2ZXMuCj4KPiBUaGlzIGlzIERlYmlh
-biB3aXRoIHN5c3RlbWQsIEknbSB1c2luZyBTRUxpbnV4ICsgVE9NT1lPICsgQXBwQXJtb3IuCgpH
-cmVhdCB0byBoZWFyLiBUaGFua3MgYWdhaW4uCgoKCi0tCkxpbnV4LWF1ZGl0IG1haWxpbmcgbGlz
-dApMaW51eC1hdWRpdEByZWRoYXQuY29tCmh0dHBzOi8vd3d3LnJlZGhhdC5jb20vbWFpbG1hbi9s
-aXN0aW5mby9saW51eC1hdWRpdA==
+From: Victor Kamensky <kamensky@cisco.com>
+
+To efficiently find out where SELinux AVC denial is comming from
+take backtrace of user land process and display it as type=UBACKTRACE
+message that comes as audit context for SELinux AVC and other audit
+messages.
+
+By default UBACKTRACE context messages are off. Needs to be enabled
+through audit AUDIT_FEATURE_UBACKTRACE_CONTEXT feature.
+
+Context UBACKTRACE message example:
+type=UBACKTRACE msg=audit(1574205625.557:30): backtrace=libc-2.30.so+0xc99ab:dmesg.util-linux+0x1483:libc-2.30.so+0x1e35:dmesg.util-linux+0x1e5a
+
+I.e because of ASLR instead of absolute user land addresses, name
+of executable or library captured and followed by offset from text
+segment vma. To decode backtrace entry: find executable or library
+symbol file, find its text segment vma and add offset to it; run
+'addr2line -f -e symbol_file resulting_address'.
+
+Note feature depends on PERF_EVENTS, from perf subsystem it uses
+perf_callchain_user function on architectures where it is implemented.
+And it has the same capturing restriction as 'perf -g': user land code
+must be compiled with -fno-omit-frame-pointer option, otherwise kernel
+is not capable walk user land stack frames.
+
+Cc: xe-linux-external@cisco.com
+Signed-off-by: Victor Kamensky <kamensky@cisco.com>
+Signed-off-by: Ruslan Bilovol <rbilovol@cisco.com>
+Signed-off-by: Daniel Walker <danielwa@cisco.com>
+---
+ include/uapi/linux/audit.h |  6 ++-
+ init/Kconfig               | 13 ++++++
+ kernel/audit.c             |  3 +-
+ kernel/auditsc.c           | 93 ++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 112 insertions(+), 3 deletions(-)
+
+diff --git a/include/uapi/linux/audit.h b/include/uapi/linux/audit.h
+index cd2d8279a5e4..7bea44b1c028 100644
+--- a/include/uapi/linux/audit.h
++++ b/include/uapi/linux/audit.h
+@@ -118,6 +118,7 @@
+ #define AUDIT_TIME_ADJNTPVAL	1333	/* NTP value adjustment */
+ #define AUDIT_BPF		1334	/* BPF subsystem */
+ #define AUDIT_EVENT_LISTENER	1335	/* Task joined multicast read socket */
++#define AUDIT_UBACKTRACE	1336	/* User land backtrace */
+ 
+ #define AUDIT_AVC		1400	/* SE Linux avc denial or grant */
+ #define AUDIT_SELINUX_ERR	1401	/* Internal SE Linux Errors */
+@@ -474,7 +475,7 @@ struct audit_status {
+ };
+ 
+ struct audit_features {
+-#define AUDIT_FEATURE_VERSION	1
++#define AUDIT_FEATURE_VERSION	2
+ 	__u32	vers;
+ 	__u32	mask;		/* which bits we are dealing with */
+ 	__u32	features;	/* which feature to enable/disable */
+@@ -483,7 +484,8 @@ struct audit_features {
+ 
+ #define AUDIT_FEATURE_ONLY_UNSET_LOGINUID	0
+ #define AUDIT_FEATURE_LOGINUID_IMMUTABLE	1
+-#define AUDIT_LAST_FEATURE			AUDIT_FEATURE_LOGINUID_IMMUTABLE
++#define AUDIT_FEATURE_UBACKTRACE_CONTEXT	2
++#define AUDIT_LAST_FEATURE			AUDIT_FEATURE_UBACKTRACE_CONTEXT
+ 
+ #define audit_feature_valid(x)		((x) >= 0 && (x) <= AUDIT_LAST_FEATURE)
+ #define AUDIT_FEATURE_TO_MASK(x)	(1 << ((x) & 31)) /* mask for __u32 */
+diff --git a/init/Kconfig b/init/Kconfig
+index b77c60f8b963..4327a8afb1f9 100644
+--- a/init/Kconfig
++++ b/init/Kconfig
+@@ -433,6 +433,19 @@ config AUDITSYSCALL
+ 	depends on AUDIT && HAVE_ARCH_AUDITSYSCALL
+ 	select FSNOTIFY
+ 
++config AUDIT_USER_BACKTRACE
++        bool "Enable user land backtrace in audit context messages"
++        def_bool n
++        depends on AUDITSYSCALL && PERF_EVENTS
++        help
++          Enable UBACKTRACE audit context messages, capturing backtrace of
++          user land process causing the message.
++
++config AUDIT_USER_BACKTRACE_SIZE
++        int "Maximum size of user land backtrace entries captured in UBACKTACE"
++        depends on AUDIT_USER_BACKTRACE
++        default 40
++
+ source "kernel/irq/Kconfig"
+ source "kernel/time/Kconfig"
+ source "kernel/Kconfig.preempt"
+diff --git a/kernel/audit.c b/kernel/audit.c
+index 1ffc2e059027..4608cddb4bb9 100644
+--- a/kernel/audit.c
++++ b/kernel/audit.c
+@@ -165,9 +165,10 @@ static struct audit_features af = {.vers = AUDIT_FEATURE_VERSION,
+ 				   .features = 0,
+ 				   .lock = 0,};
+ 
+-static char *audit_feature_names[2] = {
++static char *audit_feature_names[3] = {
+ 	"only_unset_loginuid",
+ 	"loginuid_immutable",
++	"ubacktrace_context",
+ };
+ 
+ /**
+diff --git a/kernel/auditsc.c b/kernel/auditsc.c
+index ce8c9e2279ba..d048b01345b8 100644
+--- a/kernel/auditsc.c
++++ b/kernel/auditsc.c
+@@ -67,6 +67,7 @@
+ #include <linux/highmem.h>
+ #include <linux/syscalls.h>
+ #include <asm/syscall.h>
++#include <linux/mmap_lock.h>
+ #include <linux/capability.h>
+ #include <linux/fs_struct.h>
+ #include <linux/compat.h>
+@@ -74,6 +75,7 @@
+ #include <linux/string.h>
+ #include <linux/uaccess.h>
+ #include <linux/fsnotify_backend.h>
++#include <linux/perf_event.h>
+ #include <uapi/linux/limits.h>
+ #include <uapi/linux/netfilter/nf_tables.h>
+ 
+@@ -1470,6 +1472,92 @@ static void audit_log_proctitle(void)
+ 	audit_log_end(ab);
+ }
+ 
++#ifdef CONFIG_AUDIT_USER_BACKTRACE
++static void audit_log_print_backtrace(struct audit_buffer *ab,
++				      struct task_struct *tsk,
++				      struct perf_callchain_entry *entry)
++{
++	struct mm_struct *mm;
++	const struct vm_area_struct *vma;
++	struct file *file;
++	const char *filename;
++	unsigned long vmstart;
++	int i;
++
++	audit_log_format(ab, "backtrace=");
++
++	mm = tsk->mm;
++	mmap_write_lock(mm);
++	for (i = 0; i < entry->nr; i++) {
++		vma = find_vma(mm, entry->ip[i]);
++		if (vma && (vma->vm_flags & VM_EXEC)) {
++			file = vma->vm_file;
++			vmstart = vma->vm_start;
++
++			if (file && file->f_path.dentry) {
++				filename = file->f_path.dentry->d_name.name;
++			} else {
++				filename = "";
++			}
++
++			if (i == 0) {
++				audit_log_format(ab, "%s+0x%llx",
++						 filename,
++						 entry->ip[i] - vmstart);
++			} else {
++				audit_log_format(ab, ":%s+0x%llx",
++						 filename,
++						 entry->ip[i] - vmstart);
++			}
++		} else {
++			/* No corresponding executable vma, assume garbage entry */
++			break;
++		}
++	}
++	mmap_write_unlock(mm);
++}
++
++static void audit_log_ubacktrace(struct task_struct *tsk,
++				 struct audit_context *context)
++{
++	struct audit_buffer *ab;
++	struct perf_callchain_entry_ctx ctx;
++	struct pt_regs *regs = NULL;
++
++	if  (tsk->mm)
++		regs = task_pt_regs(tsk);
++
++	if (regs) {
++		ctx.entry = kmalloc(sizeof(struct perf_callchain_entry) +
++				    CONFIG_AUDIT_USER_BACKTRACE_SIZE * sizeof(__u64),
++				    GFP_KERNEL);
++		if (ctx.entry) {
++			mm_segment_t fs;
++
++			ctx.max_stack = CONFIG_AUDIT_USER_BACKTRACE_SIZE;
++			ctx.nr = ctx.entry->nr = 0;
++			ctx.contexts = 0;
++			ctx.contexts_maxed = false;
++
++			fs = force_uaccess_begin();
++			perf_callchain_user(&ctx, regs);
++			force_uaccess_end(fs);
++
++			if (ctx.entry->nr) {
++				ab = audit_log_start(context, GFP_KERNEL, AUDIT_UBACKTRACE);
++
++				if (ab) {
++					audit_log_print_backtrace(ab, tsk, ctx.entry);
++					audit_log_end(ab);
++				}
++			}
++
++			kfree(ctx.entry);
++		}
++	}
++}
++#endif /* CONFIG_AUDIT_USER_BACKTRACE */
++
+ static void audit_log_exit(void)
+ {
+ 	int i, call_panic = 0;
+@@ -1594,6 +1682,11 @@ static void audit_log_exit(void)
+ 
+ 	audit_log_proctitle();
+ 
++#ifdef CONFIG_AUDIT_USER_BACKTRACE
++	if (is_audit_feature_set(AUDIT_FEATURE_UBACKTRACE_CONTEXT))
++		audit_log_ubacktrace(current, context);
++#endif /* CONFIG_AUDIT_USER_BACKTRACE */
++
+ 	/* Send end of event record to help user space know we are finished */
+ 	ab = audit_log_start(context, GFP_KERNEL, AUDIT_EOE);
+ 	if (ab)
+-- 
+2.17.1
+
+--
+Linux-audit mailing list
+Linux-audit@redhat.com
+https://www.redhat.com/mailman/listinfo/linux-audit
 
