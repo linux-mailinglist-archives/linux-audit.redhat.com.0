@@ -1,70 +1,73 @@
 Return-Path: <linux-audit-bounces@listman.redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-delivery-44.mimecast.com (us-smtp-delivery-44.mimecast.com [207.211.30.44])
-	by mail.lfdr.de (Postfix) with ESMTP id 7745C31CFEA
-	for <lists+linux-audit@lfdr.de>; Tue, 16 Feb 2021 19:12:39 +0100 (CET)
+Received: from us-smtp-delivery-44.mimecast.com (us-smtp-delivery-44.mimecast.com [205.139.111.44])
+	by mail.lfdr.de (Postfix) with ESMTP id 9C89231CFEB
+	for <lists+linux-audit@lfdr.de>; Tue, 16 Feb 2021 19:12:54 +0100 (CET)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-527-OT2-Qz1UMbSiu5qCeq_Vbw-1; Tue, 16 Feb 2021 13:12:32 -0500
-X-MC-Unique: OT2-Qz1UMbSiu5qCeq_Vbw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+ us-mta-590-xLJpV0v8Nr-z8xEIi4s4Yg-1; Tue, 16 Feb 2021 13:12:49 -0500
+X-MC-Unique: xLJpV0v8Nr-z8xEIi4s4Yg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 97CAA1E561;
-	Tue, 16 Feb 2021 18:12:27 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 2B3A760C15;
-	Tue, 16 Feb 2021 18:12:27 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5D680801FD8;
+	Tue, 16 Feb 2021 18:12:45 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 3656D19D9F;
+	Tue, 16 Feb 2021 18:12:45 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 636B218095CC;
-	Tue, 16 Feb 2021 18:12:23 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
-	[10.11.54.4])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id DCFB058074;
+	Tue, 16 Feb 2021 18:12:44 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+	[10.11.54.5])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 11AKg2ES013385 for <linux-audit@listman.util.phx.redhat.com>;
-	Wed, 10 Feb 2021 15:42:02 -0500
+	id 11ANvmRH003742 for <linux-audit@listman.util.phx.redhat.com>;
+	Wed, 10 Feb 2021 18:57:48 -0500
 Received: by smtp.corp.redhat.com (Postfix)
-	id 541322026D46; Wed, 10 Feb 2021 20:42:02 +0000 (UTC)
+	id 62F91AE7C4; Wed, 10 Feb 2021 23:57:48 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
-	(mimecast02.extmail.prod.ext.rdu2.redhat.com [10.11.55.18])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 4B26B2026D11
-	for <linux-audit@redhat.com>; Wed, 10 Feb 2021 20:42:00 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
-	[207.211.31.120])
+	(mimecast05.extmail.prod.ext.rdu2.redhat.com [10.11.55.21])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 5D791176DC
+	for <linux-audit@redhat.com>; Wed, 10 Feb 2021 23:57:46 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [205.139.110.61])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F0281800B29
-	for <linux-audit@redhat.com>; Wed, 10 Feb 2021 20:41:59 +0000 (UTC)
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com
-	[209.85.218.47]) (Using TLS) by relay.mimecast.com with ESMTP id
-	us-mta-279-Ie0HeifCM4iYBvCul5dS3Q-1; Wed, 10 Feb 2021 15:41:57 -0500
-X-MC-Unique: Ie0HeifCM4iYBvCul5dS3Q-1
-Received: by mail-ej1-f47.google.com with SMTP id a9so6566189ejr.2
-	for <linux-audit@redhat.com>; Wed, 10 Feb 2021 12:41:56 -0800 (PST)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F39FC800BFF
+	for <linux-audit@redhat.com>; Wed, 10 Feb 2021 23:57:45 +0000 (UTC)
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com
+	[209.85.218.52]) (Using TLS) by relay.mimecast.com with ESMTP id
+	us-mta-536-OiDRjW5jOByxRr0sWMG5rQ-1; Wed, 10 Feb 2021 18:57:40 -0500
+X-MC-Unique: OiDRjW5jOByxRr0sWMG5rQ-1
+Received: by mail-ej1-f52.google.com with SMTP id a9so7274323ejr.2;
+	Wed, 10 Feb 2021 15:57:40 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=1TFbf6wDysWFrfqmaORKAAxUEibFec9SK6l4jpShBLE=;
-	b=DuLRkz+fbOSCFH+voMYF8Ew3ws50mr54bxA4WrE/nrvqcWLqHm/3/yivJDNde5fCmr
-	9vOnBR0TOZLG+KwabQuD9BNwiLL8s+wLfFXSjO03cyeOlswdc7HsCxhaC4du3N1yvaHR
-	xonkGW1oCk2/Z92gOTFKPFsMmtt17oY13p5dojIF+xCDnyEFsLCd9FSfS8AHdIINb9Dv
-	UAMN2WUzi/07ZEoAA3aMKD9OZD9Y8DGUcWSCp1/swQyJYJlu9x5IzPpd/bYIty6KbCtH
-	i3ssVaEAlFamPtjzrXlfNl+wlGOagF7WXM4resT/AOD51ovGOXR59J+1yyhqtc27aIvF
-	MeCw==
-X-Gm-Message-State: AOAM532zkGDh2AA2DJCj2rzlwjH4bEVSdyy1qa6AvaeDVR4VWIxlVhUc
-	mOzjl7ZaI7z/jP28csXUeGeH9a7xxap5JOR3pwHUMVPyigh0GQ==
-X-Google-Smtp-Source: ABdhPJze0hOn3LNPI+ESduOjh7mHySKCbKfy7V7/Ekvjp7BlejwYD7pSEnnPXSoWHZGoGmpIex/e6kxAw1gMSWTMBXo=
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=v05jRh0gwPSTkpMB0ZqVmjiFDcjlfiMsBGWe0YwDug8=;
+	b=M+cwVeGzTqZH0gSHdMWpotrhUe1jLzEtFquI/m/W1aYa3B/mU0rvZdBD1K3GBTbUjK
+	VTMhyni3OWYuUhRJZT3v7KgkymnRlv0HW+pqmBIUSfLiK2JeZ9dEix5lC8J8NaBSamLi
+	ohdsHZ5HDDVjjM7lYCMTIbUEDIX1J9vVx05b/OO2c62ZpElt8zwNoD1jF2TqgoeAtQe2
+	92jphtFI352tkHOBCNukSA1RlTsdSsqvc0tW9c9eMdt5yMoKVQqarSBH2+EkDtWArsoJ
+	qbHMlkgrWN0IJjVJcW0dQO4PT833rrF922G+IZnd85lGz6QVpH2sYkkGvl5jbNkCkDW+
+	6z4w==
+X-Gm-Message-State: AOAM533FaYjvnrzcyThQEthixUzBUjPJwigvZm/iNsVUb+goWtir0lam
+	Y4TO+SO/X3OHDzymrC8iB1e3tyzYp2F6oQBWHAH8gfLRmDEZQQ==
+X-Google-Smtp-Source: ABdhPJxdh0JOZhstMHe0eIbQ62WePNUIPON4V3PN0AcyY2yzZSa/FQbaftayGkEQuSpif0yzjOqEVRqSp8+ZpDRcXsg=
 X-Received: by 2002:a17:906:af41:: with SMTP id
-	ly1mr4608926ejb.525.1612989715773; 
-	Wed, 10 Feb 2021 12:41:55 -0800 (PST)
+	ly1mr5237020ejb.525.1613001459327; 
+	Wed, 10 Feb 2021 15:57:39 -0800 (PST)
 MIME-Version: 1.0
+References: <CAKz+TUvuOh849j=CaM=OjH1dwbr0bocM6_gdGO-i-wA2-bkr5g@mail.gmail.com>
+	<2316118.jE0xQCEvom@x2>
+In-Reply-To: <2316118.jE0xQCEvom@x2>
 From: Alan Evangelista <alan.vitor@gmail.com>
-Date: Wed, 10 Feb 2021 17:41:45 -0300
-Message-ID: <CAKz+TUvuOh849j=CaM=OjH1dwbr0bocM6_gdGO-i-wA2-bkr5g@mail.gmail.com>
-Subject: Samba and AuditD
-To: linux-audit@redhat.com
+Date: Wed, 10 Feb 2021 20:57:28 -0300
+Message-ID: <CAKz+TUt3ECMNcbbUziVfeCuhy42R19Z+bi8R+Pj38Lee=pZhUA@mail.gmail.com>
+Subject: Re: Samba and AuditD
+To: Steve Grubb <sgrubb@redhat.com>
 X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
 	Definition; Similar Internal Domain=false;
 	Similar Monitored External Domain=false;
@@ -73,9 +76,10 @@ X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
 	Custom Display Name List=false; Reply-to Address Mismatch=false;
 	Targeted Threat Dictionary=false;
 	Mimecast Threat Dictionary=false; Custom Threat Dictionary=false
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
 X-loop: linux-audit@redhat.com
 X-Mailman-Approved-At: Tue, 16 Feb 2021 13:11:57 -0500
+Cc: linux-audit@redhat.com
 X-BeenThere: linux-audit@listman.redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -89,49 +93,116 @@ List-Subscribe: <https://listman.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@listman.redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@listman.redhat.com
 Errors-To: linux-audit-bounces@listman.redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
 	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=linux-audit-bounces@listman.redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: listman.redhat.com
-Content-Type: multipart/mixed; boundary="===============8929946711702815429=="
+Content-Type: multipart/mixed; boundary="===============4155134118743651847=="
 
---===============8929946711702815429==
-Content-Type: multipart/alternative; boundary="00000000000008fe3205bb016f62"
+--===============4155134118743651847==
+Content-Type: multipart/alternative; boundary="00000000000001697a05bb042bbb"
 
---00000000000008fe3205bb016f62
+--00000000000001697a05bb042bbb
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-I have installed audit 2.8.5 on a CentOS 7 and set up the following rule in
-/etc/audit/rules.d/audit.rules:
+SG>  The Linux kernel has no idea who the user is in the
+Windows machine since they're not really logged in. This applies to all
+remote files systems.
 
--w /data
+I thought that any filesystem operation requested by a user in Windows
+would necessarily be executed by some user in Linux in the end (either a
+generic user such as samba or, in my specific case, the Linux user which is
+mapped to the MS Active Directory user by Centrify). After all, the
+filesystem is managed by Linux. Is that assumption incorrect?
 
-/data is shared via Samba to a Windows Server 2016 system. If I write to
-/data in the CentOS7 system, I get the open syscall event in the auditd
-log. If I write to the same directory in the Windows Server 2016, I see the
-file in the /data directory in the CentOS7 system, but the event is not
-logged by audit. Is that the expected behavior?
+On Wed, Feb 10, 2021 at 6:26 PM Steve Grubb <sgrubb@redhat.com> wrote:
 
-Thanks in advance.
+> Hello,
+>
+> Moderator system is acting up. But it'll go through eventually.
+>
+> On Wednesday, February 10, 2021 3:41:45 PM EST Alan Evangelista wrote:
+> > I have installed audit 2.8.5 on a CentOS 7 and set up the following rul=
+e
+> in
+> > /etc/audit/rules.d/audit.rules:
+> >
+> > -w /data
+> >
+> > /data is shared via Samba to a Windows Server 2016 system. If I write t=
+o
+> > /data in the CentOS7 system, I get the open syscall event in the auditd
+> > log. If I write to the same directory in the Windows Server 2016, I see
+> the
+> > file in the /data directory in the CentOS7 system, but the event is not
+> > logged by audit. Is that the expected behavior?
+>
+> Unfortunately, yes. The Linux kernel has no idea who the user is in the
+> Windows machine since they're not really logged in. This applies to all
+> remote files systems. They may yield a few events, but that is more by
+> accident than design.
+>
+> -Steve
+>
+>
+>
+>
 
---00000000000008fe3205bb016f62
+--00000000000001697a05bb042bbb
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">I have installed audit 2.8.5 on a CentOS 7 and set up the =
-following rule in /etc/audit/rules.d/audit.rules:<div><br></div><div>-w /da=
-ta<br></div><div><br></div><div>/data is shared via Samba to a Windows Serv=
-er 2016 system. If I write to /data in the CentOS7 system, I get the open s=
-yscall event in the auditd log. If I write to the same directory in the Win=
-dows Server 2016, I see the file in the /data directory in the CentOS7 syst=
-em, but the event is not logged by audit. Is that the expected behavior?=C2=
-=A0</div><div><br></div><div>Thanks in advance.</div></div>
+<div dir=3D"ltr">SG&gt;=C2=A0=C2=A0The Linux kernel has no idea who the use=
+r is in the<br>Windows machine since they&#39;re not really logged in. This=
+ applies to all<br>remote files systems.=C2=A0<div><br></div><div>I thought=
+ that any filesystem operation requested by a user in Windows would necessa=
+rily be executed by some user in Linux in the end (either a generic user su=
+ch as samba or, in my specific case, the Linux user which is mapped to the =
+MS Active Directory user by Centrify). After all, the filesystem is managed=
+ by Linux. Is that assumption incorrect?</div></div><br><div class=3D"gmail=
+_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Feb 10, 2021 at 6:26 =
+PM Steve Grubb &lt;<a href=3D"mailto:sgrubb@redhat.com">sgrubb@redhat.com</=
+a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
+x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">He=
+llo,<br>
+<br>
+Moderator system is acting up. But it&#39;ll go through eventually.<br>
+<br>
+On Wednesday, February 10, 2021 3:41:45 PM EST Alan Evangelista wrote:<br>
+&gt; I have installed audit 2.8.5 on a CentOS 7 and set up the following ru=
+le in<br>
+&gt; /etc/audit/rules.d/audit.rules:<br>
+&gt; <br>
+&gt; -w /data<br>
+&gt; <br>
+&gt; /data is shared via Samba to a Windows Server 2016 system. If I write =
+to<br>
+&gt; /data in the CentOS7 system, I get the open syscall event in the audit=
+d<br>
+&gt; log. If I write to the same directory in the Windows Server 2016, I se=
+e the<br>
+&gt; file in the /data directory in the CentOS7 system, but the event is no=
+t<br>
+&gt; logged by audit. Is that the expected behavior?<br>
+<br>
+Unfortunately, yes. The Linux kernel has no idea who the user is in the <br=
+>
+Windows machine since they&#39;re not really logged in. This applies to all=
+ <br>
+remote files systems. They may yield a few events, but that is more by <br>
+accident than design.<br>
+<br>
+-Steve<br>
+<br>
+<br>
+<br>
+</blockquote></div>
 
---00000000000008fe3205bb016f62--
+--00000000000001697a05bb042bbb--
 
---===============8929946711702815429==
+--===============4155134118743651847==
 Content-Type: text/plain; charset=WINDOWS-1252
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -141,5 +212,5 @@ Content-Disposition: inline
 Linux-audit mailing list
 Linux-audit@listman.redhat.com
 https://listman.redhat.com/mailman/listinfo/linux-audit
---===============8929946711702815429==--
+--===============4155134118743651847==--
 
