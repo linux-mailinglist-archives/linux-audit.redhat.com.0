@@ -1,71 +1,72 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [216.205.24.124])
-	by mail.lfdr.de (Postfix) with ESMTP id A488E316FAB
-	for <lists+linux-audit@lfdr.de>; Wed, 10 Feb 2021 20:08:55 +0100 (CET)
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	by mail.lfdr.de (Postfix) with ESMTP id DF8AA316FC1
+	for <lists+linux-audit@lfdr.de>; Wed, 10 Feb 2021 20:12:50 +0100 (CET)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-549-B6SgVOscPYS79zw1_5h81w-1; Wed, 10 Feb 2021 14:08:52 -0500
-X-MC-Unique: B6SgVOscPYS79zw1_5h81w-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+ us-mta-8-bVP5JURQOYGagC73qHH7FA-1; Wed, 10 Feb 2021 14:12:46 -0500
+X-MC-Unique: bVP5JURQOYGagC73qHH7FA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ED0AC107ACE3;
-	Wed, 10 Feb 2021 19:08:44 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id C534E60C17;
-	Wed, 10 Feb 2021 19:08:43 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C362A801962;
+	Wed, 10 Feb 2021 19:12:40 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 469711001E73;
+	Wed, 10 Feb 2021 19:12:40 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id E887B18095C7;
-	Wed, 10 Feb 2021 19:08:38 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
-	[10.11.54.4])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 41CF94EBC6;
+	Wed, 10 Feb 2021 19:12:37 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+	[10.11.54.6])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 11AJ8ARh001905 for <linux-audit@listman.util.phx.redhat.com>;
-	Wed, 10 Feb 2021 14:08:10 -0500
+	id 11AJCEXA003512 for <linux-audit@listman.util.phx.redhat.com>;
+	Wed, 10 Feb 2021 14:12:14 -0500
 Received: by smtp.corp.redhat.com (Postfix)
-	id 63D322026D11; Wed, 10 Feb 2021 19:08:10 +0000 (UTC)
+	id 0216A2166B2E; Wed, 10 Feb 2021 19:12:14 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
-	(mimecast05.extmail.prod.ext.rdu2.redhat.com [10.11.55.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 5E5F52026D13
-	for <linux-audit@redhat.com>; Wed, 10 Feb 2021 19:08:07 +0000 (UTC)
+	(mimecast01.extmail.prod.ext.rdu2.redhat.com [10.11.55.17])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id F05842166B2F
+	for <linux-audit@redhat.com>; Wed, 10 Feb 2021 19:12:11 +0000 (UTC)
 Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
 	[205.139.110.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A9ED28032E5
-	for <linux-audit@redhat.com>; Wed, 10 Feb 2021 19:08:07 +0000 (UTC)
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com
-	[209.85.218.52]) (Using TLS) by relay.mimecast.com with ESMTP id
-	us-mta-312-g-KsJuoxPgS3WbEx87WIjQ-1; Wed, 10 Feb 2021 14:08:04 -0500
-X-MC-Unique: g-KsJuoxPgS3WbEx87WIjQ-1
-Received: by mail-ej1-f52.google.com with SMTP id a9so6133048ejr.2
-	for <linux-audit@redhat.com>; Wed, 10 Feb 2021 11:08:04 -0800 (PST)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 42823858F1B
+	for <linux-audit@redhat.com>; Wed, 10 Feb 2021 19:12:11 +0000 (UTC)
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com
+	[209.85.208.53]) (Using TLS) by relay.mimecast.com with ESMTP id
+	us-mta-392-5fGiYAcDPUW2u_uMcE6DRw-1; Wed, 10 Feb 2021 14:12:08 -0500
+X-MC-Unique: 5fGiYAcDPUW2u_uMcE6DRw-1
+Received: by mail-ed1-f53.google.com with SMTP id s11so4325781edd.5
+	for <linux-audit@redhat.com>; Wed, 10 Feb 2021 11:12:07 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to;
-	bh=LsasVjj7EKOWu7Hk0VR7VOMxQDMyosaAhKnlNn3Omyk=;
-	b=bqJfSETAiDlZs943WMTdjgyhDeQookkKFW69bujmhZj0j/mK15LBeJDEdsZAyfQrPb
-	vHhYYMDasXS91DvCf+z5d/SJj31WZtdq4vgahf9VlcibzkLdYylvFq+dWyIX9zWDv0QA
-	7tKWCu003dIgdj5yv48dPub+K7hUT3GOgZK6ZAE539DF0qh5OsroVhwGv+xEvLjiSrCN
-	Y3g+mfN8S0yc72rgHH9s6w9h9SD+JEAvhg1DWC4ev6E3OtdJdSsGgKygOCwUXmXbJQGs
-	oXAlgy612xKaSvKYfnNIpUu0HBLH1grTtDO8D6fge21hdKcDFLs//4hmp5p7J8/Qfxoc
-	XSDA==
-X-Gm-Message-State: AOAM532WWEw3LVCjBLYjr64O8bKknC3imhg+hRLBVpYLrwRXxzrCn7VU
-	iMxsRZN4MW3ZLX8nzdmvkvI9bMl2qBS4Mr1zfZ3L0Lid062ivg==
-X-Google-Smtp-Source: ABdhPJyEoHcZH7mmzgTZmPpFiKr0ssTxUYqb9E92LR/39BybcKgxlNr/r9NMDsJiB++uAS167bl7+HSCOsWgGRi104s=
-X-Received: by 2002:a17:907:1607:: with SMTP id
-	hb7mr4342921ejc.265.1612984082937; 
-	Wed, 10 Feb 2021 11:08:02 -0800 (PST)
+	bh=2QbvzeG3VmH3KsCk4ue07KCAt90tFpjF95vS6+GwX3I=;
+	b=e7QZ9kL2o2EBJKw1dSvsP6udOU6D0ThcmC5hV+2ymDsLkoTiE1H6d+KLfWnA4MaHGQ
+	7FJ8XdxfG4IS5zXr0MBMBLqbXSGCjhdqWJnrPzNW3XIPHQl3bQU6s624FAEu79LCLbLQ
+	2owAZf5FNvA/3denR941NkO3M3SQH9qK24g0b21kBro4DROhwIlO8eHulAF2ixm2q2V2
+	fpyqNITzM7o+hDKwg9193qU52r1wCJCIFqqRVeov7DxBeuiepspBA4Gi45Ficj14atyQ
+	Gh6vuzThwIsr8xL1MsuV9zD343Eq2GvzrVZJDqG44rzA6gEgBYfpB48KjhiKh1xvdMF0
+	bCKg==
+X-Gm-Message-State: AOAM533/lOU14G04DRRnJr8fiKvgOGRLzRIdix/kTqHkv2lRkDOwMQ6Z
+	7JBFJ3r6c+Bi1IlO8cqNNspNAgTCMnUD49hdpo0kAn/0FYts5g==
+X-Google-Smtp-Source: ABdhPJyJ3kaF2zzyCenV1hmsj0OADoH52JkYpSV5vQ4kbjUL38l9ayQC70KWQSDaa/sPgEzBzWBa0X0EREkzPKarJnY=
+X-Received: by 2002:a05:6402:424a:: with SMTP id
+	g10mr4575772edb.236.1612984326581; 
+	Wed, 10 Feb 2021 11:12:06 -0800 (PST)
 MIME-Version: 1.0
 References: <12872550.uLZWGnKmhe@x2>
-In-Reply-To: <12872550.uLZWGnKmhe@x2>
+	<CAKo+F=+h2VXhGfeLzOB7WRqFAiDFgo23m1-Kh5k-=AXbzXWnZA@mail.gmail.com>
+In-Reply-To: <CAKo+F=+h2VXhGfeLzOB7WRqFAiDFgo23m1-Kh5k-=AXbzXWnZA@mail.gmail.com>
 From: LC Bruzenak <lenny@magitekltd.com>
-Date: Wed, 10 Feb 2021 13:07:51 -0600
-Message-ID: <CAKo+F=+h2VXhGfeLzOB7WRqFAiDFgo23m1-Kh5k-=AXbzXWnZA@mail.gmail.com>
+Date: Wed, 10 Feb 2021 13:11:55 -0600
+Message-ID: <CAKo+F=LFA_o2jduY81r52F=hipPTvDEr5LgV5A27x8CKz8WyQQ@mail.gmail.com>
 Subject: Re: Auditd statsd integration
 To: "Linux-audit@redhat.com" <linux-audit@redhat.com>
 X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
@@ -76,7 +77,7 @@ X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
 	Custom Display Name List=false; Reply-to Address Mismatch=false;
 	Targeted Threat Dictionary=false;
 	Mimecast Threat Dictionary=false; Custom Threat Dictionary=false
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
 X-loop: linux-audit@redhat.com
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
@@ -91,77 +92,86 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
 	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=linux-audit-bounces@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/mixed; boundary="===============1435334718663988065=="
+Content-Type: multipart/mixed; boundary="===============0936452985701537903=="
 
---===============1435334718663988065==
-Content-Type: multipart/alternative; boundary="0000000000004ace7205bb001f5d"
+--===============0936452985701537903==
+Content-Type: multipart/alternative; boundary="000000000000d085c505bb002d12"
 
---0000000000004ace7205bb001f5d
+--000000000000d085c505bb002d12
 Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Feb 8, 2021 at 7:44 PM Steve Grubb <sgrubb@redhat.com> wrote:
+On Wed, Feb 10, 2021 at 1:07 PM LC Bruzenak <lenny@magitekltd.com> wrote:
 
-> Hello,
+> On Mon, Feb 8, 2021 at 7:44 PM Steve Grubb <sgrubb@redhat.com> wrote:
 >
-> I have recently checked in to the audit tree 2 experimental plugins. You
-> can
-> enable them by passing --enable-experimental to configure. One of the new
-> plugins is aimed at providing audit metrics to a statsd server. The idea
-> being that you can use this to relay the metrics to influxdb, prometheus
-> or
-> some other collector. Then you can use Grafana to visualize and alert.
+>> Hello,
+>>
+>> I have recently checked in to the audit tree 2 experimental plugins. You
+>> can
+>> enable them by passing --enable-experimental to configure. One of the new
+>> plugins is aimed at providing audit metrics to a statsd server. The idea
+>> being that you can use this to relay the metrics to influxdb, prometheus
+>> or
+>> some other collector. Then you can use Grafana to visualize and alert.
+>>
+>> Currently, it supports the following metrics:
+>>
+>> kernel.audit.lost
+>> kernel.audit.backlog
+>> auditd.free_space
+>> auditd.plugin_current_depth
+>> auditd.plugin_max_depth
+>> audit_events.total_count
+>> audit_events.total_failed
+>> audit_events.avc_count
+>> audit_events.fanotify_count
+>> audit_events.logins_failed
+>> audit_events.logins_success
+>> audit_events.anomaly_count
+>> audit_events.response_count
+>>
+>> I'd be interested in hearing if this would be useful. And if these are
+>> the
+>> right metrics that people are interested in. Should something else be
+>> measured? Should an example Grafana dashboard be included?
+>>
+>> Let me know what you think.
+>>
+>> -Steve
+>>
+>>
+> Steve,
 >
-> Currently, it supports the following metrics:
+> I think this could be awesome; hoping to give it a try soon. An example
+> dashboard would be very helpful if you could include that.
+> The stats you already point out a good start.
 >
-> kernel.audit.lost
-> kernel.audit.backlog
-> auditd.free_space
-> auditd.plugin_current_depth
-> auditd.plugin_max_depth
-> audit_events.total_count
-> audit_events.total_failed
-> audit_events.avc_count
-> audit_events.fanotify_count
-> audit_events.logins_failed
-> audit_events.logins_success
-> audit_events.anomaly_count
-> audit_events.response_count
+> I'd also like to have a way to parse the per-machine kernel-assigned event
+> IDs for missing ones. Might that need a separate plugin for that or could
+> something be done within this setup?
+> I'm pretty sure there are more metrics that would be desired as well as
+> some derived; e.g. take a per-user login/logoff set to identify time spent
+> on a particular machine (screenlocks notwithstanding, but maybe
+> eventually). Or perhaps if clients send events+heartbeats, when are they
+> up/down? These are some of the questions I've heard from security overseers.
 >
-> I'd be interested in hearing if this would be useful. And if these are the
-> right metrics that people are interested in. Should something else be
-> measured? Should an example Grafana dashboard be included?
+> And while some of these may not be inspected directly by the end users, in
+> the case of trouble calls or questions they might be the exact thing I'd
+> ask them to relay to me in order to diagnose a problem or answer a question
+> remotely.
 >
-> Let me know what you think.
->
-> -Steve
+> Thx,
+> LCB
 >
 >
-Steve,
+... and I forgot to ask - can you include a README there which specifies
+the minimum kernel/userspace level of code required?
 
-I think this could be awesome; hoping to give it a try soon. An example
-dashboard would be very helpful if you could include that.
-The stats you already point out a good start.
-
-I'd also like to have a way to parse the per-machine kernel-assigned event
-IDs for missing ones. Might that need a separate plugin for that or could
-something be done within this setup?
-I'm pretty sure there are more metrics that would be desired as well as
-some derived; e.g. take a per-user login/logoff set to identify time spent
-on a particular machine (screenlocks notwithstanding, but maybe
-eventually). Or perhaps if clients send events+heartbeats, when are they
-up/down? These are some of the questions I've heard from security overseers.
-
-And while some of these may not be inspected directly by the end users, in
-the case of trouble calls or questions they might be the exact thing I'd
-ask them to relay to me in order to diagnose a problem or answer a question
-remotely.
-
-Thx,
 LCB
 
 -- 
@@ -169,15 +179,19 @@ LCB
 LC (Lenny) Bruzenak
 lenny@magitekltd.com
 
---0000000000004ace7205bb001f5d
+--000000000000d085c505bb002d12
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr">On Mon, Feb 8, 2021 at 7:44 PM Steve Grub=
-b &lt;<a href=3D"mailto:sgrubb@redhat.com">sgrubb@redhat.com</a>&gt; wrote:=
-<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" styl=
-e=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddin=
-g-left:1ex">Hello,<br>
+<div dir=3D"ltr"><div dir=3D"ltr">On Wed, Feb 10, 2021 at 1:07 PM LC Bruzen=
+ak &lt;<a href=3D"mailto:lenny@magitekltd.com">lenny@magitekltd.com</a>&gt;=
+ wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quot=
+e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
+;padding-left:1ex"><div dir=3D"ltr"><div dir=3D"ltr">On Mon, Feb 8, 2021 at=
+ 7:44 PM Steve Grubb &lt;<a href=3D"mailto:sgrubb@redhat.com" target=3D"_bl=
+ank">sgrubb@redhat.com</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><=
+blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-l=
+eft:1px solid rgb(204,204,204);padding-left:1ex">Hello,<br>
 <br>
 I have recently checked in to the audit tree 2 experimental plugins. You ca=
 n <br>
@@ -228,14 +242,17 @@ ard from security overseers.<br></div><div><br></div><div>And while some of=
  these may not be inspected directly by the end users, in the case of troub=
 le calls or questions they might be the exact thing I&#39;d ask them to rel=
 ay to me in order to diagnose a problem or answer a question remotely.</div=
-><div><br></div><div>Thx,</div><div>LCB<br></div><div><br></div></div>-- <b=
-r><div dir=3D"ltr" class=3D"gmail_signature"><div><br></div><div>LC (Lenny)=
- Bruzenak</div><div><a href=3D"mailto:lenny@magitekltd.com" target=3D"_blan=
-k">lenny@magitekltd.com</a></div></div></div>
+><div><br></div><div>Thx,</div><div>LCB<br></div><br></div></div></blockquo=
+te><div><br></div><div>... and I forgot to ask - can you include a README t=
+here which specifies the minimum kernel/userspace level of code required?<b=
+r></div></div><div><br></div><div>LCB<br></div><br>-- <br><div dir=3D"ltr" =
+class=3D"gmail_signature"><div><br></div><div>LC (Lenny) Bruzenak</div><div=
+><a href=3D"mailto:lenny@magitekltd.com" target=3D"_blank">lenny@magitekltd=
+.com</a></div></div></div>
 
---0000000000004ace7205bb001f5d--
+--000000000000d085c505bb002d12--
 
---===============1435334718663988065==
+--===============0936452985701537903==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -245,5 +262,5 @@ Content-Disposition: inline
 Linux-audit mailing list
 Linux-audit@redhat.com
 https://www.redhat.com/mailman/listinfo/linux-audit
---===============1435334718663988065==--
+--===============0936452985701537903==--
 
