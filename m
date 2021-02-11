@@ -2,65 +2,60 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [63.128.21.124])
-	by mail.lfdr.de (Postfix) with ESMTP id 6FB703194D3
-	for <lists+linux-audit@lfdr.de>; Thu, 11 Feb 2021 22:03:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C04AF3195AC
+	for <lists+linux-audit@lfdr.de>; Thu, 11 Feb 2021 23:15:51 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1613077426;
+	s=mimecast20190719; t=1613081750;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
-	 message-id:message-id:to:to:cc:mime-version:mime-version:
+	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=LgAfkHRxUBu9VtPTYSpN7nexDK6zybuwtxsLF0a/g98=;
-	b=JUiLsyxEWWHgngQzpW392+KdmMHAnm8r3r2P6zqNXi7t+fPy7HJxqi1PK5o5UcGBCWn4ih
-	mAlMB9Z4ZKGq4Al86Kokvv3iIxs2FioCFZDgNtwDiZ5Q7SFg1R/4daytZDpDWk5jmMWsYW
-	lajFJb01cCGJRdYqHsmjGLUYxuP/2iI=
+	bh=JHb2PjZa5GOeXj2NhFtXWJ57fS3o3hyjkVUaq9rPRW4=;
+	b=ika9aQWRxJECu76vn6/bbbuFTkPMem1Xwb5+dqFows1VB7Gpmcj/HPWvsQ0n4WzKTvdIgs
+	W+dqVbnVzVaxkgF8uPGq32+tn65KaQkp4qbfBYyB+UW14jsBwCZw/7lQcjSEnXnRGO1XXa
+	zhm/UCfjvw0ylCcWu7k/unMW05SpfDQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-120-w3APhE5LMUetQOLzBv-KXA-1; Thu, 11 Feb 2021 16:03:44 -0500
-X-MC-Unique: w3APhE5LMUetQOLzBv-KXA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+ us-mta-408-nOUJ7pjQPkyTDPR2fCFmww-1; Thu, 11 Feb 2021 17:15:48 -0500
+X-MC-Unique: nOUJ7pjQPkyTDPR2fCFmww-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0CD74801975;
-	Thu, 11 Feb 2021 21:03:39 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B60AD107ACE3;
+	Thu, 11 Feb 2021 22:15:42 +0000 (UTC)
 Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id BD8B560636;
-	Thu, 11 Feb 2021 21:03:37 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 3E5EA6F99D;
+	Thu, 11 Feb 2021 22:15:40 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id ED0A450033;
-	Thu, 11 Feb 2021 21:03:33 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
-	[10.5.11.11])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 4A9594E58D;
+	Thu, 11 Feb 2021 22:15:35 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+	[10.5.11.15])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 11BL38q9025914 for <linux-audit@listman.util.phx.redhat.com>;
-	Thu, 11 Feb 2021 16:03:08 -0500
+	id 11BMEo3I001619 for <linux-audit@listman.util.phx.redhat.com>;
+	Thu, 11 Feb 2021 17:14:50 -0500
 Received: by smtp.corp.redhat.com (Postfix)
-	id C65092BFED; Thu, 11 Feb 2021 21:03:08 +0000 (UTC)
+	id 263A95D764; Thu, 11 Feb 2021 22:14:50 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from x2.localnet (ovpn-118-15.rdu2.redhat.com [10.10.118.15])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 3B31E60636;
-	Thu, 11 Feb 2021 21:02:57 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id DC7CA5D76F;
+	Thu, 11 Feb 2021 22:14:46 +0000 (UTC)
 From: Steve Grubb <sgrubb@redhat.com>
-To: Phil Sutter <phil@nwl.cc>, Richard Guy Briggs <rgb@redhat.com>,
-	Linux-Audit Mailing List <linux-audit@redhat.com>,
-	LKML <linux-kernel@vger.kernel.org>, netfilter-devel@vger.kernel.org,
-	Paul Moore <paul@paul-moore.com>,
-	Ondrej Mosnacek <omosnace@redhat.com>, fw@strlen.de,
-	twoerner@redhat.com, Eric Paris <eparis@parisplace.org>,
-	tgraf@infradead.org, Paul Moore <paul@paul-moore.com>
-Subject: Re: [PATCH ghak124 v3] audit: log nftables configuration change events
-Date: Thu, 11 Feb 2021 16:02:55 -0500
-Message-ID: <4087569.ejJDZkT8p0@x2>
+To: Alan Evangelista <alan.vitor@gmail.com>
+Subject: Re: Samba and AuditD
+Date: Thu, 11 Feb 2021 17:14:44 -0500
+Message-ID: <1818319.taCxCBeP46@x2>
 Organization: Red Hat
-In-Reply-To: <CAHC9VhTNQW9d=8GCW-70vAEMh8-LXviP+JHFC2-YkuitokLLMQ@mail.gmail.com>
-References: <f9da8b5dbf2396b621c77c17b5b1123be5aa484e.1591275439.git.rgb@redhat.com>
-	<20210211151606.GX3158@orbyte.nwl.cc>
-	<CAHC9VhTNQW9d=8GCW-70vAEMh8-LXviP+JHFC2-YkuitokLLMQ@mail.gmail.com>
+In-Reply-To: <CAKz+TUt3ECMNcbbUziVfeCuhy42R19Z+bi8R+Pj38Lee=pZhUA@mail.gmail.com>
+References: <CAKz+TUvuOh849j=CaM=OjH1dwbr0bocM6_gdGO-i-wA2-bkr5g@mail.gmail.com>
+	<2316118.jE0xQCEvom@x2>
+	<CAKz+TUt3ECMNcbbUziVfeCuhy42R19Z+bi8R+Pj38Lee=pZhUA@mail.gmail.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-loop: linux-audit@redhat.com
+Cc: linux-audit@redhat.com
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -74,7 +69,7 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
 	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=linux-audit-bounces@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -82,35 +77,65 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-On Thursday, February 11, 2021 11:29:34 AM EST Paul Moore wrote:
-> > If I'm not mistaken, iptables emits a single audit log per table, ipset
-> > doesn't support audit at all. So I wonder how much audit logging is
-> > required at all (for certification or whatever reason). How much
-> > granularity is desired?
- 
-  <snip> 
+Hello,
 
-> I believe the netfilter auditing was mostly a nice-to-have bit of
-> functionality to help add to the completeness of the audit logs, but I
-> could very easily be mistaken.  Richard put together those patches, he
-> can probably provide the background/motivation for the effort.
+Moderating System still messed up today...
 
-There are certifications which levy requirements on information flow control. 
-The firewall can decide if information should flow or be blocked. Information 
-flow decisions need to be auditable - which we have with the audit target. 
-That then swings in requirements on the configuration of the information flow 
-policy.
+On Wednesday, February 10, 2021 6:57:28 PM EST Alan Evangelista wrote:
+> SG>  The Linux kernel has no idea who the user is in the
+> Windows machine since they're not really logged in. This applies to all
+> remote files systems.
+> 
+> I thought that any filesystem operation requested by a user in Windows
+> would necessarily be executed by some user in Linux in the end (either a
+> generic user such as samba or, in my specific case, the Linux user which is
+> mapped to the MS Active Directory user by Centrify). After all, the
+> filesystem is managed by Linux. Is that assumption incorrect?
 
-The requirements state a need to audit any management activity - meaning the 
-creation, modification, and/or deletion of a "firewall ruleset". Because it 
-talks constantly about a ruleset and then individual rules, I suspect only 1 
-summary event is needed to say something happened, who did it, and the 
-outcome. This would be in line with how selinux is treated: we have 1 summary 
-event for loading/modifying/unloading selinux policy.
+Maybe. It depends on the implementation. If its all in the kernel, then 
+probably not. This is the case with several file systems such as NFS. If the 
+file system is served from user space then you may get events. I have heard of 
+some file system servers opening the device and using it directly.
 
-Hope this helps...
+Basically, if you can strace the daemon and see it accessing the file system 
+with the sycalls you expect, then the kernel's audit engine can capture the 
+access but won't know who to attribute it to.
 
 -Steve
+
+> On Wed, Feb 10, 2021 at 6:26 PM Steve Grubb <sgrubb@redhat.com> wrote:
+> > Hello,
+> > 
+> > Moderator system is acting up. But it'll go through eventually.
+> > 
+> > On Wednesday, February 10, 2021 3:41:45 PM EST Alan Evangelista wrote:
+> > > I have installed audit 2.8.5 on a CentOS 7 and set up the following
+> > > rule
+> > 
+> > in
+> > 
+> > > /etc/audit/rules.d/audit.rules:
+> > > 
+> > > -w /data
+> > > 
+> > > /data is shared via Samba to a Windows Server 2016 system. If I write
+> > > to
+> > > /data in the CentOS7 system, I get the open syscall event in the auditd
+> > > log. If I write to the same directory in the Windows Server 2016, I see
+> > 
+> > the
+> > 
+> > > file in the /data directory in the CentOS7 system, but the event is not
+> > > logged by audit. Is that the expected behavior?
+> > 
+> > Unfortunately, yes. The Linux kernel has no idea who the user is in the
+> > Windows machine since they're not really logged in. This applies to all
+> > remote files systems. They may yield a few events, but that is more by
+> > accident than design.
+> > 
+> > -Steve
+
+
 
 
 --
