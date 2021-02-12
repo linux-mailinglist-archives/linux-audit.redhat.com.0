@@ -1,66 +1,67 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [216.205.24.124])
-	by mail.lfdr.de (Postfix) with ESMTP id D74A831A62F
-	for <lists+linux-audit@lfdr.de>; Fri, 12 Feb 2021 21:49:19 +0100 (CET)
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [63.128.21.124])
+	by mail.lfdr.de (Postfix) with ESMTP id 85FC531A63F
+	for <lists+linux-audit@lfdr.de>; Fri, 12 Feb 2021 21:55:21 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1613162959;
+	s=mimecast20190719; t=1613163320;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
-	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+	 message-id:message-id:to:to:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=0YnSmBrmgVWUfhWReFYWDFUOplyu/Vv9lmBU6sc9U5U=;
-	b=F6FbaefuD1PnbdWYZbY6A+eMl3CkUNfYb9UTngT3LJhoxmsPO0VUa83nFxdffTVWhWde0F
-	mTrqnkwfUoNZ9MCaaEvqsw7im8PE2PSavezxDAnmAt34clBLpKyWJfKc5l1vy4UU6nn1RR
-	9SbibAqCjtqQ1DT2iZL6JXpkUbvTb5I=
+	bh=S4BchhtpYUFoKbJ6bGeXOc31vPAV/HAaJ5MZ4vkJsKs=;
+	b=De9k9AfUFZnXPmoMmz1scEW1beAiYlmDVW5lUU4JhLa1Cdr67Ts86lM6A8zpvppd4s6qc8
+	ZTUycgoRagvHS3B1IuZfoePnlZVzGlX7righPHXxzcGZpqV8FKi6WfTYJkevdOspMwArwR
+	QF+jc2IbLsPcwFAiqy3fm2d++enqfNE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-331-eBTfzWY2OxCklaoD_BHnVA-1; Fri, 12 Feb 2021 15:49:16 -0500
-X-MC-Unique: eBTfzWY2OxCklaoD_BHnVA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+ us-mta-142-UGSLjF9kNTG7bc1Xpfyw7w-1; Fri, 12 Feb 2021 15:55:18 -0500
+X-MC-Unique: UGSLjF9kNTG7bc1Xpfyw7w-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 475F51936B65;
-	Fri, 12 Feb 2021 20:49:11 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 2AA835D9DB;
-	Fri, 12 Feb 2021 20:49:11 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0C4B41885784;
+	Fri, 12 Feb 2021 20:55:14 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id D1D046B8E5;
+	Fri, 12 Feb 2021 20:55:13 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 50DA918095CB;
-	Fri, 12 Feb 2021 20:49:10 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
-	[10.5.11.14])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 59D703805;
+	Fri, 12 Feb 2021 20:55:13 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+	[10.5.11.11])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 11CKmjHg031095 for <linux-audit@listman.util.phx.redhat.com>;
-	Fri, 12 Feb 2021 15:48:45 -0500
+	id 11CKspTB031587 for <linux-audit@listman.util.phx.redhat.com>;
+	Fri, 12 Feb 2021 15:54:51 -0500
 Received: by smtp.corp.redhat.com (Postfix)
-	id E01561B5FE; Fri, 12 Feb 2021 20:48:45 +0000 (UTC)
+	id 5D7996F7E4; Fri, 12 Feb 2021 20:54:51 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from madcap2.tricolour.ca (unknown [10.10.110.8])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 6079D5D9FC;
-	Fri, 12 Feb 2021 20:48:31 +0000 (UTC)
-Date: Fri, 12 Feb 2021 15:48:28 -0500
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id E27E419811;
+	Fri, 12 Feb 2021 20:54:42 +0000 (UTC)
+Date: Fri, 12 Feb 2021 15:54:40 -0500
 From: Richard Guy Briggs <rgb@redhat.com>
-To: Paul Moore <paul@paul-moore.com>
+To: Phil Sutter <phil@nwl.cc>, Steve Grubb <sgrubb@redhat.com>,
+	Linux-Audit Mailing List <linux-audit@redhat.com>,
+	LKML <linux-kernel@vger.kernel.org>, netfilter-devel@vger.kernel.org,
+	Paul Moore <paul@paul-moore.com>,
+	Ondrej Mosnacek <omosnace@redhat.com>, fw@strlen.de,
+	twoerner@redhat.com, Eric Paris <eparis@parisplace.org>,
+	tgraf@infradead.org
 Subject: Re: [PATCH ghak124 v3] audit: log nftables configuration change events
-Message-ID: <20210212204828.GL3141668@madcap2.tricolour.ca>
+Message-ID: <20210212205440.GM3141668@madcap2.tricolour.ca>
 References: <f9da8b5dbf2396b621c77c17b5b1123be5aa484e.1591275439.git.rgb@redhat.com>
 	<20210211151606.GX3158@orbyte.nwl.cc>
 	<CAHC9VhTNQW9d=8GCW-70vAEMh8-LXviP+JHFC2-YkuitokLLMQ@mail.gmail.com>
-	<20210211202628.GP2015948@madcap2.tricolour.ca>
+	<4087569.ejJDZkT8p0@x2> <20210212121112.GA3158@orbyte.nwl.cc>
 MIME-Version: 1.0
-In-Reply-To: <20210211202628.GP2015948@madcap2.tricolour.ca>
+In-Reply-To: <20210212121112.GA3158@orbyte.nwl.cc>
 User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-loop: linux-audit@redhat.com
-Cc: Phil Sutter <phil@nwl.cc>, fw@strlen.de,
-	LKML <linux-kernel@vger.kernel.org>,
-	Linux-Audit Mailing List <linux-audit@redhat.com>,
-	netfilter-devel@vger.kernel.org, twoerner@redhat.com,
-	Eric Paris <eparis@parisplace.org>, tgraf@infradead.org
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -74,7 +75,7 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
 	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=linux-audit-bounces@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -83,78 +84,61 @@ Content-Disposition: inline
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-On 2021-02-11 15:26, Richard Guy Briggs wrote:
-> On 2021-02-11 11:29, Paul Moore wrote:
-> > On Thu, Feb 11, 2021 at 10:16 AM Phil Sutter <phil@nwl.cc> wrote:
-> > > Hi,
-> > >
-> > > On Thu, Jun 04, 2020 at 09:20:49AM -0400, Richard Guy Briggs wrote:
-> > > > iptables, ip6tables, arptables and ebtables table registration,
-> > > > replacement and unregistration configuration events are logged for the
-> > > > native (legacy) iptables setsockopt api, but not for the
-> > > > nftables netlink api which is used by the nft-variant of iptables in
-> > > > addition to nftables itself.
-> > > >
-> > > > Add calls to log the configuration actions in the nftables netlink api.
-> > >
-> > > As discussed offline already, these audit notifications are pretty hefty
-> > > performance-wise. In an internal report, 300% restore time of a ruleset
-> > > containing 70k set elements is measured.
-> > 
-> > If you're going to reference offline/off-list discussions in a post to
-> > a public list, perhaps the original discussion shouldn't have been
-> > off-list ;)  If you don't involve us in the discussion, we have to
-> > waste a lot of time getting caught up.
+On 2021-02-12 13:11, Phil Sutter wrote:
+> Hi,
 > 
-> Here's part of that discussion:
-> 	https://bugzilla.redhat.com/show_bug.cgi?id=1918013
+> On Thu, Feb 11, 2021 at 04:02:55PM -0500, Steve Grubb wrote:
+> > On Thursday, February 11, 2021 11:29:34 AM EST Paul Moore wrote:
+> > > > If I'm not mistaken, iptables emits a single audit log per table, ipset
+> > > > doesn't support audit at all. So I wonder how much audit logging is
+> > > > required at all (for certification or whatever reason). How much
+> > > > granularity is desired?
+> >  
+> >   <snip> 
+> > 
+> > > I believe the netfilter auditing was mostly a nice-to-have bit of
+> > > functionality to help add to the completeness of the audit logs, but I
+> > > could very easily be mistaken.  Richard put together those patches, he
+> > > can probably provide the background/motivation for the effort.
+> > 
+> > There are certifications which levy requirements on information flow control. 
+> > The firewall can decide if information should flow or be blocked. Information 
+> > flow decisions need to be auditable - which we have with the audit target. 
+> 
+> In nftables, this is realized via 'log level audit' statement.
+> Functionality should by all means be identical to that of xtables' AUDIT
+> target.
+> 
+> > That then swings in requirements on the configuration of the information flow 
+> > policy.
+> > 
+> > The requirements state a need to audit any management activity - meaning the 
+> > creation, modification, and/or deletion of a "firewall ruleset". Because it 
+> > talks constantly about a ruleset and then individual rules, I suspect only 1 
+> > summary event is needed to say something happened, who did it, and the 
+> > outcome. This would be in line with how selinux is treated: we have 1 summary 
+> > event for loading/modifying/unloading selinux policy.
+> 
+> So the central element are firewall rules for audit purposes and
+> NETFILTER_CFG notifications merely serve asserting changes to those
+> rules are noticed by the auditing system. Looking at xtables again, this
+> seems coherent: Any change causes the whole table blob to be replaced
+> (while others stay in place). So table replace/create is the most common
+> place for a change notification. In nftables, the most common one is
+> generation dump - all tables are treated as elements of the same
+> ruleset, not individually like in xtables.
+> 
+> Richard, assuming the above is correct, are you fine with reducing
+> nftables auditing to a single notification per transaction then? I guess
+> Florian sufficiently illustrated how this would be implemented.
 
-Here's the rest:
-	 https://bugzilla.redhat.com/show_bug.cgi?id=1921624
+Yes, that should be possible.
 
-> > > If I'm not mistaken, iptables emits a single audit log per table, ipset
-> > > doesn't support audit at all. So I wonder how much audit logging is
-> > > required at all (for certification or whatever reason). How much
-> > > granularity is desired?
-> > 
-> > That's a question for the people who track these certification
-> > requirements, which is thankfully not me at the moment.  Unless
-> > somebody else wants to speak up, Steve Grubb is probably the only
-> > person who tracks that sort of stuff and comments here.
-> > 
-> > I believe the netfilter auditing was mostly a nice-to-have bit of
-> > functionality to help add to the completeness of the audit logs, but I
-> > could very easily be mistaken.  Richard put together those patches, he
-> > can probably provide the background/motivation for the effort.
+> > Hope this helps...
 > 
-> It was added because an audit test that normally produced records from
-> iptables on one distro stopped producing any records on another.
-> Investigation led to the fact that on the first it was using
-> iptables-legacy API and on the other it was using iptables-nft API.
+> It does, thanks a lot for the information!
 > 
-> > > I personally would notify once per transaction. This is easy and quick.
-> 
-> This was the goal.  iptables was atomic.  nftables appears to no longer
-> be so.  If I have this wrong, please show how that works.
-> 
-> > > Once per table or chain should be acceptable, as well. At the very
-> > > least, we should not have to notify once per each element. This is the
-> > > last resort of fast ruleset adjustments. If we lose it, people are
-> > > better off with ipset IMHO.
-> > >
-> > > Unlike nft monitor, auditd is not designed to be disabled "at will". So
-> > > turning it off for performance-critical workloads is no option.
-> 
-> If it were to be disabled "at will" it would defeat the purpose of
-> audit.  Those records can already be filtered, or audit can be disabled,
-> but let us look at rationalizing the current nftables records first.
-> 
-> > Patches are always welcome, but it might be wise to get to the bottom
-> > of the certification requirements first.
-> > 
-> > paul moore
-> 
-> - RGB
+> Thanks, Phil
 
 - RGB
 
