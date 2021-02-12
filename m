@@ -1,61 +1,55 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [63.128.21.124])
-	by mail.lfdr.de (Postfix) with ESMTP id C04AF3195AC
-	for <lists+linux-audit@lfdr.de>; Thu, 11 Feb 2021 23:15:51 +0100 (CET)
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+	by mail.lfdr.de (Postfix) with ESMTP id 7B92431A62B
+	for <lists+linux-audit@lfdr.de>; Fri, 12 Feb 2021 21:46:13 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1613081750;
+	s=mimecast20190719; t=1613162772;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
-	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+	 message-id:message-id:to:to:cc:mime-version:mime-version:
 	 content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:list-id:list-help:
+	 content-transfer-encoding:content-transfer-encoding:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=JHb2PjZa5GOeXj2NhFtXWJ57fS3o3hyjkVUaq9rPRW4=;
-	b=ika9aQWRxJECu76vn6/bbbuFTkPMem1Xwb5+dqFows1VB7Gpmcj/HPWvsQ0n4WzKTvdIgs
-	W+dqVbnVzVaxkgF8uPGq32+tn65KaQkp4qbfBYyB+UW14jsBwCZw/7lQcjSEnXnRGO1XXa
-	zhm/UCfjvw0ylCcWu7k/unMW05SpfDQ=
+	bh=9SP2yL0mLceOZCFJOxMZI8pE6AeXCh/Bdnmd0rFFBv8=;
+	b=dAFxbygfOApd7AGgrdrC/ROaSFtiMv2zozko9K/1Y5fh4idNbdPxVp75F8ONFwFZBUk+Fz
+	oyXUzRMIn9ooQ9Z+zH3mpOYP3+nux8qRFY5zoXWIX88lvVgDqmTFb6Sez17OMXcFcSnZEU
+	Vhp+U8CldHRJiP0oJpCvXK8+0HsZsyA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-408-nOUJ7pjQPkyTDPR2fCFmww-1; Thu, 11 Feb 2021 17:15:48 -0500
-X-MC-Unique: nOUJ7pjQPkyTDPR2fCFmww-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+ us-mta-465-lTBX-1uyMCykQZLullWucQ-1; Fri, 12 Feb 2021 15:46:09 -0500
+X-MC-Unique: lTBX-1uyMCykQZLullWucQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B60AD107ACE3;
-	Thu, 11 Feb 2021 22:15:42 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 30821107ACE8;
+	Fri, 12 Feb 2021 20:46:03 +0000 (UTC)
 Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 3E5EA6F99D;
-	Thu, 11 Feb 2021 22:15:40 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id A2B6F5C23D;
+	Fri, 12 Feb 2021 20:45:59 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 4A9594E58D;
-	Thu, 11 Feb 2021 22:15:35 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
-	[10.5.11.15])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 157204E58D;
+	Fri, 12 Feb 2021 20:45:53 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+	[10.5.11.22])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 11BMEo3I001619 for <linux-audit@listman.util.phx.redhat.com>;
-	Thu, 11 Feb 2021 17:14:50 -0500
+	id 11CKjOiE030779 for <linux-audit@listman.util.phx.redhat.com>;
+	Fri, 12 Feb 2021 15:45:25 -0500
 Received: by smtp.corp.redhat.com (Postfix)
-	id 263A95D764; Thu, 11 Feb 2021 22:14:50 +0000 (UTC)
+	id ED44F10023AB; Fri, 12 Feb 2021 20:45:24 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from x2.localnet (ovpn-118-15.rdu2.redhat.com [10.10.118.15])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id DC7CA5D76F;
-	Thu, 11 Feb 2021 22:14:46 +0000 (UTC)
+Received: from x2.localnet (ovpn-117-32.rdu2.redhat.com [10.10.117.32])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id B60FB1002388
+	for <linux-audit@redhat.com>; Fri, 12 Feb 2021 20:45:21 +0000 (UTC)
 From: Steve Grubb <sgrubb@redhat.com>
-To: Alan Evangelista <alan.vitor@gmail.com>
-Subject: Re: Samba and AuditD
-Date: Thu, 11 Feb 2021 17:14:44 -0500
-Message-ID: <1818319.taCxCBeP46@x2>
+To: Linux Audit <linux-audit@redhat.com>
+Subject: audit 3.0.1 released
+Date: Fri, 12 Feb 2021 15:45:19 -0500
+Message-ID: <3094014.aeNJFYEL58@x2>
 Organization: Red Hat
-In-Reply-To: <CAKz+TUt3ECMNcbbUziVfeCuhy42R19Z+bi8R+Pj38Lee=pZhUA@mail.gmail.com>
-References: <CAKz+TUvuOh849j=CaM=OjH1dwbr0bocM6_gdGO-i-wA2-bkr5g@mail.gmail.com>
-	<2316118.jE0xQCEvom@x2>
-	<CAKz+TUt3ECMNcbbUziVfeCuhy42R19Z+bi8R+Pj38Lee=pZhUA@mail.gmail.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-loop: linux-audit@redhat.com
-Cc: linux-audit@redhat.com
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -69,7 +63,7 @@ List-Subscribe: <https://www.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
 	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=linux-audit-bounces@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -79,61 +73,46 @@ Content-Transfer-Encoding: 7bit
 
 Hello,
 
-Moderating System still messed up today...
+I've just released a new version of the audit daemon. It can be
+downloaded from http://people.redhat.com/sgrubb/audit. It will also be
+in rawhide soon. The ChangeLog is:
 
-On Wednesday, February 10, 2021 6:57:28 PM EST Alan Evangelista wrote:
-> SG>  The Linux kernel has no idea who the user is in the
-> Windows machine since they're not really logged in. This applies to all
-> remote files systems.
-> 
-> I thought that any filesystem operation requested by a user in Windows
-> would necessarily be executed by some user in Linux in the end (either a
-> generic user such as samba or, in my specific case, the Linux user which is
-> mapped to the MS Active Directory user by Centrify). After all, the
-> filesystem is managed by Linux. Is that assumption incorrect?
+- Update syscall table to the 5.11 kernel
+- Add new --eoe-timeout option to ausearch and aureport (Burn Alting)
+- Only enable periodic timers when listening on the network
+- Upgrade libev to 4.33
+- Add auparse_new_buffer function to auparse library
+- Use the select libev backend unless aggregating events
+- Add sudoers to some base audit rules
+- Update the auparse normalizer for some new syscalls and event types
 
-Maybe. It depends on the implementation. If its all in the kernel, then 
-probably not. This is the case with several file systems such as NFS. If the 
-file system is served from user space then you may get events. I have heard of 
-some file system servers opening the device and using it directly.
+This release features 2 new experimental plugins. The statsd plugin should be 
+ready to try out. The other IDS plugin is more of a long term work in 
+progress. No timeline for it's development, either. (There is a known bug 
+where the ids plugin fails to build in some environments. There is a brand 
+new commit in github fixing this. Grab it if it fails to build.)
 
-Basically, if you can strace the daemon and see it accessing the file system 
-with the sycalls you expect, then the kernel's audit engine can capture the 
-access but won't know who to attribute it to.
+During the work for statsd, I found that the audit daemon is a little more 
+active than it should be. This was because it was enabling periodic timers 
+that are used to detect dead network connections when the daemon is configured 
+to be an aggregator. This is fixed and libev was updated to the latest 
+release. While I was in the libev section of code I did some testing betweek 
+using select and epoll as the event backend. Turns out select is about 4 ms 
+faster. So, as long as auditd is not receiving network events, it will use 
+select. If it does receive network events, then it will continue to use epoll 
+in case it needs a lot of descriptors.
+
+Ausearch/report now have a new command line option to --eoe-timeout to help 
+gather event records into the right event if they were slow getting output. 
+Auditd also has a setting that could be considered the eoe_timeout default 
+setting. Libauparse automatically tries to read this if it has the 
+permissions.
+
+SHA256: 994c4250d8fd43f3087a3c2ce73461832e30f1e9b278bf5bb03c3e07091155a5
+
+Please let me know if you run across any problems with this release.
 
 -Steve
-
-> On Wed, Feb 10, 2021 at 6:26 PM Steve Grubb <sgrubb@redhat.com> wrote:
-> > Hello,
-> > 
-> > Moderator system is acting up. But it'll go through eventually.
-> > 
-> > On Wednesday, February 10, 2021 3:41:45 PM EST Alan Evangelista wrote:
-> > > I have installed audit 2.8.5 on a CentOS 7 and set up the following
-> > > rule
-> > 
-> > in
-> > 
-> > > /etc/audit/rules.d/audit.rules:
-> > > 
-> > > -w /data
-> > > 
-> > > /data is shared via Samba to a Windows Server 2016 system. If I write
-> > > to
-> > > /data in the CentOS7 system, I get the open syscall event in the auditd
-> > > log. If I write to the same directory in the Windows Server 2016, I see
-> > 
-> > the
-> > 
-> > > file in the /data directory in the CentOS7 system, but the event is not
-> > > logged by audit. Is that the expected behavior?
-> > 
-> > Unfortunately, yes. The Linux kernel has no idea who the user is in the
-> > Windows machine since they're not really logged in. This applies to all
-> > remote files systems. They may yield a few events, but that is more by
-> > accident than design.
-> > 
-> > -Steve
 
 
 
