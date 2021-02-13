@@ -1,68 +1,69 @@
 Return-Path: <linux-audit-bounces@listman.redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-delivery-44.mimecast.com (us-smtp-delivery-44.mimecast.com [207.211.30.44])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B2F231CFEE
-	for <lists+linux-audit@lfdr.de>; Tue, 16 Feb 2021 19:13:04 +0100 (CET)
+Received: from us-smtp-delivery-44.mimecast.com (us-smtp-delivery-44.mimecast.com [205.139.111.44])
+	by mail.lfdr.de (Postfix) with ESMTP id AE9A231CFEC
+	for <lists+linux-audit@lfdr.de>; Tue, 16 Feb 2021 19:12:55 +0100 (CET)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-231-9utzhf3lNvC-ViJRX1HJGw-1; Tue, 16 Feb 2021 13:13:01 -0500
-X-MC-Unique: 9utzhf3lNvC-ViJRX1HJGw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+ us-mta-500-ANl1xa-TP4mhYGFyX0ddjg-1; Tue, 16 Feb 2021 13:12:50 -0500
+X-MC-Unique: ANl1xa-TP4mhYGFyX0ddjg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 43EAB1005501;
-	Tue, 16 Feb 2021 18:12:27 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 249A85D9E3;
-	Tue, 16 Feb 2021 18:12:27 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6793B8030CC;
+	Tue, 16 Feb 2021 18:12:45 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 423651975F;
+	Tue, 16 Feb 2021 18:12:45 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 6380B58074;
-	Tue, 16 Feb 2021 18:12:23 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
-	[10.11.54.3])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id E9D2718095CC;
+	Tue, 16 Feb 2021 18:12:44 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+	[10.11.54.5])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 11CCBP38031550 for <linux-audit@listman.util.phx.redhat.com>;
-	Fri, 12 Feb 2021 07:11:25 -0500
+	id 11DHR3uL031925 for <linux-audit@listman.util.phx.redhat.com>;
+	Sat, 13 Feb 2021 12:27:03 -0500
 Received: by smtp.corp.redhat.com (Postfix)
-	id 39E64115D375; Fri, 12 Feb 2021 12:11:25 +0000 (UTC)
+	id BC7E86D9DF; Sat, 13 Feb 2021 17:27:03 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
-	(mimecast03.extmail.prod.ext.rdu2.redhat.com [10.11.55.19])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 35CAC115D372
-	for <linux-audit@redhat.com>; Fri, 12 Feb 2021 12:11:22 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
-	[205.139.110.120])
+	(mimecast01.extmail.prod.ext.rdu2.redhat.com [10.11.55.17])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id B6C4E6D9E1
+	for <linux-audit@redhat.com>; Sat, 13 Feb 2021 17:27:01 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [205.139.110.61])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BA96F811760
-	for <linux-audit@redhat.com>; Fri, 12 Feb 2021 12:11:22 +0000 (UTC)
-Received: from orbyte.nwl.cc (orbyte.nwl.cc [151.80.46.58]) (Using TLS) by
-	relay.mimecast.com with ESMTP id us-mta-20-jljGc3ecOrWPd5VxTx9C6w-1;
-	Fri, 12 Feb 2021 07:11:16 -0500
-X-MC-Unique: jljGc3ecOrWPd5VxTx9C6w-1
-Received: from n0-1 by orbyte.nwl.cc with local (Exim 4.94)
-	(envelope-from <n0-1@orbyte.nwl.cc>)
-	id 1lAXI0-00055e-7W; Fri, 12 Feb 2021 13:11:12 +0100
-Date: Fri, 12 Feb 2021 13:11:12 +0100
-From: Phil Sutter <phil@nwl.cc>
-To: Steve Grubb <sgrubb@redhat.com>
-Subject: Re: [PATCH ghak124 v3] audit: log nftables configuration change events
-Message-ID: <20210212121112.GA3158@orbyte.nwl.cc>
-Mail-Followup-To: Phil Sutter <phil@nwl.cc>, Steve Grubb <sgrubb@redhat.com>,
-	Richard Guy Briggs <rgb@redhat.com>,
-	Linux-Audit Mailing List <linux-audit@redhat.com>,
-	LKML <linux-kernel@vger.kernel.org>,
-	netfilter-devel@vger.kernel.org, Paul Moore <paul@paul-moore.com>,
-	Ondrej Mosnacek <omosnace@redhat.com>, fw@strlen.de,
-	twoerner@redhat.com, Eric Paris <eparis@parisplace.org>,
-	tgraf@infradead.org
-References: <f9da8b5dbf2396b621c77c17b5b1123be5aa484e.1591275439.git.rgb@redhat.com>
-	<20210211151606.GX3158@orbyte.nwl.cc>
-	<CAHC9VhTNQW9d=8GCW-70vAEMh8-LXviP+JHFC2-YkuitokLLMQ@mail.gmail.com>
-	<4087569.ejJDZkT8p0@x2>
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E46E2858F17
+	for <linux-audit@redhat.com>; Sat, 13 Feb 2021 17:27:00 +0000 (UTC)
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com
+	[209.85.218.42]) (Using TLS) by relay.mimecast.com with ESMTP id
+	us-mta-460-YZNKzGc7Oa6oBoHGBBBt4w-1; Sat, 13 Feb 2021 12:26:57 -0500
+X-MC-Unique: YZNKzGc7Oa6oBoHGBBBt4w-1
+Received: by mail-ej1-f42.google.com with SMTP id y9so4597931ejp.10
+	for <linux-audit@redhat.com>; Sat, 13 Feb 2021 09:26:57 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=MxnpPs0+47w37I9nFiULng/p91nDzPZYER15zppZYso=;
+	b=VsZR573eQz0Ocr0zqOHRfL3a4BTbEjCWZPPssQsFn1g/VvH08PUMimKZdxTe3qAu1V
+	GQTdJsN4XTsmVoU/h5ZuiYaFL7ZZ96OdHAgJYFougzDjVxXknWPMHiSibvTM91Wsvnw2
+	KkdOlp7EZC0TzBTFHcPMF/S6UxU3tyy6avFb+/UBSXx2fPTHFeR6pvmfu6lvnmK7qTFg
+	Hjphc7FLiyJfKp5wymokGOEWGatuj//7Ctq9asrgN8doM7e/H4nCvlJWWtjpVXpKBlbD
+	lSX1tcaTkriOTACGpg/l96xEHkNRaXIICATuuzKy3kYIDMPNRuVBvAw69sAVBRRPWt3c
+	FZkQ==
+X-Gm-Message-State: AOAM533XQAqnUbeaCKgbC1QsAuet6mO/KusTURAWPjE2pwSLrJ6gis9K
+	dL87ffZLoi62oMMGGWstIuCgcEBMe6IJxAj8tixg8VN5lmyuXQ==
+X-Google-Smtp-Source: ABdhPJwNTN50K68OHp6nfrCk8CcZZeBYvmRlKIy9A7PSy9bKOIuFmEQsyX4fVo/qFtbynuCs41704oB3FCMOrPV4ZRE=
+X-Received: by 2002:a17:906:af41:: with SMTP id
+	ly1mr7960445ejb.525.1613237216372; 
+	Sat, 13 Feb 2021 09:26:56 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <4087569.ejJDZkT8p0@x2>
+From: Alan Evangelista <alan.vitor@gmail.com>
+Date: Sat, 13 Feb 2021 14:26:45 -0300
+Message-ID: <CAKz+TUs86e8Rh=DmSGOjK+KEjP6TLAhGoe3MdhN6xwBT3eWrLQ@mail.gmail.com>
+Subject: Building user-space audit
+To: linux-audit@redhat.com
 X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
 	Definition; Similar Internal Domain=false;
 	Similar Monitored External Domain=false;
@@ -71,16 +72,9 @@ X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
 	Custom Display Name List=false; Reply-to Address Mismatch=false;
 	Targeted Threat Dictionary=false;
 	Mimecast Threat Dictionary=false; Custom Threat Dictionary=false
-X-Mimecast-Bulk-Signature: yes
-X-Mimecast-Spam-Signature: bulk
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
 X-loop: linux-audit@redhat.com
 X-Mailman-Approved-At: Tue, 16 Feb 2021 13:11:57 -0500
-Cc: Richard Guy Briggs <rgb@redhat.com>, fw@strlen.de,
-	LKML <linux-kernel@vger.kernel.org>,
-	Linux-Audit Mailing List <linux-audit@redhat.com>,
-	netfilter-devel@vger.kernel.org, twoerner@redhat.com,
-	Eric Paris <eparis@parisplace.org>, tgraf@infradead.org
 X-BeenThere: linux-audit@listman.redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -94,79 +88,72 @@ List-Subscribe: <https://listman.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@listman.redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@listman.redhat.com
 Errors-To: linux-audit-bounces@listman.redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
 	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=linux-audit-bounces@listman.redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: listman.redhat.com
-Content-Disposition: inline
-Content-Type: text/plain; charset=WINDOWS-1252
+Content-Type: multipart/mixed; boundary="===============8592638458443414338=="
+
+--===============8592638458443414338==
+Content-Type: multipart/alternative; boundary="000000000000386e9905bb3b0f94"
+
+--000000000000386e9905bb3b0f94
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
+I'm trying to build the user-space part of the Linux Auditing Framework in
+https://github.com/linux-audit/audit-userspace. First, the README tells me
+to "see the README-install file" for building instructions and there is no
+such file.
 
-On Thu, Feb 11, 2021 at 04:02:55PM -0500, Steve Grubb wrote:
-> On Thursday, February 11, 2021 11:29:34 AM EST Paul Moore wrote:
-> > > If I'm not mistaken, iptables emits a single audit log per table, ips=
-et
-> > > doesn't support audit at all. So I wonder how much audit logging is
-> > > required at all (for certification or whatever reason). How much
-> > > granularity is desired?
-> =20
->   <snip>=20
->=20
-> > I believe the netfilter auditing was mostly a nice-to-have bit of
-> > functionality to help add to the completeness of the audit logs, but I
-> > could very easily be mistaken.  Richard put together those patches, he
-> > can probably provide the background/motivation for the effort.
->=20
-> There are certifications which levy requirements on information flow cont=
-rol.=20
-> The firewall can decide if information should flow or be blocked. Informa=
-tion=20
-> flow decisions need to be auditable - which we have with the audit target=
-.=20
+Second, I tried the standard build procedure using autotools:
 
-In nftables, this is realized via 'log level audit' statement.
-Functionality should by all means be identical to that of xtables' AUDIT
-target.
+aclocal; autoconf; automake; ./configure; make
 
-> That then swings in requirements on the configuration of the information =
-flow=20
-> policy.
->=20
-> The requirements state a need to audit any management activity - meaning =
-the=20
-> creation, modification, and/or deletion of a "firewall ruleset". Because =
-it=20
-> talks constantly about a ruleset and then individual rules, I suspect onl=
-y 1=20
-> summary event is needed to say something happened, who did it, and the=20
-> outcome. This would be in line with how selinux is treated: we have 1 sum=
-mary=20
-> event for loading/modifying/unloading selinux policy.
+./configure fails with the following error message:
 
-So the central element are firewall rules for audit purposes and
-NETFILTER_CFG notifications merely serve asserting changes to those
-rules are noticed by the auditing system. Looking at xtables again, this
-seems coherent: Any change causes the whole table blob to be replaced
-(while others stay in place). So table replace/create is the most common
-place for a change notification. In nftables, the most common one is
-generation dump - all tables are treated as elements of the same
-ruleset, not individually like in xtables.
+configure: error: zos remote support was requested but the openldap library
+was not found
 
-Richard, assuming the above is correct, are you fine with reducing
-nftables auditing to a single notification per transaction then? I guess
-Florian sufficiently illustrated how this would be implemented.
+- Is there any out-of-the-box way to build a *minimal* auditd for the
+x86_64 platform or I'd need to remove non-essential features such as zos
+remote support manually (in this case, removing it from configure.ac) ?
+- If there is not, where are the build dependencies documented?
 
-> Hope this helps...
+Thanks in advance.
 
-It does, thanks a lot for the information!
+--000000000000386e9905bb3b0f94
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Thanks, Phil
+<div dir=3D"ltr">I&#39;m trying to build the user-space part of the Linux A=
+uditing Framework in=C2=A0<a href=3D"https://github.com/linux-audit/audit-u=
+serspace">https://github.com/linux-audit/audit-userspace</a>. First, the RE=
+ADME tells me to &quot;see the README-install file&quot; for building instr=
+uctions and there is no such file.=C2=A0<div><br></div><div>Second, I tried=
+ the standard build procedure using autotools:=C2=A0<div><br></div><div>acl=
+ocal; autoconf; automake; ./configure; make</div><div><br></div><div>./conf=
+igure fails with the following error message:</div><div><br></div><div>conf=
+igure: error: zos remote support was requested but the openldap library was=
+ not found<br></div><div><br></div><div>- Is there any out-of-the-box way t=
+o build a *minimal* auditd for the x86_64 platform or I&#39;d need to remov=
+e non-essential features such as zos remote support manually (in this case,=
+ removing it from <a href=3D"http://configure.ac">configure.ac</a>) ?</div>=
+<div>- If there is not, where are the build dependencies documented?</div><=
+div><br></div><div>Thanks in advance.</div></div></div>
+
+--000000000000386e9905bb3b0f94--
+
+--===============8592638458443414338==
+Content-Type: text/plain; charset=WINDOWS-1252
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 
 --
 Linux-audit mailing list
 Linux-audit@listman.redhat.com
 https://listman.redhat.com/mailman/listinfo/linux-audit
+--===============8592638458443414338==--
 
