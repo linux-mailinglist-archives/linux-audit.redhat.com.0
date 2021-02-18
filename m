@@ -2,60 +2,62 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [63.128.21.124])
-	by mail.lfdr.de (Postfix) with ESMTP id 86E1231EA70
-	for <lists+linux-audit@lfdr.de>; Thu, 18 Feb 2021 14:30:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B6F631EA72
+	for <lists+linux-audit@lfdr.de>; Thu, 18 Feb 2021 14:30:08 +0100 (CET)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-312-GxBmHiA_PICzCjEIdVU16w-1; Thu, 18 Feb 2021 08:30:04 -0500
-X-MC-Unique: GxBmHiA_PICzCjEIdVU16w-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+ us-mta-346-l2Okryh6MO-KNF3CtfXRyg-1; Thu, 18 Feb 2021 08:30:04 -0500
+X-MC-Unique: l2Okryh6MO-KNF3CtfXRyg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DF9F6107ACF3;
-	Thu, 18 Feb 2021 13:29:59 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id BC27F60917;
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0C2C21936B65;
+	Thu, 18 Feb 2021 13:30:00 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id DF37760C5F;
 	Thu, 18 Feb 2021 13:29:59 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 72C2857DFA;
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 4505D18095CB;
 	Thu, 18 Feb 2021 13:29:59 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
-	[10.11.54.5])
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+	[10.11.54.3])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 11I8MK57016383 for <linux-audit@listman.util.phx.redhat.com>;
-	Thu, 18 Feb 2021 03:22:21 -0500
+	id 11ICqwup017584 for <linux-audit@listman.util.phx.redhat.com>;
+	Thu, 18 Feb 2021 07:52:58 -0500
 Received: by smtp.corp.redhat.com (Postfix)
-	id D9DC7107290; Thu, 18 Feb 2021 08:22:20 +0000 (UTC)
+	id 14F04108449E; Thu, 18 Feb 2021 12:52:58 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
-	(mimecast01.extmail.prod.ext.rdu2.redhat.com [10.11.55.17])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id D48D611902C
-	for <linux-audit@redhat.com>; Thu, 18 Feb 2021 08:22:18 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [205.139.110.61])
+	(mimecast04.extmail.prod.ext.rdu2.redhat.com [10.11.55.20])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 1022E1084497
+	for <linux-audit@redhat.com>; Thu, 18 Feb 2021 12:52:55 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [207.211.31.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7D84485A59D
-	for <linux-audit@redhat.com>; Thu, 18 Feb 2021 08:22:18 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BF5E51022F0E
+	for <linux-audit@redhat.com>; Thu, 18 Feb 2021 12:52:55 +0000 (UTC)
 Received: from Chamillionaire.breakpoint.cc (Chamillionaire.breakpoint.cc
 	[193.142.43.52]) (Using TLS) by relay.mimecast.com with ESMTP id
-	us-mta-46-cvomlHnzNSOthlNy36qp2g-1; Thu, 18 Feb 2021 03:22:11 -0500
-X-MC-Unique: cvomlHnzNSOthlNy36qp2g-1
+	us-mta-215-a6PQ8x5EPG-pWHRsMcSdqw-1; Thu, 18 Feb 2021 07:52:51 -0500
+X-MC-Unique: a6PQ8x5EPG-pWHRsMcSdqw-1
 Received: from fw by Chamillionaire.breakpoint.cc with local (Exim 4.92)
 	(envelope-from <fw@strlen.de>)
-	id 1lCeZb-0005qG-MU; Thu, 18 Feb 2021 09:22:07 +0100
-Date: Thu, 18 Feb 2021 09:22:07 +0100
+	id 1lCinY-0006mx-FH; Thu, 18 Feb 2021 13:52:48 +0100
+Date: Thu, 18 Feb 2021 13:52:48 +0100
 From: Florian Westphal <fw@strlen.de>
 To: Richard Guy Briggs <rgb@redhat.com>
 Subject: Re: [PATCH ghak124 v3] audit: log nftables configuration change events
-Message-ID: <20210218082207.GJ2766@breakpoint.cc>
+Message-ID: <20210218125248.GB22944@breakpoint.cc>
 References: <f9da8b5dbf2396b621c77c17b5b1123be5aa484e.1591275439.git.rgb@redhat.com>
 	<20210211151606.GX3158@orbyte.nwl.cc>
 	<CAHC9VhTNQW9d=8GCW-70vAEMh8-LXviP+JHFC2-YkuitokLLMQ@mail.gmail.com>
 	<20210211202628.GP2015948@madcap2.tricolour.ca>
 	<20210211220930.GC2766@breakpoint.cc>
 	<20210217234131.GN3141668@madcap2.tricolour.ca>
+	<20210218082207.GJ2766@breakpoint.cc>
+	<20210218124211.GO3141668@madcap2.tricolour.ca>
 MIME-Version: 1.0
-In-Reply-To: <20210217234131.GN3141668@madcap2.tricolour.ca>
+In-Reply-To: <20210218124211.GO3141668@madcap2.tricolour.ca>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
 	Definition; Similar Internal Domain=false;
@@ -65,7 +67,7 @@ X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
 	Custom Display Name List=false; Reply-to Address Mismatch=false;
 	Targeted Threat Dictionary=false;
 	Mimecast Threat Dictionary=false; Custom Threat Dictionary=false
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
 X-loop: linux-audit@redhat.com
 X-Mailman-Approved-At: Thu, 18 Feb 2021 08:29:38 -0500
 Cc: Phil Sutter <phil@nwl.cc>, Florian Westphal <fw@strlen.de>,
@@ -86,7 +88,7 @@ List-Subscribe: <https://listman.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
 	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=linux-audit-bounces@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -96,43 +98,47 @@ Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
 Richard Guy Briggs <rgb@redhat.com> wrote:
-> On 2021-02-11 23:09, Florian Westphal wrote:
-> > So, if just a summary is needed a single audit_log_nfcfg()
-> > after 'step 3' and outside of the list_for_each_entry_safe() is all
-> > that is needed.
+> On 2021-02-18 09:22, Florian Westphal wrote:
+> > No.  There is a hierarchy, e.g. you can't add a chain without first
+> > adding a table, BUT in case the table was already created by an earlier
+> > transaction it can also be stand-alone.
 > 
-> Ok, so it should not matter if it is before or after that
-> list_for_each_entry_safe(), which could be used to collect that summary.
+> Ok, so there could be a stand-alone chain mod with one table, then a
+> table add of a different one with a "higher ranking" op...
 
-Right, it won't matter.
+Yes, that can happen.
 
-> > If a summary is wanted as well one could fe. count the number of
-> > transaction types in the batch, e.g. table adds, chain adds, rule
-> > adds etc. and then log a summary count instead.
+> > > It seems I'd need to filter out the NFT_MSG_GET_* ops.
+> > 
+> > No need, the GET ops do not cause changes and will not trigger a
+> > generation id change.
 > 
-> The current fields are "table", "family", "entries", "op".
-> 
-> Could one batch change more than one table?  (I think it could?)
+> Ah, so it could trigger on generation change.  Would GET ops be included
+> in any other change
 
-Yes.
+No, GET ops are standalone, they cannot be part of a transaction.
+If you look at
 
-> It appears it can change more than one family.
-> "family" is currently a single integer, so that might need to be changed
-> to a list, or something to indicate multi-family.
+static const struct nfnl_callback nf_tables_cb[NFT_MSG_MAX] = {
 
-Yes, it can also affect different families.
+array in nf_tables_api.c, then those ops with a '.call_batch' can
+appear in transaction (i.e., can cause modification).
 
-> Listing all the ops seems a bit onerous.  Is there a hierarchy to the
-> ops and if so, are they in that order in a batch or in nf_tables_commit()?
+The other ones (.call_rcu) are read-only.
 
-No.  There is a hierarchy, e.g. you can't add a chain without first
-adding a table, BUT in case the table was already created by an earlier
-transaction it can also be stand-alone.
+If they appear in a batch tehy will be ignored, if the batch consists of
+such non-modifying ops only then nf_tables_commit() returns early
+because the transaction list is empty (nothing to do/change).
 
-> It seems I'd need to filter out the NFT_MSG_GET_* ops.
+> such that it would be desirable to filter them out
+> to reduce noise in that single log line if it is attempted to list all
+> the change ops?  It almost sounds like it would be better to do one
+> audit log line for each table for each family, and possibly for each op
+> to avoid the need to change userspace.  This would already be a
+> significant improvement picking the highest ranking op.
 
-No need, the GET ops do not cause changes and will not trigger a
-generation id change.
+I think i understand what you'd like to do.  Yes, that would reduce
+the log output a lot.
 
 --
 Linux-audit mailing list
