@@ -1,52 +1,54 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [63.128.21.124])
-	by mail.lfdr.de (Postfix) with ESMTP id 8E86D31EA68
-	for <lists+linux-audit@lfdr.de>; Thu, 18 Feb 2021 14:29:29 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1613654968;
-	h=from:from:sender:sender:reply-to:subject:subject:date:date:
-	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-	 content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:list-id:list-help:
-	 list-unsubscribe:list-subscribe:list-post;
-	bh=M4AF8gyTZodPRUcsY6nYBnNGhbPaXbzGAyg0FDcWUew=;
-	b=KIOPKQR8TVN8AT4SKWWzE5wP6BZDX5enjju/t/02LoSjcImO3URwf6qoEc0CwjVym8Lsq+
-	78S8tjV1McMUmSPyCk/bQM1g44stkPNNtCH9e8ptBE8eFlLOAldetukVYJzYcH4Y8Vv3bo
-	hajKD34aacfADTnjghUSRHS1jOVMI9Y=
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	by mail.lfdr.de (Postfix) with ESMTP id 889D631EB00
+	for <lists+linux-audit@lfdr.de>; Thu, 18 Feb 2021 15:37:00 +0100 (CET)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-414-CYW7BAe5NFSkfWu7ZbYVLw-1; Thu, 18 Feb 2021 08:29:26 -0500
-X-MC-Unique: CYW7BAe5NFSkfWu7ZbYVLw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+ us-mta-26-hioeYRVNOzi6w7eHUY_7pA-1; Thu, 18 Feb 2021 09:36:57 -0500
+X-MC-Unique: hioeYRVNOzi6w7eHUY_7pA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6DC1791294;
-	Thu, 18 Feb 2021 13:29:21 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E377E79EC3;
+	Thu, 18 Feb 2021 14:36:51 +0000 (UTC)
 Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id B31D85D9C2;
-	Thu, 18 Feb 2021 13:29:20 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 345BA10016F9;
+	Thu, 18 Feb 2021 14:36:49 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 18E3F18095CB;
-	Thu, 18 Feb 2021 13:29:17 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
-	[10.5.11.13])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 67E5718095CC;
+	Thu, 18 Feb 2021 14:36:45 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+	[10.11.54.5])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 11IDSrd4021725 for <linux-audit@listman.util.phx.redhat.com>;
-	Thu, 18 Feb 2021 08:28:53 -0500
+	id 11IDfG3w024523 for <linux-audit@listman.util.phx.redhat.com>;
+	Thu, 18 Feb 2021 08:41:16 -0500
 Received: by smtp.corp.redhat.com (Postfix)
-	id 94FCD614F0; Thu, 18 Feb 2021 13:28:53 +0000 (UTC)
+	id B09A111E5B6; Thu, 18 Feb 2021 13:41:16 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from madcap2.tricolour.ca (unknown [10.10.110.8])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id AC66C60917;
-	Thu, 18 Feb 2021 13:28:45 +0000 (UTC)
-Date: Thu, 18 Feb 2021 08:28:43 -0500
-From: Richard Guy Briggs <rgb@redhat.com>
-To: Florian Westphal <fw@strlen.de>
+Received: from mimecast-mx02.redhat.com
+	(mimecast06.extmail.prod.ext.rdu2.redhat.com [10.11.55.22])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id AB4BA11E5B4
+	for <linux-audit@redhat.com>; Thu, 18 Feb 2021 13:41:13 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+	[207.211.31.120])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9376E186E120
+	for <linux-audit@redhat.com>; Thu, 18 Feb 2021 13:41:13 +0000 (UTC)
+Received: from Chamillionaire.breakpoint.cc (Chamillionaire.breakpoint.cc
+	[193.142.43.52]) (Using TLS) by relay.mimecast.com with ESMTP id
+	us-mta-337-LswdWCkLOhGLS7VQK5XHbw-1; Thu, 18 Feb 2021 08:41:09 -0500
+X-MC-Unique: LswdWCkLOhGLS7VQK5XHbw-1
+Received: from fw by Chamillionaire.breakpoint.cc with local (Exim 4.92)
+	(envelope-from <fw@strlen.de>)
+	id 1lCjYI-0006xj-Uv; Thu, 18 Feb 2021 14:41:07 +0100
+Date: Thu, 18 Feb 2021 14:41:06 +0100
+From: Florian Westphal <fw@strlen.de>
+To: Richard Guy Briggs <rgb@redhat.com>
 Subject: Re: [PATCH ghak124 v3] audit: log nftables configuration change events
-Message-ID: <20210218132843.GP3141668@madcap2.tricolour.ca>
+Message-ID: <20210218134106.GC22944@breakpoint.cc>
 References: <f9da8b5dbf2396b621c77c17b5b1123be5aa484e.1591275439.git.rgb@redhat.com>
 	<20210211151606.GX3158@orbyte.nwl.cc>
 	<CAHC9VhTNQW9d=8GCW-70vAEMh8-LXviP+JHFC2-YkuitokLLMQ@mail.gmail.com>
@@ -56,12 +58,23 @@ References: <f9da8b5dbf2396b621c77c17b5b1123be5aa484e.1591275439.git.rgb@redhat.
 	<20210218082207.GJ2766@breakpoint.cc>
 	<20210218124211.GO3141668@madcap2.tricolour.ca>
 	<20210218125248.GB22944@breakpoint.cc>
+	<20210218132843.GP3141668@madcap2.tricolour.ca>
 MIME-Version: 1.0
-In-Reply-To: <20210218125248.GB22944@breakpoint.cc>
+In-Reply-To: <20210218132843.GP3141668@madcap2.tricolour.ca>
 User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
+	Definition; Similar Internal Domain=false;
+	Similar Monitored External Domain=false;
+	Custom External Domain=false; Mimecast External Domain=false;
+	Newly Observed Domain=false; Internal User Name=false;
+	Custom Display Name List=false; Reply-to Address Mismatch=false;
+	Targeted Threat Dictionary=false;
+	Mimecast Threat Dictionary=false; Custom Threat Dictionary=false
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
 X-loop: linux-audit@redhat.com
-Cc: Phil Sutter <phil@nwl.cc>, LKML <linux-kernel@vger.kernel.org>,
+X-Mailman-Approved-At: Thu, 18 Feb 2021 09:32:33 -0500
+Cc: Phil Sutter <phil@nwl.cc>, Florian Westphal <fw@strlen.de>,
+	LKML <linux-kernel@vger.kernel.org>,
 	Linux-Audit Mailing List <linux-audit@redhat.com>,
 	netfilter-devel@vger.kernel.org, twoerner@redhat.com,
 	Eric Paris <eparis@parisplace.org>, tgraf@infradead.org
@@ -78,7 +91,7 @@ List-Subscribe: <https://listman.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
 	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=linux-audit-bounces@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -87,46 +100,52 @@ Content-Disposition: inline
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-On 2021-02-18 13:52, Florian Westphal wrote:
-> Richard Guy Briggs <rgb@redhat.com> wrote:
-> > On 2021-02-18 09:22, Florian Westphal wrote:
-> > > No.  There is a hierarchy, e.g. you can't add a chain without first
-> > > adding a table, BUT in case the table was already created by an earlier
-> > > transaction it can also be stand-alone.
+Richard Guy Briggs <rgb@redhat.com> wrote:
+> Ok, can I get one more clarification on this "hierarchy"?  Is it roughly
+> in the order they appear in nf_tables_commit() after step 3?  It appears
+> it might be mostly already.  If it isn't already, would it be reasonable
+> to re-order them?  Would you suggest a different order?
+
+For audit purposes I think enum nf_tables_msg_types is already in the
+most relevant order, the lower numbers being more imporant.
+
+So e.g. NEWTABLE would be more interesting than DELRULE, if both
+are in same batch.
+
+> > > such that it would be desirable to filter them out
+> > > to reduce noise in that single log line if it is attempted to list all
+> > > the change ops?  It almost sounds like it would be better to do one
+> > > audit log line for each table for each family, and possibly for each op
+> > > to avoid the need to change userspace.  This would already be a
+> > > significant improvement picking the highest ranking op.
 > > 
-> > Ok, so there could be a stand-alone chain mod with one table, then a
-> > table add of a different one with a "higher ranking" op...
+> > I think i understand what you'd like to do.  Yes, that would reduce
+> > the log output a lot.
 > 
-> Yes, that can happen.
+> Would the generation change id be useful outside the kernel?
 
-Ok, can I get one more clarification on this "hierarchy"?  Is it roughly
-in the order they appear in nf_tables_commit() after step 3?  It appears
-it might be mostly already.  If it isn't already, would it be reasonable
-to re-order them?  Would you suggest a different order?
+Yes, we already announce it to interested parties via nfnetlink.
 
-(snip GET bits, that's now clear, thank you)
+> What
+> exactly does it look like?
 
-> > such that it would be desirable to filter them out
-> > to reduce noise in that single log line if it is attempted to list all
-> > the change ops?  It almost sounds like it would be better to do one
-> > audit log line for each table for each family, and possibly for each op
-> > to avoid the need to change userspace.  This would already be a
-> > significant improvement picking the highest ranking op.
-> 
-> I think i understand what you'd like to do.  Yes, that would reduce
-> the log output a lot.
+Its just a u64 counter that gets incremented whenever there is a change.
 
-Would the generation change id be useful outside the kernel?  What
-exactly does it look like?  I don't quite understand the genmask purpose.
+> I don't quite understand the genmask purpose.
 
-- RGB
+Thats an implementation detail only.  When we process a transaction,
+changes to the ruleset are being made but they should not have any
+effect until the entire transaction is processed.
 
---
-Richard Guy Briggs <rgb@redhat.com>
-Sr. S/W Engineer, Kernel Security, Base Operating Systems
-Remote, Ottawa, Red Hat Canada
-IRC: rgb, SunRaycer
-Voice: +1.647.777.2635, Internal: (81) 32635
+So there are two 'generations' at any time:
+1. The active ruleset
+2. The future ruleset
+
+2) is what is being changed/modified.
+
+When the transaction completes, then the future ruleset becomes
+the active ruleset.  If the transaction has to be aborted, the
+pending changes are reverted and the genid/genmasks are not changed.
 
 --
 Linux-audit mailing list
