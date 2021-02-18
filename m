@@ -2,82 +2,59 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [63.128.21.124])
-	by mail.lfdr.de (Postfix) with ESMTP id 3103631F288
-	for <lists+linux-audit@lfdr.de>; Thu, 18 Feb 2021 23:51:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BA49731F289
+	for <lists+linux-audit@lfdr.de>; Thu, 18 Feb 2021 23:52:14 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1613688733;
+	h=from:from:sender:sender:reply-to:subject:subject:date:date:
+	 message-id:message-id:to:to:cc:mime-version:mime-version:
+	 content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:list-id:list-help:
+	 list-unsubscribe:list-subscribe:list-post;
+	bh=Y2Bhh/mzh0LW5crzpn9nYR1Q/qzHf0TvmPb0Z94ACBk=;
+	b=PIzIUS4MpwyCRCCZdrbqRFhBKF/W47OOjbhF9ETNVDLCUGjsV2XO5sSyZTsMEavMGCefdL
+	UlmmhZLzR1z4pT4Bu9ZmnRU8x65Qk+El5Pc0x8UPmPYKqv+PkVwSrZ9zu1iYp3G5Kdcs6I
+	yLVUVvx4mIs2rP04vJG+VHyR2Fg1Ck8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-342-05uc8UdgPJS5XGmFsnQqzw-1; Thu, 18 Feb 2021 17:51:41 -0500
-X-MC-Unique: 05uc8UdgPJS5XGmFsnQqzw-1
+ us-mta-432-8oS3Ed6bM2mKyXFAJ4dmhA-1; Thu, 18 Feb 2021 17:52:11 -0500
+X-MC-Unique: 8oS3Ed6bM2mKyXFAJ4dmhA-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 47BAE1005501;
-	Thu, 18 Feb 2021 22:51:36 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 3D42C18F0A;
-	Thu, 18 Feb 2021 22:51:34 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DB9BF8030B7;
+	Thu, 18 Feb 2021 22:52:06 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id AC5446F94F;
+	Thu, 18 Feb 2021 22:52:06 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id EB6B818095CB;
-	Thu, 18 Feb 2021 22:51:29 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
-	[10.11.54.6])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 5D7D34E58D;
+	Thu, 18 Feb 2021 22:52:06 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+	[10.5.11.13])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 11IMgDsP019483 for <linux-audit@listman.util.phx.redhat.com>;
-	Thu, 18 Feb 2021 17:42:13 -0500
+	id 11IMouwq020249 for <linux-audit@listman.util.phx.redhat.com>;
+	Thu, 18 Feb 2021 17:50:56 -0500
 Received: by smtp.corp.redhat.com (Postfix)
-	id 45A3C2166B2D; Thu, 18 Feb 2021 22:42:13 +0000 (UTC)
+	id 93C7617DC3; Thu, 18 Feb 2021 22:50:56 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from mimecast-mx02.redhat.com
-	(mimecast01.extmail.prod.ext.rdu2.redhat.com [10.11.55.17])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id DF70721121A3
-	for <linux-audit@redhat.com>; Thu, 18 Feb 2021 22:42:10 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
-	[205.139.110.120])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5AA5185A59D
-	for <linux-audit@redhat.com>; Thu, 18 Feb 2021 22:42:10 +0000 (UTC)
-Received: from Chamillionaire.breakpoint.cc (Chamillionaire.breakpoint.cc
-	[193.142.43.52]) (Using TLS) by relay.mimecast.com with ESMTP id
-	us-mta-510-lO8094hdOgCpbDEcfjZoCQ-1; Thu, 18 Feb 2021 17:42:05 -0500
-X-MC-Unique: lO8094hdOgCpbDEcfjZoCQ-1
-Received: from fw by Chamillionaire.breakpoint.cc with local (Exim 4.92)
-	(envelope-from <fw@strlen.de>)
-	id 1lCrzk-0000sB-40; Thu, 18 Feb 2021 23:42:00 +0100
-Date: Thu, 18 Feb 2021 23:42:00 +0100
-From: Florian Westphal <fw@strlen.de>
-To: Richard Guy Briggs <rgb@redhat.com>
-Subject: Re: [PATCH ghak124 v3] audit: log nftables configuration change events
-Message-ID: <20210218224200.GF22944@breakpoint.cc>
-References: <f9da8b5dbf2396b621c77c17b5b1123be5aa484e.1591275439.git.rgb@redhat.com>
-	<20210211151606.GX3158@orbyte.nwl.cc>
-	<CAHC9VhTNQW9d=8GCW-70vAEMh8-LXviP+JHFC2-YkuitokLLMQ@mail.gmail.com>
-	<20210211202628.GP2015948@madcap2.tricolour.ca>
-	<20210211220930.GC2766@breakpoint.cc>
-	<20210217234131.GN3141668@madcap2.tricolour.ca>
-	<20210218082207.GJ2766@breakpoint.cc>
-	<20210218124211.GO3141668@madcap2.tricolour.ca>
-	<20210218125248.GB22944@breakpoint.cc>
-	<20210218212001.GQ3141668@madcap2.tricolour.ca>
+Received: from x2.localnet (ovpn-115-136.rdu2.redhat.com [10.10.115.136])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 11D1A60877;
+	Thu, 18 Feb 2021 22:50:52 +0000 (UTC)
+From: Steve Grubb <sgrubb@redhat.com>
+To: Paul Moore <paul@paul-moore.com>, linux-security-module@vger.kernel.org,
+	selinux@vger.kernel.org, linux-audit@redhat.com
+Subject: Re: security_task_getsecid() and subjective vs objective task creds
+Date: Thu, 18 Feb 2021 17:50:51 -0500
+Message-ID: <806848326.0ifERbkFSE@x2>
+Organization: Red Hat
+In-Reply-To: <5f8a424a-2aab-f11a-0e06-f8f075c644f6@schaufler-ca.com>
+References: <CAHC9VhSiq5gqY1bfouia4GwYsE9MGGXnUOqwEtHi2u0-1=8aZQ@mail.gmail.com>
+	<5f8a424a-2aab-f11a-0e06-f8f075c644f6@schaufler-ca.com>
 MIME-Version: 1.0
-In-Reply-To: <20210218212001.GQ3141668@madcap2.tricolour.ca>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
-	Definition; Similar Internal Domain=false;
-	Similar Monitored External Domain=false;
-	Custom External Domain=false; Mimecast External Domain=false;
-	Newly Observed Domain=false; Internal User Name=false;
-	Custom Display Name List=false; Reply-to Address Mismatch=false;
-	Targeted Threat Dictionary=false;
-	Mimecast Threat Dictionary=false; Custom Threat Dictionary=false
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-loop: linux-audit@redhat.com
-X-Mailman-Approved-At: Thu, 18 Feb 2021 17:51:06 -0500
-Cc: Phil Sutter <phil@nwl.cc>, Florian Westphal <fw@strlen.de>,
-	LKML <linux-kernel@vger.kernel.org>,
-	Linux-Audit Mailing List <linux-audit@redhat.com>,
-	netfilter-devel@vger.kernel.org, twoerner@redhat.com,
-	Eric Paris <eparis@parisplace.org>, tgraf@infradead.org
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -96,27 +73,66 @@ Authentication-Results: relay.mimecast.com;
 	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=linux-audit-bounces@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Disposition: inline
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-Richard Guy Briggs <rgb@redhat.com> wrote:
-> > If they appear in a batch tehy will be ignored, if the batch consists of
-> > such non-modifying ops only then nf_tables_commit() returns early
-> > because the transaction list is empty (nothing to do/change).
+On Thursday, February 18, 2021 5:07:52 PM EST Casey Schaufler wrote:
+> On 2/18/2021 11:34 AM, Paul Moore wrote:
+> > Hi all,
+> > 
+> > When looking into a problem I noticed that audit was recording the
+> > wrong subject label for a process.  Doing a bit of digging I realized
+> > this was caused by the SELinux security_task_getsecid() implementation
+> > returning the objective security label (taken from task->real_cred),
+> > and not the subjective security label (taken from task->cred).
+> > 
+> > Looking around at the other LSMs which implement this hook, Smack and
+> > AppArmor, it appears they both do the same thing: return the objective
+> > security ID for the process.  Looking quickly at the various non-LSM
+> > callers of the security_task_getsecid() hook, it unfortunately looks
+> > like all of them expect the subjective security ID to be returned.
+> > The only caller I'm not 100% confident in is binder, but from what I
+> > can tell it looks like they are expecting the subjective ID too.
+> > 
+> > At least we are consistently wrong :)
 > 
-> Ok, one little inconvenient question: what about GETOBJ_RESET?  That
-> looks like a hybrid that modifies kernel table counters and reports
-> synchronously.  That could be a special case call in
-> nf_tables_dump_obj() and nf_tables_getobj().  Will that cause a storm
-> per commit?
+> We may have come down with a case of helperitis.
+> 
+> > How do we want to fix this?  The obvious fix is to change the SELinux,
+> > AppArmor, and Smack security_task_getsecid() implementations to return
+> > the subjective security ID (->cred), and likely make a note in
+> > lsm_hooks.h,
+> 
+> That would be my choice.
+> 
+> >  but if someone can see a case where we would need both
+> > 
+> > the subjective and objective security labels speak up and we can
+> > introduce a new hook for the subjective label, and likely add a "_obj"
+> > to the end of the existing hook to help make it more clear.  If
+> > neither of those options are acceptable, we could convert all of the
+> > existing callers to use something like the line below (assumes
+> > current), but that is the least appealing option as far as I'm
+> > concerned.
+> > 
+> >   security_cred_getsecid(current_cred(), &sid);
+> > 
+> > Opinions?
+> 
+> If the objective cred isn't being used in the access control decision
+> it seems pointless to add it to the audit record. If there is a case
+> where the task is being treated as an object, signal delivery comes to
+> mind, you still want the objective credential. So it seems like care
+> may be required to ensure that the correct value (sub vs obj) is
+> used.
 
-No, since they can't be part of a commit (they don't implement the
-'call_batch' function).
+Yes, ptrace, process_vm_readv, process_vm_writev, pidfd_open, 
+process_madvise, pidfd_send_signal all seem to operate on a different process 
+and might be candidates for an OBJ_PID record which is where it would get 
+recorded.
 
-I'm not sure GETOBJ_RESET should be reported in the first place:
-RESET only affects expr internal state, and that state changes all the time
-anyway in response to network traffic.
+-Steve
+
 
 --
 Linux-audit mailing list
