@@ -1,74 +1,74 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [216.205.24.124])
-	by mail.lfdr.de (Postfix) with ESMTP id E4BBF3201C1
-	for <lists+linux-audit@lfdr.de>; Sat, 20 Feb 2021 00:30:22 +0100 (CET)
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [63.128.21.124])
+	by mail.lfdr.de (Postfix) with ESMTP id 2518B3201BF
+	for <lists+linux-audit@lfdr.de>; Sat, 20 Feb 2021 00:30:08 +0100 (CET)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-403-Fv3GmgJrOzG0DIIogwGuDA-1; Fri, 19 Feb 2021 18:30:19 -0500
-X-MC-Unique: Fv3GmgJrOzG0DIIogwGuDA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+ us-mta-302-qrNAu6nUMvCZIDbo2Wf2bw-1; Fri, 19 Feb 2021 18:30:05 -0500
+X-MC-Unique: qrNAu6nUMvCZIDbo2Wf2bw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 12477801965;
-	Fri, 19 Feb 2021 23:30:15 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id E80F560BFA;
-	Fri, 19 Feb 2021 23:30:14 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D1BF66D4E0;
+	Fri, 19 Feb 2021 23:30:00 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id B4CBF5D9C2;
+	Fri, 19 Feb 2021 23:30:00 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id ADB7657DFA;
-	Fri, 19 Feb 2021 23:30:14 +0000 (UTC)
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 873FB18095CB;
+	Fri, 19 Feb 2021 23:30:00 +0000 (UTC)
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
 	[10.11.54.3])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 11JNTOnU029898 for <linux-audit@listman.util.phx.redhat.com>;
-	Fri, 19 Feb 2021 18:29:24 -0500
+	id 11JNTRao029915 for <linux-audit@listman.util.phx.redhat.com>;
+	Fri, 19 Feb 2021 18:29:28 -0500
 Received: by smtp.corp.redhat.com (Postfix)
-	id 2ECCC10A58F4; Fri, 19 Feb 2021 23:29:24 +0000 (UTC)
+	id CC10F10A58EC; Fri, 19 Feb 2021 23:29:27 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
-	(mimecast06.extmail.prod.ext.rdu2.redhat.com [10.11.55.22])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 2A93210A58EC
-	for <linux-audit@redhat.com>; Fri, 19 Feb 2021 23:29:21 +0000 (UTC)
+	(mimecast05.extmail.prod.ext.rdu2.redhat.com [10.11.55.21])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id C787110A7E43
+	for <linux-audit@redhat.com>; Fri, 19 Feb 2021 23:29:27 +0000 (UTC)
 Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [207.211.31.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7AD17185A7BC
-	for <linux-audit@redhat.com>; Fri, 19 Feb 2021 23:29:21 +0000 (UTC)
-Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com
-	[209.85.219.51]) (Using TLS) by relay.mimecast.com with ESMTP id
-	us-mta-447-IdkQgEuzPCS1NsKnKXAkpg-1; Fri, 19 Feb 2021 18:29:19 -0500
-X-MC-Unique: IdkQgEuzPCS1NsKnKXAkpg-1
-Received: by mail-qv1-f51.google.com with SMTP id p12so3453474qvv.5
-	for <linux-audit@redhat.com>; Fri, 19 Feb 2021 15:29:19 -0800 (PST)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B029A8919BE
+	for <linux-audit@redhat.com>; Fri, 19 Feb 2021 23:29:27 +0000 (UTC)
+Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com
+	[209.85.222.180]) (Using TLS) by relay.mimecast.com with ESMTP id
+	us-mta-391-2K6C82oiP_-NHjYC5KBibg-1; Fri, 19 Feb 2021 18:29:25 -0500
+X-MC-Unique: 2K6C82oiP_-NHjYC5KBibg-1
+Received: by mail-qk1-f180.google.com with SMTP id h8so7273109qkk.6
+	for <linux-audit@redhat.com>; Fri, 19 Feb 2021 15:29:25 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:subject:from:to:cc:date:message-id:in-reply-to
 	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=S6kkwPyFasGabciXBJltzlq7+5sHKuwrKAkqRgvQL3M=;
-	b=dGXdDqjk9d+gNcdeFfrVqb61PAgqkHGof/noITJqnKbsK73BFsuDmimG7PSlZumacl
-	e2EWB24saRGV4LbJgIRFzZBOoJZOQtzXNSbk7w3oOwjPfLNGP4thcFGx0JFM4b2AOpwc
-	zfvcwDrcchZEiFLe0RFMLzDO7k4cqcpQZufy7TnDM2nb/23Z4H0VFq1PzCfrQYppOThe
-	aQA81dOJu9zofHXoShrSwHeyM+FYPpeID4raXOIHMvJbH6UrJ9fARno3+yDambV/SFsD
-	p1THmNZAD+qaEJgOIiI4Ik1ozQfjr9Kw0kYGK0BoqLcqZJNap/wCGVDdd1RBsLTVO840
-	/omQ==
-X-Gm-Message-State: AOAM53158mtgZ2di6FTIhVW2Zg/i5DYWQxb5rbVevEZSPn7i4djEt91n
-	KDXAzIh8uhco+5WVC63/1m56
-X-Google-Smtp-Source: ABdhPJwHyXGvX+vZp5aaFyZsFbg5bgM6WfZ3lg0g95EmkbsrgxQTZ15j0Z3CDahrB9UZRwlnhsES0g==
-X-Received: by 2002:a0c:90c9:: with SMTP id p67mr3868287qvp.14.1613777358770; 
-	Fri, 19 Feb 2021 15:29:18 -0800 (PST)
+	bh=E8JBjLM+VrYyjykM174pAPWmD9tkjj7saJUnrbSTTIQ=;
+	b=NZFBCaZ2nmbW6ywi+l5fZ9kKYnVVmKoOY5fl88lMDB3hhm8v1cV7ob055n3E0DTd0f
+	lqSzzsJOvzzbLcKbciSFldAcppwRlN009HMlRIL8C8Vh912uceZutvZqm1dz0SZoNIcU
+	AAmG4QBpTqgQ5OQwiNBECHYSrTCdidQKS+fI9AMcyoj9MExqccHuGtnx0SKQBRfWGUBT
+	IVNmFVHe7K+uGfSHDnJcAf7qKAMlRED5uQuc5ei31z7V3wN0fMyMvKZjGi4E2fBErc2f
+	K9PZmm9PTxnBg2c6G6P9dOkZbU9B12iDcgmdfmxRlK/4ClmAz7/K54vgXoItk9xYwnsT
+	srJw==
+X-Gm-Message-State: AOAM532vgGgkv4Kyj/M15xHtwHrjaX+ZYHYI8Cyf357BegDsPwPeSaof
+	VX7K1UL/g4YCjow07P7T7fXj
+X-Google-Smtp-Source: ABdhPJxoRGMhZL78hlgpeoNTGZ7eVPG9JEN4WQFHSand8x2oz5IGs23RnAOoMBSQwfB/dM2aIvOuKQ==
+X-Received: by 2002:ae9:e915:: with SMTP id x21mr11772911qkf.311.1613777364889;
+	Fri, 19 Feb 2021 15:29:24 -0800 (PST)
 Received: from localhost ([151.203.60.33]) by smtp.gmail.com with ESMTPSA id
-	a206sm7569909qkc.7.2021.02.19.15.29.18
+	z139sm7433814qkb.0.2021.02.19.15.29.24
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 19 Feb 2021 15:29:18 -0800 (PST)
-Subject: [RFC PATCH 3/4] smack: differentiate between subjective and objective
-	task credentials
+	Fri, 19 Feb 2021 15:29:24 -0800 (PST)
+Subject: [RFC PATCH 4/4] apparmor: differentiate between subjective and
+	objective task credentials
 From: Paul Moore <paul@paul-moore.com>
 To: Casey Schaufler <casey@schaufler-ca.com>,
 	John Johansen <john.johansen@canonical.com>
-Date: Fri, 19 Feb 2021 18:29:17 -0500
-Message-ID: <161377735771.87807.8998552586584751981.stgit@sifl>
+Date: Fri, 19 Feb 2021 18:29:23 -0500
+Message-ID: <161377736385.87807.7033400948278183233.stgit@sifl>
 In-Reply-To: <161377712068.87807.12246856567527156637.stgit@sifl>
 References: <161377712068.87807.12246856567527156637.stgit@sifl>
 User-Agent: StGit/1.0
@@ -98,7 +98,7 @@ List-Subscribe: <https://listman.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
 	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=linux-audit-bounces@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -107,148 +107,192 @@ Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
 With the split of the security_task_getsecid() into subjective and
-objective variants it's time to update Smack to ensure it is using
-the correct task creds.
+objective variants it's time to update AppArmor to ensure it is
+using the correct task creds.
 
 Signed-off-by: Paul Moore <paul@paul-moore.com>
 ---
- security/smack/smack.h     |   18 +++++++++++++++++-
- security/smack/smack_lsm.c |   40 +++++++++++++++++++++++++++-------------
- 2 files changed, 44 insertions(+), 14 deletions(-)
+ security/apparmor/domain.c       |    2 +-
+ security/apparmor/include/cred.h |   19 ++++++++++++++++---
+ security/apparmor/include/task.h |    3 ++-
+ security/apparmor/lsm.c          |   23 +++++++++++++++--------
+ security/apparmor/task.c         |   23 ++++++++++++++++++++---
+ 5 files changed, 54 insertions(+), 16 deletions(-)
 
-diff --git a/security/smack/smack.h b/security/smack/smack.h
-index a9768b12716bf..08f9cb80655ce 100644
---- a/security/smack/smack.h
-+++ b/security/smack/smack.h
-@@ -383,7 +383,23 @@ static inline struct smack_known *smk_of_task(const struct task_smack *tsp)
- 	return tsp->smk_task;
- }
+diff --git a/security/apparmor/domain.c b/security/apparmor/domain.c
+index f919ebd042fd2..9ed00b8dcdf0c 100644
+--- a/security/apparmor/domain.c
++++ b/security/apparmor/domain.c
+@@ -67,7 +67,7 @@ static int may_change_ptraced_domain(struct aa_label *to_label,
+ 	tracer = ptrace_parent(current);
+ 	if (tracer)
+ 		/* released below */
+-		tracerl = aa_get_task_label(tracer);
++		tracerl = aa_get_task_label_subj(tracer);
  
--static inline struct smack_known *smk_of_task_struct(
-+static inline struct smack_known *smk_of_task_struct_subj(
-+						const struct task_struct *t)
-+{
-+	struct smack_known *skp;
-+	const struct cred *cred;
-+
-+	rcu_read_lock();
-+
-+	cred = rcu_dereference(t->cred);
-+	skp = smk_of_task(smack_cred(cred));
-+
-+	rcu_read_unlock();
-+
-+	return skp;
-+}
-+
-+static inline struct smack_known *smk_of_task_struct_obj(
- 						const struct task_struct *t)
- {
- 	struct smack_known *skp;
-diff --git a/security/smack/smack_lsm.c b/security/smack/smack_lsm.c
-index 2bb354ef2c4a9..ea1a82742e8ba 100644
---- a/security/smack/smack_lsm.c
-+++ b/security/smack/smack_lsm.c
-@@ -159,7 +159,7 @@ static int smk_bu_current(char *note, struct smack_known *oskp,
- static int smk_bu_task(struct task_struct *otp, int mode, int rc)
- {
- 	struct task_smack *tsp = smack_cred(current_cred());
--	struct smack_known *smk_task = smk_of_task_struct(otp);
-+	struct smack_known *smk_task = smk_of_task_struct_obj(otp);
- 	char acc[SMK_NUM_ACCESS_TYPE + 1];
- 
- 	if (rc <= 0)
-@@ -479,7 +479,7 @@ static int smack_ptrace_access_check(struct task_struct *ctp, unsigned int mode)
- {
- 	struct smack_known *skp;
- 
--	skp = smk_of_task_struct(ctp);
-+	skp = smk_of_task_struct_obj(ctp);
- 
- 	return smk_ptrace_rule_check(current, skp, mode, __func__);
- }
-@@ -2031,7 +2031,7 @@ static int smk_curacc_on_task(struct task_struct *p, int access,
- 				const char *caller)
- {
- 	struct smk_audit_info ad;
--	struct smack_known *skp = smk_of_task_struct(p);
-+	struct smack_known *skp = smk_of_task_struct_subj(p);
- 	int rc;
- 
- 	smk_ad_init(&ad, caller, LSM_AUDIT_DATA_TASK);
-@@ -2076,15 +2076,29 @@ static int smack_task_getsid(struct task_struct *p)
+ 	/* not ptraced */
+ 	if (!tracer || unconfined(tracerl))
+diff --git a/security/apparmor/include/cred.h b/security/apparmor/include/cred.h
+index 0b9ae4804ef73..43c21ef5568ab 100644
+--- a/security/apparmor/include/cred.h
++++ b/security/apparmor/include/cred.h
+@@ -64,14 +64,27 @@ static inline struct aa_label *aa_get_newest_cred_label(const struct cred *cred)
  }
  
  /**
-- * smack_task_getsecid - get the secid of the task
-- * @p: the object task
-+ * smack_task_getsecid_subj - get the subjective secid of the task
-+ * @p: the task
-  * @secid: where to put the result
+- * __aa_task_raw_label - retrieve another task's label
++ * __aa_task_raw_label_subj - retrieve another task's subjective label
+  * @task: task to query  (NOT NULL)
   *
-- * Sets the secid to contain a u32 version of the smack label.
-+ * Sets the secid to contain a u32 version of the task's subjective smack label.
-+ */
-+static void smack_task_getsecid_subj(struct task_struct *p, u32 *secid)
+- * Returns: @task's label without incrementing its ref count
++ * Returns: @task's subjective label without incrementing its ref count
+  *
+  * If @task != current needs to be called in RCU safe critical section
+  */
+-static inline struct aa_label *__aa_task_raw_label(struct task_struct *task)
++static inline struct aa_label *__aa_task_raw_label_subj(struct task_struct *task)
 +{
-+	struct smack_known *skp = smk_of_task_struct_subj(p);
-+
-+	*secid = skp->smk_secid;
++	return aa_cred_raw_label(rcu_dereference(task->cred));
 +}
 +
 +/**
-+ * smack_task_getsecid_obj - get the objective secid of the task
-+ * @p: the task
-+ * @secid: where to put the result
++ * __aa_task_raw_label_obj - retrieve another task's objective label
++ * @task: task to query  (NOT NULL)
 + *
-+ * Sets the secid to contain a u32 version of the task's objective smack label.
-  */
--static void smack_task_getsecid(struct task_struct *p, u32 *secid)
-+static void smack_task_getsecid_obj(struct task_struct *p, u32 *secid)
++ * Returns: @task's objective label without incrementing its ref count
++ *
++ * If @task != current needs to be called in RCU safe critical section
++ */
++static inline struct aa_label *__aa_task_raw_label_obj(struct task_struct *task)
  {
--	struct smack_known *skp = smk_of_task_struct(p);
-+	struct smack_known *skp = smk_of_task_struct_obj(p);
- 
- 	*secid = skp->smk_secid;
+ 	return aa_cred_raw_label(__task_cred(task));
  }
-@@ -2172,7 +2186,7 @@ static int smack_task_kill(struct task_struct *p, struct kernel_siginfo *info,
- {
- 	struct smk_audit_info ad;
- 	struct smack_known *skp;
--	struct smack_known *tkp = smk_of_task_struct(p);
-+	struct smack_known *tkp = smk_of_task_struct_obj(p);
- 	int rc;
+diff --git a/security/apparmor/include/task.h b/security/apparmor/include/task.h
+index f13d12373b25e..27a2961558555 100644
+--- a/security/apparmor/include/task.h
++++ b/security/apparmor/include/task.h
+@@ -33,7 +33,8 @@ int aa_replace_current_label(struct aa_label *label);
+ int aa_set_current_onexec(struct aa_label *label, bool stack);
+ int aa_set_current_hat(struct aa_label *label, u64 token);
+ int aa_restore_previous_label(u64 cookie);
+-struct aa_label *aa_get_task_label(struct task_struct *task);
++struct aa_label *aa_get_task_label_subj(struct task_struct *task);
++struct aa_label *aa_get_task_label_obj(struct task_struct *task);
  
- 	if (!sig)
-@@ -2210,7 +2224,7 @@ static int smack_task_kill(struct task_struct *p, struct kernel_siginfo *info,
- static void smack_task_to_inode(struct task_struct *p, struct inode *inode)
- {
- 	struct inode_smack *isp = smack_inode(inode);
--	struct smack_known *skp = smk_of_task_struct(p);
-+	struct smack_known *skp = smk_of_task_struct_obj(p);
+ /**
+  * aa_free_task_ctx - free a task_ctx
+diff --git a/security/apparmor/lsm.c b/security/apparmor/lsm.c
+index 15e37b9132679..38430851675b9 100644
+--- a/security/apparmor/lsm.c
++++ b/security/apparmor/lsm.c
+@@ -119,7 +119,7 @@ static int apparmor_ptrace_access_check(struct task_struct *child,
+ 	int error;
  
- 	isp->smk_inode = skp;
- 	isp->smk_flags |= SMK_INODE_INSTANT;
-@@ -3481,7 +3495,7 @@ static void smack_d_instantiate(struct dentry *opt_dentry, struct inode *inode)
+ 	tracer = __begin_current_label_crit_section();
+-	tracee = aa_get_task_label(child);
++	tracee = aa_get_task_label_obj(child);
+ 	error = aa_may_ptrace(tracer, tracee,
+ 			(mode & PTRACE_MODE_READ) ? AA_PTRACE_READ
+ 						  : AA_PTRACE_TRACE);
+@@ -135,7 +135,7 @@ static int apparmor_ptrace_traceme(struct task_struct *parent)
+ 	int error;
+ 
+ 	tracee = __begin_current_label_crit_section();
+-	tracer = aa_get_task_label(parent);
++	tracer = aa_get_task_label_subj(parent);
+ 	error = aa_may_ptrace(tracer, tracee, AA_PTRACE_TRACE);
+ 	aa_put_label(tracer);
+ 	__end_current_label_crit_section(tracee);
+@@ -719,9 +719,16 @@ static void apparmor_bprm_committed_creds(struct linux_binprm *bprm)
+ 	return;
+ }
+ 
+-static void apparmor_task_getsecid(struct task_struct *p, u32 *secid)
++static void apparmor_task_getsecid_subj(struct task_struct *p, u32 *secid)
+ {
+-	struct aa_label *label = aa_get_task_label(p);
++	struct aa_label *label = aa_get_task_label_subj(p);
++	*secid = label->secid;
++	aa_put_label(label);
++}
++
++static void apparmor_task_getsecid_obj(struct task_struct *p, u32 *secid)
++{
++	struct aa_label *label = aa_get_task_label_obj(p);
+ 	*secid = label->secid;
+ 	aa_put_label(label);
+ }
+@@ -750,7 +757,7 @@ static int apparmor_task_kill(struct task_struct *target, struct kernel_siginfo
+ 		 * Dealing with USB IO specific behavior
+ 		 */
+ 		cl = aa_get_newest_cred_label(cred);
+-		tl = aa_get_task_label(target);
++		tl = aa_get_task_label_obj(target);
+ 		error = aa_may_signal(cl, tl, sig);
+ 		aa_put_label(cl);
+ 		aa_put_label(tl);
+@@ -758,7 +765,7 @@ static int apparmor_task_kill(struct task_struct *target, struct kernel_siginfo
+ 	}
+ 
+ 	cl = __begin_current_label_crit_section();
+-	tl = aa_get_task_label(target);
++	tl = aa_get_task_label_obj(target);
+ 	error = aa_may_signal(cl, tl, sig);
+ 	aa_put_label(tl);
+ 	__end_current_label_crit_section(cl);
+@@ -1243,8 +1250,8 @@ static struct security_hook_list apparmor_hooks[] __lsm_ro_after_init = {
+ 
+ 	LSM_HOOK_INIT(task_free, apparmor_task_free),
+ 	LSM_HOOK_INIT(task_alloc, apparmor_task_alloc),
+-	LSM_HOOK_INIT(task_getsecid_subj, apparmor_task_getsecid),
+-	LSM_HOOK_INIT(task_getsecid_obj, apparmor_task_getsecid),
++	LSM_HOOK_INIT(task_getsecid_subj, apparmor_task_getsecid_subj),
++	LSM_HOOK_INIT(task_getsecid_obj, apparmor_task_getsecid_obj),
+ 	LSM_HOOK_INIT(task_setrlimit, apparmor_task_setrlimit),
+ 	LSM_HOOK_INIT(task_kill, apparmor_task_kill),
+ 
+diff --git a/security/apparmor/task.c b/security/apparmor/task.c
+index d17130ee6795d..c03c8e3928055 100644
+--- a/security/apparmor/task.c
++++ b/security/apparmor/task.c
+@@ -16,17 +16,34 @@
+ #include "include/task.h"
+ 
+ /**
+- * aa_get_task_label - Get another task's label
++ * aa_get_task_label_subj - Get another task's subjective label
+  * @task: task to query  (NOT NULL)
+  *
+  * Returns: counted reference to @task's label
   */
- static int smack_getprocattr(struct task_struct *p, char *name, char **value)
+-struct aa_label *aa_get_task_label(struct task_struct *task)
++struct aa_label *aa_get_task_label_subj(struct task_struct *task)
  {
--	struct smack_known *skp = smk_of_task_struct(p);
-+	struct smack_known *skp = smk_of_task_struct_subj(p);
- 	char *cp;
- 	int slen;
+ 	struct aa_label *p;
  
-@@ -4755,8 +4769,8 @@ static struct security_hook_list smack_hooks[] __lsm_ro_after_init = {
- 	LSM_HOOK_INIT(task_setpgid, smack_task_setpgid),
- 	LSM_HOOK_INIT(task_getpgid, smack_task_getpgid),
- 	LSM_HOOK_INIT(task_getsid, smack_task_getsid),
--	LSM_HOOK_INIT(task_getsecid_subj, smack_task_getsecid),
--	LSM_HOOK_INIT(task_getsecid_obj, smack_task_getsecid),
-+	LSM_HOOK_INIT(task_getsecid_subj, smack_task_getsecid_subj),
-+	LSM_HOOK_INIT(task_getsecid_obj, smack_task_getsecid_obj),
- 	LSM_HOOK_INIT(task_setnice, smack_task_setnice),
- 	LSM_HOOK_INIT(task_setioprio, smack_task_setioprio),
- 	LSM_HOOK_INIT(task_getioprio, smack_task_getioprio),
+ 	rcu_read_lock();
+-	p = aa_get_newest_label(__aa_task_raw_label(task));
++	p = aa_get_newest_label(__aa_task_raw_label_subj(task));
++	rcu_read_unlock();
++
++	return p;
++}
++
++/**
++ * aa_get_task_label_obj - Get another task's objective label
++ * @task: task to query  (NOT NULL)
++ *
++ * Returns: counted reference to @task's label
++ */
++struct aa_label *aa_get_task_label_obj(struct task_struct *task)
++{
++	struct aa_label *p;
++
++	rcu_read_lock();
++	p = aa_get_newest_label(__aa_task_raw_label_obj(task));
+ 	rcu_read_unlock();
+ 
+ 	return p;
 
 --
 Linux-audit mailing list
