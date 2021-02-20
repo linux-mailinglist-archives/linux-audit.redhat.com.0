@@ -2,75 +2,73 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [216.205.24.124])
-	by mail.lfdr.de (Postfix) with ESMTP id 96F4E3205C6
-	for <lists+linux-audit@lfdr.de>; Sat, 20 Feb 2021 15:45:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 40B4C3205CD
+	for <lists+linux-audit@lfdr.de>; Sat, 20 Feb 2021 15:51:11 +0100 (CET)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-455-s9B57l8kPriMX7yxxiq5oA-1; Sat, 20 Feb 2021 09:45:06 -0500
-X-MC-Unique: s9B57l8kPriMX7yxxiq5oA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+ us-mta-331-8zr7RrFBOpa1KzVgWHgyMQ-1; Sat, 20 Feb 2021 09:51:07 -0500
+X-MC-Unique: 8zr7RrFBOpa1KzVgWHgyMQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3CD0C835E24;
-	Sat, 20 Feb 2021 14:45:01 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id AD8E919C79;
-	Sat, 20 Feb 2021 14:45:00 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CED5980402C;
+	Sat, 20 Feb 2021 14:51:02 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id A73D36091B;
+	Sat, 20 Feb 2021 14:51:01 +0000 (UTC)
 Received: from lists01.pubmisc.prod.ext.phx2.redhat.com (lists01.pubmisc.prod.ext.phx2.redhat.com [10.5.19.33])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id A9C209990;
-	Sat, 20 Feb 2021 14:44:59 +0000 (UTC)
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 28E9E18095CB;
+	Sat, 20 Feb 2021 14:51:01 +0000 (UTC)
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
 	[10.11.54.5])
 	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
-	id 11KEialh032409 for <linux-audit@listman.util.phx.redhat.com>;
-	Sat, 20 Feb 2021 09:44:36 -0500
+	id 11KEoc3t001105 for <linux-audit@listman.util.phx.redhat.com>;
+	Sat, 20 Feb 2021 09:50:38 -0500
 Received: by smtp.corp.redhat.com (Postfix)
-	id 55AC7103CBB; Sat, 20 Feb 2021 14:44:36 +0000 (UTC)
+	id 28E48103CA8; Sat, 20 Feb 2021 14:50:38 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
-	(mimecast03.extmail.prod.ext.rdu2.redhat.com [10.11.55.19])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 4FAC8103439
-	for <linux-audit@redhat.com>; Sat, 20 Feb 2021 14:44:34 +0000 (UTC)
+	(mimecast04.extmail.prod.ext.rdu2.redhat.com [10.11.55.20])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 2365F103CC2
+	for <linux-audit@redhat.com>; Sat, 20 Feb 2021 14:50:35 +0000 (UTC)
 Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
-	[207.211.31.120])
+	[205.139.110.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EE7CE9291A1
-	for <linux-audit@redhat.com>; Sat, 20 Feb 2021 14:44:33 +0000 (UTC)
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com
-	[209.85.208.45]) (Using TLS) by relay.mimecast.com with ESMTP id
-	us-mta-465-dBjU8_JXN-SSKc-zW6c2dQ-1; Sat, 20 Feb 2021 09:44:31 -0500
-X-MC-Unique: dBjU8_JXN-SSKc-zW6c2dQ-1
-Received: by mail-ed1-f45.google.com with SMTP id z22so15828866edb.9
-	for <linux-audit@redhat.com>; Sat, 20 Feb 2021 06:44:31 -0800 (PST)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AC9A11022F0A
+	for <linux-audit@redhat.com>; Sat, 20 Feb 2021 14:50:35 +0000 (UTC)
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com
+	[209.85.208.43]) (Using TLS) by relay.mimecast.com with ESMTP id
+	us-mta-362-JJe4p9rmPSa09bG_kenBSg-1; Sat, 20 Feb 2021 09:50:33 -0500
+X-MC-Unique: JJe4p9rmPSa09bG_kenBSg-1
+Received: by mail-ed1-f43.google.com with SMTP id c6so15976230ede.0
+	for <linux-audit@redhat.com>; Sat, 20 Feb 2021 06:50:33 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=JcH1Au1axr2FL2n0WJkJ/xnkEcygLgIq8xrE+zFFwww=;
-	b=HlbS8WM56aEQr/yLMteEtdqHU8GcGMpgfLNaLMG+DfBAjn1N95yartmnN/UwUDBho/
-	EVMxRZAsuzXjU/0RpIN///wQTXqIGnF5YjvI72nu3g3wL5mVpfIH3RAkaBnB+2rL6j7H
-	dIKCKeOgzo2JPXz98gHxDdauDTWTtSuBZfqaJl6k0Gf356Tiav4PHH6kkK0HzqWinmYV
-	BB3/MyoO/mvdPILEJu5oHX8XrIVW0u22at7dEQpqoeh1tQ+XXYxAMWa0gDxgOflEoC0h
-	YWk20CUKXWlFMozRtS5cQQJAbh37OjFlFHEFvq2prnslfNgDNGITSz9+pxsG7VgMDyzN
-	nv9Q==
-X-Gm-Message-State: AOAM532ZHZo8++HbhIUjK/AOXVZ1gyDvN/V5SUzcturRgNxqz31wwsdC
-	dEDURRwCj12d7tWuuRWShqZ7lEFwuQWWpwHl5e+M
-X-Google-Smtp-Source: ABdhPJw4uzG6aOVrE1Bv5LOsRcaI3+fRj1Lk88hkXx94Q7+sJvBX8lqme6hlap+E/TVRsyXRt2DfqPOJFuxo1NhawLY=
-X-Received: by 2002:a05:6402:4391:: with SMTP id
-	o17mr14334079edc.196.1613832270244; 
-	Sat, 20 Feb 2021 06:44:30 -0800 (PST)
+	bh=g9x+oRQ4dxdX/Lcd7XzVC8mAPWvFSQ3BbpYDOmT75qU=;
+	b=dUg1HxnzjvvXMsZUX2WVMcnRuk9ANLN+vdW07upo6Y6pe1v6sYnH/+HSI0MwO6i2Xl
+	pPuKerQO5FEgloWtGPcxcOjfMboZDVhpqPoC27Doyq6650mNp4Bd9Y+mg6wrhTbUKPj0
+	zdVy9NgK0QxRF+V91uxrcqKdkNSiJzOYELwUdvJ2Fsk4oreq4Ulhvanuufy7muEc8ctv
+	8j+Z+uFDevOIScuhJKfyX/Iyb68EU48JjpCqjVU/X/bpmRHyzuWPq5ac8sXvPI8TcA5Y
+	7naJLEfVkUzTKblUMf6kEQKHPICNfH3l+PIIY6m2pTGuF17uwFo7lsTsQJH6CSkgsPt/
+	6H9g==
+X-Gm-Message-State: AOAM533VjDX6id7DZuPML7k0wiFhEW7SX21j7d/qeldhTwVA8O2i8HfP
+	fGcRutl8qhnq3SoDJ0pk2X5IPgbZcojqmn7Puknt
+X-Google-Smtp-Source: ABdhPJxDoQDl1riak88nhmzRFC5m+4Ns2U3daQUcXKO4UHBPAml5XfjQwYfQDJVh7yqcBX+pQqn608ufvJbf4pPLn4Y=
+X-Received: by 2002:a05:6402:438d:: with SMTP id
+	o13mr14030563edc.135.1613832632309; 
+	Sat, 20 Feb 2021 06:50:32 -0800 (PST)
 MIME-Version: 1.0
-References: <161377712068.87807.12246856567527156637.stgit@sifl>
-	<161377734508.87807.8537642254664217815.stgit@sifl>
-	<eda68a4e-f4f5-88c9-e748-1f1831f0266a@namei.org>
-In-Reply-To: <eda68a4e-f4f5-88c9-e748-1f1831f0266a@namei.org>
+References: <CAHC9VhSiq5gqY1bfouia4GwYsE9MGGXnUOqwEtHi2u0-1=8aZQ@mail.gmail.com>
+	<67cacc61-4d6a-39d5-f2c0-5530e8d1e39@namei.org>
+In-Reply-To: <67cacc61-4d6a-39d5-f2c0-5530e8d1e39@namei.org>
 From: Paul Moore <paul@paul-moore.com>
-Date: Sat, 20 Feb 2021 09:44:19 -0500
-Message-ID: <CAHC9VhRJ-CHMag-dmxDVBp0efQbj7mgGdhs2AjfWFP_kDCGTfw@mail.gmail.com>
-Subject: Re: [RFC PATCH 1/4] lsm: separate security_task_getsecid() into
-	subjective and objective variants
-To: linux-security-module@vger.kernel.org, selinux@vger.kernel.org
+Date: Sat, 20 Feb 2021 09:50:21 -0500
+Message-ID: <CAHC9VhRmFFqiF8oW_K_Rm3cKS9iEE97pjHeiTDcnYxR-HrpbeQ@mail.gmail.com>
+Subject: Re: security_task_getsecid() and subjective vs objective task creds
+To: James Morris <jmorris@namei.org>
 X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
 	Definition; Similar Internal Domain=false;
 	Similar Monitored External Domain=false;
@@ -81,8 +79,8 @@ X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
 	Mimecast Threat Dictionary=false; Custom Threat Dictionary=false
 X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
 X-loop: linux-audit@redhat.com
-Cc: John Johansen <john.johansen@canonical.com>,
-	James Morris <jmorris@namei.org>, linux-audit@redhat.com
+Cc: selinux@vger.kernel.org, linux-security-module@vger.kernel.org,
+	linux-audit@redhat.com
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.12
 Precedence: junk
@@ -96,7 +94,7 @@ List-Subscribe: <https://listman.redhat.com/mailman/listinfo/linux-audit>,
 	<mailto:linux-audit-request@redhat.com?subject=subscribe>
 Sender: linux-audit-bounces@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
 	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=linux-audit-bounces@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -104,28 +102,24 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-On Fri, Feb 19, 2021 at 9:57 PM James Morris <jmorris@namei.org> wrote:
-> On Fri, 19 Feb 2021, Paul Moore wrote:
-> > diff --git a/drivers/android/binder.c b/drivers/android/binder.c
-> > index c119736ca56ac..39d501261108d 100644
-> > --- a/drivers/android/binder.c
-> > +++ b/drivers/android/binder.c
-> > @@ -2700,7 +2700,7 @@ static void binder_transaction(struct binder_proc *proc,
-> >               u32 secid;
-> >               size_t added_size;
-> >
-> > -             security_task_getsecid(proc->tsk, &secid);
-> > +             security_task_getsecid_subj(proc->tsk, &secid);
-> >               ret = security_secid_to_secctx(secid, &secctx, &secctx_sz);
-> >               if (ret) {
-> >                       return_error = BR_FAILED_REPLY;
+On Fri, Feb 19, 2021 at 9:55 PM James Morris <jmorris@namei.org> wrote:
+> On Thu, 18 Feb 2021, Paul Moore wrote:
 >
-> Can someone from the Android project confirm this is correct for binder?
+> > Hi all,
+> >
+> > When looking into a problem I noticed that audit was recording the
+> > wrong subject label for a process.
+>
+> Is this a public bug? It would be good to know what the extent of this
+> issue may be and whether it warrants a CVE.
 
-Yes, please take a look Android folks.  As I mentioned previously,
-review of the binder changes is one area where I think some extra
-review is needed; I'm just not confident enough in my understanding of
-binder.
+Let me rephrase, "When looking into a problem with some new patches
+that I am working on I noticed ...".
+
+I am not aware of any public bugs relating to this subj/obj confusion,
+this was simply something I noticed while doing some new work.  I
+would post those patches now, but they are still incomplete.
+Regardless, this subj/obj confusion is something we should resolve.
 
 -- 
 paul moore
