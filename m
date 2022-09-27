@@ -1,110 +1,110 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABC795ECDED
-	for <lists+linux-audit@lfdr.de>; Tue, 27 Sep 2022 22:09:28 +0200 (CEST)
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C53F5ECDFD
+	for <lists+linux-audit@lfdr.de>; Tue, 27 Sep 2022 22:11:16 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1664309367;
+	s=mimecast20190719; t=1664309475;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=3iIShDxvROJQUDOMVpskCyQTy4ax1kAELTD4Gh1vwvc=;
-	b=B5wFf1GomU4N3PnIjxaDN+GwWEHMw3fVc5jfuOCKl8fYZRL/CfWyBHsG5pgRQNDIPp/JfS
-	O+IoVvxR5I8sloq4tiaAdRLVvNx7AnwNUEZqn4K4/DOR2w449z3YWD05Op+kmCGrTpM6y/
-	HqzH/UZjTUAp2gExVlAp5OvB6Y80rf0=
+	bh=dNW2J/mAMZ60HZDCJkNFCn8ZvpOOTUcxRgCeRQ5/BdY=;
+	b=aXO8SJ3mROabWRY7Sr8BloiAVB9r+54BcuvBfQ6gh3FAjPP7Hb+0j0IGifvdUjJQ6flr6J
+	p1kaOIXe1KBgAulVLcriW/Givhp3QctzX0HIMOVAti8oiCD/EXA3/EbBBEX+OxrJOdPUmc
+	fK6q84S+FaPZN9J7e9+A9OUVMy5Smoc=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-31-OZGPoVtdN-qZBHhjG1oDRg-1; Tue, 27 Sep 2022 16:09:25 -0400
-X-MC-Unique: OZGPoVtdN-qZBHhjG1oDRg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
+ us-mta-328-m5DWmhL0MS-FtHeFG8_XZg-1; Tue, 27 Sep 2022 16:11:11 -0400
+X-MC-Unique: m5DWmhL0MS-FtHeFG8_XZg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 871CB86C145;
-	Tue, 27 Sep 2022 20:09:23 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F3892101E14D;
+	Tue, 27 Sep 2022 20:11:09 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (unknown [10.30.29.100])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 6D28E14152E8;
-	Tue, 27 Sep 2022 20:09:23 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 1BCFF17582;
+	Tue, 27 Sep 2022 20:10:57 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (localhost [IPv6:::1])
-	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id 31BC91946A48;
-	Tue, 27 Sep 2022 20:09:23 +0000 (UTC)
+	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id 8F2531946A48;
+	Tue, 27 Sep 2022 20:10:56 +0000 (UTC)
 X-Original-To: linux-audit@listman.corp.redhat.com
 Delivered-To: linux-audit@listman.corp.redhat.com
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
  by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with
- ESMTP id E0FE11946586 for <linux-audit@listman.corp.redhat.com>;
- Tue, 27 Sep 2022 20:09:21 +0000 (UTC)
+ ESMTP id 2DD601946586 for <linux-audit@listman.corp.redhat.com>;
+ Tue, 27 Sep 2022 20:10:55 +0000 (UTC)
 Received: by smtp.corp.redhat.com (Postfix)
- id BAE7A140EBF5; Tue, 27 Sep 2022 20:09:21 +0000 (UTC)
+ id 084392027062; Tue, 27 Sep 2022 20:10:55 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
- (mimecast08.extmail.prod.ext.rdu2.redhat.com [10.11.55.24])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B308F140EBF3
- for <linux-audit@redhat.com>; Tue, 27 Sep 2022 20:09:21 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [207.211.31.81])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8AF253804520
- for <linux-audit@redhat.com>; Tue, 27 Sep 2022 20:09:21 +0000 (UTC)
-Received: from sonic302-28.consmr.mail.ne1.yahoo.com
- (sonic302-28.consmr.mail.ne1.yahoo.com [66.163.186.154]) by
+ (mimecast10.extmail.prod.ext.rdu2.redhat.com [10.11.55.26])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 016CF2027061
+ for <linux-audit@redhat.com>; Tue, 27 Sep 2022 20:10:54 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [205.139.110.61])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D36181C07580
+ for <linux-audit@redhat.com>; Tue, 27 Sep 2022 20:10:54 +0000 (UTC)
+Received: from sonic304-28.consmr.mail.ne1.yahoo.com
+ (sonic304-28.consmr.mail.ne1.yahoo.com [66.163.191.154]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_128_GCM_SHA256) id us-mta-645-agBXLwXPNkiszGELhN17Ag-1; Tue,
- 27 Sep 2022 16:09:18 -0400
-X-MC-Unique: agBXLwXPNkiszGELhN17Ag-1
+ cipher=TLS_AES_128_GCM_SHA256) id us-mta-620-i4tccweDPSWFBJl3m5rk3Q-1; Tue,
+ 27 Sep 2022 16:10:52 -0400
+X-MC-Unique: i4tccweDPSWFBJl3m5rk3Q-1
 X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
- t=1664309357; bh=bho2X12oNS19WM5/1W3KAWaCNq34D62T/6fZvoQaCmd=;
+ t=1664309450; bh=Hlmjb4vdDFh6T9J5jNkowwKMAEWXqPydgbqZQLiAlt/=;
  h=X-Sonic-MF:From:To:Subject:Date:From:Subject;
- b=sLQgZFH4XhMVxWLEUa1l9wD5HnrXJEtv84Nf92dmxHn8PNLVUR1akBgeFwDWoLoWUYY7MPbzxCOszGrLDg9z1/7DnEYFhuuWbFL6vgtlOCF+jd1LkBdn4eEpr32VmXtkLlShCcc4VEwUDsMCuJTw+IyPgbtA2jwBTkUYynIxKL33fXOa3Mng7ue2SQZyZ2mcrspjIBsExSfDc0ZfbgyqMNAu5mRTYpbAvAIjlsJ3KXDmpee6NWh74cVsACW57WLJaWWK/j2RSa8qnvFIULW+JcBGFYcp1UyTVM/RtHKmNzMBV4n8PHb5iP1egJR/VLcBu7s2uzteKDdOx7HusVkX2Q==
-X-YMail-OSG: epppJwEVM1mZ0L.s5YTCarJ4gFo_xdBozrarhW5yrNFJWVy6ap4pLmGO5lmXIiz
- _1Gfw0zzWRWoMLKDWr7AWHzho_BwnQ06ZYleH3Hm0CQvKax4ZTSVAcg_ICXRTuSk8K713ARIIhYz
- BCkA4VtWN6SEFitQnJ4ali2HD.BPfwt7ori80uWQOAna1JXohxEa3Ibnp3AFF6Q2AavgJOTVA8iN
- 5zIf_37rViwIj0RSk80UpKCbLCa8HxfKAymnUmU9uzZZ4wDF_J7OPJ4aMMtPgu9TjZTK6VCw2eLC
- M77zvDZBGljjoXrxc2RW2hJz.WrBngXZRtGdYKTjdYLQr5eZlpStC46Jj_ttRbVWZYcb5k7NbFb9
- FkU9l82qae_PqxwyAbZPaMOBraavyDG6MT0BJTNakDwYV21v3p8mKWeBxM1LDxAjXmWP3sEPyY8m
- r6iPQtd9t4jrHffIG0GhEKIKwU5gZNqi6D7t_WyxH9OGOQ.CfscGs8A5hSt.ClXv6VRWRHWROhXw
- mFjAMPaDJfCZQkjTBK3cFUVM0ZxfKitmf2xxnAwH8zwJpBtnG4mD7eOWXH0y0iPw1LHzJnl7c1qn
- .31m8sNnlEOgq1I7qqDynfilAkjpZpAIaLBZqyP7GGiTi6eTejyyFLqSK8uoQBTXjWpbnvgCn997
- N36GSd1CUj69YSku20LB9ve8x1bEwwp.s889hwKC9TgUJX851IW_eBIm9dgp0coz1XV8GLn95Lu0
- K3zgTvRtJVabwNqD0jf3izzacMcfNGf4fsMQLCIj4MCv7.QqfpVOVqq.yuI_79ZlaN7tkL0Dgtoq
- ImL9JRxU2ytkEEUywki93WrsAcE0apFmCOsGALlHbm5qE9g3jAXV9EYnG8Rr_XZp6kmLZVB2Iu31
- wKAKnkIMOo.F63wPQGDc_.TSYLNeBVTmUf41_DKykrKkAr0bP.DZENFc49kyPTi_oKF2o6tdWM7N
- 7SxuLwXwFrcYK6YP5CKbno4GH6HOrXsrawpI4.nBT.ei.7lsy7wD.GqhOzuFz189MJMPve6okLXI
- 7VN.o2dMKrl2iC5OI7VBSMqe9TIF7lsEy_O2_0OcVvRvncgftSZQqQt8naLHPFVEpdhsjJ0pvdgq
- YrASYfyrZOE0ouZV_dnTDNyGr8yWOu5jGJQh7uUnUl5AZKBv1dnQKYumfovgrasiaTUgRgjMrrCF
- YIEKQUe7Ly940BgDLm9Jss_T4dFRIdDfJKND_OPrJUuzN.8sp.SDjtRgdSvIDMVzswpwsk.J1uby
- vIYqFxMGHC4WMJ0gsB98vMxwRo85ZXVTVU7os8vFeu1umc8jNMXxidDzfcFhLq.wzBLkAcBH9Q6Q
- W0WMzC8ZZWWS3wwu0C9ZSgs9g6LlGkxVTzmmHdY16wdJKhJHxJHy28v0HRIuEJYkCG.GhBgSv6Ww
- 2Irmw0WEgjtsaJjUB4oaChvJr5yh8uZH4Ch6WnXPKluCmrYcg2Pfm5U8ZO9PODPorb9fsTtOyt3E
- FUZi12R2QkmZ9RhPr.TZtDOdC4x.voa5EF7xQdVgSdKRHeb0Frf8XZX5E70yyLvjF49xCItdDc1Y
- 00IT2NRKh6XOtMdCfCDuqxP6cbRz40yC8U8LICWghwt1sTmbWKtsMSUd8eq7DVcCSZWMnefuIEx.
- _JwW91nfECfQOb4L_yiF2hNXjbB3izJFEl2yVTaSa7bpoxdc2JqJ7KL63aj1m0mzRAzESRvJI4Q1
- 4ke_oHnGSgH2fCv5RMiNJFxpOnXTvcb9ew4yuJZ2Fbxv0XdXj2lFI3MnIHjrS5uadl9ytCO5C.l.
- QoH_O_R6_PE4Nu6lvKYJe18r9qVeN.2DkXXRWvJ6ddRxCbZMP86QR3xNPWq3lQ3m2q4tmlnrh13O
- 3SMB.66.GgnvRUvGdBGYZATeMMozesqXpwjneWnEwigih.zhA54gvJ7XurRhAAP6pC2Ad4nc3p7Z
- qW72F2KGeJdKjA5KuYcAgGi0kIOWUZbNLTS7PGNf0JJkvarQbd37cARipnAb81_HERR90XrI6Mp9
- spewcB4bo1mTbFWgvzuyvfBD_9p1.hd0fJ.Ay9WH8r133EajF6VwkOgvwzgDRzK9MtvP8tu9YnwN
- ORCViLhjEAL3DglrsfKqFM7qURFQGsI.0gEmFkuGkh2jnlNvN7vL8O7PS3pEBPDqsv.OmRnnAr4z
- aLsCyvEXTDj_GxeXZ5AZwp60TYOg8a4.iAfSWIb1wf2Py9yin9DwDC1hagwjr9OurwMbbTeE2PN3
- GQ5cOvH35qakKtpXyVWe6jU.i32zUGzKet36_bdtgciQpVYC9O4eXJWcS6x8vGJ5IC_5GjS2Ntsd
- 6cROSt_ws6aJUZAA8ahiJhrB5Hf_dIMVPfE7QQA--
+ b=gC+kk4PBugx+teaE4/AD4fwjbvj+O2cjEF12bRMS5+j9iVHsb8FZjqHQtpt3Po3GjffD2+20VHX7I/gmyn+utSbL/US8d3PCGCZfvwqfd1ieZVBS/dcU3NjKeJnvPiQWrGihU1ljBtS1QsmYKqB1jGJEqAQQt+f85/hXKq0LC2gTzb5wOCHxH5xZLwDbJbCF2PLCQeEpYW5TtLpP2vOwNgGrBS0k2ozKICK+lAfBjnES06Jux7pKocXLHLDBvfWiaplaDSovYOu8P/s52unS4ABDnAMl7+dNOgBvqk3Yqzj7zP2fnfAdvOZoA71ff5opPqxgufSIQYZu59h9VATuRQ==
+X-YMail-OSG: 0N2SD1YVM1knFXgVDtekHGh4.QgY5Ois3oIKVUBAZjmUwf.11uy.0sDVR982BXl
+ e0L2ONY6bgcnRBKnq5SIDPUgZP0bRu7fIrLEq.osj0OdH8RAEudJ8qd7FT_eVcsK2f6FBpgE36LF
+ mK4FDEO0HPtZJhrQAXcDNr3bhnCikJ3t9OSLGQxXK3yhFCiSJO_fFMIf31zsRFzItVPsAp4JVyfJ
+ lJ1widtA.iz.LvTgjPekZ.3eda.Jdw4X8jhTYZfvQacFsEv0HQmO0RaZ7h86fYKbc.CyyJwuns95
+ CuLs4RVMiY01dZZey_DQRBWTdg0ASY6DEKaDoMkkmPUqCcdaWrWA0pH3s8Ltjvhplj0dz42aF9BJ
+ MHJ06zT5XjI41LUv5FYlSluF6nddsEAXUTrY.6IjkDxgQi4VsDaR_4C.im7EOMQqy7S0NveXWX0o
+ A3ERhLm40TcofiKGCl4A01TddrAG9fwzSLJEo8LKggQ06n5h_b32fkJY3ZApn6kCyQIxXUPU7Clz
+ 75XfSvLhqpKN2GKHvaLGUNOhKfETvQDWg3mTDym2cwB53aOipBWtp39flRXPZnqucJJB.rZL5.LR
+ 1AGrqvdKZjG0yg5SIN5ixCJLMaYmTicZEVB8HUoYh4iHhKc5mOig96YNqEtZ4OZtjvzJQlbrTBH7
+ jDK_LGM3CouU9bf_rkT4WMKHQMDPrtscdDq5sgY4UZDtx_ogiCKSbLUE6W5t_X_PRMGAEJzyf2ff
+ kK.zZeIyLuuFuFQ6_O.vvZTo3qcFtWh24YpqurCImBA2TlK4pTv4O13A5Mu_J7Q4TSnRbYR5PPi4
+ bK7ciTTQwiBJou2TqiYU_myJvQSpTEQbKv17Bsnv3fXzawCBvE5COCMyZrmtQS0aPAbzTo4J08Ex
+ lcqT8e275AkAOQ7ZNj46iIl0MtHcq0ems3K8NXkfBWdwqciHFAnX5kSvw4z795GEres5xWY8jEzO
+ sNuvqiGe256xdB08Ter6lGta_coAfaTrQ3zWyqvPxofLW9HI2hYwlYBr7ORUAoLi.G0L6JCIpcQO
+ pOykByyRDPI_Yx2EgCWDbSELQpMkuVLPjtTSmVBDX47pvG7Wt_D0o3vh8MmR3QFImAhYwppY._Bl
+ fWt8ukIv8LCrTnxovKuqPez3mFWm7r3EnVhJ7YOM.YfasF0E2U5EyfFOmoeHLKTS0EyPVljmuJCI
+ 6xz0UadTkRGmlYs0PlbCtTgRt1oG0BR8UF0yu7Aty1ixBiDOZea1HA8sJ_WBa31CXz7RgLffjH3N
+ w30ndf5muuh7ovED9ZpAktcF6Gsdz09HhUNTlU4653SYa8ZZDabI2SxFjH..JYyNo6krxKrvonFF
+ UPm0jGk3m5yGDCfg5k56Ktz7J5lhjiI6YAjJo08GHWncGxe_m8vcQyIchLywlPX4ZiMpGIAxleY3
+ djLhji9BxjkXD9dg6d4e5VjtIe82WyMk3yhhAcFnR1h2VHIfVKPMY_dWOqtrmS7Vpfz.C0rSrru1
+ 6Z4yWdKmcxtWD69bqvMp3.hsGbVdd3BOhNbFQ2IvOOEV5MnR_6MYB1d_MBayQ7rByngNDeQjO86L
+ y4_F.LjbpZxGd84vep9ut3DvpYEVtJwf4bpfFxCD0GGhRgaa4PK5KPFxCGvbXHgGemPsVCa49Om6
+ YG98FG1TJA2vmF.GJT7mSThtNvuZ7sQrOSBMb1yoHBIu8Rgwo3CSOa3O6xDCXPM8eor9a0QSQ56S
+ AUtUnEHP1Ai2QbKEFme3HunB8tiJ11VYejSPkhLGYxPIukIWosoqMHsa6nhsATcDCOsLmBP_cuMR
+ AiSVhwI8CkBsPgEedyeOGR8XbI_dh214y9QWmKqPfExqMd1ShBgOZErpHOlsp9qcCExbVFV3Ll79
+ QZ5RmimoBpZKXhlO5KPPQxtZAIcSVMoH.o7Lhpx.ZJXQUlgnIwQUVdIfvGGASGGpnXR2RG9QXHlw
+ hiWNfXPGMCVf0EllI7pCVQZAbxUb2uNSLuqzNcXhVxdvKVen4HRYnYCb9K6Ig7gDiIwUYc84hNiI
+ 8xJvhIKma5eXfWNunmNSxfZMpSdxp2xhHs1luFdHsVqobFPrNr__ZEY.laDWOltL1ZA65wZDDHct
+ qfxoZQcr_YfMcEGOoSo8vqazFhX3SDLt9.W2XhKxUZHoB6ehWQq7G509cAVLoefuoOETXOd5yapU
+ 0sZNhx5ocJa04plahH2ynG3YXy5b7KC_bYUB.CeKEV1SRb1tZyjVV8VnDvZWQSI_gQTRjV1X9S50
+ jWUks60r1U4S_rHqnZXLCP45v9Zyky0aLmUyK95DqRExUYkWHtPPKOJxdZaql1JEIJdUv.2nqMmT
+ BKxgFKGKZ9WIFpqArDDOCPCl13ZNv2eizopYO4j8k
 X-Sonic-MF: <casey@schaufler-ca.com>
 Received: from sonic.gate.mail.ne1.yahoo.com by
- sonic302.consmr.mail.ne1.yahoo.com with HTTP; Tue, 27 Sep 2022 20:09:17 +0000
-Received: by hermes--production-ne1-6dd4f99767-x2f2n (Yahoo Inc. Hermes SMTP
- Server) with ESMTPA ID 962ba498c220faeab9c55c1f2e7ba390; 
- Tue, 27 Sep 2022 20:09:12 +0000 (UTC)
+ sonic304.consmr.mail.ne1.yahoo.com with HTTP; Tue, 27 Sep 2022 20:10:50 +0000
+Received: by hermes--production-gq1-7dfd88c84d-nvfk6 (Yahoo Inc. Hermes SMTP
+ Server) with ESMTPA ID 55a7229bea084bb6b28fa3beefd2f4cd; 
+ Tue, 27 Sep 2022 20:10:45 +0000 (UTC)
 From: Casey Schaufler <casey@schaufler-ca.com>
 To: casey.schaufler@intel.com, paul@paul-moore.com,
  linux-security-module@vger.kernel.org
-Subject: [PATCH v38 29/39] Audit: Keep multiple LSM data in audit_names
-Date: Tue, 27 Sep 2022 12:54:11 -0700
-Message-Id: <20220927195421.14713-30-casey@schaufler-ca.com>
+Subject: [PATCH v38 30/39] Audit: Create audit_stamp structure
+Date: Tue, 27 Sep 2022 12:54:12 -0700
+Message-Id: <20220927195421.14713-31-casey@schaufler-ca.com>
 In-Reply-To: <20220927195421.14713-1-casey@schaufler-ca.com>
 References: <20220927195421.14713-1-casey@schaufler-ca.com>
 MIME-Version: 1.0
@@ -115,7 +115,7 @@ X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
  Internal User Name=false; Custom Display Name List=false;
  Reply-to Address Mismatch=false; Targeted Threat Dictionary=false;
  Mimecast Threat Dictionary=false; Custom Threat Dictionary=false
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -131,99 +131,179 @@ Cc: john.johansen@canonical.com, selinux@vger.kernel.org, jmorris@namei.org,
  linux-kernel@vger.kernel.org, linux-audit@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
 Sender: "Linux-audit" <linux-audit-bounces@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-Replace the osid field in the audit_names structure
-with a lsmblob structure. This accommodates the use
-of an lsmblob in security_audit_rule_match() and
-security_inode_getsecid().
+Replace the timestamp and serial number pair used in audit records
+with a structure containing the two elements.
 
 Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
 Acked-by: Paul Moore <paul@paul-moore.com>
 ---
- kernel/audit.h   |  2 +-
- kernel/auditsc.c | 22 ++++++++--------------
- 2 files changed, 9 insertions(+), 15 deletions(-)
+ kernel/audit.c   | 17 +++++++++--------
+ kernel/audit.h   | 13 +++++++++----
+ kernel/auditsc.c | 22 +++++++++-------------
+ 3 files changed, 27 insertions(+), 25 deletions(-)
 
+diff --git a/kernel/audit.c b/kernel/audit.c
+index 98c5ace6f453..7facf6929f64 100644
+--- a/kernel/audit.c
++++ b/kernel/audit.c
+@@ -1822,11 +1822,11 @@ unsigned int audit_serial(void)
+ }
+ 
+ static inline void audit_get_stamp(struct audit_context *ctx,
+-				   struct timespec64 *t, unsigned int *serial)
++				   struct audit_stamp *stamp)
+ {
+-	if (!ctx || !auditsc_get_stamp(ctx, t, serial)) {
+-		ktime_get_coarse_real_ts64(t);
+-		*serial = audit_serial();
++	if (!ctx || !auditsc_get_stamp(ctx, stamp)) {
++		ktime_get_coarse_real_ts64(&stamp->ctime);
++		stamp->serial = audit_serial();
+ 	}
+ }
+ 
+@@ -1849,8 +1849,7 @@ struct audit_buffer *audit_log_start(struct audit_context *ctx, gfp_t gfp_mask,
+ 				     int type)
+ {
+ 	struct audit_buffer *ab;
+-	struct timespec64 t;
+-	unsigned int serial;
++	struct audit_stamp stamp;
+ 
+ 	if (audit_initialized != AUDIT_INITIALIZED)
+ 		return NULL;
+@@ -1905,12 +1904,14 @@ struct audit_buffer *audit_log_start(struct audit_context *ctx, gfp_t gfp_mask,
+ 		return NULL;
+ 	}
+ 
+-	audit_get_stamp(ab->ctx, &t, &serial);
++	audit_get_stamp(ab->ctx, &stamp);
+ 	/* cancel dummy context to enable supporting records */
+ 	if (ctx)
+ 		ctx->dummy = 0;
+ 	audit_log_format(ab, "audit(%llu.%03lu:%u): ",
+-			 (unsigned long long)t.tv_sec, t.tv_nsec/1000000, serial);
++			 (unsigned long long)stamp.ctime.tv_sec,
++			 stamp.ctime.tv_nsec/1000000,
++			 stamp.serial);
+ 
+ 	return ab;
+ }
 diff --git a/kernel/audit.h b/kernel/audit.h
-index 316fac62d5f7..4af63e7dde17 100644
+index 4af63e7dde17..44cabf7ea660 100644
 --- a/kernel/audit.h
 +++ b/kernel/audit.h
-@@ -82,7 +82,7 @@ struct audit_names {
- 	kuid_t			uid;
- 	kgid_t			gid;
- 	dev_t			rdev;
--	u32			osid;
-+	struct lsmblob		lsmblob;
- 	struct audit_cap_data	fcap;
- 	unsigned int		fcap_ver;
- 	unsigned char		type;		/* record type */
+@@ -99,6 +99,12 @@ struct audit_proctitle {
+ 	char	*value;	/* the cmdline field */
+ };
+ 
++/* A timestamp/serial pair to identify an event */
++struct audit_stamp {
++	struct timespec64	ctime;	/* time of syscall entry */
++	unsigned int		serial;	/* serial number for record */
++};
++
+ /* The per-task audit context. */
+ struct audit_context {
+ 	int		    dummy;	/* must be the first element */
+@@ -108,10 +114,9 @@ struct audit_context {
+ 		AUDIT_CTX_URING,	/* in use by io_uring */
+ 	} context;
+ 	enum audit_state    state, current_state;
+-	unsigned int	    serial;     /* serial number for record */
++	struct audit_stamp  stamp;	/* event identifier */
+ 	int		    major;      /* syscall number */
+ 	int		    uring_op;   /* uring operation */
+-	struct timespec64   ctime;      /* time of syscall entry */
+ 	unsigned long	    argv[4];    /* syscall arguments */
+ 	long		    return_code;/* syscall return code */
+ 	u64		    prio;
+@@ -265,7 +270,7 @@ extern void audit_put_tty(struct tty_struct *tty);
+ #ifdef CONFIG_AUDITSYSCALL
+ extern unsigned int audit_serial(void);
+ extern int auditsc_get_stamp(struct audit_context *ctx,
+-			      struct timespec64 *t, unsigned int *serial);
++			     struct audit_stamp *stamp);
+ 
+ extern void audit_put_watch(struct audit_watch *watch);
+ extern void audit_get_watch(struct audit_watch *watch);
+@@ -306,7 +311,7 @@ extern void audit_filter_inodes(struct task_struct *tsk,
+ 				struct audit_context *ctx);
+ extern struct list_head *audit_killed_trees(void);
+ #else /* CONFIG_AUDITSYSCALL */
+-#define auditsc_get_stamp(c, t, s) 0
++#define auditsc_get_stamp(c, s) 0
+ #define audit_put_watch(w) do { } while (0)
+ #define audit_get_watch(w) do { } while (0)
+ #define audit_to_watch(k, p, l, o) (-EINVAL)
 diff --git a/kernel/auditsc.c b/kernel/auditsc.c
-index ca00187b4864..e8f632736d2b 100644
+index e8f632736d2b..bc0621282a9a 100644
 --- a/kernel/auditsc.c
 +++ b/kernel/auditsc.c
-@@ -700,17 +700,16 @@ static int audit_filter_rules(struct task_struct *tsk,
- 					 * lsmblob, which happens later in
- 					 * this patch set.
- 					 */
--					lsmblob_init(&blob, name->osid);
- 					result = security_audit_rule_match(
--								&blob,
-+								&name->lsmblob,
- 								f->type,
- 								f->op,
- 								&f->lsm_rules);
- 				} else if (ctx) {
- 					list_for_each_entry(n, &ctx->names_list, list) {
--						lsmblob_init(&blob, n->osid);
- 						if (security_audit_rule_match(
--							&blob, f->type, f->op,
-+							&n->lsmblob,
-+							f->type, f->op,
- 							&f->lsm_rules)) {
- 							++result;
- 							break;
-@@ -1564,13 +1563,12 @@ static void audit_log_name(struct audit_context *context, struct audit_names *n,
- 				 from_kgid(&init_user_ns, n->gid),
- 				 MAJOR(n->rdev),
- 				 MINOR(n->rdev));
--	if (n->osid != 0) {
--		struct lsmblob blob;
-+	if (lsmblob_is_set(&n->lsmblob)) {
- 		struct lsmcontext lsmctx;
+@@ -992,10 +992,10 @@ static void audit_reset_context(struct audit_context *ctx)
+ 	 */
  
--		lsmblob_init(&blob, n->osid);
--		if (security_secid_to_secctx(&blob, &lsmctx, LSMBLOB_FIRST)) {
--			audit_log_format(ab, " osid=%u", n->osid);
-+		if (security_secid_to_secctx(&n->lsmblob, &lsmctx,
-+					     LSMBLOB_FIRST)) {
-+			audit_log_format(ab, " osid=?");
- 			if (call_panic)
- 				*call_panic = 2;
- 		} else {
-@@ -2278,17 +2276,13 @@ static void audit_copy_inode(struct audit_names *name,
- 			     const struct dentry *dentry,
- 			     struct inode *inode, unsigned int flags)
+ 	ctx->current_state = ctx->state;
+-	ctx->serial = 0;
++	ctx->stamp.serial = 0;
+ 	ctx->major = 0;
+ 	ctx->uring_op = 0;
+-	ctx->ctime = (struct timespec64){ .tv_sec = 0, .tv_nsec = 0 };
++	ctx->stamp.ctime = (struct timespec64){ .tv_sec = 0, .tv_nsec = 0 };
+ 	memset(ctx->argv, 0, sizeof(ctx->argv));
+ 	ctx->return_code = 0;
+ 	ctx->prio = (ctx->state == AUDIT_STATE_RECORD ? ~0ULL : 0);
+@@ -1925,7 +1925,7 @@ void __audit_uring_entry(u8 op)
+ 
+ 	ctx->context = AUDIT_CTX_URING;
+ 	ctx->current_state = ctx->state;
+-	ktime_get_coarse_real_ts64(&ctx->ctime);
++	ktime_get_coarse_real_ts64(&ctx->stamp.ctime);
+ }
+ 
+ /**
+@@ -2047,7 +2047,7 @@ void __audit_syscall_entry(int major, unsigned long a1, unsigned long a2,
+ 	context->argv[3]    = a4;
+ 	context->context = AUDIT_CTX_SYSCALL;
+ 	context->current_state  = state;
+-	ktime_get_coarse_real_ts64(&context->ctime);
++	ktime_get_coarse_real_ts64(&context->stamp.ctime);
+ }
+ 
+ /**
+@@ -2516,21 +2516,17 @@ EXPORT_SYMBOL_GPL(__audit_inode_child);
+ /**
+  * auditsc_get_stamp - get local copies of audit_context values
+  * @ctx: audit_context for the task
+- * @t: timespec64 to store time recorded in the audit_context
+- * @serial: serial value that is recorded in the audit_context
++ * @stamp: timestamp to record
+  *
+  * Also sets the context as auditable.
+  */
+-int auditsc_get_stamp(struct audit_context *ctx,
+-		       struct timespec64 *t, unsigned int *serial)
++int auditsc_get_stamp(struct audit_context *ctx, struct audit_stamp *stamp)
  {
--	struct lsmblob blob;
--
- 	name->ino   = inode->i_ino;
- 	name->dev   = inode->i_sb->s_dev;
- 	name->mode  = inode->i_mode;
- 	name->uid   = inode->i_uid;
- 	name->gid   = inode->i_gid;
- 	name->rdev  = inode->i_rdev;
--	security_inode_getsecid(inode, &blob);
--	/* scaffolding until osid is updated */
--	name->osid = lsmblob_first(&blob);
-+	security_inode_getsecid(inode, &name->lsmblob);
- 	if (flags & AUDIT_INODE_NOEVAL) {
- 		name->fcap_ver = -1;
- 		return;
+ 	if (ctx->context == AUDIT_CTX_UNUSED)
+ 		return 0;
+-	if (!ctx->serial)
+-		ctx->serial = audit_serial();
+-	t->tv_sec  = ctx->ctime.tv_sec;
+-	t->tv_nsec = ctx->ctime.tv_nsec;
+-	*serial    = ctx->serial;
++	if (!ctx->stamp.serial)
++		ctx->stamp.serial = audit_serial();
++	*stamp = ctx->stamp;
+ 	if (!ctx->prio) {
+ 		ctx->prio = 1;
+ 		ctx->current_state = AUDIT_STATE_RECORD;
 -- 
 2.37.3
 
