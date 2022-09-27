@@ -2,110 +2,108 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6DB55ECE20
-	for <lists+linux-audit@lfdr.de>; Tue, 27 Sep 2022 22:14:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5D345ECE95
+	for <lists+linux-audit@lfdr.de>; Tue, 27 Sep 2022 22:32:24 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1664309667;
+	s=mimecast20190719; t=1664310743;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=nP7x4juMMrtOJC9UBZ5aM2wPEyRh7n2y/1UCA2X1rcs=;
-	b=VDIgxwZkdYjENPiapY8aBaa741eC+jSVA8C1Raa2dB0d7GuXZTLM/7dNgDsIZjXPYvQ1/+
-	uifgO6giShczXb90LHFdRpOSW3nmFe5eKw6xM6jc0o9A+uZPmzTOoj3n9Rm8kf93LO22x1
-	GkLPi9cqoO00X6RYOge8EIq3pQGuysQ=
+	bh=51iCGR/wzGvRv0nCJX7qifDxwsqRvIE8z7hAfRXafUI=;
+	b=YvFEUcs66Aun1svhfiW3kFjwG04fSFrAELor/20KEwVDpnkeQWkEQ0UJhlEF0JyUbucXD2
+	INZgBGRlgMMuaHQhNCi4zY5rivyleqdhbo3YSQGX7aGXPblqaMg0FeYBRwQQSHozC5pa/k
+	e9aAYL2YQN0QV4F3+5M4Em51qsY3IRg=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-575-Be6wmoagPhKrqdwvxh2hag-1; Tue, 27 Sep 2022 16:14:26 -0400
-X-MC-Unique: Be6wmoagPhKrqdwvxh2hag-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
+ us-mta-35-AGupWe5yNguRqVUz2luMFw-1; Tue, 27 Sep 2022 16:32:21 -0400
+X-MC-Unique: AGupWe5yNguRqVUz2luMFw-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F245385A5B6;
-	Tue, 27 Sep 2022 20:14:23 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DD0EA101A528;
+	Tue, 27 Sep 2022 20:32:18 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (unknown [10.30.29.100])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id D95B3140EBF5;
-	Tue, 27 Sep 2022 20:14:23 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 1B066492B05;
+	Tue, 27 Sep 2022 20:32:17 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (localhost [IPv6:::1])
-	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id AD0E21946586;
-	Tue, 27 Sep 2022 20:14:23 +0000 (UTC)
+	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id 701F01946A48;
+	Tue, 27 Sep 2022 20:32:16 +0000 (UTC)
 X-Original-To: linux-audit@listman.corp.redhat.com
 Delivered-To: linux-audit@listman.corp.redhat.com
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
  by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with
- ESMTP id 414621946586 for <linux-audit@listman.corp.redhat.com>;
- Tue, 27 Sep 2022 20:14:15 +0000 (UTC)
+ ESMTP id 154A41946586 for <linux-audit@listman.corp.redhat.com>;
+ Tue, 27 Sep 2022 20:32:14 +0000 (UTC)
 Received: by smtp.corp.redhat.com (Postfix)
- id 33B80C15BB1; Tue, 27 Sep 2022 20:14:15 +0000 (UTC)
+ id A283740C83EF; Tue, 27 Sep 2022 20:32:14 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
- (mimecast01.extmail.prod.ext.rdu2.redhat.com [10.11.55.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2C281C15BA5
- for <linux-audit@redhat.com>; Tue, 27 Sep 2022 20:14:15 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [207.211.31.120])
+ (mimecast05.extmail.prod.ext.rdu2.redhat.com [10.11.55.21])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9A0A740C83ED
+ for <linux-audit@redhat.com>; Tue, 27 Sep 2022 20:32:14 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [205.139.110.61])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0EFA585A583
- for <linux-audit@redhat.com>; Tue, 27 Sep 2022 20:14:15 +0000 (UTC)
-Received: from sonic304-28.consmr.mail.ne1.yahoo.com
- (sonic304-28.consmr.mail.ne1.yahoo.com [66.163.191.154]) by
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7E1AA811732
+ for <linux-audit@redhat.com>; Tue, 27 Sep 2022 20:32:14 +0000 (UTC)
+Received: from sonic302-28.consmr.mail.ne1.yahoo.com
+ (sonic302-28.consmr.mail.ne1.yahoo.com [66.163.186.154]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_128_GCM_SHA256) id us-mta-339-_vUx9R3QPna7EHnqKqfVAw-1; Tue,
- 27 Sep 2022 16:14:13 -0400
-X-MC-Unique: _vUx9R3QPna7EHnqKqfVAw-1
+ cipher=TLS_AES_128_GCM_SHA256) id us-mta-240-gHKK2kttN9qauUkWNhxqdw-1; Tue,
+ 27 Sep 2022 16:32:12 -0400
+X-MC-Unique: gHKK2kttN9qauUkWNhxqdw-1
 X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
- t=1664309651; bh=+8ohEcMls+wtK4Yy6rdUGFCUpXdLAWwUUIIhQpKrGqt=;
+ t=1664310729; bh=wYIrusa36pRhmX8sInAgD2MXoN3vKfNp/D4nv5WUCcL=;
  h=X-Sonic-MF:From:To:Subject:Date:From:Subject;
- b=g0hBr2ix4bP9vaKBJA3j8zAf+/AAlO5cOXbqtM+h4QLueHW2KOHuywDlRF54KW+iRy60u8X/phYLVNTYQsPMPpqoFoOJDGVjUwj/QAdd4syonIThoAcOxPVWzkykX5XkpMFQQ5WzzA+o6orbOtUTZUUapDLo/GHXLHVk1E25ukyovtobnu0uan6Kr5mXSRa7FbUuyxcHPDF/azuHmA9P6d4pLrbMsi6x3aWW3seTkl9vV8GU6/GemFBVzm5I9DyohoTmUGeKK7wxPseKhq11Q3vBzzbLPdpN1NT5JfksuUJSqavh6SO4UweZV/rOq74Twk4Ac0knTczwhweCFTqbhg==
-X-YMail-OSG: D93IfIsVM1mKDwmH5sDPe_DoR1M.QM2jMmOBnb5BdsuWh7gd.crNxrkGivuNGUH
- P3HBfc4Qep8E.knDCnbSHzDY3wVx547vwVnL1BRCY6TTLWKM9LWoyBPA9G9jNfHJ_d51r_CvubgR
- 3QRELIzDoqKF.cfgnJ3XOHApzFvIAynVK3n714C0_eNeH5lVB7zEbEPkwsH8sgLSU30vQKB_lMJb
- FI.zuRSH.PUQy95ODejHz9D40FQdX5wpgu.NpyLCFt_qUBdJuiIkGrdi5hZv5euonEQF8erK3P12
- yQvZuYyAqkmEl2__8BKQwC1es5O5TsvI.tTRNNuqIvpjF5GcdZfcbvxPVCaU0RVNwMSwrWG2Ho8j
- 3Qtfsgc8lkaeomhJ7B7QA0kjDVaZITCGUAz4oGPKZjcIXhvxHQDmY5g0PRBzCXPmCnVeXw3oVOCt
- IuJTjCfIJZ3CTnZGVn0K7W8CfQkdB1URtCMeDxhWiLtFvujVoRZG5KK_U02kDZGERzgKA31i.t5E
- jW1oveGTNtYMdeY8IhLdHVumG0S.w5EuVWqtaQB_F87w6vMAVOREHwNEciRGa8DpJWz4IaH41kjR
- fj1vl.AFqk0Zkmze7pYEkF4ymOQCiFjvESYhDbo7zLB4KbcNQg6Xj9DqpXL.r1LQWa4mCj0ZINzq
- C4BqFaLzkxRq8JMS.Bfgp0U5UBcKzEdwOLNwJjc4MwQ9Sopfj9igzPYBwROkGp3DG6pql1xd2hbo
- 5oAAwql8gZ6UeVgTP8lh9Wg7YBBER6j0fSBF1rFUGLFWJNQZepnI6AU0D9LAuvE5j3nJ7p0GXQb0
- INsCkIwlUzuF4c1J5Qi_ISYVWKCTeBIyQvACtU1iAh.JGRYezr.HieM4.T0_w1JuwNyoN3NeLXAP
- KISsSn3DDp72a5y1XOz6xvIURScsflTgxk2akEcUh5bGIX0GmUKQp6SbZeKTisVMJjZjiHw77qsM
- EqKWPsIAdT9zDLp6nfmTXWp8UfkBAaNjj6YFvbBk7DsVFJT_gDmuLaVGfMHg8j8sZ15Yl.INCWT1
- gHnRwrZfGOiiIwUgNqze4M1Zw5ov6vJ5RzXmAwHiB7AlgyGE4RuYqYctPwW6boGF8YSRg.CVGgEC
- 8TYIHxsf_ZPuAdMnmrR6Ex3IyJqmobBCxHv8_FhH20HXgTjTqjvnVVywQS70xB9v.Y.vhPbyEjXk
- 2UfsC0GxFK_2zdxEMmJYIsjyeuUkWJVE4PErHrUobosozos0ZCpNur.0t7vC5wE3y._7pEI24KCZ
- wNIquLMQ2of9iMUqTHv0Jeck0yqXjoHkMjlXTmGVMSQxCZSZUhJByV_bWpB1sS6GEKY7qkcuEHrp
- I7YtAh5wJrT9kqc9wQxux7ed8xm_BTF6w3gozDZRERG9qdbHCo9.qGkm3jeLcPqPqtaGxEhtOy7V
- Kbs9JlCFaZ0O7vbqWTTPsM2VBYxcaNFNrPA3gd3Bhufd0S9Rh1pOJ5F8g.M9nYgVZ2i5lp3QAhGc
- drdOeQdY.57FfJ0ncV0eIyWC7TaefEXJYKpV6vs0J6zkpI.hpu.jzTjHTEZxdWeLA2Q2MPPX0g4H
- YNu5m84ETxqq9hxIt8sQyld7cgN3Y9NJ8LCJLg7JACP9r_4zHYVNac8BbMzcF6qukps5vH6fLL6Y
- Py.0KbUDESoSXrz4_UEG01fzoRJjc82gJ8Tgz10bZ3dZ6Zurqell5DC2EbHk4yiv8bezzM_5e0Rc
- 9UtrMTpzsSI_pB9lNIOlum5Ocm.JcwQqXXYiNZa2tAP8V4IykmrnJFWrXrdISHoa0jnutXr.jbpU
- qIdL1tvc4FTFny61Z3BfSmzICgrgUldL2tvQunZVtg8H76BErglhTFkiigU3Jr116mSSzn8G2zeE
- bBIWLFIduB5T4_tcj2KY9OvkEoaf8BERwetTx6hHNJDIjGmENLyma1bGMnASz0wZ1.PYqspqLXfz
- bS88rh0tAm2Mal3CmvmVcwvwiSTL.HE1bV8Px.kwTqCCuzi2U7_tnG6A1H766sk9sIDzGdOpuY6Y
- 4YT_y3KFTIRYPr60MDoEnM8qseTKceS_qcR.eYmXAea8kZKyBxehG0ZS3vat06zerdkK7Crd_sen
- FLSaOnMEYM_HZAY024fK16jU1nPyEYknDSRmrl.8gB0.k3oViwPxiW6jYMRQbeVNASaxYhZXZ19e
- iC_kwy6ULdHNSl4eb0.alVF0EjgnMJdr7vdrhn_wok4upUzIxals.PCQQQGNNABDTu_KAlKnYKnX
- 1kraAC7G90O6iW0GpAsofXRCqu0pqrkQCkp5.KWUAuGo_6Ayclo.52t65zngyfttOArCxeBvI0IL
- VOJLbYRSH.PyMCtCikTtLB5gZTpCX6rA9VVhuabY-
+ b=MqNU5UeVtySitQ7+csIka6lxuPL7i4WDBL9IF7bxAc5j4r2BxrVZQNHX/0Px4VnDevNUn2h5P1wzE7Bl9+ZbfBAKDBIJHfuTrccQ55swJcBPRM+KUyq31sj/BUBJuRxL2QeAAV4Ro5coOeair937W03JCKhaQ2eZzpGLxCxvcwAI4xp1oMFAggZy3SiWViD4iQhD90hX1Wa82wDVGRCPxEYC6Zg8L7Jrd0DwREfLyTg+G9gv+9Er1SClP5PT5WHfpdqyVoQAIpprEROabm2Ktdwd/59IiywRn7icmLW8xN0wHPMatkFSbCtBFChWGnUTxfdv8Jx6JPGksR7Wn4pqwA==
+X-YMail-OSG: L6W9rKAVM1krJpUoOxJS5J6jN23gmZ7rwjqwdg7puGS8AFSBWMxucfkX56mU4ZT
+ WKE2mdhowbxk00Uhy28dK0urLsvDT3QTxGIjveOzDXTbzOdegKbJWZWMhvpqSUc56NiEoTdsU2wG
+ uvsHnB0BnIvtRFFuJSGezWrYiJ_lT1N.e1EtnOhghfK8LtHcQA2Ov6qOH2Cg8kibPaOMC5Lca9oL
+ L2q87RYoF0X0chl.dZnaAxbO4rk9rG.f2lb4ub1CWMgp0CHzx8wZTpzdSunhYQ4io6YH6E1KFlNe
+ deL5b.z4XYaNyMNQ_iXfLI0kJMLXSs6xRiqA.g_DfcNLJTZqFSd.7Hha7o6o7w78ZRXo6kl7kQKy
+ kp8Yc.uAPB6zXnHi5vJCDu1ANiwcuHNNPvx5XxMQuLenaIZK3dSCQRLyx8yJ1iouk77xa_NyC7CD
+ 40YShaPQQqxx85nAcX9grmDONcVr10dVDMERg1wRKRS.KSHlRpH_D7sFtPnmcz6inNS8v.NjxHWN
+ vLvZjlNxxes3Z33UHfvbqB92p.W6rGsdO6wLfzi9Otns_a2jIbjLQujvlDX5YK4BFk8Jgk6qKCWR
+ 7r37x.bYVPXMZTtA8d37H8etZKxz_rfSpcPh_wnu3hdtWyM7UldhzffGQmL7TmthtP03hWEUNROf
+ YdXAWc3Tws1EAEuzvU4F5c1o_Jk2r9dk1DEyad_X_ruRlAgtGzROC6f_3YIru9DLTY5hWfcPAY6p
+ W6qo9C3jO7UM8h7.1gUEYzCv2DCxYROk7zn1QsF2yWVe4CnuZiNXKWFX3XbxgJsBMTTuXgxjoZ13
+ 61vjrKrV8vQ0TRXI8qiXMvF_EGVPEWXbLrHXtxpHgDZbww4Es6hbq_H7oP2aGiaY6qlU_Amthhnc
+ 3Zaoqy2Ld_Djasf99erQJLwFHey2muVJYSBW1pHk0XY3P5hwFZBR53mi8WacZ0uddGYBMU1CzsJb
+ e22eIQ1Ry3sKiwBzKvOJnVX4d07MP2D9dGRAg5kfSP6WOVrJ7xtoOHsorDQTXlSrni1rUN6KwkXE
+ kPlngbhJ27w8n29OBipodX5s8Xdg0OcgRtALZvMENT7nibxmDN0HsRy6sVgzKmAxDXyrY0VBhjnS
+ tdU3LwoJfR_4_fxjZKjuqLcU53lx9EqYfAjEeyiN44y8PpUv7DwnOFC7Ld2FIyUcFDmMl85ZNgiT
+ kwrtaamviyuFmqfcH1TgmVQlkxDDnL8pK7WF9y6HNsTsQvI5xH47Pp_UsIDR1ZaFkIOAe064JYz7
+ o2luYmHjJcarrngk6dRSD8UQxKghGQSLN9mh62xj7Ki0za5uwispquxB6dwkvSiz36RjFIn70ohR
+ 59uU1NvdYAtNghktaa364HryFX_ZZZ8ttNVXz4PAHkLkQNW78T.y2fqy8glYqtI3gu.Bvwvtpp8i
+ CvMMNg7vgxoE8XlyE6OTMt8VHeH89QcIO.yvStU.HyzieG3xQJchTjJoqiKCFZV.GtL9Z_8pFzVY
+ vi0btRPEw4R6Clrd4AMKsUiDAqQLwwXjRhX5AegyLzaW4cMfESJfEZN5x5tv4se._78qVEj9L7Q_
+ DVUAHHrbWK5AXcLWl89hoyu4r0UWRTz9WgUNn7T4C6cvotf12SgmTdXV9VYj3c9G6u_64.DhUcbn
+ 5PUIjP5P.EK4vlGsz2g2V9mgW5RZi_RDMyGC5uv7lgtUc04jeIkSBlSG7ssqN568iT2nfF692b4I
+ gi.VJqkpVPe27pQm2qFYeHqSoOnY4eO5vnNQYi28ocJhzFp7ndln6LzpES.eFxmZxlb.eg35ehkf
+ 0cBXEh9Up92sdI9PQUMOO8fJA7UHSoBU_zmtVsrIveHHnhQ4OiOSNMym1fpRGFaK4MoyLewIyGwQ
+ FJ1Iup3aU6uLTQDsGg.JWBN3E0va0JRvxvxvaFdCDekGX6P_xWK2G_oL7q_PfoV5MaiVrxiBB13A
+ 5r0hZQ3ujkEZfX2QV.mE38XMCOC8q60DPykpkoSkjmLnR7UX.gjrVdHLtvWaGOi7z03tneG_pVMY
+ cE_9e5agDLDrt8R._JM1YAKtAXCiG_mareErC03dZgGXkUoLmhyGbcbTlIbtGmufOS7su5_vJRIO
+ igTiUoInL04P0ArQgO5g6zbHJtwJW75BElaSe8mMOhqX9LO18Qdicl47l1NT8_RbthTz.Dp3.nys
+ UxGIICV2EEUS5ixS24T97i2Cm262wWuZ2eHxXnBZfXVc0mGhLlTGmCktSTth3UN.spj6TT0mGX1H
+ i_mOMXR3npUR8BEvqpkpz2nRBeEJl5kkFBN1t2FV0gCZNlYAZW0DV.xbcotY-
 X-Sonic-MF: <casey@schaufler-ca.com>
 Received: from sonic.gate.mail.ne1.yahoo.com by
- sonic304.consmr.mail.ne1.yahoo.com with HTTP; Tue, 27 Sep 2022 20:14:11 +0000
-Received: by hermes--production-gq1-7dfd88c84d-65ptt (Yahoo Inc. Hermes SMTP
- Server) with ESMTPA ID 395ac973b3706d14ddbf652d9544c668; 
- Tue, 27 Sep 2022 20:14:05 +0000 (UTC)
+ sonic302.consmr.mail.ne1.yahoo.com with HTTP; Tue, 27 Sep 2022 20:32:09 +0000
+Received: by hermes--production-bf1-759bcdd488-hrxt2 (Yahoo Inc. Hermes SMTP
+ Server) with ESMTPA ID 8ccea4647f87bd204746bbf9e900b582; 
+ Tue, 27 Sep 2022 20:32:05 +0000 (UTC)
 From: Casey Schaufler <casey@schaufler-ca.com>
 To: casey.schaufler@intel.com, paul@paul-moore.com,
  linux-security-module@vger.kernel.org
-Subject: [PATCH v38 38/39] AppArmor: Remove the exclusive flag
-Date: Tue, 27 Sep 2022 12:54:20 -0700
-Message-Id: <20220927195421.14713-39-casey@schaufler-ca.com>
+Subject: [PATCH v38 39/39] LSM: Create lsm_module_list system call
+Date: Tue, 27 Sep 2022 13:31:55 -0700
+Message-Id: <20220927203155.15060-1-casey@schaufler-ca.com>
 In-Reply-To: <20220927195421.14713-1-casey@schaufler-ca.com>
 References: <20220927195421.14713-1-casey@schaufler-ca.com>
 MIME-Version: 1.0
@@ -116,7 +114,7 @@ X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
  Internal User Name=false; Custom Display Name List=false;
  Reply-to Address Mismatch=false; Targeted Threat Dictionary=false;
  Mimecast Threat Dictionary=false; Custom Threat Dictionary=false
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -132,72 +130,136 @@ Cc: john.johansen@canonical.com, selinux@vger.kernel.org, jmorris@namei.org,
  linux-kernel@vger.kernel.org, linux-audit@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
 Sender: "Linux-audit" <linux-audit-bounces@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-With the inclusion of the interface LSM process attribute
-mechanism AppArmor no longer needs to be treated as an
-"exclusive" security module. Remove the flag that indicates
-it is exclusive. Remove the stub getpeersec_dgram AppArmor
-hook as it has no effect in the single LSM case and
-interferes in the multiple LSM case.
+Create a system call to report the list of Linux Security Modules
+that are active on the system. The list is provided as an array
+of LSM ID numbers.
 
-Acked-by: Stephen Smalley <stephen.smalley.work@gmail.com>
-Acked-by: John Johansen <john.johansen@canonical.com>
-Reviewed-by: Kees Cook <keescook@chromium.org>
 Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
 ---
- security/apparmor/lsm.c | 20 +-------------------
- 1 file changed, 1 insertion(+), 19 deletions(-)
+ arch/x86/entry/syscalls/syscall_64.tbl |  1 +
+ include/linux/syscalls.h               |  1 +
+ include/uapi/asm-generic/unistd.h      |  5 ++-
+ kernel/sys_ni.c                        |  1 +
+ security/lsm_syscalls.c                | 50 ++++++++++++++++++++++++++
+ 5 files changed, 57 insertions(+), 1 deletion(-)
 
-diff --git a/security/apparmor/lsm.c b/security/apparmor/lsm.c
-index f47134da6723..284f74ba9af7 100644
---- a/security/apparmor/lsm.c
-+++ b/security/apparmor/lsm.c
-@@ -1168,22 +1168,6 @@ static int apparmor_socket_getpeersec_stream(struct socket *sock,
- 	return error;
+diff --git a/arch/x86/entry/syscalls/syscall_64.tbl b/arch/x86/entry/syscalls/syscall_64.tbl
+index 56d5c5202fd0..40b35e7069a7 100644
+--- a/arch/x86/entry/syscalls/syscall_64.tbl
++++ b/arch/x86/entry/syscalls/syscall_64.tbl
+@@ -373,6 +373,7 @@
+ 449	common	futex_waitv		sys_futex_waitv
+ 450	common	set_mempolicy_home_node	sys_set_mempolicy_home_node
+ 451	common	lsm_self_attr		sys_lsm_self_attr
++452	common	lsm_module_list		sys_lsm_module_list
+ 
+ #
+ # Due to a historical design error, certain syscalls are numbered differently
+diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
+index 7f87ef8be546..e2e2a9e93e8c 100644
+--- a/include/linux/syscalls.h
++++ b/include/linux/syscalls.h
+@@ -1057,6 +1057,7 @@ asmlinkage long sys_set_mempolicy_home_node(unsigned long start, unsigned long l
+ 					    unsigned long home_node,
+ 					    unsigned long flags);
+ asmlinkage long sys_lsm_self_attr(struct lsm_ctx *ctx, size_t *size, int flags);
++asmlinkage long sys_lsm_module_list(unsigned int *ids, size_t *size, int flags);
+ 
+ /*
+  * Architecture-specific system calls
+diff --git a/include/uapi/asm-generic/unistd.h b/include/uapi/asm-generic/unistd.h
+index aa66718e1b48..090617a9a53a 100644
+--- a/include/uapi/asm-generic/unistd.h
++++ b/include/uapi/asm-generic/unistd.h
+@@ -889,8 +889,11 @@ __SYSCALL(__NR_set_mempolicy_home_node, sys_set_mempolicy_home_node)
+ #define __NR_lsm_self_attr 451
+ __SYSCALL(__NR_lsm_self_attr, sys_lsm_self_attr)
+ 
++#define __NR_lsm_module_list 452
++__SYSCALL(__NR_lsm_module_list, sys_lsm_module_list)
++
+ #undef __NR_syscalls
+-#define __NR_syscalls 452
++#define __NR_syscalls 453
+ 
+ /*
+  * 32 bit systems traditionally used different
+diff --git a/kernel/sys_ni.c b/kernel/sys_ni.c
+index 0fdb0341251d..bde9e74a3473 100644
+--- a/kernel/sys_ni.c
++++ b/kernel/sys_ni.c
+@@ -264,6 +264,7 @@ COND_SYSCALL(mremap);
+ 
+ /* security/lsm_syscalls.c */
+ COND_SYSCALL(lsm_self_attr);
++COND_SYSCALL(lsm_module_list);
+ 
+ /* security/keys/keyctl.c */
+ COND_SYSCALL(add_key);
+diff --git a/security/lsm_syscalls.c b/security/lsm_syscalls.c
+index da0fab7065e2..41d9ef945ede 100644
+--- a/security/lsm_syscalls.c
++++ b/security/lsm_syscalls.c
+@@ -154,3 +154,53 @@ SYSCALL_DEFINE3(lsm_self_attr,
+ 	kfree(final);
+ 	return rc;
  }
- 
--/**
-- * apparmor_socket_getpeersec_dgram - get security label of packet
-- * @sock: the peer socket
-- * @skb: packet data
-- * @secid: pointer to where to put the secid of the packet
-- *
-- * Sets the netlabel socket state on sk from parent
-- */
--static int apparmor_socket_getpeersec_dgram(struct socket *sock,
--					    struct sk_buff *skb, u32 *secid)
--
--{
--	/* TODO: requires secid support */
--	return -ENOPROTOOPT;
--}
--
- /**
-  * apparmor_sock_graft - Initialize newly created socket
-  * @sk: child sock
-@@ -1290,8 +1274,6 @@ static struct security_hook_list apparmor_hooks[] __lsm_ro_after_init = {
- #endif
- 	LSM_HOOK_INIT(socket_getpeersec_stream,
- 		      apparmor_socket_getpeersec_stream),
--	LSM_HOOK_INIT(socket_getpeersec_dgram,
--		      apparmor_socket_getpeersec_dgram),
- 	LSM_HOOK_INIT(sock_graft, apparmor_sock_graft),
- #ifdef CONFIG_NETWORK_SECMARK
- 	LSM_HOOK_INIT(inet_conn_request, apparmor_inet_conn_request),
-@@ -1954,7 +1936,7 @@ static int __init apparmor_init(void)
- 
- DEFINE_LSM(apparmor) = {
- 	.name = "apparmor",
--	.flags = LSM_FLAG_LEGACY_MAJOR | LSM_FLAG_EXCLUSIVE,
-+	.flags = LSM_FLAG_LEGACY_MAJOR,
- 	.enabled = &apparmor_enabled,
- 	.blobs = &apparmor_blob_sizes,
- 	.init = apparmor_init,
++
++/**
++ * lsm_module_list - Return a list of the active security modules
++ * @ids: the LSM module ids
++ * @size: size of @ids, updated on return
++ * @flags: reserved for future use, must be zero
++ *
++ * Returns a list of the active LSM ids. On success this function
++ * returns the number of @ids array elements. This value may be zero
++ * if there are no LSMs active. If @size is insufficient to contain
++ * the return data -E2BIG is returned and @size is set to the minimum
++ * required size. In all other cases a negative value indicating the
++ * error is returned.
++ */
++SYSCALL_DEFINE3(lsm_module_list,
++	       unsigned int __user *, ids,
++	       size_t __user *, size,
++	       int, flags)
++{
++	unsigned int *interum;
++	size_t total_size = lsm_id * sizeof(*interum);
++	size_t usize;
++	int rc;
++	int i;
++
++	if (get_user(usize, size))
++		return -EFAULT;
++
++	if (usize < total_size) {
++		if (put_user(total_size, size) != 0)
++			return -EFAULT;
++		return -E2BIG;
++	}
++
++	interum = kzalloc(total_size, GFP_KERNEL);
++	if (interum == NULL)
++		return -ENOMEM;
++
++	for (i = 0; i < lsm_id; i++)
++		interum[i] = lsm_idlist[i]->id;
++
++	if (copy_to_user(ids, interum, total_size) != 0 ||
++	    put_user(total_size, size) != 0)
++		rc = -EFAULT;
++	else
++		rc = lsm_id;
++
++	kfree(interum);
++	return rc;
++}
 -- 
 2.37.3
 
