@@ -2,110 +2,108 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 618085ECD50
-	for <lists+linux-audit@lfdr.de>; Tue, 27 Sep 2022 21:56:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 987455ECD4E
+	for <lists+linux-audit@lfdr.de>; Tue, 27 Sep 2022 21:56:27 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1664308589;
+	s=mimecast20190719; t=1664308586;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=kroIGQDgxaDiGuPNQX4mhiCu0i5KlnElDR6xUOLvV+Q=;
-	b=dbF4x2tGwUV3ILokRGvuCrhStvCu71q0WjHHu4qpH1Ghq6FqWNDnlVxXyQ0nKfJbu1GONB
-	B3h4VO0JEGQLoUv271fXtjQXFbAgVajVNokA5+Mxg3/1qyCLwWumtsluqwlCt7MCOUM4Fy
-	p+iXhbWVoC325NpPxdy9u2zjqsl2oZw=
+	bh=GnDqg0FnMXIJpl8dwkKLo+0/scUM41z/XuM5ZYikXfU=;
+	b=Tm23iZpxMriRLRNecyzksAtPRYp/p6vVtGz2WMULmmMcjLrt5Ylp3Q+vCKI0Tkf+klRCYY
+	mavLvC2i05DcZ9VIv3kfWM5U7pj6FgoXKzw5EQdu4llTeNXs0YtXOKy66XvWbqhfpAAg4j
+	tr42r7wfuihKtlBbzRvVBH39imeMaeU=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-673-8k4Ck4XMMkaZyqY1dfYjig-1; Tue, 27 Sep 2022 15:56:27 -0400
-X-MC-Unique: 8k4Ck4XMMkaZyqY1dfYjig-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
+ us-mta-361-THSglVZ9Ptq78mE4suJg2A-1; Tue, 27 Sep 2022 15:56:22 -0400
+X-MC-Unique: THSglVZ9Ptq78mE4suJg2A-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 25C491C1BD27;
-	Tue, 27 Sep 2022 19:56:25 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8370D3804529;
+	Tue, 27 Sep 2022 19:56:20 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (unknown [10.30.29.100])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 91C01492CA4;
-	Tue, 27 Sep 2022 19:56:19 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 6AA70C15BA4;
+	Tue, 27 Sep 2022 19:56:20 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (localhost [IPv6:::1])
-	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id 1F9CF1946A48;
-	Tue, 27 Sep 2022 19:56:19 +0000 (UTC)
+	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id 429241946A4E;
+	Tue, 27 Sep 2022 19:56:20 +0000 (UTC)
 X-Original-To: linux-audit@listman.corp.redhat.com
 Delivered-To: linux-audit@listman.corp.redhat.com
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
  by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with
- ESMTP id 5D8CF1946586 for <linux-audit@listman.corp.redhat.com>;
+ ESMTP id F16D01946586 for <linux-audit@listman.corp.redhat.com>;
  Tue, 27 Sep 2022 19:56:18 +0000 (UTC)
 Received: by smtp.corp.redhat.com (Postfix)
- id 4D59D40C2086; Tue, 27 Sep 2022 19:56:18 +0000 (UTC)
+ id D3C472166B2A; Tue, 27 Sep 2022 19:56:18 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
- (mimecast03.extmail.prod.ext.rdu2.redhat.com [10.11.55.19])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 45D3740C206B
+ (mimecast01.extmail.prod.ext.rdu2.redhat.com [10.11.55.17])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CC61F2166B26
  for <linux-audit@redhat.com>; Tue, 27 Sep 2022 19:56:18 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [207.211.31.120])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2927E811E67
+Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [207.211.31.81])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id ADD2F85A5B6
  for <linux-audit@redhat.com>; Tue, 27 Sep 2022 19:56:18 +0000 (UTC)
-Received: from sonic304-28.consmr.mail.ne1.yahoo.com
- (sonic304-28.consmr.mail.ne1.yahoo.com [66.163.191.154]) by
+Received: from sonic306-27.consmr.mail.ne1.yahoo.com
+ (sonic306-27.consmr.mail.ne1.yahoo.com [66.163.189.89]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_128_GCM_SHA256) id us-mta-455-ISAm2ZU7MRG-pT0ctbsk4Q-1; Tue,
+ cipher=TLS_AES_128_GCM_SHA256) id us-mta-597-9J2QBUylMxOeV_a1selwzA-1; Tue,
  27 Sep 2022 15:56:16 -0400
-X-MC-Unique: ISAm2ZU7MRG-pT0ctbsk4Q-1
+X-MC-Unique: 9J2QBUylMxOeV_a1selwzA-1
 X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
- t=1664308574; bh=B/ieQminLxTcoHmUAJMSPdE8JWTyso5pSfQ2x/DlpZJ=;
+ t=1664308574; bh=/mFV8nrKHKziknKHS+k/smuAaU9FD83Vp8CIDoIOUN4=;
  h=X-Sonic-MF:From:To:Subject:Date:From:Subject;
- b=rFZ49N47rHN9wsLM2qzsF7XJUXXshlq1GvcQRg6610GR9kKjDYGRUN9jBZx/gJIeZ6KazxmALDvQsJTwIFWdb/kDdqsq+UFisoLgBvjQjsDIvlQ1TLSGZN8Y9wege6rAO6nickXGESlvI5pwEIaZ0J7IfhvCQS5t0KR96pv6pmA7h5BF7GR20IaJJwGMareEZHF1YJ6eGdzKlwS18Rouz+kSkVry1dD8itlCkl2SH5O26Xl6ilRAPZC6fK9IVgJ7jbtuerYaPCpEoIU5u8hGiBwf3jrwkrD4TX8An2iPheEQNFiIovG10jw8V2+dElxfklnxD0yCu0ThhIGA9w8r0A==
-X-YMail-OSG: ESlA3B8VM1mr0qNm2qLD0BcfUndp6PEiJJBpLXoYLiYqxKfpQuw2IfLLJdK1Ig9
- ZGOAKhTlGO_TzdDl8eMdkFrcZXlNSzyMNv87eIl8LyhbNCvcy8XOYXzkG4ThQUb3H3PNkpzh10nq
- T2XrbPXXZKK1aZEcDR5xpYUpe3DsTd2RMDuEk4gza3bK22jiwjVopgGEN9TgkaTWSd7grLjbe8X_
- D4sNasvXE.kh6sYwJ9yg0YSnveXg_hvZSzyGYFVfJufs4eGISD1i2lVcOGgAyVuMAWMSZfPJqOz6
- H0iPZ4eMCSeQtePyl1t2QlXsAvXZ2RBGX71hxFvwQssmpNE5tQAXdH0Z935TLZpolHCX5W4Exzcr
- dC1czazqGlsJslqaULBkdJ.oZco8Ymg6fU4oSj7GB0UOA1nQ7U3zd6WlrDEYmbW_xV7yYjGr1lmv
- 2dF_B.ob0UPsB8ckTIsfcw0sCfBHhbR1cbi7Of5Cezert5BLGYLQgEDbwgnId1mC.VEA7MUMnpKv
- m1jLuzGqbIWg8OaG.tyb7ON3I9HRM8NqNAVfh5k_ygxLCet29ckTsW668QZu4PrDRGM.gIiPAqHQ
- 8ou2hhAWB0dQU6cmluN2VR4SVINsywE6g8nSkOlHBpQCycJYQqqIrfZc0EBKHzYuN2.g6TR6XuJf
- LwD83vEFD0y5QcrE21glBhqHwcTfh8V0Zivlq5Pd9Wyx.P5vG5cVGbrRWv2ehFJtzPGMVivzhbge
- tPJtG8zXtRQZV4JzBK7oOhPnB6zmCsCAJ2HmywRrxFG_K0yHviK6edVp5FCf2oHfwa4MJojMyRE3
- 31lDcbeNH9Yb1uDmllq6Cr19MwOrqTVdl0VUlTNbiU2eLn6u0tAiY_hPOukqVrMzmrVAwufnQkGC
- X7puYjxMgphZ0bHcmjXjb80fpk2vqT77_Mmzdck3kif_o2KiT82cKFNcVmiHtNbPYWVSpACwfLsh
- RCoNApJsbUHJbixdn7WV.PNdQJzAnuUy9JYHmy__QcwxcslkQTvxjlA6PifkXdswRGJwW_NhV1AP
- SKil0FErsW7D7aV9EI70phsLD9tZWWVg13HZXKIsfkDreIByXotpsO2BS4toXny8oSe.g2aFZvBu
- 6dWfLpYxkgFH8IHwPDG.IfJXFg2iFLQzoUpUele2.pdkB_rQO9KZYHaeYXT8zc9KM_t6QrEha7VH
- nPxe4ii14IVo2GTLRYftGj30fRG4hslDDTTzeMAPJuwtyUJEwARMwImc9zTGHbFCYRWEuABZjW52
- Uz6NX5JPyxrYB30KoiV5t1l3PTgI7P0SLWwXBFb4rvLbpAh1EOu2D0khUkmPT84m5vOugMEGTHdY
- ZyLd_RFqUH3OeHqQqCiZ9U7zl8jrDPqQBD1GaeO3kDhP6V8cQien9PJBtZNlghBStmUwHNGff1_B
- jiX5nCyl3XBhi5iVXkYIqPmBEMHjauE2bk7AYI_7FBZhZMGvVcuRh2wngFHoNcDPQ7uAtXwwgeDE
- 1mLee8FcP5s8nZjcvXw6lv6PHaP8QIymZTwLFLxVYNmFhnsyxXj2v9Gkjfu4wEA2jB5Ed6lxUn5e
- OucfAkGk_w.iuG1Kppl6tFu1LY0LijesjoMSk.RU6qZaZJiniGstaCa0oN6mntnLb.C.i5NUHVMB
- oJroHosBa2eiEgYQPFjznLxfsKClt_7lccF0MuMoEm73mOnbIi6goXJCOEYttWfaWyDIs3rgJ01R
- fOK4GHxUBbckQYF0riGsahYe4PS9o9CxFYqnAENt6f4cACDfOxBx0NxIevr8YSQhuS0w0LrznHTs
- hov1jLHXw9GNjGysvXlPBgvR4OHFpRfjK7BCrZPtMtpChd1__D3BT9hunNAgfrLaLXPrWb686Ddn
- y1ANKhDR4YJTU9S3.IfL011SlzjbiHqusr6ndtAg6Tv4V4CCs5sPzyciSAajxNlgXa0lSTSCg93O
- 2aR_ARpOcCRXaXu..QCiWD801s.1CkgHyy6iwBXAwZUMwHFx6FZLPgdRVS1ftF8kHcc7yuY.4zr.
- OtCssd.VDHnz5VHskQbam2V1VxkV4NxeODfIJjPAUz719KXRL0BkFxt0gIZQonDM1r7iBYvQcsx3
- xfp5Ke8RvaXEd1D9Tnp3UCSWBpjw7s5vVpj7lxqusAS24Aolhmma6UkqyprinPYXlUOY_i4iOMcn
- uDeXIVgbe3diqVimsyNZIGUlu608KKno8VkGlCxW_6M0F22pOqqesm0fO_Voma8hMzfJKOzXHIft
- 1h1SxUuDHdrJd4ioK9XAcOWTAJ5xhL.60d1xrTrMewglnurbknZJxzr72u9bWVdV7y6oIlyjxIBG
- CUMuzsfw5YXTi6LTay0qCTjYZap5i3UG5
+ b=bdKhOX5Bnc0LXZyfNW8G2jhIIpENO9ulI5txH6veCmV62xpvRfnNkTnMUPHiz/lyw0WSpgtkYjyGHxUehBHNYtjCFq+4sadyFoOx8TCQmEjPJu2XPjC/GbwpGArgdSYWgzA8ZwR5fLsQ7coAeEPtzXOzYJncKk++Pi4MG+HwzJyIXqdiEFnjgAbahOC0A564fZSZiQvsSmFsSwTptqh1koX1NrRbAWTLx5urIC60QYYrEQpvm8shXsqQmI61AlqAzV0ZgcVGJlRV3VTwTrNEbUxz6WZqFNqXkMNH3NYWdbEsLVBa9wXJYA4AIgV4oNHojraB3gAGggcdaVaTeSZwkQ==
+X-YMail-OSG: _CwTIPUVM1kKMNXWVjVQXgYCmlIcGojkol9V_SpDI59Wiu_ZCWDPa1Pv3eP0PH9
+ X5AsPvSQnlhkl3fmR6i6uRqBSxYw0STHwYkkRJUc5uuZxdffEbhL4ZY7CiXXwE5zzXu69q_kpB4W
+ DXfVYUOhu6cf2RKLr0cRuQFBm4x71vVME6fywKNrz6jLpiP18n43Xwv7.B8dyUzcbO4EdXeKOJsp
+ SdQ1ofGChnYMgkmtEns1k8411aKXqXd03v3AyQDRSz5s5K0HAbENYBynJg9rYK7YSyGTu3R5TzvV
+ dnmKUREP4uo7L42LbOsM1gbfNOfuY9CxSaKo9Ta76cspvnafEfykVdI_7Vh8KQTGu7EjFV.hSJYt
+ JD8EVxXvKF4cZUrxbu66JRrz1embXoQ7Ws15mO0sK6hLO.pX140ncrigyg_58x572Uv76_ysF1Nr
+ jxF54aY01o9_zQLZjA6e._PAf321OUACxAb2jGShNLkpM1lpK9iMsfz348GbXpk8hoDe6_AHkW6C
+ hDBZnGjUjOIUujeI0qiNgvtEbxDPt9o8svJw3l19Ekgzf7cy5FaZHo7X6iQDOtwqmZLSAtq0sxiV
+ E.WT.usOXZgHNtRR_l2xu33CcEVOToYlOCNg8i_tFE.E55arQU05DN42.TN9D3A67vy8fg18cQmP
+ rsNP34XF0DJ0fGsQjHUPpnViJRhip3b2.bDj7y8tMoV7UYHj4jNrH4u5JrQymccBMrAunAhMPCzX
+ .oCy9qfm4g39uNkM8HAduVfi7f5HiPQdU5jO6vRpYg4teC858NBplRvbpwn_2R3c5blbowgQcBoo
+ gu49Ln0l7lwJpv7QUySL2AenTS1DwAWjxRrEVxBUlbMj8gsbbTuLo87bS10eAs15eroU92WPdxRB
+ b7jsYehSfqiePygLYrBaYzwNITdxD5pXeZIPeAdO6C1t8o5Szt.M1YNtazwkAM_nCxTaTsFUn48z
+ gd0QM5ff7esW3BwF3JA8cE8phJvLRBRrbRn9Kb9hWP48dH7C.k55OiQCWzO5qOGxjv0SvONHKbZY
+ 63.DdEnT1rrPyixCdT1W8SCBsTT6ax8LAyGT.S02OLQaMGXpmh.TVAjQ_voIpxzuSuV3SZgL3WDB
+ Ko4gdcdo.QrCFCSnFHrANycyFGzWgoqMdxuVn0GKHxWDLmHt7eetTpbj8GNDumtjSqO1pb8N8Yp0
+ 2ZH5Ukpmmz2QQS3uudfJhtkq5IAAJ8eHB_fdvsynw7kH.6dp5TVoJGj0l2y8ntKFW23DneEU8ami
+ lMA6vTQLZb9i8KspuB1WJx7J_8NJcsYjMZCacB4RecejrLfNwjMSXeCb4tqn4h7U0UPJP3s_mSfe
+ j197_XT9vtRL13IE9tdBcCgmlHday.9pKKxZgz63B7vV1jR2ps9vyqudy0EDkN9jhmmYlZEK_Ma.
+ A6t.AzBit1SpvTEj1l_3drlpb5cugLVF0w9FsvXD5LhtcFJ9hhXU9ShA4kt.taIB9KJ2hr94NfhO
+ Hehx7NfSIJw6yjN1CZ_DeSUDIiThPzGePmh0pCRS5CJltVRW0Hkcx_o8dG.63onmOWavDjYkh3Wx
+ 3C3VSeEprNmvsGIEmXgkMd_FF9gLFvlhryZghS6EUp8EkVKmAicpsSg_Uz3t_A8D1yU_1i8S5UZM
+ ASuCCfxeGDvjVbtfqkA851Wfg8inxCBm_I7G3xY91.OnBdUcqds2D7NxJTVydzue4eJFehKSlOwQ
+ 805rZs7FIoNblk8jiPllrrjy4Zv5BLkq4cO6ySFRQOd9zwRbn5piUiMquCae3s1aRun32nemc2B0
+ FOzmv_dPmqvUuCZSI5DRZMEVM0Yid01412hI5srtr_wk9mFG390eRqvgIwQsOuxLqavmbIOHxzqI
+ 0UybKpKh6bXUTf_CTiVP.cxRm.xIjD.vh4gF9ivDpB57vzR1cimWiUZz14ymFGgF8djoEcG70EfF
+ JLn0vNH.GBczY3NgzgUZ29LQcCTcHcULiFcyYC2K7wQvoTV2LyzMQKxasnCovzuzOnO7ENMGFPQP
+ wSXDjDqY_TLxsywShbgMpvftstxZGHNC1y6NbiYMab6W5QAuheFxMcubjsdgPGN3y8i9JDkWePRl
+ 1qiv33ZbSKipPEniSa4sD6Vuj4RKAhoTiKKry9VWEr7kdNZbsouHQDMpelTDXxrhuhXY82ScCNpM
+ _uwZ7PnWD.xHLjnm_9GMfOy29jggbpoJLuw82b4xyiAdAQ8Q5R0WlwzIHEJUlPoRwCzyUt._1gbX
+ MJGp7ZzMIo2pplaQTdDwIsWoTz.NkyVYNncmqHi.VH64Vq3nKjCWUxpQ-
 X-Sonic-MF: <casey@schaufler-ca.com>
 Received: from sonic.gate.mail.ne1.yahoo.com by
- sonic304.consmr.mail.ne1.yahoo.com with HTTP; Tue, 27 Sep 2022 19:56:14 +0000
+ sonic306.consmr.mail.ne1.yahoo.com with HTTP; Tue, 27 Sep 2022 19:56:14 +0000
 Received: by hermes--production-ne1-6dd4f99767-h2xxw (Yahoo Inc. Hermes SMTP
  Server) with ESMTPA ID ed20d3b3c3bee07b1518207f2172ebcb; 
- Tue, 27 Sep 2022 19:56:09 +0000 (UTC)
+ Tue, 27 Sep 2022 19:56:10 +0000 (UTC)
 From: Casey Schaufler <casey@schaufler-ca.com>
 To: casey.schaufler@intel.com, paul@paul-moore.com,
  linux-security-module@vger.kernel.org
-Subject: [PATCH v38 03/39] LSM: Identify the process attributes for each module
-Date: Tue, 27 Sep 2022 12:53:45 -0700
-Message-Id: <20220927195421.14713-4-casey@schaufler-ca.com>
+Subject: [PATCH v38 04/39] LSM: Maintain a table of LSM attribute data
+Date: Tue, 27 Sep 2022 12:53:46 -0700
+Message-Id: <20220927195421.14713-5-casey@schaufler-ca.com>
 In-Reply-To: <20220927195421.14713-1-casey@schaufler-ca.com>
 References: <20220927195421.14713-1-casey@schaufler-ca.com>
 MIME-Version: 1.0
@@ -116,7 +114,7 @@ X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
  Internal User Name=false; Custom Display Name List=false;
  Reply-to Address Mismatch=false; Targeted Threat Dictionary=false;
  Mimecast Threat Dictionary=false; Custom Threat Dictionary=false
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -132,98 +130,99 @@ Cc: john.johansen@canonical.com, selinux@vger.kernel.org, jmorris@namei.org,
  linux-kernel@vger.kernel.org, linux-audit@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
 Sender: "Linux-audit" <linux-audit-bounces@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-Add an integer member "features" to the struct lsm_id which
-identifies the API related data associated with each security
-module. The initial set of features maps to information that
-has traditionaly been available in /proc/self/attr.
+As LSMs are registered add their lsm_id pointers to a table.
+This will be used later for attribute reporting.
 
 Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
 ---
- include/linux/lsm_hooks.h  |  1 +
- include/uapi/linux/lsm.h   | 14 ++++++++++++++
- security/apparmor/lsm.c    |  1 +
- security/selinux/hooks.c   |  2 ++
- security/smack/smack_lsm.c |  1 +
- 5 files changed, 19 insertions(+)
+ include/linux/security.h | 17 +++++++++++++++++
+ security/security.c      | 18 ++++++++++++++++++
+ 2 files changed, 35 insertions(+)
 
-diff --git a/include/linux/lsm_hooks.h b/include/linux/lsm_hooks.h
-index 407f57aaa6ef..ded76db3f523 100644
---- a/include/linux/lsm_hooks.h
-+++ b/include/linux/lsm_hooks.h
-@@ -1604,6 +1604,7 @@ struct security_hook_heads {
- struct lsm_id {
- 	const char	*lsm;		/* Name of the LSM */
- 	int		id;		/* LSM ID */
-+	int		features;	/* Set of LSM features */
- };
+diff --git a/include/linux/security.h b/include/linux/security.h
+index 7bd0c490703d..abdd151fc720 100644
+--- a/include/linux/security.h
++++ b/include/linux/security.h
+@@ -136,6 +136,23 @@ enum lockdown_reason {
  
- /*
-diff --git a/include/uapi/linux/lsm.h b/include/uapi/linux/lsm.h
-index 5647c3e220c0..4bb692b84a28 100644
---- a/include/uapi/linux/lsm.h
-+++ b/include/uapi/linux/lsm.h
-@@ -29,4 +29,18 @@
- #define LSM_ID_LANDLOCK		43
- #define LSM_ID_CAPABILITY	44
+ extern const char *const lockdown_reasons[LOCKDOWN_CONFIDENTIALITY_MAX+1];
+ 
++#define LSMID_ENTRIES ( \
++	1 + /* capabilities */ \
++	(IS_ENABLED(CONFIG_SECURITY_SELINUX) ? 1 : 0) + \
++	(IS_ENABLED(CONFIG_SECURITY_SMACK) ? 1 : 0) + \
++	(IS_ENABLED(CONFIG_SECURITY_TOMOYO) ? 1 : 0) + \
++	(IS_ENABLED(CONFIG_SECURITY_IMA) ? 1 : 0) + \
++	(IS_ENABLED(CONFIG_SECURITY_APPARMOR) ? 1 : 0) + \
++	(IS_ENABLED(CONFIG_SECURITY_YAMA) ? 1 : 0) + \
++	(IS_ENABLED(CONFIG_SECURITY_LOADPIN) ? 1 : 0) + \
++	(IS_ENABLED(CONFIG_SECURITY_SAFESETID) ? 1 : 0) + \
++	(IS_ENABLED(CONFIG_SECURITY_LOCKDOWN) ? 1 : 0) + \
++	(IS_ENABLED(CONFIG_BPF_LSM) ? 1 : 0) + \
++	(IS_ENABLED(CONFIG_SECURITY_LANDLOCK) ? 1 : 0))
++
++extern int lsm_id;
++extern struct lsm_id *lsm_idlist[];
++
+ /* These functions are in security/commoncap.c */
+ extern int cap_capable(const struct cred *cred, struct user_namespace *ns,
+ 		       int cap, unsigned int opts);
+diff --git a/security/security.c b/security/security.c
+index ff7fda4ffa43..14f22d9c9d84 100644
+--- a/security/security.c
++++ b/security/security.c
+@@ -28,6 +28,7 @@
+ #include <linux/backing-dev.h>
+ #include <linux/string.h>
+ #include <linux/msg.h>
++#include <uapi/linux/lsm.h>
+ #include <net/flow.h>
+ 
+ #define MAX_LSM_EVM_XATTR	2
+@@ -318,6 +319,12 @@ static void __init lsm_early_task(struct task_struct *task);
+ 
+ static int lsm_append(const char *new, char **result);
  
 +/*
-+ * LSM_ATTR_XXX values identify the /proc/.../attr entry that the
-+ * context represents. Not all security modules provide all of these
-+ * values. Some security modules provide none of them.
++ * Current index to use while initializing the lsm id list.
 + */
-+/* clang-format off */
-+#define LSM_ATTR_CURRENT	(1UL << 0)
-+#define LSM_ATTR_EXEC		(1UL << 1)
-+#define LSM_ATTR_FSCREATE	(1UL << 2)
-+#define LSM_ATTR_KEYCREATE	(1UL << 3)
-+#define LSM_ATTR_PREV		(1UL << 4)
-+#define LSM_ATTR_SOCKCREATE	(1UL << 5)
-+/* clang-format on */
++int lsm_id __lsm_ro_after_init;
++struct lsm_id *lsm_idlist[LSMID_ENTRIES] __lsm_ro_after_init;
 +
- #endif /* _UAPI_LINUX_LSM_H */
-diff --git a/security/apparmor/lsm.c b/security/apparmor/lsm.c
-index fb6c7edd5393..40266cc4866c 100644
---- a/security/apparmor/lsm.c
-+++ b/security/apparmor/lsm.c
-@@ -1206,6 +1206,7 @@ struct lsm_blob_sizes apparmor_blob_sizes __lsm_ro_after_init = {
- static struct lsm_id apparmor_lsmid __lsm_ro_after_init = {
- 	.lsm      = "apparmor",
- 	.id       = LSM_ID_APPARMOR,
-+	.features = LSM_ATTR_CURRENT | LSM_ATTR_PREV | LSM_ATTR_EXEC,
- };
+ static void __init ordered_lsm_init(void)
+ {
+ 	struct lsm_info **lsm;
+@@ -362,6 +369,7 @@ static void __init ordered_lsm_init(void)
+ 	for (lsm = ordered_lsms; *lsm; lsm++)
+ 		initialize_lsm(*lsm);
  
- static struct security_hook_list apparmor_hooks[] __lsm_ro_after_init = {
-diff --git a/security/selinux/hooks.c b/security/selinux/hooks.c
-index 9803bbbc6747..625cc791c440 100644
---- a/security/selinux/hooks.c
-+++ b/security/selinux/hooks.c
-@@ -7016,6 +7016,8 @@ static int selinux_uring_cmd(struct io_uring_cmd *ioucmd)
- static struct lsm_id selinux_lsmid __lsm_ro_after_init = {
- 	.lsm      = "selinux",
- 	.id       = LSM_ID_SELINUX,
-+	.features = LSM_ATTR_CURRENT | LSM_ATTR_EXEC | LSM_ATTR_FSCREATE |
-+		    LSM_ATTR_KEYCREATE | LSM_ATTR_PREV | LSM_ATTR_SOCKCREATE,
- };
++	init_debug("lsm count            = %d\n", lsm_id);
+ 	kfree(ordered_lsms);
+ }
  
- /*
-diff --git a/security/smack/smack_lsm.c b/security/smack/smack_lsm.c
-index 2a88b4e7669e..e79640a6bfd7 100644
---- a/security/smack/smack_lsm.c
-+++ b/security/smack/smack_lsm.c
-@@ -4778,6 +4778,7 @@ struct lsm_blob_sizes smack_blob_sizes __lsm_ro_after_init = {
- static struct lsm_id smack_lsmid __lsm_ro_after_init = {
- 	.lsm      = "smack",
- 	.id       = LSM_ID_SMACK,
-+	.features = LSM_ATTR_CURRENT,
- };
+@@ -483,6 +491,16 @@ void __init security_add_hooks(struct security_hook_list *hooks, int count,
+ {
+ 	int i;
  
- static struct security_hook_list smack_hooks[] __lsm_ro_after_init = {
++	/*
++	 * A security module may call security_add_hooks() more
++	 * than once. Landlock is one such case.
++	 */
++	if (lsm_id == 0 || lsm_idlist[lsm_id - 1] != lsmid)
++		lsm_idlist[lsm_id++] = lsmid;
++
++	if (lsm_id > LSMID_ENTRIES)
++		panic("%s Too many LSMs registered.\n", __func__);
++
+ 	for (i = 0; i < count; i++) {
+ 		hooks[i].lsmid = lsmid;
+ 		hlist_add_tail_rcu(&hooks[i].list, hooks[i].head);
 -- 
 2.37.3
 
