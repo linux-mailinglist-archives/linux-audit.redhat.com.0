@@ -2,81 +2,80 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 970345F0C45
-	for <lists+linux-audit@lfdr.de>; Fri, 30 Sep 2022 15:14:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 738AC5F0C46
+	for <lists+linux-audit@lfdr.de>; Fri, 30 Sep 2022 15:14:38 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1664543676;
+	s=mimecast20190719; t=1664543677;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:in-reply-to:in-reply-to:
 	 references:references:list-id:list-help:list-unsubscribe:
-	 list-subscribe:list-post; bh=qJDzg9Mh9jhElBObjMTKZjkQZ3vV2QIVk0RrH8ksumE=;
-	b=EfJ3KjHkWlr+pEV9bz88tXa+OcaLqzdz5XiStjpl8ri9e6SeUKLSs+jChw2TSTaGZUPN4g
-	t+5mS2SGGBKSfpm7bweZ7EvckgW2yQuaKz4j+OwhU61CCvTjYZumOJK1rV2eGQaIJ/1bmG
-	XHAoYhsZwEsy9wB5tCD3Hn6pRfEnBuM=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+	 list-subscribe:list-post; bh=1ARPzy/L2ySd5CBsEQfbjfERO3SeiGBL/YOyb5G66gc=;
+	b=ZWZHhHu/SABGcTRn/AH31BBvnrTRw8Zw95GwxJyWhj3gNCwTR11gTshY+kcdDQz4xetDka
+	XXk3xt6WrOfeagGKVzHrRNjnvcGzo0xd5BE0DgScEUB7zyuHFTnDCQErUHI5vm9VxTE3Eg
+	pw0WS/QAcJcKyn0zZ9EWH4de6YxYmvc=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-343-ieyXM2OXNC24R3mFEsuwUA-1; Fri, 30 Sep 2022 09:14:34 -0400
-X-MC-Unique: ieyXM2OXNC24R3mFEsuwUA-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
+ us-mta-609-yyjJsOgTPT2yluGKwyoWQQ-1; Fri, 30 Sep 2022 09:14:34 -0400
+X-MC-Unique: yyjJsOgTPT2yluGKwyoWQQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 270202A59565;
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 29DD488740E;
 	Fri, 30 Sep 2022 13:14:32 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (unknown [10.30.29.100])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 13B00492B04;
-	Fri, 30 Sep 2022 13:14:25 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 185E1207B356;
+	Fri, 30 Sep 2022 13:14:23 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (localhost [IPv6:::1])
-	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id ED11B194704F;
+	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id 03C2E1946A6C;
 	Fri, 30 Sep 2022 13:14:23 +0000 (UTC)
 X-Original-To: linux-audit@listman.corp.redhat.com
 Delivered-To: linux-audit@listman.corp.redhat.com
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
  by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with
- ESMTP id 6CBED1946A4E for <linux-audit@listman.corp.redhat.com>;
- Fri, 30 Sep 2022 04:40:58 +0000 (UTC)
+ ESMTP id 89C271946A4E for <linux-audit@listman.corp.redhat.com>;
+ Fri, 30 Sep 2022 04:39:49 +0000 (UTC)
 Received: by smtp.corp.redhat.com (Postfix)
- id 263D8207B34B; Fri, 30 Sep 2022 04:40:58 +0000 (UTC)
+ id 791B5492B06; Fri, 30 Sep 2022 04:39:49 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
- (mimecast06.extmail.prod.ext.rdu2.redhat.com [10.11.55.22])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1D2DF207B34A
- for <linux-audit@redhat.com>; Fri, 30 Sep 2022 04:40:58 +0000 (UTC)
+ (mimecast09.extmail.prod.ext.rdu2.redhat.com [10.11.55.25])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6E457492B04
+ for <linux-audit@redhat.com>; Fri, 30 Sep 2022 04:39:49 +0000 (UTC)
 Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [207.211.31.81])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
  bits)) (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E4443186E1EF
- for <linux-audit@redhat.com>; Fri, 30 Sep 2022 04:40:57 +0000 (UTC)
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88]) by
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 434C829DD9B9
+ for <linux-audit@redhat.com>; Fri, 30 Sep 2022 04:39:49 +0000 (UTC)
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-597-pEljmJlhNCqxMw0G1tRrOw-1; Fri, 30 Sep 2022 00:40:55 -0400
-X-MC-Unique: pEljmJlhNCqxMw0G1tRrOw-1
-X-IronPort-AV: E=McAfee;i="6500,9779,10485"; a="328480143"
-X-IronPort-AV: E=Sophos;i="5.93,357,1654585200"; d="scan'208";a="328480143"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Sep 2022 21:39:50 -0700
+ us-mta-571-vQw2CkaDPyWG-JavJEHlrA-1; Fri, 30 Sep 2022 00:39:42 -0400
+X-MC-Unique: vQw2CkaDPyWG-JavJEHlrA-1
+X-IronPort-AV: E=McAfee;i="6500,9779,10485"; a="303587519"
+X-IronPort-AV: E=Sophos;i="5.93,357,1654585200"; d="scan'208";a="303587519"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Sep 2022 21:39:41 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10485"; a="573733290"
-X-IronPort-AV: E=Sophos;i="5.93,357,1654585200"; d="scan'208";a="573733290"
+X-IronPort-AV: E=McAfee;i="6500,9779,10485"; a="617869722"
+X-IronPort-AV: E=Sophos;i="5.93,357,1654585200"; d="scan'208";a="617869722"
 Received: from lkp-server01.sh.intel.com (HELO 14cc182da2d0) ([10.239.97.150])
- by orsmga003.jf.intel.com with ESMTP; 29 Sep 2022 21:39:46 -0700
+ by orsmga007.jf.intel.com with ESMTP; 29 Sep 2022 21:39:37 -0700
 Received: from kbuild by 14cc182da2d0 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1oe7oK-0000DT-2e;
- Fri, 30 Sep 2022 04:39:40 +0000
-Date: Wed, 28 Sep 2022 19:04:35 +0800
+ (envelope-from <lkp@intel.com>) id 1oe7oH-0000AP-0m;
+ Fri, 30 Sep 2022 04:39:37 +0000
+Date: Wed, 28 Sep 2022 22:27:07 +0800
 From: kernel test robot <lkp@intel.com>
 To: Casey Schaufler <casey@schaufler-ca.com>, casey.schaufler@intel.com,
  paul@paul-moore.com, linux-security-module@vger.kernel.org
-Subject: Re: [PATCH v38 06/39] LSM: lsm_self_attr syscall for LSM self
- attributes
-Message-ID: <202209281841.cHp9AlmL-lkp@intel.com>
-References: <20220927195421.14713-7-casey@schaufler-ca.com>
+Subject: Re: [PATCH v38 39/39] LSM: Create lsm_module_list system call
+Message-ID: <202209282224.2m6tzD7q-lkp@intel.com>
+References: <20220927203155.15060-1-casey@schaufler-ca.com>
 MIME-Version: 1.0
-In-Reply-To: <20220927195421.14713-7-casey@schaufler-ca.com>
+In-Reply-To: <20220927203155.15060-1-casey@schaufler-ca.com>
 X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
  Definition; Similar Internal Domain=false;
  Similar Monitored External Domain=false; Custom External Domain=false;
@@ -84,7 +83,7 @@ X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
  Internal User Name=false; Custom Display Name List=false;
  Reply-to Address Mismatch=false; Targeted Threat Dictionary=false;
  Mimecast Threat Dictionary=false; Custom Threat Dictionary=false
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
 X-Mailman-Approved-At: Fri, 30 Sep 2022 13:14:22 +0000
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.29
@@ -102,13 +101,13 @@ Cc: john.johansen@canonical.com, kbuild-all@lists.01.org,
  linux-audit@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
 Sender: "Linux-audit" <linux-audit-bounces@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/mixed; boundary="y+E2Z4FfuhusJqGO"
+Content-Type: multipart/mixed; boundary="ScobGVAYqyddcu0s"
 Content-Disposition: inline
 
---y+E2Z4FfuhusJqGO
+--ScobGVAYqyddcu0s
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
@@ -130,10 +129,10 @@ compiler: s390-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/e614eb870ca4cc351e1847e79041960feb9604dc
+        # https://github.com/intel-lab-lkp/linux/commit/6f957bc7939d85848cbe2a2a1c1007e344629ae0
         git remote add linux-review https://github.com/intel-lab-lkp/linux
         git fetch --no-tags linux-review Casey-Schaufler/LSM-Identify-modules-by-more-than-name/20220928-045406
-        git checkout e614eb870ca4cc351e1847e79041960feb9604dc
+        git checkout 6f957bc7939d85848cbe2a2a1c1007e344629ae0
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash
@@ -143,10 +142,11 @@ If you fix the issue, kindly add following tag where applicable
 
 All warnings (new ones prefixed by >>):
 
->> security/lsm_syscalls.c:51: warning: expecting prototype for lsm_self_attr(). Prototype was for sys_lsm_self_attr() instead
+   security/lsm_syscalls.c:51: warning: expecting prototype for lsm_self_attr(). Prototype was for sys_lsm_self_attr() instead
+>> security/lsm_syscalls.c:175: warning: expecting prototype for lsm_module_list(). Prototype was for sys_lsm_module_list() instead
 
 
-vim +51 security/lsm_syscalls.c
+vim +175 security/lsm_syscalls.c
 
     33	
     34	/**
@@ -167,12 +167,136 @@ vim +51 security/lsm_syscalls.c
     49		       size_t __user *, size,
     50		       int, flags)
   > 51	{
+    52		struct lsm_ctx *final = NULL;
+    53		struct lsm_ctx *interum;
+    54		struct lsm_ctx *ip;
+    55		void *curr;
+    56		char **interum_ctx;
+    57		char *cp;
+    58		size_t total_size = 0;
+    59		int count = 0;
+    60		int attr;
+    61		int len;
+    62		int rc = 0;
+    63		int i;
+    64	
+    65		interum = kzalloc(ARRAY_SIZE(lsm_attr_names) * lsm_id *
+    66				  sizeof(*interum), GFP_KERNEL);
+    67		if (interum == NULL)
+    68			return -ENOMEM;
+    69		ip = interum;
+    70	
+    71		interum_ctx = kzalloc(ARRAY_SIZE(lsm_attr_names) * lsm_id *
+    72				      sizeof(*interum_ctx), GFP_KERNEL);
+    73		if (interum_ctx == NULL) {
+    74			kfree(interum);
+    75			return -ENOMEM;
+    76		}
+    77	
+    78		for (attr = 0; attr < ARRAY_SIZE(lsm_attr_names); attr++) {
+    79			for (i = 0; i < lsm_id; i++) {
+    80				if ((lsm_idlist[i]->features &
+    81				     lsm_attr_names[attr].feature) == 0)
+    82					continue;
+    83	
+    84				len = security_getprocattr(current, lsm_idlist[i]->id,
+    85							   lsm_attr_names[attr].name,
+    86							   &cp);
+    87				if (len <= 0)
+    88					continue;
+    89	
+    90				ip->id = lsm_idlist[i]->id;
+    91				ip->flags = lsm_attr_names[attr].feature;
+    92				/* space for terminating \0 is allocated below */
+    93				ip->ctx_len = len + 1;
+    94				interum_ctx[count] = cp;
+    95				/*
+    96				 * Security modules have been inconsistent about
+    97				 * including the \0 terminator in the size. The
+    98				 * context len has been adjusted to ensure there
+    99				 * is one.
+   100				 * At least one security module adds a \n at the
+   101				 * end of a context to make it look nicer. Change
+   102				 * that to a \0 so that user space doesn't have to
+   103				 * work around it. Because of this meddling it is
+   104				 * safe to assume that lsm_ctx.name is terminated
+   105				 * and that strlen(lsm_ctx.name) < lsm.ctx_len.
+   106				 */
+   107				total_size += sizeof(*interum) + ip->ctx_len;
+   108				cp = strnchr(cp, len, '\n');
+   109				if (cp != NULL)
+   110					*cp = '\0';
+   111				ip++;
+   112				count++;
+   113			}
+   114		}
+   115	
+   116		if (count == 0)
+   117			goto free_out;
+   118	
+   119		final = kzalloc(total_size, GFP_KERNEL);
+   120		if (final == NULL) {
+   121			rc = -ENOMEM;
+   122			goto free_out;
+   123		}
+   124	
+   125		curr = final;
+   126		ip = interum;
+   127		for (i = 0; i < count; i++) {
+   128			memcpy(curr, ip, sizeof(*interum));
+   129			curr += sizeof(*interum);
+   130			memcpy(curr, interum_ctx[i], ip->ctx_len);
+   131			curr += ip->ctx_len;
+   132			ip++;
+   133		}
+   134	
+   135		if (get_user(len, size)) {
+   136			rc = -EFAULT;
+   137			goto free_out;
+   138		}
+   139		if (total_size > len) {
+   140			rc = -ERANGE;
+   141			goto free_out;
+   142		}
+   143		if (copy_to_user(ctx, final, total_size) != 0 ||
+   144		    put_user(total_size, size) != 0)
+   145			rc = -EFAULT;
+   146		else
+   147			rc = count;
+   148	
+   149	free_out:
+   150		for (i = 0; i < count; i++)
+   151			kfree(interum_ctx[i]);
+   152		kfree(interum_ctx);
+   153		kfree(interum);
+   154		kfree(final);
+   155		return rc;
+   156	}
+   157	
+   158	/**
+   159	 * lsm_module_list - Return a list of the active security modules
+   160	 * @ids: the LSM module ids
+   161	 * @size: size of @ids, updated on return
+   162	 * @flags: reserved for future use, must be zero
+   163	 *
+   164	 * Returns a list of the active LSM ids. On success this function
+   165	 * returns the number of @ids array elements. This value may be zero
+   166	 * if there are no LSMs active. If @size is insufficient to contain
+   167	 * the return data -E2BIG is returned and @size is set to the minimum
+   168	 * required size. In all other cases a negative value indicating the
+   169	 * error is returned.
+   170	 */
+   171	SYSCALL_DEFINE3(lsm_module_list,
+   172		       unsigned int __user *, ids,
+   173		       size_t __user *, size,
+   174		       int, flags)
+ > 175	{
 
 -- 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---y+E2Z4FfuhusJqGO
+--ScobGVAYqyddcu0s
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
@@ -3777,7 +3901,7 @@ CONFIG_TEST_LIVEPATCH=m
 # end of Kernel Testing and Coverage
 # end of Kernel hacking
 
---y+E2Z4FfuhusJqGO
+--ScobGVAYqyddcu0s
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -3788,5 +3912,5 @@ Linux-audit mailing list
 Linux-audit@redhat.com
 https://listman.redhat.com/mailman/listinfo/linux-audit
 
---y+E2Z4FfuhusJqGO--
+--ScobGVAYqyddcu0s--
 
