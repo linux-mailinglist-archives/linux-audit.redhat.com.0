@@ -1,163 +1,162 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0754D5F0C48
-	for <lists+linux-audit@lfdr.de>; Fri, 30 Sep 2022 15:14:45 +0200 (CEST)
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8355C5F0C44
+	for <lists+linux-audit@lfdr.de>; Fri, 30 Sep 2022 15:14:37 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1664543685;
+	s=mimecast20190719; t=1664543676;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=tPSHompAjEepkF1eWbWBBnOz2OWajv0kaBIIFme0kd8=;
-	b=UsiVK/hofDwhB9VjF0JsV7zGQLhLxBglFo/AMAuJlTPdFe6K/XY4ZWWawREUEPrlEG1fQa
-	frlX5/LZiQTIswNb8od3vUP+lGEtPp9JtRKHF2/gLKpI3jF2rzJfcQ1kbvzpuTeBQ2DBg4
-	f3qTpv07yfB7WDDFdb+IJYdiRxOz7Cs=
+	bh=ZVZXtlMdcgyXpn6Hxk2GqDk2FGtVDxs53Vh4EQviEbE=;
+	b=M8qcCvAEoWCHcTTViUaIQPAa1/MtclVVYuIE1tgw91NdKMZEZqUE4GcBnUJj0mVR1J2H+N
+	jK1DL92cfHVwxhl2FxHnWgzhoSPqNiuscFdTOH5JHaUiGIfnxs52dXFb8gy5iKYPNmHPAh
+	Y0OYnFbpVdtwVbjthAN/4T2cLIggb9c=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-331-RN2ukA6zPhSc6454aq3CYg-1; Fri, 30 Sep 2022 09:14:43 -0400
-X-MC-Unique: RN2ukA6zPhSc6454aq3CYg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
+ us-mta-90-52DWZpPtNaCI71uu--9sxw-1; Fri, 30 Sep 2022 09:14:34 -0400
+X-MC-Unique: 52DWZpPtNaCI71uu--9sxw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 223BD10726A1;
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 225FE185A7AE;
 	Fri, 30 Sep 2022 13:14:32 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (unknown [10.30.29.100])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 3CEA3207B34A;
+	by smtp.corp.redhat.com (Postfix) with ESMTP id AF6272166B26;
 	Fri, 30 Sep 2022 13:14:24 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (localhost [IPv6:::1])
-	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id 2A87F1946A76;
+	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id B68011947047;
 	Fri, 30 Sep 2022 13:14:23 +0000 (UTC)
 X-Original-To: linux-audit@listman.corp.redhat.com
 Delivered-To: linux-audit@listman.corp.redhat.com
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
  by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with
- ESMTP id DBD521946A4E for <linux-audit@listman.corp.redhat.com>;
- Thu, 29 Sep 2022 20:20:11 +0000 (UTC)
+ ESMTP id E2E5C1946A4E for <linux-audit@listman.corp.redhat.com>;
+ Thu, 29 Sep 2022 20:20:52 +0000 (UTC)
 Received: by smtp.corp.redhat.com (Postfix)
- id 81545492B06; Thu, 29 Sep 2022 20:20:11 +0000 (UTC)
+ id B1FAE40C6EC4; Thu, 29 Sep 2022 20:20:52 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
- (mimecast08.extmail.prod.ext.rdu2.redhat.com [10.11.55.24])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 773E2492B04
- for <linux-audit@redhat.com>; Thu, 29 Sep 2022 20:20:08 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [205.139.110.120])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DE19438164CE
- for <linux-audit@redhat.com>; Thu, 29 Sep 2022 20:20:07 +0000 (UTC)
+ (mimecast07.extmail.prod.ext.rdu2.redhat.com [10.11.55.23])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A9A3040C6EC2
+ for <linux-audit@redhat.com>; Thu, 29 Sep 2022 20:20:52 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [207.211.31.81])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 886FC3C01DA2
+ for <linux-audit@redhat.com>; Thu, 29 Sep 2022 20:20:52 +0000 (UTC)
 Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com
  [205.220.177.32]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-672-cNvTVU-jM123AAIfIHl8pg-1; Thu, 29 Sep 2022 16:20:03 -0400
-X-MC-Unique: cNvTVU-jM123AAIfIHl8pg-1
+ us-mta-269-sfndxvZJNXSzxnLfbec61A-1; Thu, 29 Sep 2022 16:20:48 -0400
+X-MC-Unique: sfndxvZJNXSzxnLfbec61A-1
 Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 28TJmwXN012062;
- Thu, 29 Sep 2022 20:20:02 GMT
-Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com
- (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3jsstpwd78-1
+ by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 28TKKhUE011307;
+ Thu, 29 Sep 2022 20:20:47 GMT
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com
+ (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3jsstpwd9x-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 29 Sep 2022 20:20:01 +0000
+ Thu, 29 Sep 2022 20:20:47 +0000
 Received: from pps.filterd
- (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
- by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.5/8.17.1.5)
- with ESMTP id 28THVmhF033772; Thu, 29 Sep 2022 20:20:00 GMT
-Received: from nam12-mw2-obe.outbound.protection.outlook.com
- (mail-mw2nam12lp2040.outbound.protection.outlook.com [104.47.66.40])
- by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id
- 3jtpv35kfn-1
+ (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+ by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.5/8.17.1.5)
+ with ESMTP id 28THOnH2036986; Thu, 29 Sep 2022 20:20:46 GMT
+Received: from nam04-dm6-obe.outbound.protection.outlook.com
+ (mail-dm6nam04lp2040.outbound.protection.outlook.com [104.47.73.40])
+ by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id
+ 3jtpvh00p2-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 29 Sep 2022 20:20:00 +0000
+ Thu, 29 Sep 2022 20:20:46 +0000
 Received: from CO6PR10MB5409.namprd10.prod.outlook.com (2603:10b6:5:357::14)
- by PH0PR10MB5779.namprd10.prod.outlook.com (2603:10b6:510:146::18) with
+ by MN0PR10MB6005.namprd10.prod.outlook.com (2603:10b6:208:3cb::20) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5676.20; Thu, 29 Sep
- 2022 20:19:58 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5676.17; Thu, 29 Sep
+ 2022 20:20:44 +0000
 Received: from CO6PR10MB5409.namprd10.prod.outlook.com
  ([fe80::4c38:703a:3910:61d6]) by CO6PR10MB5409.namprd10.prod.outlook.com
  ([fe80::4c38:703a:3910:61d6%4]) with mapi id 15.20.5676.022; Thu, 29 Sep 2022
- 20:19:58 +0000
+ 20:20:44 +0000
 References: <20220927225944.2254360-1-ankur.a.arora@oracle.com>
- <20220927225944.2254360-3-ankur.a.arora@oracle.com>
- <CAHC9VhRBuBiuf6917fpP7n+Sy5fFTpzzEqRXfMGPCbnNU4jswg@mail.gmail.com>
+ <20220927225944.2254360-2-ankur.a.arora@oracle.com>
+ <CAHC9VhRZzU5-+65AFOK826rA0xo-nbgRK_pP05Q_zjvAQvLnRw@mail.gmail.com>
 User-agent: mu4e 1.4.10; emacs 27.2
 From: Ankur Arora <ankur.a.arora@oracle.com>
 To: Paul Moore <paul@paul-moore.com>
-Subject: Re: [PATCH 2/3] audit: annotate branch direction for audit_in_mask()
-In-reply-to: <CAHC9VhRBuBiuf6917fpP7n+Sy5fFTpzzEqRXfMGPCbnNU4jswg@mail.gmail.com>
-Date: Thu, 29 Sep 2022 13:19:57 -0700
-Message-ID: <8735cagcgi.fsf@oracle.com>
-X-ClientProxiedBy: MW3PR05CA0019.namprd05.prod.outlook.com
- (2603:10b6:303:2b::24) To CO6PR10MB5409.namprd10.prod.outlook.com
+Subject: Re: [PATCH 1/3] audit: cache ctx->major in audit_filter_syscall()
+In-reply-to: <CAHC9VhRZzU5-+65AFOK826rA0xo-nbgRK_pP05Q_zjvAQvLnRw@mail.gmail.com>
+Date: Thu, 29 Sep 2022 13:20:40 -0700
+Message-ID: <87tu4qexuv.fsf@oracle.com>
+X-ClientProxiedBy: MW4PR03CA0019.namprd03.prod.outlook.com
+ (2603:10b6:303:8f::24) To CO6PR10MB5409.namprd10.prod.outlook.com
  (2603:10b6:5:357::14)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO6PR10MB5409:EE_|PH0PR10MB5779:EE_
-X-MS-Office365-Filtering-Correlation-Id: effd1dd9-fd0f-40c5-d1ec-08daa257fad3
+X-MS-TrafficTypeDiagnostic: CO6PR10MB5409:EE_|MN0PR10MB6005:EE_
+X-MS-Office365-Filtering-Correlation-Id: 059a4c84-8ba2-4f48-430d-08daa25815eb
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0
-X-Microsoft-Antispam-Message-Info: nNzGJoLHX8N9VHzy5AbsE3Wvwcke/68qP43NaouBnII/DYzdlFJLKaQtVDD7lMrYcXb+uwdtgTu7bdcuSa3ftkkw9F6rXU3/oapYjJ3Buq72KS7uPs2xWEtYHtgYgmlp9xsPtjFZnxcX1RhQTYBZwhFFQDCbx3/DGaCayxAaMejX3ymwPNaRrYuw8TaccGyb7Fzxad4x1EyfweMY7fKGfXXV9gpe4WU+pIxMt/G6vKtLWArhddo0S/1bxwH7vxvVxPKFbtMIMTpjCXFiHkrYRCJUXmq1iR4kfG+vdGU9C9lsx4EMAOgmiUFgZPPPCVmh01nJiRpQQE+9VCzb4zeSBN4+6CTPr/W4SRddTly7RJiwNwZdri3iLUOIVMA2KQFR5aU2jkTVVD3WEKB9g9QfVhlveS1QtrCh68aOl/5WuZBHacug5TPpMjxMkftfU7tULeRltAUeDghWILDKL+WhrgBs2qvaeRfxyB2QBW+tPVJAuH0veXEyeJUizYYluKv/eJ6KnppekBUsVDxPh7XUPC2I18lFbi6zN+EcEYipUpGKKraMq651qIs7mBCWXbMdvCvO92DR//avZ9IyOwDRWVlL/jOjqZTrYhZuh5qnb3CMvLs/t4rUtXgoVmBRlx6ol85qod9QWMedNuyM/IUV+z895tPIAdK+0VyxiD/W3P1pS4ZQjtIOkXnjBz3lYc/Om17Hxp4mniggCtDtlxQnqg==
+X-Microsoft-Antispam-Message-Info: iH5qzigty8Nm/f9cLNzQdtsDQaLEh9iG/VgEBGeuPot/ayNdEX9iMmK9k3lXxQWVA7FnIA+FCY7pmZ9Eqmh4Z5ujddL72SUeNYgqfZgmxQHHIfIH9ZxbaYNxAGm8C92KmW7TGpxyYmQ5V/BfENeKzITrW2asqGVQjnRKQ3Y4H6gAy+64lPovQlpwGTx46woiVEZ4EWWvSjqAn9el21PShlcx6yzSKl9aEtrX6j3zUtYZr9nbmLpVV+RcpbWodvLLcYbV9soDHZTZYFsNe+96CPPss6pc0FR6JkrDqofGQsLig5w6chE29EOK69PwsPbPkmRnjjCCS992FfKkKfIjGik4aT4RSOnhla2obGgvjYZcHnn4YnaD07o032k1Ji/umZPKPEsY9shLnZvUQw295xegM9lEzP2UKNmVTl9sFn3an0jv2WmdRH42Y1/sZ0S4JvUTrWg2BJa1YXEnFpa0RErWQSQEdnUM3TFdKoXiER1/6K6apfczomn0ViJU9RDsE+14V2iam+fAd4Tf7iDEVV6K4F/h5ZMLCTDv1triyt/kV+iHCQE+qOyAzbtcUeHAN0t0JmNx+AeRi8CTDGUUMBoPBExn81FNZIf7tLP63DJoL9Mso4Dg2ZFFHq9ZLTViSfOM7S3EDFn003Pc+J++s3fDmAEeF2f1QhDfRxH5tltW0/52g4qutG36v3ujQGgoxkEoazKMi38+Ln56p/S9VQ==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:CO6PR10MB5409.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(396003)(366004)(136003)(346002)(39860400002)(376002)(451199015)(478600001)(38100700002)(6486002)(4326008)(8676002)(66946007)(186003)(6916009)(36756003)(26005)(66556008)(66476007)(6512007)(83380400001)(2906002)(8936002)(41300700001)(53546011)(6506007)(107886003)(316002)(5660300002)(2616005)(86362001);
+ SFS:(13230022)(346002)(136003)(396003)(376002)(39860400002)(366004)(451199015)(8936002)(5660300002)(83380400001)(53546011)(36756003)(6506007)(6666004)(107886003)(41300700001)(6486002)(6916009)(478600001)(2906002)(186003)(4326008)(66946007)(66476007)(66556008)(8676002)(2616005)(26005)(6512007)(316002)(86362001)(38100700002);
  DIR:OUT; SFP:1101
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?q6tSaMAzrwkXL1iGOB/rZjB0fbdeehEDtgAjzKtZkjD+DccKkH0YPOuay9e5?=
- =?us-ascii?Q?pOeNwsqfmwzKzMI2z9E7twt7iMfMjXheb7ayPtFedyPGmr3Lh9CUetVUzxOV?=
- =?us-ascii?Q?PqntNHxJVrH9pzOao9QxdzK+ehdMueSJV61vG4pFOaMrYWESowepaY6fvw76?=
- =?us-ascii?Q?Tcq73YrOSvJkcsPfEvo9qbQPGT2Pvrgs6tRyiKyL4Q3jEyi5rlYLCBD9CZ1g?=
- =?us-ascii?Q?pKio8Y/R5nkRcDg7NUoK97KDILH4ERgU4sDEEBQtQ0OsDhpZdjm1WS42SUeb?=
- =?us-ascii?Q?8nVdJFVaizYRtbuEbLYMbjVp0N/lpjr2iNB/Z4kMB9GCn7evn1ZQ2u3QCXgP?=
- =?us-ascii?Q?9hLJiNeDYB2htkHwMQItEOl0zwzKtwPFeBIvbbDW47YZyacyvKk9TbqiwMHa?=
- =?us-ascii?Q?N8Co2juVMQmm83IpJRLzTMIXLngnV1x3Rc2153iX6MDDksraW7LgDTd7gxuB?=
- =?us-ascii?Q?Am90rmuzc+jMEzHvsWtrQUCtb1V55J8F0V3+/rZEL0b2JSk/dbT9Rx9THHwJ?=
- =?us-ascii?Q?+2nBC4A2XlxUDPcEpPZt/+esOUxJleQuKscNe170VAZuwQdeMNp7f4dQTbJJ?=
- =?us-ascii?Q?6ZRTHYIffnopjY0Cw2DEBZ3FRSV+RLp/L/Z5bq6bSACa4wfYCybKaOCzIvqY?=
- =?us-ascii?Q?eXkwOA0trOca9Rj6Q/aQUr+zxLuZjibNQBjIn79hLMLlzT05H6gvHMIIlAbN?=
- =?us-ascii?Q?2Q8Qk0O7sOUGYSXnWmEVLw9CSY9uLBd+uh6lwGj03ikl0L+0+e+ryVokdta6?=
- =?us-ascii?Q?zWQ4u+EfNEiiIgOZPIt5DDAL2CeJGz2cnyXDmYU+jPsxg0IdIu1Mg7HUSHBP?=
- =?us-ascii?Q?DyyQQ/pQN+7EVTDry4DFtwFuPCWIAZLpr4SfkeeuheyH6JB2vESy4b5EqjZW?=
- =?us-ascii?Q?Xau2jnuIWsAL0DnVK79sN6J9JgKwplkynw+s/VzjwcqylloNpYzbr1kYc7W6?=
- =?us-ascii?Q?0ouEwaJzX8ReeQEkaGwM45nxLpGEg4BHt6vC5x3fOYbcdjH36YBjtEauI3HR?=
- =?us-ascii?Q?NN/eRtnomzyJXmNUARMtMB3QZPsb0g3CS2Hoj6eYbO05jFAWKC09NsJfPL3t?=
- =?us-ascii?Q?X7YlyObHPjnN0DmI75ib/Qfv8Yf0NZqltVGW1YapIQV10ba0gYQEXVMCJhXS?=
- =?us-ascii?Q?ETSHKJebjXeYVbrIUjEaY7t37Bn+yCgSwENXjBQlkMHm0wIg8c+gTaxxTOFu?=
- =?us-ascii?Q?BT+TFlQE2yIs0otcP6Wm+GpkOF/XDehcw2JZ7wKWeXUXxJ2i06nRNBzybekl?=
- =?us-ascii?Q?3jjrvDwXs96XMLrJMz3J5phK8SbRrRhlhDPdCeTGJQy1bwWtwzpLgVpQfDGo?=
- =?us-ascii?Q?S5xyw/sB2tlWEKS4cpQAZc7DOre484kNaU+t2gFvS25ee6erS7WmanJCd2/2?=
- =?us-ascii?Q?OGZZ4BZY3zTapSauOWsvvvX05PL6FNZ8dqLKXCYlASnu+1SoEl0Xy7tUOIaq?=
- =?us-ascii?Q?lVKdtp6LSBtfbTtats1q8LobFEtOohsnQl/6YNGJ+evEIoBlzQu5eMG3iKIt?=
- =?us-ascii?Q?j0uvxHa9WMeE3CD4jgP+HtkGzvDPDlgqqAwIL81IRfqFqiIFpwq5pr9ZTGRT?=
- =?us-ascii?Q?eNWEG6ME300YoS1FEKjNySMY+TpB4bpkEvdB2NMetMnQ20FKYBokfFJLNNbb?=
- =?us-ascii?Q?2Q=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?TkjQH8772lg6uEYcyPf6HC2mWL7Cy1VaLNxiTSro/j0YaGb9wKc+nHcVEq3b?=
+ =?us-ascii?Q?csHdlhYTfkzK45vbYQiTUPvb8PRJEjtXl6n8rUWB45YlJAAnjA3Y5MafiqRq?=
+ =?us-ascii?Q?JirSwBkPs6/ujf7zkAKwblEjoDrAgp+gr1w8/bUWzneuyLPWXirIT7Zy3gIQ?=
+ =?us-ascii?Q?AkIrbNxuR0V0nsp9QLWOZxy9ZxlUrDZ8vPxreH0GeY6RMTZRI8sElMJDe4i9?=
+ =?us-ascii?Q?pI7OVhAZOW1ml1j9a3Npz/mA/3qi4GK578MbiW+348Tt+SCzUuuPhzNldDoy?=
+ =?us-ascii?Q?oDrZ+6Kxs0gGg1+NtSHSXf8taByxlxCitqKAM6vgeCvwu6r5M846dm1XWUjR?=
+ =?us-ascii?Q?Zr8Ra1vJgIWD6Kdv6ceRPJuyqQEXC48I7mG1hujxDx0FhzJc3BlHhjcQoMSd?=
+ =?us-ascii?Q?5PPhqD5QuJRVt9FkAykhVc1aCGanWnUHoPCGFMUBfbF93iNYmhMzI3qBDSie?=
+ =?us-ascii?Q?E4FI10OQcXR/fvrNI0xAT31XrKX800VpuVggBCOwwzDT9zu8vemuzxS9qruQ?=
+ =?us-ascii?Q?xNX0MWa/673P4/avzYKOXmNxL8e+mFP/WiwgPgtjQIlxCWfueA0o6/J0TTtN?=
+ =?us-ascii?Q?dohhmGTHbp/o4X9+IoO/GtcTu5L4TJ4+TvLL43KMYqNZ0VonOs1GZX0pTtwc?=
+ =?us-ascii?Q?IkTVB9mixE3pKj3rjQcY/VYevXVbMY7ijeBkK9IJKCpdf1t0iIDYqSgmdfih?=
+ =?us-ascii?Q?2esuHs1rHbjMpCQz9vKiaBTOIPHhujsH/NagcY4C2EJXElcKjjcYEnOYaibE?=
+ =?us-ascii?Q?tVcAVVgDisghFw5EAVXeOxlL7Ery7ftE7FJMNrs5x0jrCSMpz2Pj7lxiP/iN?=
+ =?us-ascii?Q?060XnZONw/aXm4uUpI3yg0Of1EXF70uXvbuE7f457D3IBqX5rcYVnbPOT5jg?=
+ =?us-ascii?Q?cV+Gpyz/XVDlhYAWkveyWUyxoypR1hf52VgIWnxInADYzSzWTuBylebFiU9m?=
+ =?us-ascii?Q?4ZncYYwx6qYRdRyXBH+yb3ZF+yd6cQCWS1YSxn2DpfQTmOMImb/zeFZesFYk?=
+ =?us-ascii?Q?YtOD5mPQvgjW+/ZD8c8EnxbJSMtRGsstxnl+0aUdmcpMp83U9uSk1BWnomml?=
+ =?us-ascii?Q?StJiJ8BG3pEKcDYXFON4iGhPtUrDveTSuq8WacG6u7e5mZiHtJX0fDAiu4lY?=
+ =?us-ascii?Q?eQMkI6hIFsEphIDCqgZr++gfurXoKmj1jB/iLf1enbNH7y3QYJ4wlSUV5lOx?=
+ =?us-ascii?Q?WgG4/dB8ghmAkBsAHFTf2yqzs+uh7R1z8ZHLm3/1hSG6ImHVPDIUO4sU/fOu?=
+ =?us-ascii?Q?23gnZ9oF+dU7uhNLPAtUR0HpJgUbZQaLN/oKcqV4rnsqQj9rqEaPPrUUgtgX?=
+ =?us-ascii?Q?ZwUFjzlKKgToQ3SUEQ/vzyNP8fvODZ7ClJfORpO/1nWDxPLnufnDq5LwxndP?=
+ =?us-ascii?Q?L/o5RWGc78Rg2k7sKVg5qSVFUENbUojkVk7eJygjeBLkQHo/kmGcgKMjG860?=
+ =?us-ascii?Q?zCUx84eNW42WQMQ2i3ll2MFEWgVXQ7uul47Ye+VIUmLsqBu4lFYtrf/e/n18?=
+ =?us-ascii?Q?Hfw+15APSyBM64+4hA2Zr8pPQpHTbVe4RTx1+B/Y2CruUWOd2pR5H/Nz7fBm?=
+ =?us-ascii?Q?R+nSkzwAoEZ/yxIEDyhJ2uEOkRTPZ1HW3mq8+B5IvBe+Da+ocHi1KHIJPHNm?=
+ =?us-ascii?Q?Wg=3D=3D?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: effd1dd9-fd0f-40c5-d1ec-08daa257fad3
+X-MS-Exchange-CrossTenant-Network-Message-Id: 059a4c84-8ba2-4f48-430d-08daa25815eb
 X-MS-Exchange-CrossTenant-AuthSource: CO6PR10MB5409.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Sep 2022 20:19:58.7261 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Sep 2022 20:20:43.9440 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: CtCRR1CmsSlCHeFhQ/MK7QQ+ciW2FgL07Vz1bEcoZhe+QN7dJIdPk+5eDm1G8ywkMGefRtqKJc4XDzThZq0n8VT17dhc8iXNslPHSQndICM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR10MB5779
+X-MS-Exchange-CrossTenant-UserPrincipalName: 9JXm2nSwIoa0Cda4d6VDpyzH+X+xDri5gRBF9Oz+Jyi2f8wJLwJDPwEvoxRFVEzm3CxsEk+TNbtXwQjU+DHLlWbjJyi7Mvy1rxi9vN+z7TI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR10MB6005
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
  definitions=2022-09-29_11,2022-09-29_03,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
- bulkscore=0 phishscore=0
- mlxscore=0 mlxlogscore=999 adultscore=0 spamscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2209130000
- definitions=main-2209290128
-X-Proofpoint-ORIG-GUID: leFE74JVTL-7_7BHeCE_T-sRm69-P-FR
-X-Proofpoint-GUID: leFE74JVTL-7_7BHeCE_T-sRm69-P-FR
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
+ malwarescore=0
+ suspectscore=0 adultscore=0 mlxscore=0 spamscore=0 bulkscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2209130000 definitions=main-2209290128
+X-Proofpoint-ORIG-GUID: jTmFSmFtC6OtFEcAuzF-TV0ccqqaY43O
+X-Proofpoint-GUID: jTmFSmFtC6OtFEcAuzF-TV0ccqqaY43O
 X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
  Definition; Similar Internal Domain=false;
  Similar Monitored External Domain=false; Custom External Domain=false;
@@ -165,7 +164,7 @@ X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
  Internal User Name=false; Custom Display Name List=false;
  Reply-to Address Mismatch=false; Targeted Threat Dictionary=false;
  Mimecast Threat Dictionary=false; Custom Threat Dictionary=false
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
 X-Mailman-Approved-At: Fri, 30 Sep 2022 13:14:22 +0000
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.29
@@ -183,7 +182,7 @@ Cc: konrad.wilk@oracle.com, linux-kernel@vger.kernel.org, eparis@redhat.com,
  boris.ostrovsky@oracle.com
 Errors-To: linux-audit-bounces@redhat.com
 Sender: "Linux-audit" <linux-audit-bounces@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="us-ascii"
@@ -192,132 +191,49 @@ Content-Transfer-Encoding: 7bit
 
 Paul Moore <paul@paul-moore.com> writes:
 
-> On Tue, Sep 27, 2022 at 7:00 PM Ankur Arora <ankur.a.arora@oracle.com> wrote:
+> On Tue, Sep 27, 2022 at 6:59 PM Ankur Arora <ankur.a.arora@oracle.com> wrote:
 >>
->> With sane audit rules, audit logging would only be triggered
->> infrequently. Keeping this in mind, annotate audit_in_mask() as
->> unlikely() to allow the compiler to pessimize the call to
->> audit_filter_rules().
+>> ctx->major contains the current syscall number. This is, of course, a
+>> constant for the duration of the syscall. Unfortunately, GCC's alias
+>> analysis cannot prove that it is not modified via a pointer in the
+>> audit_filter_syscall() loop, and so always loads it from memory.
 >>
->> This allows GCC to invert the branch direction for the audit_filter_rules()
->> basic block in this loop:
->>
->>         list_for_each_entry_rcu(e, &audit_filter_list[AUDIT_FILTER_EXIT], list) {
->>                 if (audit_in_mask(&e->rule, major) &&
->>                     audit_filter_rules(tsk, &e->rule, ctx, NULL,
->>                                        &state, false)) {
->>                         ...
->>
->> such that it executes the common case in a straight line fashion.
->>
->> On a Skylakex system change in getpid() latency (all results
->> aggregated across 12 boot cycles):
->>
->>          Min     Mean    Median   Max      pstdev
->>          (ns)    (ns)    (ns)     (ns)
->>
->>  -    196.63   207.86  206.60  230.98      (+- 3.92%)
->>  +    173.11   182.51  179.65  202.09      (+- 4.34%)
->>
->> Performance counter stats for 'bin/getpid' (3 runs) go from:
->>     cycles               805.58  (  +-  4.11% )
->>     instructions        1654.11  (  +-   .05% )
->>     IPC                    2.06  (  +-  3.39% )
->>     branches             430.02  (  +-   .05% )
->>     branch-misses          1.55  (  +-  7.09% )
->>     L1-dcache-loads      440.01  (  +-   .09% )
->>     L1-dcache-load-misses  9.05  (  +- 74.03% )
->>
->>  to:
->>     cycles               706.13  (  +-  4.13% )
->>     instructions        1654.70  (  +-   .06% )
->>     IPC                    2.35  (  +-  4.25% )
->>     branches             430.99  (  +-   .06% )
->>     branch-misses          0.50  (  +-  2.00% )
->>     L1-dcache-loads      440.02  (  +-   .07% )
->>     L1-dcache-load-misses  5.22  (  +- 82.75% )
->>
->> (Both aggregated over 12 boot cycles.)
->>
->> cycles: performance improves on average by ~100 cycles/call. IPC
->> improves commensurately. Two reasons for this improvement:
->>
->>   * one fewer branch mispred: no obvious reason for this
->>     branch-miss reduction. There is no significant change in
->>     basic-block structure (apart from the branch inversion.)
->>
->>   * the direction of the branch for the call is now inverted, so it
->>     chooses the not-taken direction more often. The issue-latency
->>     for not-taken branches is often cheaper.
+>> ...
 >>
 >> Signed-off-by: Ankur Arora <ankur.a.arora@oracle.com>
 >> ---
->>  kernel/auditsc.c | 15 ++++++++-------
->>  1 file changed, 8 insertions(+), 7 deletions(-)
+>>  kernel/auditsc.c | 3 ++-
+>>  1 file changed, 2 insertions(+), 1 deletion(-)
 >
-> I generally dislike merging likely()/unlikely() additions to code
-> paths that can have varying levels of performance depending on runtime
-> configuration.
+> This looks pretty trivial to me, but it's too late in the current -rc
+> cycle for this to be merged, I'll queue it up for after the upcoming
+> merge window closes.  Thanks.
 
-I think that's fair, and in this particular case the benchmark is quite
-contrived.
+Thanks.
 
-But, just to elaborate a bit more on why that unlikely() clause made
-sense to me: it seems to me that audit typically would be triggered for
-control syscalls and the ratio between control and non-control ones
-would be fairly lopsided.
-
-Let me see if I can rewrite the conditional in a different way to get a
-similar effect but I suspect that might be even more compiler dependent.
-
-Also, let me run the audit-testsuite this time. Is there a good test
-there that you would recommend that might serve as a more representative
-workload?
-
-
-Thanks
 Ankur
-
-> While I appreciate the work you are doing to improve
-> audit performance, I don't think this is something I want to merge,
-> I'm sorry.
-
-
 
 >
 >> diff --git a/kernel/auditsc.c b/kernel/auditsc.c
->> index 533b087c3c02..bf26f47b5226 100644
+>> index 79a5da1bc5bb..533b087c3c02 100644
 >> --- a/kernel/auditsc.c
 >> +++ b/kernel/auditsc.c
->> @@ -789,7 +789,7 @@ static enum audit_state audit_filter_task(struct task_struct *tsk, char **key)
->>         return AUDIT_STATE_BUILD;
->>  }
->>
->> -static int audit_in_mask(const struct audit_krule *rule, unsigned long val)
->> +static bool audit_in_mask(const struct audit_krule *rule, unsigned long val)
+>> @@ -843,13 +843,14 @@ static void audit_filter_syscall(struct task_struct *tsk,
 >>  {
->>         int word, bit;
+>>         struct audit_entry *e;
+>>         enum audit_state state;
+>> +       unsigned long major = ctx->major;
 >>
->> @@ -850,12 +850,13 @@ static void audit_filter_syscall(struct task_struct *tsk,
+>>         if (auditd_test_task(tsk))
+>>                 return;
 >>
 >>         rcu_read_lock();
 >>         list_for_each_entry_rcu(e, &audit_filter_list[AUDIT_FILTER_EXIT], list) {
->> -               if (audit_in_mask(&e->rule, major) &&
->> -                   audit_filter_rules(tsk, &e->rule, ctx, NULL,
->> -                                      &state, false)) {
->> -                       rcu_read_unlock();
->> -                       ctx->current_state = state;
->> -                       return;
->> +               if (unlikely(audit_in_mask(&e->rule, major))) {
->> +                       if (audit_filter_rules(tsk, &e->rule, ctx, NULL,
->> +                                              &state, false)) {
->> +                               rcu_read_unlock();
->> +                               ctx->current_state = state;
->> +                               return;
->> +                       }
->>                 }
->>         }
->>         rcu_read_unlock();
+>> -               if (audit_in_mask(&e->rule, ctx->major) &&
+>> +               if (audit_in_mask(&e->rule, major) &&
+>>                     audit_filter_rules(tsk, &e->rule, ctx, NULL,
+>>                                        &state, false)) {
+>>                         rcu_read_unlock();
 >> --
 >> 2.31.1
 
