@@ -2,92 +2,85 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D93C5F11CE
-	for <lists+linux-audit@lfdr.de>; Fri, 30 Sep 2022 20:48:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4ABC95F3639
+	for <lists+linux-audit@lfdr.de>; Mon,  3 Oct 2022 21:20:27 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1664563708;
+	s=mimecast20190719; t=1664824826;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:list-id:list-help:
+	 content-transfer-encoding:content-transfer-encoding:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=ImdtaAWpqq1vFmzd7lyBWK2Itc2lCO2Ul85h3tNG1nU=;
-	b=Uem1GGOJzP1GAR5XSoiKm8W2F/QvCDR0vVGpmEbDNKqcTFV/uXNAzEgAcgQzyISiGenWPY
-	Eh0Mgp/YBtccGKKUm26j26GdYOpGSEB4F2/ZGGn3QMErFoK6N0izCGK4jvjCCRmbn7uQQa
-	+I/C9T4MjurKnukul3ALAO6r4kT9E+Q=
+	bh=H19RqHOWTMhSle91JX92YykSW4iUMX3UXixKMi0W4v4=;
+	b=cjIjDKxfTjIC7CEr6QWOGiAWkvzy/FJ2EBvSQnmLxSqGro4fV81oWowrXS4isTN6lBpYDE
+	KpYScU9xV5FAZQLoDb+dWM6+pRy0qOT2GpiabHMe/3Z7UUigxiDI4hfc2Jf097rde7YxF9
+	qL5cag2TBuFf93aZOtzdpSHNR26qIrs=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-304-s79jRhduMzGZg5QXOB3JuQ-1; Fri, 30 Sep 2022 14:48:24 -0400
-X-MC-Unique: s79jRhduMzGZg5QXOB3JuQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
+ us-mta-662-XsbgGDGcNSyKnpKcP6KQhg-1; Mon, 03 Oct 2022 15:20:23 -0400
+X-MC-Unique: XsbgGDGcNSyKnpKcP6KQhg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 157F1862FDC;
-	Fri, 30 Sep 2022 18:48:23 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0CC5F86EB22;
+	Mon,  3 Oct 2022 19:20:21 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (unknown [10.30.29.100])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 31651140EBF3;
-	Fri, 30 Sep 2022 18:48:21 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 356A62027061;
+	Mon,  3 Oct 2022 19:20:13 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (localhost [IPv6:::1])
-	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id ACD031946A70;
-	Fri, 30 Sep 2022 18:48:20 +0000 (UTC)
+	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id 596031946A46;
+	Mon,  3 Oct 2022 19:20:12 +0000 (UTC)
 X-Original-To: linux-audit@listman.corp.redhat.com
 Delivered-To: linux-audit@listman.corp.redhat.com
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
  by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with
- ESMTP id 60C6F1946A52 for <linux-audit@listman.corp.redhat.com>;
- Fri, 30 Sep 2022 18:48:19 +0000 (UTC)
+ ESMTP id EBF0B1946588 for <linux-audit@listman.corp.redhat.com>;
+ Mon,  3 Oct 2022 19:20:10 +0000 (UTC)
 Received: by smtp.corp.redhat.com (Postfix)
- id 434CB492B06; Fri, 30 Sep 2022 18:48:19 +0000 (UTC)
+ id 9AD3F2027062; Mon,  3 Oct 2022 19:20:10 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
- (mimecast05.extmail.prod.ext.rdu2.redhat.com [10.11.55.21])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3B9BC492B04
- for <linux-audit@redhat.com>; Fri, 30 Sep 2022 18:48:19 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [207.211.31.120])
+ (mimecast08.extmail.prod.ext.rdu2.redhat.com [10.11.55.24])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 938792027061
+ for <linux-audit@redhat.com>; Mon,  3 Oct 2022 19:20:10 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [205.139.110.61])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1ED93862FDF
- for <linux-audit@redhat.com>; Fri, 30 Sep 2022 18:48:19 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6F68338173C0
+ for <linux-audit@redhat.com>; Mon,  3 Oct 2022 19:20:10 +0000 (UTC)
 Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com
  [209.85.160.44]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-427-z9YXIP6bOIuEHCBgfb4q3Q-1; Fri, 30 Sep 2022 14:48:17 -0400
-X-MC-Unique: z9YXIP6bOIuEHCBgfb4q3Q-1
+ us-mta-498-7Y-jrsUROhmran8_ARs8IA-1; Mon, 03 Oct 2022 15:20:08 -0400
+X-MC-Unique: 7Y-jrsUROhmran8_ARs8IA-1
 Received: by mail-oa1-f44.google.com with SMTP id
- 586e51a60fabf-131b7bb5077so6471621fac.2
- for <linux-audit@redhat.com>; Fri, 30 Sep 2022 11:48:17 -0700 (PDT)
+ 586e51a60fabf-1322fa1cf6fso6830697fac.6
+ for <linux-audit@redhat.com>; Mon, 03 Oct 2022 12:20:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=apLaD9dZYgcCgeaaq4NLy24NMK1+qDu2uk9Le0m4zZY=;
- b=u7rQXILlSObB2EK402WJdCl6cFLX3kLz+s3PJl/icpxQw4R8zrQcXXvkrZwed1NuVt
- B0PflQGXnh2i3vRYAB3OGsac5D+0E95nFzEJmvFgd9hBIj9qPLSiUZZLw+Uha/40/Zbq
- 3F/ukcJruVcrTYztQVvFRkvYdtn1ytbnR/nWdDsOGHzKuiU8AMjtOGvndAk1Cu2QT1pS
- xCFr32hd83xNIUkKo0+UaJAaUTJryCKjiP8xooBfwk9rYFijomf+cyAG18BbvZNraG9f
- SrC628lPIX+TsG0hPrcSRJGkX8zH13t4aemlgLrxt4erZl3KfFWZvYOLkj5t+6oVN3pF
- aX9w==
-X-Gm-Message-State: ACrzQf2czXO5HLcXdihPOVUPqtRzx1R9pachIr2SChsniPthkwhXhV7y
- 0vTXndMxg5Lu4HDRPjc/+WPS3zSsQ7Ej+73ZAE8n
-X-Google-Smtp-Source: AMsMyM437R9944hWYrWRP0SUIqACrElC+aRZcBMuuRBVk4RU5RAUNRM5fOXvl7AX8ljmk+WGeGTrT809DCwPGiIS2kQ=
-X-Received: by 2002:a05:6870:a916:b0:131:9361:116a with SMTP id
- eq22-20020a056870a91600b001319361116amr5603254oab.172.1664563695865; Fri, 30
- Sep 2022 11:48:15 -0700 (PDT)
+ h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date;
+ bh=9K17YJn6Np23zeiW/E3dhUfsLZOcCAtvJyQ15VB5VuE=;
+ b=Dt4tSRZopivoQBbpwvEWvWKzUSiVB5yGUxBLlQW2QLbHQot2ssPOKWMitZpXtrJXLg
+ uRuFFSCCxeIZpAClH2LtkMw5lwkdpYgFGNMq4Lk3c7oDJ9dNC2xnRYeLNgJSPeChZ9T6
+ 5RY3OHUhHG2OlTwUD7C6I2LJW6Wa48/R0dhq3q2qr4i3qgH1ugoFpjVlIbzhFGmw0q8l
+ 74Vbz6KPWHlIijveesKhkPhdrqgl8CK4xuGUx/m3dLg/gM6iCtDbmAZWJBMO4b/ehHMV
+ UZzBVW7Ly+zObE2QvTwcf1zF0MgCokYnBqE3r6HsrMEEQk+7ImqqA2Rf8LiB04aQx0jQ
+ LyHA==
+X-Gm-Message-State: ACrzQf0wdl0uHEwYPuIOtqASHTMmNj3DOUx5FLEVoLTMqvhIiyEPD96W
+ +YHc3fPriAiV6ej8FZY15cppM0tRtLf/1XfjlDoM
+X-Google-Smtp-Source: AMsMyM5il5LIfc7Y0PRw8xuRwkVSi6pALIg74xVZJMMxNW8V7EM3YRfgsCHOX+04tJIuGcZqNH4Wa4k2sFjfDSaV62Q=
+X-Received: by 2002:a05:6870:41cb:b0:131:9656:cc30 with SMTP id
+ z11-20020a05687041cb00b001319656cc30mr6146840oac.51.1664824807712; Mon, 03
+ Oct 2022 12:20:07 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220927225944.2254360-1-ankur.a.arora@oracle.com>
- <20220927225944.2254360-3-ankur.a.arora@oracle.com>
- <CAHC9VhRBuBiuf6917fpP7n+Sy5fFTpzzEqRXfMGPCbnNU4jswg@mail.gmail.com>
- <8735cagcgi.fsf@oracle.com>
-In-Reply-To: <8735cagcgi.fsf@oracle.com>
 From: Paul Moore <paul@paul-moore.com>
-Date: Fri, 30 Sep 2022 14:48:04 -0400
-Message-ID: <CAHC9VhTQ8HR4ZF1VNCwuFabTUU+Y+ooeDuSwNTozuWMo4RbgSw@mail.gmail.com>
-Subject: Re: [PATCH 2/3] audit: annotate branch direction for audit_in_mask()
-To: Ankur Arora <ankur.a.arora@oracle.com>
+Date: Mon, 3 Oct 2022 15:19:57 -0400
+Message-ID: <CAHC9VhTEHLd-PVLArOH20UGaB21JJzz5nT54VFegF23631QSxA@mail.gmail.com>
+Subject: [GIT PULL] Audit patches for v6.1
+To: Linus Torvalds <torvalds@linux-foundation.org>
 X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
  Definition; Similar Internal Domain=false;
  Similar Monitored External Domain=false; Custom External Domain=false;
@@ -95,7 +88,7 @@ X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
  Internal User Name=false; Custom Display Name List=false;
  Reply-to Address Mismatch=false; Targeted Threat Dictionary=false;
  Mimecast Threat Dictionary=false; Custom Threat Dictionary=false
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,52 +100,74 @@ List-Post: <mailto:linux-audit@redhat.com>
 List-Help: <mailto:linux-audit-request@redhat.com?subject=help>
 List-Subscribe: <https://listman.redhat.com/mailman/listinfo/linux-audit>,
  <mailto:linux-audit-request@redhat.com?subject=subscribe>
-Cc: boris.ostrovsky@oracle.com, linux-audit@redhat.com,
- linux-kernel@vger.kernel.org, eparis@redhat.com, konrad.wilk@oracle.com
+Cc: linux-audit@redhat.com, linux-kernel@vger.kernel.org
 Errors-To: linux-audit-bounces@redhat.com
 Sender: "Linux-audit" <linux-audit-bounces@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-On Thu, Sep 29, 2022 at 4:20 PM Ankur Arora <ankur.a.arora@oracle.com> wrote:
-> Paul Moore <paul@paul-moore.com> writes:
-> > I generally dislike merging likely()/unlikely() additions to code
-> > paths that can have varying levels of performance depending on runtime
-> > configuration.
->
-> I think that's fair, and in this particular case the benchmark is quite
-> contrived.
->
-> But, just to elaborate a bit more on why that unlikely() clause made
-> sense to me: it seems to me that audit typically would be triggered for
-> control syscalls and the ratio between control and non-control ones
-> would be fairly lopsided.
+Hi Linus,
 
-I understand, and there is definitely some precedence in the audit
-code for using likely()/unlikely() in a manner similar as you
-described, but I'll refer to my previous comments - it's not something
-I like.  As a general rule, aside from the unlikely() calls in the
-audit wrappers present in include/linux/audit.h I would suggest not
-adding any new likely()/unlikely() calls.
+Six audit patches for v6.1, most are pretty trivial, but a quick list
+of the highlights are below:
 
-> Let me see if I can rewrite the conditional in a different way to get a
-> similar effect but I suspect that might be even more compiler dependent.
+* Only free the audit proctitle information on task exit.  This allows
+us to cache the information and improve performance slightly.
 
-I am okay with ordering conditionals to make the common case the
-short-circuit case.
+* Use the time_after() macro to do time comparisons instead of doing
+it directly and potentially causing ourselves problems when the timer
+wraps.
 
-> Also, let me run the audit-testsuite this time. Is there a good test
-> there that you would recommend that might serve as a more representative
-> workload?
+* Convert an audit_context state comparison from a relative enum
+comparison, e.g. (x < y), to a not-equal comparison to ensure that we
+are not caught out at some unknown point in the future by an enum
+shuffle.
 
-Probably not.  The audit-testsuite is intended to be a quick, easy to
-run regression test that can be used by developers to help reduce
-audit breakage.  It is not representative of any particular workload,
-and is definitely not comprehensive (it is woefully lacking in several
-areas unfortunately).
+* A handful of small cleanups such as tidying up comments and removing
+unused declarations.
+
+-Paul
+
+--
+The following changes since commit 568035b01cfb107af8d2e4bd2fb9aea22cf5b868:
+
+ Linux 6.0-rc1 (2022-08-14 15:50:18 -0700)
+
+are available in the Git repository at:
+
+ git://git.kernel.org/pub/scm/linux/kernel/git/pcmoore/audit.git
+   tags/audit-pr-20221003
+
+for you to fetch changes up to 934f70d9d498a7fffd611edf48356698f1d72e91:
+
+ audit: remove selinux_audit_rule_update() declaration
+   (2022-09-07 11:30:15 -0400)
+
+----------------------------------------------------------------
+audit/stable-6.1 PR 20221003
+
+----------------------------------------------------------------
+Jilin Yuan (1):
+     audit: fix repeated words in comments
+
+Richard Guy Briggs (3):
+     audit: audit_context pid unused, context enum comment fix
+     audit: explicitly check audit_context->context enum value
+     audit: free audit_proctitle only on task exit
+
+Xiu Jianfeng (1):
+     audit: remove selinux_audit_rule_update() declaration
+
+wuchi (1):
+     audit: use time_after to compare time
+
+kernel/audit.c   |  8 +++-----
+kernel/audit.h   |  4 +---
+kernel/auditsc.c | 10 +++++-----
+3 files changed, 9 insertions(+), 13 deletions(-)
 
 -- 
 paul-moore.com
