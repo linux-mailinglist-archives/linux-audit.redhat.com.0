@@ -1,8 +1,8 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A7CC5FD2F1
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 844095FD2F0
 	for <lists+linux-audit@lfdr.de>; Thu, 13 Oct 2022 03:48:55 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
 	s=mimecast20190719; t=1665625734;
@@ -12,68 +12,68 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=hhsiyJoTdvwRCkbF31yVfUww/P+jCOSujNNCpoa2954=;
-	b=OGUbsQ9IFHeX2HO6k+tVuNza046DTHvD28lNnfjx1Z+tVSBLBo5Uo1Bh0GkhxLHfoWeglU
-	cDREjmiY2uab4LzeCABkqtSmKir61Ik2arUBF1IZ1RGeXjjILb2bBbDsUNWGpKD9OIPbSk
-	GqzpoP+/3x1hWnTlEs0mjQeprtAER0I=
+	bh=we962S9H7MqfZdUKUa1lMxIH7jja6ep+myAS1ES6cxo=;
+	b=ayE+uCrW1kWOYZJZvQnWed6kjfbB2ToIopw9OSqUBHUeOsf0I/2H4O4mL2GasX+dNtluaZ
+	9PMcSnKBPfeKEGiPBegr5wQ+h1XPMC5SmRAF4B+qb68kzjJS1HNxI8CpxmxZuPR2JDy+zy
+	cMQaSm5SufcpF97RijBYpRqZReZhaBk=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-10-9AzGQSKOOeC3vSRmbQbVXg-1; Wed, 12 Oct 2022 21:48:51 -0400
-X-MC-Unique: 9AzGQSKOOeC3vSRmbQbVXg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
+ us-mta-47-A7vL50krMWKtWtMPf_eosw-1; Wed, 12 Oct 2022 21:48:53 -0400
+X-MC-Unique: A7vL50krMWKtWtMPf_eosw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A30273C1105A;
-	Thu, 13 Oct 2022 01:48:05 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A07B03C11058;
+	Thu, 13 Oct 2022 01:48:04 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (unknown [10.30.29.100])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 6894F40398B1;
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 02F4AC16922;
 	Thu, 13 Oct 2022 01:47:52 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (localhost [IPv6:::1])
-	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id CAC631946A48;
-	Thu, 13 Oct 2022 01:47:51 +0000 (UTC)
+	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id E552B19465B6;
+	Thu, 13 Oct 2022 01:47:50 +0000 (UTC)
 X-Original-To: linux-audit@listman.corp.redhat.com
 Delivered-To: linux-audit@listman.corp.redhat.com
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
  by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with
- ESMTP id 4507E1946588 for <linux-audit@listman.corp.redhat.com>;
- Wed, 12 Oct 2022 21:17:00 +0000 (UTC)
+ ESMTP id 822371946588 for <linux-audit@listman.corp.redhat.com>;
+ Wed, 12 Oct 2022 21:18:02 +0000 (UTC)
 Received: by smtp.corp.redhat.com (Postfix)
- id 1A39F492B0A; Wed, 12 Oct 2022 21:17:00 +0000 (UTC)
+ id 583E5111CA02; Wed, 12 Oct 2022 21:18:02 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
- (mimecast02.extmail.prod.ext.rdu2.redhat.com [10.11.55.18])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 12B5A492B05
- for <linux-audit@redhat.com>; Wed, 12 Oct 2022 21:17:00 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [205.139.110.61])
+ (mimecast09.extmail.prod.ext.rdu2.redhat.com [10.11.55.25])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 50FAA1121320
+ for <linux-audit@redhat.com>; Wed, 12 Oct 2022 21:18:02 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [205.139.110.61])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E827B8027EC
- for <linux-audit@redhat.com>; Wed, 12 Oct 2022 21:16:59 +0000 (UTC)
-Received: from smtp-190f.mail.infomaniak.ch (smtp-190f.mail.infomaniak.ch
- [185.125.25.15]) by relay.mimecast.com with ESMTP with STARTTLS
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2E50D299E75E
+ for <linux-audit@redhat.com>; Wed, 12 Oct 2022 21:18:02 +0000 (UTC)
+Received: from smtp-8fa9.mail.infomaniak.ch (smtp-8fa9.mail.infomaniak.ch
+ [83.166.143.169]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-144--A8jf-3EPt2NlseUdqPXLg-1; Wed, 12 Oct 2022 17:16:58 -0400
-X-MC-Unique: -A8jf-3EPt2NlseUdqPXLg-1
-Received: from smtp-2-0000.mail.infomaniak.ch (unknown [10.5.36.107])
- by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4MnlpH3CZNzMqV3s;
- Wed, 12 Oct 2022 23:16:55 +0200 (CEST)
+ us-mta-404-TuVlo8XzPIyUV_t3XWXnyQ-1; Wed, 12 Oct 2022 17:18:00 -0400
+X-MC-Unique: TuVlo8XzPIyUV_t3XWXnyQ-1
+Received: from smtp-2-0001.mail.infomaniak.ch (unknown [10.5.36.108])
+ by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4MnlqT4PtTzMqV3n;
+ Wed, 12 Oct 2022 23:17:57 +0200 (CEST)
 Received: from ns3096276.ip-94-23-54.eu (unknown [23.97.221.149])
- by smtp-2-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4MnlpG31zlzMpnPt;
- Wed, 12 Oct 2022 23:16:54 +0200 (CEST)
-Message-ID: <81627924-7ec6-6fed-5ee9-5473bad41bf5@digikod.net>
-Date: Wed, 12 Oct 2022 23:16:53 +0200
+ by smtp-2-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4MnlqS5WmQzMppql;
+ Wed, 12 Oct 2022 23:17:56 +0200 (CEST)
+Message-ID: <c9d98857-1ea4-fd55-53fb-0669223830ec@digikod.net>
+Date: Wed, 12 Oct 2022 23:17:56 +0200
 MIME-Version: 1.0
 User-Agent: 
-Subject: Re: [PATCH v38 06/39] LSM: lsm_self_attr syscall for LSM self
- attributes
+Subject: Re: [PATCH v38 08/39] LSM: Infrastructure management of the sock
+ security
 To: Casey Schaufler <casey@schaufler-ca.com>, casey.schaufler@intel.com,
  paul@paul-moore.com, linux-security-module@vger.kernel.org
 References: <20220927195421.14713-1-casey@schaufler-ca.com>
- <20220927195421.14713-7-casey@schaufler-ca.com>
+ <20220927195421.14713-9-casey@schaufler-ca.com>
 From: =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
-In-Reply-To: <20220927195421.14713-7-casey@schaufler-ca.com>
+In-Reply-To: <20220927195421.14713-9-casey@schaufler-ca.com>
 X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
  Definition; Similar Internal Domain=false;
  Similar Monitored External Domain=false; Custom External Domain=false;
@@ -81,7 +81,7 @@ X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
  Internal User Name=false; Custom Display Name List=false;
  Reply-to Address Mismatch=false; Targeted Threat Dictionary=false;
  Mimecast Threat Dictionary=false; Custom Threat Dictionary=false
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
 X-Mailman-Approved-At: Thu, 13 Oct 2022 01:47:49 +0000
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.29
@@ -94,221 +94,254 @@ List-Post: <mailto:linux-audit@redhat.com>
 List-Help: <mailto:linux-audit-request@redhat.com?subject=help>
 List-Subscribe: <https://listman.redhat.com/mailman/listinfo/linux-audit>,
  <mailto:linux-audit-request@redhat.com?subject=subscribe>
-Cc: john.johansen@canonical.com, Arnd Bergmann <arnd@arndb.de>,
- selinux@vger.kernel.org, linux-api@vger.kernel.org, jmorris@namei.org,
+Cc: john.johansen@canonical.com, selinux@vger.kernel.org, jmorris@namei.org,
  linux-kernel@vger.kernel.org, linux-audit@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
 Sender: "Linux-audit" <linux-audit-bounces@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 
-QXQgbGVhc3QgbGludXgtYXBpQHZnZXIua2VybmVsLm9yZyBzaG91bGQgYmUgaW4gQ2MgZm9yIG5l
-dyBzeXNjYWxscy4KCllvdSBuZWVkIGEgZGVkaWNhdGVkIHBhdGNoIHRvIHdpcmUgdGhpcyBzeXNj
-YWxsIHdpdGggYWxsIGFyY2hpdGVjdHVyZXMuIApJdCB3aWxsIGhlbHAgYSBsb3QgZGVhbGluZyB3
-aXRoIG1lcmdlIGNvbmZsaWN0cyBiZWNhdXNlIG9mIG90aGVyIG5ldyAKc3lzY2FsbHMuIFlvdSBj
-YW4gdGFrZSBhIGxvb2sgYXQgdGhlIExhbmRsb2NrIHN5c2NhbGwgaW1wbGVtZW50YXRpb25zOiAK
-aHR0cHM6Ly9naXQua2VybmVsLm9yZy9jL3RvcnZhbGRzL2E0OWY0ZjgxY2I0ODkyNWU4ZDdjYmQ5
-ZTU5MDY4ZjUxNmU5ODQxNDQKCkFib3V0IHRoZSBuYW1lLCBJJ2Qgc3VnZ2VzdCB1c2luZyBhIHZl
-cmIsIHNvbWV0aGluZyBsaWtlIGxzbV9nZXRfc2VsZl9hdHRyLgoKCk9uIDI3LzA5LzIwMjIgMjE6
-NTMsIENhc2V5IFNjaGF1ZmxlciB3cm90ZToKPiBDcmVhdGUgYSBzeXN0ZW0gY2FsbCBsc21fc2Vs
-Zl9hdHRyKCkgdG8gcHJvdmlkZSB0aGUgc2VjdXJpdHkKPiBtb2R1bGUgbWFpbnRhaW5lZCBhdHRy
-aWJ1dGVzIG9mIHRoZSBjdXJyZW50IHByb2Nlc3MuIEhpc3RvcmljYWxseQo+IHRoZXNlIGF0dHJp
-YnV0ZXMgaGF2ZSBiZWVuIGV4cG9zZWQgdG8gdXNlciBzcGFjZSB2aWEgZW50cmllcyBpbgo+IHBy
-b2NmcyB1bmRlciAvcHJvYy9zZWxmL2F0dHIuCgpJIHRoaW5rIHRoaXMgcGFyYWdyYXBoIGlzIG5v
-dCBlbm91Z2ggdG8ganVzdGlmeSBhIG5ldyBzeXNjYWxsLiBXZSBzaG91bGQgCmhpZ2hsaWdodCB3
-aGF0IGlzIG5vdCBwb3NzaWJsZSAob3IgZGlmZmljdWx0KSB0byBkbyB3aXRoIHRoZSBmaWxlc3lz
-dGVtOiAKZS5nLgotIHVzYWJsZSBpbiBhIHNhbmRib3ggd2hpY2ggbWF5IG5vdCBoYXZlIGFjY2Vz
-cyB0byB0aGUgZmlsZXN5c3RlbSAoYnV0IAppcyB0aGF0IGEgZ29vZCB0aGluZyBoZXJlPyk7Ci0g
-Y2xlYXJseSBkZWZpbmVkIEFCSS9mb3JtYXQ7Ci0g4oCmPwoKV2hhdCBpcyB0aGUgZ29hbCBvZiB0
-aGlzIHN5c2NhbGw/IEhvdyB3aWxsIGl0IGJlIHVzZWQ/IEJ5IHdobz8KCgo+IAo+IEF0dHJpYnV0
-ZXMgYXJlIHByb3ZpZGVkIGFzIGEgY29sbGVjdGlvbiBvZiBsc21fY3R4IHN0cnVjdHVyZXMKPiB3
-aGljaCBhcmUgcGxhY2VkIGludG8gYSB1c2VyIHN1cHBsaWVkIGJ1ZmZlci4gRWFjaCBzdHJ1Y3R1
-cmUKPiBpZGVudGlmeXMgdGhlIHNlY3VyaXR5IG1vZHVsZSBwcm92aWRpbmcgdGhlIGF0dHJpYnV0
-ZSwgd2hpY2gKCiJpZGVudGlmaWVzIgoKCj4gb2YgdGhlIHBvc3NpYmxlIGF0dHJpYnV0ZXMgaXMg
-cHJvdmlkZWQsIHRoZSBzaXplIG9mIHRoZQo+IGF0dHJpYnV0ZSwgYW5kIGZpbmFsbHkgdGhlIGF0
-dHJpYnV0ZSB2YWx1ZS4gVGhlIGZvcm1hdCBvZiB0aGUKPiBhdHRyaWJ1dGUgdmFsdWUgaXMgZGVm
-aW5lZCBieSB0aGUgc2VjdXJpdHkgbW9kdWxlLCBidXQgd2lsbAo+IGFsd2F5cyBiZSBcMCB0ZXJt
-aW5hdGVkLiBUaGUgY3R4X2xlbiB2YWx1ZSB3aWxsIGJlIGxhcmdlciB0aGFuCj4gc3RybGVuKGN0
-eCkuCj4gCj4gCS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQo+IAl8IHVuc2lnbmVkIGlu
-dCBpZCAgICAgICAgICAgIHwKPiAJLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCj4gCXwg
-dW5zaWduZWQgaW50IGZsYWdzICAgICAgICAgfAo+IAktLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0KPiAJfCBfX2tlcm5lbF9zaXplX3QgY3R4X2xlbiAgICB8Cj4gCS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLQo+IAl8IHVuc2lnbmVkIGNoYXIgY3R4W2N0eF9sZW5dIHwKPiAJLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCj4gCXwgdW5zaWduZWQgaW50IGlkICAgICAgICAg
-ICAgfAo+IAktLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KPiAJfCB1bnNpZ25lZCBpbnQg
-ZmxhZ3MgICAgICAgICB8Cj4gCS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQo+IAl8IF9f
-a2VybmVsX3NpemVfdCBjdHhfbGVuICAgIHwKPiAJLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tCj4gCXwgdW5zaWduZWQgY2hhciBjdHhbY3R4X2xlbl0gfAo+IAktLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0KPiAKPiBTaWduZWQtb2ZmLWJ5OiBDYXNleSBTY2hhdWZsZXIgPGNhc2V5
-QHNjaGF1Zmxlci1jYS5jb20+Cj4gLS0tCj4gICBhcmNoL3g4Ni9lbnRyeS9zeXNjYWxscy9zeXNj
-YWxsXzY0LnRibCB8ICAgMSArCj4gICBpbmNsdWRlL2xpbnV4L3N5c2NhbGxzLmggICAgICAgICAg
-ICAgICB8ICAgMSArCj4gICBpbmNsdWRlL3VhcGkvYXNtLWdlbmVyaWMvdW5pc3RkLmggICAgICB8
-ICAgNSArLQo+ICAgaW5jbHVkZS91YXBpL2xpbnV4L2xzbS5oICAgICAgICAgICAgICAgfCAgMjEg
-KysrKwo+ICAga2VybmVsL3N5c19uaS5jICAgICAgICAgICAgICAgICAgICAgICAgfCAgIDMgKwo+
-ICAgc2VjdXJpdHkvTWFrZWZpbGUgICAgICAgICAgICAgICAgICAgICAgfCAgIDEgKwo+ICAgc2Vj
-dXJpdHkvbHNtX3N5c2NhbGxzLmMgICAgICAgICAgICAgICAgfCAxNTYgKysrKysrKysrKysrKysr
-KysrKysrKysrKwo+ICAgNyBmaWxlcyBjaGFuZ2VkLCAxODcgaW5zZXJ0aW9ucygrKSwgMSBkZWxl
-dGlvbigtKQo+ICAgY3JlYXRlIG1vZGUgMTAwNjQ0IHNlY3VyaXR5L2xzbV9zeXNjYWxscy5jCj4g
-Cj4gZGlmZiAtLWdpdCBhL2FyY2gveDg2L2VudHJ5L3N5c2NhbGxzL3N5c2NhbGxfNjQudGJsIGIv
-YXJjaC94ODYvZW50cnkvc3lzY2FsbHMvc3lzY2FsbF82NC50YmwKPiBpbmRleCBjODRkMTI2MDhj
-ZDIuLjU2ZDVjNTIwMmZkMCAxMDA2NDQKPiAtLS0gYS9hcmNoL3g4Ni9lbnRyeS9zeXNjYWxscy9z
-eXNjYWxsXzY0LnRibAo+ICsrKyBiL2FyY2gveDg2L2VudHJ5L3N5c2NhbGxzL3N5c2NhbGxfNjQu
-dGJsCj4gQEAgLTM3Miw2ICszNzIsNyBAQAo+ICAgNDQ4CWNvbW1vbglwcm9jZXNzX21yZWxlYXNl
-CXN5c19wcm9jZXNzX21yZWxlYXNlCj4gICA0NDkJY29tbW9uCWZ1dGV4X3dhaXR2CQlzeXNfZnV0
-ZXhfd2FpdHYKPiAgIDQ1MAljb21tb24Jc2V0X21lbXBvbGljeV9ob21lX25vZGUJc3lzX3NldF9t
-ZW1wb2xpY3lfaG9tZV9ub2RlCj4gKzQ1MQljb21tb24JbHNtX3NlbGZfYXR0cgkJc3lzX2xzbV9z
-ZWxmX2F0dHIKPiAgIAo+ICAgIwo+ICAgIyBEdWUgdG8gYSBoaXN0b3JpY2FsIGRlc2lnbiBlcnJv
-ciwgY2VydGFpbiBzeXNjYWxscyBhcmUgbnVtYmVyZWQgZGlmZmVyZW50bHkKPiBkaWZmIC0tZ2l0
-IGEvaW5jbHVkZS9saW51eC9zeXNjYWxscy5oIGIvaW5jbHVkZS9saW51eC9zeXNjYWxscy5oCj4g
-aW5kZXggYTM0YjBmOWE5OTcyLi43Zjg3ZWY4YmU1NDYgMTAwNjQ0Cj4gLS0tIGEvaW5jbHVkZS9s
-aW51eC9zeXNjYWxscy5oCj4gKysrIGIvaW5jbHVkZS9saW51eC9zeXNjYWxscy5oCj4gQEAgLTEw
-NTYsNiArMTA1Niw3IEBAIGFzbWxpbmthZ2UgbG9uZyBzeXNfbWVtZmRfc2VjcmV0KHVuc2lnbmVk
-IGludCBmbGFncyk7Cj4gICBhc21saW5rYWdlIGxvbmcgc3lzX3NldF9tZW1wb2xpY3lfaG9tZV9u
-b2RlKHVuc2lnbmVkIGxvbmcgc3RhcnQsIHVuc2lnbmVkIGxvbmcgbGVuLAo+ICAgCQkJCQkgICAg
-dW5zaWduZWQgbG9uZyBob21lX25vZGUsCj4gICAJCQkJCSAgICB1bnNpZ25lZCBsb25nIGZsYWdz
-KTsKPiArYXNtbGlua2FnZSBsb25nIHN5c19sc21fc2VsZl9hdHRyKHN0cnVjdCBsc21fY3R4ICpj
-dHgsIHNpemVfdCAqc2l6ZSwgaW50IGZsYWdzKTsKPiAgIAo+ICAgLyoKPiAgICAqIEFyY2hpdGVj
-dHVyZS1zcGVjaWZpYyBzeXN0ZW0gY2FsbHMKPiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS91YXBpL2Fz
-bS1nZW5lcmljL3VuaXN0ZC5oIGIvaW5jbHVkZS91YXBpL2FzbS1nZW5lcmljL3VuaXN0ZC5oCj4g
-aW5kZXggNDVmYTE4MGNjNTZhLi5hYTY2NzE4ZTFiNDggMTAwNjQ0Cj4gLS0tIGEvaW5jbHVkZS91
-YXBpL2FzbS1nZW5lcmljL3VuaXN0ZC5oCj4gKysrIGIvaW5jbHVkZS91YXBpL2FzbS1nZW5lcmlj
-L3VuaXN0ZC5oCj4gQEAgLTg4Niw4ICs4ODYsMTEgQEAgX19TWVNDQUxMKF9fTlJfZnV0ZXhfd2Fp
-dHYsIHN5c19mdXRleF93YWl0dikKPiAgICNkZWZpbmUgX19OUl9zZXRfbWVtcG9saWN5X2hvbWVf
-bm9kZSA0NTAKPiAgIF9fU1lTQ0FMTChfX05SX3NldF9tZW1wb2xpY3lfaG9tZV9ub2RlLCBzeXNf
-c2V0X21lbXBvbGljeV9ob21lX25vZGUpCj4gICAKPiArI2RlZmluZSBfX05SX2xzbV9zZWxmX2F0
-dHIgNDUxCj4gK19fU1lTQ0FMTChfX05SX2xzbV9zZWxmX2F0dHIsIHN5c19sc21fc2VsZl9hdHRy
-KQo+ICsKPiAgICN1bmRlZiBfX05SX3N5c2NhbGxzCj4gLSNkZWZpbmUgX19OUl9zeXNjYWxscyA0
-NTEKPiArI2RlZmluZSBfX05SX3N5c2NhbGxzIDQ1MgoKVGhpcyBuZWVkIHRvIG1vdmUgdG8gYSBk
-ZWRpY2F0ZWQgIndpcmUgc3lzY2FsbCIgcGF0Y2guCgoKPiAgIAo+ICAgLyoKPiAgICAqIDMyIGJp
-dCBzeXN0ZW1zIHRyYWRpdGlvbmFsbHkgdXNlZCBkaWZmZXJlbnQKPiBkaWZmIC0tZ2l0IGEvaW5j
-bHVkZS91YXBpL2xpbnV4L2xzbS5oIGIvaW5jbHVkZS91YXBpL2xpbnV4L2xzbS5oCj4gaW5kZXgg
-NGJiNjkyYjg0YTI4Li41YWNkNzkxZjgyYTkgMTAwNjQ0Cj4gLS0tIGEvaW5jbHVkZS91YXBpL2xp
-bnV4L2xzbS5oCj4gKysrIGIvaW5jbHVkZS91YXBpL2xpbnV4L2xzbS5oCj4gQEAgLTksNiArOSwy
-NyBAQAo+ICAgI2lmbmRlZiBfVUFQSV9MSU5VWF9MU01fSAo+ICAgI2RlZmluZSBfVUFQSV9MSU5V
-WF9MU01fSAo+ICAgCj4gKyNpbmNsdWRlIDxsaW51eC90eXBlcy5oPgo+ICsjaW5jbHVkZSA8bGlu
-dXgvdW5pc3RkLmg+Cj4gKwo+ICsvKioKPiArICogc3RydWN0IGxzbV9jdHggLSBMU00gY29udGV4
-dAo+ICsgKiBAaWQ6IHRoZSBMU00gaWQgbnVtYmVyLCBzZWUgTFNNX0lEX1hYWAo+ICsgKiBAZmxh
-Z3M6IGNvbnRleHQgc3BlY2lmaWVyIGFuZCBMU00gc3BlY2lmaWMgZmxhZ3MKPiArICogQGN0eF9s
-ZW46IHRoZSBzaXplIG9mIEBjdHgKPiArICogQGN0eDogdGhlIExTTSBjb250ZXh0LCBhIG51bCB0
-ZXJtaW5hdGVkIHN0cmluZwo+ICsgKgo+ICsgKiBAY3R4IGluIGEgbnVsIHRlcm1pbmF0ZWQgc3Ry
-aW5nLgoKIk5VTEwtdGVybWluYXRlZCI/CgoKPiArICoJKHN0cmxlbihAY3R4KSA8IEBjdHhfbGVu
-KSBpcyBhbHdheXMgdHJ1ZS4KPiArICoJKHN0cmxlbihAY3R4KSA9PSBAY3R4X2xlbiArIDEpIGlz
-IG5vdCBndWFyYW50ZWVkLgo+ICsgKi8KPiArc3RydWN0IGxzbV9jdHggewo+ICsJdW5zaWduZWQg
-aW50CQlpZDsKCkkgc3VnZ2VzdCB1c2luZyBfX3UzMiBpbnN0ZWFkIG9mIHVuc2lnbmVkIGludC4K
-Cj4gKwl1bnNpZ25lZCBpbnQJCWZsYWdzOwoKV2hhdCBjb3VsZCBiZSB0aGUgdXNlIGNhc2UgZm9y
-IHRoZXNlIGZsYWdzPwoKCj4gKwlfX2tlcm5lbF9zaXplX3QJCWN0eF9sZW47Cj4gKwl1bnNpZ25l
-ZCBjaGFyCQljdHhbXTsKPiArfTsKClRvIGF2b2lkIGhvbGVzIGluIHRoaXMgc3RydWN0LCB5b3Ug
-bWlnaHQgd2FudCB0byB1c2UgCl9fYXR0cmlidXRlX18oKHBhY2tlZCkpLgoKCj4gKwo+ICAgLyoK
-PiAgICAqIElEIHZhbHVlcyB0byBpZGVudGlmeSBzZWN1cml0eSBtb2R1bGVzLgo+ICAgICogQSBz
-eXN0ZW0gbWF5IHVzZSBtb3JlIHRoYW4gb25lIHNlY3VyaXR5IG1vZHVsZS4KPiBkaWZmIC0tZ2l0
-IGEva2VybmVsL3N5c19uaS5jIGIva2VybmVsL3N5c19uaS5jCj4gaW5kZXggODYwYjJkY2YzYWM0
-Li4wZmRiMDM0MTI1MWQgMTAwNjQ0Cj4gLS0tIGEva2VybmVsL3N5c19uaS5jCj4gKysrIGIva2Vy
-bmVsL3N5c19uaS5jCj4gQEAgLTI2Miw2ICsyNjIsOSBAQCBDT05EX1NZU0NBTExfQ09NUEFUKHJl
-Y3Ztc2cpOwo+ICAgLyogbW0vbm9tbXUuYywgYWxzbyB3aXRoIE1NVSAqLwo+ICAgQ09ORF9TWVND
-QUxMKG1yZW1hcCk7Cj4gICAKPiArLyogc2VjdXJpdHkvbHNtX3N5c2NhbGxzLmMgKi8KPiArQ09O
-RF9TWVNDQUxMKGxzbV9zZWxmX2F0dHIpOwo+ICsKPiAgIC8qIHNlY3VyaXR5L2tleXMva2V5Y3Rs
-LmMgKi8KPiAgIENPTkRfU1lTQ0FMTChhZGRfa2V5KTsKPiAgIENPTkRfU1lTQ0FMTChyZXF1ZXN0
-X2tleSk7Cj4gZGlmZiAtLWdpdCBhL3NlY3VyaXR5L01ha2VmaWxlIGIvc2VjdXJpdHkvTWFrZWZp
-bGUKPiBpbmRleCAxODEyMWY4Zjg1Y2QuLjU5ZjIzODQ5MDY2NSAxMDA2NDQKPiAtLS0gYS9zZWN1
-cml0eS9NYWtlZmlsZQo+ICsrKyBiL3NlY3VyaXR5L01ha2VmaWxlCj4gQEAgLTcsNiArNyw3IEBA
-IG9iai0kKENPTkZJR19LRVlTKQkJCSs9IGtleXMvCj4gICAKPiAgICMgYWx3YXlzIGVuYWJsZSBk
-ZWZhdWx0IGNhcGFiaWxpdGllcwo+ICAgb2JqLXkJCQkJCSs9IGNvbW1vbmNhcC5vCj4gK29iai0k
-KENPTkZJR19TRUNVUklUWSkgCQkJKz0gbHNtX3N5c2NhbGxzLm8KPiAgIG9iai0kKENPTkZJR19N
-TVUpCQkJKz0gbWluX2FkZHIubwo+ICAgCj4gICAjIE9iamVjdCBmaWxlIGxpc3RzCj4gZGlmZiAt
-LWdpdCBhL3NlY3VyaXR5L2xzbV9zeXNjYWxscy5jIGIvc2VjdXJpdHkvbHNtX3N5c2NhbGxzLmMK
-PiBuZXcgZmlsZSBtb2RlIDEwMDY0NAo+IGluZGV4IDAwMDAwMDAwMDAwMC4uZGEwZmFiNzA2NWUy
-Cj4gLS0tIC9kZXYvbnVsbAo+ICsrKyBiL3NlY3VyaXR5L2xzbV9zeXNjYWxscy5jCj4gQEAgLTAs
-MCArMSwxNTYgQEAKPiArLy8gU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IEdQTC0yLjAtb25seQo+
-ICsvKgo+ICsgKiBTeXN0ZW0gY2FsbHMgaW1wbGVtZW50aW5nIHRoZSBMaW51eCBTZWN1cml0eSBN
-b2R1bGUgQVBJLgo+ICsgKgo+ICsgKiAgQ29weXJpZ2h0IChDKSAyMDIyIENhc2V5IFNjaGF1Zmxl
-ciA8Y2FzZXlAc2NoYXVmbGVyLWNhLmNvbT4KPiArICogIENvcHlyaWdodCAoQykgSW50ZWwgQ29y
-cG9yYXRpb24KPiArICovCj4gKwo+ICsjaW5jbHVkZSA8YXNtL2N1cnJlbnQuaD4KPiArI2luY2x1
-ZGUgPGxpbnV4L2NvbXBpbGVyX3R5cGVzLmg+Cj4gKyNpbmNsdWRlIDxsaW51eC9lcnIuaD4KPiAr
-I2luY2x1ZGUgPGxpbnV4L2Vycm5vLmg+Cj4gKyNpbmNsdWRlIDxsaW51eC9zZWN1cml0eS5oPgo+
-ICsjaW5jbHVkZSA8bGludXgvc3RkZGVmLmg+Cj4gKyNpbmNsdWRlIDxsaW51eC9zeXNjYWxscy5o
-Pgo+ICsjaW5jbHVkZSA8bGludXgvdHlwZXMuaD4KPiArI2luY2x1ZGUgPGxpbnV4L2xzbV9ob29r
-cy5oPgo+ICsjaW5jbHVkZSA8dWFwaS9saW51eC9sc20uaD4KPiArCj4gK3N0cnVjdCBmZWF0dXJl
-X21hcCB7Cj4gKwljaGFyICpuYW1lOwo+ICsJaW50IGZlYXR1cmU7Cj4gK307Cj4gKwo+ICtzdGF0
-aWMgY29uc3Qgc3RydWN0IGZlYXR1cmVfbWFwIGxzbV9hdHRyX25hbWVzW10gPSB7Cj4gKwl7IC5u
-YW1lID0gImN1cnJlbnQiLAkuZmVhdHVyZSA9IExTTV9BVFRSX0NVUlJFTlQsIH0sCj4gKwl7IC5u
-YW1lID0gImV4ZWMiLAkuZmVhdHVyZSA9IExTTV9BVFRSX0VYRUMsIH0sCj4gKwl7IC5uYW1lID0g
-ImZzY3JlYXRlIiwJLmZlYXR1cmUgPSBMU01fQVRUUl9GU0NSRUFURSwgfSwKPiArCXsgLm5hbWUg
-PSAia2V5Y3JlYXRlIiwJLmZlYXR1cmUgPSBMU01fQVRUUl9LRVlDUkVBVEUsIH0sCj4gKwl7IC5u
-YW1lID0gInByZXYiLAkuZmVhdHVyZSA9IExTTV9BVFRSX1BSRVYsIH0sCj4gKwl7IC5uYW1lID0g
-InNvY2tjcmVhdGUiLAkuZmVhdHVyZSA9IExTTV9BVFRSX1NPQ0tDUkVBVEUsIH0sCj4gK307Cj4g
-Kwo+ICsvKioKPiArICogbHNtX3NlbGZfYXR0ciAtIFJldHVybiBjdXJyZW50IHRhc2sncyBzZWN1
-cml0eSBtb2R1bGUgYXR0cmlidXRlcwo+ICsgKiBAY3R4OiB0aGUgTFNNIGNvbnRleHRzCj4gKyAq
-IEBzaXplOiBzaXplIG9mIEBjdHgsIHVwZGF0ZWQgb24gcmV0dXJuCj4gKyAqIEBmbGFnczogcmVz
-ZXJ2ZWQgZm9yIGZ1dHVyZSB1c2UsIG11c3QgYmUgemVybwo+ICsgKgo+ICsgKiBSZXR1cm5zIHRo
-ZSBjYWxsaW5nIHRhc2sncyBMU00gY29udGV4dHMuIE9uIHN1Y2Nlc3MgdGhpcwo+ICsgKiBmdW5j
-dGlvbiByZXR1cm5zIHRoZSBudW1iZXIgb2YgQGN0eCBhcnJheSBlbGVtZW50cy4gVGhpcyB2YWx1
-ZQo+ICsgKiBtYXkgYmUgemVybyBpZiB0aGVyZSBhcmUgbm8gTFNNIGNvbnRleHRzIGFzc2lnbmVk
-LgoKCj4gSWYgQHNpemUgaXMKPiArICogaW5zdWZmaWNpZW50IHRvIGNvbnRhaW4gdGhlIHJldHVy
-biBkYXRhIC1FMkJJRyBpcyByZXR1cm5lZCBhbmQKPiArICogQHNpemUgaXMgc2V0IHRvIHRoZSBt
-aW5pbXVtIHJlcXVpcmVkIHNpemUuCgpJJ2QgcHJlZmVyIEBzaXplIHRvIG5vdCBiZSBhIHBvaW50
-ZXIgYnV0IGEgdmFsdWUsIGFuZCB0aGVuIG9ubHkgYmUgcmVhZCAKdG8gZ2V0IHRoZSBjb250ZXh0
-IHNpemUuCgpCZWNhdXNlIGxhenkgdXNlcnNwYWNlIG9ubHkgcmVhZGluZyB0aGUgdG9wCklmIHRo
-ZSBjdHggYnVmZmVyIGlzIG5vdCBiaWcgZW5vdWdoLAoKCj4gSW4gYWxsIG90aGVyIGNhc2VzCj4g
-KyAqIGEgbmVnYXRpdmUgdmFsdWUgaW5kaWNhdGluZyB0aGUgZXJyb3IgaXMgcmV0dXJuZWQuCgoK
-CmxzbV9tb2R1bGVfbGlzdCgpIGFscmVhZHkgcmV0dXJucyB0aGUgZW5hYmxlZCBMU00gSURzLiBJ
-dCB3b3VsZCBiZSBtdWNoIApzaW1wbGVyIHRvIG9ubHkgcmV0dXJucyB0aGUgcHJvcGVydGllcyBv
-ZiBhIHNwZWNpZmllZCBMU00uClRoZSBzeXNjYWxsIGNvdWxkIHRoZW4gbG9vayBsaWtlIHRoaXM6
-CmxzbV9nZXRfc2VsZl9hdHRyKF9fdTMyIGxzbV9pZCwgY2hhciAqYXR0ciwgc2l6ZV90IHNpemUs
-IF9fdTMyIGZsYWdzKQoKCgo+ICsgKi8KPiArU1lTQ0FMTF9ERUZJTkUzKGxzbV9zZWxmX2F0dHIs
-Cj4gKwkgICAgICAgc3RydWN0IGxzbV9jdHggX191c2VyICosIGN0eCwKPiArCSAgICAgICBzaXpl
-X3QgX191c2VyICosIHNpemUsCj4gKwkgICAgICAgaW50LCBmbGFncykKPiArewo+ICsJc3RydWN0
-IGxzbV9jdHggKmZpbmFsID0gTlVMTDsKPiArCXN0cnVjdCBsc21fY3R4ICppbnRlcnVtOwo+ICsJ
-c3RydWN0IGxzbV9jdHggKmlwOwo+ICsJdm9pZCAqY3VycjsKPiArCWNoYXIgKippbnRlcnVtX2N0
-eDsKPiArCWNoYXIgKmNwOwo+ICsJc2l6ZV90IHRvdGFsX3NpemUgPSAwOwo+ICsJaW50IGNvdW50
-ID0gMDsKPiArCWludCBhdHRyOwo+ICsJaW50IGxlbjsKPiArCWludCByYyA9IDA7Cj4gKwlpbnQg
-aTsKPiArCj4gKwlpbnRlcnVtID0ga3phbGxvYyhBUlJBWV9TSVpFKGxzbV9hdHRyX25hbWVzKSAq
-IGxzbV9pZCAqCj4gKwkJCSAgc2l6ZW9mKCppbnRlcnVtKSwgR0ZQX0tFUk5FTCk7Cj4gKwlpZiAo
-aW50ZXJ1bSA9PSBOVUxMKQo+ICsJCXJldHVybiAtRU5PTUVNOwo+ICsJaXAgPSBpbnRlcnVtOwo+
-ICsKPiArCWludGVydW1fY3R4ID0ga3phbGxvYyhBUlJBWV9TSVpFKGxzbV9hdHRyX25hbWVzKSAq
-IGxzbV9pZCAqCj4gKwkJCSAgICAgIHNpemVvZigqaW50ZXJ1bV9jdHgpLCBHRlBfS0VSTkVMKTsK
-PiArCWlmIChpbnRlcnVtX2N0eCA9PSBOVUxMKSB7Cj4gKwkJa2ZyZWUoaW50ZXJ1bSk7Cj4gKwkJ
-cmV0dXJuIC1FTk9NRU07Cj4gKwl9Cj4gKwo+ICsJZm9yIChhdHRyID0gMDsgYXR0ciA8IEFSUkFZ
-X1NJWkUobHNtX2F0dHJfbmFtZXMpOyBhdHRyKyspIHsKPiArCQlmb3IgKGkgPSAwOyBpIDwgbHNt
-X2lkOyBpKyspIHsKPiArCQkJaWYgKChsc21faWRsaXN0W2ldLT5mZWF0dXJlcyAmCj4gKwkJCSAg
-ICAgbHNtX2F0dHJfbmFtZXNbYXR0cl0uZmVhdHVyZSkgPT0gMCkKPiArCQkJCWNvbnRpbnVlOwo+
-ICsKPiArCQkJbGVuID0gc2VjdXJpdHlfZ2V0cHJvY2F0dHIoY3VycmVudCwgbHNtX2lkbGlzdFtp
-XS0+aWQsCj4gKwkJCQkJCSAgIGxzbV9hdHRyX25hbWVzW2F0dHJdLm5hbWUsCj4gKwkJCQkJCSAg
-ICZjcCk7Cj4gKwkJCWlmIChsZW4gPD0gMCkKPiArCQkJCWNvbnRpbnVlOwo+ICsKPiArCQkJaXAt
-PmlkID0gbHNtX2lkbGlzdFtpXS0+aWQ7Cj4gKwkJCWlwLT5mbGFncyA9IGxzbV9hdHRyX25hbWVz
-W2F0dHJdLmZlYXR1cmU7Cj4gKwkJCS8qIHNwYWNlIGZvciB0ZXJtaW5hdGluZyBcMCBpcyBhbGxv
-Y2F0ZWQgYmVsb3cgKi8KPiArCQkJaXAtPmN0eF9sZW4gPSBsZW4gKyAxOwo+ICsJCQlpbnRlcnVt
-X2N0eFtjb3VudF0gPSBjcDsKPiArCQkJLyoKPiArCQkJICogU2VjdXJpdHkgbW9kdWxlcyBoYXZl
-IGJlZW4gaW5jb25zaXN0ZW50IGFib3V0Cj4gKwkJCSAqIGluY2x1ZGluZyB0aGUgXDAgdGVybWlu
-YXRvciBpbiB0aGUgc2l6ZS4gVGhlCj4gKwkJCSAqIGNvbnRleHQgbGVuIGhhcyBiZWVuIGFkanVz
-dGVkIHRvIGVuc3VyZSB0aGVyZQo+ICsJCQkgKiBpcyBvbmUuCj4gKwkJCSAqIEF0IGxlYXN0IG9u
-ZSBzZWN1cml0eSBtb2R1bGUgYWRkcyBhIFxuIGF0IHRoZQo+ICsJCQkgKiBlbmQgb2YgYSBjb250
-ZXh0IHRvIG1ha2UgaXQgbG9vayBuaWNlci4gQ2hhbmdlCj4gKwkJCSAqIHRoYXQgdG8gYSBcMCBz
-byB0aGF0IHVzZXIgc3BhY2UgZG9lc24ndCBoYXZlIHRvCj4gKwkJCSAqIHdvcmsgYXJvdW5kIGl0
-LiBCZWNhdXNlIG9mIHRoaXMgbWVkZGxpbmcgaXQgaXMKPiArCQkJICogc2FmZSB0byBhc3N1bWUg
-dGhhdCBsc21fY3R4Lm5hbWUgaXMgdGVybWluYXRlZAo+ICsJCQkgKiBhbmQgdGhhdCBzdHJsZW4o
-bHNtX2N0eC5uYW1lKSA8IGxzbS5jdHhfbGVuLgo+ICsJCQkgKi8KPiArCQkJdG90YWxfc2l6ZSAr
-PSBzaXplb2YoKmludGVydW0pICsgaXAtPmN0eF9sZW47Cj4gKwkJCWNwID0gc3RybmNocihjcCwg
-bGVuLCAnXG4nKTsKPiArCQkJaWYgKGNwICE9IE5VTEwpCj4gKwkJCQkqY3AgPSAnXDAnOwo+ICsJ
-CQlpcCsrOwo+ICsJCQljb3VudCsrOwo+ICsJCX0KPiArCX0KPiArCj4gKwlpZiAoY291bnQgPT0g
-MCkKPiArCQlnb3RvIGZyZWVfb3V0Owo+ICsKPiArCWZpbmFsID0ga3phbGxvYyh0b3RhbF9zaXpl
-LCBHRlBfS0VSTkVMKTsKPiArCWlmIChmaW5hbCA9PSBOVUxMKSB7Cj4gKwkJcmMgPSAtRU5PTUVN
-Owo+ICsJCWdvdG8gZnJlZV9vdXQ7Cj4gKwl9Cj4gKwo+ICsJY3VyciA9IGZpbmFsOwo+ICsJaXAg
-PSBpbnRlcnVtOwo+ICsJZm9yIChpID0gMDsgaSA8IGNvdW50OyBpKyspIHsKPiArCQltZW1jcHko
-Y3VyciwgaXAsIHNpemVvZigqaW50ZXJ1bSkpOwo+ICsJCWN1cnIgKz0gc2l6ZW9mKCppbnRlcnVt
-KTsKPiArCQltZW1jcHkoY3VyciwgaW50ZXJ1bV9jdHhbaV0sIGlwLT5jdHhfbGVuKTsKPiArCQlj
-dXJyICs9IGlwLT5jdHhfbGVuOwo+ICsJCWlwKys7Cj4gKwl9Cj4gKwo+ICsJaWYgKGdldF91c2Vy
-KGxlbiwgc2l6ZSkpIHsKPiArCQlyYyA9IC1FRkFVTFQ7Cj4gKwkJZ290byBmcmVlX291dDsKPiAr
-CX0KPiArCWlmICh0b3RhbF9zaXplID4gbGVuKSB7Cj4gKwkJcmMgPSAtRVJBTkdFOwo+ICsJCWdv
-dG8gZnJlZV9vdXQ7Cj4gKwl9Cj4gKwlpZiAoY29weV90b191c2VyKGN0eCwgZmluYWwsIHRvdGFs
-X3NpemUpICE9IDAgfHwKPiArCSAgICBwdXRfdXNlcih0b3RhbF9zaXplLCBzaXplKSAhPSAwKQo+
-ICsJCXJjID0gLUVGQVVMVDsKPiArCWVsc2UKPiArCQlyYyA9IGNvdW50Owo+ICsKPiArZnJlZV9v
-dXQ6Cj4gKwlmb3IgKGkgPSAwOyBpIDwgY291bnQ7IGkrKykKPiArCQlrZnJlZShpbnRlcnVtX2N0
-eFtpXSk7Cj4gKwlrZnJlZShpbnRlcnVtX2N0eCk7Cj4gKwlrZnJlZShpbnRlcnVtKTsKPiArCWtm
-cmVlKGZpbmFsKTsKPiArCXJldHVybiByYzsKPiArfQoKLS0KTGludXgtYXVkaXQgbWFpbGluZyBs
-aXN0CkxpbnV4LWF1ZGl0QHJlZGhhdC5jb20KaHR0cHM6Ly9saXN0bWFuLnJlZGhhdC5jb20vbWFp
-bG1hbi9saXN0aW5mby9saW51eC1hdWRpdAo=
+
+On 27/09/2022 21:53, Casey Schaufler wrote:
+> Move management of the sock->sk_security blob out
+> of the individual security modules and into the security
+> infrastructure. Instead of allocating the blobs from within
+> the modules the modules tell the infrastructure how much
+> space is required, and the space is allocated there.
+> 
+> Acked-by: Paul Moore <paul@paul-moore.com>
+> Reviewed-by: Kees Cook <keescook@chromium.org>
+> Reviewed-by: John Johansen <john.johansen@canonical.com>
+> Acked-by: Stephen Smalley <stephen.smalley.work@gmail.com>
+> Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
+> ---
+>   include/linux/lsm_hooks.h         |  1 +
+>   security/apparmor/include/net.h   |  6 ++-
+>   security/apparmor/lsm.c           | 38 ++++----------
+>   security/apparmor/net.c           |  2 +-
+>   security/security.c               | 36 +++++++++++++-
+>   security/selinux/hooks.c          | 82 +++++++++++++++----------------
+>   security/selinux/include/objsec.h |  5 ++
+>   security/selinux/netlabel.c       | 23 ++++-----
+>   security/smack/smack.h            |  5 ++
+>   security/smack/smack_lsm.c        | 66 ++++++++++++-------------
+>   security/smack/smack_netfilter.c  |  4 +-
+>   11 files changed, 146 insertions(+), 122 deletions(-)
+> 
+> diff --git a/include/linux/lsm_hooks.h b/include/linux/lsm_hooks.h
+> index ded76db3f523..b266d0826278 100644
+> --- a/include/linux/lsm_hooks.h
+> +++ b/include/linux/lsm_hooks.h
+> @@ -1625,6 +1625,7 @@ struct lsm_blob_sizes {
+>   	int	lbs_cred;
+>   	int	lbs_file;
+>   	int	lbs_inode;
+> +	int	lbs_sock;
+>   	int	lbs_superblock;
+>   	int	lbs_ipc;
+>   	int	lbs_msg_msg;
+> diff --git a/security/apparmor/include/net.h b/security/apparmor/include/net.h
+> index aadb4b29fb66..fac8999ba7a3 100644
+> --- a/security/apparmor/include/net.h
+> +++ b/security/apparmor/include/net.h
+> @@ -51,7 +51,11 @@ struct aa_sk_ctx {
+>   	struct aa_label *peer;
+>   };
+>   
+> -#define SK_CTX(X) ((X)->sk_security)
+> +static inline struct aa_sk_ctx *aa_sock(const struct sock *sk)
+> +{
+> +	return sk->sk_security + apparmor_blob_sizes.lbs_sock;
+> +}
+> +
+>   #define SOCK_ctx(X) SOCK_INODE(X)->i_security
+>   #define DEFINE_AUDIT_NET(NAME, OP, SK, F, T, P)				  \
+>   	struct lsm_network_audit NAME ## _net = { .sk = (SK),		  \
+> diff --git a/security/apparmor/lsm.c b/security/apparmor/lsm.c
+> index 40266cc4866c..caad42a0c913 100644
+> --- a/security/apparmor/lsm.c
+> +++ b/security/apparmor/lsm.c
+> @@ -803,33 +803,15 @@ static int apparmor_task_kill(struct task_struct *target, struct kernel_siginfo
+>   	return error;
+>   }
+>   
+> -/**
+> - * apparmor_sk_alloc_security - allocate and attach the sk_security field
+> - */
+> -static int apparmor_sk_alloc_security(struct sock *sk, int family, gfp_t flags)
+> -{
+> -	struct aa_sk_ctx *ctx;
+> -
+> -	ctx = kzalloc(sizeof(*ctx), flags);
+> -	if (!ctx)
+> -		return -ENOMEM;
+> -
+> -	SK_CTX(sk) = ctx;
+> -
+> -	return 0;
+> -}
+> -
+>   /**
+>    * apparmor_sk_free_security - free the sk_security field
+>    */
+>   static void apparmor_sk_free_security(struct sock *sk)
+>   {
+> -	struct aa_sk_ctx *ctx = SK_CTX(sk);
+> +	struct aa_sk_ctx *ctx = aa_sock(sk);
+>   
+> -	SK_CTX(sk) = NULL;
+>   	aa_put_label(ctx->label);
+>   	aa_put_label(ctx->peer);
+> -	kfree(ctx);
+>   }
+>   
+>   /**
+> @@ -838,8 +820,8 @@ static void apparmor_sk_free_security(struct sock *sk)
+>   static void apparmor_sk_clone_security(const struct sock *sk,
+>   				       struct sock *newsk)
+>   {
+> -	struct aa_sk_ctx *ctx = SK_CTX(sk);
+> -	struct aa_sk_ctx *new = SK_CTX(newsk);
+> +	struct aa_sk_ctx *ctx = aa_sock(sk);
+> +	struct aa_sk_ctx *new = aa_sock(newsk);
+>   
+>   	if (new->label)
+>   		aa_put_label(new->label);
+> @@ -892,7 +874,7 @@ static int apparmor_socket_post_create(struct socket *sock, int family,
+>   		label = aa_get_current_label();
+>   
+>   	if (sock->sk) {
+> -		struct aa_sk_ctx *ctx = SK_CTX(sock->sk);
+> +		struct aa_sk_ctx *ctx = aa_sock(sock->sk);
+>   
+>   		aa_put_label(ctx->label);
+>   		ctx->label = aa_get_label(label);
+> @@ -1077,7 +1059,7 @@ static int apparmor_socket_shutdown(struct socket *sock, int how)
+>    */
+>   static int apparmor_socket_sock_rcv_skb(struct sock *sk, struct sk_buff *skb)
+>   {
+> -	struct aa_sk_ctx *ctx = SK_CTX(sk);
+> +	struct aa_sk_ctx *ctx = aa_sock(sk);
+>   
+>   	if (!skb->secmark)
+>   		return 0;
+> @@ -1090,7 +1072,7 @@ static int apparmor_socket_sock_rcv_skb(struct sock *sk, struct sk_buff *skb)
+>   
+>   static struct aa_label *sk_peer_label(struct sock *sk)
+>   {
+> -	struct aa_sk_ctx *ctx = SK_CTX(sk);
+> +	struct aa_sk_ctx *ctx = aa_sock(sk);
+>   
+>   	if (ctx->peer)
+>   		return ctx->peer;
+> @@ -1174,7 +1156,7 @@ static int apparmor_socket_getpeersec_dgram(struct socket *sock,
+>    */
+>   static void apparmor_sock_graft(struct sock *sk, struct socket *parent)
+>   {
+> -	struct aa_sk_ctx *ctx = SK_CTX(sk);
+> +	struct aa_sk_ctx *ctx = aa_sock(sk);
+>   
+>   	if (!ctx->label)
+>   		ctx->label = aa_get_current_label();
+> @@ -1184,7 +1166,7 @@ static void apparmor_sock_graft(struct sock *sk, struct socket *parent)
+>   static int apparmor_inet_conn_request(const struct sock *sk, struct sk_buff *skb,
+>   				      struct request_sock *req)
+>   {
+> -	struct aa_sk_ctx *ctx = SK_CTX(sk);
+> +	struct aa_sk_ctx *ctx = aa_sock(sk);
+>   
+>   	if (!skb->secmark)
+>   		return 0;
+> @@ -1201,6 +1183,7 @@ struct lsm_blob_sizes apparmor_blob_sizes __lsm_ro_after_init = {
+>   	.lbs_cred = sizeof(struct aa_task_ctx *),
+>   	.lbs_file = sizeof(struct aa_file_ctx),
+>   	.lbs_task = sizeof(struct aa_task_ctx),
+> +	.lbs_sock = sizeof(struct aa_sk_ctx),
+>   };
+>   
+>   static struct lsm_id apparmor_lsmid __lsm_ro_after_init = {
+> @@ -1243,7 +1226,6 @@ static struct security_hook_list apparmor_hooks[] __lsm_ro_after_init = {
+>   	LSM_HOOK_INIT(getprocattr, apparmor_getprocattr),
+>   	LSM_HOOK_INIT(setprocattr, apparmor_setprocattr),
+>   
+> -	LSM_HOOK_INIT(sk_alloc_security, apparmor_sk_alloc_security),
+>   	LSM_HOOK_INIT(sk_free_security, apparmor_sk_free_security),
+>   	LSM_HOOK_INIT(sk_clone_security, apparmor_sk_clone_security),
+>   
+> @@ -1809,7 +1791,7 @@ static unsigned int apparmor_ip_postroute(void *priv,
+>   	if (sk == NULL)
+>   		return NF_ACCEPT;
+>   
+> -	ctx = SK_CTX(sk);
+> +	ctx = aa_sock(sk);
+>   	if (!apparmor_secmark_check(ctx->label, OP_SENDMSG, AA_MAY_SEND,
+>   				    skb->secmark, sk))
+>   		return NF_ACCEPT;
+> diff --git a/security/apparmor/net.c b/security/apparmor/net.c
+> index 7efe4d17273d..b336e23a4467 100644
+> --- a/security/apparmor/net.c
+> +++ b/security/apparmor/net.c
+> @@ -145,7 +145,7 @@ int aa_af_perm(struct aa_label *label, const char *op, u32 request, u16 family,
+>   static int aa_label_sk_perm(struct aa_label *label, const char *op, u32 request,
+>   			    struct sock *sk)
+>   {
+> -	struct aa_sk_ctx *ctx = SK_CTX(sk);
+> +	struct aa_sk_ctx *ctx = aa_sock(sk);
+>   	int error = 0;
+>   
+>   	AA_BUG(!label);
+> diff --git a/security/security.c b/security/security.c
+> index b916469388b0..7a604a74716a 100644
+> --- a/security/security.c
+> +++ b/security/security.c
+> @@ -30,6 +30,7 @@
+>   #include <linux/msg.h>
+>   #include <uapi/linux/lsm.h>
+>   #include <net/flow.h>
+> +#include <net/sock.h>
+>   
+>   #define MAX_LSM_EVM_XATTR	2
+>   
+> @@ -207,6 +208,7 @@ static void __init lsm_set_blob_sizes(struct lsm_blob_sizes *needed)
+>   	lsm_set_blob_size(&needed->lbs_inode, &blob_sizes.lbs_inode);
+>   	lsm_set_blob_size(&needed->lbs_ipc, &blob_sizes.lbs_ipc);
+>   	lsm_set_blob_size(&needed->lbs_msg_msg, &blob_sizes.lbs_msg_msg);
+> +	lsm_set_blob_size(&needed->lbs_sock, &blob_sizes.lbs_sock);
+>   	lsm_set_blob_size(&needed->lbs_superblock, &blob_sizes.lbs_superblock);
+>   	lsm_set_blob_size(&needed->lbs_task, &blob_sizes.lbs_task);
+>   }
+> @@ -349,6 +351,7 @@ static void __init ordered_lsm_init(void)
+>   	init_debug("inode blob size      = %d\n", blob_sizes.lbs_inode);
+>   	init_debug("ipc blob size        = %d\n", blob_sizes.lbs_ipc);
+>   	init_debug("msg_msg blob size    = %d\n", blob_sizes.lbs_msg_msg);
+> +	init_debug("sock blob size       = %d\n", blob_sizes.lbs_sock);
+>   	init_debug("superblock blob size = %d\n", blob_sizes.lbs_superblock);
+>   	init_debug("task blob size       = %d\n", blob_sizes.lbs_task);
+>   
+> @@ -678,6 +681,28 @@ static int lsm_msg_msg_alloc(struct msg_msg *mp)
+>   	return 0;
+>   }
+>   
+> +/**
+> + * lsm_sock_alloc - allocate a composite sock blob
+> + * @sock: the sock that needs a blob
+> + * @priority: allocation mode
+> + *
+> + * Allocate the sock blob for all the modules
+> + *
+> + * Returns 0, or -ENOMEM if memory can't be allocated.
+> + */
+> +static int lsm_sock_alloc(struct sock *sock, gfp_t priority)
+
+This is not used (and throw a warning) if CONFIG_SECURITY_NETWORK is not 
+defined.
+
+--
+Linux-audit mailing list
+Linux-audit@redhat.com
+https://listman.redhat.com/mailman/listinfo/linux-audit
 
