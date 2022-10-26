@@ -2,86 +2,113 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 710C860DEC6
-	for <lists+linux-audit@lfdr.de>; Wed, 26 Oct 2022 12:20:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6AE760E492
+	for <lists+linux-audit@lfdr.de>; Wed, 26 Oct 2022 17:34:41 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1666779610;
+	s=mimecast20190719; t=1666798480;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=SNBkbn6Gw1YxYu5isqxx9DN4DOka+jzyfFF20JP8AFY=;
-	b=duFWVfM3SIG/NJPU/kJSjcd4zAaxNpiVhBHrku/wQj+kjVPytOy5rsLBrvSqnPUQNjuU19
-	Vrgi+bgSp48g2AAoo/14tLD4Kyow5LJTZMw0lgbVw0zvs/9jKewZwwW2FkLYxKjLFmas9B
-	PcHxsLilHXzphAuMIDRetIaPfWZtKkc=
+	bh=mXJpMIn85hALuGnv0TccG5ON6kBa6mauxPrOgl4n0wc=;
+	b=gKytMII8FzPh6BTy5SwB/Z3+cvGq5vjHZlr9jzqJGE3m1VSRT3WvSFv+5r41uFVfT+8MrB
+	+POSXXlDHU9qJHYXCT/O8MLOUr0IGCYsG2rdz10QYEb2SzZFbo2q3twEnq31IR1uIIhTTG
+	o+TtqfbNUeRQk2LuexGHweQVIAaPltg=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-249-JBohJ0i1NYeurmk3ezX92g-1; Wed, 26 Oct 2022 06:20:06 -0400
-X-MC-Unique: JBohJ0i1NYeurmk3ezX92g-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
+ us-mta-627-2PRj2PT4PdWbJy2E5L-7zw-1; Wed, 26 Oct 2022 11:34:37 -0400
+X-MC-Unique: 2PRj2PT4PdWbJy2E5L-7zw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2FEE01C068C9;
-	Wed, 26 Oct 2022 10:20:04 +0000 (UTC)
-Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com [10.30.29.100])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 78180C15BAB;
-	Wed, 26 Oct 2022 10:19:55 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 23EA529ABA02;
+	Wed, 26 Oct 2022 15:34:35 +0000 (UTC)
+Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (unknown [10.30.29.100])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 770682027061;
+	Wed, 26 Oct 2022 15:34:29 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (localhost [IPv6:::1])
-	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id B7F2D1947046;
-	Wed, 26 Oct 2022 10:19:54 +0000 (UTC)
+	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id 3286E194704E;
+	Wed, 26 Oct 2022 15:34:28 +0000 (UTC)
 X-Original-To: linux-audit@listman.corp.redhat.com
 Delivered-To: linux-audit@listman.corp.redhat.com
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
  by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with
- ESMTP id 7F4491946597 for <linux-audit@listman.corp.redhat.com>;
- Wed, 26 Oct 2022 10:19:53 +0000 (UTC)
+ ESMTP id 1289C1946597 for <linux-audit@listman.corp.redhat.com>;
+ Wed, 26 Oct 2022 15:30:50 +0000 (UTC)
 Received: by smtp.corp.redhat.com (Postfix)
- id 6F1DA492B17; Wed, 26 Oct 2022 10:19:53 +0000 (UTC)
+ id 0493C2166B38; Wed, 26 Oct 2022 15:30:50 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
- (mimecast01.extmail.prod.ext.rdu2.redhat.com [10.11.55.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 665D6492B16
- for <linux-audit@redhat.com>; Wed, 26 Oct 2022 10:19:53 +0000 (UTC)
+ (mimecast08.extmail.prod.ext.rdu2.redhat.com [10.11.55.24])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F11612166B2B
+ for <linux-audit@redhat.com>; Wed, 26 Oct 2022 15:30:49 +0000 (UTC)
 Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
  [207.211.31.120])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 49B7F85A5A6
- for <linux-audit@redhat.com>; Wed, 26 Oct 2022 10:19:53 +0000 (UTC)
-Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-503-os1eWn84NwecltyjEdMHkQ-1; Wed, 26 Oct 2022 06:19:51 -0400
-X-MC-Unique: os1eWn84NwecltyjEdMHkQ-1
-Received: from fsav313.sakura.ne.jp (fsav313.sakura.ne.jp [153.120.85.144])
- by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 29QAJYGa040633;
- Wed, 26 Oct 2022 19:19:34 +0900 (JST)
- (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Received: from www262.sakura.ne.jp (202.181.97.72)
- by fsav313.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav313.sakura.ne.jp);
- Wed, 26 Oct 2022 19:19:34 +0900 (JST)
-X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav313.sakura.ne.jp)
-Received: from [192.168.1.9] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
- (authenticated bits=0)
- by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 29QAJYCE040630
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
- Wed, 26 Oct 2022 19:19:34 +0900 (JST)
- (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Message-ID: <3266c2c2-cd7e-bc0f-0fc4-478a63d6ee77@I-love.SAKURA.ne.jp>
-Date: Wed, 26 Oct 2022 19:19:28 +0900
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C98A73810782
+ for <linux-audit@redhat.com>; Wed, 26 Oct 2022 15:30:49 +0000 (UTC)
+Received: from sonic316-26.consmr.mail.ne1.yahoo.com
+ (sonic316-26.consmr.mail.ne1.yahoo.com [66.163.187.152]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_128_GCM_SHA256) id us-mta-367-mbCjp7WPNpSMyniSSAAKWw-1; Wed,
+ 26 Oct 2022 11:30:46 -0400
+X-MC-Unique: mbCjp7WPNpSMyniSSAAKWw-1
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
+ t=1666798245; bh=OpP7JdQXUdADZ/I4ba5jrpFzQO5k9bHuyp99cdKR65G=;
+ h=X-Sonic-MF:Date:Subject:To:From:From:Subject;
+ b=hcYtK4idvt9iLJnZF6OCKBUB08jXmF8cZ1HRQjqU4H22pim0OUTeTxjnXCRI7xc7WvsR3YFqQNDnrG/O/3pX4RW2r/fI0oQpEmD3zTcrZwfsLl/JHtTT6XGkiUpbXo3Xd2BM1CkMhrE3OaiN3xj/kNzOyWCpz9xmPkEruaknIcaW65UCDONX3PYJVr7oxVe5i2cTF9i7JFDj1JneRIOioashM3XGv9IO0piQk88NG9meCDyBJwSlZqi+aD+ObZCUn+pr4QHn9oRRTOyqkqzj1SUnJxYafMv7huI3wD5/lca60UF2MtBr5mgg/vUZ24BypP/VkliltUIGrqaGS1Mtnw==
+X-YMail-OSG: RCrcKPgVM1mro0xi0j8pXUbwFroA24PmwlyqFaiJqE51cE5_hqaE_5U5zT5Ksot
+ 3v09qBALZiAmENmlJQ9yO0v.WtPwiWDMjxiNOI3Lek_xm6XAgiy7Ggk9WB1nV8ocREUwsNMN867M
+ QZoCF9yC5xQW8VSCtS3ymRKThdYSMbIHMnlmohjJPzusdfHpBgFfhaZ1glVfqHRGWtSs41ACCRxi
+ u8t3PP6317JTjlGkn6KlnEzZ91Y9Qn3rwtuQnzC6BDKBA2fpjuJRo3fOVoIM3Z1QxRzZ5B.0uHoJ
+ WNbLZERPF8f5PKwh_6rsTGajlNy1Amfj.eez6NNZ9iERMdf7Z318FnC4AYYzmMmfPPgunO_8zJNG
+ sBsiM7mVijad6RCM6rE9wO61vs0IkUQJMkgP7WQRGFkSv0C3PZZWQWTLlMLqkTVTV75Vs_u_dlOh
+ aEZveQL.epmgwLrghHr_Z5qJA7aWRczn_mb_2G6GKg9Ben9xP52ymBUP70m2D.DAhyZUSsJJO6mB
+ IU6LMYefyV4hQeazHy6ik71xfFHJeuB1In.H6SHJBFQ_JcAqKDDs5kcbAOxwzswHK9stmAa7Rt_r
+ lJUvfy0pEI7rJylBsiyx1QZ0.qqFTSPU9OyDX7F5Vo7Ma7WOa7D3Ab1_FiV_sSKqo0mMG5xyOsoU
+ GMxiv0mMSBhOtqlgnIEu158hgGQeUGXkztH1PLkCjpC3fd1BBOquJtjQGUIHfk1QpRM9Um088UGB
+ XvOT8ovcyFz8FUufS_nNpUi69nUSgDPMSZvOMy7r2s4k4b1xx59VFFqt4CiPkuM89N6qJRZOnnTa
+ 7ZtXUmI5HmTK2MuHw4s99DcCJcG065TmpOVGiKjrnMbolULGl1eoMI0QLuQ9ZHmKl7.qCVczmaSd
+ PQ0Fg_UtPOd7CYcMT4lFV4Tz2DAGLwtw_nqmZ9GL5t.jELfiu6wkQLvM_I8xc2_hxu10s7DzWOET
+ dbUm9GN.Tg26BI4DGOTW8MhX3XTYNuSJl08f0fjnecuJKaJWS42rqQHRn3vE9GMI.o0kGaP.yulX
+ dESj4ErlFTunp1LsDMvZC4KZSokObMLsB0v.h6hCFcwisjtfIqrcc8dtALJpT5_Sl481HcpwcvuZ
+ milFstH1lZM14XPJfHLv5C4QCvaRBAWG.X.lY8xt9GzXOJz3zNoMyOPMH9tDHQKshr_60lWbEBYF
+ pESbUqr7qu58cqBmzIiYHuZpKXqlbFEJI3rGb4dUEjWlaS9cgrUWuM..JTbvx92W111apj8u.YcI
+ Lzvb.Z1Hi8gE0k8LzfxmA0RVtEPnzxokZADAf2iKe8u63hSjI_F4A9MqfZ3zR6Ica516OITkTd5v
+ 1Sut9ykRAswqzAQQmXMqodQoyWhZNkmcQ23ytMTRvCFBbrUdp2TnEPHPZCHi1vJ9K3d.fY_RqqPR
+ iacZCS3bGt89Cwm4v5R6RidS2yJLAaSLkUTO9Psc4nWqV5lYUvsy1jyApRzftSe0wIvN8xPpBAHz
+ R7vJVYUz1QJd6kQid4Y.dmpqZmk9Ye49lej1PpCkjsYolxdab_4RshHzciZJEfzuVLWjYnmEK_ow
+ .jVtROrUBJ8X5ZUWcm.0vmqqBN8.LlOqMf7iJ5XzOvxhX6lYV.ntcXmiF34OXwwzNfSH68j_A0ON
+ hQmHLZEmqLlBUaYsL6dA5ZOVw0MVAniFF_qzSLGtDhKBEPnH_jqkvICMaiRDgOXXRX.ZAMQyjWo_
+ qvD082QbJNnU7VPJkiPEFXA72CfMWinAd7lJHLhp2R11cPX3_qKD6AoAmy8OeqRaDUOONnlJEbt4
+ 11OdmlYZL6UJSyg2NWD6IZhAl3NoFjhC32ozPFFf0fS8_SswDCOmoBKtWI7aenFlr0AfGLxYCy3z
+ fp93WOLNXeUTz_j6uNljpCb17cRWeAam2PlizkouTpfOsXjpkceytIMUcYZZ4G2Z9mN6Al4HSTpa
+ ScZe2dahid38lLPUV3lThSFe84Erw8.FIL_a6gN2Kz.UylrIm.7npQVJ_F00Ov_nlR_peLD44qGk
+ NYgOiC2CmgL8ITA.bUML1W2Myt82NpbKbrjIWibGuZIE735VlFPGdOiKX6S2U67hTrYAUTXx0zXG
+ CLyD7uhJAMUc25d3xoIXn8XH3qjNx11lNOoUwtlQHUB2uG7qt8xeJZoPPq5lZJIGDbVU29aS9Fvw
+ zlRsz3KzBkZfPP.VbnLAznuxOdlMnS_4nOuH5kyZKgNa0UFs5BzuetqxqtkDkqdVpgX43Rc7kgo4
+ iuKXKlCkR_281zVsJx339IaCCUDAfD.K_IR6fJIHn6vY9zImEYSkXLxMid91frpGnPZcGN8anvzL
+ dHUFyAW1YAsgcbDm62HdXnG8-
+X-Sonic-MF: <casey@schaufler-ca.com>
+Received: from sonic.gate.mail.ne1.yahoo.com by
+ sonic316.consmr.mail.ne1.yahoo.com with HTTP; Wed, 26 Oct 2022 15:30:45 +0000
+Received: by hermes--production-bf1-64dccd5d47-79dtx (Yahoo Inc. Hermes SMTP
+ Server) with ESMTPA ID cdb134c574ba02950eba7a632f099359; 
+ Wed, 26 Oct 2022 15:30:40 +0000 (UTC)
+Message-ID: <7d0feee1-a9e6-ac82-6962-89b17af025eb@schaufler-ca.com>
+Date: Wed, 26 Oct 2022 08:30:38 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:102.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.0
 Subject: Re: LSM stacking in next for 6.1?
-To: Casey Schaufler <casey@schaufler-ca.com>,
- John Johansen <john.johansen@canonical.com>,
- Paul Moore <paul@paul-moore.com>
+To: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+ John Johansen <john.johansen@canonical.com>, Paul Moore <paul@paul-moore.com>
 References: <791e13b5-bebd-12fc-53de-e9a86df23836.ref@schaufler-ca.com>
- <CAHC9VhQMeyxQJSAUuigu=CCr44WtpJg=LEh1xng_bPfCCjqq6Q@mail.gmail.com>
  <5ef4a1ae-e92c-ca77-7089-2efe1d4c4e6d@schaufler-ca.com>
  <CAHC9VhQRpeOMkeEfy=VRPnpuYMUDYgLp56OjQZPYwoXmfHYREQ@mail.gmail.com>
  <c679cea7-bb90-7a62-2e17-888826857d55@schaufler-ca.com>
@@ -96,8 +123,9 @@ References: <791e13b5-bebd-12fc-53de-e9a86df23836.ref@schaufler-ca.com>
  <11564f69-3bba-abf7-eb46-06813ff4a404@schaufler-ca.com>
  <98ab33d6-6c91-9c0a-8647-22f6bdede885@I-love.SAKURA.ne.jp>
  <aa201ed7-9ca1-9507-08cc-156f280ee5f4@schaufler-ca.com>
-From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-In-Reply-To: <aa201ed7-9ca1-9507-08cc-156f280ee5f4@schaufler-ca.com>
+ <3266c2c2-cd7e-bc0f-0fc4-478a63d6ee77@I-love.SAKURA.ne.jp>
+From: Casey Schaufler <casey@schaufler-ca.com>
+In-Reply-To: <3266c2c2-cd7e-bc0f-0fc4-478a63d6ee77@I-love.SAKURA.ne.jp>
 X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
  Definition; Similar Internal Domain=false;
  Similar Monitored External Domain=false; Custom External Domain=false;
@@ -105,8 +133,7 @@ X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
  Internal User Name=false; Custom Display Name List=false;
  Reply-to Address Mismatch=false; Targeted Threat Dictionary=false;
  Mimecast Threat Dictionary=false; Custom Threat Dictionary=false
-X-Mimecast-Spam-Signature: yes
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,61 +150,35 @@ Cc: keescook@chromium.org, SElinux list <selinux@vger.kernel.org>,
  LSM List <linux-security-module@vger.kernel.org>, linux-audit@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
 Sender: "Linux-audit" <linux-audit-bounces@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-On 2022/10/26 7:41, Casey Schaufler wrote:
->             You need a built-in LSM that loads and manages loadable
-> security modules.
+On 10/26/2022 3:19 AM, Tetsuo Handa wrote:
+> On 2022/10/26 7:41, Casey Schaufler wrote:
+>>             You need a built-in LSM that loads and manages loadable
+>> security modules.
+> That is no longer loadable LSM modules. A loadable LSM module must be capable of
+> loading any code and using any interface that is allowed to loadable kernel modules
+> using /sbin/insmod command. That is my understanding of what you have promised (and
+> the reason I am allowing you to continue working on LSM stacking before I make
+> CONFIG_SECURITY_TOMOYO=m).
 
-That is no longer loadable LSM modules. A loadable LSM module must be capable of
-loading any code and using any interface that is allowed to loadable kernel modules
-using /sbin/insmod command. That is my understanding of what you have promised (and
-the reason I am allowing you to continue working on LSM stacking before I make
-CONFIG_SECURITY_TOMOYO=m).
+Loadable modules, in whatever form they take, will require the stacking
+I'm proposing. They will also require the next phase of stacking, which
+includes the networking bits that will allow universal stacking. Even if
+the current work goes in tomorrow (demented giggles) that's at least a
+year off. Then, and only then, will someone be able to tackle an
+implementation of loadable modules. I will not be available for that job.
+I have done everything I can to ensure that the stacking work won't
+prevent it from being done. I have proposed how it might be done. But
+I don't have 10 more years to spend on it, and it's not me that will
+reject it in the end. I won't beat that dead horse's head against that
+brick wall.
 
->                   That LSM would have an LSM ID just like the BPF LSM
-> has a LSM ID.
-
-There can't be a LSM that manages loadable security modules. TOMOYO can't be loaded
-via such LSM, for TOMOYO needs to e.g. create /sys/kernel/security/tomoyo/ interface.
-A contained program like BPF can't get such flexibility, and a LSM that manages
-loadable security modules can't manage flexible/unconfined programs.
-
->                   That LSM would have an LSM ID just like the BPF LSM
-> has a LSM ID.
-
-Whatever LSM modules that are in-tree will have an LSM id. But you must remember
-that not all LSM modules are in-tree (and won't be able to get in-tree).
-The LSM id I'm talking about is for LSM modules that cannot get in-tree.
-
->               I have no doubt that there are multiple workable implementations,
-> as I have looked into many different ways to implement the stacking for
-> built-in modules.
-
-Please enumerate some that can satisfy our promise.
-
-Even if there is a LSM that manages loadable LSMs, loadable LSMs can't get LSM id
-because what loadable LSMs will do is beyond what the BPF LSM can do.
-Loadable LSMs by nature needs to be able to have unique identifier (currently
-module name, and you are trying to change from name to integer which some of
-loadable LSMs cannot get).
-
->                   I am also sorry that I don't expect to have enough working
-> years left to even consider spending any more time on the problem. This is
-> a development effort for The Next Generation.
-
-If you segregate built-in LSM modules and loadable LSM modules (remember,
-not all LSM modules will be able to get in-tree and built-in), userspace won't be
-able to use LSM id you are trying to introduce. Your LSM id makes LSM framework
-worse than now.
-
-You are killing The Next Generation due to "only in-tree and supported by
-distributors is correct" crap.
 
 --
 Linux-audit mailing list
