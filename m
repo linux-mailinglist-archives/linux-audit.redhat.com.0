@@ -2,79 +2,82 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id A744E60F8E3
-	for <lists+linux-audit@lfdr.de>; Thu, 27 Oct 2022 15:19:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD3D2610DAE
+	for <lists+linux-audit@lfdr.de>; Fri, 28 Oct 2022 11:50:36 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1666876758;
+	s=mimecast20190719; t=1666950635;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=xXBMRHbT6M+8jpRmxPYVsAtg0d9ZVnEMioDGwLuVuXY=;
-	b=VyyL0G2S/SuV4kls5nOCm88OGnyMy73cHouI8xJ5UZdDebPSB4pUam7iBJ7c8Ybb2IDg43
-	YRo9ukSbzv98o7fucZB16VWM/UbeTy3LwNu25Jwi3Cxv2GMa+nccm3Z3EK/33uFncFWX9u
-	A75pf1bTvqkbzLsvbaQ2Q1aj/KSxgLA=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=fg8WvUBFmxKojtCEs/rba+fpNXBYBQEr0TaZH4G3qI4=;
+	b=T+UlJIXEZKaiercCAcl0MCpPCUKuXZOAOkbsbGuy41b1PN3r6Q+0SNvLuaEFqtVx+9mRW2
+	DZxGPIRur3OOTGp45ORvEUoB7wk+eOXdwHF4rpqGZQQNaJ0CkHDKK5ZNFVkwZBbz0k+f3c
+	ZA9kXdsaBC6E9sm4+R4MrFk5xb292vk=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-308-IZkkMRNHOj20aaDHn22L8Q-1; Thu, 27 Oct 2022 09:19:17 -0400
-X-MC-Unique: IZkkMRNHOj20aaDHn22L8Q-1
+ us-mta-570-ndXQxZ9rOJ6pYE6Atu4jFA-1; Fri, 28 Oct 2022 05:50:32 -0400
+X-MC-Unique: ndXQxZ9rOJ6pYE6Atu4jFA-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 29AD482DFCB;
-	Thu, 27 Oct 2022 13:19:03 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5AECF2A5955A;
+	Fri, 28 Oct 2022 09:50:30 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (unknown [10.30.29.100])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id D52CF40C2065;
-	Thu, 27 Oct 2022 13:18:38 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 1B78B40C206B;
+	Fri, 28 Oct 2022 09:50:24 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (localhost [IPv6:::1])
-	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id 0EBD6194704E;
-	Thu, 27 Oct 2022 13:18:16 +0000 (UTC)
+	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id 17C0E1946A7F;
+	Fri, 28 Oct 2022 09:50:23 +0000 (UTC)
 X-Original-To: linux-audit@listman.corp.redhat.com
 Delivered-To: linux-audit@listman.corp.redhat.com
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
  by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with
- ESMTP id 2FC2F19465B2 for <linux-audit@listman.corp.redhat.com>;
- Tue, 25 Oct 2022 10:35:08 +0000 (UTC)
+ ESMTP id 670141946586 for <linux-audit@listman.corp.redhat.com>;
+ Fri, 28 Oct 2022 09:50:21 +0000 (UTC)
 Received: by smtp.corp.redhat.com (Postfix)
- id 122F41111C61; Tue, 25 Oct 2022 10:35:08 +0000 (UTC)
+ id 4B822C15995; Fri, 28 Oct 2022 09:50:21 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
- (mimecast08.extmail.prod.ext.rdu2.redhat.com [10.11.55.24])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 099221111C60
- for <linux-audit@redhat.com>; Tue, 25 Oct 2022 10:35:07 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [207.211.31.81])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C8BEA3810D23
- for <linux-audit@redhat.com>; Tue, 25 Oct 2022 10:35:07 +0000 (UTC)
-Received: from smtp-relay-canonical-0.canonical.com
- (smtp-relay-canonical-0.canonical.com [185.125.188.120]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_128_GCM_SHA256) id us-mta-173-_q2Tby4hNnuy_5eeKK-vxA-1; Tue,
- 25 Oct 2022 06:35:06 -0400
-X-MC-Unique: _q2Tby4hNnuy_5eeKK-vxA-1
-Received: from [192.168.43.182] (unknown [62.168.35.125])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (mimecast06.extmail.prod.ext.rdu2.redhat.com [10.11.55.22])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4438DC15BA8
+ for <linux-audit@redhat.com>; Fri, 28 Oct 2022 09:50:21 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [205.139.110.61])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by smtp-relay-canonical-0.canonical.com (Postfix) with ESMTPSA id 22B144230C; 
- Tue, 25 Oct 2022 10:26:17 +0000 (UTC)
-Message-ID: <77ec837a-ff64-e6f0-fe14-a54c1646ea0b@canonical.com>
-Date: Tue, 25 Oct 2022 03:26:17 -0700
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 27C09185A78B
+ for <linux-audit@redhat.com>; Fri, 28 Oct 2022 09:50:21 +0000 (UTC)
+Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com
+ [209.85.167.180]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-550-uTl0dxogNUiJL0yn_o1cbA-1; Fri, 28 Oct 2022 05:50:18 -0400
+X-MC-Unique: uTl0dxogNUiJL0yn_o1cbA-1
+Received: by mail-oi1-f180.google.com with SMTP id g130so5580722oia.13
+ for <linux-audit@redhat.com>; Fri, 28 Oct 2022 02:50:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=hJOZ7nL7nUVuoXx6yfQht5u/rUZxqZv4VWUs7Qhk1hE=;
+ b=o1LBh7JV5K+Ve6qfJkXEZOcj04M9nAPPVAC8tfdd+p82uSGLW+jHrS7VhVtwCb9Y7e
+ qA1Bs5pXfDC9dk7EUzeGcdRCIeu1aQUQ7BXa7RQpgBd1BqiY7OwbqlCnFNMT1Tzv20iT
+ lQuXQAnUHAVQhlRPFYHOMI1Q8M4uIjGpXz+laubYl76w7vfdhStBkdP43/12f5xbFh0P
+ gQBNm6ooE79B7QA3ycKtXJj5O0mOfjifwjx+QG6LJZ97ai54aFKPhbuUEznTZhxHMzUW
+ LfAuKZc8ywlUnZk8stdiIBfHfmROmZ3/uVsE5rWNtTqKLlCncPtukoC5TPcVgLSzG3DP
+ fqAw==
+X-Gm-Message-State: ACrzQf0zldo4PIuo1MaRN2PeIzjK7sOO6oAeukx8T/Dx3hGppDSraC6g
+ dai5oWBECJw7t+YK+OMUcds8YtfUgmKVkVNegh94
+X-Google-Smtp-Source: AMsMyM5LT56WrX8xq2cDEwU9MowuTZJprtvIM+mNwCDsAdE4o56WE0f9ds+W9OIiqC1+bVos/ZfrkQ3B85DspeKDevQ=
+X-Received: by 2002:a05:6808:10d4:b0:359:c147:7afe with SMTP id
+ s20-20020a05680810d400b00359c1477afemr3882403ois.172.1666950617668; Fri, 28
+ Oct 2022 02:50:17 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: LSM stacking in next for 6.1?
-To: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
- Casey Schaufler <casey@schaufler-ca.com>, Paul Moore <paul@paul-moore.com>
 References: <791e13b5-bebd-12fc-53de-e9a86df23836.ref@schaufler-ca.com>
- <269014c6-5ce6-3322-5208-004cb1b40792@canonical.com>
- <CAHC9VhRrOgDMO9fo632tSL7vCMAy1_x3smaAok-nWdMAUFB8xQ@mail.gmail.com>
- <1958a0d3-c4fb-0661-b516-93f8955cdb95@schaufler-ca.com>
  <CAHC9VhQPvcunvBDvSnrUChwmGLen0Rcy8KEk_uOjNF1kr4_m9w@mail.gmail.com>
  <6552af17-e511-a7d8-f462-cafcf41a33bb@schaufler-ca.com>
  <CAHC9VhQMeyxQJSAUuigu=CCr44WtpJg=LEh1xng_bPfCCjqq6Q@mail.gmail.com>
@@ -87,9 +90,16 @@ References: <791e13b5-bebd-12fc-53de-e9a86df23836.ref@schaufler-ca.com>
  <1a9f9182-9188-2f64-4a17-ead2fed70348@schaufler-ca.com>
  <2225aec6-f0f3-d38e-ee3c-6139a7c25a37@I-love.SAKURA.ne.jp>
  <5995f18c-5623-9d97-0aa6-5f13a2a8e895@I-love.SAKURA.ne.jp>
-From: John Johansen <john.johansen@canonical.com>
-Organization: Canonical
-In-Reply-To: <5995f18c-5623-9d97-0aa6-5f13a2a8e895@I-love.SAKURA.ne.jp>
+ <77ec837a-ff64-e6f0-fe14-a54c1646ea0b@canonical.com>
+ <0fcc5444-a957-f107-25a1-3540588eab5a@I-love.SAKURA.ne.jp>
+ <CAHC9VhQy91eezWMQ=MoLe3fQSu_Rc+ZUWW2Mm3+78Mr7vS_Z0A@mail.gmail.com>
+ <a0567b10-fa83-50f4-7bf6-937e0c677e60@I-love.SAKURA.ne.jp>
+In-Reply-To: <a0567b10-fa83-50f4-7bf6-937e0c677e60@I-love.SAKURA.ne.jp>
+From: Paul Moore <paul@paul-moore.com>
+Date: Fri, 28 Oct 2022 05:50:06 -0400
+Message-ID: <CAHC9VhT2Azg1F-G3RQ4xL7JgA3OAtHafzS1_nvUyEUFsCJ9+SA@mail.gmail.com>
+Subject: Re: LSM stacking in next for 6.1?
+To: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
 X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
  Definition; Similar Internal Domain=false;
  Similar Monitored External Domain=false; Custom External Domain=false;
@@ -97,8 +107,7 @@ X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
  Internal User Name=false; Custom Display Name List=false;
  Reply-to Address Mismatch=false; Targeted Threat Dictionary=false;
  Mimecast Threat Dictionary=false; Custom Threat Dictionary=false
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-X-Mailman-Approved-At: Thu, 27 Oct 2022 13:18:14 +0000
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -110,78 +119,101 @@ List-Post: <mailto:linux-audit@redhat.com>
 List-Help: <mailto:linux-audit-request@redhat.com?subject=help>
 List-Subscribe: <https://listman.redhat.com/mailman/listinfo/linux-audit>,
  <mailto:linux-audit-request@redhat.com?subject=subscribe>
-Cc: keescook@chromium.org, SElinux list <selinux@vger.kernel.org>,
- James Morris <jmorris@namei.org>, Mimi Zohar <zohar@linux.ibm.com>,
+Cc: John Johansen <john.johansen@canonical.com>, keescook@chromium.org,
+ SElinux list <selinux@vger.kernel.org>, James Morris <jmorris@namei.org>,
+ Mimi Zohar <zohar@linux.ibm.com>,
  LSM List <linux-security-module@vger.kernel.org>, linux-audit@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
 Sender: "Linux-audit" <linux-audit-bounces@redhat.com>
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 
-On 10/25/22 02:48, Tetsuo Handa wrote:
-> On 2022/10/25 1:37, Casey Schaufler wrote:
->>>   What I'm insisting is that "warrant the freedom to load
->>> loadable LSM modules without recompiling the whole kernel".
->>
->> Since security modules are optional and the LSM infrastructure
->> itself is optional you can't ensure that any given kernel would
->> support a loadable security module.
-> 
-> Like I propose adding EXPORT_SYMBOL_GPL(security_hook_heads),
-> I'm not taking about distributors who choose CONFIG_SECURITY=n.
-> 
->>> Adding EXPORT_SYMBOL_GPL(security_hook_heads) is the only way that can "allow
->>> LSM modules which distributors cannot support to be legally loaded".
->>
->> I believe that I've identified an alternative. It isn't easy or cheap.
-> 
-> No. You are just handwaving/postponing the problem using something unknown
-> that is not yet shown as a workable code. Anything that can be disabled via
-> kernel config option cannot be an alternative.
-> 
-Uhmmm, loadable LSM modules if they ever happen will have a kernel config.
-If not distros will carry a patch just like they have for unprivileged
-user namespaces. Trying to force distros to allow out of tree code just
-isn't going to work.
+On Wed, Oct 26, 2022 at 8:02 PM Tetsuo Handa
+<penguin-kernel@i-love.sakura.ne.jp> wrote:
+> On 2022/10/27 5:11, Paul Moore wrote:
+> > On Tue, Oct 25, 2022 at 7:20 AM Tetsuo Handa
+> > <penguin-kernel@i-love.sakura.ne.jp> wrote:
+> >> On 2022/10/25 19:26, John Johansen wrote:
+> >>> no, Casey is not. He is trying to find a path forward to get LSM
+> >>> stacking upstream sooner than later. He has made proposals that
+> >>> admittedly you have not liked, but he has at least tried to propose
+> >>> ideas that could work within the insane set of constraints.
+> >>
+> >> I'm OK with getting LSM stacking upstream. But changes made based on
+> >> only built-in modules are bad. If LSM id cannot be assigned to loadable
+> >> LSM modules at runtime because not all loadable LSM modules will be
+> >> in-tree in order to get an LSM id assigned, loadable LSM modules won't
+> >> be able to utilize e.g. lsm_module_list system call (or whatever
+> >> changes made while trying to unshare resources/interfaces currently
+> >> shared among SELinux/Smack/AppArmor).
+> >
+> > As a reminder, the LSM layer, just like the rest of the kernel, has no
+> > plans to provide any level of consideration or support for out-of-tree
+> > kernel code.  LSMs which are not part of the upstream Linux kernel are
+> > not our concern here; if they fail to work with the syscall and/or LSM
+> > stacking changes merged, that should not be considered a blocker to
+> > upstream development.
+> >
+>
+> No. You are misunderstanding.
 
->    Quoting from https://lkml.kernel.org/r/2225aec6-f0f3-d38e-ee3c-6139a7c25a37@I-love.SAKURA.ne.jp
->    > Like Paul Moore said
->    >
->    >   However, I will caution that it is becoming increasingly difficult for people
->    >   to find time to review potential new LSMs so it may a while to attract sufficient
->    >   comments and feedback.
->    >
->    > , being unable to legally use loadable LSMs deprives of chances to develop/try
->    > new LSMs, and makes LSM interface more and more unattractive. The consequence
->    > would be "The LSM interface is dead. We will give up implementing as LSMs."
-> 
-> The biggest problem is that quite few developers show interest in loadable LSM modules.
-> How many developers responded to this topic? Once the ability to allow loadable LSM
-> modules is technically lost, nobody shall be able to revive it. You will be happy with
-> ignoring poor people.
-> 
-> You are already and completely trapped into "only in-tree and supported by distributors
-> is correct" crap.
-> 
+With all due respect, I understand your point very well, I'm simply
+trying to explain to you the position that the Linux Kernel has
+historically taken with respect to out-of-tree and in-development
+code.
 
-no, Casey is not. He is trying to find a path forward to get LSM
-stacking upstream sooner than later. He has made proposals that
-admittedly you have not liked, but he has at least tried to propose
-ideas that could work within the insane set of constraints.
+> This problem is not limited to out-of-tree and/or
+> loadable LSM modules. This change prevents new LSM modules from getting upstream
+> due to a chicken-and-egg problem.
 
->> Of course the upstream kernel isn't going to have LSM IDs for out-of-tree
->> security modules. That's one of many reasons loadable modules are going to
->> have to be treated differently from built-in modules, if they're allowed
->> at all.
-> 
-> Then, I have to hate your idea of having fixed sized array.
-> 
-> Nacked-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-> 
+It does *not* prevent new LSM modules from being merged upstream.
+
+It may make it more difficult for out-of-tree modules to remain
+out-of-tree, but that is both not a concern of the upstream community
+nor is it the concern you are currently describing.
+
+> Currently anyone can start writing new LSM modules using name as identifier. But
+> you are trying to forbid using name as identifier, and trying to force using integer
+> as identifier, but that integer will not be provided unless new LSM modules get
+> upstream.
+
+That is correct.  In order to have a LSM identifier token the LSM must
+be upstream.
+
+> Then, how those who want to write new LSM modules can start writing LSM modules and
+> propose userspace changes for new LSM modules? They can't use the identifier unless
+> their LSM module get upstream, which in turn forces them not to propose interface for
+> userspace programs, which in turn makes it difficult to get new LSM modules tested
+> by users, which in turn makes it difficult to get upstream due to "who is using your
+> LSM module" question, which in turn makes it difficult to get the identifier...
+
+First, new LSMs generally do not need extensive userspace
+modifications; of course there may be some, but when one considers the
+entirety of a modern Linux distribution the actual percentage should
+be quite small.  In addition, it is not uncommon for in-development
+LSMs to have a set of privately, i.e. not upstreamed, patched
+userspace tools while the new LSM works to get upstream.  These
+private userspace patches are generally merged after the LSM has been
+merged into the kernel.
+
+> You are trying to force CONFIG_MODULES=n by just "we don't care about out-of-tree code".
+
+That is not the goal at all and I would appreciate it if you could
+stop slandering the motivations of the LSM syscall effort.
+
+> Trying to change identifier from name to integer is a serious bug.
+
+I disagree.  One would have a similar problem - userspace
+awareness/enablement - regardless of if a name or a token is used.
+Ultimately the challenge is getting userspace developers to accept a
+change that is not part of the upstream Linux Kernel and thus not
+guaranteed under the usual "don't break userspace" kernel API promise.
+
+-- 
+paul-moore.com
 
 --
 Linux-audit mailing list
