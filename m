@@ -2,87 +2,92 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 084FF621E5C
-	for <lists+linux-audit@lfdr.de>; Tue,  8 Nov 2022 22:15:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84598623785
+	for <lists+linux-audit@lfdr.de>; Thu, 10 Nov 2022 00:34:43 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1667942108;
+	s=mimecast20190719; t=1668036882;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=UXnHnmfwX6ilBmWkGwM5j5MF3Wk/J3fyHDhqvuEkDjQ=;
-	b=bTCB4nmFR08Z13MX3vPQbWLVkb96RTWQOX2wj0qZhoL322rFxzOghNeDRapVFc7cjWKMVm
-	8AFQIj7wYKXiExvf0Kl34oj7DAD5ecdpHfll3si0ItnYgj8sAuGx66A9MxpFzBPxT+aPWX
-	QSBeP0EPRf459rm+fk6Fxdwh4mYFH40=
+	bh=m0bcTuNu0RaE5g1SPmoG3EbQxVpHTbkKGI0FlpZcDEI=;
+	b=EsKzGVNuPtE8KsDfgtqVKvtlbNuc6Av44BbDwUYuXY0qfEmvP69jsB9k0Pt1jhtPnpWa/r
+	KRvCGrh5kXfQJto71hkQXfWRLeSgK+CU5X0bI/hFLgqwtz4iFysFYtGB4AyL4IKWIo+gR1
+	Mmmc9WmKcdV41HuZegNgYLnNpOooQYY=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-35-c9soc-BPNA2BObi1XwKoQA-1; Tue, 08 Nov 2022 16:15:04 -0500
-X-MC-Unique: c9soc-BPNA2BObi1XwKoQA-1
+ us-mta-361-hXyiBUHyMSy5xXHrHrBdww-1; Wed, 09 Nov 2022 18:34:38 -0500
+X-MC-Unique: hXyiBUHyMSy5xXHrHrBdww-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D16CC1C16EA1;
-	Tue,  8 Nov 2022 21:15:01 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 925C81C004F5;
+	Wed,  9 Nov 2022 23:34:36 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (unknown [10.30.29.100])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 3EE1540C94AD;
-	Tue,  8 Nov 2022 21:14:54 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id D45B140D298B;
+	Wed,  9 Nov 2022 23:34:29 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (localhost [IPv6:::1])
-	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id 2D6DF19465B5;
-	Tue,  8 Nov 2022 21:14:53 +0000 (UTC)
+	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id BAEC119465B7;
+	Wed,  9 Nov 2022 23:34:28 +0000 (UTC)
 X-Original-To: linux-audit@listman.corp.redhat.com
 Delivered-To: linux-audit@listman.corp.redhat.com
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
  by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with
- ESMTP id E7E871946588 for <linux-audit@listman.corp.redhat.com>;
- Tue,  8 Nov 2022 20:56:05 +0000 (UTC)
+ ESMTP id 03E831946588 for <linux-audit@listman.corp.redhat.com>;
+ Wed,  9 Nov 2022 23:34:28 +0000 (UTC)
 Received: by smtp.corp.redhat.com (Postfix)
- id C6E5D35429; Tue,  8 Nov 2022 20:56:05 +0000 (UTC)
+ id DB880140EBF5; Wed,  9 Nov 2022 23:34:27 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
- (mimecast05.extmail.prod.ext.rdu2.redhat.com [10.11.55.21])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BF42D9E70
- for <linux-audit@redhat.com>; Tue,  8 Nov 2022 20:56:05 +0000 (UTC)
+ (mimecast01.extmail.prod.ext.rdu2.redhat.com [10.11.55.17])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D44B91402BDA
+ for <linux-audit@redhat.com>; Wed,  9 Nov 2022 23:34:27 +0000 (UTC)
 Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
  [205.139.110.120])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9DEC286E921
- for <linux-audit@redhat.com>; Tue,  8 Nov 2022 20:56:05 +0000 (UTC)
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-74-Mx1A48JUPhKg68nbg8jtfA-1; Tue, 08 Nov 2022 15:56:04 -0500
-X-MC-Unique: Mx1A48JUPhKg68nbg8jtfA-1
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by sin.source.kernel.org (Postfix) with ESMTPS id C352ECE1CE8;
- Tue,  8 Nov 2022 20:48:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id E9ABDC433D7;
- Tue,  8 Nov 2022 20:48:55 +0000 (UTC)
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org
- (localhost.localdomain [127.0.0.1])
- by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id
- D1E64E270CD; Tue,  8 Nov 2022 20:48:55 +0000 (UTC)
-Subject: Re: [GIT PULL] Audit fixes for v6.1 (#1)
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <CAHC9VhTv96BsOTQyyBTWSJ80fDuiniacDUhfz1GJrP-huWxJzg@mail.gmail.com>
-References: <CAHC9VhTv96BsOTQyyBTWSJ80fDuiniacDUhfz1GJrP-huWxJzg@mail.gmail.com>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <CAHC9VhTv96BsOTQyyBTWSJ80fDuiniacDUhfz1GJrP-huWxJzg@mail.gmail.com>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/pcmoore/audit.git
- tags/audit-pr-20221107
-X-PR-Tracked-Commit-Id: 986d93f55bdeab1cac858d1e47b41fac10b2d7f6
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: f141df371335645ce29a87d9683a3f79fba7fd67
-Message-Id: <166794053585.22160.9230442831910400778.pr-tracker-bot@kernel.org>
-Date: Tue, 08 Nov 2022 20:48:55 +0000
-To: Paul Moore <paul@paul-moore.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B8E6585A5A6
+ for <linux-audit@redhat.com>; Wed,  9 Nov 2022 23:34:27 +0000 (UTC)
+Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com
+ [209.85.210.43]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-500-h2gXRquhObqvaX0MGmeS_g-1; Wed, 09 Nov 2022 18:34:25 -0500
+X-MC-Unique: h2gXRquhObqvaX0MGmeS_g-1
+Received: by mail-ot1-f43.google.com with SMTP id
+ cb2-20020a056830618200b00661b6e5dcd8so257912otb.8
+ for <linux-audit@redhat.com>; Wed, 09 Nov 2022 15:34:25 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=sWbjRDR7oEfTFipQemNFQRb8BL0viMnAylQw4SRSH5I=;
+ b=3yBZ74UV8OS2KXDrGMsm8y3JFfGNexWVWShFD+tjfLE+7cE2+qfHFpwVyhV1ZFr7qn
+ mWuY3RL3f1G5TnRsTvgjWODK79qkzTRLf+olNNsol3IWlYDkJJo2VoDvmBNGkA/pG8Na
+ 7dk2/96xKB++LBElSvnjB8szKSrtdOeDuImjf0qo6cuO7nrIMzmZCHpWVcRLn4bDFVoD
+ oKm9vZVcoZQyW+zZxNJjjArr44qvmA2vknQVcVgV1H4LxE2nQccl1F/xJcilkt66W1eG
+ XF9D7dqXRNVF2+/cupXms75K9y88DXG3b07fqBevBKuSN46jXNipr4KtK6bJvFOB28Q+
+ A9iQ==
+X-Gm-Message-State: ACrzQf2xaDK8R1hyTaB/yUjEpLtvMjZQKgGPZwlTUnuyVQfUXodTc/Sp
+ sp8Cqb0tIcvcw7nDEwvN/e1jDbkCxaKTAavH2mLv
+X-Google-Smtp-Source: AMsMyM6EYxXXLjYag46U/qRTjGODzHhgNYuenbATBWMFT4HBwhpOqAzYqwjgoyxzBTRIst+9dQ4yGQPsJ1j8jnyqcT4=
+X-Received: by 2002:a9d:7f84:0:b0:66c:53ef:e555 with SMTP id
+ t4-20020a9d7f84000000b0066c53efe555mr25368433otp.34.1668036864745; Wed, 09
+ Nov 2022 15:34:24 -0800 (PST)
+MIME-Version: 1.0
+References: <20221025184519.13231-1-casey@schaufler-ca.com>
+ <20221025184519.13231-5-casey@schaufler-ca.com> <Y1jNGMKfb+NUPrJS@kroah.com>
+ <e3949b66-26fe-807e-a626-79ca78396e8a@schaufler-ca.com>
+In-Reply-To: <e3949b66-26fe-807e-a626-79ca78396e8a@schaufler-ca.com>
+From: Paul Moore <paul@paul-moore.com>
+Date: Wed, 9 Nov 2022 18:34:14 -0500
+Message-ID: <CAHC9VhQzP0Fz4O9dJLy2hQrMK-2gDjEDBsJw=-2Fvr9jiva1Hg@mail.gmail.com>
+Subject: Re: [PATCH v1 4/8] LSM: Maintain a table of LSM attribute data
+To: Linus Torvalds <torvalds@linux-foundation.org>
 X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
  Definition; Similar Internal Domain=false;
  Similar Monitored External Domain=false; Custom External Domain=false;
@@ -90,8 +95,7 @@ X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
  Internal User Name=false; Custom Display Name List=false;
  Reply-to Address Mismatch=false; Targeted Threat Dictionary=false;
  Mimecast Threat Dictionary=false; Custom Threat Dictionary=false
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-X-Mailman-Approved-At: Tue, 08 Nov 2022 21:14:51 +0000
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,9 +107,7 @@ List-Post: <mailto:linux-audit@redhat.com>
 List-Help: <mailto:linux-audit-request@redhat.com?subject=help>
 List-Subscribe: <https://listman.redhat.com/mailman/listinfo/linux-audit>,
  <mailto:linux-audit-request@redhat.com?subject=subscribe>
-Cc: linux-audit@redhat.com, Linus Torvalds <torvalds@linux-foundation.org>,
- linux-kernel@vger.kernel.org
-MIME-Version: 1.0
+Cc: linux-audit@redhat.com, linux-kernel@vger.kernel.org
 Errors-To: linux-audit-bounces@redhat.com
 Sender: "Linux-audit" <linux-audit-bounces@redhat.com>
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
@@ -114,18 +116,39 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-The pull request you sent on Mon, 7 Nov 2022 18:10:15 -0500:
+On Wed, Oct 26, 2022 at 8:38 PM Casey Schaufler <casey@schaufler-ca.com> wrote:
+> On 10/25/2022 11:00 PM, Greg KH wrote:
+> > On Tue, Oct 25, 2022 at 11:45:15AM -0700, Casey Schaufler wrote:
+> >> As LSMs are registered add their lsm_id pointers to a table.
+> >> This will be used later for attribute reporting.
+> >>
+> >> Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
+> >> ---
+> >>  include/linux/security.h | 17 +++++++++++++++++
+> >>  security/security.c      | 18 ++++++++++++++++++
+> >>  2 files changed, 35 insertions(+)
+> >>
+> >> diff --git a/include/linux/security.h b/include/linux/security.h
+> >> index ca1b7109c0db..e1678594d983 100644
+> >> --- a/include/linux/security.h
+> >> +++ b/include/linux/security.h
+> >> @@ -138,6 +138,23 @@ enum lockdown_reason {
+> >>
+> >>  extern const char *const lockdown_reasons[LOCKDOWN_CONFIDENTIALITY_MAX+1];
+> >>
+> >> +#define LSMID_ENTRIES ( \
+> >> +    1 + /* capabilities */ \
+> > No #define for capabilities?
+>
+> Nope. There isn't one. CONFIG_SECURITY takes care of it.
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/pcmoore/audit.git tags/audit-pr-20221107
+I guess we might as well use the existing pattern just in case this
+header ever gets pulled into somewhere unexpected.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/f141df371335645ce29a87d9683a3f79fba7fd67
+  (IS_ENABLED(CONFIG_SECURITY) ? 1 : 0) + ...
 
-Thank you!
-
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+--
+paul-moore.com
 
 --
 Linux-audit mailing list
