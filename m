@@ -2,61 +2,93 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16BE264A2D0
-	for <lists+linux-audit@lfdr.de>; Mon, 12 Dec 2022 15:06:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 147F864AE0B
+	for <lists+linux-audit@lfdr.de>; Tue, 13 Dec 2022 04:05:38 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1670853993;
+	s=mimecast20190719; t=1670900736;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:list-id:list-help:
+	 content-transfer-encoding:content-transfer-encoding:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=5JTdtjQhO7lVPzlL10pdC2UG0yIj2rsNAi4cT0EV6cM=;
-	b=O4M0+YFHETELbNIlyhSUS4NS4W/nDxGKserJwNtj4dQltcFBnMfc9oX0Ga3KgE16XytD0Z
-	xCypbRljrwORCRECy6cc0Destr7tqmxWJXd4aVTJOGrm+pia6/RLNj3x43210o7NTySl6G
-	PhdbJj8shZqxCGlJjrXNqGmWQwuaXhk=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=vUNWVeXtaFEj3ZB/lyXQw/HICAiJ5p/GCyWPg5R5ERY=;
+	b=bRbdwEHW7dGx55wWD24rl63b0hc1hKKbh8T3kq0naPUcNSPEyGkeMOYwyUGBCkg465Q7Lx
+	oCThqIHoGvmREoHboXtMJmmyA6AmlWX+don+nr/cisraN6FZAwjKscARA5PZeuueQq3yVO
+	oeqe5EeW5srImPAA3t/EIhogA3C0mSo=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-403-Aom6dD3bNaCfQntfOGpYrg-1; Mon, 12 Dec 2022 09:06:31 -0500
-X-MC-Unique: Aom6dD3bNaCfQntfOGpYrg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
+ us-mta-131-q3vbDCh3PZOckBCpMT98Jg-1; Mon, 12 Dec 2022 22:05:32 -0500
+X-MC-Unique: q3vbDCh3PZOckBCpMT98Jg-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 56A6E29DD997;
-	Mon, 12 Dec 2022 14:06:26 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B615A801580;
+	Tue, 13 Dec 2022 03:05:30 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com [10.30.29.100])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 4137940ED76B;
-	Mon, 12 Dec 2022 14:06:26 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 43235492C18;
+	Tue, 13 Dec 2022 03:05:25 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (localhost [IPv6:::1])
-	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id 155131946586;
-	Mon, 12 Dec 2022 14:06:26 +0000 (UTC)
+	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id 1311D1946595;
+	Tue, 13 Dec 2022 03:05:23 +0000 (UTC)
 X-Original-To: linux-audit@listman.corp.redhat.com
 Delivered-To: linux-audit@listman.corp.redhat.com
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
  by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with
- ESMTP id 130EB1946588 for <linux-audit@listman.corp.redhat.com>;
- Mon, 12 Dec 2022 14:06:24 +0000 (UTC)
+ ESMTP id 1AF741946586 for <linux-audit@listman.corp.redhat.com>;
+ Tue, 13 Dec 2022 03:05:22 +0000 (UTC)
 Received: by smtp.corp.redhat.com (Postfix)
- id EDBFD492C18; Mon, 12 Dec 2022 14:06:23 +0000 (UTC)
+ id CA8302026D68; Tue, 13 Dec 2022 03:05:21 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from madcap2.tricolour.com (ovpn-0-3.rdu2.redhat.com [10.22.0.3])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 74DCB492C14;
- Mon, 12 Dec 2022 14:06:22 +0000 (UTC)
-From: Richard Guy Briggs <rgb@redhat.com>
-To: Linux-Audit Mailing List <linux-audit@redhat.com>,
- LKML <linux-kernel@vger.kernel.org>, linux-fsdevel@vger.kernel.org,
- linux-api@vger.kernel.org
-Subject: [PATCH v5 3/3] fanotify,
- audit: Allow audit to use the full permission event response
-Date: Mon, 12 Dec 2022 09:06:11 -0500
-Message-Id: <79fcf72ea442eeede53ed5e6de567f8df8ef7d83.1670606054.git.rgb@redhat.com>
-In-Reply-To: <cover.1670606054.git.rgb@redhat.com>
-References: <cover.1670606054.git.rgb@redhat.com>
+Received: from mimecast-mx02.redhat.com
+ (mimecast01.extmail.prod.ext.rdu2.redhat.com [10.11.55.17])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C227F2026D4B
+ for <linux-audit@redhat.com>; Tue, 13 Dec 2022 03:05:21 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [207.211.31.81])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A35FC85A588
+ for <linux-audit@redhat.com>; Tue, 13 Dec 2022 03:05:21 +0000 (UTC)
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com
+ [209.85.216.48]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-647-QA-qUT1LOVePV0YTOnF5Sw-1; Mon, 12 Dec 2022 22:05:19 -0500
+X-MC-Unique: QA-qUT1LOVePV0YTOnF5Sw-1
+Received: by mail-pj1-f48.google.com with SMTP id
+ t11-20020a17090a024b00b0021932afece4so2049273pje.5
+ for <linux-audit@redhat.com>; Mon, 12 Dec 2022 19:05:19 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=Rtk5TESQhMYupkDzAnSZrsExO2w9BU3bH6jn+cnUrr8=;
+ b=SQ3q60lmUPCwX4v5Sc20CJ+oh0v04sg1NrhbjR+/63H3hqU+Zm+ClzoW6kWfpNhmwu
+ Xgiy07pi2M9lcSIJ9rejqAd5aUNvJ9HpQ5tvvFOUAx9JXoDaOUbCyswPWNfgKcxfzUVr
+ KyM8siJ4/olflevl35iOnGC0EiM7OpmlfPfL5SA8EPMA5zdEH04J98FqwO0PwkZMCXnD
+ vXchjA1bwufcLpUWP/ShNVDOzkSXHyZWI4IMHe0P1zmXRjLiu5BzYA1akyYdGcyC8/71
+ ZlcCa6r6PDjN03hi+B1wQhL2f11NRffUM7Z1abW00L4FmUtceezJxxLVBAjlBmrcWRM2
+ nm5A==
+X-Gm-Message-State: ANoB5pnY3TyhlHXVMglpfeVq06Tt/9YSQpiNbHS5kOfPv7zMh+hVVi96
+ YySI3Ag12ONORtwlS7T2IecNB6v1Wx3RrtmWoG6M
+X-Google-Smtp-Source: AA0mqf5sXJfXq2xGHZuYJPucP5KXbmggjMQNiek+xwBIGByocsKl0BeOS+vBkTTEqug5rGt2mm4t5tq2wg7cxJagQKk=
+X-Received: by 2002:a17:902:a70b:b0:189:b0a3:cf4f with SMTP id
+ w11-20020a170902a70b00b00189b0a3cf4fmr37216824plq.56.1670900718781; Mon, 12
+ Dec 2022 19:05:18 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+From: Paul Moore <paul@paul-moore.com>
+Date: Mon, 12 Dec 2022 22:05:07 -0500
+Message-ID: <CAHC9VhTiYVO5SV6-P6gPcqR1chzwpEvwnDZaYEQACcU1kgvugw@mail.gmail.com>
+Subject: [GIT PULL] Audit patches for v6.2
+To: Linus Torvalds <torvalds@linux-foundation.org>
+X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
+ Definition; Similar Internal Domain=false;
+ Similar Monitored External Domain=false; Custom External Domain=false;
+ Mimecast External Domain=false; Newly Observed Domain=false;
+ Internal User Name=false; Custom Display Name List=false;
+ Reply-to Address Mismatch=false; Targeted Threat Dictionary=false;
+ Mimecast Threat Dictionary=false; Custom Threat Dictionary=false
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,140 +100,53 @@ List-Post: <mailto:linux-audit@redhat.com>
 List-Help: <mailto:linux-audit-request@redhat.com?subject=help>
 List-Subscribe: <https://listman.redhat.com/mailman/listinfo/linux-audit>,
  <mailto:linux-audit-request@redhat.com?subject=subscribe>
-Cc: Jan Kara <jack@suse.cz>, Richard Guy Briggs <rgb@redhat.com>,
- Amir Goldstein <amir73il@gmail.com>, Eric Paris <eparis@parisplace.org>
+Cc: linux-audit@redhat.com, linux-kernel@vger.kernel.org
 Errors-To: linux-audit-bounces@redhat.com
 Sender: "Linux-audit" <linux-audit-bounces@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-This patch passes the full response so that the audit function can use all
-of it. The audit function was updated to log the additional information in
-the AUDIT_FANOTIFY record.
+Hi Linus,
 
-Currently the only type of fanotify info that is defined is an audit
-rule number, but convert it to hex encoding to future-proof the field.
-Hex encoding suggested by Paul Moore <paul@paul-moore.com>.
+Two performance oriented patches for the audit subsystem: one
+consolidates similar code to gain some caching advantages, while the
+other stores a value in a stack variable to avoid repeated lookups in
+a loop.  The commit descriptions have more information, including some
+before/after performance measurements.  Please merge for v6.2.
 
-Sample records:
-  type=FANOTIFY msg=audit(1600385147.372:590): resp=2 fan_type=1 fan_info=3137 subj_trust=3 obj_trust=5
-  type=FANOTIFY msg=audit(1659730979.839:284): resp=1 fan_type=0 fan_info=3F subj_trust=2 obj_trust=2
+-Paul
 
-Suggested-by: Steve Grubb <sgrubb@redhat.com>
-Link: https://lore.kernel.org/r/3075502.aeNJFYEL58@x2
-Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
----
- fs/notify/fanotify/fanotify.c |  3 ++-
- include/linux/audit.h         |  9 +++++----
- kernel/auditsc.c              | 25 ++++++++++++++++++++++---
- 3 files changed, 29 insertions(+), 8 deletions(-)
+--
+The following changes since commit 9abf2313adc1ca1b6180c508c25f22f9395cc780:
 
-diff --git a/fs/notify/fanotify/fanotify.c b/fs/notify/fanotify/fanotify.c
-index 24ec1d66d5a8..29bdd99b29fa 100644
---- a/fs/notify/fanotify/fanotify.c
-+++ b/fs/notify/fanotify/fanotify.c
-@@ -273,7 +273,8 @@ static int fanotify_get_response(struct fsnotify_group *group,
- 
- 	/* Check if the response should be audited */
- 	if (event->response & FAN_AUDIT)
--		audit_fanotify(event->response & ~FAN_AUDIT);
-+		audit_fanotify(event->response & ~FAN_AUDIT,
-+			       &event->audit_rule);
- 
- 	pr_debug("%s: group=%p event=%p about to return ret=%d\n", __func__,
- 		 group, event, ret);
-diff --git a/include/linux/audit.h b/include/linux/audit.h
-index d6b7d0c7ce43..31086a72e32a 100644
---- a/include/linux/audit.h
-+++ b/include/linux/audit.h
-@@ -14,6 +14,7 @@
- #include <linux/audit_arch.h>
- #include <uapi/linux/audit.h>
- #include <uapi/linux/netfilter/nf_tables.h>
-+#include <uapi/linux/fanotify.h>
- 
- #define AUDIT_INO_UNSET ((unsigned long)-1)
- #define AUDIT_DEV_UNSET ((dev_t)-1)
-@@ -416,7 +417,7 @@ extern void __audit_log_capset(const struct cred *new, const struct cred *old);
- extern void __audit_mmap_fd(int fd, int flags);
- extern void __audit_openat2_how(struct open_how *how);
- extern void __audit_log_kern_module(char *name);
--extern void __audit_fanotify(u32 response);
-+extern void __audit_fanotify(u32 response, struct fanotify_response_info_audit_rule *friar);
- extern void __audit_tk_injoffset(struct timespec64 offset);
- extern void __audit_ntp_log(const struct audit_ntp_data *ad);
- extern void __audit_log_nfcfg(const char *name, u8 af, unsigned int nentries,
-@@ -523,10 +524,10 @@ static inline void audit_log_kern_module(char *name)
- 		__audit_log_kern_module(name);
- }
- 
--static inline void audit_fanotify(u32 response)
-+static inline void audit_fanotify(u32 response, struct fanotify_response_info_audit_rule *friar)
- {
- 	if (!audit_dummy_context())
--		__audit_fanotify(response);
-+		__audit_fanotify(response, friar);
- }
- 
- static inline void audit_tk_injoffset(struct timespec64 offset)
-@@ -679,7 +680,7 @@ static inline void audit_log_kern_module(char *name)
- {
- }
- 
--static inline void audit_fanotify(u32 response)
-+static inline void audit_fanotify(u32 response, struct fanotify_response_info_audit_rule *friar)
- { }
- 
- static inline void audit_tk_injoffset(struct timespec64 offset)
-diff --git a/kernel/auditsc.c b/kernel/auditsc.c
-index d1fb821de104..8d523066d81f 100644
---- a/kernel/auditsc.c
-+++ b/kernel/auditsc.c
-@@ -64,6 +64,7 @@
- #include <uapi/linux/limits.h>
- #include <uapi/linux/netfilter/nf_tables.h>
- #include <uapi/linux/openat2.h> // struct open_how
-+#include <uapi/linux/fanotify.h>
- 
- #include "audit.h"
- 
-@@ -2877,10 +2878,28 @@ void __audit_log_kern_module(char *name)
- 	context->type = AUDIT_KERN_MODULE;
- }
- 
--void __audit_fanotify(u32 response)
-+void __audit_fanotify(u32 response, struct fanotify_response_info_audit_rule *friar)
- {
--	audit_log(audit_context(), GFP_KERNEL,
--		AUDIT_FANOTIFY,	"resp=%u", response);
-+	struct audit_context *ctx = audit_context();
-+	struct audit_buffer *ab;
-+	char numbuf[12];
-+
-+	if (friar->hdr.type == FAN_RESPONSE_INFO_NONE) {
-+		audit_log(audit_context(), GFP_KERNEL, AUDIT_FANOTIFY,
-+			  "resp=%u fan_type=%u fan_info=3F subj_trust=2 obj_trust=2",
-+			  response, FAN_RESPONSE_INFO_NONE);
-+		return;
-+	}
-+	ab = audit_log_start(ctx, GFP_KERNEL, AUDIT_FANOTIFY);
-+	if (ab) {
-+		audit_log_format(ab, "resp=%u fan_type=%u fan_info=",
-+				 response, friar->hdr.type);
-+		snprintf(numbuf, sizeof(numbuf), "%u", friar->rule_number);
-+		audit_log_n_hex(ab, numbuf, sizeof(numbuf));
-+		audit_log_format(ab, " subj_trust=%u obj_trust=%u",
-+				 friar->subj_trust, friar->obj_trust);
-+		audit_log_end(ab);
-+	}
- }
- 
- void __audit_tk_injoffset(struct timespec64 offset)
+ Linux 6.1-rc1 (2022-10-16 15:36:24 -0700)
+
+are available in the Git repository at:
+
+ https://git.kernel.org/pub/scm/linux/kernel/git/pcmoore/audit.git
+   tags/audit-pr-20221212
+
+for you to fetch changes up to 50979953c0c41e929e5f955800da68e1bb24c7ab:
+
+ audit: unify audit_filter_{uring(), inode_name(), syscall()}
+   (2022-10-17 14:24:42 -0400)
+
+----------------------------------------------------------------
+audit/stable-6.2 PR 20221212
+
+----------------------------------------------------------------
+Ankur Arora (2):
+     audit: cache ctx->major in audit_filter_syscall()
+     audit: unify audit_filter_{uring(), inode_name(), syscall()}
+
+kernel/auditsc.c | 75 ++++++++++++++++++++++++++------------------------
+1 file changed, 39 insertions(+), 36 deletions(-)
+
 -- 
-2.27.0
+paul-moore.com
 
 --
 Linux-audit mailing list
