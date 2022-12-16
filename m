@@ -2,87 +2,87 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44B836522EE
-	for <lists+linux-audit@lfdr.de>; Tue, 20 Dec 2022 15:44:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8D746522EC
+	for <lists+linux-audit@lfdr.de>; Tue, 20 Dec 2022 15:44:27 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1671547467;
+	s=mimecast20190719; t=1671547466;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=UIG3zg73hB64AEqFXwZZb2XCKXowVRmOKdtOVV80bEE=;
-	b=KuHf7Yv6qwFYIZ3CMgQwF6oaUge4NJ3JQW0O9qZM5XsUHD7POKroDGpeu8CjR+lucxMSdk
-	iEXa1svrVGWj2dOnpchKkKqEVR9YLzVzsJ6u5eLpNGkKlRaTrPFWVsnLvvGEUJQRYA0Chv
-	Wj1ETHUVN8JMONqJDRtnefytIeQW5C0=
+	bh=MpYyF3VgNweTCuv3O6DhQ0K52o8k6xbc9FpSlfckrMo=;
+	b=BX494x78sM1lFJ1CwjWsg/QiOH6ngGo0LMBaOXa2li6xirj4kNqg3x8pziJFOZnVkgiXSV
+	PtqjTd383K+jZCs8EbAN/yrVqObt/qtojswHwOfmVzp98KNSzmxCHtRiGNg0d4D3L+EwCh
+	oeoaBLB0XnQtuUHha3LzECxUXugtBJc=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-232-Woaw7BxuPl-8hjkW6Nu_SA-1; Tue, 20 Dec 2022 09:44:25 -0500
-X-MC-Unique: Woaw7BxuPl-8hjkW6Nu_SA-1
+ us-mta-446-bJWPb3jbO06hShs0cBXVjQ-1; Tue, 20 Dec 2022 09:44:25 -0500
+X-MC-Unique: bJWPb3jbO06hShs0cBXVjQ-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 39E1780234E;
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 39931887404;
 	Tue, 20 Dec 2022 14:44:23 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (unknown [10.30.29.100])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 99ABD14171B6;
-	Tue, 20 Dec 2022 14:44:10 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 1B27814171B8;
+	Tue, 20 Dec 2022 14:44:11 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (localhost [IPv6:::1])
-	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id 3C25C19465B2;
-	Tue, 20 Dec 2022 14:44:09 +0000 (UTC)
+	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id 1AEB21946A6C;
+	Tue, 20 Dec 2022 14:44:10 +0000 (UTC)
 X-Original-To: linux-audit@listman.corp.redhat.com
 Delivered-To: linux-audit@listman.corp.redhat.com
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
  by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with
- ESMTP id EFA971946586 for <linux-audit@listman.corp.redhat.com>;
- Tue, 13 Dec 2022 18:22:30 +0000 (UTC)
+ ESMTP id E00171946594 for <linux-audit@listman.corp.redhat.com>;
+ Fri, 16 Dec 2022 16:52:48 +0000 (UTC)
 Received: by smtp.corp.redhat.com (Postfix)
- id D40E4C15BAD; Tue, 13 Dec 2022 18:22:30 +0000 (UTC)
+ id D12DF1121318; Fri, 16 Dec 2022 16:52:48 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
- (mimecast08.extmail.prod.ext.rdu2.redhat.com [10.11.55.24])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CC38AC15BA0
- for <linux-audit@redhat.com>; Tue, 13 Dec 2022 18:22:30 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [207.211.31.120])
+ (mimecast06.extmail.prod.ext.rdu2.redhat.com [10.11.55.22])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CA5D61121314
+ for <linux-audit@redhat.com>; Fri, 16 Dec 2022 16:52:48 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [205.139.110.61])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B126A3806736
- for <linux-audit@redhat.com>; Tue, 13 Dec 2022 18:22:30 +0000 (UTC)
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-563-NkOz9qVAM6WadhgQ9UirGQ-1; Tue, 13 Dec 2022 13:22:28 -0500
-X-MC-Unique: NkOz9qVAM6WadhgQ9UirGQ-1
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id ABAA318A6461
+ for <linux-audit@redhat.com>; Fri, 16 Dec 2022 16:52:48 +0000 (UTC)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_128_GCM_SHA256) id us-mta-656-9By3bd2xMQevRB1AhnMDUA-1; Fri,
+ 16 Dec 2022 11:52:46 -0500
+X-MC-Unique: 9By3bd2xMQevRB1AhnMDUA-1
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id E27CDB81227;
- Tue, 13 Dec 2022 18:13:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 353DEC433D2;
- Tue, 13 Dec 2022 18:13:39 +0000 (UTC)
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org
- (localhost.localdomain [127.0.0.1])
- by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id
- 23490C00445; Tue, 13 Dec 2022 18:13:39 +0000 (UTC)
-Subject: Re: [GIT PULL] Audit patches for v6.2
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <CAHC9VhTiYVO5SV6-P6gPcqR1chzwpEvwnDZaYEQACcU1kgvugw@mail.gmail.com>
-References: <CAHC9VhTiYVO5SV6-P6gPcqR1chzwpEvwnDZaYEQACcU1kgvugw@mail.gmail.com>
-X-PR-Tracked-List-Id: Linux Audit Discussion <linux-audit.redhat.com>
-X-PR-Tracked-Message-Id: <CAHC9VhTiYVO5SV6-P6gPcqR1chzwpEvwnDZaYEQACcU1kgvugw@mail.gmail.com>
-X-PR-Tracked-Remote: https://git.kernel.org/pub/scm/linux/kernel/git/pcmoore/audit.git
- tags/audit-pr-20221212
-X-PR-Tracked-Commit-Id: 50979953c0c41e929e5f955800da68e1bb24c7ab
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: bbdf4d54618ca1d4af304eab6631d68fd2d6ce39
-Message-Id: <167095521914.23919.14566100970871486298.pr-tracker-bot@kernel.org>
-Date: Tue, 13 Dec 2022 18:13:39 +0000
-To: Paul Moore <paul@paul-moore.com>
+ by smtp-out1.suse.de (Postfix) with ESMTPS id B54D234588;
+ Fri, 16 Dec 2022 16:43:44 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8C3AD138FD;
+ Fri, 16 Dec 2022 16:43:44 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id mr41IkCgnGOILgAAMHmgww
+ (envelope-from <jack@suse.cz>); Fri, 16 Dec 2022 16:43:44 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+ id 894A4A0762; Fri, 16 Dec 2022 17:43:42 +0100 (CET)
+Date: Fri, 16 Dec 2022 17:43:42 +0100
+From: Jan Kara <jack@suse.cz>
+To: Richard Guy Briggs <rgb@redhat.com>
+Subject: Re: [PATCH v5 2/3] fanotify: define struct members to hold response
+ decision context
+Message-ID: <20221216164342.ojcbdifdmafq5njw@quack3>
+References: <cover.1670606054.git.rgb@redhat.com>
+ <45da8423b9b1e8fc7abd68cd2269acff8cf9022a.1670606054.git.rgb@redhat.com>
+MIME-Version: 1.0
+In-Reply-To: <45da8423b9b1e8fc7abd68cd2269acff8cf9022a.1670606054.git.rgb@redhat.com>
 X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
  Definition; Similar Internal Domain=false;
  Similar Monitored External Domain=false; Custom External Domain=false;
@@ -90,7 +90,7 @@ X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
  Internal User Name=false; Custom Display Name List=false;
  Reply-to Address Mismatch=false; Targeted Threat Dictionary=false;
  Mimecast Threat Dictionary=false; Custom Threat Dictionary=false
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
 X-Mailman-Approved-At: Tue, 20 Dec 2022 14:44:08 +0000
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.29
@@ -103,29 +103,121 @@ List-Post: <mailto:linux-audit@redhat.com>
 List-Help: <mailto:linux-audit-request@redhat.com?subject=help>
 List-Subscribe: <https://listman.redhat.com/mailman/listinfo/linux-audit>,
  <mailto:linux-audit-request@redhat.com?subject=subscribe>
-Cc: linux-audit@redhat.com, Linus Torvalds <torvalds@linux-foundation.org>,
- linux-kernel@vger.kernel.org
-MIME-Version: 1.0
+Cc: Jan Kara <jack@suse.cz>, linux-api@vger.kernel.org,
+ Amir Goldstein <amir73il@gmail.com>, LKML <linux-kernel@vger.kernel.org>,
+ Linux-Audit Mailing List <linux-audit@redhat.com>,
+ linux-fsdevel@vger.kernel.org, Eric Paris <eparis@parisplace.org>
 Errors-To: linux-audit-bounces@redhat.com
 Sender: "Linux-audit" <linux-audit-bounces@redhat.com>
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Disposition: inline
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-The pull request you sent on Mon, 12 Dec 2022 22:05:07 -0500:
+On Mon 12-12-22 09:06:10, Richard Guy Briggs wrote:
+> This patch adds a flag, FAN_INFO and an extensible buffer to provide
+> additional information about response decisions.  The buffer contains
+> one or more headers defining the information type and the length of the
+> following information.  The patch defines one additional information
+> type, FAN_RESPONSE_INFO_AUDIT_RULE, to audit a rule number.  This will
+> allow for the creation of other information types in the future if other
+> users of the API identify different needs.
+> 
+> Suggested-by: Steve Grubb <sgrubb@redhat.com>
+> Link: https://lore.kernel.org/r/2745105.e9J7NaK4W3@x2
+> Suggested-by: Jan Kara <jack@suse.cz>
+> Link: https://lore.kernel.org/r/20201001101219.GE17860@quack2.suse.cz
+> Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
 
-> https://git.kernel.org/pub/scm/linux/kernel/git/pcmoore/audit.git tags/audit-pr-20221212
+Thanks for the patches. They look very good to me. Just two nits below. I
+can do the small updates on commit if there would be no other changes. But
+I'd like to get some review from audit guys for patch 3/3 before I commit
+this.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/bbdf4d54618ca1d4af304eab6631d68fd2d6ce39
+> diff --git a/fs/notify/fanotify/fanotify_user.c b/fs/notify/fanotify/fanotify_user.c
+> index caa1211bac8c..cf3584351e00 100644
+> --- a/fs/notify/fanotify/fanotify_user.c
+> +++ b/fs/notify/fanotify/fanotify_user.c
+> @@ -283,19 +283,44 @@ static int create_fd(struct fsnotify_group *group, const struct path *path,
+>  	return client_fd;
+>  }
+>  
+> +static int process_access_response_info(int fd, const char __user *info, size_t info_len,
+> +					struct fanotify_response_info_audit_rule *friar)
 
-Thank you!
+I prefer to keep lines within 80 columns, unless there is really good
+reason (like with strings) to have them longer.
+
+BTW, why do you call the info structure 'friar'? I feel some language twist
+escapes me ;)
+
+> +{
+> +	if (fd == FAN_NOFD)
+> +		return -ENOENT;
+
+I would not test 'fd' in this function at all. After all it is not part of
+the response info structure and you do check it in
+process_access_response() anyway.
+
+> +
+> +	if (info_len != sizeof(*friar))
+> +		return -EINVAL;
+> +
+> +	if (copy_from_user(friar, info, sizeof(*friar)))
+> +		return -EFAULT;
+> +
+> +	if (friar->hdr.type != FAN_RESPONSE_INFO_AUDIT_RULE)
+> +		return -EINVAL;
+> +	if (friar->hdr.pad != 0)
+> +		return -EINVAL;
+> +	if (friar->hdr.len != sizeof(*friar))
+> +		return -EINVAL;
+> +
+> +	return info_len;
+> +}
+> +
+
+...
+
+> @@ -327,10 +359,18 @@ static int process_access_response(struct fsnotify_group *group,
+>  		return -EINVAL;
+>  	}
+>  
+> -	if (fd < 0)
+> +	if ((response & FAN_AUDIT) && !FAN_GROUP_FLAG(group, FAN_ENABLE_AUDIT))
+>  		return -EINVAL;
+>  
+> -	if ((response & FAN_AUDIT) && !FAN_GROUP_FLAG(group, FAN_ENABLE_AUDIT))
+> +	if (response & FAN_INFO) {
+> +		ret = process_access_response_info(fd, info, info_len, &friar);
+> +		if (ret < 0)
+> +			return ret;
+> +	} else {
+> +		ret = 0;
+> +	}
+> +
+> +	if (fd < 0)
+>  		return -EINVAL;
+
+And here I'd do:
+
+	if (fd == FAN_NOFD)
+		return 0;
+	if (fd < 0)
+		return -EINVAL;
+
+As we talked in previous revisions we'd specialcase FAN_NOFD to just verify
+extra info is understood by the kernel so that application writing fanotify
+responses has a way to check which information it can provide to the
+kernel.
+
+								Honza
 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
 
 --
 Linux-audit mailing list
