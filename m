@@ -1,86 +1,93 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 147F864AE0B
-	for <lists+linux-audit@lfdr.de>; Tue, 13 Dec 2022 04:05:38 +0100 (CET)
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7024364F003
+	for <lists+linux-audit@lfdr.de>; Fri, 16 Dec 2022 18:05:43 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1670900736;
+	s=mimecast20190719; t=1671210341;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:list-id:list-help:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=vUNWVeXtaFEj3ZB/lyXQw/HICAiJ5p/GCyWPg5R5ERY=;
-	b=bRbdwEHW7dGx55wWD24rl63b0hc1hKKbh8T3kq0naPUcNSPEyGkeMOYwyUGBCkg465Q7Lx
-	oCThqIHoGvmREoHboXtMJmmyA6AmlWX+don+nr/cisraN6FZAwjKscARA5PZeuueQq3yVO
-	oeqe5EeW5srImPAA3t/EIhogA3C0mSo=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=qJc1EzPy1LQdGNbg0lhH+7NjkJBIPAL0ab4PqgW5sTc=;
+	b=AGs8VQWe7SlmujXhj07yDyrvC2Und0cxEVuPLkzB/Y3ca/H1ysRpS/6m86zoUEO5GwnSpl
+	lKfI1dMe1hKLSsmmY+DWYAgvxBSmY2l7o1GdmaAx+qDmFmvwQ7GCTN51B5ajlH4po+nJ9z
+	RpqaPxOro7yRAiA3PLK77tf/0EktoUk=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-131-q3vbDCh3PZOckBCpMT98Jg-1; Mon, 12 Dec 2022 22:05:32 -0500
-X-MC-Unique: q3vbDCh3PZOckBCpMT98Jg-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
+ us-mta-284-_vhnpiUPMZKhzPpGISoQbg-1; Fri, 16 Dec 2022 12:05:40 -0500
+X-MC-Unique: _vhnpiUPMZKhzPpGISoQbg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B615A801580;
-	Tue, 13 Dec 2022 03:05:30 +0000 (UTC)
-Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com [10.30.29.100])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 43235492C18;
-	Tue, 13 Dec 2022 03:05:25 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 69D3D2802BB3;
+	Fri, 16 Dec 2022 17:05:38 +0000 (UTC)
+Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (unknown [10.30.29.100])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id A2C7D2166B2A;
+	Fri, 16 Dec 2022 17:05:31 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (localhost [IPv6:::1])
-	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id 1311D1946595;
-	Tue, 13 Dec 2022 03:05:23 +0000 (UTC)
+	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id 950171946A6E;
+	Fri, 16 Dec 2022 17:05:30 +0000 (UTC)
 X-Original-To: linux-audit@listman.corp.redhat.com
 Delivered-To: linux-audit@listman.corp.redhat.com
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
  by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with
- ESMTP id 1AF741946586 for <linux-audit@listman.corp.redhat.com>;
- Tue, 13 Dec 2022 03:05:22 +0000 (UTC)
+ ESMTP id B72EF1946594 for <linux-audit@listman.corp.redhat.com>;
+ Fri, 16 Dec 2022 17:05:28 +0000 (UTC)
 Received: by smtp.corp.redhat.com (Postfix)
- id CA8302026D68; Tue, 13 Dec 2022 03:05:21 +0000 (UTC)
+ id 889471121318; Fri, 16 Dec 2022 17:05:28 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
- (mimecast01.extmail.prod.ext.rdu2.redhat.com [10.11.55.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C227F2026D4B
- for <linux-audit@redhat.com>; Tue, 13 Dec 2022 03:05:21 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [207.211.31.81])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A35FC85A588
- for <linux-audit@redhat.com>; Tue, 13 Dec 2022 03:05:21 +0000 (UTC)
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com
- [209.85.216.48]) by relay.mimecast.com with ESMTP with STARTTLS
+ (mimecast03.extmail.prod.ext.rdu2.redhat.com [10.11.55.19])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 819331121314
+ for <linux-audit@redhat.com>; Fri, 16 Dec 2022 17:05:28 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [207.211.31.120])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 59BCB88B7AA
+ for <linux-audit@redhat.com>; Fri, 16 Dec 2022 17:05:28 +0000 (UTC)
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com
+ [209.85.215.176]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-647-QA-qUT1LOVePV0YTOnF5Sw-1; Mon, 12 Dec 2022 22:05:19 -0500
-X-MC-Unique: QA-qUT1LOVePV0YTOnF5Sw-1
-Received: by mail-pj1-f48.google.com with SMTP id
- t11-20020a17090a024b00b0021932afece4so2049273pje.5
- for <linux-audit@redhat.com>; Mon, 12 Dec 2022 19:05:19 -0800 (PST)
+ us-mta-633-NVj9DgHqNCKlXwnk58CJOw-1; Fri, 16 Dec 2022 12:05:26 -0500
+X-MC-Unique: NVj9DgHqNCKlXwnk58CJOw-1
+Received: by mail-pg1-f176.google.com with SMTP id s196so2192122pgs.3
+ for <linux-audit@redhat.com>; Fri, 16 Dec 2022 09:05:26 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Rtk5TESQhMYupkDzAnSZrsExO2w9BU3bH6jn+cnUrr8=;
- b=SQ3q60lmUPCwX4v5Sc20CJ+oh0v04sg1NrhbjR+/63H3hqU+Zm+ClzoW6kWfpNhmwu
- Xgiy07pi2M9lcSIJ9rejqAd5aUNvJ9HpQ5tvvFOUAx9JXoDaOUbCyswPWNfgKcxfzUVr
- KyM8siJ4/olflevl35iOnGC0EiM7OpmlfPfL5SA8EPMA5zdEH04J98FqwO0PwkZMCXnD
- vXchjA1bwufcLpUWP/ShNVDOzkSXHyZWI4IMHe0P1zmXRjLiu5BzYA1akyYdGcyC8/71
- ZlcCa6r6PDjN03hi+B1wQhL2f11NRffUM7Z1abW00L4FmUtceezJxxLVBAjlBmrcWRM2
- nm5A==
-X-Gm-Message-State: ANoB5pnY3TyhlHXVMglpfeVq06Tt/9YSQpiNbHS5kOfPv7zMh+hVVi96
- YySI3Ag12ONORtwlS7T2IecNB6v1Wx3RrtmWoG6M
-X-Google-Smtp-Source: AA0mqf5sXJfXq2xGHZuYJPucP5KXbmggjMQNiek+xwBIGByocsKl0BeOS+vBkTTEqug5rGt2mm4t5tq2wg7cxJagQKk=
-X-Received: by 2002:a17:902:a70b:b0:189:b0a3:cf4f with SMTP id
- w11-20020a170902a70b00b00189b0a3cf4fmr37216824plq.56.1670900718781; Mon, 12
- Dec 2022 19:05:18 -0800 (PST)
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=d6OCT2ZdbDad/BMX0pnYZXGlc+e0Af4ihyKy0ZnG13g=;
+ b=1KyKjnDH4HSlwJFUhT41h3kqwoJEsgZA4EK0PmnNvp7RnZe4qgvpW1OyhYhT+PznzS
+ H8ad0UpgpvGUSbA/du6gf7/yvCVoslQw9nyLO3JcUReKQn62wqvgvN4yC1jIdVjMCtri
+ +xqP249r3JpB/10o51PDtLk2Eh53Lx44U3DzRj3vs5ZsT6Ajjh59EvRHPn5GYYB/zZa4
+ vS/m363t9FjriFVehKroQqxxr+oQp5sBWbVxhCzMQf8zNAZB1BaRoHs/deRpUiyZMh1U
+ /GAQl1L6D4gM3PrECd6kxDFhFegfqZZ0tsNh+lY4zlhyXDjAeIyR12RxM0InS5QALY+O
+ msMA==
+X-Gm-Message-State: ANoB5plbXHSDZ8RsR5XwmbSQK3TBNBtTnEqT8UcjhN8AmmA7imYj+/9v
+ B+uGEIW0efJtH+4AyOMl9PMZAz47E2azmw3Flom4
+X-Google-Smtp-Source: AA0mqf456SOTI8h5405bjuHYKyboskc6RX/a1Ar+YL3tEroIPWZYM0tvvsDsxRnA/dxrNyn4bb9+vxyTCfLgcpe9goM=
+X-Received: by 2002:a63:64c5:0:b0:479:2109:506 with SMTP id
+ y188-20020a6364c5000000b0047921090506mr1494989pgb.92.1671210325149; Fri, 16
+ Dec 2022 09:05:25 -0800 (PST)
 MIME-Version: 1.0
+References: <cover.1670606054.git.rgb@redhat.com>
+ <45da8423b9b1e8fc7abd68cd2269acff8cf9022a.1670606054.git.rgb@redhat.com>
+ <20221216164342.ojcbdifdmafq5njw@quack3>
+In-Reply-To: <20221216164342.ojcbdifdmafq5njw@quack3>
 From: Paul Moore <paul@paul-moore.com>
-Date: Mon, 12 Dec 2022 22:05:07 -0500
-Message-ID: <CAHC9VhTiYVO5SV6-P6gPcqR1chzwpEvwnDZaYEQACcU1kgvugw@mail.gmail.com>
-Subject: [GIT PULL] Audit patches for v6.2
-To: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Fri, 16 Dec 2022 12:05:14 -0500
+Message-ID: <CAHC9VhQCQJ6_0RtHQHuA2FDje-3ick3b3ar8K8NAnuMF=ww2cA@mail.gmail.com>
+Subject: Re: [PATCH v5 2/3] fanotify: define struct members to hold response
+ decision context
+To: Jan Kara <jack@suse.cz>
 X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
  Definition; Similar Internal Domain=false;
  Similar Monitored External Domain=false; Custom External Domain=false;
@@ -88,7 +95,7 @@ X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
  Internal User Name=false; Custom Display Name List=false;
  Reply-to Address Mismatch=false; Targeted Threat Dictionary=false;
  Mimecast Threat Dictionary=false; Custom Threat Dictionary=false
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,50 +107,43 @@ List-Post: <mailto:linux-audit@redhat.com>
 List-Help: <mailto:linux-audit-request@redhat.com?subject=help>
 List-Subscribe: <https://listman.redhat.com/mailman/listinfo/linux-audit>,
  <mailto:linux-audit-request@redhat.com?subject=subscribe>
-Cc: linux-audit@redhat.com, linux-kernel@vger.kernel.org
+Cc: Richard Guy Briggs <rgb@redhat.com>, linux-api@vger.kernel.org,
+ Amir Goldstein <amir73il@gmail.com>, LKML <linux-kernel@vger.kernel.org>,
+ Linux-Audit Mailing List <linux-audit@redhat.com>,
+ linux-fsdevel@vger.kernel.org, Eric Paris <eparis@parisplace.org>
 Errors-To: linux-audit-bounces@redhat.com
 Sender: "Linux-audit" <linux-audit-bounces@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-Hi Linus,
+On Fri, Dec 16, 2022 at 11:43 AM Jan Kara <jack@suse.cz> wrote:
+>
+> On Mon 12-12-22 09:06:10, Richard Guy Briggs wrote:
+> > This patch adds a flag, FAN_INFO and an extensible buffer to provide
+> > additional information about response decisions.  The buffer contains
+> > one or more headers defining the information type and the length of the
+> > following information.  The patch defines one additional information
+> > type, FAN_RESPONSE_INFO_AUDIT_RULE, to audit a rule number.  This will
+> > allow for the creation of other information types in the future if other
+> > users of the API identify different needs.
+> >
+> > Suggested-by: Steve Grubb <sgrubb@redhat.com>
+> > Link: https://lore.kernel.org/r/2745105.e9J7NaK4W3@x2
+> > Suggested-by: Jan Kara <jack@suse.cz>
+> > Link: https://lore.kernel.org/r/20201001101219.GE17860@quack2.suse.cz
+> > Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
+>
+> Thanks for the patches. They look very good to me. Just two nits below. I
+> can do the small updates on commit if there would be no other changes. But
+> I'd like to get some review from audit guys for patch 3/3 before I commit
+> this.
 
-Two performance oriented patches for the audit subsystem: one
-consolidates similar code to gain some caching advantages, while the
-other stores a value in a stack variable to avoid repeated lookups in
-a loop.  The commit descriptions have more information, including some
-before/after performance measurements.  Please merge for v6.2.
-
--Paul
-
---
-The following changes since commit 9abf2313adc1ca1b6180c508c25f22f9395cc780:
-
- Linux 6.1-rc1 (2022-10-16 15:36:24 -0700)
-
-are available in the Git repository at:
-
- https://git.kernel.org/pub/scm/linux/kernel/git/pcmoore/audit.git
-   tags/audit-pr-20221212
-
-for you to fetch changes up to 50979953c0c41e929e5f955800da68e1bb24c7ab:
-
- audit: unify audit_filter_{uring(), inode_name(), syscall()}
-   (2022-10-17 14:24:42 -0400)
-
-----------------------------------------------------------------
-audit/stable-6.2 PR 20221212
-
-----------------------------------------------------------------
-Ankur Arora (2):
-     audit: cache ctx->major in audit_filter_syscall()
-     audit: unify audit_filter_{uring(), inode_name(), syscall()}
-
-kernel/auditsc.c | 75 ++++++++++++++++++++++++++------------------------
-1 file changed, 39 insertions(+), 36 deletions(-)
+It's in my review queue, but it's a bit lower in the pile as my
+understanding is that the linux-next folks don't like to see new
+things in the next branches until after the merge window closes.
 
 -- 
 paul-moore.com
