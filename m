@@ -1,102 +1,123 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70CAA65116F
-	for <lists+linux-audit@lfdr.de>; Mon, 19 Dec 2022 19:00:44 +0100 (CET)
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 679B065122A
+	for <lists+linux-audit@lfdr.de>; Mon, 19 Dec 2022 19:47:32 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1671472843;
+	s=mimecast20190719; t=1671475651;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=PRoFcJfKasdQe5PJ/mX96dYepeL8DdTIZSo28Y565A0=;
-	b=VQcdaUBkDbdvI5TkRPVkDB2Zay8StgVzmS4vYP/hIqgo/JGTOnxoxRe8TdLp4f6Kb6Oqxj
-	sIpx1phyrmYgUMrmrnE+yoUdsa9ZayC5FVPzV5xAhls9Kbwmu02POi/p4+m6ZJ/GbM15fZ
-	LjksMfl17dbHZVFCgW+Fb+5WW9UlkJU=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=ZtNVEpxPLf0R9CJiyBDk8yFFWt6LL+tUGPY+A3J27Os=;
+	b=gJesGScTY4d/1pfyyvp5pyYTsAKdlAOrFLWSynLH0lr857b4gt56PiIOtn2Vf/ZYKCE/ha
+	01rku9OgPH2Iips99hJJewbkWXox2nSB9lZctHWITi3jpLsiUbV9KyTFFBLeWjVSFh0+ru
+	bJx68FaJiZyDlJqTiS7tFDH8NOkPIpY=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-201-IBzgF3C_PfiBC2zgC1zdwg-1; Mon, 19 Dec 2022 13:00:41 -0500
-X-MC-Unique: IBzgF3C_PfiBC2zgC1zdwg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
+ us-mta-426-QYgx9L5hOqOVn_E4KnLdew-1; Mon, 19 Dec 2022 13:47:29 -0500
+X-MC-Unique: QYgx9L5hOqOVn_E4KnLdew-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 413BE1991C43;
-	Mon, 19 Dec 2022 18:00:38 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C0CC83C0E463;
+	Mon, 19 Dec 2022 18:47:27 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (unknown [10.30.29.100])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 22A9817595;
-	Mon, 19 Dec 2022 18:00:38 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 6A7F52026D76;
+	Mon, 19 Dec 2022 18:47:24 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (localhost [IPv6:::1])
-	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id BCE2119465A2;
-	Mon, 19 Dec 2022 18:00:37 +0000 (UTC)
+	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id 8786019465A2;
+	Mon, 19 Dec 2022 18:47:23 +0000 (UTC)
 X-Original-To: linux-audit@listman.corp.redhat.com
 Delivered-To: linux-audit@listman.corp.redhat.com
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
  by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with
- ESMTP id 31CFC194658D for <linux-audit@listman.corp.redhat.com>;
- Mon, 19 Dec 2022 18:00:36 +0000 (UTC)
+ ESMTP id EDAE3194658D for <linux-audit@listman.corp.redhat.com>;
+ Mon, 19 Dec 2022 18:47:21 +0000 (UTC)
 Received: by smtp.corp.redhat.com (Postfix)
- id 07E204014D1A; Mon, 19 Dec 2022 18:00:36 +0000 (UTC)
+ id DCB3E39D3E; Mon, 19 Dec 2022 18:47:21 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
- (mimecast06.extmail.prod.ext.rdu2.redhat.com [10.11.55.22])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 001AE40C945A
- for <linux-audit@redhat.com>; Mon, 19 Dec 2022 18:00:35 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [207.211.31.120])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D711F1991C43
- for <linux-audit@redhat.com>; Mon, 19 Dec 2022 18:00:35 +0000 (UTC)
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-207-TlIbw-34MJ6Yr1y5SEQV1A-1; Mon, 19 Dec 2022 13:00:34 -0500
-X-MC-Unique: TlIbw-34MJ6Yr1y5SEQV1A-1
-Received: by mail-ej1-f71.google.com with SMTP id
- dn11-20020a17090794cb00b007c14ea70afcso6583057ejc.0
- for <linux-audit@redhat.com>; Mon, 19 Dec 2022 10:00:31 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=mXsj4sl5Q7Amjwuhgta29gJZDvW0Wms9duXV33JE5vE=;
- b=4if4RdkAcJhjV7tkBHP5q5OYedm8Nthia6Bo45AdHhDO5ppg/fUGsTbPfC+k+9wEKY
- E9rWAo+8f6iC+uKhqXYuC071y7fhoHYa+1XZLO+hpFtYXHzd41hq3S3RuIGe0oyjQHMS
- ZotKyezgca39Z3YxqEEtjsbPGhNNvAgvNqZEbrxgo0c6ouH3emBjHW93vgKeg8Gcu2Ys
- bgiM+uEShltLf+j95gT1yrC3yAGXM5cSoHaUNGJ+2oq3oSOmS221MiKW6zIq/ql62M35
- ARgWuvNBZnVVkHHiafyQvgo5BelvFDdLjstIxcGZIrUrFDbm14Arw3tlShFK5pfvt14o
- 150Q==
-X-Gm-Message-State: ANoB5pk8wrIG4somf7ajWay5DwiCpPx2U6hhdqslHkyOGk9+F8EBcSWE
- GHJcY7zv0dHZV51Bq6Pk15f9RvKzK2v1IVj6mVzuIv4fJScDwyn4PbjpIhNkEFOW8nAfa4p8Gtl
- IttPVNxww/LuO+JGIdqA=
-X-Received: by 2002:aa7:c690:0:b0:470:1605:7d8b with SMTP id
- n16-20020aa7c690000000b0047016057d8bmr25983219edq.16.1671472830188; 
- Mon, 19 Dec 2022 10:00:30 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf6PYcnrDcnWATwF5yoghg3gleoYRioZkjgtlSjE/ryAWqL2h/0APCv5Ob1MK8CPQYxIBZ3/iA==
-X-Received: by 2002:aa7:c690:0:b0:470:1605:7d8b with SMTP id
- n16-20020aa7c690000000b0047016057d8bmr25983204edq.16.1671472829975; 
- Mon, 19 Dec 2022 10:00:29 -0800 (PST)
-Received: from localhost.localdomain ([2a02:8308:b104:2c00:2e8:ec99:5760:fb52])
- by smtp.gmail.com with ESMTPSA id
- b10-20020a056402278a00b0046bb7503d9asm4617691ede.24.2022.12.19.10.00.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Dec 2022 10:00:28 -0800 (PST)
-From: Ondrej Mosnacek <omosnace@redhat.com>
-To: Paul Moore <paul@paul-moore.com>
-Subject: [PATCH RESEND 2/2] selinux: provide matching audit timestamp in the
- AVC trace event
-Date: Mon, 19 Dec 2022 19:00:24 +0100
-Message-Id: <20221219180024.1659268-3-omosnace@redhat.com>
-In-Reply-To: <20221219180024.1659268-1-omosnace@redhat.com>
-References: <20221219180024.1659268-1-omosnace@redhat.com>
+ (mimecast07.extmail.prod.ext.rdu2.redhat.com [10.11.55.23])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D3DC817595
+ for <linux-audit@redhat.com>; Mon, 19 Dec 2022 18:47:21 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [207.211.31.81])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B174F3C0E442
+ for <linux-audit@redhat.com>; Mon, 19 Dec 2022 18:47:21 +0000 (UTC)
+Received: from sonic314-27.consmr.mail.ne1.yahoo.com
+ (sonic314-27.consmr.mail.ne1.yahoo.com [66.163.189.153]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_128_GCM_SHA256) id us-mta-461-8tfslFerPUq9OEMCRTp3ZA-1; Mon,
+ 19 Dec 2022 13:47:19 -0500
+X-MC-Unique: 8tfslFerPUq9OEMCRTp3ZA-1
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
+ t=1671475638; bh=ZQ0eNzOQnK40sThRtc/xiMkVk1cpgaD4t5lijHxU/HS=;
+ h=X-Sonic-MF:Date:Subject:To:From:From:Subject;
+ b=sVw8wMnWKrlUElR+VInQF649zlPOTPGvrHcy5vy6kN9vpQrzrvlZmqUTfZMm4PICBJywfTeQEyfGjZKk+aFETT3AyNYe+1/yZHOjC6BbCtfTSWPTL/wJVinbWiaqX7waZ3+HnsR3wsvhL4SzsL7tBV8l5OgBp6j5H6kXlFEBcdnDD4bp+6fQk2IS3xfW3mBFt4IglAUiCbbWgcLVTjNTyFJHeaH5DWQxZau9p0jn5gJvlo9Q4z6KlgMlqGwz7lSOV12AwqWQXTIOAduCQ/tqC5BtJAmxJgJe8irddmpKnh6ghtPppLBbkUwcgnQRmdLojrSBzkqN+M2+E2wx4QyYmQ==
+X-YMail-OSG: 2ARrY_oVM1mVcLwyc7sbTrjaB2Nb.kT0eZZyj.XbQM.6n6iWEilSME857GGJ5id
+ dNsKpY520Mh4dY7K06Vc.BLjuJ4PmI.h0ZBzjFwH1Uy6I32BtSiJ17kXyyIdcsxQ7AQ1OXZkBJPC
+ IzRzQcxX4Bso5guq7GzWVyTLyrmgCj5g9419.xkTY52T7XaFe5m7QciMZu72Vt3_quUJYVqAfRq6
+ nllEkIFlh9afeJZfs_GqTltpcg0xlKq0GASkJfIZ6cLTzBYedeVDErk9QJEWVEWq126zaY4ju6Rl
+ tHXFaYsat9VtR7E7wXKsC2TknlSiHTzd2qeRPXY6Ob8YCi_PXc8ZPH4JW1M9HXdFVBSl6Ai69ej5
+ L9HkxpdNWJSYCJBBsYuaTpqOU.4a82.Typ5sQKe7ukYxEExgHlz_A.oMgduLzk8M1KZykEGcnMaZ
+ SN1SanpW9_W8FkuylbrByyTESL2IJQIO_NIUK7HMC0UZZUZvLXkz7UNsfyExCEXfajL.DL66uXjz
+ h_VVy1fVveUuAki9nSNDUZKapWYwSJrBdeKjCw.1XceXxSB6R7x9gtXaigkXo0o74lyLFDHuIo82
+ IVI1MZm08fkrI8CmT.Iekoai_ynngAhRV_TWOaBIXD5e21vdnIJjuWCDJXtfLrCseFCaW8FDK4xV
+ 5.jEYkCdEYACgVkCn05oMX2WfARfge.cNCXeJy.3aqVMC5NT6UIL8ucOc914sLBdt25ePGNne6kB
+ NSJ3P2a_nABscLXfcVcYxcgkTzRZJo64bF3El77xM79mWfvzpDl1Vpa9YvsbL4XnzBbEdrVk.ngb
+ bbA02c8YlLTV5wANqa4yNDmbhX5n8T8yBp_E.TJBMRxxpyb1t7JNNRDUZkq.HogCUIfXH.ASOehs
+ 3iiBH_Mekb2LczQDpTh0DKSXhOy_t7W8AOFpQ3hz4J5c35.PmrB..CBzonponuzVBo2tdZDbqK31
+ wfSLhP2EZW.EvUsb4ExbfcUq7av0Gd03mmXel10iAPqtjxZu7BegN.OMNVV21O3Uzc7x1Dxn6oZK
+ 7pAEpBDuP07UDGmSdktzrwl9a7SvUDTvsQb8JBr.ZlbBa2.ijbymoZa.GBhfUI9CoKj2xbtv9a4z
+ PzwJUp3ivOFXqKpLFH3KgCEyOcL8nAyJDivHfOrGUTpZVCIrzeiDZkrdFqu.1MFq3ZaOjZ_sWCs.
+ 4ZqN_X8EwdcmNPLh.z82TW_Syi_Mf3hIumiGKkji7JmSU8NGHn554ZcKWg_iVPTjxxyP_mzLr6c1
+ pq7iSxlGWszfCUbSO3zvKLNGxXdLUPcP3SX9hLYW95yHTm.JysMDuxnXbzyyp6vwx.s7R5FbGq4Z
+ tJWHDfpMQt9UYKSXgR8UEHpLPsgeLNaj_5BOuuR_HEWhMBgGW15.Ggf.70hq0uVJihV1I1n41YbX
+ KpV4ayMO91ytHA_ihy4vPu7BpH3k5bodH_7Z7TmdATyyTQqOuLwE3xnATMXU9Kd1wTtpXyZeTVI8
+ k4SO.SygBj7r0cWEUN0ODtLTP0xSMe3kD.9PNEa2NozzyLiPa2VBQsPi1YQpdJq83kVeVooqYBJy
+ Zo9NdygzBxh9QzZaj4mAwOxtRpmVHaVALvqOmkYMkahDqztVBxgBUnGprgJJ0iigF9aGgQ1.Qfez
+ 1DdTO4grZ4FSbchbgbVnTt2p.SXG35kXzKytPpC3msSbiZNx58mJcuGWSINLRwkCvjj3oDi1oXau
+ vWT_rvLC_YYve02it8UEP5X3TEv4aPFUug7eiMjThILKbB2O9.bsnd_051K7FO4WLqDtEVQ5IAbG
+ JyAxRdtWZ.NOuKhZPY3RfOrxJcw7JRiFGgEhPo4c7ZQIh71RXEhmp1ILPlHu0q8tayg9L0OaMPBi
+ 6TDIEL5Ed2O1Cp99nffZX5EmkrwcLcnV7vwNdCUWe5cmQ15xScNPCQ5dE3NswL1jt16XZO3jA7KS
+ MH107zK1hA.9mtFSUMyZ..4fcGgIPBSJqOdiIjNFdlRhw_G6VUmUsCItI8.EL67K.oJUmYZTin.7
+ bnxeEW4Hd9iphqeV3_04CCkCMElH70fnoJcDmZ26LuwLEBUspEirxVe5KrtdJbS3lM_Q9HVJpnXt
+ ezzyl1ejQ1dPgogrtgLYHDgO8fSKorVBIDNDfAxn6eH4NSbD2CGmrnvf_u7gTtloeJDuK3Vc.SbR
+ Tcx2jxweU6McUnYcPgnk24rn.Q4ss1EYkj8rwbZn7424xeWHHJuGFADUpq6dO6nHAsTEVnhKdw5l
+ nHnaF0RC3hrGLLXXaD4Yk6jb.pYsZ3RNDI5uu
+X-Sonic-MF: <casey@schaufler-ca.com>
+Received: from sonic.gate.mail.ne1.yahoo.com by
+ sonic314.consmr.mail.ne1.yahoo.com with HTTP; Mon, 19 Dec 2022 18:47:18 +0000
+Received: by hermes--production-ne1-7b69748c4d-srx4j (Yahoo Inc. Hermes SMTP
+ Server) with ESMTPA ID d0bca7aba8d37ba6997629a118a468b6; 
+ Mon, 19 Dec 2022 18:47:16 +0000 (UTC)
+Message-ID: <fae32a51-d422-d3ea-0bee-6223ca2cf902@schaufler-ca.com>
+Date: Mon, 19 Dec 2022 10:47:15 -0800
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH 1/2] audit: introduce a struct to represent an audit
+ timestamp
+To: Ondrej Mosnacek <omosnace@redhat.com>, Paul Moore <paul@paul-moore.com>
+References: <20221219175449.1657640-1-omosnace@redhat.com>
+ <20221219175449.1657640-2-omosnace@redhat.com>
+From: Casey Schaufler <casey@schaufler-ca.com>
+In-Reply-To: <20221219175449.1657640-2-omosnace@redhat.com>
+X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
+ Definition; Similar Internal Domain=false;
+ Similar Monitored External Domain=false; Custom External Domain=false;
+ Mimecast External Domain=false; Newly Observed Domain=false;
+ Internal User Name=false; Custom Display Name List=false;
+ Reply-to Address Mismatch=false; Targeted Threat Dictionary=false;
+ Mimecast Threat Dictionary=false; Custom Threat Dictionary=false
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,197 +129,148 @@ List-Post: <mailto:linux-audit@redhat.com>
 List-Help: <mailto:linux-audit-request@redhat.com?subject=help>
 List-Subscribe: <https://listman.redhat.com/mailman/listinfo/linux-audit>,
  <mailto:linux-audit-request@redhat.com?subject=subscribe>
-Cc: =?UTF-8?q?Thi=C3=A9baud=20Weksteen?= <tweek@google.com>,
+Cc: =?UTF-8?Q?Thi=c3=a9baud_Weksteen?= <tweek@google.com>,
  selinux@vger.kernel.org, Peter Enderborg <peter.enderborg@sony.com>,
  linux-security-module@vger.kernel.org, linux-audit@redhat.com,
  Zdenek Pytela <zpytela@redhat.com>, Michal Sekletar <msekleta@redhat.com>
 Errors-To: linux-audit-bounces@redhat.com
 Sender: "Linux-audit" <linux-audit-bounces@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Language: en-US
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-In order to make it possible for the users and tooling to associate an
-SELinux AVC trace event with the corresponding audit event, make it
-include the audit timestamp (including the "serial number") of the
-event.
+On 12/19/2022 9:54 AM, Ondrej Mosnacek wrote:
+> Join the two fields that comprise an audit timestamp into a common
+> structure. This will be used further in later commits.
 
-First make audit_log_start() include the timestamp in the audit_buffer
-struct and add a public helper to retrieve it from an audit_buffer
-instance. Then retrieve it in SELinux's avc_audit_post_callback() and
-include it in the "avc:selinux_audited" trace event.
+Patch 30/39 of my LSM stacking patchset[1] is almost identical to this.
+The only significant difference is the structure name. You use audit_timestamp
+whereas I use audit_stamp. I believe that audit_stamp is more correct and
+more consistent with the code that uses it. 
 
-After this patch the even includes the numeric fields that make up the
-timestamp and the text representation includes the timestamp in the same
-format as used in the audit log - e.g. "audit_ts=1671454430.092:1671".
+[1] https://lore.kernel.org/lkml/f6b8ac05-6900-f57d-0daf-02d5ae53bc47@schaufler-ca.com/T/#m3205b98b2a6b21a296fb831ed35892f01ead191f
 
-Signed-off-by: Ondrej Mosnacek <omosnace@redhat.com>
----
- include/linux/audit.h      |  8 ++++++++
- include/trace/events/avc.h | 25 +++++++++++++++++--------
- kernel/audit.c             | 15 +++++++++++----
- security/selinux/avc.c     |  4 +++-
- 4 files changed, 39 insertions(+), 13 deletions(-)
-
-diff --git a/include/linux/audit.h b/include/linux/audit.h
-index 788ab93c3be4..d6d7acc1b623 100644
---- a/include/linux/audit.h
-+++ b/include/linux/audit.h
-@@ -162,6 +162,9 @@ extern __printf(4, 5)
- void audit_log(struct audit_context *ctx, gfp_t gfp_mask, int type,
- 	       const char *fmt, ...);
- 
-+extern void audit_buffer_get_timestamp(struct audit_buffer *ab,
-+				       struct audit_timestamp *ts);
-+
- extern struct audit_buffer *audit_log_start(struct audit_context *ctx, gfp_t gfp_mask, int type);
- extern __printf(2, 3)
- void audit_log_format(struct audit_buffer *ab, const char *fmt, ...);
-@@ -218,6 +221,11 @@ static inline __printf(4, 5)
- void audit_log(struct audit_context *ctx, gfp_t gfp_mask, int type,
- 	       const char *fmt, ...)
- { }
-+static inline void audit_buffer_get_timestamp(struct audit_buffer *ab,
-+					      struct audit_timestamp *ts)
-+{
-+	*ts = (struct audit_timestamp){};
-+}
- static inline struct audit_buffer *audit_log_start(struct audit_context *ctx,
- 						   gfp_t gfp_mask, int type)
- {
-diff --git a/include/trace/events/avc.h b/include/trace/events/avc.h
-index b55fda2e0773..8cac14ae22ae 100644
---- a/include/trace/events/avc.h
-+++ b/include/trace/events/avc.h
-@@ -16,34 +16,43 @@ TRACE_EVENT(selinux_audited,
- 	TP_PROTO(struct selinux_audit_data *sad,
- 		char *scontext,
- 		char *tcontext,
--		const char *tclass
-+		const char *tclass,
-+		const struct audit_timestamp *ts
- 	),
- 
--	TP_ARGS(sad, scontext, tcontext, tclass),
-+	TP_ARGS(sad, scontext, tcontext, tclass, ts),
- 
- 	TP_STRUCT__entry(
- 		__field(u32, requested)
- 		__field(u32, denied)
- 		__field(u32, audited)
- 		__field(int, result)
-+		__field(u64, audit_stamp_sec)
-+		__field(u32, audit_stamp_msec)
-+		__field(u32, audit_stamp_serial)
- 		__string(scontext, scontext)
- 		__string(tcontext, tcontext)
- 		__string(tclass, tclass)
- 	),
- 
- 	TP_fast_assign(
--		__entry->requested	= sad->requested;
--		__entry->denied		= sad->denied;
--		__entry->audited	= sad->audited;
--		__entry->result		= sad->result;
-+		__entry->requested		= sad->requested;
-+		__entry->denied			= sad->denied;
-+		__entry->audited		= sad->audited;
-+		__entry->result			= sad->result;
-+		__entry->audit_stamp_sec	= ts->t.tv_sec;
-+		__entry->audit_stamp_msec	= ts->t.tv_nsec / 1000000;
-+		__entry->audit_stamp_serial	= ts->serial;
- 		__assign_str(tcontext, tcontext);
- 		__assign_str(scontext, scontext);
- 		__assign_str(tclass, tclass);
- 	),
- 
--	TP_printk("requested=0x%x denied=0x%x audited=0x%x result=%d scontext=%s tcontext=%s tclass=%s",
-+	TP_printk("requested=0x%x denied=0x%x audited=0x%x result=%d scontext=%s tcontext=%s tclass=%s audit_ts=%llu.%03u:%u",
- 		__entry->requested, __entry->denied, __entry->audited, __entry->result,
--		__get_str(scontext), __get_str(tcontext), __get_str(tclass)
-+		__get_str(scontext), __get_str(tcontext), __get_str(tclass),
-+		__entry->audit_stamp_sec, __entry->audit_stamp_msec,
-+		__entry->audit_stamp_serial
- 	)
- );
- 
-diff --git a/kernel/audit.c b/kernel/audit.c
-index aded2d69ea69..ad21d148704a 100644
---- a/kernel/audit.c
-+++ b/kernel/audit.c
-@@ -199,6 +199,7 @@ static struct audit_ctl_mutex {
- struct audit_buffer {
- 	struct sk_buff       *skb;	/* formatted skb ready to send */
- 	struct audit_context *ctx;	/* NULL or associated context */
-+	struct audit_timestamp ts;	/* the timestamp of this record */
- 	gfp_t		     gfp_mask;
- };
- 
-@@ -1826,6 +1827,12 @@ static inline void audit_get_stamp(struct audit_context *ctx,
- 	}
- }
- 
-+void audit_buffer_get_timestamp(struct audit_buffer *ab,
-+				struct audit_timestamp *ts)
-+{
-+	*ts = ab->ts;
-+}
-+
- /**
-  * audit_log_start - obtain an audit buffer
-  * @ctx: audit_context (may be NULL)
-@@ -1845,7 +1852,6 @@ struct audit_buffer *audit_log_start(struct audit_context *ctx, gfp_t gfp_mask,
- 				     int type)
- {
- 	struct audit_buffer *ab;
--	struct audit_timestamp ts;
- 
- 	if (audit_initialized != AUDIT_INITIALIZED)
- 		return NULL;
-@@ -1900,13 +1906,14 @@ struct audit_buffer *audit_log_start(struct audit_context *ctx, gfp_t gfp_mask,
- 		return NULL;
- 	}
- 
--	audit_get_stamp(ab->ctx, &ts);
-+	audit_get_stamp(ab->ctx, &ab->ts);
- 	/* cancel dummy context to enable supporting records */
- 	if (ctx)
- 		ctx->dummy = 0;
- 	audit_log_format(ab, "audit(%llu.%03lu:%u): ",
--			 (unsigned long long)ts.t.tv_sec, ts.t.tv_nsec/1000000,
--			 ts.serial);
-+			 (unsigned long long)ab->ts.t.tv_sec,
-+			 ab->ts.t.tv_nsec/1000000,
-+			 ab->ts.serial);
- 
- 	return ab;
- }
-diff --git a/security/selinux/avc.c b/security/selinux/avc.c
-index 9a43af0ebd7d..e59c91eb3228 100644
---- a/security/selinux/avc.c
-+++ b/security/selinux/avc.c
-@@ -708,6 +708,7 @@ static void avc_audit_post_callback(struct audit_buffer *ab, void *a)
- {
- 	struct common_audit_data *ad = a;
- 	struct selinux_audit_data *sad = ad->selinux_audit_data;
-+	struct audit_timestamp ts;
- 	char *scontext = NULL;
- 	char *tcontext = NULL;
- 	const char *tclass = NULL;
-@@ -735,7 +736,8 @@ static void avc_audit_post_callback(struct audit_buffer *ab, void *a)
- 	if (sad->denied)
- 		audit_log_format(ab, " permissive=%u", sad->result ? 0 : 1);
- 
--	trace_selinux_audited(sad, scontext, tcontext, tclass);
-+	audit_buffer_get_timestamp(ab, &ts);
-+	trace_selinux_audited(sad, scontext, tcontext, tclass, &ts);
- 	kfree(tcontext);
- 	kfree(scontext);
- 
--- 
-2.38.1
+>
+> Signed-off-by: Ondrej Mosnacek <omosnace@redhat.com>
+> ---
+>  include/linux/audit.h |  5 +++++
+>  kernel/audit.c        | 16 ++++++++--------
+>  kernel/audit.h        |  4 ++--
+>  kernel/auditsc.c      |  9 ++++-----
+>  4 files changed, 19 insertions(+), 15 deletions(-)
+>
+> diff --git a/include/linux/audit.h b/include/linux/audit.h
+> index 3608992848d3..788ab93c3be4 100644
+> --- a/include/linux/audit.h
+> +++ b/include/linux/audit.h
+> @@ -84,6 +84,11 @@ enum audit_ntp_type {
+>  	AUDIT_NTP_NVALS /* count */
+>  };
+>  
+> +struct audit_timestamp {
+> +	struct timespec64 t;
+> +	unsigned int serial;
+> +};
+> +
+>  #ifdef CONFIG_AUDITSYSCALL
+>  struct audit_ntp_val {
+>  	long long oldval, newval;
+> diff --git a/kernel/audit.c b/kernel/audit.c
+> index 9bc0b0301198..aded2d69ea69 100644
+> --- a/kernel/audit.c
+> +++ b/kernel/audit.c
+> @@ -1818,11 +1818,11 @@ unsigned int audit_serial(void)
+>  }
+>  
+>  static inline void audit_get_stamp(struct audit_context *ctx,
+> -				   struct timespec64 *t, unsigned int *serial)
+> +				   struct audit_timestamp *ts)
+>  {
+> -	if (!ctx || !auditsc_get_stamp(ctx, t, serial)) {
+> -		ktime_get_coarse_real_ts64(t);
+> -		*serial = audit_serial();
+> +	if (!ctx || !auditsc_get_stamp(ctx, ts)) {
+> +		ktime_get_coarse_real_ts64(&ts->t);
+> +		ts->serial = audit_serial();
+>  	}
+>  }
+>  
+> @@ -1845,8 +1845,7 @@ struct audit_buffer *audit_log_start(struct audit_context *ctx, gfp_t gfp_mask,
+>  				     int type)
+>  {
+>  	struct audit_buffer *ab;
+> -	struct timespec64 t;
+> -	unsigned int serial;
+> +	struct audit_timestamp ts;
+>  
+>  	if (audit_initialized != AUDIT_INITIALIZED)
+>  		return NULL;
+> @@ -1901,12 +1900,13 @@ struct audit_buffer *audit_log_start(struct audit_context *ctx, gfp_t gfp_mask,
+>  		return NULL;
+>  	}
+>  
+> -	audit_get_stamp(ab->ctx, &t, &serial);
+> +	audit_get_stamp(ab->ctx, &ts);
+>  	/* cancel dummy context to enable supporting records */
+>  	if (ctx)
+>  		ctx->dummy = 0;
+>  	audit_log_format(ab, "audit(%llu.%03lu:%u): ",
+> -			 (unsigned long long)t.tv_sec, t.tv_nsec/1000000, serial);
+> +			 (unsigned long long)ts.t.tv_sec, ts.t.tv_nsec/1000000,
+> +			 ts.serial);
+>  
+>  	return ab;
+>  }
+> diff --git a/kernel/audit.h b/kernel/audit.h
+> index c57b008b9914..e3ea00ea399a 100644
+> --- a/kernel/audit.h
+> +++ b/kernel/audit.h
+> @@ -262,7 +262,7 @@ extern void audit_put_tty(struct tty_struct *tty);
+>  #ifdef CONFIG_AUDITSYSCALL
+>  extern unsigned int audit_serial(void);
+>  extern int auditsc_get_stamp(struct audit_context *ctx,
+> -			      struct timespec64 *t, unsigned int *serial);
+> +			     struct audit_timestamp *ts);
+>  
+>  extern void audit_put_watch(struct audit_watch *watch);
+>  extern void audit_get_watch(struct audit_watch *watch);
+> @@ -303,7 +303,7 @@ extern void audit_filter_inodes(struct task_struct *tsk,
+>  				struct audit_context *ctx);
+>  extern struct list_head *audit_killed_trees(void);
+>  #else /* CONFIG_AUDITSYSCALL */
+> -#define auditsc_get_stamp(c, t, s) 0
+> +#define auditsc_get_stamp(c, ts) 0
+>  #define audit_put_watch(w) do { } while (0)
+>  #define audit_get_watch(w) do { } while (0)
+>  #define audit_to_watch(k, p, l, o) (-EINVAL)
+> diff --git a/kernel/auditsc.c b/kernel/auditsc.c
+> index 9f8c05228d6d..061009ba9959 100644
+> --- a/kernel/auditsc.c
+> +++ b/kernel/auditsc.c
+> @@ -2513,16 +2513,15 @@ EXPORT_SYMBOL_GPL(__audit_inode_child);
+>   *
+>   * Also sets the context as auditable.
+>   */
+> -int auditsc_get_stamp(struct audit_context *ctx,
+> -		       struct timespec64 *t, unsigned int *serial)
+> +int auditsc_get_stamp(struct audit_context *ctx, struct audit_timestamp *ts)
+>  {
+>  	if (ctx->context == AUDIT_CTX_UNUSED)
+>  		return 0;
+>  	if (!ctx->serial)
+>  		ctx->serial = audit_serial();
+> -	t->tv_sec  = ctx->ctime.tv_sec;
+> -	t->tv_nsec = ctx->ctime.tv_nsec;
+> -	*serial    = ctx->serial;
+> +	ts->t.tv_sec  = ctx->ctime.tv_sec;
+> +	ts->t.tv_nsec = ctx->ctime.tv_nsec;
+> +	ts->serial    = ctx->serial;
+>  	if (!ctx->prio) {
+>  		ctx->prio = 1;
+>  		ctx->current_state = AUDIT_STATE_RECORD;
 
 --
 Linux-audit mailing list
