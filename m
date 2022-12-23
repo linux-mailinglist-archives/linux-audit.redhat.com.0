@@ -2,95 +2,95 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FD6365512D
-	for <lists+linux-audit@lfdr.de>; Fri, 23 Dec 2022 15:08:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D8D565520A
+	for <lists+linux-audit@lfdr.de>; Fri, 23 Dec 2022 16:30:37 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1671804523;
+	s=mimecast20190719; t=1671809436;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=5WP33wqByloEwRkOMDpXnzU3vvTyTV49oOafmvjk7T4=;
-	b=TYfgKM1qjrxqcsiwpWDpzE4z3bWcEAtl6gqiz5avEprs7AwnHuPPvoUMvKO1Jj10AjEBB4
-	XJgS+AQw0o7qZt6TGRm5AgliE/TqxpGzzlx1IkxDLacf/bpsgovCqpA640kjFkJFSz0QjJ
-	do7j440Wf0+WHqu5DKKsUNRSxQ5gGTE=
+	bh=uJ2+pGodz4Deo/3waQYG0nUCAi7POj5r9To7Kh8TZ5U=;
+	b=iPUke4XvEg7U+ee9LlcAs1W1FICA8imUewzCUJLm1TimRC97APsjBUDKuPg96U1ngLuO4E
+	dz0qpto4QU0wa8CSLpl46ZJqz6UnzA1fngzz6kmGdcyFB1JXWVOHY7ZNrIgMgZG0wu8YuE
+	b5cAHybN3EEB7lWADEOolNVHrE6b5U8=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-426-84imTqW4NOe2rvtxFgmQdQ-1; Fri, 23 Dec 2022 09:08:39 -0500
-X-MC-Unique: 84imTqW4NOe2rvtxFgmQdQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
+ us-mta-330-fNOOYfuqPjWmNaeLj-_VMw-1; Fri, 23 Dec 2022 10:30:35 -0500
+X-MC-Unique: fNOOYfuqPjWmNaeLj-_VMw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 47CF22A5954C;
-	Fri, 23 Dec 2022 14:08:37 +0000 (UTC)
-Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (unknown [10.30.29.100])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 48F7540C945A;
-	Fri, 23 Dec 2022 14:08:31 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 21B6E3C0DDCD;
+	Fri, 23 Dec 2022 15:30:33 +0000 (UTC)
+Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com [10.30.29.100])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id DAC1A111F3BB;
+	Fri, 23 Dec 2022 15:30:27 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (localhost [IPv6:::1])
-	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id 71B281946A40;
-	Fri, 23 Dec 2022 14:08:30 +0000 (UTC)
+	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id 964C81946A40;
+	Fri, 23 Dec 2022 15:30:24 +0000 (UTC)
 X-Original-To: linux-audit@listman.corp.redhat.com
 Delivered-To: linux-audit@listman.corp.redhat.com
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
  by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with
- ESMTP id 6C00919465B1 for <linux-audit@listman.corp.redhat.com>;
- Thu, 22 Dec 2022 23:20:21 +0000 (UTC)
+ ESMTP id 5958519465B1 for <linux-audit@listman.corp.redhat.com>;
+ Fri, 23 Dec 2022 15:30:23 +0000 (UTC)
 Received: by smtp.corp.redhat.com (Postfix)
- id 56B0C40C2004; Thu, 22 Dec 2022 23:20:21 +0000 (UTC)
+ id 43506492B02; Fri, 23 Dec 2022 15:30:23 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
- (mimecast08.extmail.prod.ext.rdu2.redhat.com [10.11.55.24])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4FBC340C2064
- for <linux-audit@redhat.com>; Thu, 22 Dec 2022 23:20:21 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [205.139.110.61])
+ (mimecast09.extmail.prod.ext.rdu2.redhat.com [10.11.55.25])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3BE89492B00
+ for <linux-audit@redhat.com>; Fri, 23 Dec 2022 15:30:23 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [205.139.110.120])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 350EE3806078
- for <linux-audit@redhat.com>; Thu, 22 Dec 2022 23:20:21 +0000 (UTC)
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com
- [209.85.208.41]) by relay.mimecast.com with ESMTP with STARTTLS
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1CFA9299E74A
+ for <linux-audit@redhat.com>; Fri, 23 Dec 2022 15:30:23 +0000 (UTC)
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com
+ [209.85.210.175]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-172-P2OWzn9vP0yFutAqFHWo_Q-1; Thu, 22 Dec 2022 18:20:19 -0500
-X-MC-Unique: P2OWzn9vP0yFutAqFHWo_Q-1
-Received: by mail-ed1-f41.google.com with SMTP id d14so4949057edj.11
- for <linux-audit@redhat.com>; Thu, 22 Dec 2022 15:20:19 -0800 (PST)
+ us-mta-550-A7-hX25BPQCzK-yfR4QgWg-1; Fri, 23 Dec 2022 10:30:21 -0500
+X-MC-Unique: A7-hX25BPQCzK-yfR4QgWg-1
+Received: by mail-pf1-f175.google.com with SMTP id t18so3528998pfq.13
+ for <linux-audit@redhat.com>; Fri, 23 Dec 2022 07:30:20 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=iJgMFVOrb9Ce/17yeODdS1CKT2hqIh/Wcl38sjrwoW0=;
- b=NAzXOUf1/uDY+VDXwQV+2spy9ALuVzEm5B31OoKBxsJFVoQptWcOiFgKNxSda37Lti
- CNH0BmylXsVtPz+81cvnmO2DEHGL8NX8T/ywtNi84pzhc7QMYpIm/Sec25rP2A6BLBNl
- Q1ouhXJnmQHEgjtuershyEgzWrJZeMB/MY8WMHM/WUHnAJBX9/aaJZFgb7xijm9FGHJd
- S7qJ7BMvzx5ZRLmhIj+UOnmU0RnY+xJfVlPbp9lz/ZX+Juvr7ZVC4QdIMw4VZhC82Qv3
- KAD0ChBXEQfFylusjDUnj/WahQb+9cAM5DLKRndzo/2SUPQ0HpKsPiX3jtDvT9zNkrB9
- By3g==
-X-Gm-Message-State: AFqh2kqTgARTcFQkyxvpGTL4QWw+skdlP6O72lT+7PpIwTGvy6azQ94o
- cN+/iWNXY5hr70VY2CFbNWs=
-X-Google-Smtp-Source: AMrXdXsFC+hmKq79PeW+KUm2ca/pltb9zbhnABL2aMPJOE1HMdCr+a/qBrze/JnBXo5BFJiptXRh3w==
-X-Received: by 2002:a05:6402:3706:b0:472:9af1:163f with SMTP id
- ek6-20020a056402370600b004729af1163fmr6129935edb.37.1671751218317; 
- Thu, 22 Dec 2022 15:20:18 -0800 (PST)
-Received: from krava ([83.240.60.17]) by smtp.gmail.com with ESMTPSA id
- s8-20020a170906354800b007ad2da5668csm705785eja.112.2022.12.22.15.20.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Dec 2022 15:20:17 -0800 (PST)
-From: Jiri Olsa <olsajiri@gmail.com>
-X-Google-Original-From: Jiri Olsa <jolsa@kernel.org>
-Date: Fri, 23 Dec 2022 00:20:15 +0100
-To: Paul Moore <paul@paul-moore.com>
-Subject: Re: [PATCH] bpf: restore the ebpf audit UNLOAD id field
-Message-ID: <Y6TmLyDTY/a20Zq4@krava>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=sC5sLWXn+hX58uHQr6oilZ1kqWbaxgV442Q41BCVgn4=;
+ b=okCUAClbdJ8Av4N9ATjfluB9QlBHaolWuPlMOZPvRey1LSLkZmnCko1q9ArwLYj0Op
+ DvvPUeawLlHujZYZKIDcTky8DrrJd9hZI0NorS7jCX1lg127lrAX0YTXeAst4HpEp+9U
+ mmMhwfiVjktlcC1aBwdeHass5ONgkoQB3eLfeQQmv2eVfKLTuF0/yJeSJ3j1w42Ql92c
+ F03xb5p0w52nZTEdcKM1WFiq4VDQFHi9EL8ah+jmIT8fnHRGL3mUh4KcYgOrari3TIY9
+ IbsiKNOpX3nsTuuNkDlf7tn6ggTkObiF+b9tAf5W97FcC88DZNr1psNoPzaHQ7kUfV8F
+ inXA==
+X-Gm-Message-State: AFqh2kpOlXBVp/eiE/4ZyvOz04wHkpnu6/uoRH6rNGwOnQtetBuqdpxu
+ XZK95ZG4NMHjnKGsZSNhCUd8B/BDcClgP0GQkjQu
+X-Google-Smtp-Source: AMrXdXsvxEs8bgnHBFHsKDnWAw8jymmyXBBkiyYSYU7VEXbwec1PAe5vQfQpStJhaVLRuHJR4U5y8uL32gQXxMfQ7i8=
+X-Received: by 2002:a05:6a00:1f1a:b0:576:af2d:4c5f with SMTP id
+ be26-20020a056a001f1a00b00576af2d4c5fmr631350pfb.23.1671809419937; Fri, 23
+ Dec 2022 07:30:19 -0800 (PST)
+MIME-Version: 1.0
 References: <20221222001343.489117-1-paul@paul-moore.com>
  <Y6SRiv+FloijdETe@google.com>
  <CAHC9VhRFmrgXMYKxXqd1KpMzDGhT6gPX-=8Z072utZO_WefYWQ@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAHC9VhRFmrgXMYKxXqd1KpMzDGhT6gPX-=8Z072utZO_WefYWQ@mail.gmail.com>
+ <Y6SysZgKKEPL5ZE5@google.com>
+ <CAHC9VhQ4EPzQ56ix9he4ZTo7eYpMdLBPpb+3vNsng_9vD2t=RQ@mail.gmail.com>
+ <CAHC9VhSwpV80pPjzc2w9r--16LXuG7vYxE1eg5MCz2ytn2TH7g@mail.gmail.com>
+ <CAKH8qBszD=PYO_nVjYUTnj7UXVcBvA95meULQGs53eyo9xfD+A@mail.gmail.com>
+In-Reply-To: <CAKH8qBszD=PYO_nVjYUTnj7UXVcBvA95meULQGs53eyo9xfD+A@mail.gmail.com>
+From: Paul Moore <paul@paul-moore.com>
+Date: Fri, 23 Dec 2022 10:30:08 -0500
+Message-ID: <CAHC9VhTdRC8VqrnnHaM=jBtrgdb2KrqM7-4Z==qcQTosbXfJMg@mail.gmail.com>
+Subject: Re: [PATCH] bpf: restore the ebpf audit UNLOAD id field
+To: Stanislav Fomichev <sdf@google.com>
 X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
  Definition; Similar Internal Domain=false;
  Similar Monitored External Domain=false; Custom External Domain=false;
@@ -98,8 +98,7 @@ X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
  Internal User Name=false; Custom Display Name List=false;
  Reply-to Address Mismatch=false; Targeted Threat Dictionary=false;
  Mimecast Threat Dictionary=false; Custom Threat Dictionary=false
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-X-Mailman-Approved-At: Fri, 23 Dec 2022 14:08:28 +0000
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -112,84 +111,63 @@ List-Help: <mailto:linux-audit-request@redhat.com?subject=help>
 List-Subscribe: <https://listman.redhat.com/mailman/listinfo/linux-audit>,
  <mailto:linux-audit-request@redhat.com?subject=subscribe>
 Cc: bpf@vger.kernel.org, linux-audit@redhat.com,
- Burn Alting <burn.alting@iinet.net.au>, sdf@google.com,
- Alexei Starovoitov <ast@kernel.org>
+ Burn Alting <burn.alting@iinet.net.au>, Alexei Starovoitov <ast@kernel.org>
 Errors-To: linux-audit-bounces@redhat.com
 Sender: "Linux-audit" <linux-audit-bounces@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Disposition: inline
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-On Thu, Dec 22, 2022 at 02:03:41PM -0500, Paul Moore wrote:
-> On Thu, Dec 22, 2022 at 12:19 PM <sdf@google.com> wrote:
-> > On 12/21, Paul Moore wrote:
-> > > When changing the ebpf program put() routines to support being called
-> > > from within IRQ context the program ID was reset to zero prior to
-> > > generating the audit UNLOAD record, which obviously rendered the ID
-> > > field bogus (always zero).  This patch resolves this by adding a new
-> > > field, bpf_prog_aux::id_audit, which is set when the ebpf program is
-> > > allocated an ID and never reset, ensuring a valid ID field,
-> > > regardless of the state of the original ID field, bpf_prox_aud::id.
-> >
-> > > I also modified the bpf_audit_prog() logic used to associate the
-> > > AUDIT_BPF record with other associated records, e.g. @ctx != NULL.
-> > > Instead of keying off the operation, it now keys off the execution
-> > > context, e.g. '!in_irg && !irqs_disabled()', which is much more
-> > > appropriate and should help better connect the UNLOAD operations with
-> > > the associated audit state (other audit records).
-> >
-> > [..]
-> >
-> > > As an note to future bug hunters, I did briefly consider removing the
-> > > ID reset in bpf_prog_free_id(), as it would seem that once the
-> > > program is removed from the idr pool it can no longer be found by its
-> > > ID value, but commit ad8ad79f4f60 ("bpf: offload: free program id
-> > > when device disappears") seems to imply that it is beneficial to
-> > > reset the ID value.  Perhaps as a secondary indicator that the ebpf
-> > > program is unbound/orphaned.
-> >
-> > That seems like the way to go imho. Can we have some extra 'invalid_id'
-> > bitfield in the bpf_prog so we can set it in bpf_prog_free_id and
-> > check in bpf_prog_free_id (for this offloaded use-case)? Because
-> > having two ids and then keeping track about which one to use, depending
-> > on the context, seems more fragile?
-> 
-> I would definitely prefer to keep just a single ID value, and that was
-> the first approach I took when drafting this patch, but when looking
-> through the git log it looked like there was some desire to reset the
-> ID to zero on free.  Not being an expert on the ebpf kernel code I
-> figured I would just write the patch up this way and make a comment
-> about not zero'ing out the ID in the commit description so we could
-> have a discussion about it.
-> 
-> I'm not seeing any other comments, so I'll go ahead with putting
-> together a v2 that sets an invalid flag/bit and I'll post that for
-> further discussion/review.
+On Thu, Dec 22, 2022 at 4:28 PM Stanislav Fomichev <sdf@google.com> wrote:
+> On Thu, Dec 22, 2022 at 12:07 PM Paul Moore <paul@paul-moore.com> wrote:
+> > On Thu, Dec 22, 2022 at 2:59 PM Paul Moore <paul@paul-moore.com> wrote:
+> > > On Thu, Dec 22, 2022 at 2:40 PM <sdf@google.com> wrote:
+> > > > On 12/22, Paul Moore wrote:
+> > > > > On Thu, Dec 22, 2022 at 12:19 PM <sdf@google.com> wrote:
+> > > > > > On 12/21, Paul Moore wrote:
 
-great, perf suffers the same issue:
-  https://lore.kernel.org/bpf/Y3SRWVoycV290S16@krava/
+...
 
-any chance you could include it as well? I can send a patch
-later if needed
+> > > FWIW, the currently-work-in-progress v2 patch adds a getter for the ID
+> > > with a WARN() check to flag callers who are trying to access a
+> > > bad/free'd bpf_prog.  Unfortunately it touches a decent chunk of code,
+> > > but I think it might be a nice additional check at runtime.
+> > >
+> > > +u32 bpf_prog_get_id(const struct bpf_prog *prog)
+> > > +{
+> > > +       if (WARN(!prog->valid_id, "Attempting to use invalid eBPF program"))
+> > > +               return 0;
+> > > +       return prog->aux->__id;
+> > > +}
+> >
+> > I should add that the getter is currently a static inline in bpf.h.
+>
+> I don't see why we need to WARN on !valid_id, but I might be missing something.
+> There are no places currently where we report 'id == 0' to the
+> userspace, so we only need to take care of the offloaded case that
+> resets id to zero early (instead of resetting it during regular
+> __bpf_prog_put path).
 
-thanks,
-jirka
+I put the WARN there, in place of a normal 'if (!prog->valid_id)', as
+an extra runtime check/debug-tool for those who have CONFIG_BUG
+enabled.  I'm sure everything works properly now with respect to not
+using a bpf_prog reference after it has been free'd/released, but
+mistakes do happen - look at the regression/bug that started this
+thread :)
 
-> 
-> > > Fixes: d809e134be7a ("bpf: Prepare bpf_prog_put() to be called from irq
-> > > context.")
-> > > Reported-by: Burn Alting <burn.alting@iinet.net.au>
-> > > Signed-off-by: Paul Moore <paul@paul-moore.com>
-> > > ---
-> > >   include/linux/bpf.h  | 1 +
-> > >   kernel/bpf/syscall.c | 8 +++++---
-> > >   2 files changed, 6 insertions(+), 3 deletions(-)
-> 
-> -- 
-> paul-moore.com
+If you really don't want the WARN() there, I can replace it with the
+simple '!prog->valid_id' check, let me know.  It's your code, you
+should maintain it how you want; I just want to make sure we are
+generating audit records correctly.
+
+> > > > > I'm not seeing any other comments, so I'll go ahead with putting
+> > > > > together a v2 that sets an invalid flag/bit and I'll post that for
+> > > > > further discussion/review.
+
+-- 
+paul-moore.com
 
 --
 Linux-audit mailing list
