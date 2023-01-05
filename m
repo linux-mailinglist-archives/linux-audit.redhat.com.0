@@ -1,96 +1,79 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 708ED6603A6
-	for <lists+linux-audit@lfdr.de>; Fri,  6 Jan 2023 16:44:42 +0100 (CET)
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F75E66077E
+	for <lists+linux-audit@lfdr.de>; Fri,  6 Jan 2023 20:58:42 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1673019881;
+	s=mimecast20190719; t=1673035121;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=s3nNw7+tMdO9Gcl65a8JNiLMPVNmZk6saPv+yiP2ZOk=;
-	b=enLyjRGhbW8OCJNSyzB5foTKI9b1Ca9Uw5O5slsL/C1weJPoHbsT0xsxe/4niepTg9+XFb
-	ibGMNqJ/pHbFIL+GFDWKQZAQVK69MaQfEopptbB1jtmjQI68SrpvY1gdDMKl8Alqcmh2V2
-	4zou7KS5fBUtfNijDCwIn2Z1tOfVHXs=
+	bh=0TJIlqWBeGO2iVjBfDlu43AV520xT2UUnpcwbcBXPfY=;
+	b=DKMcB4oikadED4jZ8/5NzyoBpGra6zoML2oDHv/x+ctVg/0unIiy+FbctHz0mktrM66jlI
+	bOgSU0xS2IaV8V10iBg4gYS2cw7QDGtDeQaUCDgYJRjZ8rHcqePpNJGO16N3zm3lBcWjcm
+	XE8wyH2E0bDIgUmEnRw4/p9kNThaGUA=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-1-MRoZBOVvPs64X4OJtNhh-A-1; Fri, 06 Jan 2023 10:44:39 -0500
-X-MC-Unique: MRoZBOVvPs64X4OJtNhh-A-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
+ us-mta-416-56pbqPXONFyuZcmm5g8H-A-1; Fri, 06 Jan 2023 14:58:37 -0500
+X-MC-Unique: 56pbqPXONFyuZcmm5g8H-A-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4F92E1C0514F;
-	Fri,  6 Jan 2023 15:44:37 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9E64F2A59562;
+	Fri,  6 Jan 2023 19:58:35 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (unknown [10.30.29.100])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 445672026D68;
-	Fri,  6 Jan 2023 15:44:30 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 643E4492B07;
+	Fri,  6 Jan 2023 19:58:30 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (localhost [IPv6:::1])
-	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id 9BE941947072;
-	Fri,  6 Jan 2023 15:44:28 +0000 (UTC)
+	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id CCCC819459DB;
+	Fri,  6 Jan 2023 19:58:26 +0000 (UTC)
 X-Original-To: linux-audit@listman.corp.redhat.com
 Delivered-To: linux-audit@listman.corp.redhat.com
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
  by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with
- ESMTP id AC8D51946586 for <linux-audit@listman.corp.redhat.com>;
- Fri,  6 Jan 2023 15:44:11 +0000 (UTC)
+ ESMTP id E16291946586 for <linux-audit@listman.corp.redhat.com>;
+ Thu,  5 Jan 2023 14:20:20 +0000 (UTC)
 Received: by smtp.corp.redhat.com (Postfix)
- id ACEA7492B01; Fri,  6 Jan 2023 15:44:11 +0000 (UTC)
+ id C3C31492B08; Thu,  5 Jan 2023 14:20:20 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
- (mimecast07.extmail.prod.ext.rdu2.redhat.com [10.11.55.23])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A5DEA492B00
- for <linux-audit@redhat.com>; Fri,  6 Jan 2023 15:44:11 +0000 (UTC)
+ (mimecast03.extmail.prod.ext.rdu2.redhat.com [10.11.55.19])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BC092492B07
+ for <linux-audit@redhat.com>; Thu,  5 Jan 2023 14:20:20 +0000 (UTC)
 Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
  [207.211.31.120])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 85D373C0F683
- for <linux-audit@redhat.com>; Fri,  6 Jan 2023 15:44:11 +0000 (UTC)
-Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com
- [209.85.217.51]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-575-u7MgemTXOty-MtbEimtvtg-1; Fri, 06 Jan 2023 10:44:04 -0500
-X-MC-Unique: u7MgemTXOty-MtbEimtvtg-1
-Received: by mail-vs1-f51.google.com with SMTP id o63so1797731vsc.10
- for <linux-audit@redhat.com>; Fri, 06 Jan 2023 07:44:04 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=fd5JRFn3Cr5IWNkuRQ9nibDUI9vKExSd4SCBuH3OmNw=;
- b=CJ9++RtY2JHyymGBYXvWNpFOwG9mMJQLeqCtJOCa8hfyiW1z0aDIxWomleFdAUOZgR
- 1XBvFYCzzW1RRIYJKHuIm8jmXuAH35BNY1L/8w/DeBakkPdFQCERGWeW5vDCraAzPFjl
- OVIW1Isk5ekuqT3CNrYdUZ+3FcSygBDhYy+h8647+qYgofCHOifd7nV35D6REg02t60T
- UmRGz+PEUTy61YW3DbYMYECOaIvw6A0GGuN+4SgK4+wCGC4GeHbEFga9/JKgOdlrPGBp
- hzy3pHGl+rAL+dmb0XR6mmduMzYtt6PY7T9WhoUfKabak4Ga9qinYvifaU/QV/9E1rto
- pwtA==
-X-Gm-Message-State: AFqh2kqSZlOq6yBszl379+OsWPlXq7WAlwmvyWyxugzUsZz9fLUwQ8lD
- ipYJqrPMvS0zKHim/Siu+5dSlIMfpvEDkcI=
-X-Google-Smtp-Source: AMrXdXs8rijHgVUdSfFZAXBKIH6T7FgQK3p9S5Uiy+/kLe4hL1kOCqS28Jglq6Smsm8NfhFBWxp6fA==
-X-Received: by 2002:a67:fe8c:0:b0:3cc:fb78:e403 with SMTP id
- b12-20020a67fe8c000000b003ccfb78e403mr13173588vsr.10.1673019843168; 
- Fri, 06 Jan 2023 07:44:03 -0800 (PST)
-Received: from localhost (pool-108-26-161-203.bstnma.fios.verizon.net.
- [108.26.161.203]) by smtp.gmail.com with ESMTPSA id
- w19-20020a05620a445300b006fc3fa1f589sm678167qkp.114.2023.01.06.07.44.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 Jan 2023 07:44:02 -0800 (PST)
-From: Paul Moore <paul@paul-moore.com>
-To: linux-audit@redhat.com,
-	bpf@vger.kernel.org
-Subject: [PATCH v3 2/2] bpf: remove the do_idr_lock parameter from
- bpf_prog_free_id()
-Date: Fri,  6 Jan 2023 10:44:00 -0500
-Message-Id: <20230106154400.74211-2-paul@paul-moore.com>
-In-Reply-To: <20230106154400.74211-1-paul@paul-moore.com>
-References: <20230106154400.74211-1-paul@paul-moore.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 790C9811E6E
+ for <linux-audit@redhat.com>; Thu,  5 Jan 2023 14:20:20 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [139.178.84.217]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-177-KVVsYB79NJufWDsNIvgiNA-1; Thu, 05 Jan 2023 09:20:09 -0500
+X-MC-Unique: KVVsYB79NJufWDsNIvgiNA-1
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 0BEDA61ACA;
+ Thu,  5 Jan 2023 14:12:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A407C433EF;
+ Thu,  5 Jan 2023 14:12:40 +0000 (UTC)
+Date: Thu, 5 Jan 2023 09:12:38 -0500
+From: Steven Rostedt <rostedt@goodmis.org>
+To: "Arnd Bergmann" <arnd@arndb.de>
+Subject: Re: [RFC PATCH 00/25] Upstream kvx Linux port
+Message-ID: <20230105091238.42bd6e6f@gandalf.local.home>
+In-Reply-To: <5b69db0b-9eed-42ce-8e93-4b656022433f@app.fastmail.com>
+References: <20230103164359.24347-1-ysionneau@kalray.eu>
+ <7c531595-e987-422b-bcf7-48ad0ba49ce6@app.fastmail.com>
+ <20230105104019.GA7446@tellis.lin.mbt.kalray.eu>
+ <5b69db0b-9eed-42ce-8e93-4b656022433f@app.fastmail.com>
 MIME-Version: 1.0
 X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
  Definition; Similar Internal Domain=false;
@@ -99,7 +82,8 @@ X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
  Internal User Name=false; Custom Display Name List=false;
  Reply-to Address Mismatch=false; Targeted Threat Dictionary=false;
  Mimecast Threat Dictionary=false; Custom Threat Dictionary=false
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+X-Mailman-Approved-At: Fri, 06 Jan 2023 19:58:25 +0000
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -111,102 +95,73 @@ List-Post: <mailto:linux-audit@redhat.com>
 List-Help: <mailto:linux-audit-request@redhat.com?subject=help>
 List-Subscribe: <https://listman.redhat.com/mailman/listinfo/linux-audit>,
  <mailto:linux-audit-request@redhat.com?subject=subscribe>
-Cc: Burn Alting <burn.alting@iinet.net.au>, Stanislav Fomichev <sdf@google.com>,
- Alexei Starovoitov <ast@kernel.org>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Marc =?UTF-8?B?UG91bGhpw6hz?= <dkm@kataplop.net>, linux-doc@vger.kernel.org,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>, Jan
+ Kiszka <jan.kiszka@siemens.com>, Sebastian Reichel <sre@kernel.org>,
+ Marius Gligor <mgligor@kalray.eu>, Oleg Nesterov <oleg@redhat.com>,
+ linux-mm@kvack.org, Louis Morhet <lmorhet@kalray.eu>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Luc Michel <lmichel@kalray.eu>, linux-riscv@lists.infradead.org, Ashley
+ Lesdalons <alesdalons@kalray.eu>, Will Deacon <will@kernel.org>,
+ Ard Biesheuvel <ardb@kernel.org>, Linux-Arch <linux-arch@vger.kernel.org>,
+ Marc Zyngier <maz@kernel.org>, Thomas Costis <tcostis@kalray.eu>,
+ Jonathan Corbet <corbet@lwn.net>, Jonathan Borne <jborne@kalray.eu>,
+ Aneesh Kumar <aneesh.kumar@linux.ibm.com>, Samuel Jones <sjones@kalray.eu>,
+ Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
+ Jean-Christophe Pince <jcpince@gmail.com>, Waiman Long <longman@redhat.com>,
+ Clement Leger <clement.leger@bootlin.com>,
+ Masami Hiramatsu <mhiramat@kernel.org>, devicetree@vger.kernel.org,
+ Albert Ou <aou@eecs.berkeley.edu>, Kees Cook <keescook@chromium.org>,
+ linux-pm@vger.kernel.org, Yann Sionneau <ysionneau@kalray.eu>,
+ Boqun Feng <boqun.feng@gmail.com>, Guillaume Thouvenin <gthouvenin@kalray.eu>,
+ Julian Vetter <jvetter@kalray.eu>, Arnaldo Carvalho de Melo <acme@kernel.org>,
+ Julien Hascoet <jhascoet@kalray.eu>, Jason Baron <jbaron@akamai.com>, Rob
+ Herring <robh+dt@kernel.org>, Nicholas Piggin <npiggin@gmail.com>,
+ Paul Walmsley <paul.walmsley@sifive.com>, Namhyung Kim <namhyung@kernel.org>,
+ Thomas Gleixner <tglx@linutronix.de>, Josh
+ Poimboeuf <jpoimboe@kernel.org>, linux-arm-kernel@lists.infradead.org,
+ Julien Villette <jvillette@kalray.eu>, Jules Maselbas <jmaselbas@kalray.eu>,
+ Christian Brauner <brauner@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Benjamin Mugnier <mugnier.benjamin@gmail.com>,
+ Vincent Chardon <vincent.chardon@elsys-design.com>,
+ Guillaume Missonnier <gmissonnier@kalray.eu>, linux-kernel@vger.kernel.org,
+ Eric Paris <eparis@redhat.com>, Alex Michon <amichon@kalray.eu>,
+ linux-perf-users@vger.kernel.org, linux-audit@redhat.com,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ "Eric W. Biederman" <ebiederm@xmission.com>, Jiri
+ Olsa <jolsa@kernel.org>, Kieran Bingham <kbingham@kernel.org>,
+ bpf@vger.kernel.org
 Errors-To: linux-audit-bounces@redhat.com
 Sender: "Linux-audit" <linux-audit-bounces@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-It was determined that the do_idr_lock parameter to
-bpf_prog_free_id() was not necessary as it should always be true.
+On Thu, 05 Jan 2023 13:05:32 +0100
+"Arnd Bergmann" <arnd@arndb.de> wrote:
 
-Suggested-by: Stanislav Fomichev <sdf@google.com>
-Signed-off-by: Paul Moore <paul@paul-moore.com>
+> >> I did not receive most of the other patches as I'm
+> >> not subscribed to all the mainline lists. For future 
+> >> submissions, can you add the linux-arch list to Cc for
+> >> all patches?  
+> >
+> > We misused get_maintainers.pl, running it on each patch instead
+> > of using it on the whole series. next time every one will be in
+> > copy of every patch in the series and including linux-arch.  
+> 
+> Be careful not to make the list too long though, there is
+> usually a limit of 1024 characters for the entire Cc list,
+> above this your mails may get dropped by the mailing lists.
 
----
-* v3
-- initial draft
----
- include/linux/bpf.h  |  2 +-
- kernel/bpf/syscall.c | 20 ++++++--------------
- 2 files changed, 7 insertions(+), 15 deletions(-)
+It's best to include mailing lists for the entire series, and perhaps
+individuals for each patch. As I don't want the entire series just to see
+the tracing portion.
 
-diff --git a/include/linux/bpf.h b/include/linux/bpf.h
-index 3de24cfb7a3d..634d37a599fa 100644
---- a/include/linux/bpf.h
-+++ b/include/linux/bpf.h
-@@ -1832,7 +1832,7 @@ void bpf_prog_inc(struct bpf_prog *prog);
- struct bpf_prog * __must_check bpf_prog_inc_not_zero(struct bpf_prog *prog);
- void bpf_prog_put(struct bpf_prog *prog);
- 
--void bpf_prog_free_id(struct bpf_prog *prog, bool do_idr_lock);
-+void bpf_prog_free_id(struct bpf_prog *prog);
- void bpf_map_free_id(struct bpf_map *map, bool do_idr_lock);
- 
- struct btf_field *btf_record_find(const struct btf_record *rec,
-diff --git a/kernel/bpf/syscall.c b/kernel/bpf/syscall.c
-index 61bb19e81b9c..ecca9366c7a6 100644
---- a/kernel/bpf/syscall.c
-+++ b/kernel/bpf/syscall.c
-@@ -2001,7 +2001,7 @@ static int bpf_prog_alloc_id(struct bpf_prog *prog)
- 	return id > 0 ? 0 : id;
- }
- 
--void bpf_prog_free_id(struct bpf_prog *prog, bool do_idr_lock)
-+void bpf_prog_free_id(struct bpf_prog *prog)
- {
- 	unsigned long flags;
- 
-@@ -2013,18 +2013,10 @@ void bpf_prog_free_id(struct bpf_prog *prog, bool do_idr_lock)
- 	if (!prog->aux->id)
- 		return;
- 
--	if (do_idr_lock)
--		spin_lock_irqsave(&prog_idr_lock, flags);
--	else
--		__acquire(&prog_idr_lock);
--
-+	spin_lock_irqsave(&prog_idr_lock, flags);
- 	idr_remove(&prog_idr, prog->aux->id);
- 	prog->aux->id = 0;
--
--	if (do_idr_lock)
--		spin_unlock_irqrestore(&prog_idr_lock, flags);
--	else
--		__release(&prog_idr_lock);
-+	spin_unlock_irqrestore(&prog_idr_lock, flags);
- }
- 
- static void __bpf_prog_put_rcu(struct rcu_head *rcu)
-@@ -2067,11 +2059,11 @@ static void bpf_prog_put_deferred(struct work_struct *work)
- 	prog = aux->prog;
- 	perf_event_bpf_event(prog, PERF_BPF_EVENT_PROG_UNLOAD, 0);
- 	bpf_audit_prog(prog, BPF_AUDIT_UNLOAD);
--	bpf_prog_free_id(prog, true);
-+	bpf_prog_free_id(prog);
- 	__bpf_prog_put_noref(prog, true);
- }
- 
--static void __bpf_prog_put(struct bpf_prog *prog, bool do_idr_lock)
-+static void __bpf_prog_put(struct bpf_prog *prog)
- {
- 	struct bpf_prog_aux *aux = prog->aux;
- 
-@@ -2087,7 +2079,7 @@ static void __bpf_prog_put(struct bpf_prog *prog, bool do_idr_lock)
- 
- void bpf_prog_put(struct bpf_prog *prog)
- {
--	__bpf_prog_put(prog, true);
-+	__bpf_prog_put(prog);
- }
- EXPORT_SYMBOL_GPL(bpf_prog_put);
- 
--- 
-2.39.0
+-- Steve
 
 --
 Linux-audit mailing list
