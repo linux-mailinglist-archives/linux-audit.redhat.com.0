@@ -1,92 +1,88 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFF47660853
-	for <lists+linux-audit@lfdr.de>; Fri,  6 Jan 2023 21:33:41 +0100 (CET)
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FC07661F46
+	for <lists+linux-audit@lfdr.de>; Mon,  9 Jan 2023 08:34:09 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1673037220;
-	h=from:from:sender:sender:reply-to:subject:subject:date:date:
-	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-	 content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:list-id:list-help:
-	 list-unsubscribe:list-subscribe:list-post;
-	bh=SVj6704eCOXr5DLyklL4Up7sEjbEfMf3xSdDQhS0afs=;
-	b=ZhSfAFQ9kWmYvFeTrE4lMyY93QuQq0SjI2CLB6YyCtSXtS9lZPHIsBWQh5+1mEtUIPbLUz
-	R1oB9UMCuyQd1wAVmlXb9RoEdLr/F39k1Im4UHR4chZ+u1tply3wV51AF7Tg/+cHLuFbIK
-	ohKXw8076PRZ1PAj+ZK5uDXXUlEynsE=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+	s=mimecast20190719; t=1673249648;
+	h=from:from:sender:sender:reply-to:reply-to:subject:subject:date:date:
+	 message-id:message-id:to:to:cc:mime-version:mime-version:
+	 content-type:content-type:list-id:list-help:list-unsubscribe:
+	 list-subscribe:list-post; bh=lSCNfxemoMUMATQLAuaVb8IYJJgDhivSTDkbuYuRtyw=;
+	b=Wi+ORlf1vJ+NHdpHh1VYpUWpD927kP0qOqL6wgmXAZWOGXHqcs/B3yEkE8WC4sXs3xUt4b
+	w0GN6dPQGSJBd9qYyrIpebL4cJmh+eKEuS/HNCFkCGRhJzd4ogOo7bnteMNLWO7XBUXkaw
+	dj0h6uDzkrEE3EbL9PjnPfDXuVEN24g=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-247-QbAuSWmrOu6-uRVEYOE_4A-1; Fri, 06 Jan 2023 15:33:39 -0500
-X-MC-Unique: QbAuSWmrOu6-uRVEYOE_4A-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
+ us-mta-350-We6tsN4kMQieFDfjiSgV4w-1; Mon, 09 Jan 2023 02:34:04 -0500
+X-MC-Unique: We6tsN4kMQieFDfjiSgV4w-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DB49518E5340;
-	Fri,  6 Jan 2023 20:33:36 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4B1693C0F421;
+	Mon,  9 Jan 2023 07:34:03 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (unknown [10.30.29.100])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 205B9492C1B;
-	Fri,  6 Jan 2023 20:33:34 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 53E93492B01;
+	Mon,  9 Jan 2023 07:33:51 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (localhost [IPv6:::1])
-	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id 8805B19459CC;
-	Fri,  6 Jan 2023 20:33:33 +0000 (UTC)
+	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id 79C7E1947B87;
+	Mon,  9 Jan 2023 07:33:50 +0000 (UTC)
 X-Original-To: linux-audit@listman.corp.redhat.com
 Delivered-To: linux-audit@listman.corp.redhat.com
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
  by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with
- ESMTP id 9FEC21946586 for <linux-audit@listman.corp.redhat.com>;
- Fri,  6 Jan 2023 20:33:32 +0000 (UTC)
+ ESMTP id D02151946586 for <linux-audit@listman.corp.redhat.com>;
+ Mon,  9 Jan 2023 07:33:48 +0000 (UTC)
 Received: by smtp.corp.redhat.com (Postfix)
- id 711967AE5; Fri,  6 Jan 2023 20:33:32 +0000 (UTC)
+ id B02BA492B01; Mon,  9 Jan 2023 07:33:48 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
- (mimecast10.extmail.prod.ext.rdu2.redhat.com [10.11.55.26])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 68E8651FF
- for <linux-audit@redhat.com>; Fri,  6 Jan 2023 20:33:32 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [207.211.31.81])
+ (mimecast09.extmail.prod.ext.rdu2.redhat.com [10.11.55.25])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A8FE5492B00
+ for <linux-audit@redhat.com>; Mon,  9 Jan 2023 07:33:48 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [207.211.31.81])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
  bits)) (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 472B51C05158
- for <linux-audit@redhat.com>; Fri,  6 Jan 2023 20:33:32 +0000 (UTC)
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com
- [209.85.210.178]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-459-aWoD6keRNfuu9cElfFL03w-1; Fri, 06 Jan 2023 15:33:30 -0500
-X-MC-Unique: aWoD6keRNfuu9cElfFL03w-1
-Received: by mail-pf1-f178.google.com with SMTP id y5so1917735pfe.2
- for <linux-audit@redhat.com>; Fri, 06 Jan 2023 12:33:30 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=UdHj6gRiMr5Jdk6roXJwROPW2Mr6qXz3USkqhrYW4bU=;
- b=ITyjSU9EBqTa/Rrmm7Ew+7eUGmJpw+ZUqTkDg+sIN5Y19zLqjoLYoXTmXa16EKfYh5
- j2u0TOk97hJ3r96llZcUqXVgf3OSXGer2PIgnDfF/g5HzAQLEij9C7i3ejMz1fnLYN5G
- Qd9Qn3l9CEIlnTR/xQz0EQBkR0TyOj1pri65f7FTJ3+FytjyiF/wVhJIApiisKZXZ2xy
- SwPp8cW3pML0mMNIUFbgUxmq6LlgygAna5jHNrqmJhXJHgOTWSszwRKzJjSGpvBZEyyf
- JvZkR1GbwxsepDLgOjiNL+3AhokGu8+IjlmoF5lL36ZihA3UD7i39SnMfc8w3+wVXRyz
- Pyjg==
-X-Gm-Message-State: AFqh2kpYFJ5Z37TtmsS3rugmtIld/LoAxCEmvykPtGHiIvvmfYOT8DkQ
- dlLUBUcOnMX1ppFRQ8Q06T7D+mDQTg0cVM/vdzFo
-X-Google-Smtp-Source: AMrXdXsBOG6gsywhZ+ABL5ji2WcBXMiqcnPGJe9OyPXtqoXuomJaHZ6As6ALlBdBHcto+irRpnd3IoMdUqk2F4iCn9M=
-X-Received: by 2002:a63:db51:0:b0:477:96e2:9065 with SMTP id
- x17-20020a63db51000000b0047796e29065mr3292449pgi.533.1673037209397; Fri, 06
- Jan 2023 12:33:29 -0800 (PST)
-MIME-Version: 1.0
-References: <CACKMdf=43CJmauoVnyzemsGtJoR5g=yDUUojJ3P1qsbKrrNMXQ@mail.gmail.com>
- <CAHC9VhQ10FeuFYqhC31YCmU9BB67go3RoMOsYn+SWA5TsWKy9w@mail.gmail.com>
- <5654293.DvuYhMxLoT@x2>
- <CAHC9VhTdznAV=ZbUbJM5EPs7_VVAL2KU1i7T=mQaUiq+TiL1=g@mail.gmail.com>
-In-Reply-To: <CAHC9VhTdznAV=ZbUbJM5EPs7_VVAL2KU1i7T=mQaUiq+TiL1=g@mail.gmail.com>
-From: Paul Moore <paul@paul-moore.com>
-Date: Fri, 6 Jan 2023 15:33:18 -0500
-Message-ID: <CAHC9VhQH28r_fOCaW+=_65M2SBNpVnQqcvxKt28Zc1+YEqwjBQ@mail.gmail.com>
-Subject: Re: New bug in Audit
-To: Steve Grubb <sgrubb@redhat.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 44BDF299E758
+ for <linux-audit@redhat.com>; Mon,  9 Jan 2023 07:33:48 +0000 (UTC)
+Received: from icp-osb-irony-out9.external.iinet.net.au
+ (icp-osb-irony-out9.external.iinet.net.au [203.59.1.226]) by
+ relay.mimecast.com with ESMTP id us-mta-227-h1gAtyqzOW6WcnANfE63rw-1; Mon,
+ 09 Jan 2023 02:33:44 -0500
+X-MC-Unique: h1gAtyqzOW6WcnANfE63rw-1
+IronPort-SDR: fZInrpjI7JCfW2vZ303kaDMM7v2mLJan0jFoqI/zLJUYp6p7VPJevGC5M1cGZEpEM7BCATNGsS
+ rZNt5GersoalX/Z9IQacJ5v4tRIjcPHF8EC9Qi0h+3oewByv2EyJTGoDxOSuYOPTAlBUJrN/Vw
+ Vb1wAZl0dPIFXCJEfnGZsxYL3VyNKLv47fhC+1vu1UY4iLWbsjguAuJDiE6LGbKRGx6gdAE3d1
+ c1SbHVb89R5CNdoI1IbVetse6dlQLwYtj80NJosSiD0lb67cO3YkAlrS9b4EKCJqTEKQia8XYq
+ AFc=
+X-SMTP-MATCH: 1
+IronPort-Data: A9a23:Yh6FbKip9Fqb6bji5BboXJjrX161+BIKZh0ujC45NGQN5FlHY01je
+ htvWW2EM6yON2r2KIgjbI63/EgC75DSnIMwT1Forng9EXsW8JqUDtmndUqhZCn6wu8v7K5EA
+ 2TyTvGacajYm1eF/k/F3oAMLBCQ7InQLlbGILes1htZGEk1Fk/NtTo5w7Ri2tcw0YDja++wk
+ YiaT/P3aQfNNwFcbzp8B5Kr8HuDa9yr5Vv0FnRnDRx6lAe2e0s9VfrzFonoR5fMebS4K8bhL
+ wr1IBBVyUuCl/slIovNfr/TLhZQGuaKVeSEoiI+t6OK2nCuqgRuifxjbKJ0hUp/0120c95NJ
+ Nplt5eyWSwoHabwqeUNWB4GLCt3AJJCweqSSZS/mZT7I0zuaGTwzbN1E104e4EJ/OpxGidJ7
+ /NwxDIlNEnSwbPuhuvrF68135tLwMrDZevzvllq0CvfS/8iXZHFTI3L5NlVwHE2i9wIFOu2i
+ 88xMms+Nk2cOkYRUrsRILVkutmQv33FT217tHywqvM17U2N4yUkhdABN/KQILRmX/59mkeeu
+ 3KD9nn1Aw0yLtGTyTOZtHmrg4fycTjTAttDUezgs6c63RjKnzNVCQVQXFeypL+yjUv4Us83x
+ 1EoxxfCZJMarCSDJuQRlTXhyJJYlnbwg+ZtLtA=
+IronPort-HdrOrdr: A9a23:IKzU9aASOJCJ/hblHem355DYdb4zR+YMi2TDsHoBKiC9E/b5qy
+ nApp4mPHPP5Qr5O0tApTnjAsa9qBrnnPYf3WB7B9mftWfd1FdAV7sSj7ff/w==
+X-IronPort-AV: E=Sophos;i="5.96,311,1665417600"; 
+ d="scan'208,217";a="399214136"
+Received: from 219-90-185-117.ip.adam.com.au (HELO swtf.swtf.dyndns.org)
+ ([219.90.185.117])
+ by icp-osb-irony-out9.iinet.net.au with ESMTP; 09 Jan 2023 15:33:43 +0800
+Message-ID: <67cb9316477478e1bf04dd65ab90e9171795433d.camel@iinet.net.au>
+Subject: A question on monitoring time or time management changes in the
+ kernel and the adjtimex system call
+From: Burn Alting <burn.alting@iinet.net.au>
+To: linux-audit@redhat.com
+Date: Mon, 09 Jan 2023 18:33:39 +1100
+Mime-Version: 1.0
 X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
  Definition; Similar Internal Domain=false;
  Similar Monitored External Domain=false; Custom External Domain=false;
@@ -94,7 +90,7 @@ X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
  Internal User Name=false; Custom Display Name List=false;
  Reply-to Address Mismatch=false; Targeted Threat Dictionary=false;
  Mimecast Threat Dictionary=false; Custom Threat Dictionary=false
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,57 +102,53 @@ List-Post: <mailto:linux-audit@redhat.com>
 List-Help: <mailto:linux-audit-request@redhat.com?subject=help>
 List-Subscribe: <https://listman.redhat.com/mailman/listinfo/linux-audit>,
  <mailto:linux-audit-request@redhat.com?subject=subscribe>
-Cc: linux-audit@redhat.com, Ariel Silver <arielsilver77@gmail.com>
+Reply-To: burn@swtf.dyndns.org
 Errors-To: linux-audit-bounces@redhat.com
 Sender: "Linux-audit" <linux-audit-bounces@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: multipart/mixed; boundary="===============2363596064963265948=="
+
+--===============2363596064963265948==
+Content-Type: multipart/alternative; boundary="=-HRUY+6vGd80I3+BxV/jw"
+
+--=-HRUY+6vGd80I3+BxV/jw
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Thu, Jan 5, 2023 at 2:32 PM Paul Moore <paul@paul-moore.com> wrote:
-> On Thu, Jan 5, 2023 at 11:32 AM Steve Grubb <sgrubb@redhat.com> wrote:
-> > On Thursday, January 5, 2023 10:41:49 AM EST Paul Moore wrote:
-> > > On Thu, Jan 5, 2023 at 8:38 AM Ariel Silver <arielsilver77@gmail.com>
-> > wrote:
-> > > > I found the following bug:
-> > > >
-> > > > OS version = Red Hat Enterprise Linux release 8.6 (Ootpa)
-> > > > Kernel version = 4.18.0-425.3.1.el8.x86_64
-> > > > auditctl version = 3.0.7
-> > >
-> > > This mailing list is focused on the development and support of
-> > > upstream Linux Kernels and Steve's audit userspace, we don't really
-> > > provide support for paid distributions.  If you are seeing problems
-> > > with the upstream Linux Kernel or tools, please report them here, but
-> > > issues with distribution kernels and/or tools should be sent to the
-> > > distribution for support/assistance.
-> >
-> > Paul, we take bug reports and help requests from anyone. Often, distributions
-> > are how we first hear of problems.
->
-> Steve, re-read what I wrote.
->
-> This mailing list is *focused* on upstream work and support, and while
-> it does not preclude talking about distro specific bugs, I believe
-> there are better avenues for those discussions (e.g. see the RHBZ link
-> I provided in my response) as upstream isn't really going to be able
-> to provide adequate help for someone experiencing problems with a
-> distro kernel which has a number of patches and backports.
->
-> If you have a problem with this approach, perhaps we should move
-> upstream development to an audit mailing list on vger.kernel.org and
-> leave this list for RH specific issues?
+All,
 
-Steve, I realize it's only been ~24hrs, but should I assume you are
-okay with that (the upstream focused approach)?
+Would it be correct to say that when one sees an adjtimex system call audit event, a
+change has occurred ONLY if either a AUDIT_TIME_ADJNTPVAL (algorithm change) or
+AUDIT_TIME_INJOFFSET (time change) record is present in the event?
 
--- 
-paul-moore.com
+Thanks in advance
+Burn Alting
+
+--=-HRUY+6vGd80I3+BxV/jw
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+<html dir=3D"ltr"><head></head><body style=3D"text-align:left; direction:lt=
+r;"><div>All,</div><div><br></div><div>Would it be correct to say that when=
+ one sees an adjtimex system call audit event, a change has occurred ONLY i=
+f either a AUDIT_TIME_ADJNTPVAL (algorithm change) or AUDIT_TIME_INJOFFSET =
+(time change) record is present in the event?</div><div><br></div><div>Than=
+ks in advance</div><div>Burn Alting</div></body></html>
+
+--=-HRUY+6vGd80I3+BxV/jw--
+
+--===============2363596064963265948==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 --
 Linux-audit mailing list
 Linux-audit@redhat.com
 https://listman.redhat.com/mailman/listinfo/linux-audit
+
+--===============2363596064963265948==--
 
