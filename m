@@ -1,103 +1,64 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47ECF662E21
-	for <lists+linux-audit@lfdr.de>; Mon,  9 Jan 2023 19:07:17 +0100 (CET)
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id B1156663606
+	for <lists+linux-audit@lfdr.de>; Tue, 10 Jan 2023 01:07:01 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1673287636;
+	s=mimecast20190719; t=1673309220;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=ZWCdm5/ceaI3JriaUA+/2lVeUkIxFyhUR8Z/qkGOOhg=;
-	b=Da2GScv98srXY+TdmGorNhwn3UMaTfeYgdeyAJDAl3xhq/llYVmxTHCOxkOEdgovud+E1t
-	DCbABCfVlsUj4zqb/lMP6UTmaslZTQklqRg2/acdeN98znT4DjbKU6TYZVeklcOt3JF+v2
-	kAtyR58rhEyuPWmrVGmcFQFwjuPjHkk=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=2cEvhfcvp7Vz5GD+YKo7czu+1CxwjS71gLfsDMPlBos=;
+	b=Si9NirOtOXAg1Tk2C9LA1fbRva6mX3qPGUvNhNpLpeG5f80aZvHt3fNZVNj48wh4DEFwMt
+	NaKlfa1VTTNDXNPpXZqewXVA9/OkhU2iSkQNLnGdq7wXHXtHNoZP1gLkj1g1FuaU+aTxFI
+	D4uEJAaqGFednleHXStrTJtHkQ6B0X4=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-364-vEDmStTlPgCMHGkZquqzkQ-1; Mon, 09 Jan 2023 13:07:14 -0500
-X-MC-Unique: vEDmStTlPgCMHGkZquqzkQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
+ us-mta-27-N-SUL1jCO-aCMCmctavbbw-1; Mon, 09 Jan 2023 19:06:58 -0500
+X-MC-Unique: N-SUL1jCO-aCMCmctavbbw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C57A9101A55E;
-	Mon,  9 Jan 2023 18:07:12 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B30A21C07541;
+	Tue, 10 Jan 2023 00:06:56 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (unknown [10.30.29.100])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 5C1174078906;
-	Mon,  9 Jan 2023 18:07:12 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 6BD6C140EBF6;
+	Tue, 10 Jan 2023 00:06:51 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (localhost [IPv6:::1])
-	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id 0EAF81949761;
-	Mon,  9 Jan 2023 18:07:12 +0000 (UTC)
+	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id 9E8F91940375;
+	Tue, 10 Jan 2023 00:06:50 +0000 (UTC)
 X-Original-To: linux-audit@listman.corp.redhat.com
 Delivered-To: linux-audit@listman.corp.redhat.com
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
  by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with
- ESMTP id A38501946587 for <linux-audit@listman.corp.redhat.com>;
- Mon,  9 Jan 2023 18:04:18 +0000 (UTC)
+ ESMTP id 664921946587 for <linux-audit@listman.corp.redhat.com>;
+ Tue, 10 Jan 2023 00:06:44 +0000 (UTC)
 Received: by smtp.corp.redhat.com (Postfix)
- id 95E0D492C18; Mon,  9 Jan 2023 18:04:18 +0000 (UTC)
+ id 4C6DB1400E44; Tue, 10 Jan 2023 00:06:44 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from mimecast-mx02.redhat.com
- (mimecast06.extmail.prod.ext.rdu2.redhat.com [10.11.55.22])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8DC2C492C14
- for <linux-audit@redhat.com>; Mon,  9 Jan 2023 18:04:18 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [205.139.110.120])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 33ADB18E0A8B
- for <linux-audit@redhat.com>; Mon,  9 Jan 2023 18:04:08 +0000 (UTC)
-Received: from mail-pl1-f201.google.com (mail-pl1-f201.google.com
- [209.85.214.201]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-114-HjMe9HvJP4Sruyx0Fa_VGQ-1; Mon, 09 Jan 2023 13:04:06 -0500
-X-MC-Unique: HjMe9HvJP4Sruyx0Fa_VGQ-1
-Received: by mail-pl1-f201.google.com with SMTP id
- p15-20020a170902a40f00b00192b2bbb7f8so6790038plq.14
- for <linux-audit@redhat.com>; Mon, 09 Jan 2023 10:04:05 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=trG36qMQ9Re5MPDk2HW7Rz6kxqCJt0NIEgnLH9yO4Qo=;
- b=BPQbw0ZROiuEqI5VrgEQJZrDnnhGSGWzfj/QqNuvroyCPT0l4FrklcgiU3zv34RuYO
- OH5IOWoCKLK8Ypq2brrRTSqM7MpbGCLBpRzrVuAgv4WYsmIpIiQf9AvyxY/i8qmmT0+s
- WN3IC91MSYgKrdlelzcKuC3cbiq2OBxc077qEauFV050PyQukGKXJwWqpsO2pwrSmz6P
- g5mXSss95+z0mwSav7QCLbKGB6+P/fho7RTF3SgIVB2rJ83s3WPFGaZEwi2PIdK42sOf
- KUvrQ1Mtkn6u0cglVFJU0mNllA0/I8uiXptVORBj4SH6DtkmPTXtCDCeuzx5xxquk7bm
- dvFQ==
-X-Gm-Message-State: AFqh2kqJmfzOzkHUcokdau/66TOLMLn5nS/H2Y7PlZcDNGXxWXpQHVgN
- Bi4GTNcFZS7eRS/I56YOemrfAQY=
-X-Google-Smtp-Source: AMrXdXvQAaSeLP8emdOQH4MJhf2F47/Fz7kLXToAn5bywJRXLQq7tIYxXrN2/Tv/EdBrmXZS7cufits=
-X-Received: from sdf.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5935])
- (user=sdf job=sendgmr) by 2002:aa7:8c18:0:b0:588:3aa8:bd95 with SMTP id
- c24-20020aa78c18000000b005883aa8bd95mr364514pfd.14.1673287445067; Mon, 09 Jan
- 2023 10:04:05 -0800 (PST)
-Date: Mon, 9 Jan 2023 10:04:03 -0800
-In-Reply-To: <CAHC9VhTzBP49x3EH6yeqYxnr4jgcS6RdcvtbX_BSuRJnCH6ypQ@mail.gmail.com>
-Mime-Version: 1.0
-References: <20230106154400.74211-1-paul@paul-moore.com>
- <CAKH8qBtyR20ZWAc11z1-6pGb3Hd47AQUTbE_cfoktG59TqaJ7Q@mail.gmail.com>
- <CAHC9VhTzBP49x3EH6yeqYxnr4jgcS6RdcvtbX_BSuRJnCH6ypQ@mail.gmail.com>
-Message-ID: <Y7xXEx5NEV96fnPp@google.com>
-Subject: Re: [PATCH v3 1/2] bpf: restore the ebpf program ID for
- BPF_AUDIT_UNLOAD and PERF_BPF_EVENT_PROG_UNLOAD
-From: sdf@google.com
-To: Paul Moore <paul@paul-moore.com>
-X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
- Definition; Similar Internal Domain=false;
- Similar Monitored External Domain=false; Custom External Domain=false;
- Mimecast External Domain=false; Newly Observed Domain=false;
- Internal User Name=false; Custom Display Name List=false;
- Reply-to Address Mismatch=false; Targeted Threat Dictionary=false;
- Mimecast Threat Dictionary=false; Custom Threat Dictionary=false
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-X-Mailman-Approved-At: Mon, 09 Jan 2023 18:07:10 +0000
+Received: from x2.localnet (unknown [10.22.32.102])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3F453140EBF5;
+ Tue, 10 Jan 2023 00:06:43 +0000 (UTC)
+From: Steve Grubb <sgrubb@redhat.com>
+To: Linux-Audit Mailing List <linux-audit@redhat.com>,
+ LKML <linux-kernel@vger.kernel.org>, linux-fsdevel@vger.kernel.org,
+ linux-api@vger.kernel.org, Richard Guy Briggs <rgb@redhat.com>
+Subject: Re: [PATCH v5 3/3] fanotify,
+ audit: Allow audit to use the full permission event response
+Date: Mon, 09 Jan 2023 19:06:42 -0500
+Message-ID: <3211441.aeNJFYEL58@x2>
+Organization: Red Hat
+In-Reply-To: <79fcf72ea442eeede53ed5e6de567f8df8ef7d83.1670606054.git.rgb@redhat.com>
+References: <cover.1670606054.git.rgb@redhat.com>
+ <79fcf72ea442eeede53ed5e6de567f8df8ef7d83.1670606054.git.rgb@redhat.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,80 +70,176 @@ List-Post: <mailto:linux-audit@redhat.com>
 List-Help: <mailto:linux-audit-request@redhat.com?subject=help>
 List-Subscribe: <https://listman.redhat.com/mailman/listinfo/linux-audit>,
  <mailto:linux-audit-request@redhat.com?subject=subscribe>
-Cc: bpf@vger.kernel.org, linux-audit@redhat.com,
- Burn Alting <burn.alting@iinet.net.au>, Alexei Starovoitov <ast@kernel.org>
+Cc: Richard Guy Briggs <rgb@redhat.com>, Eric Paris <eparis@parisplace.org>,
+ Amir Goldstein <amir73il@gmail.com>, Jan Kara <jack@suse.cz>
 Errors-To: linux-audit-bounces@redhat.com
 Sender: "Linux-audit" <linux-audit-bounces@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"; DelSp="yes"
 
-On 01/09, Paul Moore wrote:
-> On Fri, Jan 6, 2023 at 2:45 PM Stanislav Fomichev <sdf@google.com> wrote:
-> > On Fri, Jan 6, 2023 at 7:44 AM Paul Moore <paul@paul-moore.com> wrote:
-> > >
-> > > When changing the ebpf program put() routines to support being called
-> > > from within IRQ context the program ID was reset to zero prior to
-> > > calling the perf event and audit UNLOAD record generators, which
-> > > resulted in problems as the ebpf program ID was bogus (always zero).
-> > > This patch addresses this problem by removing an unnecessary call to
-> > > bpf_prog_free_id() in __bpf_prog_offload_destroy() and adjusting
-> > > __bpf_prog_put() to only call bpf_prog_free_id() after audit and perf
-> > > have finished their bpf program unload tasks in
-> > > bpf_prog_put_deferred().  For the record, no one can determine, or
-> > > remember, why it was necessary to free the program ID, and remove it
-> > > from the IDR, prior to executing bpf_prog_put_deferred();
-> > > regardless, both Stanislav and Alexei agree that the approach in this
-> > > patch should be safe.
-> > >
-> > > It is worth noting that when moving the bpf_prog_free_id() call, the
-> > > do_idr_lock parameter was forced to true as the ebpf devs determined
-> > > this was the correct as the do_idr_lock should always be true.  The
-> > > do_idr_lock parameter will be removed in a follow-up patch, but it
-> > > was kept here to keep the patch small in an effort to ease any stable
-> > > backports.
-> > >
-> > > I also modified the bpf_audit_prog() logic used to associate the
-> > > AUDIT_BPF record with other associated records, e.g. @ctx != NULL.
-> > > Instead of keying off the operation, it now keys off the execution
-> > > context, e.g. '!in_irg && !irqs_disabled()', which is much more
-> > > appropriate and should help better connect the UNLOAD operations with
-> > > the associated audit state (other audit records).
-> > >
-> > > Cc: stable@vger.kernel.org
-> > > Fixes: d809e134be7a ("bpf: Prepare bpf_prog_put() to be called from  
-> irq context.")
-> > > Reported-by: Burn Alting <burn.alting@iinet.net.au>
-> > > Reported-by: Jiri Olsa <olsajiri@gmail.com>
-> > > Suggested-by: Stanislav Fomichev <sdf@google.com>
-> > > Suggested-by: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-> > > Signed-off-by: Paul Moore <paul@paul-moore.com>
-> >
-> > Acked-by: Stanislav Fomichev <sdf@google.com>
-> >
-> > Thank you! There might be a chance it breaks test_offload.py (I don't
-> > remember whether it checks this prog-is-removed-from-id part or not),
-> > but I don't think it's fair to ask to address it :-)
-> > Since it doesn't trigger in CI, I'll take another look next week when
-> > doing a respin of my 'xdp-hints' series.
+Hello,
 
-> No problem, I'm glad we found a solution that works for everyone; and
-> thank you for chasing down any test changes that may be necessary.
+Sorry to take so long. Holidays and kernel build problems. However, I have 
+built a kernel with these patches. I only have 2 comments. When I use an 
+application that expected the old API, meaning it simply does:
 
-> I'd like to get this patch into Linus' tree sooner rather than later
-> as it fixes a kinda ugly problem, would you be okay if this went in
-> via the bpf tree?  With the appropriate ACKs I could send it to Linus
-> via the audit tree, but I think it would be much better to send it via
-> the bpf/netdev tree.
+        response.fd = metadata->fd;
+        response.response = reply;
+        close(metadata->fd);
+        write(fd, &response, sizeof(struct fanotify_response));
 
-Don't see any reason that this should go via bpf-next, so assuming
-going via bpf three should be fine.
+I get access denials. Every time. If the program is using the new API and 
+sets FAN_INFO, then it works as expected. I'll do some more testing but I 
+think there is something wrong in the compatibility path.
+
+On Monday, December 12, 2022 9:06:11 AM EST Richard Guy Briggs wrote:
+> This patch passes the full response so that the audit function can use all
+> of it. The audit function was updated to log the additional information in
+> the AUDIT_FANOTIFY record.
+
+What I'm seeing is:
+
+type=FANOTIFY msg=audit(01/09/2023 18:43:16.306:366) : resp=deny fan_type=1 
+fan_info=313300000000000000000000 subj_trust=0 obj_trust=0
+
+Where fan_info was supposed to be 13 decimal. More below...
+
+> Currently the only type of fanotify info that is defined is an audit
+> rule number, but convert it to hex encoding to future-proof the field.
+> Hex encoding suggested by Paul Moore <paul@paul-moore.com>.
+> 
+> Sample records:
+>   type=FANOTIFY msg=audit(1600385147.372:590): resp=2 fan_type=1
+> fan_info=3137 subj_trust=3 obj_trust=5 type=FANOTIFY
+> msg=audit(1659730979.839:284): resp=1 fan_type=0 fan_info=3F subj_trust=2
+> obj_trust=2
+> 
+> Suggested-by: Steve Grubb <sgrubb@redhat.com>
+> Link: https://lore.kernel.org/r/3075502.aeNJFYEL58@x2
+> Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
+> ---
+>  fs/notify/fanotify/fanotify.c |  3 ++-
+>  include/linux/audit.h         |  9 +++++----
+>  kernel/auditsc.c              | 25 ++++++++++++++++++++++---
+>  3 files changed, 29 insertions(+), 8 deletions(-)
+> 
+> diff --git a/fs/notify/fanotify/fanotify.c b/fs/notify/fanotify/fanotify.c
+> index 24ec1d66d5a8..29bdd99b29fa 100644
+> --- a/fs/notify/fanotify/fanotify.c
+> +++ b/fs/notify/fanotify/fanotify.c
+> @@ -273,7 +273,8 @@ static int fanotify_get_response(struct fsnotify_group
+> *group,
+> 
+>  	/* Check if the response should be audited */
+>  	if (event->response & FAN_AUDIT)
+> -		audit_fanotify(event->response & ~FAN_AUDIT);
+> +		audit_fanotify(event->response & ~FAN_AUDIT,
+> +			       &event->audit_rule);
+> 
+>  	pr_debug("%s: group=%p event=%p about to return ret=%d\n", __func__,
+>  		 group, event, ret);
+> diff --git a/include/linux/audit.h b/include/linux/audit.h
+> index d6b7d0c7ce43..31086a72e32a 100644
+> --- a/include/linux/audit.h
+> +++ b/include/linux/audit.h
+> @@ -14,6 +14,7 @@
+>  #include <linux/audit_arch.h>
+>  #include <uapi/linux/audit.h>
+>  #include <uapi/linux/netfilter/nf_tables.h>
+> +#include <uapi/linux/fanotify.h>
+> 
+>  #define AUDIT_INO_UNSET ((unsigned long)-1)
+>  #define AUDIT_DEV_UNSET ((dev_t)-1)
+> @@ -416,7 +417,7 @@ extern void __audit_log_capset(const struct cred *new,
+> const struct cred *old); extern void __audit_mmap_fd(int fd, int flags);
+>  extern void __audit_openat2_how(struct open_how *how);
+>  extern void __audit_log_kern_module(char *name);
+> -extern void __audit_fanotify(u32 response);
+> +extern void __audit_fanotify(u32 response, struct
+> fanotify_response_info_audit_rule *friar); extern void
+> __audit_tk_injoffset(struct timespec64 offset);
+>  extern void __audit_ntp_log(const struct audit_ntp_data *ad);
+>  extern void __audit_log_nfcfg(const char *name, u8 af, unsigned int
+> nentries, @@ -523,10 +524,10 @@ static inline void
+> audit_log_kern_module(char *name) __audit_log_kern_module(name);
+>  }
+> 
+> -static inline void audit_fanotify(u32 response)
+> +static inline void audit_fanotify(u32 response, struct
+> fanotify_response_info_audit_rule *friar) {
+>  	if (!audit_dummy_context())
+> -		__audit_fanotify(response);
+> +		__audit_fanotify(response, friar);
+>  }
+> 
+>  static inline void audit_tk_injoffset(struct timespec64 offset)
+> @@ -679,7 +680,7 @@ static inline void audit_log_kern_module(char *name)
+>  {
+>  }
+> 
+> -static inline void audit_fanotify(u32 response)
+> +static inline void audit_fanotify(u32 response, struct
+> fanotify_response_info_audit_rule *friar) { }
+> 
+>  static inline void audit_tk_injoffset(struct timespec64 offset)
+> diff --git a/kernel/auditsc.c b/kernel/auditsc.c
+> index d1fb821de104..8d523066d81f 100644
+> --- a/kernel/auditsc.c
+> +++ b/kernel/auditsc.c
+> @@ -64,6 +64,7 @@
+>  #include <uapi/linux/limits.h>
+>  #include <uapi/linux/netfilter/nf_tables.h>
+>  #include <uapi/linux/openat2.h> // struct open_how
+> +#include <uapi/linux/fanotify.h>
+> 
+>  #include "audit.h"
+> 
+> @@ -2877,10 +2878,28 @@ void __audit_log_kern_module(char *name)
+>  	context->type = AUDIT_KERN_MODULE;
+>  }
+> 
+> -void __audit_fanotify(u32 response)
+> +void __audit_fanotify(u32 response, struct
+> fanotify_response_info_audit_rule *friar) {
+> -	audit_log(audit_context(), GFP_KERNEL,
+> -		AUDIT_FANOTIFY,	"resp=%u", response);
+> +	struct audit_context *ctx = audit_context();
+> +	struct audit_buffer *ab;
+> +	char numbuf[12];
+> +
+> +	if (friar->hdr.type == FAN_RESPONSE_INFO_NONE) {
+> +		audit_log(audit_context(), GFP_KERNEL, AUDIT_FANOTIFY,
+> +			  "resp=%u fan_type=%u fan_info=3F subj_trust=2 
+obj_trust=2",
+> +			  response, FAN_RESPONSE_INFO_NONE);
+> +		return;
+> +	}
+> +	ab = audit_log_start(ctx, GFP_KERNEL, AUDIT_FANOTIFY);
+> +	if (ab) {
+> +		audit_log_format(ab, "resp=%u fan_type=%u fan_info=",
+> +				 response, friar->hdr.type);
+> +		snprintf(numbuf, sizeof(numbuf), "%u", friar->rule_number);
+> +		audit_log_n_hex(ab, numbuf, sizeof(numbuf));
+
+I don't think it needs to be converted to ascii and then hexencoded. As Paul 
+said, probably %X is all we need here.
+
+-Steve
 
 
-> --
-> paul-moore.com
+> +		audit_log_format(ab, " subj_trust=%u obj_trust=%u",
+> +				 friar->subj_trust, friar->obj_trust);
+> +		audit_log_end(ab);
+> +	}
+>  }
+> 
+>  void __audit_tk_injoffset(struct timespec64 offset)
+
+
+
 
 --
 Linux-audit mailing list
