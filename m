@@ -1,62 +1,100 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC8026637AC
-	for <lists+linux-audit@lfdr.de>; Tue, 10 Jan 2023 04:08:23 +0100 (CET)
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BD71663840
+	for <lists+linux-audit@lfdr.de>; Tue, 10 Jan 2023 05:39:18 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1673320102;
+	s=mimecast20190719; t=1673325557;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=756DZ6BccPhNvW+wsWeaggXbTOLQyk4iWqcvVJ8721I=;
-	b=J5n0ZsFxbHVzOw08zauDrJJMYQS2xl2NF8yR6Y+L0wPmohpxRLJK4Ki++zV7rRQfuTnulZ
-	gBaNyu6IVKqljgh14qZovjTF0qf6juM2biLR40tpQWQY00gpQumMWxtKpvSH+VAQDojKvh
-	gBh41jtFxXOHBu8T234UepzD8njMzPw=
+	bh=V1sqwf/MSbsMcEhTh+kCM4rXqNGurfneXASE7ZnmX8U=;
+	b=ZIUiS/xa0IhmpZhLfxnnpQzMIhv9a3c7/+0xVyB84uEkkcDx5nLFMX7PumjloO4ZO8kmUq
+	xqvdlm96iFD0CRu62QQ4PeW364GicwhKsCdZI+gyvW6TnfWX+1p2Y4KKWALRCVod+wuNU0
+	OsFNDGn+P4zLfY8qweg8C7/2KnF8enU=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-401-lJDIsokzPH-wdu7AsiJdrA-1; Mon, 09 Jan 2023 22:08:18 -0500
-X-MC-Unique: lJDIsokzPH-wdu7AsiJdrA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
+ us-mta-34-Uah2HlGgNdq59BsbwmQTRw-1; Mon, 09 Jan 2023 23:39:13 -0500
+X-MC-Unique: Uah2HlGgNdq59BsbwmQTRw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 76980185A794;
-	Tue, 10 Jan 2023 03:08:16 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 807D48533DF;
+	Tue, 10 Jan 2023 04:39:11 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (unknown [10.30.29.100])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id D88C4C16026;
-	Tue, 10 Jan 2023 03:08:10 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 36AB74014CE2;
+	Tue, 10 Jan 2023 04:39:07 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (localhost [IPv6:::1])
-	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id 60D531940375;
-	Tue, 10 Jan 2023 03:08:09 +0000 (UTC)
+	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id 2B1E31940376;
+	Tue, 10 Jan 2023 04:39:06 +0000 (UTC)
 X-Original-To: linux-audit@listman.corp.redhat.com
 Delivered-To: linux-audit@listman.corp.redhat.com
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
  by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with
- ESMTP id 4525A1946587 for <linux-audit@listman.corp.redhat.com>;
- Tue, 10 Jan 2023 03:08:08 +0000 (UTC)
+ ESMTP id 0F5D11946587 for <linux-audit@listman.corp.redhat.com>;
+ Tue, 10 Jan 2023 04:39:05 +0000 (UTC)
 Received: by smtp.corp.redhat.com (Postfix)
- id 1073A492B01; Tue, 10 Jan 2023 03:08:08 +0000 (UTC)
+ id E003E42220; Tue, 10 Jan 2023 04:39:04 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from madcap2.tricolour.ca (ovpn-0-3.rdu2.redhat.com [10.22.0.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A6DCB492B00;
- Tue, 10 Jan 2023 03:08:06 +0000 (UTC)
-Date: Mon, 9 Jan 2023 22:08:04 -0500
-From: Richard Guy Briggs <rgb@redhat.com>
-To: Steve Grubb <sgrubb@redhat.com>
-Subject: Re: [PATCH v5 3/3] fanotify,audit: Allow audit to use the full
- permission event response
-Message-ID: <Y7zWlFbrrNcfGauJ@madcap2.tricolour.ca>
-References: <cover.1670606054.git.rgb@redhat.com>
- <79fcf72ea442eeede53ed5e6de567f8df8ef7d83.1670606054.git.rgb@redhat.com>
- <3211441.aeNJFYEL58@x2>
+Received: from mimecast-mx02.redhat.com
+ (mimecast02.extmail.prod.ext.rdu2.redhat.com [10.11.55.18])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D7F87175AD
+ for <linux-audit@redhat.com>; Tue, 10 Jan 2023 04:39:04 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [205.139.110.61])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B8D6580234E
+ for <linux-audit@redhat.com>; Tue, 10 Jan 2023 04:39:04 +0000 (UTC)
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com
+ [209.85.215.174]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-272-n8nQwpsLONe4U3MQIzboxQ-1; Mon, 09 Jan 2023 23:39:01 -0500
+X-MC-Unique: n8nQwpsLONe4U3MQIzboxQ-1
+Received: by mail-pg1-f174.google.com with SMTP id 141so7429977pgc.0
+ for <linux-audit@redhat.com>; Mon, 09 Jan 2023 20:39:00 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=/SmD/pftVHMlxVXpQWv++WKt9E5LDe4Cgin/uVDJq5k=;
+ b=m+NwKOJRlAbIlG5PZHxZPtChzeDt0qX0UUIbSA/R1SVeBdxSisk1/YH1do6dHDpYNM
+ 0RHtqbea3O6YYxGi8impdmDaehcHT1apfau0DYmgQ1wMXHBM/k8PS6k3twX+jlIRAddh
+ PhAU2DdWV2yz8dcwIvTS6MvbkDs7eBXXpyKAdM9WDYeA9fmK4RTPzqUM2MePlf0vexdK
+ UidGlguCEMsOPO5Pj3Nouj0PwkuJq0oyYcXkLBiGQ/zVRCHTHYnlUQAQOU9q/wq2fyql
+ 2j1YfLTUJqPAL6+CNs+72eavYdpoWDRo6QRFNkX55952kmNBaht36R8ZTTbJukReoOjd
+ WGsQ==
+X-Gm-Message-State: AFqh2kqiLuG19SBg/1dRHk9QKeYTngpTHQoJA3ky/0H3G6qhSpJNt/kf
+ c7OJR1BW/RzXuA73XxNcTd8JuVjp0K94HOe0aQrJ
+X-Google-Smtp-Source: AMrXdXsgj/jhoM6gDnx2RxhPagvY+AbnmFlLzIQOkJ+2Mainht1ZoLideVAcW+OhliTl00TyE1dTMA5FBLCP4jR9em4=
+X-Received: by 2002:a63:4e5d:0:b0:478:42f:5a3d with SMTP id
+ o29-20020a634e5d000000b00478042f5a3dmr4249130pgl.3.1673325539959; Mon, 09 Jan
+ 2023 20:38:59 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <3211441.aeNJFYEL58@x2>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+References: <CACKMdf=43CJmauoVnyzemsGtJoR5g=yDUUojJ3P1qsbKrrNMXQ@mail.gmail.com>
+ <CAHC9VhTdznAV=ZbUbJM5EPs7_VVAL2KU1i7T=mQaUiq+TiL1=g@mail.gmail.com>
+ <CAHC9VhQH28r_fOCaW+=_65M2SBNpVnQqcvxKt28Zc1+YEqwjBQ@mail.gmail.com>
+ <8169595.T7Z3S40VBb@x2>
+In-Reply-To: <8169595.T7Z3S40VBb@x2>
+From: Paul Moore <paul@paul-moore.com>
+Date: Mon, 9 Jan 2023 23:38:48 -0500
+Message-ID: <CAHC9VhSPoAtf-_1LOsHFc7XbO76azy_Q_MjG6Y1a1wOAaVPXLA@mail.gmail.com>
+Subject: Re: New bug in Audit
+To: Steve Grubb <sgrubb@redhat.com>
+X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
+ Definition; Similar Internal Domain=false;
+ Similar Monitored External Domain=false; Custom External Domain=false;
+ Mimecast External Domain=false; Newly Observed Domain=false;
+ Internal User Name=false; Custom Display Name List=false;
+ Reply-to Address Mismatch=false; Targeted Threat Dictionary=false;
+ Mimecast Threat Dictionary=false; Custom Threat Dictionary=false
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,195 +106,79 @@ List-Post: <mailto:linux-audit@redhat.com>
 List-Help: <mailto:linux-audit-request@redhat.com?subject=help>
 List-Subscribe: <https://listman.redhat.com/mailman/listinfo/linux-audit>,
  <mailto:linux-audit-request@redhat.com?subject=subscribe>
-Cc: Jan Kara <jack@suse.cz>, linux-api@vger.kernel.org,
- Amir Goldstein <amir73il@gmail.com>, LKML <linux-kernel@vger.kernel.org>,
- Linux-Audit Mailing List <linux-audit@redhat.com>,
- linux-fsdevel@vger.kernel.org, Eric Paris <eparis@parisplace.org>
+Cc: linux-audit@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
 Sender: "Linux-audit" <linux-audit-bounces@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Disposition: inline
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-On 2023-01-09 19:06, Steve Grubb wrote:
-> Hello,
-> 
-> Sorry to take so long. Holidays and kernel build problems. However, I have 
-> built a kernel with these patches. I only have 2 comments. When I use an 
-> application that expected the old API, meaning it simply does:
-> 
->         response.fd = metadata->fd;
->         response.response = reply;
->         close(metadata->fd);
->         write(fd, &response, sizeof(struct fanotify_response));
-> 
-> I get access denials. Every time. If the program is using the new API and 
-> sets FAN_INFO, then it works as expected. I'll do some more testing but I 
-> think there is something wrong in the compatibility path.
+On Mon, Jan 9, 2023 at 10:59 AM Steve Grubb <sgrubb@redhat.com> wrote:
+> On Friday, January 6, 2023 3:33:18 PM EST Paul Moore wrote:
+> > > This mailing list is *focused* on upstream work and support, and while
+> > > it does not preclude talking about distro specific bugs, I believe
+> > > there are better avenues for those discussions (e.g. see the RHBZ link
+> > > I provided in my response) as upstream isn't really going to be able
+> > > to provide adequate help for someone experiencing problems with a
+> > > distro kernel which has a number of patches and backports.
+> > >
+> > > If you have a problem with this approach, perhaps we should move
+> > > upstream development to an audit mailing list on vger.kernel.org and
+> > > leave this list for RH specific issues?
+> >
+> > Steve, I realize it's only been ~24hrs, but should I assume you are
+> > okay with that (the upstream focused approach)?
+>
+> For the 18 years I've spent on this mail list, it has alway been open to any
+> topic audit related. I've answered questions for many distributions. If I can
+> reproduce the issue, then it's a bug worth looking at. If I can't reproduce
+> it, I let them know. I've even answered questions for people writing their
+> own audit implementation.
 
-I'll have a closer look, because this wasn't the intended behaviour.
+Since I was asked to maintain the upstream Linux Kernel audit
+subsystem I've generally asked people to try and reproduce their
+problems on a modern~ish upstream Linux Kernel as it simply isn't
+sustainable for me to replicate the environment of every problem
+report.  Enterprise distributions which run old and/or heavily patched
+Linux Kernels should have their own support staff to provide
+assistance in these areas, the upstream developers can't support every
+distro kernel that ships.
 
-> On Monday, December 12, 2022 9:06:11 AM EST Richard Guy Briggs wrote:
-> > This patch passes the full response so that the audit function can use all
-> > of it. The audit function was updated to log the additional information in
-> > the AUDIT_FANOTIFY record.
-> 
-> What I'm seeing is:
-> 
-> type=FANOTIFY msg=audit(01/09/2023 18:43:16.306:366) : resp=deny fan_type=1 
-> fan_info=313300000000000000000000 subj_trust=0 obj_trust=0
-> 
-> Where fan_info was supposed to be 13 decimal. More below...
+> A lot of the email is upstream kernel work - no doubt. But Many times, we
+> miss upstream kernel bugs because no one is running upstream code. We usually
+> hear about it when a distribution which stays close to upstream releases a
+> new update.
 
-Well, it *is* 13 decimal, expressed as a hex-encoded string as was
-requested for future-proofing, albeit longer than necessary...
+In which case I would expect the distro support team to reproduce the
+problem and report it upstream and/or submit an upstream patch for
+review.  This has been shown to work very well, and fits nicely within
+the "upstream first" motto adopted by some of the better Linux
+distributions.
 
-> > Currently the only type of fanotify info that is defined is an audit
-> > rule number, but convert it to hex encoding to future-proof the field.
-> > Hex encoding suggested by Paul Moore <paul@paul-moore.com>.
-> > 
-> > Sample records:
-> >   type=FANOTIFY msg=audit(1600385147.372:590): resp=2 fan_type=1
-> > fan_info=3137 subj_trust=3 obj_trust=5 type=FANOTIFY
-> > msg=audit(1659730979.839:284): resp=1 fan_type=0 fan_info=3F subj_trust=2
-> > obj_trust=2
-> > 
-> > Suggested-by: Steve Grubb <sgrubb@redhat.com>
-> > Link: https://lore.kernel.org/r/3075502.aeNJFYEL58@x2
-> > Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
-> > ---
-> >  fs/notify/fanotify/fanotify.c |  3 ++-
-> >  include/linux/audit.h         |  9 +++++----
-> >  kernel/auditsc.c              | 25 ++++++++++++++++++++++---
-> >  3 files changed, 29 insertions(+), 8 deletions(-)
-> > 
-> > diff --git a/fs/notify/fanotify/fanotify.c b/fs/notify/fanotify/fanotify.c
-> > index 24ec1d66d5a8..29bdd99b29fa 100644
-> > --- a/fs/notify/fanotify/fanotify.c
-> > +++ b/fs/notify/fanotify/fanotify.c
-> > @@ -273,7 +273,8 @@ static int fanotify_get_response(struct fsnotify_group
-> > *group,
-> > 
-> >  	/* Check if the response should be audited */
-> >  	if (event->response & FAN_AUDIT)
-> > -		audit_fanotify(event->response & ~FAN_AUDIT);
-> > +		audit_fanotify(event->response & ~FAN_AUDIT,
-> > +			       &event->audit_rule);
-> > 
-> >  	pr_debug("%s: group=%p event=%p about to return ret=%d\n", __func__,
-> >  		 group, event, ret);
-> > diff --git a/include/linux/audit.h b/include/linux/audit.h
-> > index d6b7d0c7ce43..31086a72e32a 100644
-> > --- a/include/linux/audit.h
-> > +++ b/include/linux/audit.h
-> > @@ -14,6 +14,7 @@
-> >  #include <linux/audit_arch.h>
-> >  #include <uapi/linux/audit.h>
-> >  #include <uapi/linux/netfilter/nf_tables.h>
-> > +#include <uapi/linux/fanotify.h>
-> > 
-> >  #define AUDIT_INO_UNSET ((unsigned long)-1)
-> >  #define AUDIT_DEV_UNSET ((dev_t)-1)
-> > @@ -416,7 +417,7 @@ extern void __audit_log_capset(const struct cred *new,
-> > const struct cred *old); extern void __audit_mmap_fd(int fd, int flags);
-> >  extern void __audit_openat2_how(struct open_how *how);
-> >  extern void __audit_log_kern_module(char *name);
-> > -extern void __audit_fanotify(u32 response);
-> > +extern void __audit_fanotify(u32 response, struct
-> > fanotify_response_info_audit_rule *friar); extern void
-> > __audit_tk_injoffset(struct timespec64 offset);
-> >  extern void __audit_ntp_log(const struct audit_ntp_data *ad);
-> >  extern void __audit_log_nfcfg(const char *name, u8 af, unsigned int
-> > nentries, @@ -523,10 +524,10 @@ static inline void
-> > audit_log_kern_module(char *name) __audit_log_kern_module(name);
-> >  }
-> > 
-> > -static inline void audit_fanotify(u32 response)
-> > +static inline void audit_fanotify(u32 response, struct
-> > fanotify_response_info_audit_rule *friar) {
-> >  	if (!audit_dummy_context())
-> > -		__audit_fanotify(response);
-> > +		__audit_fanotify(response, friar);
-> >  }
-> > 
-> >  static inline void audit_tk_injoffset(struct timespec64 offset)
-> > @@ -679,7 +680,7 @@ static inline void audit_log_kern_module(char *name)
-> >  {
-> >  }
-> > 
-> > -static inline void audit_fanotify(u32 response)
-> > +static inline void audit_fanotify(u32 response, struct
-> > fanotify_response_info_audit_rule *friar) { }
-> > 
-> >  static inline void audit_tk_injoffset(struct timespec64 offset)
-> > diff --git a/kernel/auditsc.c b/kernel/auditsc.c
-> > index d1fb821de104..8d523066d81f 100644
-> > --- a/kernel/auditsc.c
-> > +++ b/kernel/auditsc.c
-> > @@ -64,6 +64,7 @@
-> >  #include <uapi/linux/limits.h>
-> >  #include <uapi/linux/netfilter/nf_tables.h>
-> >  #include <uapi/linux/openat2.h> // struct open_how
-> > +#include <uapi/linux/fanotify.h>
-> > 
-> >  #include "audit.h"
-> > 
-> > @@ -2877,10 +2878,28 @@ void __audit_log_kern_module(char *name)
-> >  	context->type = AUDIT_KERN_MODULE;
-> >  }
-> > 
-> > -void __audit_fanotify(u32 response)
-> > +void __audit_fanotify(u32 response, struct
-> > fanotify_response_info_audit_rule *friar) {
-> > -	audit_log(audit_context(), GFP_KERNEL,
-> > -		AUDIT_FANOTIFY,	"resp=%u", response);
-> > +	struct audit_context *ctx = audit_context();
-> > +	struct audit_buffer *ab;
-> > +	char numbuf[12];
-> > +
-> > +	if (friar->hdr.type == FAN_RESPONSE_INFO_NONE) {
-> > +		audit_log(audit_context(), GFP_KERNEL, AUDIT_FANOTIFY,
-> > +			  "resp=%u fan_type=%u fan_info=3F subj_trust=2 
-> obj_trust=2",
-> > +			  response, FAN_RESPONSE_INFO_NONE);
-> > +		return;
-> > +	}
-> > +	ab = audit_log_start(ctx, GFP_KERNEL, AUDIT_FANOTIFY);
-> > +	if (ab) {
-> > +		audit_log_format(ab, "resp=%u fan_type=%u fan_info=",
-> > +				 response, friar->hdr.type);
-> > +		snprintf(numbuf, sizeof(numbuf), "%u", friar->rule_number);
-> > +		audit_log_n_hex(ab, numbuf, sizeof(numbuf));
-> 
-> I don't think it needs to be converted to ascii and then hexencoded. As Paul 
-> said, probably %X is all we need here.
-> 
-> -Steve
-> 
-> 
-> > +		audit_log_format(ab, " subj_trust=%u obj_trust=%u",
-> > +				 friar->subj_trust, friar->obj_trust);
-> > +		audit_log_end(ab);
-> > +	}
-> >  }
-> > 
-> >  void __audit_tk_injoffset(struct timespec64 offset)
-> 
-> 
-> 
-> 
+> The text where you sign up for this mail list does not limit the topc to
+> upstream work,
 
-- RGB
+Perhaps the term "limit" is a bit strong, but I think it would be good
+if the list welcome message indicates that the list is primarily for
+the development and support of the upstream Linux audit tools,
+distribution specific concerns should be sent to the distribution
+provider.
 
---
-Richard Guy Briggs <rgb@redhat.com>
-Sr. S/W Engineer, Kernel Security, Base Operating Systems
-Remote, Ottawa, Red Hat Canada
-IRC: rgb, SunRaycer
-Voice: +1.647.777.2635, Internal: (81) 32635
+> it allows for any discussion as long as it's audit related. I
+> do not think making a new mail list is in anyone's interest. Bugs will always
+> get misreported if there are 2 lists.
+
+I disagree, the upstream and Fedora SELinux mailing lists have been a
+good example of this working well.  I also tend to think there is some
+value in having a vendor agnostic mailing list host, but that's more
+of a tie breaker in my mind, and not reason enough alone to force a
+switch.
+
+-- 
+paul-moore.com
+
 --
 Linux-audit mailing list
 Linux-audit@redhat.com
