@@ -2,97 +2,114 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54B476641F3
-	for <lists+linux-audit@lfdr.de>; Tue, 10 Jan 2023 14:34:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFA5A6643C0
+	for <lists+linux-audit@lfdr.de>; Tue, 10 Jan 2023 15:55:59 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1673357649;
+	s=mimecast20190719; t=1673362558;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=Ub2pN19xKUgSNoC9/z3W+IqFdHrzTWzcIqF49HYwI6s=;
-	b=h/qu2ngPiYBjdsdsfpqx3w/Sgx94HKmCIDnMWPkdRE41zXu7mOr9mYydQEZRh4Yz+snGTU
-	7/7EpbkkQEuSqArBpXDGAjUaDbglLAIJ6XtDMczYPZ2oLDFgPirWgHcd7/e7NI9QtrY0yR
-	2QtpDCRlBnR3Z8llkyFrik8TDApozbc=
+	bh=n977tgnNW6sqGdEGAWF5N701zZGPs4KQDaeQR7b5gbw=;
+	b=f47uAEU7GWdwzKQwqm5fDi97CiZ5zv9hZNxeNeZIE7G788nZpy073mfx06U4aujTGpeB7E
+	4RAjXq4If3HmNWOFJvZErdL0fq/viarN2up6vGJcz1/0N45yni/yVKOoz90om9QqSVyyFv
+	jkd7EjHgu4WA4fJgwYxkFgElIwut+XY=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-609--H7aSMdbO9O6QhQusw80lA-1; Tue, 10 Jan 2023 08:34:05 -0500
-X-MC-Unique: -H7aSMdbO9O6QhQusw80lA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
+ us-mta-453-HfU0avvyPGe342pNltvyxg-1; Tue, 10 Jan 2023 09:55:55 -0500
+X-MC-Unique: HfU0avvyPGe342pNltvyxg-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DEB2F185A78B;
-	Tue, 10 Jan 2023 13:34:02 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 476DF857F82;
+	Tue, 10 Jan 2023 14:55:53 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (unknown [10.30.29.100])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id C9F89407D467;
-	Tue, 10 Jan 2023 13:33:56 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 3F891492C14;
+	Tue, 10 Jan 2023 14:55:37 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (localhost [IPv6:::1])
-	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id 84D34194E114;
-	Tue, 10 Jan 2023 13:33:55 +0000 (UTC)
+	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id 999F7194E11A;
+	Tue, 10 Jan 2023 14:55:36 +0000 (UTC)
 X-Original-To: linux-audit@listman.corp.redhat.com
 Delivered-To: linux-audit@listman.corp.redhat.com
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
  by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with
- ESMTP id 654DC1946587 for <linux-audit@listman.corp.redhat.com>;
- Tue, 10 Jan 2023 09:10:12 +0000 (UTC)
+ ESMTP id 882391946587 for <linux-audit@listman.corp.redhat.com>;
+ Tue, 10 Jan 2023 14:55:28 +0000 (UTC)
 Received: by smtp.corp.redhat.com (Postfix)
- id 4385E1121319; Tue, 10 Jan 2023 09:10:12 +0000 (UTC)
+ id B4C204014CE2; Tue, 10 Jan 2023 14:55:28 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
- (mimecast03.extmail.prod.ext.rdu2.redhat.com [10.11.55.19])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3BBD71121314
- for <linux-audit@redhat.com>; Tue, 10 Jan 2023 09:10:12 +0000 (UTC)
+ (mimecast06.extmail.prod.ext.rdu2.redhat.com [10.11.55.22])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AC61940C945A
+ for <linux-audit@redhat.com>; Tue, 10 Jan 2023 14:55:28 +0000 (UTC)
 Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
  [207.211.31.120])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1BD3E811E6E
- for <linux-audit@redhat.com>; Tue, 10 Jan 2023 09:10:12 +0000 (UTC)
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
- [209.85.221.51]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-503-785pH3mqMUa_zTo-O0q7wQ-1; Tue, 10 Jan 2023 04:10:10 -0500
-X-MC-Unique: 785pH3mqMUa_zTo-O0q7wQ-1
-Received: by mail-wr1-f51.google.com with SMTP id d17so11002101wrs.2
- for <linux-audit@redhat.com>; Tue, 10 Jan 2023 01:10:10 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=swwl8Slc0bB5LKo8Orryz2UbttInvRzy6nPaGPvgpbc=;
- b=r5JViYFwwIbltM00xlcEUxCSs1U7I99LzrIX+hr0rpPdRHvbTBMyhX6z1PE9h80S0Z
- 0yJoB8efAM81rEbgIyry3NlFxoIL65MASY0N/NozoRw5BOeVkG5F83AQsoU3FGdiPpr1
- wE6Sefh7Dgw4NZPa5C9xDkEd3tlp//IvvSEMjc/1f7oddjmrjcy7zttp13coxg/tQIlX
- m6mbZBvV6AaqTet59A0euYMnTEIGzgqaCMJZMp65bD6iAT2D2X2Oe0Yo8lfDneT1i6B8
- XCMl1deR5A71lLEpN6ZP+DcaXBnAPKKT+KSK2uo5EiB5muQOsYH2epCXQt+LiCsqMD18
- b3KQ==
-X-Gm-Message-State: AFqh2kqW4tBqby0cyrRjdeA5a+mJTGF6G5EWzlhnnpNQYp8/zznwjkgz
- gBY+U+3Y/KXKqJ3ePzHhyMA=
-X-Google-Smtp-Source: AMrXdXtrat1GdpWAr9X2ER6GGmC82sAMEWC7dSvO/4so47QyZ+5vUS0efS4jBHozdJxcJUH87ySeRg==
-X-Received: by 2002:a05:6000:706:b0:2a2:e960:de33 with SMTP id
- bs6-20020a056000070600b002a2e960de33mr15261831wrb.45.1673341809054; 
- Tue, 10 Jan 2023 01:10:09 -0800 (PST)
-Received: from krava (2001-1ae9-1c2-4c00-726e-c10f-8833-ff22.ip6.tmcz.cz.
- [2001:1ae9:1c2:4c00:726e:c10f:8833:ff22])
- by smtp.gmail.com with ESMTPSA id
- g2-20020a5d4882000000b00286ad197346sm10707430wrq.70.2023.01.10.01.10.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Jan 2023 01:10:08 -0800 (PST)
-From: Jiri Olsa <olsajiri@gmail.com>
-X-Google-Original-From: Jiri Olsa <jolsa@kernel.org>
-Date: Tue, 10 Jan 2023 10:10:06 +0100
-To: Paul Moore <paul@paul-moore.com>
-Subject: Re: [PATCH v3 1/2] bpf: restore the ebpf program ID for
- BPF_AUDIT_UNLOAD and PERF_BPF_EVENT_PROG_UNLOAD
-Message-ID: <Y70rbnusftLg1ymg@krava>
-References: <20230106154400.74211-1-paul@paul-moore.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7BFB8196F5AD
+ for <linux-audit@redhat.com>; Tue, 10 Jan 2023 14:55:28 +0000 (UTC)
+Received: from sonic314-26.consmr.mail.ne1.yahoo.com
+ (sonic314-26.consmr.mail.ne1.yahoo.com [66.163.189.152]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_128_GCM_SHA256) id us-mta-655-J9-QwIg8Mhql6D5JDBsXlw-1; Tue,
+ 10 Jan 2023 09:55:26 -0500
+X-MC-Unique: J9-QwIg8Mhql6D5JDBsXlw-1
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
+ t=1673362526; bh=xWaeD7ktjcku78j+Q1JBuLjGPOnw0USUJD0Wau4T6Rq=;
+ h=X-Sonic-MF:Date:Subject:To:From:From:Subject;
+ b=TxfHSEy52OiVU62hESFmhuX9FPUqcXEqBcEqt4q+FT1eO1WIxyuMt8ReayZTgnq+guUQfF0BO1iUzwL9sFvVY/Hrpt3STsEEn1OcxjIuEC/po3f0LExdFyDm3GROzbVVb0PyU2yVgwFVk842PLaJSH5U6w3mIvEHcP9n3ZTAmsIDfXi5Om+KTHo+I5jLRjxLH0hymTJKFjbTOJ36Tq0RzMP5bQkA4fhAnJtIarEK/FCp9CpNRfZ7WJJwxjowin8Sr2A5JcXgwGm+QJ7TVKIOZNeopc5FD6ixr5dDnKYDeQMGJnIY5FM8DT/VelfcdQ98fDCW1wCWdROWYdm0RRXPXA==
+X-YMail-OSG: S6mhCy0VM1n46yWfp1OSkH9ac.HY1rnk8Q06OyqTPBZcx_PDalw1apTQgdwm6jF
+ LeKbbpTerVGFVB9zXLzWTnDoaPSEQwS141iIbpRIRDhNZVHF.lBb2wPmjA1DdYD5BGlsthawDNN6
+ XFpw6J22L6TK2Q4JaTvBuS2VfxQ1xjAb5rnplhBR7nkzQimL1bE_MQSJgHJiaW3GbRynxyI2B3y6
+ nNPLlCz0HV5GcIpReuCb5vYFjZpSrLTQtL4Wh.gRdsXWTJw0_9.bcvGQiXzvNyVSfR4tKlJLY.8g
+ OPaJVt7Ihgi7JaDh_lyS4CNZ6P7W8MOvH9CehqXTwSJT3xuHuEIn74K3tPHYoSYvhqUkuX5Mi_h0
+ SUdDkAqa3.FQk9G6q6nC0H1FFbwqEn_oiwOMB5igsCw6ra6GlBWdtPn.NLan7gVqrVrS1CLjY_SV
+ SWhgoC6m4e8Wzuz.etM8lYDja_wbmjiWv3E2FGj3NPZ0bR7.wM2Tnqby0tCJ21KtW5TLrcnjDEWk
+ 842r_HV_55bK7_yYoPJGLlsshDJ_s4YsFPpvXZonSmCCQQFV7sZfJ65jpROz3lmYjIjTjxGtKEkJ
+ sYx1S8Dbe5T6Sc3vnGW2KOtVR5tjo9NiFoHn7SbDL86vEqPn4jLPSY8DUxzKN99CTPtgbTE3uJvL
+ bdFZLe_WPlb.gexPhXkUgQEXgHtCGMFWwnccqPPDXHjYHE3wmcMJT2Ks.N8qeAu56CS4.QhMzJ.P
+ p_TyKC.N.qvvBjoTI0inhcwCk5hysT0CETXCy_.CD_DDRJO3gg9m_q.obO2qWiKWsOi0eywvxDqC
+ Uw.zR0FmJhtyA6TDPBiIEzIrVYGb9DQxeKqw_Ozbxqp.q.nSfnWcbF8jewUTs1GGWpdA8m7rVn3R
+ XOAjGTtvq0IOJUNO7T8yCVZ8kSU7f7AfnTBZL1nPnRXm5j4AaTUtxuPWD1cB_IsqiG4R_t4Bnkg8
+ 9paP5s5XBAo8W7c_wRUA6W2r4L_MYjIDsKlWpFsGd0Uz7KLEp_8CH5UA_kn5FVcST1gu6_HWFv6k
+ g9HAkIcQL.MA53kqyfcEn5Kpur4INUyoVZXwKKSYnEDCjFnCwlNfjF7rRqfs1p8yG0oXiKx28LLu
+ UrOeIXHRYetfru_kE3loMWU7WRJz7mlXCrB3Tcb4noobv36lhPGJeJbgmuSPnUNjSNLTOs4BoNN8
+ PiQOlM2fbu1NQB6aC.JLX8KpF0buQiMFmhuCmPKlkbDEqrIey9N5pGie5_QxwNdTiCWRmsKy9_gq
+ soa2mC7WWZtH8aA4fxRf36WTeQrTvG39krk9bpxziVMS5phBGoZ5K8lwWJL4AgsZ9MRGrxfrPICK
+ j2zvZ0O7qI3269K9w9aLwVtiEeMo6vh6wZ4csMDOudBH_ZCESE7mcwWdet9ilOANr7NK7q3tAfz4
+ JmhXUbhXXA7ZOifMu0SJADLS6r4KH5OSO58i5RV4srrDC30O0J3Bi4e1_1UX35kuVG9AJIn.8uaz
+ qLFbSqd2IF.IEeV2CFi.TZT9oyic0BaqasyXHo59Yu4UKLS7Tah66zQAc92WdOYMcIpLlke7OXP3
+ 1ZygC3Z2pl6YkzzVI7TQvxKoZ.WLV7R6HEqZvaxoR4vVl5cfM76ZzPc1CSMm7K4X1wZaMlFm17W5
+ Efa5YtJmaWUTz6vgzGgoeRaUBR3VNc9xFQwTykRBCEhsh5IheBAJ7HYpuT4r7JQR0cMxTKcQVxB6
+ zzpbwFKijFAK_rCX9aVk86otaFgMRX9cCaxqvETtXY5C2q9.h.p.x1PfFuOAdKutiFUzy3txYCzX
+ viRDnTEScxJtfF1hXOuiUnAt4ePwZnA_ygkIDwXwGufR7Ayaep79HPxg_1aOMrAdOFMw8YzMJGd7
+ G6Pk4MO0RFTTlJFJxvO4GXACwdlNFGrjxensrkKbbFqK_wTN.yXqrrYW_._FqEMYEV28dpO6eQEB
+ BeNF6Xk3mOCylN9mZ9ZhAJFt0Ft5h2QWU4aKybjoipkFtW9wlConbKMUcA1S0cF6ajMjlnGxFVLS
+ 34eVoc9hxbtD_RLu_hUpeVJxZTaeQAoB0M.zH4EKHXgYvjQoaFwVGqB.aYCaRm8x8P7fAqDC869m
+ Ob1Mbzo_qUna_DIZaAxhZ0cFbt2aargJMXvrJJqWhH9XQ1JkxSNkAJY8H4XmZLPwytoFhzvQewkQ
+ 6P77Thw1IZ9mYJqvIP9yQu_mmXYDW_n.IbZbmiAgk_zdiNFTV1wAqV3x1vBGOQTEBzrXKWYOrGyT
+ ZmWJwW_KTFgafxtAaEBT7CiteRKXYo7yFWQPkj_X9Hys4aG38bgGABEgRdI8BS8gd0E.jv9iu.II
+ nN1l_90WDDwAiVjWk4w--
+X-Sonic-MF: <casey@schaufler-ca.com>
+Received: from sonic.gate.mail.ne1.yahoo.com by
+ sonic314.consmr.mail.ne1.yahoo.com with HTTP; Tue, 10 Jan 2023 14:55:26 +0000
+Received: by hermes--production-ne1-7b69748c4d-xhmc5 (Yahoo Inc. Hermes SMTP
+ Server) with ESMTPA ID c2eaf6e66469815b4ea3a0c4887793d3; 
+ Tue, 10 Jan 2023 14:55:22 +0000 (UTC)
+Message-ID: <ee775da5-dce5-6337-277d-8d384383ae16@schaufler-ca.com>
+Date: Tue, 10 Jan 2023 06:55:21 -0800
 MIME-Version: 1.0
-In-Reply-To: <20230106154400.74211-1-paul@paul-moore.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: Identify whether the kernel version supports Path based exclusion
+To: Anurag Aggarwal <anurag19aggarwal@gmail.com>, Linux-audit@redhat.com
+References: <CAPoNrttQd+ieQ+B93SbrbiPjppRoiyT_a+7FpiRdQNGQ2ApiXQ@mail.gmail.com>
+From: Casey Schaufler <casey@schaufler-ca.com>
+In-Reply-To: <CAPoNrttQd+ieQ+B93SbrbiPjppRoiyT_a+7FpiRdQNGQ2ApiXQ@mail.gmail.com>
 X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
  Definition; Similar Internal Domain=false;
  Similar Monitored External Domain=false; Custom External Domain=false;
@@ -100,8 +117,7 @@ X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
  Internal User Name=false; Custom Display Name List=false;
  Reply-to Address Mismatch=false; Targeted Threat Dictionary=false;
  Mimecast Threat Dictionary=false; Custom Threat Dictionary=false
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-X-Mailman-Approved-At: Tue, 10 Jan 2023 13:33:54 +0000
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -113,133 +129,30 @@ List-Post: <mailto:linux-audit@redhat.com>
 List-Help: <mailto:linux-audit-request@redhat.com?subject=help>
 List-Subscribe: <https://listman.redhat.com/mailman/listinfo/linux-audit>,
  <mailto:linux-audit-request@redhat.com?subject=subscribe>
-Cc: bpf@vger.kernel.org, linux-audit@redhat.com,
- Burn Alting <burn.alting@iinet.net.au>, Stanislav Fomichev <sdf@google.com>,
- Alexei Starovoitov <ast@kernel.org>
+Cc: avtanshgupta1995@gmail.com
 Errors-To: linux-audit-bounces@redhat.com
 Sender: "Linux-audit" <linux-audit-bounces@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Disposition: inline
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On Fri, Jan 06, 2023 at 10:43:59AM -0500, Paul Moore wrote:
-> When changing the ebpf program put() routines to support being called
-> from within IRQ context the program ID was reset to zero prior to
-> calling the perf event and audit UNLOAD record generators, which
-> resulted in problems as the ebpf program ID was bogus (always zero).
-> This patch addresses this problem by removing an unnecessary call to
-> bpf_prog_free_id() in __bpf_prog_offload_destroy() and adjusting
-> __bpf_prog_put() to only call bpf_prog_free_id() after audit and perf
-> have finished their bpf program unload tasks in
-> bpf_prog_put_deferred().  For the record, no one can determine, or
-> remember, why it was necessary to free the program ID, and remove it
-> from the IDR, prior to executing bpf_prog_put_deferred();
-> regardless, both Stanislav and Alexei agree that the approach in this
-> patch should be safe.
-> 
-> It is worth noting that when moving the bpf_prog_free_id() call, the
-> do_idr_lock parameter was forced to true as the ebpf devs determined
-> this was the correct as the do_idr_lock should always be true.  The
-> do_idr_lock parameter will be removed in a follow-up patch, but it
-> was kept here to keep the patch small in an effort to ease any stable
-> backports.
-> 
-> I also modified the bpf_audit_prog() logic used to associate the
-> AUDIT_BPF record with other associated records, e.g. @ctx != NULL.
-> Instead of keying off the operation, it now keys off the execution
-> context, e.g. '!in_irg && !irqs_disabled()', which is much more
-> appropriate and should help better connect the UNLOAD operations with
-> the associated audit state (other audit records).
-> 
-> Cc: stable@vger.kernel.org
-> Fixes: d809e134be7a ("bpf: Prepare bpf_prog_put() to be called from irq context.")
-> Reported-by: Burn Alting <burn.alting@iinet.net.au>
-> Reported-by: Jiri Olsa <olsajiri@gmail.com>
-> Suggested-by: Stanislav Fomichev <sdf@google.com>
-> Suggested-by: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-> Signed-off-by: Paul Moore <paul@paul-moore.com>
-> 
-> ---
-> * v3
-> - abandon most of the changes in v2
-> - move bpf_prog_free_id() after the audit/perf unload hooks
-> - remove bpf_prog_free_id() from __bpf_prog_offload_destroy()
-> - added stable tag
-
-fwiw I checked and the perf UNLOAD events have proper id now
-thanks for fixing this
-
-jirka
-
-
-> * v2
-> - change subj
-> - add mention of the perf regression
-> - drop the dedicated program audit ID
-> - add the bpf_prog::valid_id flag, bpf_prog_get_id() getter
-> - convert prog ID users to new ID getter
-> * v1
-> - subj was: "bpf: restore the ebpf audit UNLOAD id field"
-> - initial draft
-> ---
->  kernel/bpf/offload.c | 3 ---
->  kernel/bpf/syscall.c | 6 ++----
->  2 files changed, 2 insertions(+), 7 deletions(-)
-> 
-> diff --git a/kernel/bpf/offload.c b/kernel/bpf/offload.c
-> index 13e4efc971e6..190d9f9dc987 100644
-> --- a/kernel/bpf/offload.c
-> +++ b/kernel/bpf/offload.c
-> @@ -216,9 +216,6 @@ static void __bpf_prog_offload_destroy(struct bpf_prog *prog)
->  	if (offload->dev_state)
->  		offload->offdev->ops->destroy(prog);
->  
-> -	/* Make sure BPF_PROG_GET_NEXT_ID can't find this dead program */
-> -	bpf_prog_free_id(prog, true);
-> -
->  	list_del_init(&offload->offloads);
->  	kfree(offload);
->  	prog->aux->offload = NULL;
-> diff --git a/kernel/bpf/syscall.c b/kernel/bpf/syscall.c
-> index 64131f88c553..61bb19e81b9c 100644
-> --- a/kernel/bpf/syscall.c
-> +++ b/kernel/bpf/syscall.c
-> @@ -1972,7 +1972,7 @@ static void bpf_audit_prog(const struct bpf_prog *prog, unsigned int op)
->  		return;
->  	if (audit_enabled == AUDIT_OFF)
->  		return;
-> -	if (op == BPF_AUDIT_LOAD)
-> +	if (!in_irq() && !irqs_disabled())
->  		ctx = audit_context();
->  	ab = audit_log_start(ctx, GFP_ATOMIC, AUDIT_BPF);
->  	if (unlikely(!ab))
-> @@ -2067,6 +2067,7 @@ static void bpf_prog_put_deferred(struct work_struct *work)
->  	prog = aux->prog;
->  	perf_event_bpf_event(prog, PERF_BPF_EVENT_PROG_UNLOAD, 0);
->  	bpf_audit_prog(prog, BPF_AUDIT_UNLOAD);
-> +	bpf_prog_free_id(prog, true);
->  	__bpf_prog_put_noref(prog, true);
->  }
->  
-> @@ -2075,9 +2076,6 @@ static void __bpf_prog_put(struct bpf_prog *prog, bool do_idr_lock)
->  	struct bpf_prog_aux *aux = prog->aux;
->  
->  	if (atomic64_dec_and_test(&aux->refcnt)) {
-> -		/* bpf_prog_free_id() must be called first */
-> -		bpf_prog_free_id(prog, do_idr_lock);
-> -
->  		if (in_irq() || irqs_disabled()) {
->  			INIT_WORK(&aux->work, bpf_prog_put_deferred);
->  			schedule_work(&aux->work);
-> -- 
-> 2.39.0
-> 
-
---
-Linux-audit mailing list
-Linux-audit@redhat.com
-https://listman.redhat.com/mailman/listinfo/linux-audit
+T24gMS8xMC8yMDIzIDQ6MDggQU0sIEFudXJhZyBBZ2dhcndhbCB3cm90ZToKPiBIZWxsbyBBbGws
+Cj4KPiBJIG5lZWQgYSBtZXRob2QgdG8gaWRlbnRpZnkgd2hldGhlciB0aGUgYXVkaWQgdmVyc2lv
+biBhIGtlcm5lbCBpcwo+IHJ1bm5pbmcgc3VwcG9ydHMgcGF0aCBiYXNlZCBleGNsdXNpb25zLgoK
+JSBjYXQgL3N5cy9rZXJuZWwvc2VjdXJpdHkvbHNtCgpUaGlzIHdpbGwgdGVsbCB5b3Ugd2hhdCBz
+ZWN1cml0eSBtb2R1bGVzIGFyZSBpbiB1c2UuIENoZWNrIHdoZXRoZXIKYW55IG9mIHRoZSBtb2R1
+bGVzIHRoYXQgdXNlIHBhdGggYmFzZWQgY29udHJvbHMgKEFwcEFybW9yLCBUT01PWU8pCmFyZSBp
+biB0aGUgbGlzdC4KCj4KPiBPbmUgb3B0aW9uIHdvdWxkIGJlIHRvIHVzZcKgYXVkaXRfYWRkX3J1
+bGVfZGF0YSB0byBhZGQgYSB0ZW1wb3JhcnkgcGF0aAo+IGJhc2VkIHJ1bGUgYW5kIGNoZWNrIGlm
+IGl0IGlzIHN1Y2Nlc3NmdWwsIGJ1dCB0aGlzIHdvbid0IHdvcmsgd2hlbgo+IGF1ZGl0ZCBpcyBy
+dW5uaW5nIGluIGltbXV0YWJsZSBtb2RlLgo+Cj4KPiBBbnkgb3RoZXIgd2F5IHdoaWNoIGRvZXMg
+bm90IHJlcXVpcmUgY2hlY2tpbmcgdmVyc2lvbnMgb2YgS2VybmVsIG9yCj4gRGlzdHJpYnV0aW9u
+Pwo+Cj4gLS0gCj4gQW51cmFnIEFnZ2Fyd2FsCj4KPiAtLQo+IExpbnV4LWF1ZGl0IG1haWxpbmcg
+bGlzdAo+IExpbnV4LWF1ZGl0QHJlZGhhdC5jb20KPiBodHRwczovL2xpc3RtYW4ucmVkaGF0LmNv
+bS9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LWF1ZGl0CgotLQpMaW51eC1hdWRpdCBtYWlsaW5nIGxp
+c3QKTGludXgtYXVkaXRAcmVkaGF0LmNvbQpodHRwczovL2xpc3RtYW4ucmVkaGF0LmNvbS9tYWls
+bWFuL2xpc3RpbmZvL2xpbnV4LWF1ZGl0Cg==
 
