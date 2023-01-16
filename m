@@ -1,93 +1,95 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD10766A893
-	for <lists+linux-audit@lfdr.de>; Sat, 14 Jan 2023 03:16:08 +0100 (CET)
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5119D66C21E
+	for <lists+linux-audit@lfdr.de>; Mon, 16 Jan 2023 15:24:07 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1673662567;
-	h=from:from:sender:sender:reply-to:reply-to:subject:subject:date:date:
-	 message-id:message-id:to:to:cc:mime-version:mime-version:
-	 content-type:content-type:in-reply-to:in-reply-to:
-	 references:references:list-id:list-help:list-unsubscribe:
-	 list-subscribe:list-post; bh=0ZqEXMgwanbmcUqQ5Bll+x/A9MqsjDAg1juMQNcAcDE=;
-	b=Sk5WL5B3zjPOz3djbC7crA5IgbvxIAXXlBIXTbgXtzVsXXv5f2L6srRejIUzgV7Mordhf5
-	yYmiVrw5G9hTPm/fpzqhDzy66HiXvVQvFadaFW9itZ8PxdF24+2b5dUJgL7A1CiRKB/2px
-	un0SWJMLOQYLi2uX2zM+sZuwlP0ccUc=
+	s=mimecast20190719; t=1673879046;
+	h=from:from:sender:sender:reply-to:subject:subject:date:date:
+	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+	 content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:list-id:list-help:
+	 list-unsubscribe:list-subscribe:list-post;
+	bh=w/lH+MpheslHBPt/UNAuk6hjPn5HHfrySyxHfPOXLYY=;
+	b=BwCHPq6VHx4RGNvyvOKiQc5wcY/qHIEzKpu4Otcd/w7vL2DtDoQtrzDrEZumR31bKco6mq
+	eNNiTHcClBPaIF9cPgo/+/egyBWy/sOKmQ7GAK0DCY4yZ9fI10srO06udQA4BvmBGq6TTB
+	2NQPMYpWlAUCV/IX2Cvei7uyzcZOnCE=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-472-v6h6QJo6MeCNPPO-aHzy5A-1; Fri, 13 Jan 2023 21:16:03 -0500
-X-MC-Unique: v6h6QJo6MeCNPPO-aHzy5A-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
+ us-mta-595-qE8LIkvCPmatrEPYRYzRTw-1; Mon, 16 Jan 2023 09:24:04 -0500
+X-MC-Unique: qE8LIkvCPmatrEPYRYzRTw-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 494DC101A521;
-	Sat, 14 Jan 2023 02:16:02 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4C5D88533B6;
+	Mon, 16 Jan 2023 14:24:02 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (unknown [10.30.29.100])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 4AB4640C2004;
-	Sat, 14 Jan 2023 02:15:53 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id EE2CC492B00;
+	Mon, 16 Jan 2023 14:23:46 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (localhost [IPv6:::1])
-	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id 78EBC19459D7;
-	Sat, 14 Jan 2023 02:15:52 +0000 (UTC)
+	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id 001F81947062;
+	Mon, 16 Jan 2023 14:23:46 +0000 (UTC)
 X-Original-To: linux-audit@listman.corp.redhat.com
 Delivered-To: linux-audit@listman.corp.redhat.com
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
  by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with
- ESMTP id 39669194706F for <linux-audit@listman.corp.redhat.com>;
- Sat, 14 Jan 2023 02:15:51 +0000 (UTC)
+ ESMTP id C5F2719465B1 for <linux-audit@listman.corp.redhat.com>;
+ Mon, 16 Jan 2023 07:31:29 +0000 (UTC)
 Received: by smtp.corp.redhat.com (Postfix)
- id 17E0A14171B8; Sat, 14 Jan 2023 02:15:51 +0000 (UTC)
+ id A8ED51121315; Mon, 16 Jan 2023 07:31:29 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
- (mimecast05.extmail.prod.ext.rdu2.redhat.com [10.11.55.21])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1040014171B7
- for <linux-audit@redhat.com>; Sat, 14 Jan 2023 02:15:51 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [207.211.31.120])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E903785C064
- for <linux-audit@redhat.com>; Sat, 14 Jan 2023 02:15:50 +0000 (UTC)
-Received: from icp-osb-irony-out4.external.iinet.net.au
- (icp-osb-irony-out4.external.iinet.net.au [203.59.1.220]) by
- relay.mimecast.com with ESMTP id us-mta-497-TBj_7Tu1MCebxJjBFzGR7g-1; Fri,
- 13 Jan 2023 21:15:48 -0500
-X-MC-Unique: TBj_7Tu1MCebxJjBFzGR7g-1
-IronPort-SDR: g4dG6LsQlduTnBAb/jBjVBCf4K4BwN0E9B/jW0z6pX2gaHS3xLRJjvSCiCIo/o+iA3M3pKeM8G
- AMF8zEhmIf+1kPQu+Q0a8wu8DgbvL9drCb6sI4DL+YiYTJrvIMiIt2UlRz6MeEu0RI8MGH/OC9
- ny8Ex+mHtygrS697DFQVLcMAzI/nmX09LYoo9wKXU57W6yPbYQqhCi4qvjtnuf/gCfnMxfcVPH
- kX9rq/kq8KwvL1TzmJ9lYNfBahnUBnMmiqreKf22P5iNheTnmpRurXVZs5/cPSwSriPTolITfz
- dR0=
-X-SMTP-MATCH: 1
-IronPort-Data: A9a23:Z9KaOaqZ5znGc2b8l2/qqCUwVLpeBmKkZxIvgKrLsJaIsI4StFCzt
- garIBmBPaqNa2f1L9p0a4vn804HuZLRnYVjT1Ft/C09EngSp5acVYWSI3mrMnLJJKUvbq7HA
- +byyzXkBJppJpMJjk71atANlZT9vE2xbuKU5NTsY0idfic5DnZ+4f5fs7Rh2NUw2IHiW1/lV
- e7a+KUzBnf0g1aYDUpJs8pvmDs31BglkGpF1rCWTakjUG72zxH5PrpGTU2CByKQrr1vIwKPb
- 72rIIdVX4/u10xF5tuNyt4Xe2VWGeSKZVDmZnB+A8BOiTAazsA++vpgbqJEMS+7hh3R9+2dx
- umhurSwV0APYrzxid8gSjxdKi9nIPd8/7TudC3XXcy7lyUqclP33OlgSlopIYNe9vdxDWdVs
- /sCJ1jhbDjZ3rPwker9E7kxwJ16c6EHP6tG0p1k5TvEF/BgSJTfQqPFzd5Z2joswMZDAbDXe
- qL1bBI0PUSRO0IUZgh/5JQWmsuknUT/bydjt1PJtZNsynDr8VNxz+24WDbSUpnQLSlPpW67r
- 3jL+SLGAxwCLtGUySat8HKxj/fL2y73Reo6MLy+6+4viUCfx3A7EhAaVVKn5/K+jyaDt8l3c
- RVFv3t26PFiqQnyF4a7XgX+qXKNu1gXXN8WGvBSBByx95c4Kj2xXgAsJgOtovR53CPqbVTGD
- mO0ou4=
-IronPort-HdrOrdr: A9a23:o3+BpqzW5nqVkzRSs4TvKrPwN71zdoMgy1knxilNoHtuA6+lfq
- GV/MjzuiWftN98YhwdcLO7WZVoI0myyXcd2+B4VotKNzOJhILHFu1fBPDZsl/dJxE=
-X-IronPort-AV: E=Sophos;i="5.97,215,1669046400"; 
- d="scan'208,217";a="398907347"
-Received: from 219-90-185-117.ip.adam.com.au (HELO swtf.swtf.dyndns.org)
- ([219.90.185.117])
- by icp-osb-irony-out4.iinet.net.au with ESMTP; 14 Jan 2023 10:15:44 +0800
-Message-ID: <51db0605c46a61ae4c1923b3710bb8a08febe9f2.camel@iinet.net.au>
-Subject: Re: audit rules to help watch for potential threat?
-From: Burn Alting <burn.alting@iinet.net.au>
-To: "Wieprecht, Karen M." <Karen.Wieprecht@jhuapl.edu>, 
- "Linux-audit@redhat.com" <Linux-audit@redhat.com>
-Date: Sat, 14 Jan 2023 13:15:42 +1100
-In-Reply-To: <f50b2b89293f425ea56ec358837dd1eb@jhuapl.edu>
-References: <f50b2b89293f425ea56ec358837dd1eb@jhuapl.edu>
-Mime-Version: 1.0
+ (mimecast08.extmail.prod.ext.rdu2.redhat.com [10.11.55.24])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A133D1121314
+ for <linux-audit@redhat.com>; Mon, 16 Jan 2023 07:31:29 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [207.211.31.81])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8180F3806723
+ for <linux-audit@redhat.com>; Mon, 16 Jan 2023 07:31:29 +0000 (UTC)
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com
+ [209.85.216.49]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-567-O0YhO9NYOyS-Y56Oom5kRQ-1; Mon, 16 Jan 2023 02:31:25 -0500
+X-MC-Unique: O0YhO9NYOyS-Y56Oom5kRQ-1
+Received: by mail-pj1-f49.google.com with SMTP id
+ cx21-20020a17090afd9500b00228f2ecc6dbso6139595pjb.0; 
+ Sun, 15 Jan 2023 23:31:24 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=HOOg7H5N+Z63OpUC/u+N5UvkbhcnIUC0AQSISCJusN4=;
+ b=NrLJhXqY/8Pt/6fDs6JB7LtVX5kVlIcUua0cLcplOUAtiiGVugS3Qg0NFS5S+/HdRr
+ o+Cn5tklnYBaJTSj+GdYkmFuORhMpBMzhCE2lzGyxX4PCVSXAFPaqslf9oX2SULu9KEA
+ TZuJBHjg1vWglP5wQYXCxeNkZ8rlTVg+pC4JCcONC8iu9ZGaCEY6G+/OrWqoPTARPOmW
+ P4Jt7SAWD3GjtN5KY2NKVKkCkW3DikWJsF1MZftEcaL9HPg5Ll1VKG06sb0yE5YFa854
+ d3s9QL55sxPt1AnEuibHcV6qJk8a6E+yg0TzHy1Pks1Ao9EluWKvg4tLD77ZgjKD8qD5
+ eJHQ==
+X-Gm-Message-State: AFqh2ko8rvrs86wJydsL+3EXKBZeHay2oluzS8KPoCd1I9qOnMPARrTj
+ i3ZIOBmmhjYGYyL8x+s3HW66SWte/6yQliCwvMw=
+X-Google-Smtp-Source: AMrXdXsHaNFvTcwq7IYjoURTRKB9mLY6RlfohU9xRx/ch1k9FfnZTPFe5NEyMuszQC6sWUU/1ki2k4jRifdInbi8kL8=
+X-Received: by 2002:a17:90b:1112:b0:223:dd6f:13b2 with SMTP id
+ gi18-20020a17090b111200b00223dd6f13b2mr6617650pjb.56.1673854283697; Sun, 15
+ Jan 2023 23:31:23 -0800 (PST)
+MIME-Version: 1.0
+References: <20230103164359.24347-1-ysionneau@kalray.eu>
+ <CAEr6+ECRh_9App18zmcS6FUR81YYhR=n4kGdeZAtQBsdMB55_A@mail.gmail.com>
+ <6570d22d-ee19-f8b1-6fb4-bf8865ec4142@kalray.eu>
+ <CAEr6+ECPFeokSULpWzYEYLROYHXNA0PtvdUchT37d4_qVA-PKQ@mail.gmail.com>
+ <bccad498-3af2-08f1-8264-cf7b438732d3@kalray.eu>
+ <CAEr6+EC0SCXLrQ2YNYyCyMK1Z9=3=ajbbLP+RKSsARGsmJO9YA@mail.gmail.com>
+In-Reply-To: <CAEr6+EC0SCXLrQ2YNYyCyMK1Z9=3=ajbbLP+RKSsARGsmJO9YA@mail.gmail.com>
+From: Jeff Xie <xiehuan09@gmail.com>
+Date: Mon, 16 Jan 2023 15:31:11 +0800
+Message-ID: <CAEr6+EC4e5QsodG_SpTVMBoGfW1GDAgUfBphahgrqy52vXFB+Q@mail.gmail.com>
+Subject: Re: [RFC PATCH 00/25] Upstream kvx Linux port
+To: Yann Sionneau <ysionneau@kalray.eu>
 X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
  Definition; Similar Internal Domain=false;
  Similar Monitored External Domain=false; Custom External Domain=false;
@@ -95,7 +97,8 @@ X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
  Internal User Name=false; Custom Display Name List=false;
  Reply-to Address Mismatch=false; Targeted Threat Dictionary=false;
  Mimecast Threat Dictionary=false; Custom Threat Dictionary=false
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+X-Mailman-Approved-At: Mon, 16 Jan 2023 14:23:44 +0000
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,114 +110,107 @@ List-Post: <mailto:linux-audit@redhat.com>
 List-Help: <mailto:linux-audit-request@redhat.com?subject=help>
 List-Subscribe: <https://listman.redhat.com/mailman/listinfo/linux-audit>,
  <mailto:linux-audit-request@redhat.com?subject=subscribe>
-Reply-To: burn@swtf.dyndns.org
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ =?UTF-8?Q?Marc_Poulhi=C3=A8s?= <dkm@kataplop.net>, linux-doc@vger.kernel.org,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ Jan Kiszka <jan.kiszka@siemens.com>, Sebastian Reichel <sre@kernel.org>,
+ Marius Gligor <mgligor@kalray.eu>, Oleg Nesterov <oleg@redhat.com>,
+ linux-mm@kvack.org, Louis Morhet <lmorhet@kalray.eu>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Luc Michel <lmichel@kalray.eu>, linux-riscv@lists.infradead.org,
+ Ashley Lesdalons <alesdalons@kalray.eu>, Will Deacon <will@kernel.org>,
+ Ard Biesheuvel <ardb@kernel.org>, linux-arch@vger.kernel.org,
+ Marc Zyngier <maz@kernel.org>, Thomas Costis <tcostis@kalray.eu>,
+ Jonathan Corbet <corbet@lwn.net>, Jonathan Borne <jborne@kalray.eu>,
+ "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>,
+ Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
+ Steven Rostedt <rostedt@goodmis.org>,
+ Jean-Christophe Pince <jcpince@gmail.com>, Waiman Long <longman@redhat.com>,
+ Clement Leger <clement.leger@bootlin.com>,
+ Masami Hiramatsu <mhiramat@kernel.org>, devicetree@vger.kernel.org,
+ Albert Ou <aou@eecs.berkeley.edu>, Kees Cook <keescook@chromium.org>,
+ Arnd Bergmann <arnd@arndb.de>, linux-pm@vger.kernel.org,
+ Samuel Jones <sjones@kalray.eu>, Boqun Feng <boqun.feng@gmail.com>,
+ Guillaume Thouvenin <gthouvenin@kalray.eu>, Julian Vetter <jvetter@kalray.eu>,
+ Arnaldo Carvalho de Melo <acme@kernel.org>,
+ Julien Hascoet <jhascoet@kalray.eu>, Jason Baron <jbaron@akamai.com>,
+ Rob Herring <robh+dt@kernel.org>, Nick Piggin <npiggin@gmail.com>,
+ Paul Walmsley <paul.walmsley@sifive.com>, Namhyung Kim <namhyung@kernel.org>,
+ Thomas Gleixner <tglx@linutronix.de>, Josh Poimboeuf <jpoimboe@kernel.org>,
+ linux-arm-kernel@lists.infradead.org, Julien Villette <jvillette@kalray.eu>,
+ Jules Maselbas <jmaselbas@kalray.eu>, Christian Brauner <brauner@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Benjamin Mugnier <mugnier.benjamin@gmail.com>,
+ Vincent Chardon <vincent.chardon@elsys-design.com>,
+ Guillaume Missonnier <gmissonnier@kalray.eu>, linux-kernel@vger.kernel.org,
+ Eric Paris <eparis@redhat.com>, Alex Michon <amichon@kalray.eu>,
+ linux-perf-users@vger.kernel.org, linux-audit@redhat.com,
+ Palmer Dabbelt <palmer@dabbelt.com>, Eric Biederman <ebiederm@xmission.com>,
+ Jiri Olsa <jolsa@kernel.org>, Kieran Bingham <kbingham@kernel.org>,
+ bpf@vger.kernel.org
 Errors-To: linux-audit-bounces@redhat.com
 Sender: "Linux-audit" <linux-audit-bounces@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/mixed; boundary="===============4659134170344463475=="
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
---===============4659134170344463475==
-Content-Type: multipart/alternative; boundary="=-qH8kXuKrZPeIuhUjf0Ej"
-
---=-qH8kXuKrZPeIuhUjf0Ej
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-
-Karen,
-Quite simply, just monitor execve (in addition to targeted/mandated monitoring) as
-per
-# Process execution
--a always,exit -F arch=b64 -S execve -F auid!=unset -F key=cmds
-
-And within /etc/audit/auditd.conf change
-    max_log_file = 8    num_logs = 5to    max_log_file = 32    num_logs = 9
-Which caters for an expanded set of /var/log/audit/audit.log files (32 x 9 =
-288MB).You would need to send your logs to a central SIEM say every 10-15 minutes.
-Burn AltingPS. I know I have identified b32 arch but the best b32 arch rule now for
-most modern (and supported Linux) is-a always,exit -F arch=b32 -S all -F key=32bit-
-abi
-
-
-On Fri, 2023-01-13 at 22:47 +0000, Wieprecht, Karen M. wrote:
-> Steve, Audit team,
-> My colleagues and I were discussing ways we might better monitor for  potential
-> insider threat.   We can easily see the commands our SAs run when they use sudo in
-> front of the command,   but if the  sysadmin uses "sudo su -", then we don't have
-> good visibility into the commands they perform while they are su'd unless there
-> happens to be an audit rule monitoring the specific files/commands they are
-> accessing/running.  
-> We've talked about possible way to improve our visibility in this situation, but
-> most of the options we came up with are easily thwarted and/or would cause the
-> logs to blow up to the point that it's difficult to spot  nefarious
-> activity.   Some options we considered included having splunk monitor the shell
-> history files, and possibly enabling ps auditing.
-> Can you recommend any audit rules that would audit the interactive commands being
-> issued by a sysadmin who is su'd as root without causing the logs to blow up?   
-> Any assistance you can provide would be much appreciated.
-> Thank you,Karen Wieprecht The Johns Hopkins Applied Physics Laboratory--Linux-
-> audit mailing listLinux-audit@redhat.com
-> https://listman.redhat.com/mailman/listinfo/linux-audit
-> 
-
---=-qH8kXuKrZPeIuhUjf0Ej
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-
-<html dir=3D"ltr"><head></head><body style=3D"text-align:left; direction:lt=
-r;"><div>Karen,</div><div><br></div><div>Quite simply, just monitor execve =
-(in addition to targeted/mandated monitoring) as per</div><div><br></div><d=
-iv style=3D"margin-left: 3ch;"><div># Process execution</div><div>-a always=
-,exit -F arch=3Db64 -S execve -F auid!=3Dunset -F key=3Dcmds</div><div><br>=
-</div></div><div>And within /etc/audit/auditd.conf change</div><div><br></d=
-iv><div>&nbsp;&nbsp;&nbsp;&nbsp;max_log_file =3D 8</div><div>&nbsp;&nbsp;&n=
-bsp;&nbsp;num_logs =3D 5</div><div>to</div><div>&nbsp;&nbsp;&nbsp;&nbsp;max=
-_log_file =3D 32</div><div>&nbsp;&nbsp;&nbsp;&nbsp;num_logs =3D 9</div><div=
-><br></div><div>Which caters for an expanded set of /var/log/audit/audit.lo=
-g files (32 x 9 =3D 288MB).</div><div>You would need to send your logs to a=
- central SIEM say every 10-15 minutes.</div><div><br></div><div>Burn Alting=
-</div><div>PS. I know I have identified b32 arch but the best b32 arch rule=
- now for most modern (and supported Linux) is</div><div style=3D"margin-lef=
-t: 3ch;"><div>-a always,exit -F arch=3Db32 -S all -F key=3D32bit-abi</div><=
-div></div><div><br></div></div><div></div><div></div><div>On Fri, 2023-01-1=
-3 at 22:47 +0000, Wieprecht, Karen M. wrote:</div><blockquote type=3D"cite"=
- style=3D"margin:0 0 0 .8ex; border-left:2px #729fcf solid;padding-left:1ex=
-"><pre>Steve, Audit team,</pre><pre><br></pre><pre>My colleagues and I were=
- discussing ways we might better monitor for  potential insider threat.   W=
-e can easily see the commands our SAs run when they use sudo in front of th=
-e command,   but if the  sysadmin uses "sudo su -", then we don't have good=
- visibility into the commands they perform while they are su'd unless there=
- happens to be an audit rule monitoring the specific files/commands they ar=
-e accessing/running.  </pre><pre><br></pre><pre>We've talked about possible=
- way to improve our visibility in this situation, but most of the options w=
-e came up with are easily thwarted and/or would cause the logs to blow up t=
-o the point that it's difficult to spot  nefarious activity.   Some options=
- we considered included having splunk monitor the shell history files, and =
-possibly enabling ps auditing.</pre><pre><br></pre><pre>Can you recommend a=
-ny audit rules that would audit the interactive commands being issued by a =
-sysadmin who is su'd as root without causing the logs to blow up?   </pre><=
-pre><br></pre><pre>Any assistance you can provide would be much appreciated=
-.</pre><pre><br></pre><pre>Thank you,</pre><pre>Karen Wieprecht </pre><pre>=
-The Johns Hopkins Applied Physics Laboratory</pre><pre>--</pre><pre>Linux-a=
-udit mailing list</pre><a href=3D"mailto:Linux-audit@redhat.com"><pre>Linux=
--audit@redhat.com</pre></a><pre><br></pre><a href=3D"https://listman.redhat=
-.com/mailman/listinfo/linux-audit"><pre>https://listman.redhat.com/mailman/=
-listinfo/linux-audit</pre></a><pre><br></pre><pre><br></pre></blockquote></=
-body></html>
-
---=-qH8kXuKrZPeIuhUjf0Ej--
-
---===============4659134170344463475==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
---
-Linux-audit mailing list
-Linux-audit@redhat.com
-https://listman.redhat.com/mailman/listinfo/linux-audit
-
---===============4659134170344463475==--
+T24gTW9uLCBKYW4gOSwgMjAyMyBhdCAxMTo1MyBQTSBKZWZmIFhpZSA8eGllaHVhbjA5QGdtYWls
+LmNvbT4gd3JvdGU6Cj4KPiBPbiBNb24sIEphbiA5LCAyMDIzIGF0IDExOjMwIFBNIFlhbm4gU2lv
+bm5lYXUgPHlzaW9ubmVhdUBrYWxyYXkuZXU+IHdyb3RlOgo+ID4KPiA+IEhpIEplZmYsCj4gPgo+
+ID4gT24gMS85LzIzIDE2OjExLCBKZWZmIFhpZSB3cm90ZToKPiA+ID4gT24gTW9uLCBKYW4gOSwg
+MjAyMyBhdCA5OjIxIFBNIFlhbm4gU2lvbm5lYXUgPHlzaW9ubmVhdUBrYWxyYXkuZXU+IHdyb3Rl
+Ogo+ID4gPj4gSGkgSmVmZiwKPiA+ID4+Cj4gPiA+PiBPbiAxLzcvMjMgMDc6MjUsIEplZmYgWGll
+IHdyb3RlOgo+ID4gPj4+IEhpLAo+ID4gPj4+Cj4gPiA+Pj4gT24gV2VkLCBKYW4gNCwgMjAyMyBh
+dCAxOjAxIEFNIFlhbm4gU2lvbm5lYXUgPHlzaW9ubmVhdUBrYWxyYXkuZXU+IHdyb3RlOgo+ID4g
+Pj4+PiBbc25pcF0KPiA+ID4+Pj4KPiA+ID4+Pj4gQSBrdnggdG9vbGNoYWluIGNhbiBiZSBidWls
+dCB1c2luZzoKPiA+ID4+Pj4gIyBpbnN0YWxsIGRlcGVuZGVuY2llczogdGV4aW5mbyBiaXNvbiBm
+bGV4IGxpYmdtcC1kZXYgbGlibXBjLWRldiBsaWJtcGZyLWRldgo+ID4gPj4+PiAkIGdpdCBjbG9u
+ZSBodHRwczovL2dpdGh1Yi5jb20va2FscmF5L2J1aWxkLXNjcmlwdHMKPiA+ID4+Pj4gJCBjZCBi
+dWlsZC1zY3JpcHRzCj4gPiA+Pj4+ICQgc291cmNlIGxhc3QucmVmcwo+ID4gPj4+PiAkIC4vYnVp
+bGQta3Z4LXhnY2Muc2ggb3V0cHV0Cj4gPiA+Pj4gSSB3b3VsZCBsaWtlIHRvIGJ1aWxkIHRoZSBr
+dngteGdjYyB0byBjb21waWxlIGFuZCB0ZXN0IHRoZSBsaW51eAo+ID4gPj4+IGtlcm5lbCwgYnV0
+IGl0IHJlcG9ydGVkIGEgY29tcGlsZSBlcnJvci4KPiA+ID4+PiBJIHdvbmRlciB3aGF0IHZlcnNp
+b24gb2YgZ2NjIHlvdSBhcmUgdXNpbmcuCj4gPiA+Pj4KPiA+ID4+PiBNeSBidWlsZCBlbnZpcm9u
+bWVudDoKPiA+ID4+PiBWRVJTSU9OPSIyMC4wNC4yIExUUyAoRm9jYWwgRm9zc2EpIgo+ID4gPj4+
+IGdjYyB2ZXJzaW9uIDkuMy4wIChVYnVudHUgOS4zLjAtMTd1YnVudHUxfjIwLjA0KQo+ID4gPj4+
+Cj4gPiA+Pj4KPiA+ID4+PiBDb21waWxlIGVycm9yOgo+ID4gPj4+ICQgLi9idWlsZC1rdngteGdj
+Yy5zaCBvdXRwdXQKPiA+ID4+Pgo+ID4gPj4+IC4uLy4uL2JpbnV0aWxzL2xpYmliZXJ0eS9maWJo
+ZWFwLmM6IEluIGZ1bmN0aW9uIOKAmGZpYmhlYXBfcmVwbGFjZV9rZXlfZGF0YeKAmToKPiA+ID4+
+PiAuLi8uLi9iaW51dGlscy9saWJpYmVydHkvZmliaGVhcC5jOjM4OjI0OiBlcnJvcjog4oCYTE9O
+R19NSU7igJkgdW5kZWNsYXJlZAo+ID4gPj4+IChmaXJzdCB1c2UgaW4gdGhpcyBmdW5jdGlvbikK
+PiA+ID4+PiAgICAgIDM4IHwgI2RlZmluZSBGSUJIRUFQS0VZX01JTiBMT05HX01JTgo+ID4gPj4+
+ICAgICAgICAgfCAgICAgICAgICAgICAgICAgICAgICAgIF5+fn5+fn5+Cj4gPiA+Pj4gW3NuaXBd
+Cj4gPiA+PiBXaGF0IFNIQTEgb2YgaHR0cHM6Ly9naXRodWIuY29tL2thbHJheS9idWlsZC1zY3Jp
+cHRzIGFyZSB5b3UgdXNpbmc/Cj4gPiA+IEkgaGF2ZSBleGVjdXRlZCB0aGUgInNvdXJjZSBsYXN0
+LnJlZnMiCj4gPgo+ID4gSSB3YXMgcmVmZXJyaW5nIHRvIHRoZSBTSEExIG9mIHRoZSByZXBvIGl0
+c2VsZiAoYnVpbGQtc2NyaXB0cykuCj4gPgo+ID4gYGxhc3QucmVmc2AgaXMgYSBzeW1ib2xpYyBs
+aW5rIHdoaWNoIGNhbiBwb2ludCB0byBzZXZlcmFsIHJlbGVhc2VzLAo+ID4gZGVwZW5kaW5nIG9u
+ICJ3aGVuIiB5b3UgZGlkIHRoZSBjbG9uZS4KPiA+Cj4gPiBJIGFtIGFza2luZyB0aGlzIGJlY2F1
+c2Ugd2UgcmVjZW50bHkgcHVibGlzaGVkIG5ldyB0b29sY2hhaW5zLgo+ID4KPiA+IEkgd2FudCB0
+byBtYWtlIHN1cmUgd2hpY2ggb25lIHlvdSBhcmUgdHJ5aW5nIHRvIGJ1aWxkLgo+Cj4gVW5mb3J0
+dW5hdGVseSBJIGRlbGV0ZWQgdGhpcyByZXBvIGEgZmV3IG1pbnV0ZXMgYmVmb3JlIHlvdSBhc2tl
+ZCBtZSA7LSgKPiBCdXQgSSByZW1lbWJlciB0aGF0IEkgY2xvbmVkIHRoaXMgcmVwbyB0d28gZGF5
+cyBhZ28uCj4gaXQgc2hvdWxkIGJlOiAgbGFzdC5yZWZzIC0+IHJlZnMvNC4xMS4wLnJlZnMKCkl0
+IHNob3VsZCBiZSBteSBvd24gZW52aXJvbm1lbnRhbCBwcm9ibGVtLgpJIHJlaW5zdGFsbGVkIHRo
+ZSBzeXN0ZW0gb25jZSBhbmQgaXQgaGFzIGJlZW4gYWJsZSB0byBjb21waWxlIG5vcm1hbGx5IDst
+KQoKSW4gdGhlIHBhc3QgZmV3IGRheXMsIEkgaGF2ZSByZXZpZXdlZCBhbG1vc3QgYWxsIHRoZSBj
+b2RlcywKd2hpY2ggaXMgdmVyeSBtZWFuaW5nZnVsIGZvciBtZSB0byBsZWFybiwgdGhhbmsgeW91
+IHRlYW0uCgoKPgo+ID4gPj4gV2UgYXJlIGJ1aWxkaW5nIG91ciB0b29sY2hhaW4gb24gVWJ1bnR1
+IDE4LjA0IC8gMjAuMDQgYW5kIDIyLjA0IHdpdGhvdXQKPiA+ID4+IGlzc3VlcywgSSBkb24ndCB1
+bmRlcnN0YW5kIHdoeSBpdCBkb2VzIG5vdCB3b3JrIGZvciB5b3UsIGFsdGhvdWdoIGluZGVlZAo+
+ID4gPj4gdGhlIGVycm9yIGxvZyB5b3UgYXJlIGhhdmluZyBwb3BzIG91dCBvbiBteSBzZWFyY2gg
+ZW5naW5lIGFuZCBzZWVtcyB0bwo+ID4gPj4gYmUgc29tZSB3ZWxsIGtub3duIGlzc3VlLgo+ID4g
+PiBZZXMsIHRoZXJlIGFyZSBtYW55IGFuc3dlcnMgb24gdGhlIHdlYiwgYnV0IG5vbmUgb2YgdGhl
+bSBzb2x2ZSB0aGlzIHByb2JsZW0uCj4gPiA+Cj4gPiA+PiBJZiB0aGUgYnVpbGQtc2NyaXB0IGRv
+ZXMgbm90IHdvcmsgZm9yIHlvdSwgeW91IGNhbiBzdGlsbCB1c2UgdGhlCj4gPiA+PiBwcmUtYnVp
+bHQgdG9vbGNoYWlucyBnZW5lcmF0ZWQgYnkgdGhlIEdpdEh1YiBhdXRvbWF0ZWQgYWN0aW9uczoK
+PiA+ID4+IGh0dHBzOi8vZ2l0aHViLmNvbS9rYWxyYXkvYnVpbGQtc2NyaXB0cy9yZWxlYXNlcy90
+YWcvdjQuMTEuMSAoImxhdGVzdCIKPiA+ID4+IG1lYW5zIDIyLjA0KQo+ID4gPiBUaGFua3MsIHRo
+aXMgaXMgdGhlIGZpbmFsIHNvbHV0aW9uIDstKQo+ID4gR29vZCB0byBzZWUgaXQgaGVscGVkIDop
+Cj4gPgo+ID4gUmVnYXJkcywKPiA+Cj4gPiAtLQo+ID4KPiA+IFlhbm4KPiA+Cj4gPgo+ID4KPiA+
+Cj4gPgo+Cj4KPiAtLQo+IFRoYW5rcywKPiBKZWZmWGllCgoKCi0tClRoYW5rcywKSmVmZlhpZQoK
+LS0KTGludXgtYXVkaXQgbWFpbGluZyBsaXN0CkxpbnV4LWF1ZGl0QHJlZGhhdC5jb20KaHR0cHM6
+Ly9saXN0bWFuLnJlZGhhdC5jb20vbWFpbG1hbi9saXN0aW5mby9saW51eC1hdWRpdAo=
 
