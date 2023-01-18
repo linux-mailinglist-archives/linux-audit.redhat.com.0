@@ -1,62 +1,105 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53EA266E83F
-	for <lists+linux-audit@lfdr.de>; Tue, 17 Jan 2023 22:14:37 +0100 (CET)
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 28D0F671E97
+	for <lists+linux-audit@lfdr.de>; Wed, 18 Jan 2023 14:56:18 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1673990076;
+	s=mimecast20190719; t=1674050177;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=P2JRMyhU+puMKD4sbarJe9WSa2DFVIGnElaGyhegMl4=;
-	b=FOLiYRRCoyKqn+0B6Wc2Pexf/tk1+6M79gt9vFUZZDtLidp+Ruw2TTfGs/LggRhnUowXFi
-	ajeVe2gUnKTm1XwLJTYIPRPYh6bTb+kDFsO60UuE0Y9n9HprPPmzZ3zOpho3ZV42WLXzrT
-	A5jkCF/ZdB3rnoQt64SPF7rUd/ipAr8=
+	bh=29R8KfgK9oqD9Wcqv+knXT/WCTHj98MFcpmcBzo2C2M=;
+	b=LOCooQ1MpMd3Ufl/YCYLe+OBLPURHv2wkikU5XKScWKDRff3BxO5u/TPrNeLwVVQwh91/l
+	u/gvZssUf1G0Jwun3OYGS8zS7Hndcqrf4kYaw0uzJZe5PtUl96zNqC7xBrMaWvxiA8aHNf
+	RuGGlM3weFXNF6/XYSg5rJbmywTiuok=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-651-UGWAv5ZoMJ6PSl3zrBR_7Q-1; Tue, 17 Jan 2023 16:14:32 -0500
-X-MC-Unique: UGWAv5ZoMJ6PSl3zrBR_7Q-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
+ us-mta-346-5x78NzGTM92eEemzHojNYQ-1; Wed, 18 Jan 2023 08:56:15 -0500
+X-MC-Unique: 5x78NzGTM92eEemzHojNYQ-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 45BDB3806630;
-	Tue, 17 Jan 2023 21:14:30 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 77AED3828888;
+	Wed, 18 Jan 2023 13:56:13 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (unknown [10.30.29.100])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id A76BB140EBF5;
-	Tue, 17 Jan 2023 21:14:25 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 6E13A492B00;
+	Wed, 18 Jan 2023 13:56:04 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (localhost [IPv6:::1])
-	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id 8CB251946A70;
-	Tue, 17 Jan 2023 21:14:25 +0000 (UTC)
+	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id 063711946A71;
+	Wed, 18 Jan 2023 13:56:03 +0000 (UTC)
 X-Original-To: linux-audit@listman.corp.redhat.com
 Delivered-To: linux-audit@listman.corp.redhat.com
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
  by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with
- ESMTP id EE65819465B3 for <linux-audit@listman.corp.redhat.com>;
- Tue, 17 Jan 2023 21:14:23 +0000 (UTC)
+ ESMTP id DAEA819465B7 for <linux-audit@listman.corp.redhat.com>;
+ Wed, 18 Jan 2023 08:48:11 +0000 (UTC)
 Received: by smtp.corp.redhat.com (Postfix)
- id E0D04C15BAE; Tue, 17 Jan 2023 21:14:23 +0000 (UTC)
+ id 8618A1121318; Wed, 18 Jan 2023 08:48:11 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from madcap2.tricolour.com (ovpn-0-3.rdu2.redhat.com [10.22.0.3])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7C85AC15BAD;
- Tue, 17 Jan 2023 21:14:22 +0000 (UTC)
-From: Richard Guy Briggs <rgb@redhat.com>
-To: Linux-Audit Mailing List <linux-audit@redhat.com>,
- LKML <linux-kernel@vger.kernel.org>, linux-fsdevel@vger.kernel.org,
- linux-api@vger.kernel.org
-Subject: [PATCH v6 3/3] fanotify,
- audit: Allow audit to use the full permission event response
-Date: Tue, 17 Jan 2023 16:14:07 -0500
-Message-Id: <82aba376bfbb9927ab7146e8e2dee8d844a31dc2.1673989212.git.rgb@redhat.com>
-In-Reply-To: <cover.1673989212.git.rgb@redhat.com>
-References: <cover.1673989212.git.rgb@redhat.com>
+Received: from mimecast-mx02.redhat.com
+ (mimecast04.extmail.prod.ext.rdu2.redhat.com [10.11.55.20])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7F1281121315
+ for <linux-audit@redhat.com>; Wed, 18 Jan 2023 08:48:11 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [207.211.31.81])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5FC0D101A52E
+ for <linux-audit@redhat.com>; Wed, 18 Jan 2023 08:48:11 +0000 (UTC)
+Received: from fx304.security-mail.net (smtpout30.security-mail.net
+ [85.31.212.34]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-563-YtBII5XjP4SFdZH5bI9dVQ-1; Wed, 18 Jan 2023 03:48:06 -0500
+X-MC-Unique: YtBII5XjP4SFdZH5bI9dVQ-1
+Received: from localhost (localhost [127.0.0.1])
+ by fx304.security-mail.net (Postfix) with ESMTP id 6E43E9D03A
+ for <linux-audit@redhat.com>; Wed, 18 Jan 2023 09:48:05 +0100 (CET)
+Received: from fx304 (localhost [127.0.0.1]) by fx304.security-mail.net
+ (Postfix) with ESMTP id 534809D021; Wed, 18 Jan 2023 09:48:05 +0100 (CET)
+Received: from zimbra2.kalray.eu (unknown [217.181.231.53]) by
+ fx304.security-mail.net (Postfix) with ESMTPS id B70559D065; Wed, 18 Jan
+ 2023 09:48:04 +0100 (CET)
+Received: from zimbra2.kalray.eu (localhost [127.0.0.1]) by
+ zimbra2.kalray.eu (Postfix) with ESMTPS id 8AA0D27E0431; Wed, 18 Jan 2023
+ 09:48:04 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1]) by zimbra2.kalray.eu
+ (Postfix) with ESMTP id 6F12027E0430; Wed, 18 Jan 2023 09:48:04 +0100 (CET)
+Received: from zimbra2.kalray.eu ([127.0.0.1]) by localhost
+ (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10026) with ESMTP id
+ wmXiccehnwry; Wed, 18 Jan 2023 09:48:04 +0100 (CET)
+Received: from [127.0.0.1] (unknown [192.168.37.161]) by zimbra2.kalray.eu
+ (Postfix) with ESMTPSA id 0848227E042C; Wed, 18 Jan 2023 09:48:03 +0100
+ (CET)
+X-Virus-Scanned: E-securemail
+Secumail-id: <1338a.63c7b244.b5e0c.0>
+DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu 6F12027E0430
+Message-ID: <eaba8723-606b-4f77-c647-afb3071f7496@kalray.eu>
+Date: Wed, 18 Jan 2023 09:48:03 +0100
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [RFC PATCH 02/25] kvx: Add ELF-related definitions
+To: "Eric W. Biederman" <ebiederm@xmission.com>
+References: <20230103164359.24347-1-ysionneau@kalray.eu>
+ <20230103164359.24347-3-ysionneau@kalray.eu>
+ <875ydnmhcv.fsf@email.froward.int.ebiederm.org>
+From: Yann Sionneau <ysionneau@kalray.eu>
+In-Reply-To: <875ydnmhcv.fsf@email.froward.int.ebiederm.org>
+X-ALTERMIMEV2_out: done
+X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
+ Definition; Similar Internal Domain=false;
+ Similar Monitored External Domain=false; Custom External Domain=false;
+ Mimecast External Domain=false; Newly Observed Domain=false;
+ Internal User Name=false; Custom Display Name List=false;
+ Reply-to Address Mismatch=false; Targeted Threat Dictionary=false;
+ Mimecast Threat Dictionary=false; Custom Threat Dictionary=false
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+X-Mailman-Approved-At: Wed, 18 Jan 2023 13:55:58 +0000
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,133 +111,56 @@ List-Post: <mailto:linux-audit@redhat.com>
 List-Help: <mailto:linux-audit-request@redhat.com?subject=help>
 List-Subscribe: <https://listman.redhat.com/mailman/listinfo/linux-audit>,
  <mailto:linux-audit-request@redhat.com?subject=subscribe>
-Cc: Jan Kara <jack@suse.cz>, Richard Guy Briggs <rgb@redhat.com>,
- Amir Goldstein <amir73il@gmail.com>, Eric Paris <eparis@parisplace.org>
+Cc: linux-kernel@vger.kernel.org, Eric Paris <eparis@redhat.com>,
+ linux-mm@kvack.org, linux-audit@redhat.com,
+ Clement Leger <clement.leger@bootlin.com>, Kees Cook <keescook@chromium.org>
 Errors-To: linux-audit-bounces@redhat.com
 Sender: "Linux-audit" <linux-audit-bounces@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="us-ascii"
+Content-Language: en-us
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 
-This patch passes the full response so that the audit function can use all
-of it. The audit function was updated to log the additional information in
-the AUDIT_FANOTIFY record.
 
-Currently the only type of fanotify info that is defined is an audit
-rule number, but convert it to hex encoding to future-proof the field.
-Hex encoding suggested by Paul Moore <paul@paul-moore.com>.
+On 03/01/2023 22:35, Eric W. Biederman wrote:
+> Yann Sionneau <ysionneau@kalray.eu> writes:
+>
+>> Add ELF-related definitions for kvx, including: EM_KVX,
+>> AUDIT_ARCH_KVX and NT_KVX_TCA.
+> Has someone written an SYSVABI architecture specification for
+> your architecture?
 
-The {subj,obj}_trust values are {0,1,2}, corresponding to no, yes, unknown.
+Internally at Kalray we have an ABI document, I started a discussion 
+about its publication.
 
-Sample records:
-  type=FANOTIFY msg=audit(1600385147.372:590): resp=2 fan_type=1 fan_info=3137 subj_trust=3 obj_trust=5
-  type=FANOTIFY msg=audit(1659730979.839:284): resp=1 fan_type=0 fan_info=3F subj_trust=2 obj_trust=2
+It will not be part of the V2, but I'm working on it.
 
-Suggested-by: Steve Grubb <sgrubb@redhat.com>
-Link: https://lore.kernel.org/r/3075502.aeNJFYEL58@x2
-Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
----
- fs/notify/fanotify/fanotify.c |  3 ++-
- include/linux/audit.h         |  9 +++++----
- kernel/auditsc.c              | 16 +++++++++++++---
- 3 files changed, 20 insertions(+), 8 deletions(-)
+>
+> I feel uncomfortable with the linux-kernel headers being the
+> authoritative place for the ELF abi definitions.
+>
+> Especially since the linux kernel does not deal with relocations,
+> and the kernel headers could diverge from the real world and no one
+> would notice..
+>
+> I know at least at one point the linux standards base was taking
+> up the work on collecting up some of these definitions.  I would
+> be happy if there was anything outside of the linux kernel that
+> people could refer too.
 
-diff --git a/fs/notify/fanotify/fanotify.c b/fs/notify/fanotify/fanotify.c
-index 24ec1d66d5a8..29bdd99b29fa 100644
---- a/fs/notify/fanotify/fanotify.c
-+++ b/fs/notify/fanotify/fanotify.c
-@@ -273,7 +273,8 @@ static int fanotify_get_response(struct fsnotify_group *group,
- 
- 	/* Check if the response should be audited */
- 	if (event->response & FAN_AUDIT)
--		audit_fanotify(event->response & ~FAN_AUDIT);
-+		audit_fanotify(event->response & ~FAN_AUDIT,
-+			       &event->audit_rule);
- 
- 	pr_debug("%s: group=%p event=%p about to return ret=%d\n", __func__,
- 		 group, event, ret);
-diff --git a/include/linux/audit.h b/include/linux/audit.h
-index d6b7d0c7ce43..31086a72e32a 100644
---- a/include/linux/audit.h
-+++ b/include/linux/audit.h
-@@ -14,6 +14,7 @@
- #include <linux/audit_arch.h>
- #include <uapi/linux/audit.h>
- #include <uapi/linux/netfilter/nf_tables.h>
-+#include <uapi/linux/fanotify.h>
- 
- #define AUDIT_INO_UNSET ((unsigned long)-1)
- #define AUDIT_DEV_UNSET ((dev_t)-1)
-@@ -416,7 +417,7 @@ extern void __audit_log_capset(const struct cred *new, const struct cred *old);
- extern void __audit_mmap_fd(int fd, int flags);
- extern void __audit_openat2_how(struct open_how *how);
- extern void __audit_log_kern_module(char *name);
--extern void __audit_fanotify(u32 response);
-+extern void __audit_fanotify(u32 response, struct fanotify_response_info_audit_rule *friar);
- extern void __audit_tk_injoffset(struct timespec64 offset);
- extern void __audit_ntp_log(const struct audit_ntp_data *ad);
- extern void __audit_log_nfcfg(const char *name, u8 af, unsigned int nentries,
-@@ -523,10 +524,10 @@ static inline void audit_log_kern_module(char *name)
- 		__audit_log_kern_module(name);
- }
- 
--static inline void audit_fanotify(u32 response)
-+static inline void audit_fanotify(u32 response, struct fanotify_response_info_audit_rule *friar)
- {
- 	if (!audit_dummy_context())
--		__audit_fanotify(response);
-+		__audit_fanotify(response, friar);
- }
- 
- static inline void audit_tk_injoffset(struct timespec64 offset)
-@@ -679,7 +680,7 @@ static inline void audit_log_kern_module(char *name)
- {
- }
- 
--static inline void audit_fanotify(u32 response)
-+static inline void audit_fanotify(u32 response, struct fanotify_response_info_audit_rule *friar)
- { }
- 
- static inline void audit_tk_injoffset(struct timespec64 offset)
-diff --git a/kernel/auditsc.c b/kernel/auditsc.c
-index d1fb821de104..3133c4175c15 100644
---- a/kernel/auditsc.c
-+++ b/kernel/auditsc.c
-@@ -64,6 +64,7 @@
- #include <uapi/linux/limits.h>
- #include <uapi/linux/netfilter/nf_tables.h>
- #include <uapi/linux/openat2.h> // struct open_how
-+#include <uapi/linux/fanotify.h>
- 
- #include "audit.h"
- 
-@@ -2877,10 +2878,19 @@ void __audit_log_kern_module(char *name)
- 	context->type = AUDIT_KERN_MODULE;
- }
- 
--void __audit_fanotify(u32 response)
-+void __audit_fanotify(u32 response, struct fanotify_response_info_audit_rule *friar)
- {
--	audit_log(audit_context(), GFP_KERNEL,
--		AUDIT_FANOTIFY,	"resp=%u", response);
-+	/* {subj,obj}_trust values are {0,1,2}: no,yes,unknown */
-+	if (friar->hdr.type == FAN_RESPONSE_INFO_NONE) {
-+		audit_log(audit_context(), GFP_KERNEL, AUDIT_FANOTIFY,
-+			  "resp=%u fan_type=%u fan_info=3F subj_trust=2 obj_trust=2",
-+			  response, FAN_RESPONSE_INFO_NONE);
-+		return;
-+	}
-+	audit_log(audit_context(), GFP_KERNEL, AUDIT_FANOTIFY,
-+		  "resp=%u fan_type=%u fan_info=%X subj_trust=%u obj_trust=%u",
-+		  response, friar->hdr.type, friar->rule_number,
-+		  friar->subj_trust, friar->obj_trust);
- }
- 
- void __audit_tk_injoffset(struct timespec64 offset)
+I completely agree with you!
+
+Thanks for the review.
+
 -- 
-2.27.0
+
+Yann
+
+
+
+
 
 --
 Linux-audit mailing list
