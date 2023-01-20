@@ -1,84 +1,85 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81767675D65
-	for <lists+linux-audit@lfdr.de>; Fri, 20 Jan 2023 20:03:14 +0100 (CET)
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id C5EAB675D80
+	for <lists+linux-audit@lfdr.de>; Fri, 20 Jan 2023 20:03:23 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1674241393;
+	s=mimecast20190719; t=1674241402;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=DdUMZxylv8qo6w2CktpfP/+/DG/yqZEJmfmPaLsDK1M=;
-	b=N3X7Q4GJVDDjd5j39d3XkcCNxSf05Yh6l0Ms3taPwCbxfMyQBdG7aunFdhEFnn4si2B7by
-	g+eqYY+VOEt2nF7a46x1ACWGPPaEkdNQNdUJzdxKoWLppm3ACPsSFU8wxxkKQI3duqHk2K
-	5ctVlQDEOUjBbzVIYMNkrIp92AsqqOM=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=F8nSGMg8156vrw6g7tlQsUxRU0gB5yAA+KX8VAm9QWM=;
+	b=TLs0jU3CSvdxjdF9/Uh1RB9Bcq0Lah0V4AgSs5LlrArsdMkY7DdvlqhUFvgHud0zWOHCUg
+	oQcL1ihUKtRZoEcExmAMK8FiOYOTokFOFrluJipjzTUCUKBHZYBFiGVeFer7gbFsd6jtkg
+	bbUeCZ2vlNW1YgJPzXCXBxN25iI1QXk=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-144-Y4Je0zOMPxaZ-Wg7X7E9FQ-1; Fri, 20 Jan 2023 14:03:10 -0500
-X-MC-Unique: Y4Je0zOMPxaZ-Wg7X7E9FQ-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
+ us-mta-503-MtwfDSMwONeyZ1DBQRfobg-1; Fri, 20 Jan 2023 14:03:17 -0500
+X-MC-Unique: MtwfDSMwONeyZ1DBQRfobg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B2524281DE85;
-	Fri, 20 Jan 2023 19:02:52 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5BE12857A88;
+	Fri, 20 Jan 2023 19:02:56 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (unknown [10.30.29.100])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 91581492D8B;
-	Fri, 20 Jan 2023 19:02:52 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 3E2F82026D2A;
+	Fri, 20 Jan 2023 19:02:56 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (localhost [IPv6:::1])
-	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id B34A61947071;
-	Fri, 20 Jan 2023 19:02:51 +0000 (UTC)
+	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id 32FFA1946588;
+	Fri, 20 Jan 2023 19:02:56 +0000 (UTC)
 X-Original-To: linux-audit@listman.corp.redhat.com
 Delivered-To: linux-audit@listman.corp.redhat.com
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
  by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with
- ESMTP id 55FA819465B6 for <linux-audit@listman.corp.redhat.com>;
- Fri, 20 Jan 2023 14:10:49 +0000 (UTC)
+ ESMTP id EA3681946588 for <linux-audit@listman.corp.redhat.com>;
+ Fri, 20 Jan 2023 14:25:47 +0000 (UTC)
 Received: by smtp.corp.redhat.com (Postfix)
- id 302861401C33; Fri, 20 Jan 2023 14:10:39 +0000 (UTC)
+ id A65FC1759E; Fri, 20 Jan 2023 14:25:47 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
- (mimecast05.extmail.prod.ext.rdu2.redhat.com [10.11.55.21])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 27A91140EBF6
- for <linux-audit@redhat.com>; Fri, 20 Jan 2023 14:10:39 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [205.139.110.61])
+ (mimecast02.extmail.prod.ext.rdu2.redhat.com [10.11.55.18])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9DE7353AA
+ for <linux-audit@redhat.com>; Fri, 20 Jan 2023 14:25:47 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [205.139.110.120])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0783385C6E3
- for <linux-audit@redhat.com>; Fri, 20 Jan 2023 14:10:39 +0000 (UTC)
-Received: from fx405.security-mail.net (smtpout140.security-mail.net
- [85.31.212.145]) by relay.mimecast.com with ESMTP with STARTTLS
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 79523802BF5
+ for <linux-audit@redhat.com>; Fri, 20 Jan 2023 14:25:47 +0000 (UTC)
+Received: from fx408.security-mail.net (smtpout140.security-mail.net
+ [85.31.212.148]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-332-u4fYdOMLOluAw_2XD-w7Tg-1; Fri, 20 Jan 2023 09:10:37 -0500
-X-MC-Unique: u4fYdOMLOluAw_2XD-w7Tg-1
-Received: from localhost (fx405.security-mail.net [127.0.0.1])
- by fx405.security-mail.net (Postfix) with ESMTP id 81F29335EDC
- for <linux-audit@redhat.com>; Fri, 20 Jan 2023 15:10:35 +0100 (CET)
-Received: from fx405 (fx405.security-mail.net [127.0.0.1]) by
- fx405.security-mail.net (Postfix) with ESMTP id 69C64335E38; Fri, 20 Jan
- 2023 15:10:34 +0100 (CET)
+ us-mta-638-m5E7_h2PP-iRduLDI0EvkA-1; Fri, 20 Jan 2023 09:25:46 -0500
+X-MC-Unique: m5E7_h2PP-iRduLDI0EvkA-1
+Received: from localhost (fx408.security-mail.net [127.0.0.1])
+ by fx408.security-mail.net (Postfix) with ESMTP id ED4FF3229F7
+ for <linux-audit@redhat.com>; Fri, 20 Jan 2023 15:25:44 +0100 (CET)
+Received: from fx408 (fx408.security-mail.net [127.0.0.1]) by
+ fx408.security-mail.net (Postfix) with ESMTP id B5716322547; Fri, 20 Jan
+ 2023 15:25:44 +0100 (CET)
 Received: from zimbra2.kalray.eu (unknown [217.181.231.53]) by
- fx405.security-mail.net (Postfix) with ESMTPS id 0EDD6335DF0; Fri, 20 Jan
- 2023 15:10:33 +0100 (CET)
+ fx408.security-mail.net (Postfix) with ESMTPS id 1C87E322929; Fri, 20 Jan
+ 2023 15:25:44 +0100 (CET)
 Received: from zimbra2.kalray.eu (localhost [127.0.0.1]) by
- zimbra2.kalray.eu (Postfix) with ESMTPS id B6A4527E0440; Fri, 20 Jan 2023
- 15:10:32 +0100 (CET)
+ zimbra2.kalray.eu (Postfix) with ESMTPS id 2A48827E0437; Fri, 20 Jan 2023
+ 15:10:33 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1]) by zimbra2.kalray.eu
- (Postfix) with ESMTP id 9294827E043D; Fri, 20 Jan 2023 15:10:32 +0100 (CET)
+ (Postfix) with ESMTP id 0210427E043D; Fri, 20 Jan 2023 15:10:33 +0100 (CET)
 Received: from zimbra2.kalray.eu ([127.0.0.1]) by localhost
  (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10026) with ESMTP id
- JVyjuwXZV6nO; Fri, 20 Jan 2023 15:10:32 +0100 (CET)
+ ImWCZZGcWW5W; Fri, 20 Jan 2023 15:10:32 +0100 (CET)
 Received: from junon.lin.mbt.kalray.eu (unknown [192.168.37.161]) by
- zimbra2.kalray.eu (Postfix) with ESMTPSA id 0B0F627E0439; Fri, 20 Jan 2023
+ zimbra2.kalray.eu (Postfix) with ESMTPSA id 8995D27E043A; Fri, 20 Jan 2023
  15:10:32 +0100 (CET)
 X-Virus-Scanned: E-securemail
-Secumail-id: <16482.63caa0d9.d431.0>
-DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu 9294827E043D
+Secumail-id: <f780.63caa468.1b48f.0>
+DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu 0210427E043D
 From: Yann Sionneau <ysionneau@kalray.eu>
 To: Arnd Bergmann <arnd@arndb.de>, Jonathan Corbet <corbet@lwn.net>, Thomas
  Gleixner <tglx@linutronix.de>, Marc Zyngier <maz@kernel.org>, Rob Herring
@@ -111,9 +112,10 @@ To: Arnd Bergmann <arnd@arndb.de>, Jonathan Corbet <corbet@lwn.net>, Thomas
  <jiaxun.yang@flygoat.com>, Catalin Marinas <catalin.marinas@arm.com>, Mark
  Brown <broonie@kernel.org>, Janosch Frank <frankja@linux.ibm.com>, Alexey
  Dobriyan <adobriyan@gmail.com>
-Subject: [RFC PATCH v2 17/31] irqchip: Add irq-kvx-apic-mailbox driver
-Date: Fri, 20 Jan 2023 15:09:48 +0100
-Message-ID: <20230120141002.2442-18-ysionneau@kalray.eu>
+Subject: [RFC PATCH v2 18/31] irqchip: Add kvx-core-intc core interupt
+ controller driver
+Date: Fri, 20 Jan 2023 15:09:49 +0100
+Message-ID: <20230120141002.2442-19-ysionneau@kalray.eu>
 In-Reply-To: <20230120141002.2442-1-ysionneau@kalray.eu>
 References: <20230120141002.2442-1-ysionneau@kalray.eu>
 MIME-Version: 1.0
@@ -125,7 +127,7 @@ X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
  Internal User Name=false; Custom Display Name List=false;
  Reply-to Address Mismatch=false; Targeted Threat Dictionary=false;
  Mimecast Threat Dictionary=false; Custom Threat Dictionary=false
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
 X-Mailman-Approved-At: Fri, 20 Jan 2023 19:02:49 +0000
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.29
@@ -144,7 +146,7 @@ Cc: linux-arch@vger.kernel.org, devicetree@vger.kernel.org,
  linux-riscv@lists.infradead.org, bpf@vger.kernel.org
 Errors-To: linux-audit-bounces@redhat.com
 Sender: "Linux-audit" <linux-audit-bounces@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="us-ascii"
@@ -152,26 +154,46 @@ Content-Transfer-Encoding: 7bit
 
 From: Jules Maselbas <jmaselbas@kalray.eu>
 
-The APIC includes a mailbox controller, containing 128 mailboxes.
-Each mailbox is a word of 8 bytes in the controller internal memory.
-Each mailbox can be independently configured with a trigger condition
-and an input function.
+Each kvx core includes a hardware interrupt controller (core INTC)
+with the following features:
+ - 32 independent interrupt sources
+ - 4-bit priotity level
+ - Individual interrupt enable bit
+ - Interrupt status bit displaying the pending interrupts
+ - Priority management between the 32 interrupts
 
-After a write to a mailbox if the mailbox's trigger condition is met
-then an interrupt will be generated.
+Among those 32 interrupt sources, the first are hard-wired to hardware
+sources. The remaining interrupt sources can be triggered via software
+by directly writing to the ILR SFR.
 
-Since this hardware block generates IRQs based on writes at some memory
-locations, it is both an interrupt controller and an MSI controller.
+The hard-wired interrupt sources are the following:
+  0: Timer 0
+  1: Timer 1
+  2: Watchdog
+  3: Performance Monitors
+  4: APIC GIC line 0
+  5: APIC GIC line 1
+  6: APIC GIC line 2
+  7: APIC GIC line 3
+ 12: SECC error from memory system
+ 13: Arithmetic exception (carry and IEEE 754 flags)
+ 16: Data Asynchronous Memory Error (DAME), raised for DECC/DSYS errors
+ 17: CLI (Cache Line Invalidation) for L1D or L1I following
+     DECC/DSYS/Parity errors
+
+The APIC GIC lines will be used to route interrupts coming from SoC
+peripherals from outside the Cluster to the kvx core. Those peripherals
+include USB host controller, eMMC/SD host controller, i2c, spi, PCIe,
+IOMMUs etc...
 
 Co-developed-by: Clement Leger <clement@clement-leger.fr>
 Signed-off-by: Clement Leger <clement@clement-leger.fr>
-Co-developed-by: Jules Maselbas <jmaselbas@kalray.eu>
-Signed-off-by: Jules Maselbas <jmaselbas@kalray.eu>
 Co-developed-by: Julian Vetter <jvetter@kalray.eu>
 Signed-off-by: Julian Vetter <jvetter@kalray.eu>
-Co-developed-by: Luc Michel <lmichel@kalray.eu>
-Signed-off-by: Luc Michel <lmichel@kalray.eu>
-Co-developed-by: Yann Sionneau <ysionneau@kalray.eu>
+Co-developed-by: Vincent Chardon <vincent.chardon@elsys-design.com>
+Signed-off-by: Vincent Chardon <vincent.chardon@elsys-design.com>
+Co-developed-by: Jules Maselbas <jmaselbas@kalray.eu>
+Signed-off-by: Jules Maselbas <jmaselbas@kalray.eu>
 Signed-off-by: Yann Sionneau <ysionneau@kalray.eu>
 ---
 
@@ -179,529 +201,126 @@ Notes:
     V1 -> V2: new patch
      - removed print on probe success
 
- drivers/irqchip/Kconfig                |   8 +
- drivers/irqchip/Makefile               |   1 +
- drivers/irqchip/irq-kvx-apic-mailbox.c | 480 +++++++++++++++++++++++++
- 3 files changed, 489 insertions(+)
- create mode 100644 drivers/irqchip/irq-kvx-apic-mailbox.c
+ drivers/irqchip/Kconfig             |  5 ++
+ drivers/irqchip/Makefile            |  1 +
+ drivers/irqchip/irq-kvx-core-intc.c | 80 +++++++++++++++++++++++++++++
+ 3 files changed, 86 insertions(+)
+ create mode 100644 drivers/irqchip/irq-kvx-core-intc.c
 
 diff --git a/drivers/irqchip/Kconfig b/drivers/irqchip/Kconfig
-index 546bc611f3f3..806adbc7b2a4 100644
+index 806adbc7b2a4..d242e02771e3 100644
 --- a/drivers/irqchip/Kconfig
 +++ b/drivers/irqchip/Kconfig
-@@ -348,6 +348,14 @@ config KVX_ITGEN
- 	select IRQ_DOMAIN
+@@ -334,6 +334,11 @@ config MIPS_GIC
  	select IRQ_DOMAIN_HIERARCHY
+ 	select MIPS_CM
  
-+config KVX_APIC_MAILBOX
-+       bool
-+       depends on KVX
-+       select GENERIC_IRQ_IPI if SMP
-+       select GENERIC_MSI_IRQ_DOMAIN
-+       select IRQ_DOMAIN
-+       select IRQ_DOMAIN_HIERARCHY
++config KVX_CORE_INTC
++	bool
++	depends on KVX
++	select IRQ_DOMAIN
 +
- config INGENIC_IRQ
+ config KVX_APIC_GIC
  	bool
- 	depends on MACH_INGENIC
+ 	depends on KVX
 diff --git a/drivers/irqchip/Makefile b/drivers/irqchip/Makefile
-index 6b8f459d8a21..7eaea87ca9ab 100644
+index 7eaea87ca9ab..d931f2eb38b6 100644
 --- a/drivers/irqchip/Makefile
 +++ b/drivers/irqchip/Makefile
-@@ -71,6 +71,7 @@ obj-$(CONFIG_KEYSTONE_IRQ)		+= irq-keystone.o
+@@ -69,6 +69,7 @@ obj-$(CONFIG_BCM7120_L2_IRQ)		+= irq-bcm7120-l2.o
+ obj-$(CONFIG_BRCMSTB_L2_IRQ)		+= irq-brcmstb-l2.o
+ obj-$(CONFIG_KEYSTONE_IRQ)		+= irq-keystone.o
  obj-$(CONFIG_MIPS_GIC)			+= irq-mips-gic.o
++obj-$(CONFIG_KVX_CORE_INTC)		+= irq-kvx-core-intc.o
  obj-$(CONFIG_KVX_APIC_GIC)		+= irq-kvx-apic-gic.o
  obj-$(CONFIG_KVX_ITGEN)			+= irq-kvx-itgen.o
-+obj-$(CONFIG_KVX_APIC_MAILBOX)		+= irq-kvx-apic-mailbox.o
- obj-$(CONFIG_ARCH_MEDIATEK)		+= irq-mtk-sysirq.o irq-mtk-cirq.o
- obj-$(CONFIG_ARCH_DIGICOLOR)		+= irq-digicolor.o
- obj-$(CONFIG_ARCH_SA1100)		+= irq-sa11x0.o
-diff --git a/drivers/irqchip/irq-kvx-apic-mailbox.c b/drivers/irqchip/irq-kvx-apic-mailbox.c
+ obj-$(CONFIG_KVX_APIC_MAILBOX)		+= irq-kvx-apic-mailbox.o
+diff --git a/drivers/irqchip/irq-kvx-core-intc.c b/drivers/irqchip/irq-kvx-core-intc.c
 new file mode 100644
-index 000000000000..33249df047b6
+index 000000000000..145f1248925b
 --- /dev/null
-+++ b/drivers/irqchip/irq-kvx-apic-mailbox.c
-@@ -0,0 +1,480 @@
++++ b/drivers/irqchip/irq-kvx-core-intc.c
+@@ -0,0 +1,80 @@
 +// SPDX-License-Identifier: GPL-2.0-only
 +/*
 + * Copyright (c) 2017-2023 Kalray Inc.
 + * Author(s): Clement Leger
-+ *            Jules Maselbas
 + */
 +
-+#define pr_fmt(fmt)	"kvx_apic_mailbox: " fmt
++#define pr_fmt(fmt)	"kvx_core_intc: " fmt
 +
-+#include <linux/irqchip/chained_irq.h>
-+#include <linux/of_address.h>
 +#include <linux/interrupt.h>
 +#include <linux/irqdomain.h>
-+#include <linux/iommu.h>
 +#include <linux/irqchip.h>
 +#include <linux/module.h>
-+#include <linux/of_irq.h>
 +#include <linux/init.h>
-+#include <linux/msi.h>
 +#include <linux/of.h>
++#include <asm/irq.h>
 +
-+#define KVX_MAILBOX_MODE_WRITE  0x0
-+#define KVX_MAILBOX_MODE_OR  0x1
-+#define KVX_MAILBOX_MODE_ADD  0x2
++#define KVX_CORE_INTC_IRQ	32
 +
-+#define KVX_MAILBOX_TRIG_NO_TRIG 0x0
-+#define KVX_MAILBOX_TRIG_DOORBELL 0x1
-+#define KVX_MAILBOX_TRIG_MATCH 0x2
-+#define KVX_MAILBOX_TRIG_BARRIER 0x3
-+#define KVX_MAILBOX_TRIG_THRESHOLD 0x4
 +
-+#define KVX_MAILBOX_OFFSET 0x0
-+#define KVX_MAILBOX_ELEM_SIZE 0x200
-+#define KVX_MAILBOX_MASK_OFFSET     0x10
-+#define KVX_MAILBOX_FUNCT_OFFSET     0x18
-+#define KVX_MAILBOX_LAC_OFFSET     0x8
-+#define KVX_MAILBOX_VALUE_OFFSET     0x0
-+#define KVX_MAILBOX_FUNCT_MODE_SHIFT  0x0
-+#define KVX_MAILBOX_FUNCT_TRIG_SHIFT 0x8
++static void kvx_irq_mask(struct irq_data *data)
++{
++	kvx_sfr_clear_bit(ILE, data->hwirq);
++}
 +
-+#define MAILBOXES_MAX_COUNT 128
++static void kvx_irq_unmask(struct irq_data *data)
++{
++	kvx_sfr_set_bit(ILE, data->hwirq);
++}
 +
-+/* Mailboxes are 64 bits wide */
-+#define MAILBOXES_BIT_SIZE 64
-+
-+/* Maximum number of mailboxes available */
-+#define MAILBOXES_MAX_BIT_COUNT (MAILBOXES_MAX_COUNT * MAILBOXES_BIT_SIZE)
-+
-+/* Mailboxes are grouped by 8 in a single page */
-+#define MAILBOXES_BITS_PER_PAGE (8 * MAILBOXES_BIT_SIZE)
-+
-+/**
-+ * struct mb_data - per mailbox data
-+ * @cpu: CPU on which the mailbox is routed
-+ * @parent_irq: Parent IRQ on the GIC
-+ */
-+struct mb_data {
-+	unsigned int cpu;
-+	unsigned int parent_irq;
++static struct irq_chip kvx_irq_chip = {
++	.name           = "kvx core Intc",
++	.irq_mask	= kvx_irq_mask,
++	.irq_unmask	= kvx_irq_unmask,
 +};
 +
-+/**
-+ * struct kvx_apic_mailbox - kvx apic mailbox
-+ * @base: base address of the controller
-+ * @device_domain: IRQ device domain for mailboxes
-+ * @msi_domain: platform MSI domain for MSI interface
-+ * @domain_info: Domain information needed for the MSI domain
-+ * @mb_count: Count of mailboxes we are handling
-+ * @available: bitmap of availables bits in mailboxes
-+ * @mailboxes_lock: lock for irq migration
-+ * @mask_lock: lock for irq masking
-+ * @mb_data: data associated to each mailbox
-+ */
-+struct kvx_apic_mailbox {
-+	void __iomem *base;
-+	phys_addr_t phys_base;
-+	struct irq_domain *device_domain;
-+	struct irq_domain *msi_domain;
-+	struct msi_domain_info domain_info;
-+	/* Start and count of device mailboxes */
-+	unsigned int mb_count;
-+	/* Bitmap of allocated bits in mailboxes */
-+	DECLARE_BITMAP(available, MAILBOXES_MAX_BIT_COUNT);
-+	spinlock_t mailboxes_lock;
-+	raw_spinlock_t mask_lock;
-+	struct mb_data mb_data[MAILBOXES_MAX_COUNT];
-+};
-+
-+/**
-+ * struct kvx_irq_data - per irq data
-+ * @mb: Mailbox structure
-+ */
-+struct kvx_irq_data {
-+	struct kvx_apic_mailbox *mb;
-+};
-+
-+static void kvx_mailbox_get_from_hwirq(unsigned int hw_irq,
-+				       unsigned int *mailbox_num,
-+				       unsigned int *mailbox_bit)
++static int kvx_irq_map(struct irq_domain *d, unsigned int irq,
++			 irq_hw_number_t hw)
 +{
-+	*mailbox_num = hw_irq / MAILBOXES_BIT_SIZE;
-+	*mailbox_bit = hw_irq % MAILBOXES_BIT_SIZE;
-+}
-+
-+static void __iomem *kvx_mailbox_get_addr(struct kvx_apic_mailbox *mb,
-+				   unsigned int num)
-+{
-+	return mb->base + (num * KVX_MAILBOX_ELEM_SIZE);
-+}
-+
-+static phys_addr_t kvx_mailbox_get_phys_addr(struct kvx_apic_mailbox *mb,
-+				   unsigned int num)
-+{
-+	return mb->phys_base + (num * KVX_MAILBOX_ELEM_SIZE);
-+}
-+
-+static void kvx_mailbox_msi_compose_msg(struct irq_data *data,
-+					struct msi_msg *msg)
-+{
-+	struct kvx_irq_data *kd = irq_data_get_irq_chip_data(data);
-+	struct kvx_apic_mailbox *mb = kd->mb;
-+	unsigned int mb_num, mb_bit;
-+	phys_addr_t mb_addr;
-+
-+	kvx_mailbox_get_from_hwirq(irqd_to_hwirq(data), &mb_num, &mb_bit);
-+	mb_addr = kvx_mailbox_get_phys_addr(mb, mb_num);
-+
-+	msg->address_hi = upper_32_bits(mb_addr);
-+	msg->address_lo = lower_32_bits(mb_addr);
-+	msg->data = mb_bit;
-+
-+	iommu_dma_compose_msi_msg(irq_data_get_msi_desc(data), msg);
-+}
-+
-+static void kvx_mailbox_set_irq_enable(struct irq_data *data,
-+				     bool enabled)
-+{
-+	struct kvx_irq_data *kd = irq_data_get_irq_chip_data(data);
-+	struct kvx_apic_mailbox *mb = kd->mb;
-+	unsigned int mb_num, mb_bit;
-+	void __iomem *mb_addr;
-+	u64 mask_value, mb_value;
-+
-+	kvx_mailbox_get_from_hwirq(irqd_to_hwirq(data), &mb_num, &mb_bit);
-+	mb_addr = kvx_mailbox_get_addr(mb, mb_num);
-+
-+	raw_spin_lock(&mb->mask_lock);
-+	mask_value = readq(mb_addr + KVX_MAILBOX_MASK_OFFSET);
-+	if (enabled)
-+		mask_value |= BIT_ULL(mb_bit);
-+	else
-+		mask_value &= ~BIT_ULL(mb_bit);
-+
-+	writeq(mask_value, mb_addr + KVX_MAILBOX_MASK_OFFSET);
-+
-+	raw_spin_unlock(&mb->mask_lock);
-+
-+	/**
-+	 * Since interrupts on mailboxes are edge triggered and are only
-+	 * triggered when writing the value, we need to trigger it manually
-+	 * after updating the mask if enabled. If the interrupt was triggered by
-+	 * the device just after the mask write, we can trigger a spurious
-+	 * interrupt but that is still better than missing one...
-+	 * Moreover, the mailbox is configured in OR mode which means that even
-+	 * if we write a single bit, all other bits will be kept intact.
-+	 */
-+	if (enabled) {
-+		mb_value = readq(mb_addr + KVX_MAILBOX_VALUE_OFFSET);
-+		if (mb_value & BIT_ULL(mb_bit))
-+			writeq(BIT_ULL(mb_bit),
-+			       mb_addr + KVX_MAILBOX_VALUE_OFFSET);
-+	}
-+}
-+
-+static void kvx_mailbox_mask(struct irq_data *data)
-+{
-+	kvx_mailbox_set_irq_enable(data, false);
-+}
-+
-+static void kvx_mailbox_unmask(struct irq_data *data)
-+{
-+	kvx_mailbox_set_irq_enable(data, true);
-+}
-+
-+static void kvx_mailbox_set_cpu(struct kvx_apic_mailbox *mb, int mb_id,
-+			       int new_cpu)
-+{
-+	irq_set_affinity(mb->mb_data[mb_id].parent_irq, cpumask_of(new_cpu));
-+	mb->mb_data[mb_id].cpu = new_cpu;
-+}
-+
-+static void kvx_mailbox_free_bit(struct kvx_apic_mailbox *mb, int hw_irq)
-+{
-+	unsigned int mb_num, mb_bit;
-+
-+	kvx_mailbox_get_from_hwirq(hw_irq, &mb_num, &mb_bit);
-+	bitmap_clear(mb->available, hw_irq, 1);
-+
-+	/* If there is no more IRQ on this mailbox, reset it to CPU 0 */
-+	if (mb->available[mb_num] == 0)
-+		kvx_mailbox_set_cpu(mb, mb_num, 0);
-+}
-+
-+struct irq_chip kvx_apic_mailbox_irq_chip = {
-+	.name = "kvx apic mailbox",
-+	.irq_compose_msi_msg = kvx_mailbox_msi_compose_msg,
-+	.irq_mask = kvx_mailbox_mask,
-+	.irq_unmask = kvx_mailbox_unmask,
-+};
-+
-+static int kvx_mailbox_allocate_bits(struct kvx_apic_mailbox *mb, int num_req)
-+{
-+	int first, align_mask = 0;
-+
-+	/* This must be a power of 2 for bitmap_find_next_zero_area to work */
-+	BUILD_BUG_ON((MAILBOXES_BITS_PER_PAGE & (MAILBOXES_BITS_PER_PAGE - 1)));
-+
-+	/*
-+	 * If user requested more than 1 mailbox, we must make sure it will be
-+	 * aligned on a page size for iommu_dma_prepare_msi to be correctly
-+	 * mapped in a single page.
-+	 */
-+	if (num_req > 1)
-+		align_mask = (MAILBOXES_BITS_PER_PAGE - 1);
-+
-+	spin_lock(&mb->mailboxes_lock);
-+
-+	first = bitmap_find_next_zero_area(mb->available,
-+			mb->mb_count * MAILBOXES_BIT_SIZE, 0,
-+			num_req, align_mask);
-+	if (first >= MAILBOXES_MAX_BIT_COUNT) {
-+		spin_unlock(&mb->mailboxes_lock);
-+		return -ENOSPC;
-+	}
-+
-+	bitmap_set(mb->available, first, num_req);
-+
-+	spin_unlock(&mb->mailboxes_lock);
-+
-+	return first;
-+}
-+
-+static int kvx_apic_mailbox_msi_alloc(struct irq_domain *domain,
-+				      unsigned int virq,
-+				      unsigned int nr_irqs, void *args)
-+{
-+	int i, err;
-+	int hwirq = 0;
-+	u64 mb_addr;
-+	struct irq_data *d;
-+	struct kvx_irq_data *kd;
-+	struct kvx_apic_mailbox *mb = domain->host_data;
-+	struct msi_alloc_info *msi_info = (struct msi_alloc_info *)args;
-+	struct msi_desc *desc = msi_info->desc;
-+	unsigned int mb_num, mb_bit;
-+
-+	/* We will not be able to guarantee page alignment ! */
-+	if (nr_irqs > MAILBOXES_BITS_PER_PAGE)
-+		return -EINVAL;
-+
-+	hwirq = kvx_mailbox_allocate_bits(mb, nr_irqs);
-+	if (hwirq < 0)
-+		return hwirq;
-+
-+	kvx_mailbox_get_from_hwirq(hwirq, &mb_num, &mb_bit);
-+	mb_addr = (u64) kvx_mailbox_get_phys_addr(mb, mb_num);
-+	err = iommu_dma_prepare_msi(desc, mb_addr);
-+	if (err)
-+		goto free_mb_bits;
-+
-+	for (i = 0; i < nr_irqs; i++) {
-+		kd = kmalloc(sizeof(*kd), GFP_KERNEL);
-+		if (!kd) {
-+			err = -ENOMEM;
-+			goto free_irq_data;
-+		}
-+
-+		kd->mb = mb;
-+		irq_domain_set_info(domain, virq + i, hwirq + i,
-+				    &kvx_apic_mailbox_irq_chip,
-+				    kd, handle_simple_irq,
-+				    NULL, NULL);
-+	}
++	/* All interrupts for core are per cpu */
++	irq_set_percpu_devid(irq);
++	irq_set_chip_and_handler(irq, &kvx_irq_chip, handle_percpu_irq);
 +
 +	return 0;
-+
-+free_irq_data:
-+	for (i--; i >= 0; i--) {
-+		d = irq_domain_get_irq_data(domain, virq + i);
-+		kd = irq_data_get_irq_chip_data(d);
-+		kfree(kd);
-+	}
-+
-+free_mb_bits:
-+	spin_lock(&mb->mailboxes_lock);
-+	bitmap_clear(mb->available, hwirq, nr_irqs);
-+	spin_unlock(&mb->mailboxes_lock);
-+
-+	return err;
 +}
 +
-+static void kvx_apic_mailbox_msi_free(struct irq_domain *domain,
-+				      unsigned int virq,
-+				      unsigned int nr_irqs)
-+{
-+	int i;
-+	struct irq_data *d;
-+	struct kvx_irq_data *kd;
-+	struct kvx_apic_mailbox *mb = domain->host_data;
-+
-+	spin_lock(&mb->mailboxes_lock);
-+
-+	for (i = 0; i < nr_irqs; i++) {
-+		d = irq_domain_get_irq_data(domain, virq + i);
-+		kd = irq_data_get_irq_chip_data(d);
-+		kfree(kd);
-+		kvx_mailbox_free_bit(mb, d->hwirq);
-+	}
-+
-+	spin_unlock(&mb->mailboxes_lock);
-+}
-+
-+static const struct irq_domain_ops kvx_apic_mailbox_domain_ops = {
-+	.alloc  = kvx_apic_mailbox_msi_alloc,
-+	.free	= kvx_apic_mailbox_msi_free
-+};
-+
-+static struct irq_chip kvx_msi_irq_chip = {
-+	.name	= "KVX MSI",
-+};
-+
-+static void kvx_apic_mailbox_handle_irq(struct irq_desc *desc)
-+{
-+	struct irq_data *data = irq_desc_get_irq_data(desc);
-+	struct kvx_apic_mailbox *mb = irq_desc_get_handler_data(desc);
-+	void __iomem *mb_addr = kvx_mailbox_get_addr(mb, irqd_to_hwirq(data));
-+	unsigned int irqn, cascade_irq, bit;
-+	u64 mask_value, masked_its;
-+	u64 mb_value;
-+	/* Since we allocate 64 interrupts for each mailbox, the scheme
-+	 * to find the hwirq associated to a mailbox irq is the
-+	 * following:
-+	 * hw_irq = mb_num * MAILBOXES_BIT_SIZE + bit
-+	 */
-+	unsigned int mb_hwirq = irqd_to_hwirq(data) * MAILBOXES_BIT_SIZE;
-+
-+	mb_value = readq(mb_addr + KVX_MAILBOX_LAC_OFFSET);
-+	mask_value = readq(mb_addr + KVX_MAILBOX_MASK_OFFSET);
-+	/* Mask any disabled interrupts */
-+	mb_value &= mask_value;
-+
-+	/**
-+	 * Write all pending ITs that are masked to process them later
-+	 * Since the mailbox is in OR mode, these bits will be merged with any
-+	 * already set bits and thus avoid losing any interrupts.
-+	 */
-+	masked_its = (~mask_value) & mb_value;
-+	if (masked_its)
-+		writeq(masked_its, mb_addr + KVX_MAILBOX_LAC_OFFSET);
-+
-+	for_each_set_bit(bit, (unsigned long *) &mb_value, BITS_PER_LONG) {
-+		irqn = bit + mb_hwirq;
-+		cascade_irq = irq_find_mapping(mb->device_domain, irqn);
-+		generic_handle_irq(cascade_irq);
-+	}
-+}
-+
-+static void __init
-+apic_mailbox_reset(struct kvx_apic_mailbox *mb)
-+{
-+	unsigned int i;
-+	unsigned int mb_end = mb->mb_count;
-+	void __iomem *mb_addr;
-+	u64 funct_val = (KVX_MAILBOX_MODE_OR << KVX_MAILBOX_FUNCT_MODE_SHIFT) |
-+		(KVX_MAILBOX_TRIG_DOORBELL << KVX_MAILBOX_FUNCT_TRIG_SHIFT);
-+
-+	for (i = 0; i < mb_end; i++) {
-+		mb_addr = kvx_mailbox_get_addr(mb, i);
-+		/* Disable all interrupts */
-+		writeq(0ULL, mb_addr + KVX_MAILBOX_MASK_OFFSET);
-+		/* Set mailbox to OR mode + trigger */
-+		writeq(funct_val, mb_addr + KVX_MAILBOX_FUNCT_OFFSET);
-+		/* Load & Clear mailbox value */
-+		readq(mb_addr + KVX_MAILBOX_LAC_OFFSET);
-+	}
-+}
-+
-+static struct msi_domain_ops kvx_msi_domain_ops = {
-+};
-+
-+static struct msi_domain_info kvx_msi_domain_info = {
-+	.flags	= (MSI_FLAG_USE_DEF_DOM_OPS | MSI_FLAG_USE_DEF_CHIP_OPS),
-+	.ops	= &kvx_msi_domain_ops,
-+	.chip	= &kvx_msi_irq_chip,
++static const struct irq_domain_ops kvx_irq_ops = {
++	.xlate = irq_domain_xlate_onecell,
++	.map = kvx_irq_map,
 +};
 +
 +static int __init
-+kvx_init_apic_mailbox(struct device_node *node,
-+		      struct device_node *parent)
++kvx_init_core_intc(struct device_node *intc, struct device_node *parent)
 +{
-+	struct kvx_apic_mailbox *mb;
-+	unsigned int parent_irq, irq_count;
-+	struct resource res;
-+	int ret, i;
++	struct irq_domain *root_domain;
++	uint32_t core_nr_irqs;
 +
-+	mb = kzalloc(sizeof(*mb), GFP_KERNEL);
-+	if (!mb)
-+		return -ENOMEM;
++	if (parent)
++		panic("DeviceTree core intc not a root irq controller\n");
 +
-+	ret = of_address_to_resource(node, 0, &res);
-+	if (ret)
-+		return -EINVAL;
++	if (of_property_read_u32(intc, "kalray,intc-nr-irqs", &core_nr_irqs))
++		core_nr_irqs = KVX_CORE_INTC_IRQ;
 +
-+	mb->phys_base = res.start;
-+	mb->base = of_io_request_and_map(node, 0, node->name);
-+	if (!mb->base) {
-+		ret = -EINVAL;
-+		goto err_kfree;
-+	}
++	/* We only have up to 32 interrupts, according to IRQ-domain.txt,
++	 * linear is likely to be the best choice
++	 */
++	root_domain = irq_domain_add_linear(intc, core_nr_irqs,
++						&kvx_irq_ops, NULL);
++	if (!root_domain)
++		panic("root irq domain not avail\n");
 +
-+	spin_lock_init(&mb->mailboxes_lock);
-+	raw_spin_lock_init(&mb->mask_lock);
-+
-+	irq_count = of_irq_count(node);
-+	if (irq_count == 0 || irq_count > MAILBOXES_MAX_COUNT) {
-+		ret = -EINVAL;
-+		goto err_kfree;
-+	}
-+	mb->mb_count = irq_count;
-+
-+	apic_mailbox_reset(mb);
-+
-+	mb->device_domain = irq_domain_add_tree(node,
-+						&kvx_apic_mailbox_domain_ops,
-+						mb);
-+	if (!mb->device_domain) {
-+		pr_err("Failed to setup device domain\n");
-+		ret = -EINVAL;
-+		goto err_iounmap;
-+	}
-+
-+	mb->msi_domain = platform_msi_create_irq_domain(of_node_to_fwnode(node),
-+						     &kvx_msi_domain_info,
-+						     mb->device_domain);
-+	if (!mb->msi_domain) {
-+		ret = -EINVAL;
-+		goto err_irq_domain_add_tree;
-+	}
-+
-+	/* Chain all interrupts from gic to mailbox */
-+	for (i = 0; i < irq_count; i++) {
-+		parent_irq = irq_of_parse_and_map(node, i);
-+		if (parent_irq == 0) {
-+			pr_err("unable to parse irq\n");
-+			ret = -EINVAL;
-+			goto err_irq_domain_msi_create;
-+		}
-+		mb->mb_data[i].parent_irq = parent_irq;
-+
-+		irq_set_chained_handler_and_data(parent_irq,
-+						 kvx_apic_mailbox_handle_irq,
-+						 mb);
-+	}
++	/*
++	 * Needed for primary domain lookup to succeed
++	 * This is a primary irqchip, and can never have a parent
++	 */
++	irq_set_default_host(root_domain);
 +
 +	return 0;
-+
-+err_irq_domain_msi_create:
-+	irq_domain_remove(mb->msi_domain);
-+err_irq_domain_add_tree:
-+	irq_domain_remove(mb->device_domain);
-+err_iounmap:
-+	iounmap(mb->base);
-+err_kfree:
-+	kfree(mb);
-+
-+	return ret;
 +}
 +
-+IRQCHIP_DECLARE(kvx_apic_mailbox, "kalray,kvx-apic-mailbox",
-+		kvx_init_apic_mailbox);
++IRQCHIP_DECLARE(kvx_core_intc, "kalray,kvx-core-intc", kvx_init_core_intc);
 -- 
 2.37.2
 
