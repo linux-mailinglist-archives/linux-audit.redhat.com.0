@@ -1,97 +1,98 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAA6F675D5D
-	for <lists+linux-audit@lfdr.de>; Fri, 20 Jan 2023 20:03:05 +0100 (CET)
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A18F675D60
+	for <lists+linux-audit@lfdr.de>; Fri, 20 Jan 2023 20:03:08 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1674241384;
+	s=mimecast20190719; t=1674241387;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=msknAbukPJ7tmorwu8ShZu6fXKc+h0Ey7IXg9tzZrlY=;
-	b=P/HZH6yWb3+MJOmBNxTV9Mc0wb52nnY6/bxQLIyYub0516xXJm67wFxMMbVs9lWaOKCzux
-	I9ejfNtGqtCT+93pMmu1ABp02/OyDA2O74XAq8Gk8oKHKRY879piCcecgex5tj46bWrQjT
-	HCa2WO3F+Rf2+N2Wr1Olcm9Q/viCpZo=
+	bh=5q3FrRaIq0Y7jBxpPJD5m0jsb2GhnuLnnNOAvYfLUgs=;
+	b=N7MSDu6ReI9ySRv91BaQVtKptQyLYX/YAw/WnD1fRt9yD5A/TsqSmPDlUhSh+b2IH0M9wG
+	xZZ3MRHLksjlqXPYoKAQEkLqT/FYwPMdZ9QkE3+SpGdm4sv1DL+r0UQfG88ewzxJX+lW53
+	Ijk9/eSeTS7m7bnmQUvzVHhE+051oaA=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-557-d9JfQw2OOV6vAd1pmvfbMw-1; Fri, 20 Jan 2023 14:03:02 -0500
-X-MC-Unique: d9JfQw2OOV6vAd1pmvfbMw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
+ us-mta-642-PllnqbbHM02u0cISOIRjdQ-1; Fri, 20 Jan 2023 14:03:02 -0500
+X-MC-Unique: PllnqbbHM02u0cISOIRjdQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AD84F3803920;
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EEACE1C06EEB;
 	Fri, 20 Jan 2023 19:02:52 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (unknown [10.30.29.100])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 9059840E0427;
+	by smtp.corp.redhat.com (Postfix) with ESMTP id CF8482166B2A;
 	Fri, 20 Jan 2023 19:02:52 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (localhost [IPv6:::1])
-	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id B9BA81947072;
+	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id ECB671947079;
 	Fri, 20 Jan 2023 19:02:51 +0000 (UTC)
 X-Original-To: linux-audit@listman.corp.redhat.com
 Delivered-To: linux-audit@listman.corp.redhat.com
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
  by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with
- ESMTP id 11E171946588 for <linux-audit@listman.corp.redhat.com>;
- Fri, 20 Jan 2023 15:01:40 +0000 (UTC)
+ ESMTP id D0CAE1946588 for <linux-audit@listman.corp.redhat.com>;
+ Fri, 20 Jan 2023 15:03:49 +0000 (UTC)
 Received: by smtp.corp.redhat.com (Postfix)
- id 014E41415108; Fri, 20 Jan 2023 15:01:40 +0000 (UTC)
+ id BB8182166B2D; Fri, 20 Jan 2023 15:03:49 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
- (mimecast10.extmail.prod.ext.rdu2.redhat.com [10.11.55.26])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id ED196140EBF6
- for <linux-audit@redhat.com>; Fri, 20 Jan 2023 15:01:39 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [207.211.31.120])
+ (mimecast08.extmail.prod.ext.rdu2.redhat.com [10.11.55.24])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B4F152166B2C
+ for <linux-audit@redhat.com>; Fri, 20 Jan 2023 15:03:49 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [205.139.110.61])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BAD8D1C0A59B
- for <linux-audit@redhat.com>; Fri, 20 Jan 2023 15:01:39 +0000 (UTC)
-Received: from wout1-smtp.messagingengine.com
- (wout1-smtp.messagingengine.com [64.147.123.24]) by relay.mimecast.com with
- ESMTP with STARTTLS (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-487-Eqy21U4oOBWKylk9QoUCGw-1; Fri, 20 Jan 2023 10:01:36 -0500
-X-MC-Unique: Eqy21U4oOBWKylk9QoUCGw-1
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
- by mailout.west.internal (Postfix) with ESMTP id 64F0B320077A;
- Fri, 20 Jan 2023 10:01:33 -0500 (EST)
-Received: from imap51 ([10.202.2.101])
- by compute6.internal (MEProxy); Fri, 20 Jan 2023 10:01:34 -0500
-X-ME-Sender: <xms:y6zKY1--FxFV5WM_dvH3L-jhvDJdkUv2VKNjqycw8wsWi1kY60t_Hg>
- <xme:y6zKY5uEr8VwywOYKxxuRFHA2t7uhUz8er2Qni3FDxgSf42PnIomr8bT4uWQPMrSj
- vl6wYFssrKwy6qpeIw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudduvddgjeefucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
- nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
- htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
- teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
- hrnhgusegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:y6zKYzAQI32j9NDjRfMqwyTzyHZ7gpDAsgcrznJyKaxYWkjqDKkMig>
- <xmx:y6zKY5dwnJnhoe3QJUqC8kllrSTTegH2oqUNSRINTZtDGCG_doy8wg>
- <xmx:y6zKY6NeO-4u4ZZ4r7o7F71zTnD9XHdwpsJ3MbruCFIRzX2R-IamTw>
- <xmx:zKzKY0uSG_2mGZuS71TMJo-MA0P9EOIrBzWmkXOZx-9ZotVtWq1S0w>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 786ABB60086; Fri, 20 Jan 2023 10:01:31 -0500 (EST)
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-85-gd6d859e0cf-fm-20230116.001-gd6d859e0
-Mime-Version: 1.0
-Message-Id: <9965e2d1-bae8-4ce7-911c-783c772e9ff1@app.fastmail.com>
-In-Reply-To: <20230120145316.GA4155@tellis.lin.mbt.kalray.eu>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 973F43813F4D
+ for <linux-audit@redhat.com>; Fri, 20 Jan 2023 15:03:49 +0000 (UTC)
+Received: from fx303.security-mail.net (mxout.security-mail.net
+ [85.31.212.46]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-538-RxpLBHZrNLqIHStMWMGjwA-1; Fri, 20 Jan 2023 10:03:45 -0500
+X-MC-Unique: RxpLBHZrNLqIHStMWMGjwA-1
+Received: from localhost (fx303.security-mail.net [127.0.0.1])
+ by fx303.security-mail.net (Postfix) with ESMTP id 654A030F77A
+ for <linux-audit@redhat.com>; Fri, 20 Jan 2023 16:03:43 +0100 (CET)
+Received: from fx303 (fx303.security-mail.net [127.0.0.1]) by
+ fx303.security-mail.net (Postfix) with ESMTP id 3095E30F6BC; Fri, 20 Jan
+ 2023 16:03:43 +0100 (CET)
+Received: from zimbra2.kalray.eu (unknown [217.181.231.53]) by
+ fx303.security-mail.net (Postfix) with ESMTPS id 7CF1230F79F; Fri, 20 Jan
+ 2023 16:03:42 +0100 (CET)
+Received: from zimbra2.kalray.eu (localhost [127.0.0.1]) by
+ zimbra2.kalray.eu (Postfix) with ESMTPS id 5696027E043A; Fri, 20 Jan 2023
+ 16:03:42 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1]) by zimbra2.kalray.eu
+ (Postfix) with ESMTP id 36BE627E0437; Fri, 20 Jan 2023 16:03:42 +0100 (CET)
+Received: from zimbra2.kalray.eu ([127.0.0.1]) by localhost
+ (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10026) with ESMTP id
+ 9zSUTNBWOY1C; Fri, 20 Jan 2023 16:03:42 +0100 (CET)
+Received: from tellis.lin.mbt.kalray.eu (unknown [192.168.36.206]) by
+ zimbra2.kalray.eu (Postfix) with ESMTPSA id D59A827E0430; Fri, 20 Jan 2023
+ 16:03:41 +0100 (CET)
+X-Virus-Scanned: E-securemail
+Secumail-id: <7f21.63caad4e.7b828.0>
+DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu 36BE627E0437
+Date: Fri, 20 Jan 2023 16:03:40 +0100
+From: Jules Maselbas <jmaselbas@kalray.eu>
+To: Arnd Bergmann <arnd@arndb.de>
+Subject: Re: [RFC PATCH v2 09/31] kvx: Add build infrastructure
+Message-ID: <20230120150340.GA5952@tellis.lin.mbt.kalray.eu>
 References: <20230120141002.2442-1-ysionneau@kalray.eu>
  <20230120141002.2442-10-ysionneau@kalray.eu>
  <aa4d68b2-b5b5-4c17-a44f-7c6db443ea4c@app.fastmail.com>
  <20230120145316.GA4155@tellis.lin.mbt.kalray.eu>
-Date: Fri, 20 Jan 2023 16:01:11 +0100
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Jules Maselbas" <jmaselbas@kalray.eu>
-Subject: Re: [RFC PATCH v2 09/31] kvx: Add build infrastructure
+ <9965e2d1-bae8-4ce7-911c-783c772e9ff1@app.fastmail.com>
+MIME-Version: 1.0
+In-Reply-To: <9965e2d1-bae8-4ce7-911c-783c772e9ff1@app.fastmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ALTERMIMEV2_out: done
 X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
  Definition; Similar Internal Domain=false;
  Similar Monitored External Domain=false; Custom External Domain=false;
@@ -99,7 +100,7 @@ X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
  Internal User Name=false; Custom Display Name List=false;
  Reply-to Address Mismatch=false; Targeted Threat Dictionary=false;
  Mimecast Threat Dictionary=false; Custom Threat Dictionary=false
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
 X-Mailman-Approved-At: Fri, 20 Jan 2023 19:02:49 +0000
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.29
@@ -112,9 +113,9 @@ List-Post: <mailto:linux-audit@redhat.com>
 List-Help: <mailto:linux-audit-request@redhat.com?subject=help>
 List-Subscribe: <https://listman.redhat.com/mailman/listinfo/linux-audit>,
  <mailto:linux-audit-request@redhat.com?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- "Jason A . Donenfeld" <Jason@zx2c4.com>,
- =?UTF-8?Q?Marc_Poulhi=C3=A8s?= <dkm@kataplop.net>, linux-doc@vger.kernel.org,
+Cc: Mark Rutland <mark.rutland@arm.com>, "Jason
+ A . Donenfeld" <Jason@zx2c4.com>,
+ Marc =?utf-8?b?UG91bGhpw6hz?= <dkm@kataplop.net>, linux-doc@vger.kernel.org,
  Peter Zijlstra <peterz@infradead.org>,
  Catalin Marinas <catalin.marinas@arm.com>, Atish Patra <atishp@atishpatra.org>,
  Jiaxun Yang <jiaxun.yang@flygoat.com>, Julien Hascoet <jhascoet@kalray.eu>,
@@ -152,41 +153,48 @@ Cc: Mark Rutland <mark.rutland@arm.com>,
  Andrew Morton <akpm@linux-foundation.org>
 Errors-To: linux-audit-bounces@redhat.com
 Sender: "Linux-audit" <linux-audit-bounces@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Disposition: inline
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-On Fri, Jan 20, 2023, at 15:53, Jules Maselbas wrote:
-> On Fri, Jan 20, 2023 at 03:39:22PM +0100, Arnd Bergmann wrote:
->> On Fri, Jan 20, 2023, at 15:09, Yann Sionneau wrote:
->> >      - Fix clean target raising an error from gcc (LIBGCC)
->> 
->> I had not noticed this on v1 but:
->> 
->> > +# Link with libgcc to get __div* builtins.
->> > +LIBGCC	:= $(shell $(CC) $(DEFAULT_OPTS) --print-libgcc-file-name)
->> 
->> It's better to copy the bits of libgcc that you actually need
->> than to include the whole thing. The kernel is in a weird
-> It was initialy using KCONFIG_CFLAGS which do not contains valid options
-> when invoking the clean target.
->
-> I am not exactly sure what's needed by gcc for --print-libgcc-file-name,
-> my guess is that only the -march option matters, I will double check
-> internally with compiler peoples.
->
->> state that is neither freestanding nor the normal libc based
->> environment, so we generally want full control over what is
->> used. This is particularly important for 32-bit architectures
->> that do not want the 64-bit division, but there are probably
->> enough other cases as well.
+On Fri, Jan 20, 2023 at 04:01:11PM +0100, Arnd Bergmann wrote:
+> On Fri, Jan 20, 2023, at 15:53, Jules Maselbas wrote:
+> > On Fri, Jan 20, 2023 at 03:39:22PM +0100, Arnd Bergmann wrote:
+> >> On Fri, Jan 20, 2023, at 15:09, Yann Sionneau wrote:
+> >> >      - Fix clean target raising an error from gcc (LIBGCC)
+> >> 
+> >> I had not noticed this on v1 but:
+> >> 
+> >> > +# Link with libgcc to get __div* builtins.
+> >> > +LIBGCC	:= $(shell $(CC) $(DEFAULT_OPTS) --print-libgcc-file-name)
+> >> 
+> >> It's better to copy the bits of libgcc that you actually need
+> >> than to include the whole thing. The kernel is in a weird
+> > It was initialy using KCONFIG_CFLAGS which do not contains valid options
+> > when invoking the clean target.
+> >
+> > I am not exactly sure what's needed by gcc for --print-libgcc-file-name,
+> > my guess is that only the -march option matters, I will double check
+> > internally with compiler peoples.
+> >
+> >> state that is neither freestanding nor the normal libc based
+> >> environment, so we generally want full control over what is
+> >> used. This is particularly important for 32-bit architectures
+> >> that do not want the 64-bit division, but there are probably
+> >> enough other cases as well.
+> 
+> To clarify: I meant you should not include libgcc.a at all but
+> add the minimum set of required files as arch/kvx/lib/*.S.
+Thanks for clarifying :)
 
-To clarify: I meant you should not include libgcc.a at all but
-add the minimum set of required files as arch/kvx/lib/*.S.
 
-     Arnd
+-- Jules
+
+
+
 
 --
 Linux-audit mailing list
