@@ -2,83 +2,83 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id B330E675D78
-	for <lists+linux-audit@lfdr.de>; Fri, 20 Jan 2023 20:03:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5CC5675D6F
+	for <lists+linux-audit@lfdr.de>; Fri, 20 Jan 2023 20:03:17 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1674241400;
+	s=mimecast20190719; t=1674241396;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=rBGxFSkL03vGCzU1pWPHxJ1KtxnAiM5dwjj2ZtYS+pQ=;
-	b=Zy4vxc2urDdQtv/0IjY5WtZP3cwRUNE8OrDNeZt0/5/LQNE7PzpsumIc0Cf06R+YAb204J
-	juoppXWrrIf+hPFiO3M1Bx5wZOsZlxOuxShBGIuypy+6IgHIN2nbtbM7jpV8ZM1adgYZ/F
-	Rgehh0fj2aEWVytZN6xAtAXzzz7aRbc=
+	bh=VpAPjka2Fu1/6dyY4BfjO7nCyEkHwJFnAocEQUyi4ug=;
+	b=B01ReHCRAg2NMHI4sg5jpudTUWvVwODBvvAGU5e3QJT6idJFoxqBZmmm4UWaJAp7rLM4Ro
+	VLLt64Kk6/rpFOLlm9AyqH4vPvuxVtOptcrmZWeJ4mIxvtaJV/xGqtSqmh0i573oYcASDK
+	EYoOSHz2QwheHreK42mOKTBHfAj7eQc=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-187-kE96SVqiN1aFl6du2of7Xg-1; Fri, 20 Jan 2023 14:03:18 -0500
-X-MC-Unique: kE96SVqiN1aFl6du2of7Xg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
+ us-mta-593-Lip1PZHIMe6FOuYtjjrD7g-1; Fri, 20 Jan 2023 14:03:13 -0500
+X-MC-Unique: Lip1PZHIMe6FOuYtjjrD7g-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9BCFA810BD0;
-	Fri, 20 Jan 2023 19:02:54 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 29B19104F0C7;
+	Fri, 20 Jan 2023 19:02:53 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (unknown [10.30.29.100])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 7E9261415304;
-	Fri, 20 Jan 2023 19:02:54 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 05193401530C;
+	Fri, 20 Jan 2023 19:02:53 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (localhost [IPv6:::1])
-	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id 26BD21946A6D;
-	Fri, 20 Jan 2023 19:02:54 +0000 (UTC)
+	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id 226D61947059;
+	Fri, 20 Jan 2023 19:02:52 +0000 (UTC)
 X-Original-To: linux-audit@listman.corp.redhat.com
 Delivered-To: linux-audit@listman.corp.redhat.com
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
  by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with
- ESMTP id EA08219465B6 for <linux-audit@listman.corp.redhat.com>;
- Fri, 20 Jan 2023 14:20:50 +0000 (UTC)
+ ESMTP id E4A401946588 for <linux-audit@listman.corp.redhat.com>;
+ Fri, 20 Jan 2023 14:20:49 +0000 (UTC)
 Received: by smtp.corp.redhat.com (Postfix)
- id CC09140C2064; Fri, 20 Jan 2023 14:20:50 +0000 (UTC)
+ id D64DE2026D2A; Fri, 20 Jan 2023 14:20:49 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
- (mimecast05.extmail.prod.ext.rdu2.redhat.com [10.11.55.21])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C379A40444C3
- for <linux-audit@redhat.com>; Fri, 20 Jan 2023 14:20:50 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [207.211.31.81])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9CF7C85CCE0
- for <linux-audit@redhat.com>; Fri, 20 Jan 2023 14:20:50 +0000 (UTC)
-Received: from fx306.security-mail.net (smtpout30.security-mail.net
- [85.31.212.36]) by relay.mimecast.com with ESMTP with STARTTLS
+ (mimecast01.extmail.prod.ext.rdu2.redhat.com [10.11.55.17])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CC7E52026D68
+ for <linux-audit@redhat.com>; Fri, 20 Jan 2023 14:20:49 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [205.139.110.61])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A8A2C858F0E
+ for <linux-audit@redhat.com>; Fri, 20 Jan 2023 14:20:49 +0000 (UTC)
+Received: from fx305.security-mail.net (smtpout30.security-mail.net
+ [85.31.212.35]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-1-1cjS4XXhPl2BXT3EY9Z8cg-1; Fri, 20 Jan 2023 09:20:49 -0500
-X-MC-Unique: 1cjS4XXhPl2BXT3EY9Z8cg-1
-Received: from localhost (fx306.security-mail.net [127.0.0.1])
- by fx306.security-mail.net (Postfix) with ESMTP id 042B435CF87
- for <linux-audit@redhat.com>; Fri, 20 Jan 2023 15:20:47 +0100 (CET)
-Received: from fx306 (fx306.security-mail.net [127.0.0.1]) by
- fx306.security-mail.net (Postfix) with ESMTP id 6E26435CF13; Fri, 20 Jan
- 2023 15:20:46 +0100 (CET)
-Received: from zimbra2.kalray.eu (unknown [217.181.231.53]) by
- fx306.security-mail.net (Postfix) with ESMTPS id 439BB35CD24; Fri, 20 Jan
+ us-mta-552-ShpoxCaqPJ-Zyq5uX3QnIQ-1; Fri, 20 Jan 2023 09:20:47 -0500
+X-MC-Unique: ShpoxCaqPJ-Zyq5uX3QnIQ-1
+Received: from localhost (fx305.security-mail.net [127.0.0.1])
+ by fx305.security-mail.net (Postfix) with ESMTP id 4A9F730FCE6
+ for <linux-audit@redhat.com>; Fri, 20 Jan 2023 15:20:46 +0100 (CET)
+Received: from fx305 (fx305.security-mail.net [127.0.0.1]) by
+ fx305.security-mail.net (Postfix) with ESMTP id 5F40930FD79; Fri, 20 Jan
  2023 15:20:45 +0100 (CET)
+Received: from zimbra2.kalray.eu (unknown [217.181.231.53]) by
+ fx305.security-mail.net (Postfix) with ESMTPS id 7BD1A30FCAF; Fri, 20 Jan
+ 2023 15:20:44 +0100 (CET)
 Received: from zimbra2.kalray.eu (localhost [127.0.0.1]) by
- zimbra2.kalray.eu (Postfix) with ESMTPS id 8FFB327E0453; Fri, 20 Jan 2023
- 15:10:35 +0100 (CET)
+ zimbra2.kalray.eu (Postfix) with ESMTPS id 38E4227E0452; Fri, 20 Jan 2023
+ 15:10:36 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1]) by zimbra2.kalray.eu
- (Postfix) with ESMTP id 7082927E044D; Fri, 20 Jan 2023 15:10:35 +0100 (CET)
+ (Postfix) with ESMTP id 20A5E27E0454; Fri, 20 Jan 2023 15:10:36 +0100 (CET)
 Received: from zimbra2.kalray.eu ([127.0.0.1]) by localhost
  (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10026) with ESMTP id
- gKzfpy00nt4p; Fri, 20 Jan 2023 15:10:35 +0100 (CET)
+ g2cicOgIF5vL; Fri, 20 Jan 2023 15:10:36 +0100 (CET)
 Received: from junon.lin.mbt.kalray.eu (unknown [192.168.37.161]) by
- zimbra2.kalray.eu (Postfix) with ESMTPSA id B1D2927E0442; Fri, 20 Jan 2023
- 15:10:34 +0100 (CET)
+ zimbra2.kalray.eu (Postfix) with ESMTPSA id 6496127E043A; Fri, 20 Jan 2023
+ 15:10:35 +0100 (CET)
 X-Virus-Scanned: E-securemail
-Secumail-id: <13806.63caa33d.420ef.0>
-DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu 7082927E044D
+Secumail-id: <13de6.63caa33c.7a428.0>
+DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu 20A5E27E0454
 From: Yann Sionneau <ysionneau@kalray.eu>
 To: Arnd Bergmann <arnd@arndb.de>, Jonathan Corbet <corbet@lwn.net>, Thomas
  Gleixner <tglx@linutronix.de>, Marc Zyngier <maz@kernel.org>, Rob Herring
@@ -111,9 +111,9 @@ To: Arnd Bergmann <arnd@arndb.de>, Jonathan Corbet <corbet@lwn.net>, Thomas
  <jiaxun.yang@flygoat.com>, Catalin Marinas <catalin.marinas@arm.com>, Mark
  Brown <broonie@kernel.org>, Janosch Frank <frankja@linux.ibm.com>, Alexey
  Dobriyan <adobriyan@gmail.com>
-Subject: [RFC PATCH v2 23/31] kvx: Add ELF relocations and module support
-Date: Fri, 20 Jan 2023 15:09:54 +0100
-Message-ID: <20230120141002.2442-24-ysionneau@kalray.eu>
+Subject: [RFC PATCH v2 24/31] kvx: Add misc common routines
+Date: Fri, 20 Jan 2023 15:09:55 +0100
+Message-ID: <20230120141002.2442-25-ysionneau@kalray.eu>
 In-Reply-To: <20230120141002.2442-1-ysionneau@kalray.eu>
 References: <20230120141002.2442-1-ysionneau@kalray.eu>
 MIME-Version: 1.0
@@ -125,7 +125,7 @@ X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
  Internal User Name=false; Custom Display Name List=false;
  Reply-to Address Mismatch=false; Targeted Threat Dictionary=false;
  Mimecast Threat Dictionary=false; Custom Threat Dictionary=false
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
 X-Mailman-Approved-At: Fri, 20 Jan 2023 19:02:49 +0000
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.29
@@ -144,21 +144,25 @@ Cc: linux-arch@vger.kernel.org, devicetree@vger.kernel.org,
  linux-riscv@lists.infradead.org, bpf@vger.kernel.org
 Errors-To: linux-audit-bounces@redhat.com
 Sender: "Linux-audit" <linux-audit-bounces@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-Add ELF-related definition and module relocation code for basic
-kvx support.
+Add some misc common routines for kvx, including: asm-offsets routines,
+futex functions, i/o memory access functions.
 
 Co-developed-by: Clement Leger <clement@clement-leger.fr>
 Signed-off-by: Clement Leger <clement@clement-leger.fr>
+Co-developed-by: Guillaume Thouvenin <gthouvenin@kalray.eu>
+Signed-off-by: Guillaume Thouvenin <gthouvenin@kalray.eu>
+Co-developed-by: Jonathan Borne <jborne@kalray.eu>
+Signed-off-by: Jonathan Borne <jborne@kalray.eu>
 Co-developed-by: Julian Vetter <jvetter@kalray.eu>
 Signed-off-by: Julian Vetter <jvetter@kalray.eu>
-Co-developed-by: Marius Gligor <mgligor@kalray.eu>
-Signed-off-by: Marius Gligor <mgligor@kalray.eu>
+Co-developed-by: Julien Villette <jvillette@kalray.eu>
+Signed-off-by: Julien Villette <jvillette@kalray.eu>
 Co-developed-by: Yann Sionneau <ysionneau@kalray.eu>
 Signed-off-by: Yann Sionneau <ysionneau@kalray.eu>
 ---
@@ -166,347 +170,468 @@ Signed-off-by: Yann Sionneau <ysionneau@kalray.eu>
 Notes:
     V1 -> V2: no changes
 
- arch/kvx/include/asm/elf.h      | 155 ++++++++++++++++++++++++++++++++
- arch/kvx/include/asm/vermagic.h |  12 +++
- arch/kvx/kernel/module.c        | 148 ++++++++++++++++++++++++++++++
- 3 files changed, 315 insertions(+)
- create mode 100644 arch/kvx/include/asm/elf.h
- create mode 100644 arch/kvx/include/asm/vermagic.h
- create mode 100644 arch/kvx/kernel/module.c
+ arch/kvx/include/asm/futex.h  | 141 ++++++++++++++++++++++++++++++
+ arch/kvx/include/asm/io.h     |  34 ++++++++
+ arch/kvx/kernel/asm-offsets.c | 157 ++++++++++++++++++++++++++++++++++
+ arch/kvx/kernel/io.c          |  96 +++++++++++++++++++++
+ 4 files changed, 428 insertions(+)
+ create mode 100644 arch/kvx/include/asm/futex.h
+ create mode 100644 arch/kvx/include/asm/io.h
+ create mode 100644 arch/kvx/kernel/asm-offsets.c
+ create mode 100644 arch/kvx/kernel/io.c
 
-diff --git a/arch/kvx/include/asm/elf.h b/arch/kvx/include/asm/elf.h
+diff --git a/arch/kvx/include/asm/futex.h b/arch/kvx/include/asm/futex.h
 new file mode 100644
-index 000000000000..38978d48221e
+index 000000000000..b71b52339729
 --- /dev/null
-+++ b/arch/kvx/include/asm/elf.h
-@@ -0,0 +1,155 @@
++++ b/arch/kvx/include/asm/futex.h
+@@ -0,0 +1,141 @@
 +/* SPDX-License-Identifier: GPL-2.0-only */
 +/*
-+ * Copyright (C) 2017-2023 Kalray Inc.
-+ * Author(s): Yann Sionneau
-+ *            Clement Leger
-+ *            Marius Gligor
-+ *            Guillaume Thouvenin
++ * Copyright (C) 2018-2023 Kalray Inc.
++ * Authors:
++ *      Clement Leger <cleger@kalray.eu>
++ *      Yann Sionneau <ysionneau@kalray.eu>
++ *      Jonathan Borne <jborne@kalray.eu>
++ *
++ * Part of code is taken from RiscV port
 + */
 +
-+#ifndef _ASM_KVX_ELF_H
-+#define _ASM_KVX_ELF_H
++#ifndef _ASM_KVX_FUTEX_H
++#define _ASM_KVX_FUTEX_H
 +
-+#include <linux/types.h>
++#ifdef __KERNEL__
 +
-+#include <asm/ptrace.h>
++#include <linux/futex.h>
++#include <linux/uaccess.h>
 +
-+/*
-+ * These are used to set parameters in the core dumps.
-+ */
-+#define ELF_CLASS	ELFCLASS64
-+#define ELF_DATA	ELFDATA2LSB
-+#define ELF_ARCH	EM_KVX
++#define __futex_atomic_op(insn, ret, oldval, uaddr, oparg) \
++{ \
++	__enable_user_access();                                 \
++	__asm__ __volatile__ (                                  \
++	"       fence                                   \n"     \
++	"       ;;\n                                      "     \
++	"1:     lwz $r63 = 0[%[u]]                      \n"     \
++	"       ;;\n                                      "     \
++	"       " insn "                                \n"     \
++	"       ;;\n                                      "     \
++	"       acswapw 0[%[u]], $r62r63                \n"     \
++	"       ;;\n                                      "     \
++	"       cb.deqz $r62? 1b                        \n"     \
++	"       ;;\n                                      "     \
++	"       copyd %[ov] = $r63                      \n"     \
++	"       ;;\n                                      "     \
++	"2:                                             \n"     \
++	"       .section .fixup,\"ax\"                  \n"     \
++	"3:     make %[r] = 2b                          \n"     \
++	"       ;;\n                                      "     \
++	"       make %[r] = %[e]                        \n"     \
++	"       igoto %[r]                              \n"     \
++	"       ;;\n                                      "     \
++	"       .previous                               \n"     \
++	"       .section __ex_table,\"a\"               \n"     \
++	"       .align 8                                \n"     \
++	"       .dword 1b,3b                            \n"     \
++	"       .dword 2b,3b                            \n"     \
++	"       .previous                               \n"     \
++	: [r] "+r" (ret), [ov] "+r" (oldval)                   \
++	: [u] "r" (uaddr),                                      \
++	  [op] "r" (oparg), [e] "i" (-EFAULT)                   \
++	: "r62", "r63", "memory");                              \
++	__disable_user_access();                                \
++}
 +
-+typedef uint64_t elf_greg_t;
-+typedef uint64_t elf_fpregset_t;
 +
-+#define ELF_NGREG	(sizeof(struct user_pt_regs) / sizeof(elf_greg_t))
-+typedef elf_greg_t elf_gregset_t[ELF_NGREG];
++static inline int
++arch_futex_atomic_op_inuser(int op, u32 oparg, int *oval, u32 __user *uaddr)
++{
++	int oldval = 0, ret = 0;
 +
-+/* Copy user_pt_regs from pt_regs into the elf_gregset_t */
-+#define ELF_CORE_COPY_REGS(dest, regs) \
-+	*(struct user_pt_regs *)&(dest) = (regs)->user_regs;
++	if (!access_ok(uaddr, sizeof(u32)))
++		return -EFAULT;
++	switch (op) {
++	case FUTEX_OP_SET: /* *(int *)UADDR = OPARG; */
++		__futex_atomic_op("copyd $r62 = %[op]",
++				  ret, oldval, uaddr, oparg);
++		break;
++	case FUTEX_OP_ADD: /* *(int *)UADDR += OPARG; */
++		__futex_atomic_op("addw $r62 = $r63, %[op]",
++				  ret, oldval, uaddr, oparg);
++		break;
++	case FUTEX_OP_OR: /* *(int *)UADDR |= OPARG; */
++		__futex_atomic_op("orw $r62 = $r63, %[op]",
++				  ret, oldval, uaddr, oparg);
++		break;
++	case FUTEX_OP_ANDN: /* *(int *)UADDR &= ~OPARG; */
++		__futex_atomic_op("andnw $r62 = %[op], $r63",
++				  ret, oldval, uaddr, oparg);
++		break;
++	case FUTEX_OP_XOR:
++		__futex_atomic_op("xorw $r62 = $r63, %[op]",
++				  ret, oldval, uaddr, oparg);
++		break;
++	default:
++		ret = -ENOSYS;
++	}
 +
-+/*
-+ * This is used to ensure we don't load something for the wrong architecture.
-+ */
-+#define elf_check_arch(x) ((x)->e_machine == EM_KVX)
++	if (!ret)
++		*oval = oldval;
 +
-+#define ELF_CORE_EFLAGS 0x1308
++	return ret;
++}
 +
-+#define ELF_EXEC_PAGESIZE	(PAGE_SIZE)
++static inline int futex_atomic_cmpxchg_inatomic(u32 *uval, u32 __user *uaddr,
++						u32 oldval, u32 newval)
++{
++	int ret = 0;
 +
-+/*
-+ * This is the location that an ET_DYN program is loaded if exec'ed.  Typical
-+ * use of this is to invoke "./ld.so someprog" to test out a new version of
-+ * the loader.  We need to make sure that it is out of the way of the program
-+ * that it will "exec", and that there is sufficient room for the brk.
-+ */
-+#define ELF_ET_DYN_BASE		((TASK_SIZE / 3) * 2)
++	if (!access_ok(uaddr, sizeof(u32)))
++		return -EFAULT;
++	__enable_user_access();
++	__asm__ __volatile__ (
++	"      fence                           \n"/* commit previous stores  */
++	"      copyd $r63 = %[ov]              \n"/* init "expect" with ov   */
++	"      copyd $r62 = %[nv]              \n"/* init "update" with nv   */
++	"      ;;\n                              "
++	"1:    acswapw 0[%[u]], $r62r63        \n"
++	"      ;;\n                              "
++	"      cb.dnez $r62? 3f                \n"/* if acswap ok -> return  */
++	"      ;;\n                              "
++	"2:    lws $r63 = 0[%[u]]              \n"/* fail -> load old value  */
++	"      ;;\n                              "
++	"      compw.ne $r62 = $r63, %[ov]     \n"/* check if equal to "old" */
++	"      ;;\n                              "
++	"      cb.deqz $r62? 1b                \n"/* if not equal, try again */
++	"      ;;\n                              "
++	"3:                                    \n"
++	"      .section .fixup,\"ax\"          \n"
++	"4:    make %[r] = 3b                  \n"
++	"      ;;\n                              "
++	"      make %[r] = %[e]                \n"
++	"      igoto %[r]                      \n"/* goto 3b                 */
++	"      ;;\n                              "
++	"      .previous                       \n"
++	"      .section __ex_table,\"a\"       \n"
++	"      .align 8                        \n"
++	"      .dword 1b,4b                    \n"
++	"      .dword 2b,4b                    \n"
++	".previous                             \n"
++	: [r] "+r" (ret)
++	: [ov] "r" (oldval), [nv] "r" (newval),
++	  [e] "i" (-EFAULT), [u] "r" (uaddr)
++	: "r62", "r63", "memory");
++	__disable_user_access();
++	*uval = oldval;
++	return ret;
++}
 +
-+/*
-+ * This yields a mask that user programs can use to figure out what
-+ * instruction set this CPU supports.  This could be done in user space,
-+ * but it's not easy, and we've already done it here.
-+ */
-+#define ELF_HWCAP	(elf_hwcap)
-+extern unsigned long elf_hwcap;
-+
-+/*
-+ * This yields a string that ld.so will use to load implementation
-+ * specific libraries for optimization.  This is more specific in
-+ * intent than poking at uname or /proc/cpuinfo.
-+ */
-+#define ELF_PLATFORM	(NULL)
-+
-+#define ARCH_HAS_SETUP_ADDITIONAL_PAGES 1
-+struct linux_binprm;
-+extern int arch_setup_additional_pages(struct linux_binprm *bprm,
-+				       int uses_interp);
-+
-+/* KVX relocs */
-+#define R_KVX_NONE                                   0
-+#define R_KVX_16                                     1
-+#define R_KVX_32                                     2
-+#define R_KVX_64                                     3
-+#define R_KVX_S16_PCREL                              4
-+#define R_KVX_PCREL17                                5
-+#define R_KVX_PCREL27                                6
-+#define R_KVX_32_PCREL                               7
-+#define R_KVX_S37_PCREL_LO10                         8
-+#define R_KVX_S37_PCREL_UP27                         9
-+#define R_KVX_S43_PCREL_LO10                        10
-+#define R_KVX_S43_PCREL_UP27                        11
-+#define R_KVX_S43_PCREL_EX6                         12
-+#define R_KVX_S64_PCREL_LO10                        13
-+#define R_KVX_S64_PCREL_UP27                        14
-+#define R_KVX_S64_PCREL_EX27                        15
-+#define R_KVX_64_PCREL                              16
-+#define R_KVX_S16                                   17
-+#define R_KVX_S32_LO5                               18
-+#define R_KVX_S32_UP27                              19
-+#define R_KVX_S37_LO10                              20
-+#define R_KVX_S37_UP27                              21
-+#define R_KVX_S37_GOTOFF_LO10                       22
-+#define R_KVX_S37_GOTOFF_UP27                       23
-+#define R_KVX_S43_GOTOFF_LO10                       24
-+#define R_KVX_S43_GOTOFF_UP27                       25
-+#define R_KVX_S43_GOTOFF_EX6                        26
-+#define R_KVX_32_GOTOFF                             27
-+#define R_KVX_64_GOTOFF                             28
-+#define R_KVX_32_GOT                                29
-+#define R_KVX_S37_GOT_LO10                          30
-+#define R_KVX_S37_GOT_UP27                          31
-+#define R_KVX_S43_GOT_LO10                          32
-+#define R_KVX_S43_GOT_UP27                          33
-+#define R_KVX_S43_GOT_EX6                           34
-+#define R_KVX_64_GOT                                35
-+#define R_KVX_GLOB_DAT                              36
-+#define R_KVX_COPY                                  37
-+#define R_KVX_JMP_SLOT                              38
-+#define R_KVX_RELATIVE                              39
-+#define R_KVX_S43_LO10                              40
-+#define R_KVX_S43_UP27                              41
-+#define R_KVX_S43_EX6                               42
-+#define R_KVX_S64_LO10                              43
-+#define R_KVX_S64_UP27                              44
-+#define R_KVX_S64_EX27                              45
-+#define R_KVX_S37_GOTADDR_LO10                      46
-+#define R_KVX_S37_GOTADDR_UP27                      47
-+#define R_KVX_S43_GOTADDR_LO10                      48
-+#define R_KVX_S43_GOTADDR_UP27                      49
-+#define R_KVX_S43_GOTADDR_EX6                       50
-+#define R_KVX_S64_GOTADDR_LO10                      51
-+#define R_KVX_S64_GOTADDR_UP27                      52
-+#define R_KVX_S64_GOTADDR_EX27                      53
-+#define R_KVX_64_DTPMOD                             54
-+#define R_KVX_64_DTPOFF                             55
-+#define R_KVX_S37_TLS_DTPOFF_LO10                   56
-+#define R_KVX_S37_TLS_DTPOFF_UP27                   57
-+#define R_KVX_S43_TLS_DTPOFF_LO10                   58
-+#define R_KVX_S43_TLS_DTPOFF_UP27                   59
-+#define R_KVX_S43_TLS_DTPOFF_EX6                    60
-+#define R_KVX_S37_TLS_GD_LO10                       61
-+#define R_KVX_S37_TLS_GD_UP27                       62
-+#define R_KVX_S43_TLS_GD_LO10                       63
-+#define R_KVX_S43_TLS_GD_UP27                       64
-+#define R_KVX_S43_TLS_GD_EX6                        65
-+#define R_KVX_S37_TLS_LD_LO10                       66
-+#define R_KVX_S37_TLS_LD_UP27                       67
-+#define R_KVX_S43_TLS_LD_LO10                       68
-+#define R_KVX_S43_TLS_LD_UP27                       69
-+#define R_KVX_S43_TLS_LD_EX6                        70
-+#define R_KVX_64_TPOFF                              71
-+#define R_KVX_S37_TLS_IE_LO10                       72
-+#define R_KVX_S37_TLS_IE_UP27                       73
-+#define R_KVX_S43_TLS_IE_LO10                       74
-+#define R_KVX_S43_TLS_IE_UP27                       75
-+#define R_KVX_S43_TLS_IE_EX6                        76
-+#define R_KVX_S37_TLS_LE_LO10                       77
-+#define R_KVX_S37_TLS_LE_UP27                       78
-+#define R_KVX_S43_TLS_LE_LO10                       79
-+#define R_KVX_S43_TLS_LE_UP27                       80
-+#define R_KVX_S43_TLS_LE_EX6                        81
-+
-+#endif	/* _ASM_KVX_ELF_H */
-diff --git a/arch/kvx/include/asm/vermagic.h b/arch/kvx/include/asm/vermagic.h
++#endif
++#endif /* _ASM_KVX_FUTEX_H */
+diff --git a/arch/kvx/include/asm/io.h b/arch/kvx/include/asm/io.h
 new file mode 100644
-index 000000000000..fef9a33065df
+index 000000000000..c5e458c59bbb
 --- /dev/null
-+++ b/arch/kvx/include/asm/vermagic.h
-@@ -0,0 +1,12 @@
++++ b/arch/kvx/include/asm/io.h
+@@ -0,0 +1,34 @@
 +/* SPDX-License-Identifier: GPL-2.0-only */
 +/*
 + * Copyright (C) 2017-2023 Kalray Inc.
 + * Author(s): Clement Leger
 + */
 +
-+#ifndef _ASM_KVX_VERMAGIC_H
-+#define _ASM_KVX_VERMAGIC_H
++#ifndef _ASM_KVX_IO_H
++#define _ASM_KVX_IO_H
 +
-+#define MODULE_ARCH_VERMAGIC    "kvx"
++#include <linux/types.h>
 +
-+#endif /* _ASM_KVX_VERMAGIC_H */
-diff --git a/arch/kvx/kernel/module.c b/arch/kvx/kernel/module.c
++#include <asm/page.h>
++#include <asm/pgtable.h>
++
++#define _PAGE_IOREMAP _PAGE_KERNEL_DEVICE
++
++/*
++ * String version of I/O memory access operations.
++ */
++extern void __memcpy_fromio(void *to, const volatile void __iomem *from,
++			    size_t count);
++extern void __memcpy_toio(volatile void __iomem *to, const void *from,
++			  size_t count);
++extern void __memset_io(volatile void __iomem *dst, int c, size_t count);
++
++#define memset_io(c, v, l)	__memset_io((c), (v), (l))
++#define memcpy_fromio(a, c, l)	__memcpy_fromio((a), (c), (l))
++#define memcpy_toio(c, a, l)	__memcpy_toio((c), (a), (l))
++
++#include <asm-generic/io.h>
++
++extern int devmem_is_allowed(unsigned long pfn);
++
++#endif	/* _ASM_KVX_IO_H */
+diff --git a/arch/kvx/kernel/asm-offsets.c b/arch/kvx/kernel/asm-offsets.c
 new file mode 100644
-index 000000000000..b9383792ae45
+index 000000000000..3e79b6dd13bd
 --- /dev/null
-+++ b/arch/kvx/kernel/module.c
-@@ -0,0 +1,148 @@
++++ b/arch/kvx/kernel/asm-offsets.c
+@@ -0,0 +1,157 @@
 +// SPDX-License-Identifier: GPL-2.0-only
 +/*
 + * Copyright (C) 2017-2023 Kalray Inc.
-+ * Author(s): Yann Sionneau
-+ *            Clement Leger
++ * Author(s): Clement Leger
++ *            Guillaume Thouvenin
++ *            Yann Sionneau
 + */
 +
-+#include <linux/elf.h>
-+#include <linux/moduleloader.h>
-+#include <linux/overflow.h>
++#include <linux/preempt.h>
++#include <linux/thread_info.h>
++#include <linux/kbuild.h>
++#include <linux/stddef.h>
++#include <linux/sched.h>
++#include <linux/bug.h>
 +
++#include <asm/processor.h>
++#include <asm/ptrace.h>
++#include <asm/page.h>
++#include <asm/fixmap.h>
++#include <asm/page_size.h>
++#include <asm/pgtable.h>
++#include <asm/ptrace.h>
++#include <asm/tlb_defs.h>
++#include <asm/mmu_stats.h>
++#include <asm/stacktrace.h>
 +
-+static int apply_rela_bits(Elf64_Addr loc, Elf64_Addr val,
-+				  int sign, int immsize, int bits, int rshift,
-+				  int lshift, unsigned int relocnum,
-+				  struct module *me)
++int foo(void)
 +{
-+	unsigned long long umax;
-+	long long min, max;
-+	unsigned long long mask = GENMASK_ULL(bits + lshift - 1, lshift);
++	BUILD_BUG_ON(sizeof(struct pt_regs) != PT_REGS_STRUCT_EXPECTED_SIZE);
++	/*
++	 * For stack alignment purposes we must make sure the pt_regs size is
++	 * a mutliple of stack_align
++	 */
++	BUILD_BUG_ON(!IS_ALIGNED(sizeof(struct pt_regs), STACK_ALIGNMENT));
 +
-+	if (sign) {
-+		min = -(1ULL << (immsize - 1));
-+		max = (1ULL << (immsize - 1)) - 1;
-+		if ((long long) val < min || (long long) val > max)
-+			goto too_big;
-+		val = (Elf64_Addr)(((long) val) >> rshift);
-+	} else {
-+		if (immsize < 64)
-+			umax = (1ULL << immsize) - 1;
-+		else
-+			umax = -1ULL;
-+		if ((unsigned long long) val > umax)
-+			goto too_big;
-+		val >>= rshift;
-+	}
++	/* Check that user_pt_regs size matches the beginning of pt_regs */
++	BUILD_BUG_ON((offsetof(struct user_pt_regs, spc) + sizeof(uint64_t)) !=
++		     sizeof(struct user_pt_regs));
 +
-+	val <<= lshift;
-+	val &= mask;
-+	if (bits <= 32)
-+		*(u32 *) loc = (*(u32 *)loc & ~mask) | val;
-+	else
-+		*(u64 *) loc = (*(u64 *)loc & ~mask) | val;
++	DEFINE(FIX_GDB_MEM_BASE_IDX, FIX_GDB_BARE_DISPLACED_MEM_BASE);
++
++#ifdef CONFIG_DEBUG_EXCEPTION_STACK
++	DEFINE(STACK_REG_SIZE, ALIGN(sizeof(uint64_t), STACK_ALIGNMENT));
++#endif
++
++	/*
++	 * We allocate a pt_regs on the stack when entering the kernel.  This
++	 * ensures the alignment is sane.
++	 */
++	DEFINE(PT_SIZE_ON_STACK, sizeof(struct pt_regs));
++	DEFINE(TI_FLAGS_SIZE, sizeof(unsigned long));
++	DEFINE(QUAD_REG_SIZE, 4 * sizeof(uint64_t));
++
++	/*
++	 * When restoring registers, we do not want to restore r12
++	 * right now since this is our stack pointer. Allow to save
++	 * only $r13 by using this offset.
++	 */
++	OFFSET(PT_R12, pt_regs, r12);
++	OFFSET(PT_R13, pt_regs, r13);
++	OFFSET(PT_TP, pt_regs, tp);
++	OFFSET(PT_R14R15, pt_regs, r14);
++	OFFSET(PT_R16R17, pt_regs, r16);
++	OFFSET(PT_R18R19, pt_regs, r18);
++	OFFSET(PT_FP, pt_regs, fp);
++	OFFSET(PT_SPS, pt_regs, sps);
++
++	/* Quad description */
++	OFFSET(PT_Q0, pt_regs, r0);
++	OFFSET(PT_Q4, pt_regs, r4);
++	OFFSET(PT_Q8, pt_regs, r8);
++	OFFSET(PT_Q12, pt_regs, r12);
++	OFFSET(PT_Q16, pt_regs, r16);
++	OFFSET(PT_Q20, pt_regs, r20);
++	OFFSET(PT_Q24, pt_regs, r24);
++	OFFSET(PT_Q28, pt_regs, r28);
++	OFFSET(PT_Q32, pt_regs, r32);
++	OFFSET(PT_Q36, pt_regs, r36);
++	OFFSET(PT_R38, pt_regs, r38);
++	OFFSET(PT_Q40, pt_regs, r40);
++	OFFSET(PT_Q44, pt_regs, r44);
++	OFFSET(PT_Q48, pt_regs, r48);
++	OFFSET(PT_Q52, pt_regs, r52);
++	OFFSET(PT_Q56, pt_regs, r56);
++	OFFSET(PT_Q60, pt_regs, r60);
++	OFFSET(PT_CS_SPC_SPS_ES, pt_regs, cs);
++	OFFSET(PT_LC_LE_LS_RA, pt_regs, lc);
++	OFFSET(PT_ILR, pt_regs, ilr);
++	OFFSET(PT_ORIG_R0, pt_regs, orig_r0);
++
++	/*
++	 * Flags in thread info
++	 */
++	OFFSET(TASK_TI_FLAGS, task_struct, thread_info.flags);
++
++	/*
++	 * Stack pointers
++	 */
++	OFFSET(TASK_THREAD_KERNEL_SP, task_struct, thread.kernel_sp);
++
++	/*
++	 * Offsets to save registers in switch_to using quads
++	 */
++	OFFSET(CTX_SWITCH_RA_SP_R18_R19, task_struct, thread.ctx_switch.ra);
++	OFFSET(CTX_SWITCH_Q20, task_struct, thread.ctx_switch.r20);
++	OFFSET(CTX_SWITCH_Q24, task_struct, thread.ctx_switch.r24);
++	OFFSET(CTX_SWITCH_Q28, task_struct, thread.ctx_switch.r28);
++	OFFSET(CTX_SWITCH_FP, task_struct, thread.ctx_switch.fp);
++
++#ifdef CONFIG_ENABLE_TCA
++	OFFSET(CTX_SWITCH_TCA_REGS, task_struct, thread.ctx_switch.tca_regs[0]);
++	OFFSET(CTX_SWITCH_TCA_REGS_SAVED, task_struct,
++					thread.ctx_switch.tca_regs_saved);
++	DEFINE(TCA_REG_SIZE, sizeof(struct tca_reg));
++#endif
++
++	/* Save area offset */
++	OFFSET(TASK_THREAD_SAVE_AREA, task_struct, thread.save_area);
++
++	/* Fast tlb refill defines */
++	OFFSET(TASK_ACTIVE_MM, task_struct, active_mm);
++	OFFSET(MM_PGD, mm_struct, pgd);
++#ifdef CONFIG_KVX_DEBUG_ASN
++	OFFSET(MM_CTXT_ASN, mm_struct, context.asn);
++#endif
++
++#ifdef CONFIG_KVX_MMU_STATS
++	DEFINE(MMU_REFILL_SIZE, sizeof(struct mmu_refill_stats));
++
++	OFFSET(MMU_STATS_REFILL_USER_OFF, mmu_stats,
++	       refill[MMU_REFILL_TYPE_USER]);
++	OFFSET(MMU_STATS_REFILL_KERNEL_OFF, mmu_stats,
++	       refill[MMU_REFILL_TYPE_KERNEL]);
++	OFFSET(MMU_STATS_REFILL_KERNEL_DIRECT_OFF, mmu_stats,
++	       refill[MMU_REFILL_TYPE_KERNEL_DIRECT]);
++	OFFSET(MMU_STATS_CYCLES_BETWEEN_REFILL_OFF, mmu_stats,
++	       cycles_between_refill);
++	OFFSET(MMU_STATS_LAST_REFILL, mmu_stats, last_refill);
++
++	OFFSET(TASK_THREAD_ENTRY_TS, task_struct, thread.trap_entry_ts);
++#endif
++
++	DEFINE(ASM_PGDIR_SHIFT, PGDIR_SHIFT);
++	DEFINE(ASM_PMD_SHIFT, PMD_SHIFT);
++
++	DEFINE(ASM_PGDIR_BITS, PGDIR_BITS);
++	DEFINE(ASM_PMD_BITS, PMD_BITS);
++	DEFINE(ASM_PTE_BITS, PTE_BITS);
++
++	DEFINE(ASM_PTRS_PER_PGD, PTRS_PER_PGD);
++	DEFINE(ASM_PTRS_PER_PMD, PTRS_PER_PMD);
++	DEFINE(ASM_PTRS_PER_PTE, PTRS_PER_PTE);
++
++	DEFINE(ASM_TLB_PS, TLB_DEFAULT_PS);
 +
 +	return 0;
-+too_big:
-+	pr_err("%s: value %llx does not fit in %d bits for reloc %u",
-+	       me->name, val, bits, relocnum);
-+	return -ENOEXEC;
 +}
+diff --git a/arch/kvx/kernel/io.c b/arch/kvx/kernel/io.c
+new file mode 100644
+index 000000000000..0922c1d6d0f7
+--- /dev/null
++++ b/arch/kvx/kernel/io.c
+@@ -0,0 +1,96 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * derived from arch/arm/kernel/io.c
++ *
++ * Copyright (C) 2017-2023 Kalray Inc.
++ * Author(s): Clement Leger
++ */
 +
-+int apply_relocate_add(Elf64_Shdr *sechdrs,
-+			   const char *strtab,
-+			   unsigned int symindex,
-+			   unsigned int relsec,
-+			   struct module *me)
++#include <linux/export.h>
++#include <linux/types.h>
++#include <linux/io.h>
++
++#define REPLICATE_BYTE_MASK	0x0101010101010101
++
++/*
++ * Copy data from IO memory space to "real" memory space.
++ */
++void __memcpy_fromio(void *to, const volatile void __iomem *from, size_t count)
 +{
-+	unsigned int i;
-+	Elf64_Addr loc;
-+	u64 val;
-+	s64 sval;
-+	Elf64_Sym *sym;
-+	Elf64_Rela *rel = (void *)sechdrs[relsec].sh_addr;
-+	int ret = 0;
-+
-+	pr_debug("Applying relocate section %u to %u\n",
-+			relsec, sechdrs[relsec].sh_info);
-+
-+	for (i = 0; i < sechdrs[relsec].sh_size / sizeof(*rel); i++) {
-+		/* This is where to make the change */
-+		loc = (Elf64_Addr)sechdrs[sechdrs[relsec].sh_info].sh_addr
-+			+ rel[i].r_offset;
-+		/* This is the symbol it is referring to.  Note that all
-+		 *  undefined symbols have been resolved.
-+		 */
-+		sym = (Elf64_Sym *)sechdrs[symindex].sh_addr
-+			+ ELF64_R_SYM(rel[i].r_info);
-+
-+		pr_debug("type %d st_value %llx r_addend %llx loc %llx offset %llx\n",
-+			 (int)ELF64_R_TYPE(rel[i].r_info),
-+			 sym->st_value, rel[i].r_addend, (uint64_t)loc,
-+			 rel[i].r_offset);
-+
-+		val = sym->st_value + rel[i].r_addend;
-+		switch (ELF64_R_TYPE(rel[i].r_info)) {
-+		case R_KVX_NONE:
-+			break;
-+		case R_KVX_32:
-+			ret = apply_rela_bits(loc, val, 0, 32, 32, 0, 0,
-+					      ELF64_R_TYPE(rel[i].r_info),
-+					      me);
-+			break;
-+		case R_KVX_64:
-+			ret = apply_rela_bits(loc, val, 0, 64, 64, 0, 0,
-+					      ELF64_R_TYPE(rel[i].r_info),
-+					      me);
-+			break;
-+		case R_KVX_S43_LO10:
-+			ret = apply_rela_bits(loc, val, 1, 43, 10, 0, 6,
-+					      ELF64_R_TYPE(rel[i].r_info),
-+					      me);
-+			break;
-+		case R_KVX_S64_LO10:
-+			ret = apply_rela_bits(loc, val, 1, 64, 10, 0, 6,
-+					      ELF64_R_TYPE(rel[i].r_info),
-+					      me);
-+			break;
-+		case R_KVX_S43_UP27:
-+			ret = apply_rela_bits(loc, val, 1, 43, 27, 10, 0,
-+					      ELF64_R_TYPE(rel[i].r_info),
-+					      me);
-+			break;
-+		case R_KVX_S64_UP27:
-+			ret = apply_rela_bits(loc, val, 1, 64, 27, 10, 0,
-+					      ELF64_R_TYPE(rel[i].r_info),
-+					      me);
-+			break;
-+		case R_KVX_S43_EX6:
-+			ret = apply_rela_bits(loc, val, 1, 43, 6, 37, 0,
-+					      ELF64_R_TYPE(rel[i].r_info),
-+					      me);
-+			break;
-+		case R_KVX_S64_EX27:
-+			ret = apply_rela_bits(loc, val, 1, 64, 27, 37, 0,
-+					      ELF64_R_TYPE(rel[i].r_info),
-+					      me);
-+			break;
-+		case R_KVX_PCREL27:
-+			if (__builtin_sub_overflow(val, loc, &sval)) {
-+				pr_err("%s: Signed integer overflow, this should not happen\n",
-+				       me->name);
-+				return -ENOEXEC;
-+			}
-+			sval >>= 2;
-+			ret = apply_rela_bits(loc, (Elf64_Addr)sval, 1, 27, 27,
-+					      0, 0,
-+					      ELF64_R_TYPE(rel[i].r_info),
-+					      me);
-+			break;
-+		default:
-+			pr_err("%s: Unknown relocation: %llu\n",
-+				me->name, ELF64_R_TYPE(rel[i].r_info));
-+			ret = -ENOEXEC;
-+		}
++	while (count && !IS_ALIGNED((unsigned long)from, 8)) {
++		*(u8 *)to = __raw_readb(from);
++		from++;
++		to++;
++		count--;
 +	}
-+	return ret;
-+}
 +
++	while (count >= 8) {
++		*(u64 *)to = __raw_readq(from);
++		from += 8;
++		to += 8;
++		count -= 8;
++	}
++
++	while (count) {
++		*(u8 *)to = __raw_readb(from);
++		from++;
++		to++;
++		count--;
++	}
++}
++EXPORT_SYMBOL(__memcpy_fromio);
++
++/*
++ * Copy data from "real" memory space to IO memory space.
++ */
++void __memcpy_toio(volatile void __iomem *to, const void *from, size_t count)
++{
++	while (count && !IS_ALIGNED((unsigned long)to, 8)) {
++		__raw_writeb(*(u8 *)from, to);
++		from++;
++		to++;
++		count--;
++	}
++
++	while (count >= 8) {
++		__raw_writeq(*(u64 *)from, to);
++		from += 8;
++		to += 8;
++		count -= 8;
++	}
++
++	while (count) {
++		__raw_writeb(*(u8 *)from, to);
++		from++;
++		to++;
++		count--;
++	}
++}
++EXPORT_SYMBOL(__memcpy_toio);
++
++/*
++ * "memset" on IO memory space.
++ */
++void __memset_io(volatile void __iomem *dst, int c, size_t count)
++{
++	u64 qc = __builtin_kvx_sbmm8(c, REPLICATE_BYTE_MASK);
++
++	while (count && !IS_ALIGNED((unsigned long)dst, 8)) {
++		__raw_writeb(c, dst);
++		dst++;
++		count--;
++	}
++
++	while (count >= 8) {
++		__raw_writeq(qc, dst);
++		dst += 8;
++		count -= 8;
++	}
++
++	while (count) {
++		__raw_writeb(c, dst);
++		dst++;
++		count--;
++	}
++}
++EXPORT_SYMBOL(__memset_io);
 -- 
 2.37.2
 
