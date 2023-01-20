@@ -1,8 +1,8 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A18F675D60
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id DCC1A675D61
 	for <lists+linux-audit@lfdr.de>; Fri, 20 Jan 2023 20:03:08 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
 	s=mimecast20190719; t=1674241387;
@@ -12,87 +12,88 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=5q3FrRaIq0Y7jBxpPJD5m0jsb2GhnuLnnNOAvYfLUgs=;
-	b=N7MSDu6ReI9ySRv91BaQVtKptQyLYX/YAw/WnD1fRt9yD5A/TsqSmPDlUhSh+b2IH0M9wG
-	xZZ3MRHLksjlqXPYoKAQEkLqT/FYwPMdZ9QkE3+SpGdm4sv1DL+r0UQfG88ewzxJX+lW53
-	Ijk9/eSeTS7m7bnmQUvzVHhE+051oaA=
+	bh=pT80ENklH99rshuiBX4jl/ROm1HnqaYW7053RyiLQCA=;
+	b=MLQUIb54Z8Tb6yNHrwd4Q7v+d7H8WscFegyjtfkpXhrtLD+N4JoImGU6g/E4i2nNKifdRc
+	RfAIOPa1rUlJEMTJsjDGXnkr0PBk81qus7lZOOguQjlTuFB8oSuELFQ96oW1rq5v1Gav9O
+	UaxMM2MCwYnitVlQsLQc6wyCjuT8m9Q=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-642-PllnqbbHM02u0cISOIRjdQ-1; Fri, 20 Jan 2023 14:03:02 -0500
-X-MC-Unique: PllnqbbHM02u0cISOIRjdQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
+ us-mta-661-LtliMd2iOpqXVbbUZ251CQ-1; Fri, 20 Jan 2023 14:03:05 -0500
+X-MC-Unique: LtliMd2iOpqXVbbUZ251CQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EEACE1C06EEB;
-	Fri, 20 Jan 2023 19:02:52 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1F9EA1C02D56;
+	Fri, 20 Jan 2023 19:02:53 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (unknown [10.30.29.100])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id CF8482166B2A;
-	Fri, 20 Jan 2023 19:02:52 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 058C3C15BAD;
+	Fri, 20 Jan 2023 19:02:53 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (localhost [IPv6:::1])
-	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id ECB671947079;
-	Fri, 20 Jan 2023 19:02:51 +0000 (UTC)
+	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id 2ABD01947057;
+	Fri, 20 Jan 2023 19:02:52 +0000 (UTC)
 X-Original-To: linux-audit@listman.corp.redhat.com
 Delivered-To: linux-audit@listman.corp.redhat.com
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
  by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with
- ESMTP id D0CAE1946588 for <linux-audit@listman.corp.redhat.com>;
- Fri, 20 Jan 2023 15:03:49 +0000 (UTC)
+ ESMTP id 0989B1946588 for <linux-audit@listman.corp.redhat.com>;
+ Fri, 20 Jan 2023 17:28:45 +0000 (UTC)
 Received: by smtp.corp.redhat.com (Postfix)
- id BB8182166B2D; Fri, 20 Jan 2023 15:03:49 +0000 (UTC)
+ id E326240444C3; Fri, 20 Jan 2023 17:28:44 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
  (mimecast08.extmail.prod.ext.rdu2.redhat.com [10.11.55.24])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B4F152166B2C
- for <linux-audit@redhat.com>; Fri, 20 Jan 2023 15:03:49 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DB72740C2064
+ for <linux-audit@redhat.com>; Fri, 20 Jan 2023 17:28:44 +0000 (UTC)
 Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [205.139.110.61])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 973F43813F4D
- for <linux-audit@redhat.com>; Fri, 20 Jan 2023 15:03:49 +0000 (UTC)
-Received: from fx303.security-mail.net (mxout.security-mail.net
- [85.31.212.46]) by relay.mimecast.com with ESMTP with STARTTLS
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C14333806109
+ for <linux-audit@redhat.com>; Fri, 20 Jan 2023 17:28:44 +0000 (UTC)
+Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com
+ [209.85.160.54]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-538-RxpLBHZrNLqIHStMWMGjwA-1; Fri, 20 Jan 2023 10:03:45 -0500
-X-MC-Unique: RxpLBHZrNLqIHStMWMGjwA-1
-Received: from localhost (fx303.security-mail.net [127.0.0.1])
- by fx303.security-mail.net (Postfix) with ESMTP id 654A030F77A
- for <linux-audit@redhat.com>; Fri, 20 Jan 2023 16:03:43 +0100 (CET)
-Received: from fx303 (fx303.security-mail.net [127.0.0.1]) by
- fx303.security-mail.net (Postfix) with ESMTP id 3095E30F6BC; Fri, 20 Jan
- 2023 16:03:43 +0100 (CET)
-Received: from zimbra2.kalray.eu (unknown [217.181.231.53]) by
- fx303.security-mail.net (Postfix) with ESMTPS id 7CF1230F79F; Fri, 20 Jan
- 2023 16:03:42 +0100 (CET)
-Received: from zimbra2.kalray.eu (localhost [127.0.0.1]) by
- zimbra2.kalray.eu (Postfix) with ESMTPS id 5696027E043A; Fri, 20 Jan 2023
- 16:03:42 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1]) by zimbra2.kalray.eu
- (Postfix) with ESMTP id 36BE627E0437; Fri, 20 Jan 2023 16:03:42 +0100 (CET)
-Received: from zimbra2.kalray.eu ([127.0.0.1]) by localhost
- (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10026) with ESMTP id
- 9zSUTNBWOY1C; Fri, 20 Jan 2023 16:03:42 +0100 (CET)
-Received: from tellis.lin.mbt.kalray.eu (unknown [192.168.36.206]) by
- zimbra2.kalray.eu (Postfix) with ESMTPSA id D59A827E0430; Fri, 20 Jan 2023
- 16:03:41 +0100 (CET)
-X-Virus-Scanned: E-securemail
-Secumail-id: <7f21.63caad4e.7b828.0>
-DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu 36BE627E0437
-Date: Fri, 20 Jan 2023 16:03:40 +0100
-From: Jules Maselbas <jmaselbas@kalray.eu>
-To: Arnd Bergmann <arnd@arndb.de>
-Subject: Re: [RFC PATCH v2 09/31] kvx: Add build infrastructure
-Message-ID: <20230120150340.GA5952@tellis.lin.mbt.kalray.eu>
-References: <20230120141002.2442-1-ysionneau@kalray.eu>
- <20230120141002.2442-10-ysionneau@kalray.eu>
- <aa4d68b2-b5b5-4c17-a44f-7c6db443ea4c@app.fastmail.com>
- <20230120145316.GA4155@tellis.lin.mbt.kalray.eu>
- <9965e2d1-bae8-4ce7-911c-783c772e9ff1@app.fastmail.com>
+ us-mta-256-4Jw_LiMRPS-45k7YLHCO7w-1; Fri, 20 Jan 2023 12:28:40 -0500
+X-MC-Unique: 4Jw_LiMRPS-45k7YLHCO7w-1
+Received: by mail-oa1-f54.google.com with SMTP id
+ 586e51a60fabf-15eec491b40so6917164fac.12; 
+ Fri, 20 Jan 2023 09:28:40 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=date:subject:message-id:references:in-reply-to:cc:to:from
+ :mime-version:content-transfer-encoding:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=UvYbaNfQm3I2mSz+vFgV+Zpo/6TKrTqqiUlOL3TyJbU=;
+ b=LdsZvXJm7+PsFCvX6whHfYFx42ROtngO9DqxHOr0TayRxISnqiGaCjVNmVmOUu/jc6
+ geewaXM2pnY82dARkcJf2AAINDIvqDwTVf7tNFnP/dzuCRz4odnLHq9CHKQGRriYAlio
+ y6vTRn5IzK2iPc4a6xXIn4y2kMM+IVnG0TzaVzkiEAX2hP+XX2uaG003p+AFP9uQJbdX
+ 9smrDc2HqOESRLcBAOTFoi3c1IWjCoY/rGSAdCxoQVr7ayzhVg9eTd9KeFBCYBpAAfIT
+ ZLEYZ5LwtBvG/9zN+nneYGGXchsSbSIGrB95hpbdkVGg2mMJBaesmvN0u0eXOVooSnmQ
+ WDiw==
+X-Gm-Message-State: AFqh2ko5NT7XJiP6vNm0DgflTeUMoa+Y83L1p68buzDlXnkEa8SCy2Yc
+ UAC06u6PZtjq1It8Xr6Xxw==
+X-Google-Smtp-Source: AMrXdXuIj9Mc6vhmcjt+cVUmsx/qJI+DwldGfBtYKiNvQNiIU6JcQTsuH2h+z+SVTygNWPiU0rySOw==
+X-Received: by 2002:a05:6870:54c5:b0:15f:853d:d7f with SMTP id
+ g5-20020a05687054c500b0015f853d0d7fmr6250068oan.23.1674235718838; 
+ Fri, 20 Jan 2023 09:28:38 -0800 (PST)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net.
+ [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
+ er14-20020a056870c88e00b0013bc40b09dasm21968671oab.17.2023.01.20.09.28.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 20 Jan 2023 09:28:38 -0800 (PST)
+Received: (nullmailer pid 1329680 invoked by uid 1000);
+ Fri, 20 Jan 2023 17:28:32 -0000
 MIME-Version: 1.0
-In-Reply-To: <9965e2d1-bae8-4ce7-911c-783c772e9ff1@app.fastmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-ALTERMIMEV2_out: done
+From: Rob Herring <robh@kernel.org>
+To: Yann Sionneau <ysionneau@kalray.eu>
+In-Reply-To: <20230120141002.2442-8-ysionneau@kalray.eu>
+References: <20230120141002.2442-1-ysionneau@kalray.eu>
+ <20230120141002.2442-8-ysionneau@kalray.eu>
+Message-Id: <167423561872.1326049.17437952508849163257.robh@kernel.org>
+Subject: Re: [RFC PATCH v2 07/31] Documentation: Add binding for kalray,
+ kv3-1-pwr-ctrl
+Date: Fri, 20 Jan 2023 11:28:32 -0600
 X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
  Definition; Similar Internal Domain=false;
  Similar Monitored External Domain=false; Custom External Domain=false;
@@ -100,7 +101,7 @@ X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
  Internal User Name=false; Custom Display Name List=false;
  Reply-to Address Mismatch=false; Targeted Threat Dictionary=false;
  Mimecast Threat Dictionary=false; Custom Threat Dictionary=false
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
 X-Mailman-Approved-At: Fri, 20 Jan 2023 19:02:49 +0000
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.29
@@ -113,88 +114,108 @@ List-Post: <mailto:linux-audit@redhat.com>
 List-Help: <mailto:linux-audit-request@redhat.com?subject=help>
 List-Subscribe: <https://listman.redhat.com/mailman/listinfo/linux-audit>,
  <mailto:linux-audit-request@redhat.com?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, "Jason
- A . Donenfeld" <Jason@zx2c4.com>,
- Marc =?utf-8?b?UG91bGhpw6hz?= <dkm@kataplop.net>, linux-doc@vger.kernel.org,
+Cc: Mark Rutland <mark.rutland@arm.com>, "Jason A. Donenfeld" <Jason@zx2c4.com>,
+ =?UTF-8?Q?Marc_Poulhi=C3=A8s?= <dkm@kataplop.net>, linux-doc@vger.kernel.org,
  Peter Zijlstra <peterz@infradead.org>,
  Catalin Marinas <catalin.marinas@arm.com>, Atish Patra <atishp@atishpatra.org>,
  Jiaxun Yang <jiaxun.yang@flygoat.com>, Julien Hascoet <jhascoet@kalray.eu>,
  Clement Leger <clement@clement-leger.fr>, linux-mm@kvack.org,
- devicetree@vger.kernel.org, Louis Morhet <lmorhet@kalray.eu>,
+ Louis Morhet <lmorhet@kalray.eu>, Waiman Long <longman@redhat.com>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  linux-riscv@lists.infradead.org, Will Deacon <will@kernel.org>,
- Guangbin Huang <huangguangbin2@huawei.com>, Alex Michon <amichon@kalray.eu>,
- Thomas Costis <tcostis@kalray.eu>, Jonathan Corbet <corbet@lwn.net>,
- Jonathan Borne <jborne@kalray.eu>, Marc Zyngier <maz@kernel.org>,
- Huacai Chen <chenhuacai@kernel.org>, bpf@vger.kernel.org,
- Samuel Jones <sjones@kalray.eu>, Ingo Molnar <mingo@redhat.com>,
- Linux-Arch <linux-arch@vger.kernel.org>,
- Jean-Christophe Pince <jcpince@gmail.com>, Waiman Long <longman@redhat.com>,
+ Guangbin Huang <huangguangbin2@huawei.com>, linux-arch@vger.kernel.org,
+ Marc Zyngier <maz@kernel.org>, Thomas Costis <tcostis@kalray.eu>,
+ Jonathan Corbet <corbet@lwn.net>, Jonathan Borne <jborne@kalray.eu>,
+ "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>,
+ Huacai Chen <chenhuacai@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+ Jean-Christophe Pince <jcpince@gmail.com>, Palmer Dabbelt <palmer@dabbelt.com>,
  Bharat Bhushan <bbhushan2@marvell.com>, Qi Liu <liuqi115@huawei.com>,
- Alexey Dobriyan <adobriyan@gmail.com>, Luc Michel <lmichel@kalray.eu>,
- John Garry <john.garry@huawei.com>, Ashley Lesdalons <alesdalons@kalray.eu>,
- Albert Ou <aou@eecs.berkeley.edu>, Kees Cook <keescook@chromium.org>,
- Yann Sionneau <ysionneau@kalray.eu>, Boqun Feng <boqun.feng@gmail.com>,
- Guillaume Thouvenin <gthouvenin@kalray.eu>, Julian Vetter <jvetter@kalray.eu>,
- Nicholas Piggin <npiggin@gmail.com>,
+ bpf@vger.kernel.org, Luc Michel <lmichel@kalray.eu>,
+ devicetree@vger.kernel.org, Albert Ou <aou@eecs.berkeley.edu>,
+ Kees Cook <keescook@chromium.org>, Arnd Bergmann <arnd@arndb.de>,
+ Samuel Jones <sjones@kalray.eu>, linux-kernel@vger.kernel.org,
+ Boqun Feng <boqun.feng@gmail.com>, John Garry <john.garry@huawei.com>,
+ Julian Vetter <jvetter@kalray.eu>, Nick Piggin <npiggin@gmail.com>,
  Shaokun Zhang <zhangshaokun@hisilicon.com>, Rob Herring <robh+dt@kernel.org>,
  Bibo Mao <maobibo@loongson.cn>, Paul Walmsley <paul.walmsley@sifive.com>,
  WANG Xuerui <git@xen0n.name>, Thomas Gleixner <tglx@linutronix.de>,
- Marius Gligor <mgligor@kalray.eu>, Janosch Frank <frankja@linux.ibm.com>,
- Julien Villette <jvillette@kalray.eu>, linux-audit@redhat.com,
- Christian Brauner <brauner@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Janosch Frank <frankja@linux.ibm.com>, Julien Villette <jvillette@kalray.eu>,
+ Jules Maselbas <jmaselbas@kalray.eu>, Christian Brauner <brauner@kernel.org>,
  Benjamin Mugnier <mugnier.benjamin@gmail.com>,
  Vincent Chardon <vincent.chardon@elsys-design.com>,
  Guillaume Missonnier <gmissonnier@kalray.eu>, Oleg Nesterov <oleg@redhat.com>,
- Eric Paris <eparis@redhat.com>, linux-kernel@vger.kernel.org,
- Mark Brown <broonie@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
- "Eric W. Biederman" <ebiederm@xmission.com>,
- Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
- Andrew Morton <akpm@linux-foundation.org>
+ Eric Paris <eparis@redhat.com>, Alexey Dobriyan <adobriyan@gmail.com>,
+ Guillaume Thouvenin <gthouvenin@kalray.eu>, Mark Brown <broonie@kernel.org>,
+ Ashley Lesdalons <alesdalons@kalray.eu>,
+ Eric Biederman <ebiederm@xmission.com>, linux-audit@redhat.com,
+ Marius Gligor <mgligor@kalray.eu>, Alex Michon <amichon@kalray.eu>
 Errors-To: linux-audit-bounces@redhat.com
 Sender: "Linux-audit" <linux-audit-bounces@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Disposition: inline
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-On Fri, Jan 20, 2023 at 04:01:11PM +0100, Arnd Bergmann wrote:
-> On Fri, Jan 20, 2023, at 15:53, Jules Maselbas wrote:
-> > On Fri, Jan 20, 2023 at 03:39:22PM +0100, Arnd Bergmann wrote:
-> >> On Fri, Jan 20, 2023, at 15:09, Yann Sionneau wrote:
-> >> >      - Fix clean target raising an error from gcc (LIBGCC)
-> >> 
-> >> I had not noticed this on v1 but:
-> >> 
-> >> > +# Link with libgcc to get __div* builtins.
-> >> > +LIBGCC	:= $(shell $(CC) $(DEFAULT_OPTS) --print-libgcc-file-name)
-> >> 
-> >> It's better to copy the bits of libgcc that you actually need
-> >> than to include the whole thing. The kernel is in a weird
-> > It was initialy using KCONFIG_CFLAGS which do not contains valid options
-> > when invoking the clean target.
-> >
-> > I am not exactly sure what's needed by gcc for --print-libgcc-file-name,
-> > my guess is that only the -march option matters, I will double check
-> > internally with compiler peoples.
-> >
-> >> state that is neither freestanding nor the normal libc based
-> >> environment, so we generally want full control over what is
-> >> used. This is particularly important for 32-bit architectures
-> >> that do not want the 64-bit division, but there are probably
-> >> enough other cases as well.
+
+On Fri, 20 Jan 2023 15:09:38 +0100, Yann Sionneau wrote:
+> From: Jules Maselbas <jmaselbas@kalray.eu>
 > 
-> To clarify: I meant you should not include libgcc.a at all but
-> add the minimum set of required files as arch/kvx/lib/*.S.
-Thanks for clarifying :)
+> Add documentation for `kalray,kv3-1-pwr-ctrl` binding.
+> 
+> Co-developed-by: Jules Maselbas <jmaselbas@kalray.eu>
+> Signed-off-by: Jules Maselbas <jmaselbas@kalray.eu>
+> Signed-off-by: Yann Sionneau <ysionneau@kalray.eu>
+> ---
+> 
+> Notes:
+>     V1 -> V2: new patch
+> 
+>  .../kalray/kalray,kv3-1-pwr-ctrl.yaml         | 29 +++++++++++++++++++
+>  1 file changed, 29 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/kalray/kalray,kv3-1-pwr-ctrl.yaml
+> 
 
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
--- Jules
+yamllint warnings/errors:
 
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/kalray/kalray,kv3-1-pwr-ctrl.yaml: $id: 'http://devicetree.org/schemas/kalray/kalray,kv3-1-pwr-ctrl#' does not match 'http://devicetree.org/schemas/.*\\.yaml#'
+	from schema $id: http://devicetree.org/meta-schemas/base.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/kalray/kalray,kv3-1-pwr-ctrl.yaml: 'maintainers' is a required property
+	hint: Metaschema for devicetree binding documentation
+	from schema $id: http://devicetree.org/meta-schemas/base.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/kalray/kalray,kv3-1-pwr-ctrl.yaml: 'oneOf' conditional failed, one must be fixed:
+	'unevaluatedProperties' is a required property
+	'additionalProperties' is a required property
+	hint: Either unevaluatedProperties or additionalProperties must be present
+	from schema $id: http://devicetree.org/meta-schemas/core.yaml#
+./Documentation/devicetree/bindings/kalray/kalray,kv3-1-pwr-ctrl.yaml: $id: relative path/filename doesn't match actual path or filename
+	expected: http://devicetree.org/schemas/kalray/kalray,kv3-1-pwr-ctrl.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/kalray/kalray,kv3-1-pwr-ctrl.example.dtb: power-controller@a40000: reg: [[0, 10747904], [0, 16728]] is too long
+	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/kalray/kalray,kv3-1-pwr-ctrl.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/kalray/kalray,kv3-1-pwr-ctrl.example.dtb: power-controller@a40000: '#power-domain-cells' is a required property
+	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/power/power-domain.yaml
 
+doc reference errors (make refcheckdocs):
 
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20230120141002.2442-8-ysionneau@kalray.eu
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
 
 --
 Linux-audit mailing list
