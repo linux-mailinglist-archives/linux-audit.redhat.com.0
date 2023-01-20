@@ -2,84 +2,84 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD8FD675D70
-	for <lists+linux-audit@lfdr.de>; Fri, 20 Jan 2023 20:03:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0361D675D7A
+	for <lists+linux-audit@lfdr.de>; Fri, 20 Jan 2023 20:03:22 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1674241396;
+	s=mimecast20190719; t=1674241402;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=7WRJIiPfBE2SZ1vSW5MWVtXPnLx/cCygCKMsaaaFudE=;
-	b=FxEythDagkJYMgsB6GTY4FxvwhElgnTDu+0A9sG1IXDUBZ9xEtYgqWKUAC6oiY8xMnjRT8
-	0FjiFQOKweL/ZS0WAYLVeNS5UJiE/nvn0yIiJR7gd2MHFC7eTmImPfk40JNORQkkfBAtYP
-	GHqX9G7ROXpPj+LLzEYpHre7vI2o0b8=
+	bh=kfoeQ4UNCJ3Y0vdGvy+RTeh20tPPlZx8WEAA4sOLMSc=;
+	b=JfD0PM1YxD0Tpd+oR3zO/4Mzkdu1dO2S9cRuRM6K2Ik4wdOSMDm3nLD3cZXT712H9BpOmQ
+	/h6MEZtZR3GtrgdCttgHqLFMIdY0z//QXq3VLdhn37cfBDc5L+bcN3Sey+D55SncRiQPDR
+	hRCCJYXgDoUXuJzw8ELQqXNO5ZmXpPo=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-622-heSamD7tPMWIzoix60azCg-1; Fri, 20 Jan 2023 14:03:12 -0500
-X-MC-Unique: heSamD7tPMWIzoix60azCg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
+ us-mta-376-HqcbHgZaM8CE2Npdad0FhA-1; Fri, 20 Jan 2023 14:03:19 -0500
+X-MC-Unique: HqcbHgZaM8CE2Npdad0FhA-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id ED13C183B3CC;
-	Fri, 20 Jan 2023 19:02:52 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 09AD180B3C1;
+	Fri, 20 Jan 2023 19:02:56 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (unknown [10.30.29.100])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id D00201402427;
-	Fri, 20 Jan 2023 19:02:52 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id E47D6492B02;
+	Fri, 20 Jan 2023 19:02:55 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (localhost [IPv6:::1])
-	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id E3859194704D;
-	Fri, 20 Jan 2023 19:02:51 +0000 (UTC)
+	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id DA11D1946A6D;
+	Fri, 20 Jan 2023 19:02:55 +0000 (UTC)
 X-Original-To: linux-audit@listman.corp.redhat.com
 Delivered-To: linux-audit@listman.corp.redhat.com
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
  by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with
- ESMTP id EE0961946588 for <linux-audit@listman.corp.redhat.com>;
- Fri, 20 Jan 2023 14:20:48 +0000 (UTC)
+ ESMTP id 298761946588 for <linux-audit@listman.corp.redhat.com>;
+ Fri, 20 Jan 2023 14:20:49 +0000 (UTC)
 Received: by smtp.corp.redhat.com (Postfix)
- id AB9421415113; Fri, 20 Jan 2023 14:20:48 +0000 (UTC)
+ id 1C76F4014EBE; Fri, 20 Jan 2023 14:20:49 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
- (mimecast06.extmail.prod.ext.rdu2.redhat.com [10.11.55.22])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A2B521415108
- for <linux-audit@redhat.com>; Fri, 20 Jan 2023 14:20:48 +0000 (UTC)
+ (mimecast02.extmail.prod.ext.rdu2.redhat.com [10.11.55.18])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 142F040C6EC4
+ for <linux-audit@redhat.com>; Fri, 20 Jan 2023 14:20:49 +0000 (UTC)
 Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
  [205.139.110.120])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8611D18E0044
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E2AA7801779
  for <linux-audit@redhat.com>; Fri, 20 Jan 2023 14:20:48 +0000 (UTC)
-Received: from fx601.security-mail.net (smtpout140.security-mail.net
- [85.31.212.146]) by relay.mimecast.com with ESMTP with STARTTLS
+Received: from fx306.security-mail.net (smtpout30.security-mail.net
+ [85.31.212.36]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-342-doYjT-gkMImH82KiciGPjw-1; Fri, 20 Jan 2023 09:20:46 -0500
-X-MC-Unique: doYjT-gkMImH82KiciGPjw-1
-Received: from localhost (fx601.security-mail.net [127.0.0.1])
- by fx601.security-mail.net (Postfix) with ESMTP id B91AD3497DB
- for <linux-audit@redhat.com>; Fri, 20 Jan 2023 15:20:45 +0100 (CET)
-Received: from fx601 (fx601.security-mail.net [127.0.0.1]) by
- fx601.security-mail.net (Postfix) with ESMTP id 2A6A73493C7; Fri, 20 Jan
+ us-mta-594-ebq7n9VDPAissGuImMGfsA-1; Fri, 20 Jan 2023 09:20:47 -0500
+X-MC-Unique: ebq7n9VDPAissGuImMGfsA-1
+Received: from localhost (fx306.security-mail.net [127.0.0.1])
+ by fx306.security-mail.net (Postfix) with ESMTP id 2976535CC46
+ for <linux-audit@redhat.com>; Fri, 20 Jan 2023 15:20:46 +0100 (CET)
+Received: from fx306 (fx306.security-mail.net [127.0.0.1]) by
+ fx306.security-mail.net (Postfix) with ESMTP id 9AA5535CD7A; Fri, 20 Jan
  2023 15:20:45 +0100 (CET)
 Received: from zimbra2.kalray.eu (unknown [217.181.231.53]) by
- fx601.security-mail.net (Postfix) with ESMTPS id 33F923496B9; Fri, 20 Jan
- 2023 15:20:44 +0100 (CET)
+ fx306.security-mail.net (Postfix) with ESMTPS id 1B27135CCDC; Fri, 20 Jan
+ 2023 15:20:45 +0100 (CET)
 Received: from zimbra2.kalray.eu (localhost [127.0.0.1]) by
- zimbra2.kalray.eu (Postfix) with ESMTPS id 74EE327E045E; Fri, 20 Jan 2023
+ zimbra2.kalray.eu (Postfix) with ESMTPS id EF33327E047D; Fri, 20 Jan 2023
  15:10:38 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1]) by zimbra2.kalray.eu
- (Postfix) with ESMTP id 5882427E0463; Fri, 20 Jan 2023 15:10:38 +0100 (CET)
+ (Postfix) with ESMTP id D247E27E047C; Fri, 20 Jan 2023 15:10:38 +0100 (CET)
 Received: from zimbra2.kalray.eu ([127.0.0.1]) by localhost
  (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10026) with ESMTP id
- D11lu3OG-umz; Fri, 20 Jan 2023 15:10:38 +0100 (CET)
+ N5fxZltrUQUh; Fri, 20 Jan 2023 15:10:38 +0100 (CET)
 Received: from junon.lin.mbt.kalray.eu (unknown [192.168.37.161]) by
- zimbra2.kalray.eu (Postfix) with ESMTPSA id DE5A427E0458; Fri, 20 Jan 2023
- 15:10:37 +0100 (CET)
+ zimbra2.kalray.eu (Postfix) with ESMTPSA id 5595327E0470; Fri, 20 Jan 2023
+ 15:10:38 +0100 (CET)
 X-Virus-Scanned: E-securemail
-Secumail-id: <62f4.63caa33c.3169e.0>
-DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu 5882427E0463
+Secumail-id: <2818.63caa33d.1a14f.0>
+DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu D247E27E047C
 From: Yann Sionneau <ysionneau@kalray.eu>
 To: Arnd Bergmann <arnd@arndb.de>, Jonathan Corbet <corbet@lwn.net>, Thomas
  Gleixner <tglx@linutronix.de>, Marc Zyngier <maz@kernel.org>, Rob Herring
@@ -112,9 +112,9 @@ To: Arnd Bergmann <arnd@arndb.de>, Jonathan Corbet <corbet@lwn.net>, Thomas
  <jiaxun.yang@flygoat.com>, Catalin Marinas <catalin.marinas@arm.com>, Mark
  Brown <broonie@kernel.org>, Janosch Frank <frankja@linux.ibm.com>, Alexey
  Dobriyan <adobriyan@gmail.com>
-Subject: [RFC PATCH v2 29/31] kvx: Add support for cpuinfo
-Date: Fri, 20 Jan 2023 15:10:00 +0100
-Message-ID: <20230120141002.2442-30-ysionneau@kalray.eu>
+Subject: [RFC PATCH v2 30/31] kvx: Add power controller driver
+Date: Fri, 20 Jan 2023 15:10:01 +0100
+Message-ID: <20230120141002.2442-31-ysionneau@kalray.eu>
 In-Reply-To: <20230120141002.2442-1-ysionneau@kalray.eu>
 References: <20230120141002.2442-1-ysionneau@kalray.eu>
 MIME-Version: 1.0
@@ -126,7 +126,7 @@ X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
  Internal User Name=false; Custom Display Name List=false;
  Reply-to Address Mismatch=false; Targeted Threat Dictionary=false;
  Mimecast Threat Dictionary=false; Custom Threat Dictionary=false
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
 X-Mailman-Approved-At: Fri, 20 Jan 2023 19:02:49 +0000
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.29
@@ -145,133 +145,200 @@ Cc: linux-arch@vger.kernel.org, devicetree@vger.kernel.org,
  linux-riscv@lists.infradead.org, bpf@vger.kernel.org
 Errors-To: linux-audit-bounces@redhat.com
 Sender: "Linux-audit" <linux-audit-bounces@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-Add support for cpuinfo on kvx arch.
+From: Jules Maselbas <jmaselbas@kalray.eu>
+
+The Power Controller (pwr-ctrl) control cores reset and wake-up
+procedure.
 
 Co-developed-by: Clement Leger <clement@clement-leger.fr>
 Signed-off-by: Clement Leger <clement@clement-leger.fr>
-Co-developed-by: Guillaume Thouvenin <gthouvenin@kalray.eu>
-Signed-off-by: Guillaume Thouvenin <gthouvenin@kalray.eu>
 Co-developed-by: Julian Vetter <jvetter@kalray.eu>
 Signed-off-by: Julian Vetter <jvetter@kalray.eu>
+Co-developed-by: Louis Morhet <lmorhet@kalray.eu>
+Signed-off-by: Louis Morhet <lmorhet@kalray.eu>
+Co-developed-by: Marius Gligor <mgligor@kalray.eu>
+Signed-off-by: Marius Gligor <mgligor@kalray.eu>
 Signed-off-by: Jules Maselbas <jmaselbas@kalray.eu>
 Signed-off-by: Yann Sionneau <ysionneau@kalray.eu>
 ---
 
 Notes:
-    V1 -> V2: no changes
+    V1 -> V2: new patch
 
- arch/kvx/kernel/cpuinfo.c | 96 +++++++++++++++++++++++++++++++++++++++
- 1 file changed, 96 insertions(+)
- create mode 100644 arch/kvx/kernel/cpuinfo.c
+ arch/kvx/include/asm/pwr_ctrl.h | 45 ++++++++++++++++
+ arch/kvx/platform/Makefile      |  6 +++
+ arch/kvx/platform/pwr_ctrl.c    | 91 +++++++++++++++++++++++++++++++++
+ 3 files changed, 142 insertions(+)
+ create mode 100644 arch/kvx/include/asm/pwr_ctrl.h
+ create mode 100644 arch/kvx/platform/Makefile
+ create mode 100644 arch/kvx/platform/pwr_ctrl.c
 
-diff --git a/arch/kvx/kernel/cpuinfo.c b/arch/kvx/kernel/cpuinfo.c
+diff --git a/arch/kvx/include/asm/pwr_ctrl.h b/arch/kvx/include/asm/pwr_ctrl.h
 new file mode 100644
-index 000000000000..f44c46c1e4ba
+index 000000000000..25f403ba935a
 --- /dev/null
-+++ b/arch/kvx/kernel/cpuinfo.c
-@@ -0,0 +1,96 @@
++++ b/arch/kvx/include/asm/pwr_ctrl.h
+@@ -0,0 +1,45 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * Copyright (C) 2017-2023 Kalray Inc.
++ * Author(s): Clement Leger
++ *            Marius Gligor
++ */
++
++#ifndef _ASM_KVX_PWR_CTRL_H
++#define _ASM_KVX_PWR_CTRL_H
++
++#ifndef __ASSEMBLY__
++
++int kvx_pwr_ctrl_probe(void);
++
++void kvx_pwr_ctrl_cpu_poweron(unsigned int cpu);
++
++#endif
++
++/* Power controller vector register definitions */
++#define KVX_PWR_CTRL_VEC_OFFSET 0x1000
++#define KVX_PWR_CTRL_VEC_WUP_SET_OFFSET     0x10
++#define KVX_PWR_CTRL_VEC_WUP_CLEAR_OFFSET     0x20
++
++/* Power controller PE reset PC register definitions */
++#define KVX_PWR_CTRL_RESET_PC_OFFSET               0x2000
++
++/* Power controller global register definitions */
++#define KVX_PWR_CTRL_GLOBAL_OFFSET 0x4040
++
++#define KVX_PWR_CTRL_GLOBAL_SET_OFFSET     0x10
++#define KVX_PWR_CTRL_GLOBAL_SET_PE_EN_SHIFT           0x1
++
++#define PWR_CTRL_WUP_SET_OFFSET  \
++		(KVX_PWR_CTRL_VEC_OFFSET + \
++		 KVX_PWR_CTRL_VEC_WUP_SET_OFFSET)
++
++#define PWR_CTRL_WUP_CLEAR_OFFSET  \
++		(KVX_PWR_CTRL_VEC_OFFSET + \
++		 KVX_PWR_CTRL_VEC_WUP_CLEAR_OFFSET)
++
++#define PWR_CTRL_GLOBAL_CONFIG_OFFSET \
++		(KVX_PWR_CTRL_GLOBAL_OFFSET + \
++		 KVX_PWR_CTRL_GLOBAL_SET_OFFSET)
++
++#endif /* _ASM_KVX_PWR_CTRL_H */
+diff --git a/arch/kvx/platform/Makefile b/arch/kvx/platform/Makefile
+new file mode 100644
+index 000000000000..c7d0abb15c27
+--- /dev/null
++++ b/arch/kvx/platform/Makefile
+@@ -0,0 +1,6 @@
++# SPDX-License-Identifier: GPL-2.0-only
++#
++# Copyright (C) 2018-2023 Kalray Inc.
++#
++
++obj-$(CONFIG_SMP) += pwr_ctrl.o
+diff --git a/arch/kvx/platform/pwr_ctrl.c b/arch/kvx/platform/pwr_ctrl.c
+new file mode 100644
+index 000000000000..ee35d04845ae
+--- /dev/null
++++ b/arch/kvx/platform/pwr_ctrl.c
+@@ -0,0 +1,91 @@
 +// SPDX-License-Identifier: GPL-2.0-only
 +/*
 + * Copyright (C) 2017-2023 Kalray Inc.
 + * Author(s): Clement Leger
-+ *            Guillaume Thouvenin
 + */
 +
-+#include <linux/seq_file.h>
-+#include <linux/delay.h>
-+#include <linux/clk.h>
-+#include <linux/cpu.h>
-+#include <linux/of.h>
++#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
 +
-+unsigned long elf_hwcap __read_mostly;
++#include <linux/io.h>
++#include <linux/slab.h>
++#include <linux/types.h>
++#include <linux/module.h>
++#include <linux/of_address.h>
++#include <linux/of_platform.h>
 +
-+static int show_cpuinfo(struct seq_file *m, void *v)
-+{
-+	int cpu_num = *(unsigned int *)v;
-+	struct cpuinfo_kvx *n = per_cpu_ptr(&cpu_info, cpu_num);
++#include <asm/pwr_ctrl.h>
++#include <asm/symbols.h>
 +
-+	seq_printf(m, "processor\t: %d\nvendor_id\t: Kalray\n", cpu_num);
-+
-+	seq_printf(m,
-+		   "copro enabled\t: %s\n"
-+		   "arch revision\t: %d\n"
-+		   "uarch revision\t: %d\n",
-+		   n->copro_enable ? "yes" : "no",
-+		   n->arch_rev,
-+		   n->uarch_rev);
-+
-+	seq_printf(m,
-+		   "bogomips\t: %lu.%02lu\n"
-+		   "cpu MHz\t\t: %llu.%03llu\n\n",
-+		   (loops_per_jiffy * HZ) / 500000,
-+		   ((loops_per_jiffy * HZ) / 5000) % 100,
-+		   n->freq / 1000000, (n->freq / 10000) % 100);
-+
-+	return 0;
-+}
-+
-+static void *c_start(struct seq_file *m, loff_t *pos)
-+{
-+	if (*pos == 0)
-+		*pos = cpumask_first(cpu_online_mask);
-+	if (*pos >= num_online_cpus())
-+		return NULL;
-+
-+	return pos;
-+}
-+
-+static void *c_next(struct seq_file *m, void *v, loff_t *pos)
-+{
-+	*pos = cpumask_next(*pos, cpu_online_mask);
-+
-+	return c_start(m, pos);
-+}
-+
-+static void c_stop(struct seq_file *m, void *v)
-+{
-+}
-+
-+const struct seq_operations cpuinfo_op = {
-+	.start = c_start,
-+	.next = c_next,
-+	.stop = c_stop,
-+	.show = show_cpuinfo,
++struct kvx_pwr_ctrl {
++	void __iomem *regs;
 +};
 +
-+static int __init setup_cpuinfo(void)
-+{
-+	int cpu;
-+	struct clk *clk;
-+	unsigned long cpu_freq = 1000000000;
-+	struct device_node *node = of_get_cpu_node(0, NULL);
++static struct kvx_pwr_ctrl kvx_pwr_controller;
 +
-+	clk = of_clk_get(node, 0);
-+	if (IS_ERR(clk)) {
-+		printk(KERN_WARNING
-+		       "Device tree missing CPU 'clock' parameter. Assuming frequency is 1GHZ");
-+		goto setup_cpu_freq;
++/**
++ * kvx_pwr_ctrl_cpu_poweron() - Wakeup a cpu
++ * @cpu: cpu to wakeup
++ */
++void kvx_pwr_ctrl_cpu_poweron(unsigned int cpu)
++{
++	/* Set PE boot address */
++	writeq((unsigned long long)kvx_start,
++			kvx_pwr_controller.regs + KVX_PWR_CTRL_RESET_PC_OFFSET);
++	/* Wake up processor ! */
++	writeq(1ULL << cpu,
++	       kvx_pwr_controller.regs + PWR_CTRL_WUP_SET_OFFSET);
++	/* Then clear wakeup to allow processor to sleep */
++	writeq(1ULL << cpu,
++	       kvx_pwr_controller.regs + PWR_CTRL_WUP_CLEAR_OFFSET);
++}
++
++static struct device_node * __init get_pwr_ctrl_node(void)
++{
++	const phandle *ph;
++	struct device_node *cpu;
++	struct device_node *node;
++
++	cpu = of_get_cpu_node(raw_smp_processor_id(), NULL);
++	if (!cpu) {
++		pr_err("Failed to get CPU node\n");
++		return NULL;
 +	}
 +
-+	cpu_freq = clk_get_rate(clk);
++	ph = of_get_property(cpu, "power-controller", NULL);
++	if (!ph) {
++		pr_err("Failed to get power-controller phandle\n");
++		return NULL;
++	}
 +
-+	clk_put(clk);
++	node = of_find_node_by_phandle(be32_to_cpup(ph));
++	if (!node) {
++		pr_err("Failed to get power-controller node\n");
++		return NULL;
++	}
 +
-+setup_cpu_freq:
-+	of_node_put(node);
++	return node;
++}
 +
-+	for_each_possible_cpu(cpu)
-+		per_cpu_ptr(&cpu_info, cpu)->freq = cpu_freq;
++int __init kvx_pwr_ctrl_probe(void)
++{
++	struct device_node *ctrl;
++
++	ctrl = get_pwr_ctrl_node();
++	if (!ctrl) {
++		pr_err("Failed to get power controller node\n");
++		return -EINVAL;
++	}
++
++	if (!of_device_is_compatible(ctrl, "kalray,kvx-pwr-ctrl")) {
++		pr_err("Failed to get power controller node\n");
++		return -EINVAL;
++	}
++
++	kvx_pwr_controller.regs = of_iomap(ctrl, 0);
++	if (!kvx_pwr_controller.regs) {
++		pr_err("Failed ioremap\n");
++		return -EINVAL;
++	}
 +
 +	return 0;
 +}
-+
-+late_initcall(setup_cpuinfo);
 -- 
 2.37.2
 
