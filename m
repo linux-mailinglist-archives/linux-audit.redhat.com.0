@@ -1,84 +1,84 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id C798F675D5C
-	for <lists+linux-audit@lfdr.de>; Fri, 20 Jan 2023 20:03:02 +0100 (CET)
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BDA3675D5F
+	for <lists+linux-audit@lfdr.de>; Fri, 20 Jan 2023 20:03:06 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1674241381;
+	s=mimecast20190719; t=1674241386;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=5Q24h29IVjxg0JFJRom/RW1XzW8CYJqsjCX4aN6D0yE=;
-	b=JPelqC7+G0sYXae75EFZx75dKzCnPDJtjNbgmHlCsLaPeAWIDMaRpb3c6xM813cyrKK7r3
-	4hDZonayS8YxZ12BX3ggj1CGTahMlWqsmJfLz7zM1PvjL5M5Eys/3Y+XCyia//jEJ1KvpT
-	qWo//K1nIY1/VH47FW8SopFnTX2NCyE=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=uaG65fFHBaU+dWNE1dOJonXSRbmnOkFAaZAZ2PQ8JW4=;
+	b=b4EHZaNZ8WWSE1ya3m7NGvgSPppMGiwuNV7drKg+cVTm39WnxL7hW7T0hIXrianPwoXLEP
+	zMK0P4CKNblkXTAqw6ozQ/ToagqCfvhGh30T1b+LO6DcxVtZoDPV+4C0fOCWGY+bJmVAd6
+	5D2GwF499xtop07yaV2I8ipykq+rlBY=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-461-x38W32gCN2eMaLmm6JVbNg-1; Fri, 20 Jan 2023 14:02:57 -0500
-X-MC-Unique: x38W32gCN2eMaLmm6JVbNg-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
+ us-mta-460-CFgCZlzAMQ6HndFHVSmGsg-1; Fri, 20 Jan 2023 14:03:03 -0500
+X-MC-Unique: CFgCZlzAMQ6HndFHVSmGsg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CFA113C1024C;
-	Fri, 20 Jan 2023 19:02:51 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8515B88B7D5;
+	Fri, 20 Jan 2023 19:02:52 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (unknown [10.30.29.100])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 77A32492B03;
-	Fri, 20 Jan 2023 19:02:51 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 6391940E0421;
+	Fri, 20 Jan 2023 19:02:52 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (localhost [IPv6:::1])
-	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id CE8C61947043;
-	Fri, 20 Jan 2023 19:02:50 +0000 (UTC)
+	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id 8720D1946A7B;
+	Fri, 20 Jan 2023 19:02:51 +0000 (UTC)
 X-Original-To: linux-audit@listman.corp.redhat.com
 Delivered-To: linux-audit@listman.corp.redhat.com
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
  by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with
- ESMTP id 9682D19465B6 for <linux-audit@listman.corp.redhat.com>;
- Fri, 20 Jan 2023 14:10:37 +0000 (UTC)
+ ESMTP id 217EA1946A6D for <linux-audit@listman.corp.redhat.com>;
+ Fri, 20 Jan 2023 14:10:39 +0000 (UTC)
 Received: by smtp.corp.redhat.com (Postfix)
- id 8C5942166B2B; Fri, 20 Jan 2023 14:10:37 +0000 (UTC)
+ id 05E6C40A3601; Fri, 20 Jan 2023 14:10:39 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
- (mimecast05.extmail.prod.ext.rdu2.redhat.com [10.11.55.21])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 83EBA2166B2A
- for <linux-audit@redhat.com>; Fri, 20 Jan 2023 14:10:37 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [207.211.31.81])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6628385C6E2
- for <linux-audit@redhat.com>; Fri, 20 Jan 2023 14:10:37 +0000 (UTC)
-Received: from fx601.security-mail.net (smtpout140.security-mail.net
- [85.31.212.146]) by relay.mimecast.com with ESMTP with STARTTLS
+ (mimecast06.extmail.prod.ext.rdu2.redhat.com [10.11.55.22])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F12F840C2064
+ for <linux-audit@redhat.com>; Fri, 20 Jan 2023 14:10:38 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [205.139.110.61])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C612A183B3C6
+ for <linux-audit@redhat.com>; Fri, 20 Jan 2023 14:10:38 +0000 (UTC)
+Received: from fx405.security-mail.net (smtpout140.security-mail.net
+ [85.31.212.145]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-507-b03xm1eKN7KFfRo1WlJuJw-1; Fri, 20 Jan 2023 09:10:35 -0500
-X-MC-Unique: b03xm1eKN7KFfRo1WlJuJw-1
-Received: from localhost (fx601.security-mail.net [127.0.0.1])
- by fx601.security-mail.net (Postfix) with ESMTP id 9209C3498C8
- for <linux-audit@redhat.com>; Fri, 20 Jan 2023 15:10:34 +0100 (CET)
-Received: from fx601 (fx601.security-mail.net [127.0.0.1]) by
- fx601.security-mail.net (Postfix) with ESMTP id 49E1D349679; Fri, 20 Jan
- 2023 15:10:33 +0100 (CET)
+ us-mta-358-OkYSXXu6NFm1PeE19-hGlA-1; Fri, 20 Jan 2023 09:10:37 -0500
+X-MC-Unique: OkYSXXu6NFm1PeE19-hGlA-1
+Received: from localhost (fx405.security-mail.net [127.0.0.1])
+ by fx405.security-mail.net (Postfix) with ESMTP id 6F4DA335E87
+ for <linux-audit@redhat.com>; Fri, 20 Jan 2023 15:10:35 +0100 (CET)
+Received: from fx405 (fx405.security-mail.net [127.0.0.1]) by
+ fx405.security-mail.net (Postfix) with ESMTP id AF3BC335E98; Fri, 20 Jan
+ 2023 15:10:34 +0100 (CET)
 Received: from zimbra2.kalray.eu (unknown [217.181.231.53]) by
- fx601.security-mail.net (Postfix) with ESMTPS id 6052E349425; Fri, 20 Jan
- 2023 15:10:32 +0100 (CET)
+ fx405.security-mail.net (Postfix) with ESMTPS id C95DC335B8A; Fri, 20 Jan
+ 2023 15:10:33 +0100 (CET)
 Received: from zimbra2.kalray.eu (localhost [127.0.0.1]) by
- zimbra2.kalray.eu (Postfix) with ESMTPS id 2DDA027E043D; Fri, 20 Jan 2023
- 15:10:32 +0100 (CET)
+ zimbra2.kalray.eu (Postfix) with ESMTPS id 884B127E0444; Fri, 20 Jan 2023
+ 15:10:33 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1]) by zimbra2.kalray.eu
- (Postfix) with ESMTP id 0E11627E0437; Fri, 20 Jan 2023 15:10:32 +0100 (CET)
+ (Postfix) with ESMTP id 7018427E043D; Fri, 20 Jan 2023 15:10:33 +0100 (CET)
 Received: from zimbra2.kalray.eu ([127.0.0.1]) by localhost
  (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10026) with ESMTP id
- RaEvsddOB1Lw; Fri, 20 Jan 2023 15:10:31 +0100 (CET)
+ qVvk-rOi_LrW; Fri, 20 Jan 2023 15:10:33 +0100 (CET)
 Received: from junon.lin.mbt.kalray.eu (unknown [192.168.37.161]) by
- zimbra2.kalray.eu (Postfix) with ESMTPSA id 8788727E043E; Fri, 20 Jan 2023
- 15:10:31 +0100 (CET)
+ zimbra2.kalray.eu (Postfix) with ESMTPSA id 0003627E0439; Fri, 20 Jan 2023
+ 15:10:32 +0100 (CET)
 X-Virus-Scanned: E-securemail
-Secumail-id: <1461a.63caa0d8.5c064.0>
-DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu 0E11627E0437
+Secumail-id: <113d2.63caa0d9.c7c9d.0>
+DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu 7018427E043D
 From: Yann Sionneau <ysionneau@kalray.eu>
 To: Arnd Bergmann <arnd@arndb.de>, Jonathan Corbet <corbet@lwn.net>, Thomas
  Gleixner <tglx@linutronix.de>, Marc Zyngier <maz@kernel.org>, Rob Herring
@@ -111,9 +111,9 @@ To: Arnd Bergmann <arnd@arndb.de>, Jonathan Corbet <corbet@lwn.net>, Thomas
  <jiaxun.yang@flygoat.com>, Catalin Marinas <catalin.marinas@arm.com>, Mark
  Brown <broonie@kernel.org>, Janosch Frank <frankja@linux.ibm.com>, Alexey
  Dobriyan <adobriyan@gmail.com>
-Subject: [RFC PATCH v2 16/31] irqchip: Add irq-kvx-itgen driver
-Date: Fri, 20 Jan 2023 15:09:47 +0100
-Message-ID: <20230120141002.2442-17-ysionneau@kalray.eu>
+Subject: [RFC PATCH v2 19/31] kvx: Add process management
+Date: Fri, 20 Jan 2023 15:09:50 +0100
+Message-ID: <20230120141002.2442-20-ysionneau@kalray.eu>
 In-Reply-To: <20230120141002.2442-1-ysionneau@kalray.eu>
 References: <20230120141002.2442-1-ysionneau@kalray.eu>
 MIME-Version: 1.0
@@ -125,7 +125,7 @@ X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
  Internal User Name=false; Custom Display Name List=false;
  Reply-to Address Mismatch=false; Targeted Threat Dictionary=false;
  Mimecast Threat Dictionary=false; Custom Threat Dictionary=false
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
 X-Mailman-Approved-At: Fri, 20 Jan 2023 19:02:49 +0000
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.29
@@ -144,317 +144,1202 @@ Cc: linux-arch@vger.kernel.org, devicetree@vger.kernel.org,
  linux-riscv@lists.infradead.org, bpf@vger.kernel.org
 Errors-To: linux-audit-bounces@redhat.com
 Sender: "Linux-audit" <linux-audit-bounces@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-From: Jules Maselbas <jmaselbas@kalray.eu>
-
-The Kalray Core Interrupt Controller is tightly integrated in each kv3
-core present in the Coolidge SoC.
-
-It provides the following features:
- - 32 independent interrupt sources
- - 2-bit configurable priority level
- - 2-bit configurable ownership level
+Add process management support for kvx, including: thread info
+definition, context switch and process tracing.
 
 Co-developed-by: Clement Leger <clement@clement-leger.fr>
 Signed-off-by: Clement Leger <clement@clement-leger.fr>
+Co-developed-by: Guillaume Thouvenin <gthouvenin@kalray.eu>
+Signed-off-by: Guillaume Thouvenin <gthouvenin@kalray.eu>
 Co-developed-by: Julian Vetter <jvetter@kalray.eu>
 Signed-off-by: Julian Vetter <jvetter@kalray.eu>
+Co-developed-by: Marius Gligor <mgligor@kalray.eu>
+Signed-off-by: Marius Gligor <mgligor@kalray.eu>
 Co-developed-by: Vincent Chardon <vincent.chardon@elsys-design.com>
 Signed-off-by: Vincent Chardon <vincent.chardon@elsys-design.com>
-Signed-off-by: Jules Maselbas <jmaselbas@kalray.eu>
+Co-developed-by: Yann Sionneau <ysionneau@kalray.eu>
 Signed-off-by: Yann Sionneau <ysionneau@kalray.eu>
 ---
 
 Notes:
-    V1 -> V2: new patch
-     - removed header include/linux/irqchip/irq-kvx-apic-gic.h
-     - header moved to drivers/irqchip/ but in another patch
-     - removed print on probe success
+    V1 -> V2: no change
 
- drivers/irqchip/Kconfig         |   8 ++
- drivers/irqchip/Makefile        |   1 +
- drivers/irqchip/irq-kvx-itgen.c | 236 ++++++++++++++++++++++++++++++++
- 3 files changed, 245 insertions(+)
- create mode 100644 drivers/irqchip/irq-kvx-itgen.c
+ arch/kvx/include/asm/current.h     |  22 +++
+ arch/kvx/include/asm/ptrace.h      | 217 +++++++++++++++++++++++
+ arch/kvx/include/asm/switch_to.h   |  21 +++
+ arch/kvx/include/asm/thread_info.h |  78 ++++++++
+ arch/kvx/include/uapi/asm/ptrace.h | 114 ++++++++++++
+ arch/kvx/kernel/process.c          | 203 +++++++++++++++++++++
+ arch/kvx/kernel/ptrace.c           | 276 +++++++++++++++++++++++++++++
+ arch/kvx/kernel/stacktrace.c       | 173 ++++++++++++++++++
+ 8 files changed, 1104 insertions(+)
+ create mode 100644 arch/kvx/include/asm/current.h
+ create mode 100644 arch/kvx/include/asm/ptrace.h
+ create mode 100644 arch/kvx/include/asm/switch_to.h
+ create mode 100644 arch/kvx/include/asm/thread_info.h
+ create mode 100644 arch/kvx/include/uapi/asm/ptrace.h
+ create mode 100644 arch/kvx/kernel/process.c
+ create mode 100644 arch/kvx/kernel/ptrace.c
+ create mode 100644 arch/kvx/kernel/stacktrace.c
 
-diff --git a/drivers/irqchip/Kconfig b/drivers/irqchip/Kconfig
-index 2433e4ba0759..546bc611f3f3 100644
---- a/drivers/irqchip/Kconfig
-+++ b/drivers/irqchip/Kconfig
-@@ -340,6 +340,14 @@ config KVX_APIC_GIC
- 	select IRQ_DOMAIN
- 	select IRQ_DOMAIN_HIERARCHY
- 
-+config KVX_ITGEN
-+	bool
-+	depends on KVX
-+	select GENERIC_IRQ_IPI if SMP
-+	select GENERIC_MSI_IRQ_DOMAIN
-+	select IRQ_DOMAIN
-+	select IRQ_DOMAIN_HIERARCHY
-+
- config INGENIC_IRQ
- 	bool
- 	depends on MACH_INGENIC
-diff --git a/drivers/irqchip/Makefile b/drivers/irqchip/Makefile
-index 8ac1dd880420..6b8f459d8a21 100644
---- a/drivers/irqchip/Makefile
-+++ b/drivers/irqchip/Makefile
-@@ -70,6 +70,7 @@ obj-$(CONFIG_BRCMSTB_L2_IRQ)		+= irq-brcmstb-l2.o
- obj-$(CONFIG_KEYSTONE_IRQ)		+= irq-keystone.o
- obj-$(CONFIG_MIPS_GIC)			+= irq-mips-gic.o
- obj-$(CONFIG_KVX_APIC_GIC)		+= irq-kvx-apic-gic.o
-+obj-$(CONFIG_KVX_ITGEN)			+= irq-kvx-itgen.o
- obj-$(CONFIG_ARCH_MEDIATEK)		+= irq-mtk-sysirq.o irq-mtk-cirq.o
- obj-$(CONFIG_ARCH_DIGICOLOR)		+= irq-digicolor.o
- obj-$(CONFIG_ARCH_SA1100)		+= irq-sa11x0.o
-diff --git a/drivers/irqchip/irq-kvx-itgen.c b/drivers/irqchip/irq-kvx-itgen.c
+diff --git a/arch/kvx/include/asm/current.h b/arch/kvx/include/asm/current.h
 new file mode 100644
-index 000000000000..f6af023a689e
+index 000000000000..b5fd0f076ec9
 --- /dev/null
-+++ b/drivers/irqchip/irq-kvx-itgen.c
-@@ -0,0 +1,236 @@
++++ b/arch/kvx/include/asm/current.h
+@@ -0,0 +1,22 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * Copyright (C) 2017-2023 Kalray Inc.
++ * Author(s): Clement Leger
++ */
++
++#ifndef _ASM_KVX_CURRENT_H
++#define _ASM_KVX_CURRENT_H
++
++#include <asm/percpu.h>
++#include <asm/sfr.h>
++
++struct task_struct;
++
++static __always_inline struct task_struct *get_current(void)
++{
++	return (struct task_struct *) kvx_sfr_get(SR);
++}
++
++#define current get_current()
++
++#endif	/* _ASM_KVX_CURRENT_H */
+diff --git a/arch/kvx/include/asm/ptrace.h b/arch/kvx/include/asm/ptrace.h
+new file mode 100644
+index 000000000000..d1b1e0975d9e
+--- /dev/null
++++ b/arch/kvx/include/asm/ptrace.h
+@@ -0,0 +1,217 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * Copyright (C) 2017-2023 Kalray Inc.
++ * Author(s): Clement Leger
++ *            Marius Gligor
++ *            Yann Sionneau
++ */
++
++#ifndef _ASM_KVX_PTRACE_H
++#define _ASM_KVX_PTRACE_H
++
++#include <asm/types.h>
++#include <asm/sfr.h>
++#include <uapi/asm/ptrace.h>
++
++#define GPR_COUNT	64
++#define SFR_COUNT	9
++#define VIRT_COUNT	1
++
++#define ES_SYSCALL	0x3
++
++#define KVX_HW_BREAKPOINT_COUNT		2
++#define KVX_HW_WATCHPOINT_COUNT		1
++
++#define REG_SIZE	sizeof(u64)
++
++/**
++ * When updating pt_regs structure, this size must be updated.
++ * This is the expected size of the pt_regs struct.
++ * It ensures the structure layout from gcc is the same as the one we
++ * expect in order to do packed load (load/store octuple) in assembly.
++ * Conclusion: never put sizeof(pt_regs) in here or we lose this check
++ * (build time check done in asm-offsets.c via BUILD_BUG_ON)
++ */
++#define PT_REGS_STRUCT_EXPECTED_SIZE \
++			((GPR_COUNT + SFR_COUNT + VIRT_COUNT) * REG_SIZE + \
++			2 * REG_SIZE) /* Padding for stack alignment */
++
++/**
++ * Saved register structure. Note that we should save only the necessary
++ * registers.
++ * When you modify it, please read carefully the comment above.
++ * Moreover, you will need to modify user_pt_regs to match the beginning
++ * of this struct 1:1
++ */
++struct pt_regs {
++	union {
++		struct user_pt_regs user_regs;
++		struct {
++			/* GPR */
++			uint64_t r0;
++			uint64_t r1;
++			uint64_t r2;
++			uint64_t r3;
++			uint64_t r4;
++			uint64_t r5;
++			uint64_t r6;
++			uint64_t r7;
++			uint64_t r8;
++			uint64_t r9;
++			uint64_t r10;
++			uint64_t r11;
++			union {
++				uint64_t r12;
++				uint64_t sp;
++			};
++			union {
++				uint64_t r13;
++				uint64_t tp;
++			};
++			union {
++				uint64_t r14;
++				uint64_t fp;
++			};
++			uint64_t r15;
++			uint64_t r16;
++			uint64_t r17;
++			uint64_t r18;
++			uint64_t r19;
++			uint64_t r20;
++			uint64_t r21;
++			uint64_t r22;
++			uint64_t r23;
++			uint64_t r24;
++			uint64_t r25;
++			uint64_t r26;
++			uint64_t r27;
++			uint64_t r28;
++			uint64_t r29;
++			uint64_t r30;
++			uint64_t r31;
++			uint64_t r32;
++			uint64_t r33;
++			uint64_t r34;
++			uint64_t r35;
++			uint64_t r36;
++			uint64_t r37;
++			uint64_t r38;
++			uint64_t r39;
++			uint64_t r40;
++			uint64_t r41;
++			uint64_t r42;
++			uint64_t r43;
++			uint64_t r44;
++			uint64_t r45;
++			uint64_t r46;
++			uint64_t r47;
++			uint64_t r48;
++			uint64_t r49;
++			uint64_t r50;
++			uint64_t r51;
++			uint64_t r52;
++			uint64_t r53;
++			uint64_t r54;
++			uint64_t r55;
++			uint64_t r56;
++			uint64_t r57;
++			uint64_t r58;
++			uint64_t r59;
++			uint64_t r60;
++			uint64_t r61;
++			uint64_t r62;
++			uint64_t r63;
++
++			/* SFR */
++			uint64_t lc;
++			uint64_t le;
++			uint64_t ls;
++			uint64_t ra;
++
++			uint64_t cs;
++			uint64_t spc;
++		};
++	};
++	uint64_t sps;
++	uint64_t es;
++
++	uint64_t ilr;
++
++	/* "Virtual" registers */
++	uint64_t orig_r0;
++
++	/* Padding for stack alignment (see STACK_ALIGN) */
++	uint64_t padding[2];
++
++	/**
++	 * If you add some fields, please read carefully the comment for
++	 * PT_REGS_STRUCT_EXPECTED_SIZE.
++	 */
++};
++
++#define pl(__reg) kvx_sfr_field_val(__reg, PS, PL)
++
++#define MODE_KERNEL	0
++#define MODE_USER	1
++
++/* Privilege level is relative in $sps, so 1 indicates current PL + 1 */
++#define user_mode(regs)	(pl((regs)->sps) == MODE_USER)
++#define es_ec(regs) kvx_sfr_field_val(regs->es, ES, EC)
++#define es_sysno(regs) kvx_sfr_field_val(regs->es, ES, SN)
++
++#define debug_dc(es) kvx_sfr_field_val((es), ES, DC)
++
++/* ptrace */
++#define PTRACE_GET_HW_PT_REGS	20
++#define PTRACE_SET_HW_PT_REGS	21
++#define arch_has_single_step()	1
++
++#define DEBUG_CAUSE_BREAKPOINT	0
++#define DEBUG_CAUSE_WATCHPOINT	1
++#define DEBUG_CAUSE_STEPI	2
++#define DEBUG_CAUSE_DSU_BREAK	3
++
++static inline void enable_single_step(struct pt_regs *regs)
++{
++	regs->sps |= KVX_SFR_PS_SME_MASK;
++}
++
++static inline void disable_single_step(struct pt_regs *regs)
++{
++	regs->sps &= ~KVX_SFR_PS_SME_MASK;
++}
++
++static inline bool in_syscall(struct pt_regs const *regs)
++{
++	return es_ec(regs) == ES_SYSCALL;
++}
++
++int do_syscall_trace_enter(struct pt_regs *regs, unsigned long syscall);
++void do_syscall_trace_exit(struct pt_regs *regs);
++
++static inline unsigned long get_current_sp(void)
++{
++	register const unsigned long current_sp __asm__ ("$r12");
++
++	return current_sp;
++}
++
++extern char *user_scall_rt_sigreturn_end;
++extern char *user_scall_rt_sigreturn;
++
++static inline unsigned long instruction_pointer(struct pt_regs *regs)
++{
++	return regs->spc;
++}
++
++static inline long regs_return_value(struct pt_regs *regs)
++{
++	return regs->r0;
++}
++
++static inline unsigned long user_stack_pointer(struct pt_regs *regs)
++{
++	return regs->sp;
++}
++
++#endif	/* _ASM_KVX_PTRACE_H */
+diff --git a/arch/kvx/include/asm/switch_to.h b/arch/kvx/include/asm/switch_to.h
+new file mode 100644
+index 000000000000..2b1fda06dea8
+--- /dev/null
++++ b/arch/kvx/include/asm/switch_to.h
+@@ -0,0 +1,21 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * Copyright (C) 2017-2023 Kalray Inc.
++ * Author(s): Clement Leger
++ */
++
++#ifndef _ASM_KVX_SWITCH_TO_H
++#define _ASM_KVX_SWITCH_TO_H
++
++struct task_struct;
++
++/* context switching is now performed out-of-line in switch_to.S */
++extern struct task_struct *__switch_to(struct task_struct *prev,
++				       struct task_struct *next);
++
++#define switch_to(prev, next, last)					\
++	do {								\
++		((last) = __switch_to((prev), (next)));			\
++	} while (0)
++
++#endif	/* _ASM_KVX_SWITCH_TO_H */
+diff --git a/arch/kvx/include/asm/thread_info.h b/arch/kvx/include/asm/thread_info.h
+new file mode 100644
+index 000000000000..4ce0154813ef
+--- /dev/null
++++ b/arch/kvx/include/asm/thread_info.h
+@@ -0,0 +1,78 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * Copyright (C) 2017-2023 Kalray Inc.
++ * Author(s): Clement Leger
++ *            Guillaume Thouvenin
++ */
++
++#ifndef _ASM_KVX_THREAD_INFO_H
++#define _ASM_KVX_THREAD_INFO_H
++
++#include <asm/page.h>
++
++/*
++ * Size of the kernel stack for each process.
++ */
++#define THREAD_SIZE_ORDER       2
++#define THREAD_SIZE             (PAGE_SIZE << THREAD_SIZE_ORDER)
++
++/*
++ * Thread information flags
++ *   these are process state flags that various assembly files may need to
++ *   access
++ *   - pending work-to-be-done flags are in LSW
++ *   - other flags in MSW
++ */
++#define TIF_SYSCALL_TRACE	0	/* syscall trace active */
++#define TIF_NOTIFY_RESUME	1	/* resumption notification requested */
++#define TIF_SIGPENDING		2	/* signal pending */
++#define TIF_NEED_RESCHED	3	/* rescheduling necessary */
++#define TIF_SINGLESTEP		4	/* restore singlestep on return to user mode */
++#define TIF_UPROBE		5
++#define TIF_SYSCALL_TRACEPOINT  6	/* syscall tracepoint instrumentation */
++#define TIF_SYSCALL_AUDIT	7	/* syscall auditing active */
++#define TIF_RESTORE_SIGMASK     9
++#define TIF_NOTIFY_SIGNAL	10	/* signal notifications exist */
++#define TIF_POLLING_NRFLAG	16	/* true if poll_idle() is polling TIF_NEED_RESCHED */
++#define TIF_MEMDIE              17
++
++#define _TIF_SYSCALL_TRACE	(1 << TIF_SYSCALL_TRACE)
++#define _TIF_SYSCALL_TRACEPOINT	(1 << TIF_SYSCALL_TRACEPOINT)
++#define _TIF_SYSCALL_AUDIT	(1 << TIF_SYSCALL_AUDIT)
++#define _TIF_POLLING_NRFLAG	(1 << TIF_POLLING_NRFLAG)
++#define _TIF_NOTIFY_RESUME	(1 << TIF_NOTIFY_RESUME)
++#define _TIF_SIGPENDING		(1 << TIF_SIGPENDING)
++#define _TIF_NEED_RESCHED	(1 << TIF_NEED_RESCHED)
++#define _TIF_NOTIFY_SIGNAL	(1 << TIF_NOTIFY_SIGNAL)
++
++#define _TIF_WORK_MASK \
++	(_TIF_NOTIFY_RESUME | _TIF_SIGPENDING | _TIF_NEED_RESCHED)
++
++#define _TIF_SYSCALL_WORK \
++	(_TIF_SYSCALL_TRACE | _TIF_SYSCALL_TRACEPOINT | _TIF_SYSCALL_AUDIT)
++
++#ifndef __ASSEMBLY__
++/*
++ * We are using THREAD_INFO_IN_TASK so this struct is almost useless
++ * please prefer adding fields in thread_struct (processor.h) rather
++ * than here.
++ * This struct is merely a remnant of distant times where it was placed
++ * on the stack to avoid large task_struct.
++ *
++ * cf https://lwn.net/Articles/700615/
++ */
++struct thread_info {
++	unsigned long flags;				/* low level flags */
++	int preempt_count;
++#ifdef CONFIG_SMP
++	u32 cpu;					/* current CPU */
++#endif
++};
++
++#define INIT_THREAD_INFO(tsk)			\
++{						\
++	.flags		= 0,			\
++	.preempt_count  = INIT_PREEMPT_COUNT,	\
++}
++#endif /* __ASSEMBLY__*/
++#endif /* _ASM_KVX_THREAD_INFO_H */
+diff --git a/arch/kvx/include/uapi/asm/ptrace.h b/arch/kvx/include/uapi/asm/ptrace.h
+new file mode 100644
+index 000000000000..f5febe830526
+--- /dev/null
++++ b/arch/kvx/include/uapi/asm/ptrace.h
+@@ -0,0 +1,114 @@
++/* SPDX-License-Identifier: GPL-2.0-only WITH Linux-syscall-note */
++/*
++ * Copyright (C) 2017-2023 Kalray Inc.
++ * Author(s): Clement Leger
++ *            Yann Sionneau
++ */
++
++#ifndef _UAPI_ASM_KVX_PTRACE_H
++#define _UAPI_ASM_KVX_PTRACE_H
++
++#include <linux/types.h>
++/*
++ * User-mode register state for core dumps, ptrace, sigcontext
++ *
++ * This decouples struct pt_regs from the userspace ABI.
++ * The struct pt_regs must start with the same layout as struct user_pt_regs.
++ */
++struct user_pt_regs {
++	/* GPR */
++	unsigned long r0;
++	unsigned long r1;
++	unsigned long r2;
++	unsigned long r3;
++	unsigned long r4;
++	unsigned long r5;
++	unsigned long r6;
++	unsigned long r7;
++	unsigned long r8;
++	unsigned long r9;
++	unsigned long r10;
++	unsigned long r11;
++	union {
++		unsigned long r12;
++		unsigned long sp;
++	};
++	union {
++		unsigned long r13;
++		unsigned long tp;
++	};
++	union {
++		unsigned long r14;
++		unsigned long fp;
++	};
++	unsigned long r15;
++	unsigned long r16;
++	unsigned long r17;
++	unsigned long r18;
++	unsigned long r19;
++	unsigned long r20;
++	unsigned long r21;
++	unsigned long r22;
++	unsigned long r23;
++	unsigned long r24;
++	unsigned long r25;
++	unsigned long r26;
++	unsigned long r27;
++	unsigned long r28;
++	unsigned long r29;
++	unsigned long r30;
++	unsigned long r31;
++	unsigned long r32;
++	unsigned long r33;
++	unsigned long r34;
++	unsigned long r35;
++	unsigned long r36;
++	unsigned long r37;
++	unsigned long r38;
++	unsigned long r39;
++	unsigned long r40;
++	unsigned long r41;
++	unsigned long r42;
++	unsigned long r43;
++	unsigned long r44;
++	unsigned long r45;
++	unsigned long r46;
++	unsigned long r47;
++	unsigned long r48;
++	unsigned long r49;
++	unsigned long r50;
++	unsigned long r51;
++	unsigned long r52;
++	unsigned long r53;
++	unsigned long r54;
++	unsigned long r55;
++	unsigned long r56;
++	unsigned long r57;
++	unsigned long r58;
++	unsigned long r59;
++	unsigned long r60;
++	unsigned long r61;
++	unsigned long r62;
++	unsigned long r63;
++
++	/* SFR */
++	unsigned long lc;
++	unsigned long le;
++	unsigned long ls;
++	unsigned long ra;
++
++	unsigned long cs;
++	unsigned long spc;
++};
++
++/* TCA registers structure exposed to user */
++struct user_tca_regs {
++	struct {
++		__u64 x;
++		__u64 y;
++		__u64 z;
++		__u64 t;
++	} regs[48];
++};
++
++#endif /* _UAPI_ASM_KVX_PTRACE_H */
+diff --git a/arch/kvx/kernel/process.c b/arch/kvx/kernel/process.c
+new file mode 100644
+index 000000000000..2a1cd0509604
+--- /dev/null
++++ b/arch/kvx/kernel/process.c
+@@ -0,0 +1,203 @@
 +// SPDX-License-Identifier: GPL-2.0-only
 +/*
-+ * Copyright (c) 2017-2023 Kalray Inc.
++ * Copyright (C) 2017-2023 Kalray Inc.
 + * Author(s): Clement Leger
-+ *            Julian Vetter
++ *            Guillaume Thouvenin
++ *            Marius Gligor
++ *            Yann Sionneau
++ */
++
++#include <linux/elf.h>
++#include <linux/sched.h>
++#include <linux/ptrace.h>
++#include <linux/printk.h>
++#include <linux/sched/debug.h>
++#include <linux/sched/task_stack.h>
++
++#include <asm/ptrace.h>
++#include <asm/processor.h>
++#include <asm/ptrace.h>
++#include <asm/uaccess.h>
++#include <asm/stacktrace.h>
++
++#if defined(CONFIG_STACKPROTECTOR)
++#include <linux/stackprotector.h>
++unsigned long __stack_chk_guard __read_mostly;
++EXPORT_SYMBOL(__stack_chk_guard);
++#endif
++
++#define SCALL_NUM_EXIT	"0xfff"
++
++void arch_cpu_idle(void)
++{
++	wait_for_interrupt();
++	local_irq_enable();
++}
++
++void show_regs(struct pt_regs *regs)
++{
++
++	int in_kernel = 1;
++	unsigned short i, reg_offset;
++	void *ptr;
++
++	show_regs_print_info(KERN_DEFAULT);
++
++	if (user_mode(regs))
++		in_kernel = 0;
++
++	pr_info("\nmode: %s\n"
++	       "    PC: %016llx    PS: %016llx\n"
++	       "    CS: %016llx    RA: %016llx\n"
++	       "    LS: %016llx    LE: %016llx\n"
++	       "    LC: %016llx\n\n",
++	       in_kernel ? "kernel" : "user",
++	       regs->spc, regs->sps,
++	       regs->cs, regs->ra, regs->ls, regs->le, regs->lc);
++
++	/* GPR */
++	ptr = regs;
++	ptr += offsetof(struct pt_regs, r0);
++	reg_offset = offsetof(struct pt_regs, r1) -
++		     offsetof(struct pt_regs, r0);
++
++	/**
++	 * Display all the 64 GPRs assuming they are ordered correctly
++	 * in the pt_regs struct...
++	 */
++	for (i = 0; i < GPR_COUNT; i += 2) {
++		pr_info("    R%d: %016llx    R%d: %016llx\n",
++			 i, *(uint64_t *)ptr,
++			 i + 1, *(uint64_t *)(ptr + reg_offset));
++		ptr += reg_offset * 2;
++	}
++
++	pr_info("\n\n");
++}
++
++/**
++ * Prepare a thread to return to userspace
++ */
++void start_thread(struct pt_regs *regs,
++			unsigned long pc, unsigned long sp)
++{
++	/* Remove MMUP bit (user is not privilege in current virtual space) */
++	u64 clear_bit = KVX_SFR_PS_MMUP_MASK | KVX_SFR_PS_SME_MASK |
++			KVX_SFR_PS_SMR_MASK;
++	regs->spc = pc;
++	regs->sp = sp;
++	regs->sps = kvx_sfr_get(PS);
++
++	regs->sps &= ~clear_bit;
++
++	/* Set privilege level to +1 (relative) */
++	regs->sps &= ~KVX_SFR_PS_PL_MASK;
++	regs->sps |= (1 << KVX_SFR_PS_PL_SHIFT);
++}
++
++int copy_thread(struct task_struct *p, const struct kernel_clone_args *args)
++{
++	struct pt_regs *regs, *childregs = task_pt_regs(p);
++	unsigned long clone_flags = args->flags;
++	unsigned long usp = args->stack;
++	unsigned long tls = args->tls;
++
++	/* p->thread holds context to be restored by __switch_to() */
++	if (unlikely(args->fn)) {
++		/* Kernel thread */
++		memset(childregs, 0, sizeof(struct pt_regs));
++
++		p->thread.ctx_switch.r20 = (uint64_t)args->fn; /* fn */
++		p->thread.ctx_switch.r21 = (uint64_t)args->fn_arg;
++		p->thread.ctx_switch.ra =
++				(unsigned long) ret_from_kernel_thread;
++	} else {
++		regs = current_pt_regs();
++
++		/* Copy current process registers */
++		*childregs = *regs;
++
++		/* Store tracing status in r20 to avoid computing it
++		 * in assembly
++		 */
++		p->thread.ctx_switch.r20 =
++			task_thread_info(p)->flags & _TIF_SYSCALL_WORK;
++		p->thread.ctx_switch.ra = (unsigned long) ret_from_fork;
++
++		childregs->r0 = 0; /* Return value of fork() */
++		/* Set stack pointer if any */
++		if (usp)
++			childregs->sp = usp;
++
++		/* Set a new TLS ?  */
++		if (clone_flags & CLONE_SETTLS)
++			childregs->r13 = tls;
++	}
++	p->thread.kernel_sp =
++		(unsigned long) (task_stack_page(p) + THREAD_SIZE);
++	p->thread.ctx_switch.sp = (unsigned long) childregs;
++
++	return 0;
++}
++
++void release_thread(struct task_struct *dead_task)
++{
++}
++
++void flush_thread(void)
++{
++}
++
++/* Fill in the fpu structure for a core dump.  */
++int dump_fpu(struct pt_regs *regs, elf_fpregset_t *fpu)
++{
++	/*
++	 * On kvx, FPU uses standard registers + $cs which is a common register
++	 * also needed for non-fpu execution, so there is no additional
++	 * register to dump.
++	 */
++	return 0;
++}
++
++static bool find_wchan(unsigned long pc, void *arg)
++{
++	unsigned long *p = arg;
++
++	/*
++	 * If the pc is in a scheduler function (waiting), then, this is the
++	 * address where the process is currently stuck. Note that scheduler
++	 * functions also include lock functions. This functions are
++	 * materialized using annotation to put them is special text sections.
++	 */
++	if (!in_sched_functions(pc)) {
++		*p = pc;
++		return true;
++	}
++
++	return false;
++}
++
++/*
++ * __get_wchan is called to obtain "schedule()" caller function address.
++ */
++unsigned long __get_wchan(struct task_struct *p)
++{
++	unsigned long pc = 0;
++	struct stackframe frame;
++
++	/*
++	 * We need to obtain the task stack since we don't want the stack to
++	 * move under our feet.
++	 */
++	if (!try_get_task_stack(p))
++		return 0;
++
++	start_stackframe(&frame, thread_saved_reg(p, fp),
++			 thread_saved_reg(p, ra));
++	walk_stackframe(p, &frame, find_wchan, &pc);
++
++	put_task_stack(p);
++
++	return pc;
++}
++
+diff --git a/arch/kvx/kernel/ptrace.c b/arch/kvx/kernel/ptrace.c
+new file mode 100644
+index 000000000000..aacae5883cb5
+--- /dev/null
++++ b/arch/kvx/kernel/ptrace.c
+@@ -0,0 +1,276 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * derived from arch/riscv/kernel/ptrace.c
++ *
++ * Copyright (C) 2017-2023 Kalray Inc.
++ * Author(s): Marius Gligor
++ *            Clement Leger
++ */
++
++#include <linux/sched.h>
++#include <linux/sched.h>
++#include <linux/audit.h>
++#include <linux/irqflags.h>
++#include <linux/thread_info.h>
++#include <linux/context_tracking.h>
++#include <linux/uaccess.h>
++#include <linux/syscalls.h>
++#include <linux/signal.h>
++#include <linux/regset.h>
++#include <linux/hw_breakpoint.h>
++
++#include <asm/dame.h>
++#include <asm/ptrace.h>
++#include <asm/syscall.h>
++#include <asm/break_hook.h>
++#include <asm/debug.h>
++#include <asm/cacheflush.h>
++
++#define CREATE_TRACE_POINTS
++#include <trace/events/syscalls.h>
++
++#define HW_PT_CMD_GET_CAPS	0
++#define HW_PT_CMD_GET_PT	1
++#define HW_PT_CMD_SET_RESERVE	0
++#define HW_PT_CMD_SET_ENABLE	1
++
++#define FROM_GDB_CMD_MASK 3
++#define FROM_GDB_HP_TYPE_SHIFT 2
++#define FROM_GDB_HP_TYPE_MASK 4
++#define FROM_GDB_WP_TYPE_SHIFT 3
++#define FROM_GDB_WP_TYPE_MASK 0x18
++#define FROM_GDB_HP_IDX_SHIFT 5
++
++#define hw_pt_cmd(addr) ((addr) & FROM_GDB_CMD_MASK)
++#define hw_pt_is_bkp(addr) ((((addr) & FROM_GDB_HP_TYPE_MASK) >> \
++			     FROM_GDB_HP_TYPE_SHIFT) == KVX_HW_BREAKPOINT_TYPE)
++#define get_hw_pt_wp_type(addr) ((((addr) & FROM_GDB_WP_TYPE_MASK)) >> \
++				 FROM_GDB_WP_TYPE_SHIFT)
++#define get_hw_pt_idx(addr) ((addr) >> FROM_GDB_HP_IDX_SHIFT)
++#define get_hw_pt_addr(data) ((data)[0])
++#define get_hw_pt_len(data) ((data)[1] >> 1)
++#define hw_pt_is_enabled(data) ((data)[1] & 1)
++
++enum kvx_regset {
++	REGSET_GPR,
++#ifdef CONFIG_ENABLE_TCA
++	REGSET_TCA,
++#endif
++};
++
++void ptrace_disable(struct task_struct *child)
++{
++	/* nothing to do */
++}
++
++static int kvx_gpr_get(struct task_struct *target,
++			 const struct user_regset *regset,
++			 struct membuf to)
++{
++	struct user_pt_regs *regs = &task_pt_regs(target)->user_regs;
++
++	return membuf_write(&to, regs, sizeof(*regs));
++}
++
++static int kvx_gpr_set(struct task_struct *target,
++			 const struct user_regset *regset,
++			 unsigned int pos, unsigned int count,
++			 const void *kbuf, const void __user *ubuf)
++{
++	struct user_pt_regs *regs = &task_pt_regs(target)->user_regs;
++
++	return user_regset_copyin(&pos, &count, &kbuf, &ubuf, regs, 0, -1);
++}
++
++#ifdef CONFIG_ENABLE_TCA
++static int kvx_tca_reg_get(struct task_struct *target,
++			 const struct user_regset *regset,
++			 struct membuf to)
++{
++	struct ctx_switch_regs *ctx_regs = &target->thread.ctx_switch;
++	struct tca_reg *regs = ctx_regs->tca_regs;
++	int ret;
++
++	if (!ctx_regs->tca_regs_saved)
++		ret = membuf_zero(&to, sizeof(*regs));
++	else
++		ret = membuf_write(&to, regs, sizeof(*regs));
++
++	return ret;
++}
++
++static int kvx_tca_reg_set(struct task_struct *target,
++			 const struct user_regset *regset,
++			 unsigned int pos, unsigned int count,
++			 const void *kbuf, const void __user *ubuf)
++{
++	struct ctx_switch_regs *ctx_regs = &target->thread.ctx_switch;
++	struct tca_reg *regs = ctx_regs->tca_regs;
++	int ret;
++
++	if (!ctx_regs->tca_regs_saved)
++		ret = user_regset_copyin_ignore(&pos, &count, &kbuf, &ubuf,
++						0, -1);
++	else
++		ret = user_regset_copyin(&pos, &count, &kbuf, &ubuf, regs,
++					 0, -1);
++
++	return ret;
++}
++#endif
++
++static const struct user_regset kvx_user_regset[] = {
++	[REGSET_GPR] = {
++		.core_note_type = NT_PRSTATUS,
++		.n = ELF_NGREG,
++		.size = sizeof(elf_greg_t),
++		.align = sizeof(elf_greg_t),
++		.regset_get = &kvx_gpr_get,
++		.set = &kvx_gpr_set,
++	},
++#ifdef CONFIG_ENABLE_TCA
++	[REGSET_TCA] = {
++		.core_note_type = NT_KVX_TCA,
++		.n = TCA_REG_COUNT,
++		.size = sizeof(struct tca_reg),
++		.align = sizeof(struct tca_reg),
++		.regset_get = &kvx_tca_reg_get,
++		.set = &kvx_tca_reg_set,
++	},
++#endif
++};
++
++static const struct user_regset_view user_kvx_view = {
++	.name = "kvx",
++	.e_machine = EM_KVX,
++	.regsets = kvx_user_regset,
++	.n = ARRAY_SIZE(kvx_user_regset)
++};
++
++const struct user_regset_view *task_user_regset_view(struct task_struct *task)
++{
++	return &user_kvx_view;
++}
++
++long arch_ptrace(struct task_struct *child, long request,
++		unsigned long addr, unsigned long data)
++{
++	return ptrace_request(child, request, addr, data);
++}
++
++/*
++ * Allows PTRACE_SYSCALL to work.  These are called from entry.S in
++ * {handle,ret_from}_syscall.
++ */
++int do_syscall_trace_enter(struct pt_regs *regs, unsigned long syscall)
++{
++	int ret = 0;
++
++#ifdef CONFIG_CONTEXT_TRACKING_USER
++	user_exit_callable();
++#endif
++	if (test_thread_flag(TIF_SYSCALL_TRACE))
++		ret = ptrace_report_syscall_entry(regs);
++
++#ifdef CONFIG_HAVE_SYSCALL_TRACEPOINTS
++	if (test_thread_flag(TIF_SYSCALL_TRACEPOINT))
++		trace_sys_enter(regs, syscall_get_nr(current, regs));
++#endif
++
++	audit_syscall_entry(syscall, regs->r0, regs->r1, regs->r2, regs->r3);
++
++	return ret;
++}
++
++void do_syscall_trace_exit(struct pt_regs *regs)
++{
++	if (test_thread_flag(TIF_SYSCALL_TRACE))
++		ptrace_report_syscall_exit(regs, 0);
++
++	audit_syscall_exit(regs);
++
++#ifdef CONFIG_HAVE_SYSCALL_TRACEPOINTS
++	if (test_thread_flag(TIF_SYSCALL_TRACEPOINT))
++		trace_sys_exit(regs, regs_return_value(regs));
++#endif
++
++#ifdef CONFIG_CONTEXT_TRACKING_USER
++	user_enter_callable();
++#endif
++}
++
++static int kvx_bkpt_handler(struct break_hook *brk_hook, struct pt_regs *regs)
++{
++	/* Unexpected breakpoint */
++	if (!(current->ptrace & PT_PTRACED))
++		return BREAK_HOOK_ERROR;
++
++	/* deliver the signal to userspace */
++	force_sig_fault(SIGTRAP, TRAP_BRKPT, (void __user *) regs->spc);
++
++	return BREAK_HOOK_HANDLED;
++}
++
++static void kvx_stepi(struct pt_regs *regs)
++{
++	/* deliver the signal to userspace */
++	force_sig_fault(SIGTRAP, TRAP_TRACE, (void __user *) regs->spc);
++}
++
++void user_enable_single_step(struct task_struct *child)
++{
++	struct pt_regs *regs = task_pt_regs(child);
++
++	enable_single_step(regs);
++}
++
++void user_disable_single_step(struct task_struct *child)
++{
++	struct pt_regs *regs = task_pt_regs(child);
++
++	disable_single_step(regs);
++}
++
++/**
++ * Main debug handler called by the _debug_handler routine in entry.S
++ * This handler will perform the required action
++ * @es: Exception Syndrome register value
++ * @ea: Exception Address register
++ * @regs: pointer to registers saved when enter debug
++ */
++int ptrace_debug_handler(u64 ea, struct pt_regs *regs)
++{
++
++	int debug_cause = debug_dc(regs->es);
++
++	switch (debug_cause) {
++	case DEBUG_CAUSE_STEPI:
++		kvx_stepi(regs);
++		break;
++	default:
++		break;
++	}
++
++	return DEBUG_HOOK_HANDLED;
++}
++
++static struct debug_hook ptrace_debug_hook = {
++	.handler = ptrace_debug_handler,
++	.mode = MODE_USER,
++};
++
++static struct break_hook bkpt_break_hook = {
++	.id = BREAK_CAUSE_BKPT,
++	.handler = kvx_bkpt_handler,
++	.mode = MODE_USER,
++};
++
++static int __init arch_init_breakpoint(void)
++{
++	break_hook_register(&bkpt_break_hook);
++	debug_hook_register(&ptrace_debug_hook);
++
++	return 0;
++}
++
++postcore_initcall(arch_init_breakpoint);
+diff --git a/arch/kvx/kernel/stacktrace.c b/arch/kvx/kernel/stacktrace.c
+new file mode 100644
+index 000000000000..85d52ba2d082
+--- /dev/null
++++ b/arch/kvx/kernel/stacktrace.c
+@@ -0,0 +1,173 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * Copyright (C) 2017-2023 Kalray Inc.
++ * Author(s): Clement Leger
 + *            Vincent Chardon
 + */
 +
-+#include <linux/platform_device.h>
-+#include <linux/of_platform.h>
-+#include <linux/of_address.h>
-+#include <linux/interrupt.h>
-+#include <linux/irqdomain.h>
-+#include <linux/irqchip.h>
-+#include <linux/module.h>
-+#include <linux/msi.h>
-+#include <linux/of.h>
-+#include <linux/of_irq.h>
++#include <linux/context_tracking.h>
++#include <linux/kallsyms.h>
++#include <linux/printk.h>
++#include <linux/init.h>
 +
-+/* Parameters */
-+#define KVX_ITGEN_PARAM_OFFSET			0x1100
-+#define KVX_ITGEN_PARAM_IT_NUM_OFFSET		0x0
++#include <asm/stacktrace.h>
++#include <asm/ptrace.h>
 +
-+/* Target configuration */
-+#define KVX_ITGEN_CFG_ENABLE_OFFSET		0x8
-+#define KVX_ITGEN_CFG_ELEM_SIZE		0x10
-+#define KVX_ITGEN_CFG_TARGET_OFFSET		0x0
-+#define KVX_ITGEN_CFG_TARGET_MAILBOX_SHIFT	0x0
-+#define KVX_ITGEN_CFG_TARGET_MAILBOX_MASK	0x7FUL
-+#define KVX_ITGEN_CFG_TARGET_CLUSTER_SHIFT	0x8
-+#define KVX_ITGEN_CFG_TARGET_CLUSTER_MASK	0x700UL
-+#define KVX_ITGEN_CFG_TARGET_SELECT_BIT_SHIFT	0x18
-+#define KVX_ITGEN_CFG_TARGET_SELECT_BIT_MASK	0x3F000000UL
++#define STACK_SLOT_PER_LINE		4
++#define STACK_MAX_SLOT_PRINT		(STACK_SLOT_PER_LINE * 8)
 +
-+#define MB_ADDR_CLUSTER_SHIFT	24
-+#define MB_ADDR_MAILBOX_SHIFT	9
++static int notrace unwind_frame(struct task_struct *task,
++				struct stackframe *frame)
++{
++	unsigned long fp = frame->fp;
 +
-+/**
-+ * struct kvx_itgen - kvx interrupt generator (MSI client)
-+ * @base: base address of the itgen controller
-+ * @domain: IRQ domain of the controller
-+ * @pdev: Platform device associated to the controller
++	/* Frame pointer must be aligned on 8 bytes */
++	if (fp & 0x7)
++		return -EINVAL;
++
++	if (!task)
++		task = current;
++
++	if (!on_task_stack(task, fp))
++		return -EINVAL;
++
++	frame->fp = READ_ONCE_NOCHECK(*(unsigned long *)(fp));
++	frame->ra = READ_ONCE_NOCHECK(*(unsigned long *)(fp + 8));
++
++	/*
++	 * When starting, we set the frame pointer to 0, hence end of
++	 * frame linked list is signal by that
++	 */
++	if (!frame->fp)
++		return -EINVAL;
++
++	return 0;
++}
++
++void notrace walk_stackframe(struct task_struct *task, struct stackframe *frame,
++			     bool (*fn)(unsigned long, void *), void *arg)
++{
++	unsigned long addr;
++	int ret;
++
++	while (1) {
++		addr = frame->ra;
++
++		if (fn(addr, arg))
++			break;
++
++		ret = unwind_frame(task, frame);
++		if (ret)
++			break;
++	}
++}
++
++#ifdef CONFIG_STACKTRACE
++bool append_stack_addr(unsigned long pc, void *arg)
++{
++	struct stack_trace *trace;
++
++	trace = (struct stack_trace *)arg;
++	if (trace->skip == 0) {
++		trace->entries[trace->nr_entries++] = pc;
++		if (trace->nr_entries == trace->max_entries)
++			return true;
++	} else {
++		trace->skip--;
++	}
++
++	return false;
++}
++
++/*
++ * Save stack-backtrace addresses into a stack_trace buffer.
 + */
-+struct kvx_itgen {
-+	void __iomem *base;
-+	struct irq_domain *domain;
-+	struct platform_device *pdev;
-+};
-+
-+static void __iomem *get_itgen_cfg_offset(struct kvx_itgen *itgen,
-+						irq_hw_number_t hwirq)
++void save_stack_trace(struct stack_trace *trace)
 +{
-+	return itgen->base + KVX_ITGEN_CFG_TARGET_OFFSET +
-+				hwirq * KVX_ITGEN_CFG_ELEM_SIZE;
++	struct stackframe frame;
++
++	trace->nr_entries = 0;
++	/* We want to skip this function and the caller */
++	trace->skip += 2;
++
++	start_stackframe(&frame, (unsigned long) __builtin_frame_address(0),
++			 (unsigned long) save_stack_trace);
++	walk_stackframe(current, &frame, append_stack_addr, trace);
++}
++EXPORT_SYMBOL(save_stack_trace);
++#endif /* CONFIG_STACKTRACE */
++
++static bool print_pc(unsigned long pc, void *arg)
++{
++	unsigned long *skip = arg;
++
++	if (*skip == 0)
++		print_ip_sym(KERN_INFO, pc);
++	else
++		(*skip)--;
++
++	return false;
 +}
 +
-+void __iomem *get_itgen_param_offset(struct kvx_itgen *itgen)
++void show_stacktrace(struct task_struct *task, struct pt_regs *regs)
 +{
-+	return itgen->base + KVX_ITGEN_PARAM_OFFSET;
-+}
++	struct stackframe frame;
++	unsigned long skip = 0;
 +
-+static void kvx_itgen_enable(struct irq_data *data, u32 value)
-+{
-+	struct kvx_itgen *itgen = irq_data_get_irq_chip_data(data);
-+	void __iomem *enable_reg =
-+		get_itgen_cfg_offset(itgen, irqd_to_hwirq(data)) +
-+		KVX_ITGEN_CFG_ENABLE_OFFSET;
++	/* Obviously, we can't backtrace on usermode ! */
++	if (regs && user_mode(regs))
++		return;
 +
-+	dev_dbg(&itgen->pdev->dev, "%sabling hwirq %d, addr %p\n",
-+		 value ? "En" : "Dis",
-+		 (int) irqd_to_hwirq(data),
-+		 enable_reg);
-+	writel(value, enable_reg);
-+}
++	if (!task)
++		task = current;
 +
-+static void kvx_itgen_mask(struct irq_data *data)
-+{
-+	kvx_itgen_enable(data, 0x0);
-+	irq_chip_mask_parent(data);
-+}
++	if (!try_get_task_stack(task))
++		return;
 +
-+static void kvx_itgen_unmask(struct irq_data *data)
-+{
-+	kvx_itgen_enable(data, 0x1);
-+	irq_chip_unmask_parent(data);
-+}
-+
-+#ifdef CONFIG_SMP
-+static int kvx_itgen_irq_set_affinity(struct irq_data *data,
-+				      const struct cpumask *dest, bool force)
-+{
-+	return -ENOSYS;
-+}
-+#endif
-+
-+static struct irq_chip itgen_irq_chip = {
-+	.name =			"kvx-itgen",
-+	.irq_mask =		kvx_itgen_mask,
-+	.irq_unmask =		kvx_itgen_unmask,
-+#ifdef CONFIG_SMP
-+	.irq_set_affinity =	kvx_itgen_irq_set_affinity,
-+#endif
-+};
-+
-+#define ITGEN_UNSUPPORTED_TYPES (IRQ_TYPE_LEVEL_LOW | IRQ_TYPE_EDGE_FALLING)
-+
-+static int kvx_itgen_domain_alloc(struct irq_domain *domain, unsigned int virq,
-+				   unsigned int nr_irqs, void *args)
-+{
-+	int i, err;
-+	struct irq_fwspec *fwspec = args;
-+	int hwirq = fwspec->param[0];
-+	int type = IRQ_TYPE_NONE;
-+	struct kvx_itgen *itgen;
-+
-+	if (fwspec->param_count >= 2)
-+		type = fwspec->param[1];
-+
-+	WARN_ON(type & ITGEN_UNSUPPORTED_TYPES);
-+
-+	err = platform_msi_device_domain_alloc(domain, virq, nr_irqs);
-+	if (err)
-+		return err;
-+
-+	itgen = platform_msi_get_host_data(domain);
-+
-+	for (i = 0; i < nr_irqs; i++) {
-+		irq_domain_set_hwirq_and_chip(domain, virq + i, hwirq + i,
-+				      &itgen_irq_chip, itgen);
-+		if (type == IRQ_TYPE_LEVEL_HIGH)
-+			irq_set_handler(virq + i, handle_level_irq);
++	if (regs) {
++		start_stackframe(&frame, regs->fp, regs->spc);
++	} else if (task == current) {
++		/* Skip current function and caller */
++		skip = 2;
++		start_stackframe(&frame,
++				 (unsigned long) __builtin_frame_address(0),
++				 (unsigned long) show_stacktrace);
++	} else {
++		/* task blocked in __switch_to */
++		start_stackframe(&frame,
++				 thread_saved_reg(task, fp),
++				 thread_saved_reg(task, ra));
 +	}
 +
-+	return 0;
++	pr_info("Call Trace:\n");
++	walk_stackframe(task, &frame, print_pc, &skip);
++
++	put_task_stack(task);
 +}
 +
-+static const struct irq_domain_ops itgen_domain_ops = {
-+	.alloc		= kvx_itgen_domain_alloc,
-+	.free		= irq_domain_free_irqs_common,
-+};
-+
-+static void kvx_itgen_write_msg(struct msi_desc *desc, struct msi_msg *msg)
++/*
++ * If show_stack is called with a non-null task, then the task will have been
++ * claimed with try_get_task_stack by the caller. If task is NULL or current
++ * then there is no need to get task stack since it's our current stack...
++ */
++void show_stack(struct task_struct *task, unsigned long *sp)
 +{
-+	struct irq_data *d = irq_get_irq_data(desc->irq);
-+	struct kvx_itgen *itgen = irq_data_get_irq_chip_data(d);
-+	uint32_t cfg_val = 0;
-+	uintptr_t dest_addr = ((uint64_t) msg->address_hi << 32) |
-+							msg->address_lo;
-+	void __iomem *cfg = get_itgen_cfg_offset(itgen, irqd_to_hwirq(d));
++	int i = 0;
 +
-+	/*
-+	 * Address in the msi data is the address of the targeted mailbox.
-+	 * To save a few cells of hw, itgen configuration expects the target
-+	 * of the write using mppa id, cluster id and mailbox id instead
-+	 * of address.
-+	 * We extract these informations from the mailbox address.
-+	 */
++	if (!sp)
++		sp = (unsigned long *) get_current_sp();
 +
-+	cfg_val |= (((kvx_sfr_get(PCR) & KVX_SFR_PCR_CID_MASK) >>
-+				 KVX_SFR_PCR_CID_SHIFT)
-+				<< KVX_ITGEN_CFG_TARGET_CLUSTER_SHIFT);
-+	cfg_val |= ((dest_addr >> MB_ADDR_MAILBOX_SHIFT) &
-+		     KVX_ITGEN_CFG_TARGET_MAILBOX_MASK)
-+		    << KVX_ITGEN_CFG_TARGET_MAILBOX_SHIFT;
++	pr_info("Stack dump (@%p):\n", sp);
++	for (i = 0; i < STACK_MAX_SLOT_PRINT; i++) {
++		if (kstack_end(sp))
++			break;
 +
-+	/*
-+	 * msg->data contains the bit number to be written and is included in
-+	 * the itgen config
-+	 */
-+	cfg_val |= ((msg->data << KVX_ITGEN_CFG_TARGET_SELECT_BIT_SHIFT)
-+		    & KVX_ITGEN_CFG_TARGET_SELECT_BIT_MASK);
++		if (i && (i % STACK_SLOT_PER_LINE) == 0)
++			pr_cont("\n\t");
 +
-+	dev_dbg(&itgen->pdev->dev,
-+		"Writing dest_addr %lx, value %x to cfg %p\n",
-+		dest_addr, cfg_val, cfg);
-+
-+	writel(cfg_val, cfg);
-+}
-+
-+static int
-+kvx_itgen_device_probe(struct platform_device *pdev)
-+{
-+	struct kvx_itgen *itgen;
-+	u32 it_count;
-+	struct resource *mem;
-+
-+	itgen = devm_kzalloc(&pdev->dev, sizeof(*itgen), GFP_KERNEL);
-+	if (!itgen)
-+		return -ENOMEM;
-+
-+	mem = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-+	itgen->base = devm_ioremap_resource(&pdev->dev, mem);
-+	if (IS_ERR(itgen->base)) {
-+		dev_err(&pdev->dev, "Failed to ioremap itgen\n");
-+		return PTR_ERR(itgen->base);
++		pr_cont("%016lx ", *sp++);
 +	}
++	pr_cont("\n");
 +
-+	itgen->pdev = pdev;
-+	it_count = readl(get_itgen_param_offset(itgen) +
-+				KVX_ITGEN_PARAM_IT_NUM_OFFSET);
-+
-+	itgen->domain = platform_msi_create_device_domain(&pdev->dev,
-+						   it_count,
-+						   kvx_itgen_write_msg,
-+						   &itgen_domain_ops,
-+						   itgen);
-+	if (!itgen->domain) {
-+		dev_err(&pdev->dev, "Failed to create device domain\n");
-+		return -ENOMEM;
-+	}
-+
-+	platform_set_drvdata(pdev, itgen);
-+
-+	return 0;
++	show_stacktrace(task, NULL);
 +}
-+
-+static const struct of_device_id itgen_of_match[] = {
-+	{ .compatible = "kalray,kvx-itgen" },
-+	{ /* END */ }
-+};
-+MODULE_DEVICE_TABLE(of, itgen_of_match);
-+
-+static struct platform_driver itgen_platform_driver = {
-+	.driver = {
-+		.name		= "kvx-itgen",
-+		.of_match_table	= itgen_of_match,
-+	},
-+	.probe			= kvx_itgen_device_probe,
-+};
-+
-+static int __init kvx_itgen_init(void)
-+{
-+	return platform_driver_register(&itgen_platform_driver);
-+}
-+
-+arch_initcall(kvx_itgen_init);
 -- 
 2.37.2
 
