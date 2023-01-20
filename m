@@ -1,85 +1,84 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9884D675D62
-	for <lists+linux-audit@lfdr.de>; Fri, 20 Jan 2023 20:03:09 +0100 (CET)
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id C798F675D5C
+	for <lists+linux-audit@lfdr.de>; Fri, 20 Jan 2023 20:03:02 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1674241388;
+	s=mimecast20190719; t=1674241381;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=Gm1YnCai1AKIsR//N7ElhBkSzzVq7jQqPO72yLNQo9g=;
-	b=dnalWQ1zeo+KpRRLAWdem6y18vZA9WOax0IF/n+8F1/WI7E7uiueglOqwjJCb8oPzY4Uhc
-	zJiizvvsvYSNS8IsWNPB6Rvyn+UPPv5s/hL5Vp2DtPMeWpWJI+pvw3Nyl9fcgod19RB+5k
-	1LsabMm8/wzN0m3D8ddqJpAfK1GYGxo=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=5Q24h29IVjxg0JFJRom/RW1XzW8CYJqsjCX4aN6D0yE=;
+	b=JPelqC7+G0sYXae75EFZx75dKzCnPDJtjNbgmHlCsLaPeAWIDMaRpb3c6xM813cyrKK7r3
+	4hDZonayS8YxZ12BX3ggj1CGTahMlWqsmJfLz7zM1PvjL5M5Eys/3Y+XCyia//jEJ1KvpT
+	qWo//K1nIY1/VH47FW8SopFnTX2NCyE=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-210-oc0atf5-MX6KOUN58Xydjg-1; Fri, 20 Jan 2023 14:03:04 -0500
-X-MC-Unique: oc0atf5-MX6KOUN58Xydjg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
+ us-mta-461-x38W32gCN2eMaLmm6JVbNg-1; Fri, 20 Jan 2023 14:02:57 -0500
+X-MC-Unique: x38W32gCN2eMaLmm6JVbNg-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 07C4A88B7BD;
-	Fri, 20 Jan 2023 19:02:52 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CFA113C1024C;
+	Fri, 20 Jan 2023 19:02:51 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (unknown [10.30.29.100])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id E0204C15BAE;
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 77A32492B03;
 	Fri, 20 Jan 2023 19:02:51 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (localhost [IPv6:::1])
-	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id 03E6F1946A6D;
-	Fri, 20 Jan 2023 19:02:51 +0000 (UTC)
+	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id CE8C61947043;
+	Fri, 20 Jan 2023 19:02:50 +0000 (UTC)
 X-Original-To: linux-audit@listman.corp.redhat.com
 Delivered-To: linux-audit@listman.corp.redhat.com
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
  by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with
- ESMTP id CE6751946A6D for <linux-audit@listman.corp.redhat.com>;
- Fri, 20 Jan 2023 14:10:40 +0000 (UTC)
+ ESMTP id 9682D19465B6 for <linux-audit@listman.corp.redhat.com>;
+ Fri, 20 Jan 2023 14:10:37 +0000 (UTC)
 Received: by smtp.corp.redhat.com (Postfix)
- id BC907C159BB; Fri, 20 Jan 2023 14:10:35 +0000 (UTC)
+ id 8C5942166B2B; Fri, 20 Jan 2023 14:10:37 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
- (mimecast09.extmail.prod.ext.rdu2.redhat.com [10.11.55.25])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B3DD8C15BAD
- for <linux-audit@redhat.com>; Fri, 20 Jan 2023 14:10:35 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [207.211.31.120])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 92127281DE82
- for <linux-audit@redhat.com>; Fri, 20 Jan 2023 14:10:35 +0000 (UTC)
-Received: from fx408.security-mail.net (smtpout140.security-mail.net
- [85.31.212.148]) by relay.mimecast.com with ESMTP with STARTTLS
+ (mimecast05.extmail.prod.ext.rdu2.redhat.com [10.11.55.21])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 83EBA2166B2A
+ for <linux-audit@redhat.com>; Fri, 20 Jan 2023 14:10:37 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [207.211.31.81])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6628385C6E2
+ for <linux-audit@redhat.com>; Fri, 20 Jan 2023 14:10:37 +0000 (UTC)
+Received: from fx601.security-mail.net (smtpout140.security-mail.net
+ [85.31.212.146]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-503-nF87PntFPOiqCoXYM1N7Uw-1; Fri, 20 Jan 2023 09:10:34 -0500
-X-MC-Unique: nF87PntFPOiqCoXYM1N7Uw-1
-Received: from localhost (fx408.security-mail.net [127.0.0.1])
- by fx408.security-mail.net (Postfix) with ESMTP id 429D4322B8E
- for <linux-audit@redhat.com>; Fri, 20 Jan 2023 15:10:32 +0100 (CET)
-Received: from fx408 (fx408.security-mail.net [127.0.0.1]) by
- fx408.security-mail.net (Postfix) with ESMTP id 06ADB322B21; Fri, 20 Jan
- 2023 15:10:32 +0100 (CET)
+ us-mta-507-b03xm1eKN7KFfRo1WlJuJw-1; Fri, 20 Jan 2023 09:10:35 -0500
+X-MC-Unique: b03xm1eKN7KFfRo1WlJuJw-1
+Received: from localhost (fx601.security-mail.net [127.0.0.1])
+ by fx601.security-mail.net (Postfix) with ESMTP id 9209C3498C8
+ for <linux-audit@redhat.com>; Fri, 20 Jan 2023 15:10:34 +0100 (CET)
+Received: from fx601 (fx601.security-mail.net [127.0.0.1]) by
+ fx601.security-mail.net (Postfix) with ESMTP id 49E1D349679; Fri, 20 Jan
+ 2023 15:10:33 +0100 (CET)
 Received: from zimbra2.kalray.eu (unknown [217.181.231.53]) by
- fx408.security-mail.net (Postfix) with ESMTPS id 2F716322939; Fri, 20 Jan
- 2023 15:10:30 +0100 (CET)
+ fx601.security-mail.net (Postfix) with ESMTPS id 6052E349425; Fri, 20 Jan
+ 2023 15:10:32 +0100 (CET)
 Received: from zimbra2.kalray.eu (localhost [127.0.0.1]) by
- zimbra2.kalray.eu (Postfix) with ESMTPS id DEDF827E0442; Fri, 20 Jan 2023
- 15:10:29 +0100 (CET)
+ zimbra2.kalray.eu (Postfix) with ESMTPS id 2DDA027E043D; Fri, 20 Jan 2023
+ 15:10:32 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1]) by zimbra2.kalray.eu
- (Postfix) with ESMTP id BA21327E043E; Fri, 20 Jan 2023 15:10:29 +0100 (CET)
+ (Postfix) with ESMTP id 0E11627E0437; Fri, 20 Jan 2023 15:10:32 +0100 (CET)
 Received: from zimbra2.kalray.eu ([127.0.0.1]) by localhost
  (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10026) with ESMTP id
- IVLBnrnY8q7M; Fri, 20 Jan 2023 15:10:29 +0100 (CET)
+ RaEvsddOB1Lw; Fri, 20 Jan 2023 15:10:31 +0100 (CET)
 Received: from junon.lin.mbt.kalray.eu (unknown [192.168.37.161]) by
- zimbra2.kalray.eu (Postfix) with ESMTPSA id 3038927E0439; Fri, 20 Jan 2023
- 15:10:29 +0100 (CET)
+ zimbra2.kalray.eu (Postfix) with ESMTPSA id 8788727E043E; Fri, 20 Jan 2023
+ 15:10:31 +0100 (CET)
 X-Virus-Scanned: E-securemail
-Secumail-id: <8eb9.63caa0d6.2d305.0>
-DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu BA21327E043E
+Secumail-id: <1461a.63caa0d8.5c064.0>
+DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu 0E11627E0437
 From: Yann Sionneau <ysionneau@kalray.eu>
 To: Arnd Bergmann <arnd@arndb.de>, Jonathan Corbet <corbet@lwn.net>, Thomas
  Gleixner <tglx@linutronix.de>, Marc Zyngier <maz@kernel.org>, Rob Herring
@@ -112,9 +111,9 @@ To: Arnd Bergmann <arnd@arndb.de>, Jonathan Corbet <corbet@lwn.net>, Thomas
  <jiaxun.yang@flygoat.com>, Catalin Marinas <catalin.marinas@arm.com>, Mark
  Brown <broonie@kernel.org>, Janosch Frank <frankja@linux.ibm.com>, Alexey
  Dobriyan <adobriyan@gmail.com>
-Subject: [RFC PATCH v2 11/31] kvx: Add atomic/locking headers
-Date: Fri, 20 Jan 2023 15:09:42 +0100
-Message-ID: <20230120141002.2442-12-ysionneau@kalray.eu>
+Subject: [RFC PATCH v2 16/31] irqchip: Add irq-kvx-itgen driver
+Date: Fri, 20 Jan 2023 15:09:47 +0100
+Message-ID: <20230120141002.2442-17-ysionneau@kalray.eu>
 In-Reply-To: <20230120141002.2442-1-ysionneau@kalray.eu>
 References: <20230120141002.2442-1-ysionneau@kalray.eu>
 MIME-Version: 1.0
@@ -126,7 +125,7 @@ X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
  Internal User Name=false; Custom Display Name List=false;
  Reply-to Address Mismatch=false; Targeted Threat Dictionary=false;
  Mimecast Threat Dictionary=false; Custom Threat Dictionary=false
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
 X-Mailman-Approved-At: Fri, 20 Jan 2023 19:02:49 +0000
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.29
@@ -145,512 +144,317 @@ Cc: linux-arch@vger.kernel.org, devicetree@vger.kernel.org,
  linux-riscv@lists.infradead.org, bpf@vger.kernel.org
 Errors-To: linux-audit-bounces@redhat.com
 Sender: "Linux-audit" <linux-audit-bounces@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-Add common headers (atomic, bitops, barrier and locking) for basic
-kvx support.
+From: Jules Maselbas <jmaselbas@kalray.eu>
+
+The Kalray Core Interrupt Controller is tightly integrated in each kv3
+core present in the Coolidge SoC.
+
+It provides the following features:
+ - 32 independent interrupt sources
+ - 2-bit configurable priority level
+ - 2-bit configurable ownership level
 
 Co-developed-by: Clement Leger <clement@clement-leger.fr>
 Signed-off-by: Clement Leger <clement@clement-leger.fr>
-Co-developed-by: Jules Maselbas <jmaselbas@kalray.eu>
-Signed-off-by: Jules Maselbas <jmaselbas@kalray.eu>
 Co-developed-by: Julian Vetter <jvetter@kalray.eu>
 Signed-off-by: Julian Vetter <jvetter@kalray.eu>
-Co-developed-by: Julien Villette <jvillette@kalray.eu>
-Signed-off-by: Julien Villette <jvillette@kalray.eu>
-Co-developed-by: Yann Sionneau <ysionneau@kalray.eu>
+Co-developed-by: Vincent Chardon <vincent.chardon@elsys-design.com>
+Signed-off-by: Vincent Chardon <vincent.chardon@elsys-design.com>
+Signed-off-by: Jules Maselbas <jmaselbas@kalray.eu>
 Signed-off-by: Yann Sionneau <ysionneau@kalray.eu>
 ---
 
 Notes:
-    V1 -> V2:
-     - use {READ,WRITE}_ONCE for arch_atomic64_{read,set}
-     - use asm-generic/bitops/atomic.h instead of __test_and_*_bit
-     - removed duplicated includes
-     - rewrite xchg and cmpxchg in C using builtins for acswap insn
+    V1 -> V2: new patch
+     - removed header include/linux/irqchip/irq-kvx-apic-gic.h
+     - header moved to drivers/irqchip/ but in another patch
+     - removed print on probe success
 
- arch/kvx/include/asm/atomic.h  | 104 ++++++++++++++++++++
- arch/kvx/include/asm/barrier.h |  15 +++
- arch/kvx/include/asm/bitops.h  | 115 ++++++++++++++++++++++
- arch/kvx/include/asm/bitrev.h  |  32 +++++++
- arch/kvx/include/asm/cmpxchg.h | 170 +++++++++++++++++++++++++++++++++
- 5 files changed, 436 insertions(+)
- create mode 100644 arch/kvx/include/asm/atomic.h
- create mode 100644 arch/kvx/include/asm/barrier.h
- create mode 100644 arch/kvx/include/asm/bitops.h
- create mode 100644 arch/kvx/include/asm/bitrev.h
- create mode 100644 arch/kvx/include/asm/cmpxchg.h
+ drivers/irqchip/Kconfig         |   8 ++
+ drivers/irqchip/Makefile        |   1 +
+ drivers/irqchip/irq-kvx-itgen.c | 236 ++++++++++++++++++++++++++++++++
+ 3 files changed, 245 insertions(+)
+ create mode 100644 drivers/irqchip/irq-kvx-itgen.c
 
-diff --git a/arch/kvx/include/asm/atomic.h b/arch/kvx/include/asm/atomic.h
+diff --git a/drivers/irqchip/Kconfig b/drivers/irqchip/Kconfig
+index 2433e4ba0759..546bc611f3f3 100644
+--- a/drivers/irqchip/Kconfig
++++ b/drivers/irqchip/Kconfig
+@@ -340,6 +340,14 @@ config KVX_APIC_GIC
+ 	select IRQ_DOMAIN
+ 	select IRQ_DOMAIN_HIERARCHY
+ 
++config KVX_ITGEN
++	bool
++	depends on KVX
++	select GENERIC_IRQ_IPI if SMP
++	select GENERIC_MSI_IRQ_DOMAIN
++	select IRQ_DOMAIN
++	select IRQ_DOMAIN_HIERARCHY
++
+ config INGENIC_IRQ
+ 	bool
+ 	depends on MACH_INGENIC
+diff --git a/drivers/irqchip/Makefile b/drivers/irqchip/Makefile
+index 8ac1dd880420..6b8f459d8a21 100644
+--- a/drivers/irqchip/Makefile
++++ b/drivers/irqchip/Makefile
+@@ -70,6 +70,7 @@ obj-$(CONFIG_BRCMSTB_L2_IRQ)		+= irq-brcmstb-l2.o
+ obj-$(CONFIG_KEYSTONE_IRQ)		+= irq-keystone.o
+ obj-$(CONFIG_MIPS_GIC)			+= irq-mips-gic.o
+ obj-$(CONFIG_KVX_APIC_GIC)		+= irq-kvx-apic-gic.o
++obj-$(CONFIG_KVX_ITGEN)			+= irq-kvx-itgen.o
+ obj-$(CONFIG_ARCH_MEDIATEK)		+= irq-mtk-sysirq.o irq-mtk-cirq.o
+ obj-$(CONFIG_ARCH_DIGICOLOR)		+= irq-digicolor.o
+ obj-$(CONFIG_ARCH_SA1100)		+= irq-sa11x0.o
+diff --git a/drivers/irqchip/irq-kvx-itgen.c b/drivers/irqchip/irq-kvx-itgen.c
 new file mode 100644
-index 000000000000..bea3d70785b1
+index 000000000000..f6af023a689e
 --- /dev/null
-+++ b/arch/kvx/include/asm/atomic.h
-@@ -0,0 +1,104 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
++++ b/drivers/irqchip/irq-kvx-itgen.c
+@@ -0,0 +1,236 @@
++// SPDX-License-Identifier: GPL-2.0-only
 +/*
-+ * Copyright (C) 2017-2023 Kalray Inc.
++ * Copyright (c) 2017-2023 Kalray Inc.
 + * Author(s): Clement Leger
++ *            Julian Vetter
++ *            Vincent Chardon
 + */
 +
-+#ifndef _ASM_KVX_ATOMIC_H
-+#define _ASM_KVX_ATOMIC_H
++#include <linux/platform_device.h>
++#include <linux/of_platform.h>
++#include <linux/of_address.h>
++#include <linux/interrupt.h>
++#include <linux/irqdomain.h>
++#include <linux/irqchip.h>
++#include <linux/module.h>
++#include <linux/msi.h>
++#include <linux/of.h>
++#include <linux/of_irq.h>
 +
-+#include <linux/types.h>
++/* Parameters */
++#define KVX_ITGEN_PARAM_OFFSET			0x1100
++#define KVX_ITGEN_PARAM_IT_NUM_OFFSET		0x0
 +
-+#include <asm/cmpxchg.h>
++/* Target configuration */
++#define KVX_ITGEN_CFG_ENABLE_OFFSET		0x8
++#define KVX_ITGEN_CFG_ELEM_SIZE		0x10
++#define KVX_ITGEN_CFG_TARGET_OFFSET		0x0
++#define KVX_ITGEN_CFG_TARGET_MAILBOX_SHIFT	0x0
++#define KVX_ITGEN_CFG_TARGET_MAILBOX_MASK	0x7FUL
++#define KVX_ITGEN_CFG_TARGET_CLUSTER_SHIFT	0x8
++#define KVX_ITGEN_CFG_TARGET_CLUSTER_MASK	0x700UL
++#define KVX_ITGEN_CFG_TARGET_SELECT_BIT_SHIFT	0x18
++#define KVX_ITGEN_CFG_TARGET_SELECT_BIT_MASK	0x3F000000UL
 +
-+#define ATOMIC64_INIT(i)     { (i) }
-+
-+#define arch_atomic64_cmpxchg(v, old, new) (arch_cmpxchg(&((v)->counter), old, new))
-+#define arch_atomic64_xchg(v, new) (arch_xchg(&((v)->counter), new))
-+
-+static inline long arch_atomic64_read(const atomic64_t *v)
-+{
-+	return READ_ONCE(v->counter);
-+}
-+
-+static inline void arch_atomic64_set(atomic64_t *v, long i)
-+{
-+	WRITE_ONCE(v->counter, i);
-+}
-+
-+#define ATOMIC64_RETURN_OP(op, c_op)					\
-+static inline long arch_atomic64_##op##_return(long i, atomic64_t *v)	\
-+{									\
-+	long new, old, ret;						\
-+									\
-+	do {								\
-+		old = v->counter;					\
-+		new = old c_op i;					\
-+		ret = arch_cmpxchg(&v->counter, old, new);		\
-+	} while (ret != old);						\
-+									\
-+	return new;							\
-+}
-+
-+#define ATOMIC64_OP(op, c_op)						\
-+static inline void arch_atomic64_##op(long i, atomic64_t *v)		\
-+{									\
-+	long new, old, ret;						\
-+									\
-+	do {								\
-+		old = v->counter;					\
-+		new = old c_op i;					\
-+		ret = arch_cmpxchg(&v->counter, old, new);		\
-+	} while (ret != old);						\
-+}
-+
-+#define ATOMIC64_FETCH_OP(op, c_op)					\
-+static inline long arch_atomic64_fetch_##op(long i, atomic64_t *v)	\
-+{									\
-+	long new, old, ret;						\
-+									\
-+	do {								\
-+		old = v->counter;					\
-+		new = old c_op i;					\
-+		ret = arch_cmpxchg(&v->counter, old, new);		\
-+	} while (ret != old);						\
-+									\
-+	return old;							\
-+}
-+
-+#define ATOMIC64_OPS(op, c_op)						\
-+	ATOMIC64_OP(op, c_op)						\
-+	ATOMIC64_RETURN_OP(op, c_op)					\
-+	ATOMIC64_FETCH_OP(op, c_op)
-+
-+ATOMIC64_OPS(and, &)
-+ATOMIC64_OPS(or, |)
-+ATOMIC64_OPS(xor, ^)
-+ATOMIC64_OPS(add, +)
-+ATOMIC64_OPS(sub, -)
-+
-+#undef ATOMIC64_OPS
-+#undef ATOMIC64_FETCH_OP
-+#undef ATOMIC64_OP
-+
-+static inline int arch_atomic_add_return(int i, atomic_t *v)
-+{
-+	int new, old, ret;
-+
-+	do {
-+		old = v->counter;
-+		new = old + i;
-+		ret = arch_cmpxchg(&v->counter, old, new);
-+	} while (ret != old);
-+
-+	return new;
-+}
-+
-+static inline int arch_atomic_sub_return(int i, atomic_t *v)
-+{
-+	return arch_atomic_add_return(-i, v);
-+}
-+
-+#include <asm-generic/atomic.h>
-+
-+#endif	/* _ASM_KVX_ATOMIC_H */
-diff --git a/arch/kvx/include/asm/barrier.h b/arch/kvx/include/asm/barrier.h
-new file mode 100644
-index 000000000000..371f1c70746d
---- /dev/null
-+++ b/arch/kvx/include/asm/barrier.h
-@@ -0,0 +1,15 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * Copyright (C) 2017-2023 Kalray Inc.
-+ * Author(s): Clement Leger
-+ */
-+
-+#ifndef _ASM_KVX_BARRIER_H
-+#define _ASM_KVX_BARRIER_H
-+
-+/* fence is sufficient to guarantee write ordering */
-+#define mb()	__builtin_kvx_fence()
-+
-+#include <asm-generic/barrier.h>
-+
-+#endif /* _ASM_KVX_BARRIER_H */
-diff --git a/arch/kvx/include/asm/bitops.h b/arch/kvx/include/asm/bitops.h
-new file mode 100644
-index 000000000000..c643f4765059
---- /dev/null
-+++ b/arch/kvx/include/asm/bitops.h
-@@ -0,0 +1,115 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * Copyright (C) 2017-2023 Kalray Inc.
-+ * Author(s): Clement Leger
-+ *            Yann Sionneau
-+ */
-+
-+#ifndef _ASM_KVX_BITOPS_H
-+#define _ASM_KVX_BITOPS_H
-+
-+#ifdef __KERNEL__
-+
-+#ifndef _LINUX_BITOPS_H
-+#error only <linux/bitops.h> can be included directly
-+#endif
-+
-+#include <asm/cmpxchg.h>
-+
-+static inline int fls(int x)
-+{
-+	return 32 - __builtin_kvx_clzw(x);
-+}
-+
-+static inline int fls64(__u64 x)
-+{
-+	return 64 - __builtin_kvx_clzd(x);
-+}
++#define MB_ADDR_CLUSTER_SHIFT	24
++#define MB_ADDR_MAILBOX_SHIFT	9
 +
 +/**
-+ * __ffs - find first set bit in word
-+ * @word: The word to search
-+ *
-+ * Undefined if no set bit exists, so code should check against 0 first.
++ * struct kvx_itgen - kvx interrupt generator (MSI client)
++ * @base: base address of the itgen controller
++ * @domain: IRQ domain of the controller
++ * @pdev: Platform device associated to the controller
 + */
-+static inline unsigned long __ffs(unsigned long word)
++struct kvx_itgen {
++	void __iomem *base;
++	struct irq_domain *domain;
++	struct platform_device *pdev;
++};
++
++static void __iomem *get_itgen_cfg_offset(struct kvx_itgen *itgen,
++						irq_hw_number_t hwirq)
 +{
-+	return __builtin_kvx_ctzd(word);
++	return itgen->base + KVX_ITGEN_CFG_TARGET_OFFSET +
++				hwirq * KVX_ITGEN_CFG_ELEM_SIZE;
 +}
 +
-+/**
-+ * __fls - find last set bit in word
-+ * @word: The word to search
-+ *
-+ * Undefined if no set bit exists, so code should check against 0 first.
-+ */
-+static inline unsigned long __fls(unsigned long word)
++void __iomem *get_itgen_param_offset(struct kvx_itgen *itgen)
 +{
-+	return 63 - __builtin_kvx_clzd(word);
++	return itgen->base + KVX_ITGEN_PARAM_OFFSET;
 +}
 +
-+
-+/**
-+ * ffs - find first set bit in word
-+ * @x: the word to search
-+ *
-+ * This is defined the same way as the libc and compiler builtin ffs
-+ * routines, therefore differs in spirit from the other bitops.
-+ *
-+ * ffs(value) returns 0 if value is 0 or the position of the first
-+ * set bit if value is nonzero. The first (least significant) bit
-+ * is at position 1.
-+ */
-+static inline int ffs(int x)
++static void kvx_itgen_enable(struct irq_data *data, u32 value)
 +{
-+	if (!x)
-+		return 0;
-+	return __builtin_kvx_ctzw(x) + 1;
++	struct kvx_itgen *itgen = irq_data_get_irq_chip_data(data);
++	void __iomem *enable_reg =
++		get_itgen_cfg_offset(itgen, irqd_to_hwirq(data)) +
++		KVX_ITGEN_CFG_ENABLE_OFFSET;
++
++	dev_dbg(&itgen->pdev->dev, "%sabling hwirq %d, addr %p\n",
++		 value ? "En" : "Dis",
++		 (int) irqd_to_hwirq(data),
++		 enable_reg);
++	writel(value, enable_reg);
 +}
 +
-+static inline unsigned int __arch_hweight32(unsigned int w)
++static void kvx_itgen_mask(struct irq_data *data)
 +{
-+	unsigned int count;
-+
-+	asm volatile ("cbsw %0 = %1\n\t;;"
-+	: "=r" (count)
-+	: "r" (w));
-+
-+	return count;
++	kvx_itgen_enable(data, 0x0);
++	irq_chip_mask_parent(data);
 +}
 +
-+static inline unsigned int __arch_hweight64(__u64 w)
++static void kvx_itgen_unmask(struct irq_data *data)
 +{
-+	unsigned int count;
-+
-+	asm volatile ("cbsd %0 = %1\n\t;;"
-+	: "=r" (count)
-+	: "r" (w));
-+
-+	return count;
++	kvx_itgen_enable(data, 0x1);
++	irq_chip_unmask_parent(data);
 +}
 +
-+static inline unsigned int __arch_hweight16(unsigned int w)
++#ifdef CONFIG_SMP
++static int kvx_itgen_irq_set_affinity(struct irq_data *data,
++				      const struct cpumask *dest, bool force)
 +{
-+	return __arch_hweight32(w & 0xffff);
++	return -ENOSYS;
 +}
-+
-+static inline unsigned int __arch_hweight8(unsigned int w)
-+{
-+	return __arch_hweight32(w & 0xff);
-+}
-+
-+#include <asm-generic/bitops/ffz.h>
-+
-+#include <asm-generic/bitops/sched.h>
-+#include <asm-generic/bitops/const_hweight.h>
-+
-+#include <asm-generic/bitops/atomic.h>
-+#include <asm-generic/bitops/non-atomic.h>
-+#include <asm-generic/bitops/lock.h>
-+#include <asm-generic/bitops/le.h>
-+#include <asm-generic/bitops/ext2-atomic.h>
-+
 +#endif
 +
++static struct irq_chip itgen_irq_chip = {
++	.name =			"kvx-itgen",
++	.irq_mask =		kvx_itgen_mask,
++	.irq_unmask =		kvx_itgen_unmask,
++#ifdef CONFIG_SMP
++	.irq_set_affinity =	kvx_itgen_irq_set_affinity,
 +#endif
-diff --git a/arch/kvx/include/asm/bitrev.h b/arch/kvx/include/asm/bitrev.h
-new file mode 100644
-index 000000000000..79865081905a
---- /dev/null
-+++ b/arch/kvx/include/asm/bitrev.h
-@@ -0,0 +1,32 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * Copyright (C) 2017-2023 Kalray Inc.
-+ * Author(s): Clement Leger
-+ */
++};
 +
-+#ifndef _ASM_KVX_BITREV_H
-+#define _ASM_KVX_BITREV_H
++#define ITGEN_UNSUPPORTED_TYPES (IRQ_TYPE_LEVEL_LOW | IRQ_TYPE_EDGE_FALLING)
 +
-+#include <linux/swab.h>
-+
-+/* Bit reversal constant for matrix multiply */
-+#define BIT_REVERSE 0x0102040810204080ULL
-+
-+static __always_inline __attribute_const__ u32 __arch_bitrev32(u32 x)
++static int kvx_itgen_domain_alloc(struct irq_domain *domain, unsigned int virq,
++				   unsigned int nr_irqs, void *args)
 +{
-+	/* Reverse all bits for each bytes and then byte-reverse the 32 LSB */
-+	return swab32(__builtin_kvx_sbmm8(BIT_REVERSE, x));
-+}
++	int i, err;
++	struct irq_fwspec *fwspec = args;
++	int hwirq = fwspec->param[0];
++	int type = IRQ_TYPE_NONE;
++	struct kvx_itgen *itgen;
 +
-+static __always_inline __attribute_const__ u16 __arch_bitrev16(u16 x)
-+{
-+	/* Reverse all bits for each bytes and then byte-reverse the 16 LSB */
-+	return swab16(__builtin_kvx_sbmm8(BIT_REVERSE, x));
-+}
++	if (fwspec->param_count >= 2)
++		type = fwspec->param[1];
 +
-+static __always_inline __attribute_const__ u8 __arch_bitrev8(u8 x)
-+{
-+	return __builtin_kvx_sbmm8(BIT_REVERSE, x);
-+}
++	WARN_ON(type & ITGEN_UNSUPPORTED_TYPES);
 +
-+#endif
-diff --git a/arch/kvx/include/asm/cmpxchg.h b/arch/kvx/include/asm/cmpxchg.h
-new file mode 100644
-index 000000000000..51ccb83757cc
---- /dev/null
-+++ b/arch/kvx/include/asm/cmpxchg.h
-@@ -0,0 +1,170 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * Copyright (C) 2017-2023 Kalray Inc.
-+ * Author(s): Clement Leger
-+ *            Yann Sionneau
-+ *            Jules Maselbas
-+ */
++	err = platform_msi_device_domain_alloc(domain, virq, nr_irqs);
++	if (err)
++		return err;
 +
-+#ifndef _ASM_KVX_CMPXCHG_H
-+#define _ASM_KVX_CMPXCHG_H
++	itgen = platform_msi_get_host_data(domain);
 +
-+#include <linux/bits.h>
-+#include <linux/types.h>
-+#include <linux/align.h>
-+#include <linux/build_bug.h>
-+
-+/*
-+ * On kvx, we have a boolean compare and swap which means that the operation
-+ * returns only the success of operation.
-+ * If operation succeed, this is simple, we just need to return the provided
-+ * old value. However, if it fails, we need to load the value to return it for
-+ * the caller. If the loaded value is different from the "old" provided by the
-+ * caller, we can return it since it will means it failed.
-+ * However, if for some reason the value we read is equal to the old value
-+ * provided by the caller, we can't simply return it or the caller will think it
-+ * succeeded. So if the value we read is the same as the "old" provided by
-+ * the caller, we try again until either we succeed or we fail with a different
-+ * value than the provided one.
-+ */
-+
-+static inline unsigned int __cmpxchg_u32(unsigned int old, unsigned int new,
-+					 volatile unsigned int *ptr)
-+{
-+	unsigned int exp = old;
-+
-+	__builtin_kvx_fence();
-+	while (exp == old) {
-+		if (__builtin_kvx_acswapw((void *)ptr, new, exp))
-+			break; /* acswap succeed */
-+		exp = *ptr;
++	for (i = 0; i < nr_irqs; i++) {
++		irq_domain_set_hwirq_and_chip(domain, virq + i, hwirq + i,
++				      &itgen_irq_chip, itgen);
++		if (type == IRQ_TYPE_LEVEL_HIGH)
++			irq_set_handler(virq + i, handle_level_irq);
 +	}
 +
-+	return exp;
++	return 0;
 +}
 +
-+static inline unsigned long __cmpxchg_u64(unsigned long old, unsigned long new,
-+					  volatile unsigned long *ptr)
-+{
-+	unsigned long exp = old;
++static const struct irq_domain_ops itgen_domain_ops = {
++	.alloc		= kvx_itgen_domain_alloc,
++	.free		= irq_domain_free_irqs_common,
++};
 +
-+	__builtin_kvx_fence();
-+	while (exp == old) {
-+		if (__builtin_kvx_acswapd((void *)ptr, new, exp))
-+			break; /* acswap succeed */
-+		exp = *ptr;
++static void kvx_itgen_write_msg(struct msi_desc *desc, struct msi_msg *msg)
++{
++	struct irq_data *d = irq_get_irq_data(desc->irq);
++	struct kvx_itgen *itgen = irq_data_get_irq_chip_data(d);
++	uint32_t cfg_val = 0;
++	uintptr_t dest_addr = ((uint64_t) msg->address_hi << 32) |
++							msg->address_lo;
++	void __iomem *cfg = get_itgen_cfg_offset(itgen, irqd_to_hwirq(d));
++
++	/*
++	 * Address in the msi data is the address of the targeted mailbox.
++	 * To save a few cells of hw, itgen configuration expects the target
++	 * of the write using mppa id, cluster id and mailbox id instead
++	 * of address.
++	 * We extract these informations from the mailbox address.
++	 */
++
++	cfg_val |= (((kvx_sfr_get(PCR) & KVX_SFR_PCR_CID_MASK) >>
++				 KVX_SFR_PCR_CID_SHIFT)
++				<< KVX_ITGEN_CFG_TARGET_CLUSTER_SHIFT);
++	cfg_val |= ((dest_addr >> MB_ADDR_MAILBOX_SHIFT) &
++		     KVX_ITGEN_CFG_TARGET_MAILBOX_MASK)
++		    << KVX_ITGEN_CFG_TARGET_MAILBOX_SHIFT;
++
++	/*
++	 * msg->data contains the bit number to be written and is included in
++	 * the itgen config
++	 */
++	cfg_val |= ((msg->data << KVX_ITGEN_CFG_TARGET_SELECT_BIT_SHIFT)
++		    & KVX_ITGEN_CFG_TARGET_SELECT_BIT_MASK);
++
++	dev_dbg(&itgen->pdev->dev,
++		"Writing dest_addr %lx, value %x to cfg %p\n",
++		dest_addr, cfg_val, cfg);
++
++	writel(cfg_val, cfg);
++}
++
++static int
++kvx_itgen_device_probe(struct platform_device *pdev)
++{
++	struct kvx_itgen *itgen;
++	u32 it_count;
++	struct resource *mem;
++
++	itgen = devm_kzalloc(&pdev->dev, sizeof(*itgen), GFP_KERNEL);
++	if (!itgen)
++		return -ENOMEM;
++
++	mem = platform_get_resource(pdev, IORESOURCE_MEM, 0);
++	itgen->base = devm_ioremap_resource(&pdev->dev, mem);
++	if (IS_ERR(itgen->base)) {
++		dev_err(&pdev->dev, "Failed to ioremap itgen\n");
++		return PTR_ERR(itgen->base);
 +	}
 +
-+	return exp;
-+}
++	itgen->pdev = pdev;
++	it_count = readl(get_itgen_param_offset(itgen) +
++				KVX_ITGEN_PARAM_IT_NUM_OFFSET);
 +
-+extern unsigned long __cmpxchg_called_with_bad_pointer(void)
-+	__compiletime_error("Bad argument size for cmpxchg");
-+
-+static __always_inline unsigned long __cmpxchg(unsigned long old,
-+					       unsigned long new,
-+					       volatile void *ptr, int size)
-+{
-+	switch (size) {
-+	case 4:
-+		return __cmpxchg_u32(old, new, ptr);
-+	case 8:
-+		return __cmpxchg_u64(old, new, ptr);
-+	default:
-+		return __cmpxchg_called_with_bad_pointer();
++	itgen->domain = platform_msi_create_device_domain(&pdev->dev,
++						   it_count,
++						   kvx_itgen_write_msg,
++						   &itgen_domain_ops,
++						   itgen);
++	if (!itgen->domain) {
++		dev_err(&pdev->dev, "Failed to create device domain\n");
++		return -ENOMEM;
 +	}
++
++	platform_set_drvdata(pdev, itgen);
++
++	return 0;
 +}
 +
-+#define arch_cmpxchg(ptr, old, new)					\
-+	((__typeof__(*(ptr))) __cmpxchg(				\
-+		(unsigned long)(old), (unsigned long)(new),		\
-+		(ptr), sizeof(*(ptr))))
++static const struct of_device_id itgen_of_match[] = {
++	{ .compatible = "kalray,kvx-itgen" },
++	{ /* END */ }
++};
++MODULE_DEVICE_TABLE(of, itgen_of_match);
 +
-+/*
-+ * In order to optimize xchg for 16 byte, we can use insf/extfs if we know the
-+ * bounds. This way, we only take one more bundle than standard xchg.
-+ * We simply do a read modify acswap on a 32 bit word.
-+ */
++static struct platform_driver itgen_platform_driver = {
++	.driver = {
++		.name		= "kvx-itgen",
++		.of_match_table	= itgen_of_match,
++	},
++	.probe			= kvx_itgen_device_probe,
++};
 +
-+#define __kvx_insf(org, val, start, stop) __asm__ __volatile__(	\
-+		"insf %[_org] = %[_val], %[_stop], %[_start]\n\t;;"	\
-+		: [_org]"+r"(org)					\
-+		: [_val]"r"(val), [_stop]"i"(stop), [_start]"i"(start))
-+
-+#define __kvx_extfz(out, val, start, stop) __asm__ __volatile__(	\
-+		"extfz %[_out] = %[_val], %[_stop], %[_start]\n\t;;"	\
-+		: [_out]"=r"(out)					\
-+		: [_val]"r"(val), [_stop]"i"(stop), [_start]"i"(start))
-+
-+/* Needed for generic qspinlock implementation */
-+static inline unsigned int __xchg_u16(unsigned int old, unsigned int new,
-+				      volatile unsigned int *ptr)
++static int __init kvx_itgen_init(void)
 +{
-+	unsigned int off = ((unsigned long)ptr) % sizeof(unsigned int);
-+	unsigned int val;
-+
-+	ptr = PTR_ALIGN_DOWN(ptr, sizeof(unsigned int));
-+	__builtin_kvx_fence();
-+	do {
-+		old = *ptr;
-+		val = old;
-+		if (off == 0)
-+			__kvx_insf(val, new, 0, 15);
-+		else
-+			__kvx_insf(val, new, 16, 31);
-+	} while (!__builtin_kvx_acswapw((void *)ptr, val, old));
-+
-+	if (off == 0)
-+		__kvx_extfz(old, old, 0, 15);
-+	else
-+		__kvx_extfz(old, old, 16, 31);
-+
-+	return old;
++	return platform_driver_register(&itgen_platform_driver);
 +}
 +
-+static inline unsigned int __xchg_u32(unsigned int old, unsigned int new,
-+				      volatile unsigned int *ptr)
-+{
-+	__builtin_kvx_fence();
-+	do
-+		old = *ptr;
-+	while (!__builtin_kvx_acswapw((void *)ptr, new, old));
-+
-+	return old;
-+}
-+
-+static inline unsigned long __xchg_u64(unsigned long old, unsigned long new,
-+				       volatile unsigned long *ptr)
-+{
-+	__builtin_kvx_fence();
-+	do
-+		old = *ptr;
-+	while (!__builtin_kvx_acswapd((void *)ptr, new, old));
-+
-+	return old;
-+}
-+
-+extern unsigned long __xchg_called_with_bad_pointer(void)
-+	__compiletime_error("Bad argument size for xchg");
-+
-+static __always_inline unsigned long __xchg(unsigned long val,
-+					    volatile void *ptr, int size)
-+{
-+	switch (size) {
-+	case 2:
-+		return __xchg_u16(0, val, ptr);
-+	case 4:
-+		return __xchg_u32(0, val, ptr);
-+	case 8:
-+		return __xchg_u64(0, val, ptr);
-+	default:
-+		return __xchg_called_with_bad_pointer();
-+	}
-+}
-+
-+#define arch_xchg(ptr, val)						\
-+	((__typeof__(*(ptr))) __xchg(					\
-+		(unsigned long)(val),					\
-+		(ptr), sizeof(*(ptr))))
-+
-+#endif
++arch_initcall(kvx_itgen_init);
 -- 
 2.37.2
 
