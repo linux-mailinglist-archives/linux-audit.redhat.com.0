@@ -2,93 +2,94 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id C02A867847B
-	for <lists+linux-audit@lfdr.de>; Mon, 23 Jan 2023 19:22:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACAEA678475
+	for <lists+linux-audit@lfdr.de>; Mon, 23 Jan 2023 19:22:02 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1674498123;
+	s=mimecast20190719; t=1674498121;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=BCaZUJFHVAkn+wjpmATqmhCwOrkP+ZmMby0Nb8LzR80=;
-	b=EHv6X7cE0SzNazFXcUswUh0WmvQeLgHn/BuIMCDHkE7b5iGZedBLzPILFYtqEL7P2Ay756
-	jydq43eW/0BdZakFVCUTTXF2Ej1TaK3+OrBOA4BOp6ebFK0b6HmbOaLamHlTEtqyQK3W19
-	hfu2ZeDedJXC4IVzVhzGcG+uMl3xBO8=
+	bh=BovX80tgx4AbN6WqbRCWpmBxk/Px7+lpLntmPCJLZuY=;
+	b=BQdsu+g02MesbrHI1Ea+aW1CnIYOjXNHa5Tcsd2TlPcAGBh/HBlZRDqzT7qQFJ4Ioj/Ujr
+	JIwKHGKh5olYTkCWjVd9vFouSWVmWBhpNS6pLnO+BanNh+EDV/EDMbfNcrpX0Yo3F5cjVw
+	Gq1ns/EXTgKM7f9SHX2bmYFreEVCw0c=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-118-mST7V0FjMjuJO5YRWtYf1A-1; Mon, 23 Jan 2023 13:22:00 -0500
-X-MC-Unique: mST7V0FjMjuJO5YRWtYf1A-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
+ us-mta-190-3mfvoE3kMgKADkeblrDnOQ-1; Mon, 23 Jan 2023 13:22:00 -0500
+X-MC-Unique: 3mfvoE3kMgKADkeblrDnOQ-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 652633C31DE0;
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 689302999B2D;
 	Mon, 23 Jan 2023 18:21:58 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (unknown [10.30.29.100])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id C34B21121333;
-	Mon, 23 Jan 2023 18:21:49 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 0D144492C1B;
+	Mon, 23 Jan 2023 18:21:51 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (localhost [IPv6:::1])
-	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id 617C2194658D;
-	Mon, 23 Jan 2023 18:21:48 +0000 (UTC)
+	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id 26CD91946A48;
+	Mon, 23 Jan 2023 18:21:50 +0000 (UTC)
 X-Original-To: linux-audit@listman.corp.redhat.com
 Delivered-To: linux-audit@listman.corp.redhat.com
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
  by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with
- ESMTP id A02CB1946586 for <linux-audit@listman.corp.redhat.com>;
- Sun, 22 Jan 2023 11:49:43 +0000 (UTC)
+ ESMTP id BBD651946586 for <linux-audit@listman.corp.redhat.com>;
+ Sun, 22 Jan 2023 11:50:27 +0000 (UTC)
 Received: by smtp.corp.redhat.com (Postfix)
- id 5CE4EC15BAE; Sun, 22 Jan 2023 11:49:43 +0000 (UTC)
+ id 99B9040C115E; Sun, 22 Jan 2023 11:50:27 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
- (mimecast02.extmail.prod.ext.rdu2.redhat.com [10.11.55.18])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 54B7BC15BAD
- for <linux-audit@redhat.com>; Sun, 22 Jan 2023 11:49:43 +0000 (UTC)
+ (mimecast09.extmail.prod.ext.rdu2.redhat.com [10.11.55.25])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 91A3040C1141
+ for <linux-audit@redhat.com>; Sun, 22 Jan 2023 11:50:27 +0000 (UTC)
 Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [205.139.110.120])
+ [207.211.31.120])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3B71F802BF3
- for <linux-audit@redhat.com>; Sun, 22 Jan 2023 11:49:43 +0000 (UTC)
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
- [209.85.221.50]) by relay.mimecast.com with ESMTP with STARTTLS
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7735C2A5955F
+ for <linux-audit@redhat.com>; Sun, 22 Jan 2023 11:50:27 +0000 (UTC)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
+ [209.85.128.41]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-534-OhoGCjqMPkmd-b0vmqv9gg-1; Sun, 22 Jan 2023 06:49:37 -0500
-X-MC-Unique: OhoGCjqMPkmd-b0vmqv9gg-1
-Received: by mail-wr1-f50.google.com with SMTP id d14so4778155wrr.9
- for <linux-audit@redhat.com>; Sun, 22 Jan 2023 03:49:37 -0800 (PST)
+ us-mta-207-o4XpvP9yMwuiwHw_0Sd6kg-1; Sun, 22 Jan 2023 06:50:23 -0500
+X-MC-Unique: o4XpvP9yMwuiwHw_0Sd6kg-1
+Received: by mail-wm1-f41.google.com with SMTP id
+ f19-20020a1c6a13000000b003db0ef4dedcso8744297wmc.4
+ for <linux-audit@redhat.com>; Sun, 22 Jan 2023 03:50:23 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=L18XUoVuVYI0pnqHwuAZ/a/gl46rC1ac5Z5pGu4tjjA=;
- b=Gi7wVKnocvZqxp7rX5qM/4tpRkxEmZ/gfI4vEaDrTGPj686VqUs77i3R1Nnw7SWJmJ
- h4sig0V//HGZa6vAGhacFrpIBZIVpdQqyl4y2WXe+OX2mR+wEw88fe7n+nqL6BtxvfIh
- NxtEAbuiVs7VvOAlPg5jjs+tCXD9M5kwosNe3d6YnfLxHsEyo6rc9EKuWaQWOynV/245
- z5hGJXBQW/Rt+lTKQmkRyKmgNfs4vGlQ6hOkMv+KUEhGijygIbY0G+dc6NzXZQd3df0c
- bkn+/uNF+46yLk9m01J0DgLESthiP+glQhc+nsFtN+98tiQvuaCxuUhCk+vu1g/WwP+z
- hqbQ==
-X-Gm-Message-State: AFqh2koEhSOzfC1q111KXRsBS+QKl4kMnEla4oFr0c0oCESfWejWo1BN
- memBeEXzAk5g/C6QhrpUGgwyEw==
-X-Google-Smtp-Source: AMrXdXuO4A8xyx6+67tnt5vSccGnQfMst13iHm3i0RgTmN8zIeWyW0hP20D/R/sapznzyBbbSLIUpw==
-X-Received: by 2002:adf:f606:0:b0:24b:b74d:8012 with SMTP id
- t6-20020adff606000000b0024bb74d8012mr17321312wrp.18.1674388176056; 
- Sun, 22 Jan 2023 03:49:36 -0800 (PST)
+ bh=0EpkB2BBdVigwr5Td9P+HmXwToYi435KgLDWMOa4EE8=;
+ b=OSuo1O/zn63u2A9nH0ECiVoc/OXh0oPXl6gngm0yvlkbwujn8m6yvWrMUtjLeCT3wp
+ Prsm6L+aZ6nGsNKTUU9vPLty+JZGWYtKWlhdFCEsQPLnctlXomSqsbQsIwYd4eNwlTN0
+ 2G8BEJNs4w/BSawaYEGyVPtBeqU0nvEUrpjls8D+3/L9jrtX+9TFHz+kH8SHgLIMWuhl
+ fDWvyzs0RWpHfoJNrlmZ5M9izJPZNXw+YGIU8i9V08/ohJ51L0f/V3AfkuqRKk+vgFWE
+ 1WjT12p8C3g8cCAfAgX3uV8omperoGOu2IhhXqiG5stjgi/zXMHz+/DzuEezh5DMD3r7
+ muCg==
+X-Gm-Message-State: AFqh2kqvw4xCks9YYhbwDmRGmHupr+ycZzJJWyo7v2dghi1vZoWUD37t
+ FdjEb2E/Hu0zD/4p0vnELpgMaw==
+X-Google-Smtp-Source: AMrXdXvaWQ3NiM1uiaHGSPzJg1g++T4pemcHh7xrDRxj9Aer0pOjcC8iWTUXjRv5iTAL5OdTQdwkyw==
+X-Received: by 2002:a05:600c:2284:b0:3d3:5c21:dd9d with SMTP id
+ 4-20020a05600c228400b003d35c21dd9dmr20563566wmf.19.1674388222395; 
+ Sun, 22 Jan 2023 03:50:22 -0800 (PST)
 Received: from [192.168.1.109] ([178.197.216.144])
  by smtp.gmail.com with ESMTPSA id
- m8-20020adfa3c8000000b00236545edc91sm1740479wrb.76.2023.01.22.03.49.32
+ c40-20020a05600c4a2800b003db16770bc5sm7460685wmp.6.2023.01.22.03.50.18
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 22 Jan 2023 03:49:35 -0800 (PST)
-Message-ID: <c8f7294d-6522-40f6-7923-c379ec8ca6bb@linaro.org>
-Date: Sun, 22 Jan 2023 12:49:31 +0100
+ Sun, 22 Jan 2023 03:50:21 -0800 (PST)
+Message-ID: <57fa51fd-fd3a-f08e-d3de-06a24d1b6ea1@linaro.org>
+Date: Sun, 22 Jan 2023 12:50:17 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.0
-Subject: Re: [RFC PATCH v2 05/31] Documentation: Add binding for
- kalray,coolidge-itgen
+Subject: Re: [RFC PATCH v2 06/31] Documentation: Add binding for
+ kalray,kv3-1-ipi-ctrl
 To: Yann Sionneau <ysionneau@kalray.eu>, Arnd Bergmann <arnd@arndb.de>,
  Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>,
  Marc Zyngier <maz@kernel.org>, Rob Herring <robh+dt@kernel.org>,
@@ -126,9 +127,9 @@ To: Yann Sionneau <ysionneau@kalray.eu>, Arnd Bergmann <arnd@arndb.de>,
  Catalin Marinas <catalin.marinas@arm.com>, Mark Brown <broonie@kernel.org>,
  Janosch Frank <frankja@linux.ibm.com>, Alexey Dobriyan <adobriyan@gmail.com>
 References: <20230120141002.2442-1-ysionneau@kalray.eu>
- <20230120141002.2442-6-ysionneau@kalray.eu>
+ <20230120141002.2442-7-ysionneau@kalray.eu>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230120141002.2442-6-ysionneau@kalray.eu>
+In-Reply-To: <20230120141002.2442-7-ysionneau@kalray.eu>
 X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
  Definition; Similar Internal Domain=false;
  Similar Monitored External Domain=false; Custom External Domain=false;
@@ -136,7 +137,7 @@ X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
  Internal User Name=false; Custom Display Name List=false;
  Reply-to Address Mismatch=false; Targeted Threat Dictionary=false;
  Mimecast Threat Dictionary=false; Custom Threat Dictionary=false
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
 X-Mailman-Approved-At: Mon, 23 Jan 2023 18:21:47 +0000
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.29
@@ -155,7 +156,7 @@ Cc: linux-arch@vger.kernel.org, devicetree@vger.kernel.org,
  linux-riscv@lists.infradead.org, bpf@vger.kernel.org
 Errors-To: linux-audit-bounces@redhat.com
 Sender: "Linux-audit" <linux-audit-bounces@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
@@ -165,89 +166,21 @@ Content-Transfer-Encoding: 7bit
 On 20/01/2023 15:09, Yann Sionneau wrote:
 > From: Jules Maselbas <jmaselbas@kalray.eu>
 > 
-> Add documentation for `kalray,coolidge-itgen` binding.
+> Add documentation for `kalray,kv3-1-ipi-ctrl` binding.
 > 
 > Co-developed-by: Jules Maselbas <jmaselbas@kalray.eu>
 > Signed-off-by: Jules Maselbas <jmaselbas@kalray.eu>
 > Signed-off-by: Yann Sionneau <ysionneau@kalray.eu>
-
-The same comments apply plus more...
-
 > ---
 > 
 > Notes:
 >     V1 -> V2: new patch
 > 
->  .../kalray,coolidge-itgen.yaml                | 48 +++++++++++++++++++
->  1 file changed, 48 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/interrupt-controller/kalray,coolidge-itgen.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/interrupt-controller/kalray,coolidge-itgen.yaml b/Documentation/devicetree/bindings/interrupt-controller/kalray,coolidge-itgen.yaml
-> new file mode 100644
-> index 000000000000..47b503bff1d9
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/interrupt-controller/kalray,coolidge-itgen.yaml
-> @@ -0,0 +1,48 @@
-> +# SPDX-License-Identifier: GPL-2.0
+>  .../kalray/kalray,kv3-1-ipi-ctrl.yaml         | 44 +++++++++++++++++++
+>  1 file changed, 44 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/kalray/kalray,kv3-1-ipi-ctrl.yaml
 
-Dual license. Checkpatch should complain about this - did you run it?
-
-This applies to all your other patches (both, run checkpatch and use
-proper license).
-
-
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/interrupt-controller/kalray,coolidge-itgen#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Kalray Coolidge SoC Interrupt Generator (ITGEN)
-> +
-> +description: |
-> +  The Interrupt Generator (ITGEN) is an interrupt controller block.
-> +  It's purpose is to convert IRQ lines coming from SoC peripherals into writes
-> +  on the AXI bus. The ITGEN intended purpose is to write into the APIC mailboxes.
-> +
-> +allOf:
-> +  - $ref: /schemas/interrupt-controller.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    const: kalray,coolidge-itgen
-> +
-
-So why suddenly this patch has proper blank lines...
-
-Missing reg.
-
-> +  "#interrupt-cells":
-> +    const: 2
-> +    description: |
-> +      - 1st cell is for the IRQ number
-> +      - 2nd cell is for the trigger type as defined dt-bindings/interrupt-controller/irq.h
-> +
-> +  interrupt-controller: true
-> +
-> +  msi-parent: true
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - "#interrupt-cells"
-> +  - interrupt-controller
-> +  - msi-parent
-> +
-> +examples:
-> +  - |
-> +    itgen: interrupt-controller@27000000 {
-> +        compatible = "kalray,coolidge-itgen";
-> +        reg = <0 0x27000000 0 0x1104>;
-> +        #interrupt-cells = <2>;
-> +        interrupt-controller;
-> +        msi-parent = <&apic_mailbox>;
-> +    };
-> +
-> +...
+Wrong directory. Interrupt controllers go to respective subsystem directory.
 
 Best regards,
 Krzysztof
