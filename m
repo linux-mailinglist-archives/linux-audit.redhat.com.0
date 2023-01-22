@@ -1,92 +1,92 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8318F67847A
-	for <lists+linux-audit@lfdr.de>; Mon, 23 Jan 2023 19:22:03 +0100 (CET)
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 95EC167847F
+	for <lists+linux-audit@lfdr.de>; Mon, 23 Jan 2023 19:22:06 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1674498122;
+	s=mimecast20190719; t=1674498125;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=fu7rN7UXB2BlzrLc1vVMaQCuzsWQjvs+0WGep9wRiHI=;
-	b=JlydHfUv23Z5cciguekiFIHTfDI+V3jcCDF1VejH61BwI4S2g+b8cNDE8zRqJNC1cFuOK2
-	3E51FDpk7F39jcRbxhR3vQJx3sudhrZTWMOOYaeQ5oHnJLYYcM1fKuuDXKttEcFdqEnMlx
-	pgEwHNLosfRO4EkYY2zJxwE3ROnefBY=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=UK8AHjGQ62T7B2XcVicblGRbn5WhPd33Ce3QQVtY3Pc=;
+	b=WFjdAQ2K3L+uBoQDayHRq2llnpAKSUKdw9k7yRDkEPKb5fb5/086jJlx0b5l4YGxbVdl1P
+	kD/dilK942FQ3rRcgQJ5Q3skvZln3S6gGjrVpH5hag9UdhGFNHONwQhnemxEJeHOU4/oic
+	bpnBFECmhT3hIH9Y2GkdW9Kw90HETaY=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-263-XNAuD1CENH6rFgNM31vSDA-1; Mon, 23 Jan 2023 13:22:00 -0500
-X-MC-Unique: XNAuD1CENH6rFgNM31vSDA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
+ us-mta-190-Ce4KeFbkMyS3ph5AtlI3rg-1; Mon, 23 Jan 2023 13:22:00 -0500
+X-MC-Unique: Ce4KeFbkMyS3ph5AtlI3rg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6D307382C968;
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 642FB100F902;
 	Mon, 23 Jan 2023 18:21:58 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (unknown [10.30.29.100])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 5135340C1141;
-	Mon, 23 Jan 2023 18:21:49 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 3F79C1121339;
+	Mon, 23 Jan 2023 18:21:51 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (localhost [IPv6:::1])
-	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id 0619E19465BB;
-	Mon, 23 Jan 2023 18:21:48 +0000 (UTC)
+	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id 505651946A4F;
+	Mon, 23 Jan 2023 18:21:50 +0000 (UTC)
 X-Original-To: linux-audit@listman.corp.redhat.com
 Delivered-To: linux-audit@listman.corp.redhat.com
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
  by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with
- ESMTP id 6C3C81946586 for <linux-audit@listman.corp.redhat.com>;
- Sun, 22 Jan 2023 11:57:14 +0000 (UTC)
+ ESMTP id 40C831946586 for <linux-audit@listman.corp.redhat.com>;
+ Sun, 22 Jan 2023 11:58:15 +0000 (UTC)
 Received: by smtp.corp.redhat.com (Postfix)
- id 422C4492C3E; Sun, 22 Jan 2023 11:57:14 +0000 (UTC)
+ id EEE1E1400AFC; Sun, 22 Jan 2023 11:58:14 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
- (mimecast06.extmail.prod.ext.rdu2.redhat.com [10.11.55.22])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3A595492C3C
- for <linux-audit@redhat.com>; Sun, 22 Jan 2023 11:57:14 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [205.139.110.61])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2000118811F6
- for <linux-audit@redhat.com>; Sun, 22 Jan 2023 11:57:14 +0000 (UTC)
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
- [209.85.221.45]) by relay.mimecast.com with ESMTP with STARTTLS
+ (mimecast07.extmail.prod.ext.rdu2.redhat.com [10.11.55.23])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E57F114171C0
+ for <linux-audit@redhat.com>; Sun, 22 Jan 2023 11:58:14 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [207.211.31.81])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C76CA3C0252F
+ for <linux-audit@redhat.com>; Sun, 22 Jan 2023 11:58:14 +0000 (UTC)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
+ [209.85.128.44]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-554-vX_4IcVINXGz09l5ZsDIsA-1; Sun, 22 Jan 2023 06:57:10 -0500
-X-MC-Unique: vX_4IcVINXGz09l5ZsDIsA-1
-Received: by mail-wr1-f45.google.com with SMTP id h12so4474347wrv.10
- for <linux-audit@redhat.com>; Sun, 22 Jan 2023 03:57:10 -0800 (PST)
+ us-mta-47-qSfpScv6NveA0bKSTrbqng-1; Sun, 22 Jan 2023 06:58:12 -0500
+X-MC-Unique: qSfpScv6NveA0bKSTrbqng-1
+Received: by mail-wm1-f44.google.com with SMTP id g10so7107987wmo.1
+ for <linux-audit@redhat.com>; Sun, 22 Jan 2023 03:58:12 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ckWviSxANZfcro+bBRfyc+cenkmtjOkiW7r6SzucWlg=;
- b=wOECQOjWCZKKObVtZHJWWuVz2fzDY9bL0R8yiQE/MFc0Phs1tAyDMWP1G75dohDpZ5
- Rm+1swFk4YeYJnfoevy/0YOb8L5qmqkRR64uKR+WN+d3WUDJX/eSMIUmlaSRSyCpAJDb
- 6RUIGxoQARSNS8Dj9ENxJw3Xfv9edg8OKnUufUq66vePaoSNdJbUPNxL2+8t1c57nBrF
- cbIt4EsORoKt5chrAr05ugm/461HCZBTvbhX1shF44hb4LssBBV6/6obz53OIyHW9jrB
- m8q5v8XoBDhRJoJckEs3W4iMeS/4CnqUjlDF8knM3zKKyRWI4aYWiDVUUivXsjhcDikl
- GcIg==
-X-Gm-Message-State: AFqh2kpBj4rq7WkKy8d80/0ZITq/4LKfziVa2lnk4PfIryEUjioZ9Wcs
- KQcVUoMZVhx27jEd4eRiHeGMPw==
-X-Google-Smtp-Source: AMrXdXvUmSo3jcsu3xojfTukvrhpzxz6e7Xp9tLFomGzgShSJjiyaBJUGl7NNs6LSU7eztbkOMG0ag==
-X-Received: by 2002:a5d:5224:0:b0:2bd:bbf7:1f87 with SMTP id
- i4-20020a5d5224000000b002bdbbf71f87mr20620225wra.60.1674388629088; 
- Sun, 22 Jan 2023 03:57:09 -0800 (PST)
+ bh=YjGs/N459uaRgS5yJ3WFfESguZ4NHWx9awwoiEeB780=;
+ b=N/pGZ3/l7M0YZRIZxJnImLdIzefMlTpzZlxrCP/KKk4AbX7OKUipidTSCQswNBUikJ
+ xmYDwWpuDM43iU6sEUbNpAei5SXGAdf/Kv9SL9onCMQQoyqLwZQdRUUnojZt2nJlUAZe
+ EkaK+0bpQxhR7AMVGK1HzkQ5WUCNvFwZyCroge+uZ1+DNfGZXW5wAHb5cN2QLveHJ38x
+ +2WXCSx1eIncbBxqzIEzIQnIyWkJYRx3FZqCnXwPRsUnQpTaBnGy0w01JmOvvdrDfZqw
+ CYVBYHAMUwGPJcLWK+nUU6EI0N8YebkUw5kR89OjxUJP+gBZCmmdhbagwXiePpZj2KjT
+ qu0A==
+X-Gm-Message-State: AFqh2krhevsK5TwRDYST71Bo015mh/C4tdbShCVLSJWekl8ddh1kE0o+
+ vuOl20xxfKGWcw8p8eRRAxAr2A==
+X-Google-Smtp-Source: AMrXdXtq5Rph9UIfC3hB2PBgU4uL+k5CyKLEV85gy72Xc9vXVhqLaj7EC+pHgTHApG8hI/7ahj3Ing==
+X-Received: by 2002:a05:600c:540d:b0:3d9:fb59:c16b with SMTP id
+ he13-20020a05600c540d00b003d9fb59c16bmr17056417wmb.36.1674388691612; 
+ Sun, 22 Jan 2023 03:58:11 -0800 (PST)
 Received: from [192.168.1.109] ([178.197.216.144])
  by smtp.gmail.com with ESMTPSA id
- d16-20020adfef90000000b002b9b9445149sm3306165wro.54.2023.01.22.03.57.04
+ i22-20020a05600c355600b003a84375d0d1sm8262888wmq.44.2023.01.22.03.58.07
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 22 Jan 2023 03:57:08 -0800 (PST)
-Message-ID: <3043df6d-8cc1-6969-09d4-50ad6195c924@linaro.org>
-Date: Sun, 22 Jan 2023 12:57:04 +0100
+ Sun, 22 Jan 2023 03:58:11 -0800 (PST)
+Message-ID: <9becf3e0-19cc-8924-6da9-8f62f8f8636c@linaro.org>
+Date: Sun, 22 Jan 2023 12:58:07 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.0
-Subject: Re: [RFC PATCH v2 29/31] kvx: Add support for cpuinfo
+Subject: Re: [RFC PATCH v2 27/31] kvx: Add kvx default config file
 To: Yann Sionneau <ysionneau@kalray.eu>, Arnd Bergmann <arnd@arndb.de>,
  Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>,
  Marc Zyngier <maz@kernel.org>, Rob Herring <robh+dt@kernel.org>,
@@ -124,9 +124,9 @@ To: Yann Sionneau <ysionneau@kalray.eu>, Arnd Bergmann <arnd@arndb.de>,
  Catalin Marinas <catalin.marinas@arm.com>, Mark Brown <broonie@kernel.org>,
  Janosch Frank <frankja@linux.ibm.com>, Alexey Dobriyan <adobriyan@gmail.com>
 References: <20230120141002.2442-1-ysionneau@kalray.eu>
- <20230120141002.2442-30-ysionneau@kalray.eu>
+ <20230120141002.2442-28-ysionneau@kalray.eu>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230120141002.2442-30-ysionneau@kalray.eu>
+In-Reply-To: <20230120141002.2442-28-ysionneau@kalray.eu>
 X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
  Definition; Similar Internal Domain=false;
  Similar Monitored External Domain=false; Custom External Domain=false;
@@ -134,7 +134,7 @@ X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
  Internal User Name=false; Custom Display Name List=false;
  Reply-to Address Mismatch=false; Targeted Threat Dictionary=false;
  Mimecast Threat Dictionary=false; Custom Threat Dictionary=false
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
 X-Mailman-Approved-At: Mon, 23 Jan 2023 18:21:47 +0000
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.29
@@ -153,31 +153,74 @@ Cc: linux-arch@vger.kernel.org, devicetree@vger.kernel.org,
  linux-riscv@lists.infradead.org, bpf@vger.kernel.org
 Errors-To: linux-audit-bounces@redhat.com
 Sender: "Linux-audit" <linux-audit-bounces@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-On 20/01/2023 15:10, Yann Sionneau wrote:
-> +static int __init setup_cpuinfo(void)
-> +{
-> +	int cpu;
-> +	struct clk *clk;
-> +	unsigned long cpu_freq = 1000000000;
-> +	struct device_node *node = of_get_cpu_node(0, NULL);
-> +
-> +	clk = of_clk_get(node, 0);
-> +	if (IS_ERR(clk)) {
-> +		printk(KERN_WARNING
-> +		       "Device tree missing CPU 'clock' parameter. Assuming frequency is 1GHZ");
-> +		goto setup_cpu_freq;
-> +	}
-> +
-> +	cpu_freq = clk_get_rate(clk);
+On 20/01/2023 15:09, Yann Sionneau wrote:
+> Add a default config file for kvx based Coolidge SoC.
+> 
+> Co-developed-by: Ashley Lesdalons <alesdalons@kalray.eu>
+> Signed-off-by: Ashley Lesdalons <alesdalons@kalray.eu>
+> Co-developed-by: Benjamin Mugnier <mugnier.benjamin@gmail.com>
+> Signed-off-by: Benjamin Mugnier <mugnier.benjamin@gmail.com>
+> Co-developed-by: Clement Leger <clement@clement-leger.fr>
+> Signed-off-by: Clement Leger <clement@clement-leger.fr>
+> Co-developed-by: Guillaume Thouvenin <gthouvenin@kalray.eu>
+> Signed-off-by: Guillaume Thouvenin <gthouvenin@kalray.eu>
+> Co-developed-by: Jules Maselbas <jmaselbas@kalray.eu>
+> Signed-off-by: Jules Maselbas <jmaselbas@kalray.eu>
+> Co-developed-by: Julian Vetter <jvetter@kalray.eu>
+> Signed-off-by: Julian Vetter <jvetter@kalray.eu>
+> Co-developed-by: Samuel Jones <sjones@kalray.eu>
+> Signed-off-by: Samuel Jones <sjones@kalray.eu>
+> Co-developed-by: Thomas Costis <tcostis@kalray.eu>
+> Signed-off-by: Thomas Costis <tcostis@kalray.eu>
+> Co-developed-by: Vincent Chardon <vincent.chardon@elsys-design.com>
+> Signed-off-by: Vincent Chardon <vincent.chardon@elsys-design.com>
+> Co-developed-by: Yann Sionneau <ysionneau@kalray.eu>
+> Signed-off-by: Yann Sionneau <ysionneau@kalray.eu>
+> ---
+> 
+> Notes:
+>     V1 -> V2: default_defconfig renamed to defconfig
+> 
+>  arch/kvx/configs/defconfig | 127 +++++++++++++++++++++++++++++++++++++
+>  1 file changed, 127 insertions(+)
+>  create mode 100644 arch/kvx/configs/defconfig
+> 
+> diff --git a/arch/kvx/configs/defconfig b/arch/kvx/configs/defconfig
+> new file mode 100644
+> index 000000000000..960784da0b1b
+> --- /dev/null
+> +++ b/arch/kvx/configs/defconfig
+> @@ -0,0 +1,127 @@
+> +CONFIG_DEFAULT_HOSTNAME="KVXlinux"
+> +CONFIG_SERIAL_KVX_SCALL_COMM=y
+> +CONFIG_CONFIGFS_FS=y
+> +CONFIG_DEBUG_KERNEL=y
+> +CONFIG_DEBUG_INFO=y
+> +CONFIG_DEBUG_INFO_DWARF4=y
+> +CONFIG_PRINTK_TIME=y
+> +CONFIG_CONSOLE_LOGLEVEL_DEFAULT=15
+> +CONFIG_MESSAGE_LOGLEVEL_DEFAULT=7
+> +CONFIG_PANIC_TIMEOUT=-1
+> +CONFIG_BLK_DEV_INITRD=y
+> +CONFIG_GDB_SCRIPTS=y
+> +CONFIG_FRAME_POINTER=y
+> +CONFIG_HZ_100=y
+> +CONFIG_SERIAL_EARLYCON=y
+> +CONFIG_HOTPLUG_PCI_PCIE=y
+> +CONFIG_PCIEAER=y
+> +CONFIG_PCIE_DPC=y
+> +CONFIG_HOTPLUG_PCI=y
+> +CONFIG_SERIAL_8250=y
 
-What about cpufreq? I don't think this is useful.
+Are you sure this is the result of savedefconfig? Order looks a bit odd
+in several places, so I want to double check.
 
 Best regards,
 Krzysztof
