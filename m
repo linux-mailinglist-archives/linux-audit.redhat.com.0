@@ -1,92 +1,94 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id C163167847D
-	for <lists+linux-audit@lfdr.de>; Mon, 23 Jan 2023 19:22:05 +0100 (CET)
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CE15678480
+	for <lists+linux-audit@lfdr.de>; Mon, 23 Jan 2023 19:22:10 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1674498124;
+	s=mimecast20190719; t=1674498129;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=3GQCTN3GM/VEBO1VZgbmwyS+gQBKe4SANWxk3I0xmt8=;
-	b=hsmoTg+rHPKugRgDRHDpGOxm0vlUqFmObZpMJ51IAsEDywZFd+zgEFupKguOjQJ1tltF9J
-	Kys2k5OzyUfJhjYXirzRUgkQDwhaCJeuWD9CYF9eoolm/0xO39eH/1rLAKO988JK8sPn/h
-	BWXoxwyoaaUiKZMiswezQhg+W052IrU=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=LG1ovTJ7l26Q/fnkd5GI8DQnyF7fqIBIlzknEw2zYCs=;
+	b=Of6nRUgEJ7WpezmCtAM8tH+SNjkn8GWsgNGIxko12iHjBbBhrudwhjFrWjTyuwV81epE3i
+	lEDVKKHqQ0HZB1BomTqGZ8h1kYHATqkyb92CKSbmyWjS9Fr9Ua8Sx5MouMLKMsjM5bzdFa
+	5YWMimgqseFUbBszQ/CTHutN+k9RoYc=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-647-gUHuYFlLMx-lJ6r_a1eRaw-1; Mon, 23 Jan 2023 13:22:00 -0500
-X-MC-Unique: gUHuYFlLMx-lJ6r_a1eRaw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
+ us-mta-253-IEK9wJs6PwyEmJ3SjNKGJA-1; Mon, 23 Jan 2023 13:22:00 -0500
+X-MC-Unique: IEK9wJs6PwyEmJ3SjNKGJA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 631818030CC;
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 639822999B24;
 	Mon, 23 Jan 2023 18:21:58 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (unknown [10.30.29.100])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id D7D512026D2B;
-	Mon, 23 Jan 2023 18:21:49 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 1EA7939D92;
+	Mon, 23 Jan 2023 18:21:50 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (localhost [IPv6:::1])
-	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id 8E2EC1946A52;
+	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id B78071946A66;
 	Mon, 23 Jan 2023 18:21:48 +0000 (UTC)
 X-Original-To: linux-audit@listman.corp.redhat.com
 Delivered-To: linux-audit@listman.corp.redhat.com
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
  by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with
- ESMTP id 8C3041946586 for <linux-audit@listman.corp.redhat.com>;
- Sun, 22 Jan 2023 11:54:22 +0000 (UTC)
+ ESMTP id 9DA211946586 for <linux-audit@listman.corp.redhat.com>;
+ Sun, 22 Jan 2023 11:54:59 +0000 (UTC)
 Received: by smtp.corp.redhat.com (Postfix)
- id 45E81492B03; Sun, 22 Jan 2023 11:54:22 +0000 (UTC)
+ id 8FC592026D68; Sun, 22 Jan 2023 11:54:59 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
  (mimecast06.extmail.prod.ext.rdu2.redhat.com [10.11.55.22])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3EBB2492B02
- for <linux-audit@redhat.com>; Sun, 22 Jan 2023 11:54:22 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [205.139.110.61])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 86EF22026D2A
+ for <linux-audit@redhat.com>; Sun, 22 Jan 2023 11:54:59 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [207.211.31.120])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0F92C18811F4
- for <linux-audit@redhat.com>; Sun, 22 Jan 2023 11:54:22 +0000 (UTC)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
- [209.85.221.49]) by relay.mimecast.com with ESMTP with STARTTLS
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6754D18811F4
+ for <linux-audit@redhat.com>; Sun, 22 Jan 2023 11:54:59 +0000 (UTC)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
+ [209.85.128.42]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-206-HvnB5K5HMXmYvNMe4Z85Ew-1; Sun, 22 Jan 2023 06:54:18 -0500
-X-MC-Unique: HvnB5K5HMXmYvNMe4Z85Ew-1
-Received: by mail-wr1-f49.google.com with SMTP id y1so3969562wru.2
- for <linux-audit@redhat.com>; Sun, 22 Jan 2023 03:54:18 -0800 (PST)
+ us-mta-245-AnqtQKQHOdefBXAPfjFquQ-1; Sun, 22 Jan 2023 06:54:55 -0500
+X-MC-Unique: AnqtQKQHOdefBXAPfjFquQ-1
+Received: by mail-wm1-f42.google.com with SMTP id
+ f12-20020a7bc8cc000000b003daf6b2f9b9so8745032wml.3
+ for <linux-audit@redhat.com>; Sun, 22 Jan 2023 03:54:55 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=SufkmAjwbNPzx+QZI0to5Uf48TUW+IZPLNjbNqCZpfI=;
- b=DCcXBu6pZ33cTlG9EIx5GBvhV50gKxfLRs5bYeCAzVV3bS8wt8BPtB9cWrWOmUxKHm
- RBEzgbrVvqvCDRb6kAfxGhwRa0Ooc/brURwi5KxjK56Zty4SjnYc4gOGfmzoHCfD6Ytx
- tG44HL0zL1fLYRpkBD/EimAuJmHAndU1WsoDJvnrW5exCHGipJrfunPu022xxLcFAfnb
- p7G3ArqdhzfTivN+Ki4B5QufCBVN08ELx/OPw8d+YEvX0Gpl0bGzmsgmGGi1sjqmeWkk
- Ux/rh9dsCk6xbvzf8ap+s5Q/Ps1tMAaMD5jog+km705qrcL533OWXKN92Lt2va2enkYc
- xkCQ==
-X-Gm-Message-State: AFqh2kol5qpwOY9p2p0re1n85JZcfnUL6k9BYYqvikYeEs570io+9zIh
- eh2Az4QPA0WbbR3OuVZf1SlehQ==
-X-Google-Smtp-Source: AMrXdXt21M3CsHbnhN4nC75KtRaK9snE7H1KnN8u8SuCQjR3lZXo7Zes1x4/j1347YU7bM+ZYlALNg==
-X-Received: by 2002:adf:e9d2:0:b0:2bd:e6f5:5122 with SMTP id
- l18-20020adfe9d2000000b002bde6f55122mr17418436wrn.65.1674388457426; 
- Sun, 22 Jan 2023 03:54:17 -0800 (PST)
+ bh=VLe1tCHvsXuqDEBtfO7OY5kLhydgi9CnGmhErJAm6aY=;
+ b=dZAsOHWRZpJWjxLp5iQGEoPk+REtcACUt1IXmDzt+US0RSppcNjZiarNqg8EQaGPk2
+ WACgTxyyTPqoEc/jwtzt6mwovzUOZwdbm+yBQ+7PHk9rz6R0jHkF0X1Td1nIv+oZ9o1g
+ MTqrmvKYzljlbcLlmLzWyg/mqZUupJ6GXGprZSt4ovNLshwojphT1rpm5uCtahchAq8R
+ oVWSoy8kdhlWD7zxuJF8MWTtBcluf6qd5ojASGGPWTk17vsGkpE6TguA5zK+IGBrJVky
+ udzv2wbsY9Y+cfxqXT6HEC0SmmSF84bnb3Ant9ZGGQ6OBqCUksNig9kZggf7O5o9OYd/
+ 9o2A==
+X-Gm-Message-State: AFqh2kqE1Vq54F1XwfoGYAZd/gEEhBULGxJH6dDK1n96K9KC9OcUvOxY
+ T1r3Y2d0mbPrEkrwjDvAkDcuHw==
+X-Google-Smtp-Source: AMrXdXvuCQdb16Nj82HEsGUUdIjG5ZPXUogSicV9IYHza0HEoyjvxXi4JXn+3h6rll38KtJXF4JaFw==
+X-Received: by 2002:a05:600c:1508:b0:3d3:5166:2da4 with SMTP id
+ b8-20020a05600c150800b003d351662da4mr20299706wmg.8.1674388494495; 
+ Sun, 22 Jan 2023 03:54:54 -0800 (PST)
 Received: from [192.168.1.109] ([178.197.216.144])
  by smtp.gmail.com with ESMTPSA id
- ba9-20020a0560001c0900b002b57bae7174sm2174746wrb.5.2023.01.22.03.54.12
+ m37-20020a05600c3b2500b003daf681d05dsm8320826wms.26.2023.01.22.03.54.50
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 22 Jan 2023 03:54:16 -0800 (PST)
-Message-ID: <f69adaf2-6582-c134-5671-4d6fd100fcf1@linaro.org>
-Date: Sun, 22 Jan 2023 12:54:11 +0100
+ Sun, 22 Jan 2023 03:54:54 -0800 (PST)
+Message-ID: <995eb624-3efe-10fc-a6ed-883d52d591bb@linaro.org>
+Date: Sun, 22 Jan 2023 12:54:48 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.0
-Subject: Re: [RFC PATCH v2 30/31] kvx: Add power controller driver
+Subject: Re: [RFC PATCH v2 31/31] kvx: Add IPI driver
 To: Yann Sionneau <ysionneau@kalray.eu>, Arnd Bergmann <arnd@arndb.de>,
  Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>,
  Marc Zyngier <maz@kernel.org>, Rob Herring <robh+dt@kernel.org>,
@@ -124,9 +126,9 @@ To: Yann Sionneau <ysionneau@kalray.eu>, Arnd Bergmann <arnd@arndb.de>,
  Catalin Marinas <catalin.marinas@arm.com>, Mark Brown <broonie@kernel.org>,
  Janosch Frank <frankja@linux.ibm.com>, Alexey Dobriyan <adobriyan@gmail.com>
 References: <20230120141002.2442-1-ysionneau@kalray.eu>
- <20230120141002.2442-31-ysionneau@kalray.eu>
+ <20230120141002.2442-32-ysionneau@kalray.eu>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230120141002.2442-31-ysionneau@kalray.eu>
+In-Reply-To: <20230120141002.2442-32-ysionneau@kalray.eu>
 X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
  Definition; Similar Internal Domain=false;
  Similar Monitored External Domain=false; Custom External Domain=false;
@@ -134,7 +136,7 @@ X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
  Internal User Name=false; Custom Display Name List=false;
  Reply-to Address Mismatch=false; Targeted Threat Dictionary=false;
  Mimecast Threat Dictionary=false; Custom Threat Dictionary=false
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
 X-Mailman-Approved-At: Mon, 23 Jan 2023 18:21:47 +0000
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.29
@@ -153,7 +155,7 @@ Cc: linux-arch@vger.kernel.org, devicetree@vger.kernel.org,
  linux-riscv@lists.infradead.org, bpf@vger.kernel.org
 Errors-To: linux-audit-bounces@redhat.com
 Sender: "Linux-audit" <linux-audit-bounces@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
@@ -161,56 +163,19 @@ Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
 On 20/01/2023 15:10, Yann Sionneau wrote:
-> From: Jules Maselbas <jmaselbas@kalray.eu>
-> 
-> The Power Controller (pwr-ctrl) control cores reset and wake-up
-> procedure.
-
-
 > +
-> +static struct device_node * __init get_pwr_ctrl_node(void)
+> +int __init kvx_ipi_ctrl_probe(irqreturn_t (*ipi_irq_handler)(int, void *))
 > +{
-> +	const phandle *ph;
-> +	struct device_node *cpu;
-> +	struct device_node *node;
+> +	struct device_node *np;
+> +	int ret;
+> +	unsigned int ipi_irq;
+> +	void __iomem *ipi_base;
 > +
-> +	cpu = of_get_cpu_node(raw_smp_processor_id(), NULL);
-> +	if (!cpu) {
-> +		pr_err("Failed to get CPU node\n");
-> +		return NULL;
-> +	}
-> +
-> +	ph = of_get_property(cpu, "power-controller", NULL);
-> +	if (!ph) {
-> +		pr_err("Failed to get power-controller phandle\n");
-> +		return NULL;
-> +	}
-> +
-> +	node = of_find_node_by_phandle(be32_to_cpup(ph));
-> +	if (!node) {
-> +		pr_err("Failed to get power-controller node\n");
-> +		return NULL;
-> +	}
-> +
-> +	return node;
-> +}
-> +
-> +int __init kvx_pwr_ctrl_probe(void)
-> +{
-> +	struct device_node *ctrl;
-> +
-> +	ctrl = get_pwr_ctrl_node();
-> +	if (!ctrl) {
-> +		pr_err("Failed to get power controller node\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	if (!of_device_is_compatible(ctrl, "kalray,kvx-pwr-ctrl")) {
-> +		pr_err("Failed to get power controller node\n");
+> +	np = of_find_compatible_node(NULL, NULL, "kalray,kvx-ipi-ctrl");
 
-No. Drivers go to drivers, not to arch directory. This should be a
-proper driver instead of some fake stub doing its own driver matching.
-You need to rework this.
+Nope, big no.
+
+Drivers go to drivers, not to arch code. Use proper driver infrastructure.
 
 Best regards,
 Krzysztof
