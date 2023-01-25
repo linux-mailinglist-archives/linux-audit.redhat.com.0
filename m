@@ -1,63 +1,62 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39F7267BF8D
-	for <lists+linux-audit@lfdr.de>; Wed, 25 Jan 2023 23:07:14 +0100 (CET)
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6933267BFA5
+	for <lists+linux-audit@lfdr.de>; Wed, 25 Jan 2023 23:11:44 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1674684433;
+	s=mimecast20190719; t=1674684703;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=kWcbPCUDQYjAlHpL9YUHytmmzyWAZFPfG8NbHK0lraI=;
-	b=OwRXtx2SD2LvnfkXVOcuZ84IeNFNwyAOri90boJbXtEFCrtNBGOeOKVqqbWa5sdeBUKnUt
-	5Deb3MzPVnG+YxCfx73yyl3e5Tl22pKxpAtHQ1miu4Ddo/egFZQOWyuVc5muGFc5ehO2b/
-	EfN+tflCZXgKvBc550376Ku1WgNzcxQ=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=pWMiuuqaVhW6nxxosk+qrF6h0WnUNt9iw6NUOCy1wfs=;
+	b=EZsvaaaM34IGhWEi0W2ohGl1Fdx3NngO3ePdlcy9RG+v1ZnMM9KsxKS5h3jNCkvQqSZLRr
+	QUDPNJhkMcvE5Q9BslLXqjh2poYvcsLh6TfLZgCZ3gObxppGF/HLwVxt/G1flnJM2Y2nE7
+	pSEl2VSMcFOXntc25DuxAPtkjTApjX8=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-440-iUQbfWsbPYCVrko_yX1syA-1; Wed, 25 Jan 2023 17:07:09 -0500
-X-MC-Unique: iUQbfWsbPYCVrko_yX1syA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
+ us-mta-413-YgJmPsTlNEC2qoW_AZUk8A-1; Wed, 25 Jan 2023 17:11:41 -0500
+X-MC-Unique: YgJmPsTlNEC2qoW_AZUk8A-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A8CFF1823612;
-	Wed, 25 Jan 2023 22:07:07 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 630B73C10247;
+	Wed, 25 Jan 2023 22:11:39 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com [10.30.29.100])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id BE51940C200C;
-	Wed, 25 Jan 2023 22:06:45 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id B99B31121330;
+	Wed, 25 Jan 2023 22:11:38 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (localhost [IPv6:::1])
-	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id A668819465A3;
-	Wed, 25 Jan 2023 22:06:43 +0000 (UTC)
+	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id D8E3B19465A3;
+	Wed, 25 Jan 2023 22:11:35 +0000 (UTC)
 X-Original-To: linux-audit@listman.corp.redhat.com
 Delivered-To: linux-audit@listman.corp.redhat.com
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
  by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with
- ESMTP id 301C7194658C for <linux-audit@listman.corp.redhat.com>;
- Wed, 25 Jan 2023 22:06:41 +0000 (UTC)
+ ESMTP id 285C5194658C for <linux-audit@listman.corp.redhat.com>;
+ Wed, 25 Jan 2023 22:11:30 +0000 (UTC)
 Received: by smtp.corp.redhat.com (Postfix)
- id 96DCB40C200E; Wed, 25 Jan 2023 22:06:41 +0000 (UTC)
+ id D184F14171BE; Wed, 25 Jan 2023 22:11:29 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from madcap2.tricolour.ca (ovpn-0-3.rdu2.redhat.com [10.22.0.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7AA4440C200C;
- Wed, 25 Jan 2023 22:06:27 +0000 (UTC)
-Date: Wed, 25 Jan 2023 17:06:25 -0500
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6096414171BB;
+ Wed, 25 Jan 2023 22:11:28 +0000 (UTC)
+Date: Wed, 25 Jan 2023 17:11:26 -0500
 From: Richard Guy Briggs <rgb@redhat.com>
 To: Paul Moore <paul@paul-moore.com>
 Subject: Re: [PATCH v6 3/3] fanotify,audit: Allow audit to use the full
  permission event response
-Message-ID: <Y9Gn4YmKFBot/R4l@madcap2.tricolour.ca>
+Message-ID: <Y9GpDpjlwBr+ZTWm@madcap2.tricolour.ca>
 References: <cover.1673989212.git.rgb@redhat.com>
  <82aba376bfbb9927ab7146e8e2dee8d844a31dc2.1673989212.git.rgb@redhat.com>
- <5680172.DvuYhMxLoT@x2>
- <CAHC9VhQbSCxmSbLFJZidAr952uHt-KktfRRJN3Lr+uDSCzHtfQ@mail.gmail.com>
+ <CAHC9VhTgesdmF3-+oP-EYuNZ-8LKXGPYuSffVst_Wca5Oj0EAQ@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <CAHC9VhQbSCxmSbLFJZidAr952uHt-KktfRRJN3Lr+uDSCzHtfQ@mail.gmail.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+In-Reply-To: <CAHC9VhTgesdmF3-+oP-EYuNZ-8LKXGPYuSffVst_Wca5Oj0EAQ@mail.gmail.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,71 +74,93 @@ Cc: Jan Kara <jack@suse.cz>, linux-api@vger.kernel.org,
  linux-fsdevel@vger.kernel.org, Eric Paris <eparis@parisplace.org>
 Errors-To: linux-audit-bounces@redhat.com
 Sender: "Linux-audit" <linux-audit-bounces@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Disposition: inline
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-On 2023-01-20 13:52, Paul Moore wrote:
-> On Wed, Jan 18, 2023 at 1:34 PM Steve Grubb <sgrubb@redhat.com> wrote:
-> > Hello Richard,
+On 2023-01-20 13:58, Paul Moore wrote:
+> On Tue, Jan 17, 2023 at 4:14 PM Richard Guy Briggs <rgb@redhat.com> wrote:
 > >
-> > I built a new kernel and tested this with old and new user space. It is
-> > working as advertised. The only thing I'm wondering about is why we have 3F
-> > as the default value when no additional info was sent? Would it be better to
-> > just make it 0?
+> > This patch passes the full response so that the audit function can use all
+> > of it. The audit function was updated to log the additional information in
+> > the AUDIT_FANOTIFY record.
+> >
+> > Currently the only type of fanotify info that is defined is an audit
+> > rule number, but convert it to hex encoding to future-proof the field.
+> > Hex encoding suggested by Paul Moore <paul@paul-moore.com>.
+> >
+> > The {subj,obj}_trust values are {0,1,2}, corresponding to no, yes, unknown.
+> >
+> > Sample records:
+> >   type=FANOTIFY msg=audit(1600385147.372:590): resp=2 fan_type=1 fan_info=3137 subj_trust=3 obj_trust=5
+> >   type=FANOTIFY msg=audit(1659730979.839:284): resp=1 fan_type=0 fan_info=3F subj_trust=2 obj_trust=2
+> >
+> > Suggested-by: Steve Grubb <sgrubb@redhat.com>
+> > Link: https://lore.kernel.org/r/3075502.aeNJFYEL58@x2
+> > Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
+> > ---
+> >  fs/notify/fanotify/fanotify.c |  3 ++-
+> >  include/linux/audit.h         |  9 +++++----
+> >  kernel/auditsc.c              | 16 +++++++++++++---
+> >  3 files changed, 20 insertions(+), 8 deletions(-)
 > 
 > ...
 > 
-> > On Tuesday, January 17, 2023 4:14:07 PM EST Richard Guy Briggs wrote:
-> > > diff --git a/kernel/auditsc.c b/kernel/auditsc.c
-> > > index d1fb821de104..3133c4175c15 100644
-> > > --- a/kernel/auditsc.c
-> > > +++ b/kernel/auditsc.c
-> > > @@ -2877,10 +2878,19 @@ void __audit_log_kern_module(char *name)
-> > >       context->type = AUDIT_KERN_MODULE;
-> > >  }
-> > >
-> > > -void __audit_fanotify(u32 response)
-> > > +void __audit_fanotify(u32 response, struct
-> > > fanotify_response_info_audit_rule *friar) {
-> > > -     audit_log(audit_context(), GFP_KERNEL,
-> > > -             AUDIT_FANOTIFY, "resp=%u", response);
-> > > +     /* {subj,obj}_trust values are {0,1,2}: no,yes,unknown */
-> > > +     if (friar->hdr.type == FAN_RESPONSE_INFO_NONE) {
-> > > +             audit_log(audit_context(), GFP_KERNEL, AUDIT_FANOTIFY,
-> > > +                       "resp=%u fan_type=%u fan_info=3F subj_trust=2
-> > obj_trust=2",
-> > > +                       response, FAN_RESPONSE_INFO_NONE);
-> > > +             return;
-> > > +     }
+> > diff --git a/kernel/auditsc.c b/kernel/auditsc.c
+> > index d1fb821de104..3133c4175c15 100644
+> > --- a/kernel/auditsc.c
+> > +++ b/kernel/auditsc.c
+> > @@ -2877,10 +2878,19 @@ void __audit_log_kern_module(char *name)
+> >         context->type = AUDIT_KERN_MODULE;
+> >  }
+> >
+> > -void __audit_fanotify(u32 response)
+> > +void __audit_fanotify(u32 response, struct fanotify_response_info_audit_rule *friar)
+> >  {
+> > -       audit_log(audit_context(), GFP_KERNEL,
+> > -               AUDIT_FANOTIFY, "resp=%u", response);
+> > +       /* {subj,obj}_trust values are {0,1,2}: no,yes,unknown */
+> > +       if (friar->hdr.type == FAN_RESPONSE_INFO_NONE) {
+> > +               audit_log(audit_context(), GFP_KERNEL, AUDIT_FANOTIFY,
+> > +                         "resp=%u fan_type=%u fan_info=3F subj_trust=2 obj_trust=2",
+> > +                         response, FAN_RESPONSE_INFO_NONE);
+> > +               return;
+> > +       }
+> > +       audit_log(audit_context(), GFP_KERNEL, AUDIT_FANOTIFY,
+> > +                 "resp=%u fan_type=%u fan_info=%X subj_trust=%u obj_trust=%u",
+> > +                 response, friar->hdr.type, friar->rule_number,
+> > +                 friar->subj_trust, friar->obj_trust);
+> >  }
 > 
-> (I'm working under the assumption that the "fan_info=3F" in the record
-> above is what Steve was referring to in his comment.)
+> The only thing that comes to mind might be to convert the if-return
+> into a switch statement to make it a bit cleaner and easier to patch
+> in the future, but that is soooo far removed from any real concern
+> that I debated even mentioning it.  I only bring it up in case the
+> "3F" discussion results in a respin, and even then I'm not going to
+> hold my ACK over something as silly as a if-return vs switch.
 > 
-> I vaguely recall Richard commenting on this in the past, although
-> maybe not ... my thought is that the "3F" is simply the hex encoded
-> "?" character in ASCII ('man 7 ascii' is your friend).  I suppose the
-> question is what to do in the FAN_RESPONSE_INFO_NONE case.
+> For clarity, this is what I was thinking:
 > 
-> Historically when we had a missing field we would follow the "field=?"
-> pattern, but I don't recall doing that for a field which was
-> potentially hex encoded, is there an existing case where we use "?"
-> for a field that is hex encoded?  If so, we can swap out the "3F" for
-> a more obvious "?".
+> void __audit_fanontify(...)
+> {
+>   switch (type) {
+>   case FAN_RESPONSE_INFO_NONE:
+>     audit_log(...);
+>     break;
+>   default:
+>     audit_log(...);
+>   }
+> }
 
-I was presuming encoding the zero: "30"
+I agree that would be cleaner, but FAN_RESPONSE_INFO_NONE and
+FAN_RESPONSE_INFO_AUDIT_RULE would be the two, with default being
+ignored since they could be other types unrelated to audit.
 
-> However, another option might be to simply output the current
-> AUDIT_FANOTIFY record format in the FAN_RESPONSE_INFO_NONE case, e.g.
-> only "resp=%u".  This is a little against the usual guidance of
-> "fields should not disappear from a record", but considering that
-> userspace will always need to support the original resp-only format
-> for compatibility reasons this may be an option.
-
-I don't have a strong opinion.
+There were a number of bits of code to future proof it in previous
+versions that were questioned as necessary so they were removed...
 
 > paul-moore.com
 
