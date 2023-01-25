@@ -1,93 +1,93 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id E553F67D1B4
-	for <lists+linux-audit@lfdr.de>; Thu, 26 Jan 2023 17:34:04 +0100 (CET)
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id F39E067D1B2
+	for <lists+linux-audit@lfdr.de>; Thu, 26 Jan 2023 17:33:57 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1674750843;
+	s=mimecast20190719; t=1674750836;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=X1xSrfPEbDrdCiGovl3lPWQpXNiml93mB4DUh08M+wc=;
-	b=LUqQJsD/M3/x8DELIotdFklJLLHHStv7soevHDlafXi10PjY/4kGpcD0L+X0CsaIyMW6YD
-	cBmZm/n4bckFJeLRNRkZDcMrsnfOfzkDNKQNVSLudz7wvPFzt+urUsBPfYAd9zuRjX1vsE
-	3Ity/6KiZlKBbcb5r/VXX9GYHSL0yIo=
+	bh=D11qA2tcmPaqXJCFHktqCWyouEK17Z2gojMLbSDJ2Ss=;
+	b=HrUDhQETkOqx2iD8Ylavy+eAXZtLiyNaJyTIQLTF56YAjIgUJ0nZfvUq0dgDL3oG7kyzmk
+	EAX4jioI8lMBxq3soCBeCUglqMgRt+OnO4EzSDpwLdOxrEFxFn6y7XZI87Gv13A38GmJNV
+	y779G4DG7vw3Wuw0LmQBt3t9GcTxjBI=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-624-b0rnbT2HO42ZSLzVtVdm5A-1; Thu, 26 Jan 2023 11:33:54 -0500
-X-MC-Unique: b0rnbT2HO42ZSLzVtVdm5A-1
+ us-mta-611-UtRjrLzQMJOCM5xT4AQMww-1; Thu, 26 Jan 2023 11:33:55 -0500
+X-MC-Unique: UtRjrLzQMJOCM5xT4AQMww-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F1DFD29A9D53;
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F1CEA29A9D4F;
 	Thu, 26 Jan 2023 16:33:50 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (unknown [10.30.29.100])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 1451F40C200E;
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 55EFE40C2064;
 	Thu, 26 Jan 2023 16:33:48 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (localhost [IPv6:::1])
-	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id 8224D1946A43;
+	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id BFFE31946A5E;
 	Thu, 26 Jan 2023 16:33:46 +0000 (UTC)
 X-Original-To: linux-audit@listman.corp.redhat.com
 Delivered-To: linux-audit@listman.corp.redhat.com
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
  by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with
- ESMTP id 04580194658C for <linux-audit@listman.corp.redhat.com>;
- Wed, 25 Jan 2023 18:28:32 +0000 (UTC)
+ ESMTP id B2E0E194658C for <linux-audit@listman.corp.redhat.com>;
+ Wed, 25 Jan 2023 21:55:26 +0000 (UTC)
 Received: by smtp.corp.redhat.com (Postfix)
- id E129E4014CE2; Wed, 25 Jan 2023 18:28:26 +0000 (UTC)
+ id 7A0682166B29; Wed, 25 Jan 2023 21:55:26 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
- (mimecast10.extmail.prod.ext.rdu2.redhat.com [10.11.55.26])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D99E340C945A
- for <linux-audit@redhat.com>; Wed, 25 Jan 2023 18:28:26 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [207.211.31.81])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A44E51C068D1
- for <linux-audit@redhat.com>; Wed, 25 Jan 2023 18:28:26 +0000 (UTC)
-Received: from fx409.security-mail.net (smtpout140.security-mail.net
- [85.31.212.149]) by relay.mimecast.com with ESMTP with STARTTLS
+ (mimecast07.extmail.prod.ext.rdu2.redhat.com [10.11.55.23])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 717802166B26
+ for <linux-audit@redhat.com>; Wed, 25 Jan 2023 21:55:26 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [207.211.31.120])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 53C333C01DE8
+ for <linux-audit@redhat.com>; Wed, 25 Jan 2023 21:55:26 +0000 (UTC)
+Received: from fx403.security-mail.net (smtpout140.security-mail.net
+ [85.31.212.143]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-651-Wx02TFjyMCOzvlG22ySUkg-1; Wed, 25 Jan 2023 13:28:24 -0500
-X-MC-Unique: Wx02TFjyMCOzvlG22ySUkg-1
-Received: from localhost (fx409.security-mail.net [127.0.0.1])
- by fx409.security-mail.net (Postfix) with ESMTP id 6F99F3494F2
- for <linux-audit@redhat.com>; Wed, 25 Jan 2023 19:28:23 +0100 (CET)
-Received: from fx409 (fx409.security-mail.net [127.0.0.1]) by
- fx409.security-mail.net (Postfix) with ESMTP id 1C7343493AE; Wed, 25 Jan
- 2023 19:28:23 +0100 (CET)
+ us-mta-551-5_YnvB0LNISuCjmxkX-c3w-1; Wed, 25 Jan 2023 16:55:24 -0500
+X-MC-Unique: 5_YnvB0LNISuCjmxkX-c3w-1
+Received: from localhost (localhost [127.0.0.1])
+ by fx403.security-mail.net (Postfix) with ESMTP id 8E72E579241
+ for <linux-audit@redhat.com>; Wed, 25 Jan 2023 22:55:22 +0100 (CET)
+Received: from fx403 (localhost [127.0.0.1]) by fx403.security-mail.net
+ (Postfix) with ESMTP id 14D4C578EE2; Wed, 25 Jan 2023 22:55:22 +0100 (CET)
 Received: from zimbra2.kalray.eu (unknown [217.181.231.53]) by
- fx409.security-mail.net (Postfix) with ESMTPS id 23501349405; Wed, 25 Jan
- 2023 19:28:22 +0100 (CET)
+ fx403.security-mail.net (Postfix) with ESMTPS id 194FF578B2C; Wed, 25 Jan
+ 2023 22:55:21 +0100 (CET)
 Received: from zimbra2.kalray.eu (localhost [127.0.0.1]) by
- zimbra2.kalray.eu (Postfix) with ESMTPS id DD3A827E0493; Wed, 25 Jan 2023
- 19:28:21 +0100 (CET)
+ zimbra2.kalray.eu (Postfix) with ESMTPS id D2EB627E0493; Wed, 25 Jan 2023
+ 22:55:20 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1]) by zimbra2.kalray.eu
- (Postfix) with ESMTP id BBF0027E0491; Wed, 25 Jan 2023 19:28:21 +0100 (CET)
+ (Postfix) with ESMTP id AEC3727E0491; Wed, 25 Jan 2023 22:55:20 +0100 (CET)
 Received: from zimbra2.kalray.eu ([127.0.0.1]) by localhost
  (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10026) with ESMTP id
- G_ghmxyD1iYT; Wed, 25 Jan 2023 19:28:21 +0100 (CET)
+ si6Lv1AzzjtE; Wed, 25 Jan 2023 22:55:20 +0100 (CET)
 Received: from tellis.lin.mbt.kalray.eu (unknown [192.168.36.206]) by
- zimbra2.kalray.eu (Postfix) with ESMTPSA id 4BBCB27E0461; Wed, 25 Jan 2023
- 19:28:21 +0100 (CET)
+ zimbra2.kalray.eu (Postfix) with ESMTPSA id 4AA5127E0461; Wed, 25 Jan 2023
+ 22:55:20 +0100 (CET)
 X-Virus-Scanned: E-securemail
-Secumail-id: <d944.63d174c6.208cc.0>
-DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu BBF0027E0491
-Date: Wed, 25 Jan 2023 19:28:20 +0100
+Secumail-id: <13e79.63d1a549.170d1.0>
+DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu AEC3727E0491
+Date: Wed, 25 Jan 2023 22:55:19 +0100
 From: Jules Maselbas <jmaselbas@kalray.eu>
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: Re: [RFC PATCH v2 01/31] Documentation: kvx: Add basic documentation
-Message-ID: <20230125182820.GD5952@tellis.lin.mbt.kalray.eu>
+To: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Subject: Re: [RFC PATCH v2 12/31] kvx: Add other common headers
+Message-ID: <20230125215519.GE5952@tellis.lin.mbt.kalray.eu>
 References: <20230120141002.2442-1-ysionneau@kalray.eu>
- <20230120141002.2442-2-ysionneau@kalray.eu> <Y8z7v53A/UDKFd7j@debian.me>
+ <20230120141002.2442-13-ysionneau@kalray.eu> <Y8qlOpYgDefMPqWH@zx2c4.com>
 MIME-Version: 1.0
-In-Reply-To: <Y8z7v53A/UDKFd7j@debian.me>
+In-Reply-To: <Y8qlOpYgDefMPqWH@zx2c4.com>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 X-ALTERMIMEV2_out: done
 X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
@@ -97,7 +97,7 @@ X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
  Internal User Name=false; Custom Display Name List=false;
  Reply-to Address Mismatch=false; Targeted Threat Dictionary=false;
  Mimecast Threat Dictionary=false; Custom Threat Dictionary=false
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
 X-Mailman-Approved-At: Thu, 26 Jan 2023 16:33:45 +0000
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.29
@@ -110,8 +110,7 @@ List-Post: <mailto:linux-audit@redhat.com>
 List-Help: <mailto:linux-audit-request@redhat.com?subject=help>
 List-Subscribe: <https://listman.redhat.com/mailman/listinfo/linux-audit>,
  <mailto:linux-audit-request@redhat.com?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, "Jason
- A. Donenfeld" <Jason@zx2c4.com>,
+Cc: Mark Rutland <mark.rutland@arm.com>,
  Marc =?utf-8?b?UG91bGhpw6hz?= <dkm@kataplop.net>, linux-doc@vger.kernel.org,
  Peter Zijlstra <peterz@infradead.org>,
  Catalin Marinas <catalin.marinas@arm.com>, Atish Patra <atishp@atishpatra.org>,
@@ -156,18 +155,74 @@ Content-Disposition: inline
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-Hi Bagas,
+Hi Jason,
 
-Thanks for taking your time and effort to improve the documentation.
-We not only need to clean the documention syntax and wording but also
-its content. I am tempted to apply all your proposed changes first and
-then work on improving and correcting the documentation.
+On Fri, Jan 20, 2023 at 03:29:14PM +0100, Jason A. Donenfeld wrote:
+> Hi Yann,
+> 
+> On Fri, Jan 20, 2023 at 03:09:43PM +0100, Yann Sionneau wrote:
+> > +#include <linux/random.h>
+> > +#include <linux/version.h>
+> > +
+> > +extern unsigned long __stack_chk_guard;
+> > +
+> > +/*
+> > + * Initialize the stackprotector canary value.
+> > + *
+> > + * NOTE: this must only be called from functions that never return,
+> > + * and it must always be inlined.
+> > + */
+> > +static __always_inline void boot_init_stack_canary(void)
+> > +{
+> > +	unsigned long canary;
+> > +
+> > +	/* Try to get a semi random initial value. */
+> > +	get_random_bytes(&canary, sizeof(canary));
+> > +	canary ^= LINUX_VERSION_CODE;
+> > +	canary &= CANARY_MASK;
+> > +
+> > +	current->stack_canary = canary;
+> > +	__stack_chk_guard = current->stack_canary;
+> > +}
+> 
+> 
+> You should rewrite this as:
+> 
+>     current->stack_canary = get_random_canary();
+>     __stack_chk_guard = current->stack_canary;
+> 
+> which is what the other archs all now do. (They didn't used to, and this
+> looks like it's simply based on older code.)
+Thanks for the suggestion, this will be into v3
 
-However I am not very sure on how to integrate your changes and give
-proper contribution attributions. Any insights on this would be greatly
-appreciated.
+> > +#define get_cycles get_cycles
+> > +
+> > +#include <asm/sfr.h>
+> > +#include <asm-generic/timex.h>
+> > +
+> > +static inline cycles_t get_cycles(void)
+> > +{
+> > +	return kvx_sfr_get(PM0);
+> > +}
+> 
+> Glad to see this CPU has a cycle counter. Out of curiosity, what is
+> its resolution?
+This cpu has 4 performance monitor (PM), the first one is reserved to
+count cycles, and it is cycle accurate.
 
-Thanks
+> Also, related, does this CPU happen to have a "RDRAND"-like instruction?
+I didn't knew about the RDRAND insruction, but no this CPU do not have
+an instruction like that.
+
+> (I don't know anything about kvx or even what it is.)
+It's a VLIW core, a bit like Itanium, there are currently not publicly
+available documentation.  We have started a discussion internally at
+Kalray to share more information regarding this CPU and its ABI.
+
+A very crude instruction listing can be found in our fork of
+gdb-binutils: https://raw.githubusercontent.com/kalray/binutils/binutils-2_35_2/coolidge/opcodes/kv3-opc.c
+
+Best regards,
 -- Jules
 
 
