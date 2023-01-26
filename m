@@ -2,94 +2,76 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA93967D1AF
-	for <lists+linux-audit@lfdr.de>; Thu, 26 Jan 2023 17:33:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FEB767D1B1
+	for <lists+linux-audit@lfdr.de>; Thu, 26 Jan 2023 17:33:57 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1674750834;
+	s=mimecast20190719; t=1674750836;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=2kyjVXhUIoZTuwtN8dYtHBO9LzAeMaVz+GbyI49skZE=;
-	b=YBzsfD+zjHtBTnWusOaq91TLQooDq8W7iOwyByJdqvdfU4OievMGoIMOo6Njw4+UiC/vI+
-	Wjj8ZpUibeL4odjWMP8hT3H2PLYcDkphyzDUW+XDfZfDkS2yCDWwumzJULqRP1gJbcNTfx
-	G4/FdrBmpYakct4EruJYRJcyjNGJXzM=
+	bh=bMosRqKvrZ+PUCh/1C+XMtSmpFfltBvkGAZQ+lK5mlc=;
+	b=KP4dV61F9D+uICHL3ln5OD255Xu8FzB4eyVgI1x70jJTpcbNHIfDPJrXT8t39lnF26Iuf5
+	sXdifhqiYfxqL9LBwtCXhwH+NKlQD2XrsPXHPeLHdDy2VvNUbRW6/eQA5kb+NHGVmapruB
+	nckb784K7QF3+75rZEu5LRTvUOLm5Pw=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-602-ePjYAxBdOB6qIM2G04psLg-1; Thu, 26 Jan 2023 11:33:53 -0500
-X-MC-Unique: ePjYAxBdOB6qIM2G04psLg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
+ us-mta-624-2oK4ulsHPN6xdH1ul6nFkg-1; Thu, 26 Jan 2023 11:33:54 -0500
+X-MC-Unique: 2oK4ulsHPN6xdH1ul6nFkg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EF55E29A9D4A;
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EFDE41C07551;
 	Thu, 26 Jan 2023 16:33:50 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (unknown [10.30.29.100])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 35AE92026D76;
-	Thu, 26 Jan 2023 16:33:48 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 1C3102166B26;
+	Thu, 26 Jan 2023 16:33:50 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (localhost [IPv6:::1])
-	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id 96B071946A4B;
-	Thu, 26 Jan 2023 16:33:46 +0000 (UTC)
+	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id E862719465A3;
+	Thu, 26 Jan 2023 16:33:49 +0000 (UTC)
 X-Original-To: linux-audit@listman.corp.redhat.com
 Delivered-To: linux-audit@listman.corp.redhat.com
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
  by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with
- ESMTP id D98AF194658C for <linux-audit@listman.corp.redhat.com>;
- Thu, 26 Jan 2023 09:57:27 +0000 (UTC)
+ ESMTP id C1CFC194658C for <linux-audit@listman.corp.redhat.com>;
+ Thu, 26 Jan 2023 11:15:54 +0000 (UTC)
 Received: by smtp.corp.redhat.com (Postfix)
- id 93F1540C200C; Thu, 26 Jan 2023 09:57:27 +0000 (UTC)
+ id 6CE592026D76; Thu, 26 Jan 2023 11:15:54 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
- (mimecast09.extmail.prod.ext.rdu2.redhat.com [10.11.55.25])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8BB8940C2064
- for <linux-audit@redhat.com>; Thu, 26 Jan 2023 09:57:27 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [205.139.110.61])
+ (mimecast01.extmail.prod.ext.rdu2.redhat.com [10.11.55.17])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 651122026D4B
+ for <linux-audit@redhat.com>; Thu, 26 Jan 2023 11:15:54 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [205.139.110.61])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 539112801E47
- for <linux-audit@redhat.com>; Thu, 26 Jan 2023 09:57:27 +0000 (UTC)
-Received: from fx303.security-mail.net (mxout.security-mail.net
- [85.31.212.46]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-302-R7fG-bmIPiGYDI8J1PI3ag-1; Thu, 26 Jan 2023 04:57:25 -0500
-X-MC-Unique: R7fG-bmIPiGYDI8J1PI3ag-1
-Received: from localhost (fx303.security-mail.net [127.0.0.1])
- by fx303.security-mail.net (Postfix) with ESMTP id F377130F7B5
- for <linux-audit@redhat.com>; Thu, 26 Jan 2023 10:57:23 +0100 (CET)
-Received: from fx303 (fx303.security-mail.net [127.0.0.1]) by
- fx303.security-mail.net (Postfix) with ESMTP id 4B88F30F6F4; Thu, 26 Jan
- 2023 10:57:23 +0100 (CET)
-Received: from zimbra2.kalray.eu (unknown [217.181.231.53]) by
- fx303.security-mail.net (Postfix) with ESMTPS id 600CC30EF2D; Thu, 26 Jan
- 2023 10:57:22 +0100 (CET)
-Received: from zimbra2.kalray.eu (localhost [127.0.0.1]) by
- zimbra2.kalray.eu (Postfix) with ESMTPS id 1EF2427E0493; Thu, 26 Jan 2023
- 10:57:22 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1]) by zimbra2.kalray.eu
- (Postfix) with ESMTP id F0A6127E0491; Thu, 26 Jan 2023 10:57:21 +0100 (CET)
-Received: from zimbra2.kalray.eu ([127.0.0.1]) by localhost
- (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10026) with ESMTP id
- JRZseFWEf3ef; Thu, 26 Jan 2023 10:57:21 +0100 (CET)
-Received: from tellis.lin.mbt.kalray.eu (unknown [192.168.36.206]) by
- zimbra2.kalray.eu (Postfix) with ESMTPSA id 9A5BE27E048E; Thu, 26 Jan 2023
- 10:57:21 +0100 (CET)
-X-Virus-Scanned: E-securemail
-Secumail-id: <12187.63d24e82.597fe.0>
-DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu F0A6127E0491
-Date: Thu, 26 Jan 2023 10:57:20 +0100
-From: Jules Maselbas <jmaselbas@kalray.eu>
-To: Mark Rutland <mark.rutland@arm.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 46D67857F82
+ for <linux-audit@redhat.com>; Thu, 26 Jan 2023 11:15:54 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172]) by
+ relay.mimecast.com with ESMTP id us-mta-222-aRhJMwwCOVCkaUjigmRqAA-1; Thu,
+ 26 Jan 2023 06:15:50 -0500
+X-MC-Unique: aRhJMwwCOVCkaUjigmRqAA-1
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 33988C14;
+ Thu, 26 Jan 2023 03:16:31 -0800 (PST)
+Received: from FVFF77S0Q05N (unknown [10.57.10.122])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 402733F71E;
+ Thu, 26 Jan 2023 03:15:40 -0800 (PST)
+Date: Thu, 26 Jan 2023 11:15:37 +0000
+From: Mark Rutland <mark.rutland@arm.com>
+To: Jules Maselbas <jmaselbas@kalray.eu>
 Subject: Re: [RFC PATCH v2 11/31] kvx: Add atomic/locking headers
-Message-ID: <20230126095720.GF5952@tellis.lin.mbt.kalray.eu>
+Message-ID: <Y9Jg2QkbLUoYhimB@FVFF77S0Q05N>
 References: <20230120141002.2442-1-ysionneau@kalray.eu>
- <20230120141002.2442-12-ysionneau@kalray.eu> <Y8qw2MaCJZzu3Ows@FVFF77S0Q05N>
+ <20230120141002.2442-12-ysionneau@kalray.eu>
+ <Y8qw2MaCJZzu3Ows@FVFF77S0Q05N>
+ <20230126095720.GF5952@tellis.lin.mbt.kalray.eu>
 MIME-Version: 1.0
-In-Reply-To: <Y8qw2MaCJZzu3Ows@FVFF77S0Q05N>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-ALTERMIMEV2_out: done
+In-Reply-To: <20230126095720.GF5952@tellis.lin.mbt.kalray.eu>
 X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
  Definition; Similar Internal Domain=false;
  Similar Monitored External Domain=false; Custom External Domain=false;
@@ -97,7 +79,7 @@ X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
  Internal User Name=false; Custom Display Name List=false;
  Reply-to Address Mismatch=false; Targeted Threat Dictionary=false;
  Mimecast Threat Dictionary=false; Custom Threat Dictionary=false
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
 X-Mailman-Approved-At: Thu, 26 Jan 2023 16:33:45 +0000
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.29
@@ -111,7 +93,7 @@ List-Help: <mailto:linux-audit-request@redhat.com?subject=help>
 List-Subscribe: <https://listman.redhat.com/mailman/listinfo/linux-audit>,
  <mailto:linux-audit-request@redhat.com?subject=subscribe>
 Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>,
- Marc =?utf-8?b?UG91bGhpw6hz?= <dkm@kataplop.net>, linux-doc@vger.kernel.org,
+ Marc =?utf-8?B?UG91bGhpw6hz?= <dkm@kataplop.net>, linux-doc@vger.kernel.org,
  Peter Zijlstra <peterz@infradead.org>,
  Catalin Marinas <catalin.marinas@arm.com>, Atish Patra <atishp@atishpatra.org>,
  Jiaxun Yang <jiaxun.yang@flygoat.com>, Julien Hascoet <jhascoet@kalray.eu>,
@@ -148,141 +130,62 @@ Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>,
  Andrew Morton <akpm@linux-foundation.org>
 Errors-To: linux-audit-bounces@redhat.com
 Sender: "Linux-audit" <linux-audit-bounces@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Disposition: inline
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-Hi Mark,
+Hi Jules,
 
-On Fri, Jan 20, 2023 at 03:18:48PM +0000, Mark Rutland wrote:
-> On Fri, Jan 20, 2023 at 03:09:42PM +0100, Yann Sionneau wrote:
-> > Add common headers (atomic, bitops, barrier and locking) for basic
-> > kvx support.
+On Thu, Jan 26, 2023 at 10:57:20AM +0100, Jules Maselbas wrote:
+> Hi Mark,
+> 
+> On Fri, Jan 20, 2023 at 03:18:48PM +0000, Mark Rutland wrote:
+> > On Fri, Jan 20, 2023 at 03:09:42PM +0100, Yann Sionneau wrote:
+> > > +#define ATOMIC64_RETURN_OP(op, c_op)					\
+> > > +static inline long arch_atomic64_##op##_return(long i, atomic64_t *v)	\
+> > > +{									\
+> > > +	long new, old, ret;						\
+> > > +									\
+> > > +	do {								\
+> > > +		old = v->counter;					\
 > > 
-> > Co-developed-by: Clement Leger <clement@clement-leger.fr>
-> > Signed-off-by: Clement Leger <clement@clement-leger.fr>
-> > Co-developed-by: Jules Maselbas <jmaselbas@kalray.eu>
-> > Signed-off-by: Jules Maselbas <jmaselbas@kalray.eu>
-> > Co-developed-by: Julian Vetter <jvetter@kalray.eu>
-> > Signed-off-by: Julian Vetter <jvetter@kalray.eu>
-> > Co-developed-by: Julien Villette <jvillette@kalray.eu>
-> > Signed-off-by: Julien Villette <jvillette@kalray.eu>
-> > Co-developed-by: Yann Sionneau <ysionneau@kalray.eu>
-> > Signed-off-by: Yann Sionneau <ysionneau@kalray.eu>
-> > ---
+> > This should be arch_atomic64_read(v), in order to avoid the potential for the
+> > compiler to replay the access and introduce ABA races and other such problems.
+> Thanks for the suggestion, this will be into v3.
+> 
+> > For details, see:
 > > 
-> > Notes:
-> >     V1 -> V2:
-> >      - use {READ,WRITE}_ONCE for arch_atomic64_{read,set}
-> >      - use asm-generic/bitops/atomic.h instead of __test_and_*_bit
-> >      - removed duplicated includes
-> >      - rewrite xchg and cmpxchg in C using builtins for acswap insn
-> 
-> Thanks for those changes. I see one issue below (instantiated a few times), but
-> other than that this looks good to me.
-> 
-> [...]
-> 
-> > +#define ATOMIC64_RETURN_OP(op, c_op)					\
-> > +static inline long arch_atomic64_##op##_return(long i, atomic64_t *v)	\
-> > +{									\
-> > +	long new, old, ret;						\
-> > +									\
-> > +	do {								\
-> > +		old = v->counter;					\
-> 
-> This should be arch_atomic64_read(v), in order to avoid the potential for the
-> compiler to replay the access and introduce ABA races and other such problems.
-Thanks for the suggestion, this will be into v3.
+> >   https://lore.kernel.org/lkml/Y70SWXHDmOc3RhMd@osiris/
+> >   https://lore.kernel.org/lkml/Y71LoCIl+IFdy9D8@FVFF77S0Q05N/
+> > 
+> > I see that the generic 32-bit atomic code suffers from that issue, and we
+> > should fix it.
+> I took a look at the generic 32-bit atomic, but I am unsure if this
+> needs to be done for both the SMP and non-SMP implementations. But I
+> can send a first patch and we can discuss from there.
 
-> For details, see:
-> 
->   https://lore.kernel.org/lkml/Y70SWXHDmOc3RhMd@osiris/
->   https://lore.kernel.org/lkml/Y71LoCIl+IFdy9D8@FVFF77S0Q05N/
-> 
-> I see that the generic 32-bit atomic code suffers from that issue, and we
-> should fix it.
-I took a look at the generic 32-bit atomic, but I am unsure if this
-needs to be done for both the SMP and non-SMP implementations. But I
-can send a first patch and we can discuss from there.
+Sounds good to me; thanks!
 
-> > +		new = old c_op i;					\
-> > +		ret = arch_cmpxchg(&v->counter, old, new);		\
-> > +	} while (ret != old);						\
-> > +									\
-> > +	return new;							\
-> > +}
-> > +
-> > +#define ATOMIC64_OP(op, c_op)						\
-> > +static inline void arch_atomic64_##op(long i, atomic64_t *v)		\
-> > +{									\
-> > +	long new, old, ret;						\
-> > +									\
-> > +	do {								\
-> > +		old = v->counter;					\
-> 
-> Likewise, arch_atomic64_read(v) here.
-ack
+[...]
 
-> > +		new = old c_op i;					\
-> > +		ret = arch_cmpxchg(&v->counter, old, new);		\
-> > +	} while (ret != old);						\
-> > +}
-> > +
-> > +#define ATOMIC64_FETCH_OP(op, c_op)					\
-> > +static inline long arch_atomic64_fetch_##op(long i, atomic64_t *v)	\
-> > +{									\
-> > +	long new, old, ret;						\
-> > +									\
-> > +	do {								\
-> > +		old = v->counter;					\
-> 
-> Likewise, arch_atomic64_read(v) here.
-ack
+> > > +static inline int arch_atomic_add_return(int i, atomic_t *v)
+> > > +{
+> > > +	int new, old, ret;
+> > > +
+> > > +	do {
+> > > +		old = v->counter;
+> > 
+> > Likewise, arch_atomic64_read(v) here.
+> ack, this will bt arch_atomic_read(v) here since this is not atomic64_t
+> here.
 
-> > +		new = old c_op i;					\
-> > +		ret = arch_cmpxchg(&v->counter, old, new);		\
-> > +	} while (ret != old);						\
-> > +									\
-> > +	return old;							\
-> > +}
-> > +
-> > +#define ATOMIC64_OPS(op, c_op)						\
-> > +	ATOMIC64_OP(op, c_op)						\
-> > +	ATOMIC64_RETURN_OP(op, c_op)					\
-> > +	ATOMIC64_FETCH_OP(op, c_op)
-> > +
-> > +ATOMIC64_OPS(and, &)
-> > +ATOMIC64_OPS(or, |)
-> > +ATOMIC64_OPS(xor, ^)
-> > +ATOMIC64_OPS(add, +)
-> > +ATOMIC64_OPS(sub, -)
-> > +
-> > +#undef ATOMIC64_OPS
-> > +#undef ATOMIC64_FETCH_OP
-> > +#undef ATOMIC64_OP
-> > +
-> > +static inline int arch_atomic_add_return(int i, atomic_t *v)
-> > +{
-> > +	int new, old, ret;
-> > +
-> > +	do {
-> > +		old = v->counter;
-> 
-> Likewise, arch_atomic64_read(v) here.
-ack, this will bt arch_atomic_read(v) here since this is not atomic64_t
-here.
+Ah, yes, my bad!
 
-
-Thanks
--- Jules
-
-
-
-
+Thanks,
+Mark.
 
 --
 Linux-audit mailing list
