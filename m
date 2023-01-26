@@ -2,61 +2,109 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6933267BFA5
-	for <lists+linux-audit@lfdr.de>; Wed, 25 Jan 2023 23:11:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 763B467D1B6
+	for <lists+linux-audit@lfdr.de>; Thu, 26 Jan 2023 17:34:11 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1674684703;
+	s=mimecast20190719; t=1674750850;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-	 content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:list-id:list-help:
-	 list-unsubscribe:list-subscribe:list-post;
-	bh=pWMiuuqaVhW6nxxosk+qrF6h0WnUNt9iw6NUOCy1wfs=;
-	b=EZsvaaaM34IGhWEi0W2ohGl1Fdx3NngO3ePdlcy9RG+v1ZnMM9KsxKS5h3jNCkvQqSZLRr
-	QUDPNJhkMcvE5Q9BslLXqjh2poYvcsLh6TfLZgCZ3gObxppGF/HLwVxt/G1flnJM2Y2nE7
-	pSEl2VSMcFOXntc25DuxAPtkjTApjX8=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+	 content-type:content-type:in-reply-to:in-reply-to:
+	 references:references:list-id:list-help:list-unsubscribe:
+	 list-subscribe:list-post; bh=hLOSwsUmPXGlCQ2v7ZHyS+Pf6oguBrtIYo9sgpbLMaU=;
+	b=X3eMudIMFxQllifpI4genNY1JSihcgoi7Q4KMdvAr6Zf+FzikG5whbkBUxVB2nuiOoO8//
+	MhHTPWJc5PbzTo9HuzIeTSJ2mUK2/J6ypLhLnVdmiD3hxm3TI3SgRKbNsplh4bfpxjQhQA
+	A9OXccXZu0oC9DOMHfIeP808X/NyYqo=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-413-YgJmPsTlNEC2qoW_AZUk8A-1; Wed, 25 Jan 2023 17:11:41 -0500
-X-MC-Unique: YgJmPsTlNEC2qoW_AZUk8A-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
+ us-mta-17-8-K8p1PcMGmxPZ5syX3Ibg-1; Thu, 26 Jan 2023 11:34:08 -0500
+X-MC-Unique: 8-K8p1PcMGmxPZ5syX3Ibg-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 630B73C10247;
-	Wed, 25 Jan 2023 22:11:39 +0000 (UTC)
-Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com [10.30.29.100])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id B99B31121330;
-	Wed, 25 Jan 2023 22:11:38 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9450985A588;
+	Thu, 26 Jan 2023 16:34:05 +0000 (UTC)
+Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (unknown [10.30.29.100])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id E02F0492B02;
+	Thu, 26 Jan 2023 16:33:47 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (localhost [IPv6:::1])
-	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id D8E3B19465A3;
-	Wed, 25 Jan 2023 22:11:35 +0000 (UTC)
+	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id 6E81D19465BB;
+	Thu, 26 Jan 2023 16:33:46 +0000 (UTC)
 X-Original-To: linux-audit@listman.corp.redhat.com
 Delivered-To: linux-audit@listman.corp.redhat.com
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
  by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with
- ESMTP id 285C5194658C for <linux-audit@listman.corp.redhat.com>;
- Wed, 25 Jan 2023 22:11:30 +0000 (UTC)
+ ESMTP id 61ED6194658C for <linux-audit@listman.corp.redhat.com>;
+ Thu, 26 Jan 2023 02:24:00 +0000 (UTC)
 Received: by smtp.corp.redhat.com (Postfix)
- id D184F14171BE; Wed, 25 Jan 2023 22:11:29 +0000 (UTC)
+ id 08EDF39D92; Thu, 26 Jan 2023 02:24:00 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
-Received: from madcap2.tricolour.ca (ovpn-0-3.rdu2.redhat.com [10.22.0.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6096414171BB;
- Wed, 25 Jan 2023 22:11:28 +0000 (UTC)
-Date: Wed, 25 Jan 2023 17:11:26 -0500
-From: Richard Guy Briggs <rgb@redhat.com>
-To: Paul Moore <paul@paul-moore.com>
-Subject: Re: [PATCH v6 3/3] fanotify,audit: Allow audit to use the full
- permission event response
-Message-ID: <Y9GpDpjlwBr+ZTWm@madcap2.tricolour.ca>
-References: <cover.1673989212.git.rgb@redhat.com>
- <82aba376bfbb9927ab7146e8e2dee8d844a31dc2.1673989212.git.rgb@redhat.com>
- <CAHC9VhTgesdmF3-+oP-EYuNZ-8LKXGPYuSffVst_Wca5Oj0EAQ@mail.gmail.com>
+Received: from mimecast-mx02.redhat.com
+ (mimecast07.extmail.prod.ext.rdu2.redhat.com [10.11.55.23])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0053351FF
+ for <linux-audit@redhat.com>; Thu, 26 Jan 2023 02:23:59 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [207.211.31.120])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D01E63C01DE1
+ for <linux-audit@redhat.com>; Thu, 26 Jan 2023 02:23:59 +0000 (UTC)
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
+ [209.85.214.182]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-209-z4b0iur2MPGgwZIQnZUKlg-1; Wed, 25 Jan 2023 21:23:56 -0500
+X-MC-Unique: z4b0iur2MPGgwZIQnZUKlg-1
+Received: by mail-pl1-f182.google.com with SMTP id v23so733186plo.1;
+ Wed, 25 Jan 2023 18:23:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=YdzDiMhd5Z4Kbptw7LbpvnJl2K3L0BK+iFAqX7khznk=;
+ b=cWKQ3LoRkq2yJUejFpLnrkED2LKr3msUYmGPeKxn1zz9oXsR2Q5y+uBNeQcluKW+Hb
+ t3RYOIc3ExQTYLpI6hzcuYBj/SWWdUhatpoaAZ1lhjyniEeSuRQsANu6geJhcoezuexn
+ 2p4A6kFID76IX/8Y0c6UDG+PgC275wJuLtxBwwzp0N9TIvOMGwDZt1yO+zWAr6VRegI4
+ Q+v50gsZDo6AJTpm1LmXUDfg/+diQibnpxpLW84XH+nCkK6Du1urF3rgBfcAwQdqN/aI
+ 3mBdOgOt2SPx8npCj1G242UNu68EiGAJQ5Ss3rfAVKGpu98B2MekgUQYevlSzX65x4h2
+ M5tQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=YdzDiMhd5Z4Kbptw7LbpvnJl2K3L0BK+iFAqX7khznk=;
+ b=xTiQ9/Soj+rXF2+CcJm9yFLJPOBKPXqeay6RlqeLGLoGhOyTrcoq5tN3bl17u0Rffq
+ iBLwEATOxQo8o1k/eDs521Hvs0ilc+an1/M6B6+z9SB3G7kX3pcBz7L29ppbKmR+Q14D
+ VDkfUZw6GqxiJA1h1QB67Jck17BtoBorbcHvQkClx/3BXZnBYussoStlIKKpiMXQiRNR
+ 9DhsTqVVlNBxHvVZCIyalPt4GkSmoE3HYNZjWwyajAsrJ5UztEFVotvxBQYhTQ1xXRCT
+ TBkBo5l4GQNQXaZ7LRk6X8sD8dqZmngjjJLgtHG3lktGnvvBgFkHBNjPtf/euMj7EDxI
+ tl5Q==
+X-Gm-Message-State: AO0yUKVMn84YJ0zp8pJAUdWKUCbGDfPFMBJDvwzJyF9GYksbSZj+RoHK
+ aeOnmwRl8PRQ2QgqpScYbCU=
+X-Google-Smtp-Source: AK7set928mFCsBjzluN+Hn1fMUpkX7L+xOL83MZOoHVwK3h3Rnfl0pQuSPbhnC4JnUGrnGbjsxX7hA==
+X-Received: by 2002:a17:902:6b89:b0:193:6520:739a with SMTP id
+ p9-20020a1709026b8900b001936520739amr171911plk.46.1674699834095; 
+ Wed, 25 Jan 2023 18:23:54 -0800 (PST)
+Received: from debian.me (subs02-180-214-232-79.three.co.id. [180.214.232.79])
+ by smtp.gmail.com with ESMTPSA id
+ c8-20020a170902d48800b001960706141fsm72958plg.149.2023.01.25.18.23.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 25 Jan 2023 18:23:53 -0800 (PST)
+Received: by debian.me (Postfix, from userid 1000)
+ id 8EE9110544A; Thu, 26 Jan 2023 09:23:50 +0700 (WIB)
+Date: Thu, 26 Jan 2023 09:23:50 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Jules Maselbas <jmaselbas@kalray.eu>
+Subject: Re: [RFC PATCH v2 01/31] Documentation: kvx: Add basic documentation
+Message-ID: <Y9HkNpD7iQG9WErv@debian.me>
+References: <20230120141002.2442-1-ysionneau@kalray.eu>
+ <20230120141002.2442-2-ysionneau@kalray.eu>
+ <Y8z7v53A/UDKFd7j@debian.me>
+ <20230125182820.GD5952@tellis.lin.mbt.kalray.eu>
 MIME-Version: 1.0
-In-Reply-To: <CAHC9VhTgesdmF3-+oP-EYuNZ-8LKXGPYuSffVst_Wca5Oj0EAQ@mail.gmail.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+In-Reply-To: <20230125182820.GD5952@tellis.lin.mbt.kalray.eu>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+X-Mailman-Approved-At: Thu, 26 Jan 2023 16:33:45 +0000
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,112 +116,110 @@ List-Post: <mailto:linux-audit@redhat.com>
 List-Help: <mailto:linux-audit-request@redhat.com?subject=help>
 List-Subscribe: <https://listman.redhat.com/mailman/listinfo/linux-audit>,
  <mailto:linux-audit-request@redhat.com?subject=subscribe>
-Cc: Jan Kara <jack@suse.cz>, linux-api@vger.kernel.org,
- Amir Goldstein <amir73il@gmail.com>, LKML <linux-kernel@vger.kernel.org>,
- Linux-Audit Mailing List <linux-audit@redhat.com>,
- linux-fsdevel@vger.kernel.org, Eric Paris <eparis@parisplace.org>
+Cc: Mark Rutland <mark.rutland@arm.com>, "Jason A. Donenfeld" <Jason@zx2c4.com>,
+ Marc =?utf-8?B?UG91bGhpw6hz?= <dkm@kataplop.net>, linux-doc@vger.kernel.org,
+ Peter Zijlstra <peterz@infradead.org>,
+ Catalin Marinas <catalin.marinas@arm.com>, Atish Patra <atishp@atishpatra.org>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, Julien Hascoet <jhascoet@kalray.eu>,
+ Clement Leger <clement@clement-leger.fr>, linux-mm@kvack.org,
+ devicetree@vger.kernel.org, Louis Morhet <lmorhet@kalray.eu>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ linux-riscv@lists.infradead.org, Will Deacon <will@kernel.org>,
+ Guangbin Huang <huangguangbin2@huawei.com>, Alex Michon <amichon@kalray.eu>,
+ Thomas Costis <tcostis@kalray.eu>, Jonathan Corbet <corbet@lwn.net>,
+ Jonathan Borne <jborne@kalray.eu>, Marc Zyngier <maz@kernel.org>,
+ Huacai Chen <chenhuacai@kernel.org>, bpf@vger.kernel.org,
+ Samuel Jones <sjones@kalray.eu>, Ingo Molnar <mingo@redhat.com>,
+ linux-arch@vger.kernel.org, Jean-Christophe Pince <jcpince@gmail.com>,
+ Waiman Long <longman@redhat.com>, Bharat Bhushan <bbhushan2@marvell.com>,
+ Qi Liu <liuqi115@huawei.com>, Alexey Dobriyan <adobriyan@gmail.com>,
+ Luc Michel <lmichel@kalray.eu>, John Garry <john.garry@huawei.com>,
+ Ashley Lesdalons <alesdalons@kalray.eu>, Albert Ou <aou@eecs.berkeley.edu>,
+ Kees Cook <keescook@chromium.org>, Arnd Bergmann <arnd@arndb.de>,
+ Yann Sionneau <ysionneau@kalray.eu>, Boqun Feng <boqun.feng@gmail.com>,
+ Guillaume Thouvenin <gthouvenin@kalray.eu>, Julian Vetter <jvetter@kalray.eu>,
+ Nick Piggin <npiggin@gmail.com>, Shaokun Zhang <zhangshaokun@hisilicon.com>,
+ Rob Herring <robh+dt@kernel.org>, Bibo Mao <maobibo@loongson.cn>,
+ Paul Walmsley <paul.walmsley@sifive.com>, WANG Xuerui <git@xen0n.name>,
+ Thomas Gleixner <tglx@linutronix.de>, Marius Gligor <mgligor@kalray.eu>,
+ Janosch Frank <frankja@linux.ibm.com>, Julien Villette <jvillette@kalray.eu>,
+ linux-audit@redhat.com, Christian Brauner <brauner@kernel.org>,
+ Benjamin Mugnier <mugnier.benjamin@gmail.com>,
+ Vincent Chardon <vincent.chardon@elsys-design.com>,
+ Guillaume Missonnier <gmissonnier@kalray.eu>, Oleg Nesterov <oleg@redhat.com>,
+ Eric Paris <eparis@redhat.com>, linux-kernel@vger.kernel.org,
+ Mark Brown <broonie@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Eric Biederman <ebiederm@xmission.com>,
+ "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>,
+ Andrew Morton <akpm@linux-foundation.org>
+Content-Type: multipart/mixed; boundary="===============7332224038049758576=="
 Errors-To: linux-audit-bounces@redhat.com
 Sender: "Linux-audit" <linux-audit-bounces@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+
+
+--===============7332224038049758576==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="zOhV12uQumLCQ78f"
 Content-Disposition: inline
+
+
+--zOhV12uQumLCQ78f
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, Jan 25, 2023 at 07:28:20PM +0100, Jules Maselbas wrote:
+> Hi Bagas,
+>=20
+> Thanks for taking your time and effort to improve the documentation.
+> We not only need to clean the documention syntax and wording but also
+> its content. I am tempted to apply all your proposed changes first and
+> then work on improving and correcting the documentation.
+>=20
+> However I am not very sure on how to integrate your changes and give
+> proper contribution attributions. Any insights on this would be greatly
+> appreciated.
+>=20
+
+Hi Jules,
+
+The reword diff can be squashed into the doc patch (here, [01/31]).
+
+For the attribution, since the reword is significant,
+
+Co-developed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+
+Thanks.
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--zOhV12uQumLCQ78f
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY9HkLwAKCRD2uYlJVVFO
+ownGAQCyX0e5qWZ8KCgW6jQ0b0lEDmtwh+WnXNpCfwV6NxpnGgD+ISGQ0LnDB1sd
+Rr3pPueL92j0yk6OhCDekI4gR23BOwo=
+=1//R
+-----END PGP SIGNATURE-----
+
+--zOhV12uQumLCQ78f--
+
+
+--===============7332224038049758576==
 Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
-On 2023-01-20 13:58, Paul Moore wrote:
-> On Tue, Jan 17, 2023 at 4:14 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> >
-> > This patch passes the full response so that the audit function can use all
-> > of it. The audit function was updated to log the additional information in
-> > the AUDIT_FANOTIFY record.
-> >
-> > Currently the only type of fanotify info that is defined is an audit
-> > rule number, but convert it to hex encoding to future-proof the field.
-> > Hex encoding suggested by Paul Moore <paul@paul-moore.com>.
-> >
-> > The {subj,obj}_trust values are {0,1,2}, corresponding to no, yes, unknown.
-> >
-> > Sample records:
-> >   type=FANOTIFY msg=audit(1600385147.372:590): resp=2 fan_type=1 fan_info=3137 subj_trust=3 obj_trust=5
-> >   type=FANOTIFY msg=audit(1659730979.839:284): resp=1 fan_type=0 fan_info=3F subj_trust=2 obj_trust=2
-> >
-> > Suggested-by: Steve Grubb <sgrubb@redhat.com>
-> > Link: https://lore.kernel.org/r/3075502.aeNJFYEL58@x2
-> > Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
-> > ---
-> >  fs/notify/fanotify/fanotify.c |  3 ++-
-> >  include/linux/audit.h         |  9 +++++----
-> >  kernel/auditsc.c              | 16 +++++++++++++---
-> >  3 files changed, 20 insertions(+), 8 deletions(-)
-> 
-> ...
-> 
-> > diff --git a/kernel/auditsc.c b/kernel/auditsc.c
-> > index d1fb821de104..3133c4175c15 100644
-> > --- a/kernel/auditsc.c
-> > +++ b/kernel/auditsc.c
-> > @@ -2877,10 +2878,19 @@ void __audit_log_kern_module(char *name)
-> >         context->type = AUDIT_KERN_MODULE;
-> >  }
-> >
-> > -void __audit_fanotify(u32 response)
-> > +void __audit_fanotify(u32 response, struct fanotify_response_info_audit_rule *friar)
-> >  {
-> > -       audit_log(audit_context(), GFP_KERNEL,
-> > -               AUDIT_FANOTIFY, "resp=%u", response);
-> > +       /* {subj,obj}_trust values are {0,1,2}: no,yes,unknown */
-> > +       if (friar->hdr.type == FAN_RESPONSE_INFO_NONE) {
-> > +               audit_log(audit_context(), GFP_KERNEL, AUDIT_FANOTIFY,
-> > +                         "resp=%u fan_type=%u fan_info=3F subj_trust=2 obj_trust=2",
-> > +                         response, FAN_RESPONSE_INFO_NONE);
-> > +               return;
-> > +       }
-> > +       audit_log(audit_context(), GFP_KERNEL, AUDIT_FANOTIFY,
-> > +                 "resp=%u fan_type=%u fan_info=%X subj_trust=%u obj_trust=%u",
-> > +                 response, friar->hdr.type, friar->rule_number,
-> > +                 friar->subj_trust, friar->obj_trust);
-> >  }
-> 
-> The only thing that comes to mind might be to convert the if-return
-> into a switch statement to make it a bit cleaner and easier to patch
-> in the future, but that is soooo far removed from any real concern
-> that I debated even mentioning it.  I only bring it up in case the
-> "3F" discussion results in a respin, and even then I'm not going to
-> hold my ACK over something as silly as a if-return vs switch.
-> 
-> For clarity, this is what I was thinking:
-> 
-> void __audit_fanontify(...)
-> {
->   switch (type) {
->   case FAN_RESPONSE_INFO_NONE:
->     audit_log(...);
->     break;
->   default:
->     audit_log(...);
->   }
-> }
-
-I agree that would be cleaner, but FAN_RESPONSE_INFO_NONE and
-FAN_RESPONSE_INFO_AUDIT_RULE would be the two, with default being
-ignored since they could be other types unrelated to audit.
-
-There were a number of bits of code to future proof it in previous
-versions that were questioned as necessary so they were removed...
-
-> paul-moore.com
-
-- RGB
-
---
-Richard Guy Briggs <rgb@redhat.com>
-Sr. S/W Engineer, Kernel Security, Base Operating Systems
-Remote, Ottawa, Red Hat Canada
-IRC: rgb, SunRaycer
-Voice: +1.647.777.2635, Internal: (81) 32635
 --
 Linux-audit mailing list
 Linux-audit@redhat.com
 https://listman.redhat.com/mailman/listinfo/linux-audit
+
+--===============7332224038049758576==--
 
