@@ -1,109 +1,103 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 763B467D1B6
-	for <lists+linux-audit@lfdr.de>; Thu, 26 Jan 2023 17:34:11 +0100 (CET)
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id BA93967D1AF
+	for <lists+linux-audit@lfdr.de>; Thu, 26 Jan 2023 17:33:55 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1674750850;
+	s=mimecast20190719; t=1674750834;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-	 content-type:content-type:in-reply-to:in-reply-to:
-	 references:references:list-id:list-help:list-unsubscribe:
-	 list-subscribe:list-post; bh=hLOSwsUmPXGlCQ2v7ZHyS+Pf6oguBrtIYo9sgpbLMaU=;
-	b=X3eMudIMFxQllifpI4genNY1JSihcgoi7Q4KMdvAr6Zf+FzikG5whbkBUxVB2nuiOoO8//
-	MhHTPWJc5PbzTo9HuzIeTSJ2mUK2/J6ypLhLnVdmiD3hxm3TI3SgRKbNsplh4bfpxjQhQA
-	A9OXccXZu0oC9DOMHfIeP808X/NyYqo=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+	 content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:list-id:list-help:
+	 list-unsubscribe:list-subscribe:list-post;
+	bh=2kyjVXhUIoZTuwtN8dYtHBO9LzAeMaVz+GbyI49skZE=;
+	b=YBzsfD+zjHtBTnWusOaq91TLQooDq8W7iOwyByJdqvdfU4OievMGoIMOo6Njw4+UiC/vI+
+	Wjj8ZpUibeL4odjWMP8hT3H2PLYcDkphyzDUW+XDfZfDkS2yCDWwumzJULqRP1gJbcNTfx
+	G4/FdrBmpYakct4EruJYRJcyjNGJXzM=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-17-8-K8p1PcMGmxPZ5syX3Ibg-1; Thu, 26 Jan 2023 11:34:08 -0500
-X-MC-Unique: 8-K8p1PcMGmxPZ5syX3Ibg-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
+ us-mta-602-ePjYAxBdOB6qIM2G04psLg-1; Thu, 26 Jan 2023 11:33:53 -0500
+X-MC-Unique: ePjYAxBdOB6qIM2G04psLg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9450985A588;
-	Thu, 26 Jan 2023 16:34:05 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EF55E29A9D4A;
+	Thu, 26 Jan 2023 16:33:50 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (unknown [10.30.29.100])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id E02F0492B02;
-	Thu, 26 Jan 2023 16:33:47 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 35AE92026D76;
+	Thu, 26 Jan 2023 16:33:48 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (localhost [IPv6:::1])
-	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id 6E81D19465BB;
+	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id 96B071946A4B;
 	Thu, 26 Jan 2023 16:33:46 +0000 (UTC)
 X-Original-To: linux-audit@listman.corp.redhat.com
 Delivered-To: linux-audit@listman.corp.redhat.com
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
  by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with
- ESMTP id 61ED6194658C for <linux-audit@listman.corp.redhat.com>;
- Thu, 26 Jan 2023 02:24:00 +0000 (UTC)
+ ESMTP id D98AF194658C for <linux-audit@listman.corp.redhat.com>;
+ Thu, 26 Jan 2023 09:57:27 +0000 (UTC)
 Received: by smtp.corp.redhat.com (Postfix)
- id 08EDF39D92; Thu, 26 Jan 2023 02:24:00 +0000 (UTC)
+ id 93F1540C200C; Thu, 26 Jan 2023 09:57:27 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
- (mimecast07.extmail.prod.ext.rdu2.redhat.com [10.11.55.23])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0053351FF
- for <linux-audit@redhat.com>; Thu, 26 Jan 2023 02:23:59 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [207.211.31.120])
+ (mimecast09.extmail.prod.ext.rdu2.redhat.com [10.11.55.25])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8BB8940C2064
+ for <linux-audit@redhat.com>; Thu, 26 Jan 2023 09:57:27 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [205.139.110.61])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D01E63C01DE1
- for <linux-audit@redhat.com>; Thu, 26 Jan 2023 02:23:59 +0000 (UTC)
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
- [209.85.214.182]) by relay.mimecast.com with ESMTP with STARTTLS
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 539112801E47
+ for <linux-audit@redhat.com>; Thu, 26 Jan 2023 09:57:27 +0000 (UTC)
+Received: from fx303.security-mail.net (mxout.security-mail.net
+ [85.31.212.46]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-209-z4b0iur2MPGgwZIQnZUKlg-1; Wed, 25 Jan 2023 21:23:56 -0500
-X-MC-Unique: z4b0iur2MPGgwZIQnZUKlg-1
-Received: by mail-pl1-f182.google.com with SMTP id v23so733186plo.1;
- Wed, 25 Jan 2023 18:23:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=YdzDiMhd5Z4Kbptw7LbpvnJl2K3L0BK+iFAqX7khznk=;
- b=cWKQ3LoRkq2yJUejFpLnrkED2LKr3msUYmGPeKxn1zz9oXsR2Q5y+uBNeQcluKW+Hb
- t3RYOIc3ExQTYLpI6hzcuYBj/SWWdUhatpoaAZ1lhjyniEeSuRQsANu6geJhcoezuexn
- 2p4A6kFID76IX/8Y0c6UDG+PgC275wJuLtxBwwzp0N9TIvOMGwDZt1yO+zWAr6VRegI4
- Q+v50gsZDo6AJTpm1LmXUDfg/+diQibnpxpLW84XH+nCkK6Du1urF3rgBfcAwQdqN/aI
- 3mBdOgOt2SPx8npCj1G242UNu68EiGAJQ5Ss3rfAVKGpu98B2MekgUQYevlSzX65x4h2
- M5tQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=YdzDiMhd5Z4Kbptw7LbpvnJl2K3L0BK+iFAqX7khznk=;
- b=xTiQ9/Soj+rXF2+CcJm9yFLJPOBKPXqeay6RlqeLGLoGhOyTrcoq5tN3bl17u0Rffq
- iBLwEATOxQo8o1k/eDs521Hvs0ilc+an1/M6B6+z9SB3G7kX3pcBz7L29ppbKmR+Q14D
- VDkfUZw6GqxiJA1h1QB67Jck17BtoBorbcHvQkClx/3BXZnBYussoStlIKKpiMXQiRNR
- 9DhsTqVVlNBxHvVZCIyalPt4GkSmoE3HYNZjWwyajAsrJ5UztEFVotvxBQYhTQ1xXRCT
- TBkBo5l4GQNQXaZ7LRk6X8sD8dqZmngjjJLgtHG3lktGnvvBgFkHBNjPtf/euMj7EDxI
- tl5Q==
-X-Gm-Message-State: AO0yUKVMn84YJ0zp8pJAUdWKUCbGDfPFMBJDvwzJyF9GYksbSZj+RoHK
- aeOnmwRl8PRQ2QgqpScYbCU=
-X-Google-Smtp-Source: AK7set928mFCsBjzluN+Hn1fMUpkX7L+xOL83MZOoHVwK3h3Rnfl0pQuSPbhnC4JnUGrnGbjsxX7hA==
-X-Received: by 2002:a17:902:6b89:b0:193:6520:739a with SMTP id
- p9-20020a1709026b8900b001936520739amr171911plk.46.1674699834095; 
- Wed, 25 Jan 2023 18:23:54 -0800 (PST)
-Received: from debian.me (subs02-180-214-232-79.three.co.id. [180.214.232.79])
- by smtp.gmail.com with ESMTPSA id
- c8-20020a170902d48800b001960706141fsm72958plg.149.2023.01.25.18.23.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Jan 2023 18:23:53 -0800 (PST)
-Received: by debian.me (Postfix, from userid 1000)
- id 8EE9110544A; Thu, 26 Jan 2023 09:23:50 +0700 (WIB)
-Date: Thu, 26 Jan 2023 09:23:50 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Jules Maselbas <jmaselbas@kalray.eu>
-Subject: Re: [RFC PATCH v2 01/31] Documentation: kvx: Add basic documentation
-Message-ID: <Y9HkNpD7iQG9WErv@debian.me>
+ us-mta-302-R7fG-bmIPiGYDI8J1PI3ag-1; Thu, 26 Jan 2023 04:57:25 -0500
+X-MC-Unique: R7fG-bmIPiGYDI8J1PI3ag-1
+Received: from localhost (fx303.security-mail.net [127.0.0.1])
+ by fx303.security-mail.net (Postfix) with ESMTP id F377130F7B5
+ for <linux-audit@redhat.com>; Thu, 26 Jan 2023 10:57:23 +0100 (CET)
+Received: from fx303 (fx303.security-mail.net [127.0.0.1]) by
+ fx303.security-mail.net (Postfix) with ESMTP id 4B88F30F6F4; Thu, 26 Jan
+ 2023 10:57:23 +0100 (CET)
+Received: from zimbra2.kalray.eu (unknown [217.181.231.53]) by
+ fx303.security-mail.net (Postfix) with ESMTPS id 600CC30EF2D; Thu, 26 Jan
+ 2023 10:57:22 +0100 (CET)
+Received: from zimbra2.kalray.eu (localhost [127.0.0.1]) by
+ zimbra2.kalray.eu (Postfix) with ESMTPS id 1EF2427E0493; Thu, 26 Jan 2023
+ 10:57:22 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1]) by zimbra2.kalray.eu
+ (Postfix) with ESMTP id F0A6127E0491; Thu, 26 Jan 2023 10:57:21 +0100 (CET)
+Received: from zimbra2.kalray.eu ([127.0.0.1]) by localhost
+ (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10026) with ESMTP id
+ JRZseFWEf3ef; Thu, 26 Jan 2023 10:57:21 +0100 (CET)
+Received: from tellis.lin.mbt.kalray.eu (unknown [192.168.36.206]) by
+ zimbra2.kalray.eu (Postfix) with ESMTPSA id 9A5BE27E048E; Thu, 26 Jan 2023
+ 10:57:21 +0100 (CET)
+X-Virus-Scanned: E-securemail
+Secumail-id: <12187.63d24e82.597fe.0>
+DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu F0A6127E0491
+Date: Thu, 26 Jan 2023 10:57:20 +0100
+From: Jules Maselbas <jmaselbas@kalray.eu>
+To: Mark Rutland <mark.rutland@arm.com>
+Subject: Re: [RFC PATCH v2 11/31] kvx: Add atomic/locking headers
+Message-ID: <20230126095720.GF5952@tellis.lin.mbt.kalray.eu>
 References: <20230120141002.2442-1-ysionneau@kalray.eu>
- <20230120141002.2442-2-ysionneau@kalray.eu>
- <Y8z7v53A/UDKFd7j@debian.me>
- <20230125182820.GD5952@tellis.lin.mbt.kalray.eu>
+ <20230120141002.2442-12-ysionneau@kalray.eu> <Y8qw2MaCJZzu3Ows@FVFF77S0Q05N>
 MIME-Version: 1.0
-In-Reply-To: <20230125182820.GD5952@tellis.lin.mbt.kalray.eu>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+In-Reply-To: <Y8qw2MaCJZzu3Ows@FVFF77S0Q05N>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ALTERMIMEV2_out: done
+X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
+ Definition; Similar Internal Domain=false;
+ Similar Monitored External Domain=false; Custom External Domain=false;
+ Mimecast External Domain=false; Newly Observed Domain=false;
+ Internal User Name=false; Custom Display Name List=false;
+ Reply-to Address Mismatch=false; Targeted Threat Dictionary=false;
+ Mimecast Threat Dictionary=false; Custom Threat Dictionary=false
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
 X-Mailman-Approved-At: Thu, 26 Jan 2023 16:33:45 +0000
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.29
@@ -116,8 +110,8 @@ List-Post: <mailto:linux-audit@redhat.com>
 List-Help: <mailto:linux-audit-request@redhat.com?subject=help>
 List-Subscribe: <https://listman.redhat.com/mailman/listinfo/linux-audit>,
  <mailto:linux-audit-request@redhat.com?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, "Jason A. Donenfeld" <Jason@zx2c4.com>,
- Marc =?utf-8?B?UG91bGhpw6hz?= <dkm@kataplop.net>, linux-doc@vger.kernel.org,
+Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>,
+ Marc =?utf-8?b?UG91bGhpw6hz?= <dkm@kataplop.net>, linux-doc@vger.kernel.org,
  Peter Zijlstra <peterz@infradead.org>,
  Catalin Marinas <catalin.marinas@arm.com>, Atish Patra <atishp@atishpatra.org>,
  Jiaxun Yang <jiaxun.yang@flygoat.com>, Julien Hascoet <jhascoet@kalray.eu>,
@@ -152,74 +146,146 @@ Cc: Mark Rutland <mark.rutland@arm.com>, "Jason A. Donenfeld" <Jason@zx2c4.com>,
  Eric Biederman <ebiederm@xmission.com>,
  "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>,
  Andrew Morton <akpm@linux-foundation.org>
-Content-Type: multipart/mixed; boundary="===============7332224038049758576=="
 Errors-To: linux-audit-bounces@redhat.com
 Sender: "Linux-audit" <linux-audit-bounces@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-
-
---===============7332224038049758576==
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="zOhV12uQumLCQ78f"
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Disposition: inline
-
-
---zOhV12uQumLCQ78f
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Jan 25, 2023 at 07:28:20PM +0100, Jules Maselbas wrote:
-> Hi Bagas,
->=20
-> Thanks for taking your time and effort to improve the documentation.
-> We not only need to clean the documention syntax and wording but also
-> its content. I am tempted to apply all your proposed changes first and
-> then work on improving and correcting the documentation.
->=20
-> However I am not very sure on how to integrate your changes and give
-> proper contribution attributions. Any insights on this would be greatly
-> appreciated.
->=20
-
-Hi Jules,
-
-The reword diff can be squashed into the doc patch (here, [01/31]).
-
-For the attribution, since the reword is significant,
-
-Co-developed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
-
-Thanks.
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---zOhV12uQumLCQ78f
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY9HkLwAKCRD2uYlJVVFO
-ownGAQCyX0e5qWZ8KCgW6jQ0b0lEDmtwh+WnXNpCfwV6NxpnGgD+ISGQ0LnDB1sd
-Rr3pPueL92j0yk6OhCDekI4gR23BOwo=
-=1//R
------END PGP SIGNATURE-----
-
---zOhV12uQumLCQ78f--
-
-
---===============7332224038049758576==
 Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+
+Hi Mark,
+
+On Fri, Jan 20, 2023 at 03:18:48PM +0000, Mark Rutland wrote:
+> On Fri, Jan 20, 2023 at 03:09:42PM +0100, Yann Sionneau wrote:
+> > Add common headers (atomic, bitops, barrier and locking) for basic
+> > kvx support.
+> > 
+> > Co-developed-by: Clement Leger <clement@clement-leger.fr>
+> > Signed-off-by: Clement Leger <clement@clement-leger.fr>
+> > Co-developed-by: Jules Maselbas <jmaselbas@kalray.eu>
+> > Signed-off-by: Jules Maselbas <jmaselbas@kalray.eu>
+> > Co-developed-by: Julian Vetter <jvetter@kalray.eu>
+> > Signed-off-by: Julian Vetter <jvetter@kalray.eu>
+> > Co-developed-by: Julien Villette <jvillette@kalray.eu>
+> > Signed-off-by: Julien Villette <jvillette@kalray.eu>
+> > Co-developed-by: Yann Sionneau <ysionneau@kalray.eu>
+> > Signed-off-by: Yann Sionneau <ysionneau@kalray.eu>
+> > ---
+> > 
+> > Notes:
+> >     V1 -> V2:
+> >      - use {READ,WRITE}_ONCE for arch_atomic64_{read,set}
+> >      - use asm-generic/bitops/atomic.h instead of __test_and_*_bit
+> >      - removed duplicated includes
+> >      - rewrite xchg and cmpxchg in C using builtins for acswap insn
+> 
+> Thanks for those changes. I see one issue below (instantiated a few times), but
+> other than that this looks good to me.
+> 
+> [...]
+> 
+> > +#define ATOMIC64_RETURN_OP(op, c_op)					\
+> > +static inline long arch_atomic64_##op##_return(long i, atomic64_t *v)	\
+> > +{									\
+> > +	long new, old, ret;						\
+> > +									\
+> > +	do {								\
+> > +		old = v->counter;					\
+> 
+> This should be arch_atomic64_read(v), in order to avoid the potential for the
+> compiler to replay the access and introduce ABA races and other such problems.
+Thanks for the suggestion, this will be into v3.
+
+> For details, see:
+> 
+>   https://lore.kernel.org/lkml/Y70SWXHDmOc3RhMd@osiris/
+>   https://lore.kernel.org/lkml/Y71LoCIl+IFdy9D8@FVFF77S0Q05N/
+> 
+> I see that the generic 32-bit atomic code suffers from that issue, and we
+> should fix it.
+I took a look at the generic 32-bit atomic, but I am unsure if this
+needs to be done for both the SMP and non-SMP implementations. But I
+can send a first patch and we can discuss from there.
+
+> > +		new = old c_op i;					\
+> > +		ret = arch_cmpxchg(&v->counter, old, new);		\
+> > +	} while (ret != old);						\
+> > +									\
+> > +	return new;							\
+> > +}
+> > +
+> > +#define ATOMIC64_OP(op, c_op)						\
+> > +static inline void arch_atomic64_##op(long i, atomic64_t *v)		\
+> > +{									\
+> > +	long new, old, ret;						\
+> > +									\
+> > +	do {								\
+> > +		old = v->counter;					\
+> 
+> Likewise, arch_atomic64_read(v) here.
+ack
+
+> > +		new = old c_op i;					\
+> > +		ret = arch_cmpxchg(&v->counter, old, new);		\
+> > +	} while (ret != old);						\
+> > +}
+> > +
+> > +#define ATOMIC64_FETCH_OP(op, c_op)					\
+> > +static inline long arch_atomic64_fetch_##op(long i, atomic64_t *v)	\
+> > +{									\
+> > +	long new, old, ret;						\
+> > +									\
+> > +	do {								\
+> > +		old = v->counter;					\
+> 
+> Likewise, arch_atomic64_read(v) here.
+ack
+
+> > +		new = old c_op i;					\
+> > +		ret = arch_cmpxchg(&v->counter, old, new);		\
+> > +	} while (ret != old);						\
+> > +									\
+> > +	return old;							\
+> > +}
+> > +
+> > +#define ATOMIC64_OPS(op, c_op)						\
+> > +	ATOMIC64_OP(op, c_op)						\
+> > +	ATOMIC64_RETURN_OP(op, c_op)					\
+> > +	ATOMIC64_FETCH_OP(op, c_op)
+> > +
+> > +ATOMIC64_OPS(and, &)
+> > +ATOMIC64_OPS(or, |)
+> > +ATOMIC64_OPS(xor, ^)
+> > +ATOMIC64_OPS(add, +)
+> > +ATOMIC64_OPS(sub, -)
+> > +
+> > +#undef ATOMIC64_OPS
+> > +#undef ATOMIC64_FETCH_OP
+> > +#undef ATOMIC64_OP
+> > +
+> > +static inline int arch_atomic_add_return(int i, atomic_t *v)
+> > +{
+> > +	int new, old, ret;
+> > +
+> > +	do {
+> > +		old = v->counter;
+> 
+> Likewise, arch_atomic64_read(v) here.
+ack, this will bt arch_atomic_read(v) here since this is not atomic64_t
+here.
+
+
+Thanks
+-- Jules
+
+
+
+
 
 --
 Linux-audit mailing list
 Linux-audit@redhat.com
 https://listman.redhat.com/mailman/listinfo/linux-audit
-
---===============7332224038049758576==--
 
