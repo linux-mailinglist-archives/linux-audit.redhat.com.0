@@ -1,75 +1,94 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 338A9687FAA
-	for <lists+linux-audit@lfdr.de>; Thu,  2 Feb 2023 15:14:12 +0100 (CET)
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id E0249687FAE
+	for <lists+linux-audit@lfdr.de>; Thu,  2 Feb 2023 15:14:13 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1675347251;
-	h=from:from:sender:sender:reply-to:subject:subject:date:date:
-	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+	s=mimecast20190719; t=1675347252;
+	h=from:from:sender:sender:reply-to:reply-to:subject:subject:date:date:
+	 message-id:message-id:to:to:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=DqHVXVgPoXbYyTKIPNjOp1Y0ubIlDejTUPa42tVA2us=;
-	b=bPtpKxtbVlte3MuM8EQAgysroZAAxeEydfn46MU1bQFvFTDZHnJpZRbumFz0wGFwargseT
-	dvx5AQiEkyOZSEEfN2LFTZq6ZjFhTbG2PSfJw8gMsyYYURwq7H28gtx/2uTRKQIwCtVgnc
-	1yHXcZki4du71WS4AdhX0JFxtJQJN24=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=gY5q9hMRX1IaqbTIYo/wpCqv2f84XO9q1VL3l92eK2w=;
+	b=Nh1pOkziKlKsP+WIuKWxQHKYSSbLJL28+I45IjqLKwSiTjJQ3MNGwQN+0443pyOtC3m0BG
+	RJ/aYKGp2nUR3VDbDxnEpe8Qd6x2/N13h050nGGppGFCzhQUb5Q9h0o/KSCFD7Q+zC9S6R
+	RuIkOn3nTh4NZ8+7mvnJaWjSlqzR/0w=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-589-nsTs29CZPRSl5ZSMLimKiQ-1; Thu, 02 Feb 2023 09:14:09 -0500
-X-MC-Unique: nsTs29CZPRSl5ZSMLimKiQ-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
+ us-mta-32-n90HOgU6Py6vTLnVLd7u9w-1; Thu, 02 Feb 2023 09:14:11 -0500
+X-MC-Unique: n90HOgU6Py6vTLnVLd7u9w-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BD51F3815F78;
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BCBB6882829;
 	Thu,  2 Feb 2023 14:14:06 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (unknown [10.30.29.100])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id E408C492B01;
-	Thu,  2 Feb 2023 14:14:02 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 23D8251FF;
+	Thu,  2 Feb 2023 14:14:03 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (localhost [IPv6:::1])
-	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id 8AA1219465BD;
+	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id A93301946A49;
 	Thu,  2 Feb 2023 14:14:01 +0000 (UTC)
 X-Original-To: linux-audit@listman.corp.redhat.com
 Delivered-To: linux-audit@listman.corp.redhat.com
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
  by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with
- ESMTP id 29DA3194658F for <linux-audit@listman.corp.redhat.com>;
- Thu,  2 Feb 2023 00:19:30 +0000 (UTC)
+ ESMTP id DBA25194658F for <linux-audit@listman.corp.redhat.com>;
+ Thu,  2 Feb 2023 05:25:54 +0000 (UTC)
 Received: by smtp.corp.redhat.com (Postfix)
- id F29D1112132D; Thu,  2 Feb 2023 00:19:29 +0000 (UTC)
+ id 86FD0404BEC1; Thu,  2 Feb 2023 05:25:54 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
  (mimecast04.extmail.prod.ext.rdu2.redhat.com [10.11.55.20])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EB483112132C
- for <linux-audit@redhat.com>; Thu,  2 Feb 2023 00:19:29 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [207.211.31.120])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7F41C404BEC0
+ for <linux-audit@redhat.com>; Thu,  2 Feb 2023 05:25:54 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [205.139.110.61])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C9DF7101A521
- for <linux-audit@redhat.com>; Thu,  2 Feb 2023 00:19:29 +0000 (UTC)
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182]) by
- relay.mimecast.com with ESMTP id us-mta-317-fmpXM9m9OJ2ARDAMNm7jmg-1; Wed,
- 01 Feb 2023 19:19:26 -0500
-X-MC-Unique: fmpXM9m9OJ2ARDAMNm7jmg-1
-Received: by linux.microsoft.com (Postfix, from userid 1052)
- id 6706120B7102; Wed,  1 Feb 2023 16:19:24 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 6706120B7102
-Date: Wed, 1 Feb 2023 16:19:24 -0800
-From: Fan Wu <wufan@linux.microsoft.com>
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: Re: [RFC PATCH v9 16/16] documentation: add ipe documentation
-Message-ID: <20230202001924.GD9075@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
-References: <1675119451-23180-1-git-send-email-wufan@linux.microsoft.com>
- <1675119451-23180-17-git-send-email-wufan@linux.microsoft.com>
- <Y9iSP+RxY+1/o7PQ@debian.me>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 638AD100DEA1
+ for <linux-audit@redhat.com>; Thu,  2 Feb 2023 05:25:54 +0000 (UTC)
+Received: from sonicconh6001-vm1.mail.ssk.yahoo.co.jp
+ (sonicconh6001-vm1.mail.ssk.yahoo.co.jp [182.22.37.10]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-56-pJNZKuVHMHm_m2y7oSXx-Q-1; Thu, 02 Feb 2023 00:25:49 -0500
+X-MC-Unique: pJNZKuVHMHm_m2y7oSXx-Q-1
+X-YMail-OSG: L4anuJEVM1nIHZzOsZsXUUg0ip7CHEQvovUThV1788SVIkAUwIp9kyTNyXjkEbi
+ JA3WHkRyyWkPl.yb47oEMaOAcXsRciOCWadEDYpgbpFoEsCoETgUohAMPZmLHWo8l8NAeRn0OjF2
+ q44Nuz83mJBDHDSPf8_VqNByc8z3zOlN5x.UyjwdWRWVVIgH8ViVzYLjdqPrw.Va6Qvor.eG3mIM
+ 9owyDWAoHSNl1MCjBieB3oGnTyxgWTzLcfVIB2IJwLwvcd1hlbbipTeFgXe5m8fAlXs9ks9hI1yr
+ in9Jhre5YHhwkFRVXOBXSx39WJM_9MOO_Bn.wujpKglJPOnMpyTZ0EH1tiO.OQQ124WLRFpFYviT
+ 3ar7hQlyDrXy0ScY79CyutBal66iw.PDywxg1CHeG3E4SKUPyMcSurjOus48iTRH.FoqduC6X9a1
+ ng6BC_Z3VE0sU9ZHJhj5brQT7Owfr5cluL4p7JHiwek9J9Ibdq2NHPhDJgj79xQO_UDl2h8fkcVE
+ _eJjWiVMN6fmEk4Gr3e7TTUejhpKyyKGNuGf8N0Ij0DQZJ0CPUM9J1P13a1S9ehB25DUOCq_YtYX
+ oWzP0FxWl.2Vq3Cp5w5SsEymWyZAV5W6.WVRhsAQVFtVTxstwueflRoSSCdg433uTKhClbOLr556
+ 9h8L4ncwX1ssLIEt3jPdd5JF2Flen9dp0KuibRvQpSZjb1R6YSNUGZlJLku_OvcJJ1gs8QHEEwg9
+ JbU.UdXDFc.FNzeRrvySWxplPketb3S1y3uaGfJTOyFqKcf27Ysqo2OA799o94jiHr4U9u3m.Xr.
+ u_DnSNfVezHkoV9xQNYFVLqQhTV2uqA7K38QqVXM237cViFWcvig5ijtxk57LVfHFe7PCfhm0pNc
+ MK7jjmnq2BxRqxiAA7IWy1Fp1WVvuZspeyIrr3ydv8qnIs.Qj6KUMJOreGUV9WIegibMtWfYWfR6
+ DOPHBPwve6zg.oTe_cG7BQwPDUvCq1y2AuZy_QzPiVQuLo7duvozGX4uUglnAf8i9FMzQ.lqGfEe
+ OFE9RcD57AzFcceKBdadHdbg-
+Received: from sonicgw.mail.yahoo.co.jp by sonicconh6001.mail.ssk.yahoo.co.jp
+ with HTTP; Thu, 2 Feb 2023 05:25:47 +0000
+DomainKey-Signature: a=rsa-sha1; q=dns; c=nofws; s=ymail20211126; d=ymail.ne.jp;
+ h=Date:From:Reply-To:Cc:Message-ID:In-Reply-To:References:MIME-Version:Content-Type:Content-Transfer-Encoding;
+ b=R7hOKSnto93IXgmrLFfWqmJ8DNz4rIU9MsUXSUwhj3xPtzMsmyEcUaaadqqKC770
+ TXc4FMAhk8KqHyuDzDAUBdPAuNaSswj7srxJyICpAiRWHQjFMGUcO/tO1qosAdqSm1O
+ 0bRuq/GIAfQH5RWUUh9nSywkwzUgnUrA7pCks3Tc=
+Date: Thu, 2 Feb 2023 14:25:46 +0900 (JST)
+From: hiroaki.fuse@ymail.ne.jp
+To: "linux-audit@redhat.com" <linux-audit@redhat.com>
+Message-ID: <627860620.734090.1675315546605.JavaMail.yahoo@mail.yahoo.co.jp>
+In-Reply-To: <2683616.mvXUDI8C0e@x2>
+References: <1446618833.679148.1675231237246.JavaMail.yahoo.ref@mail.yahoo.co.jp>
+ <1446618833.679148.1675231237246.JavaMail.yahoo@mail.yahoo.co.jp>
+ <2683616.mvXUDI8C0e@x2>
+Subject: Re: Re: audit library license
 MIME-Version: 1.0
-In-Reply-To: <Y9iSP+RxY+1/o7PQ@debian.me>
-User-Agent: Mutt/1.5.21 (2010-09-15)
 X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
  Definition; Similar Internal Domain=false;
  Similar Monitored External Domain=false; Custom External Domain=false;
@@ -77,7 +96,7 @@ X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
  Internal User Name=false; Custom Display Name List=false;
  Reply-to Address Mismatch=false; Targeted Threat Dictionary=false;
  Mimecast Threat Dictionary=false; Custom Threat Dictionary=false
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
 X-Mailman-Approved-At: Thu, 02 Feb 2023 14:14:00 +0000
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.29
@@ -90,53 +109,45 @@ List-Post: <mailto:linux-audit@redhat.com>
 List-Help: <mailto:linux-audit-request@redhat.com?subject=help>
 List-Subscribe: <https://listman.redhat.com/mailman/listinfo/linux-audit>,
  <mailto:linux-audit-request@redhat.com?subject=subscribe>
-Cc: axboe@kernel.dk, linux-block@vger.kernel.org, tytso@mit.edu,
- dm-devel@redhat.com, corbet@lwn.net, roberto.sassu@huawei.com,
- Deven Bowers <deven.desai@linux.microsoft.com>, linux-doc@vger.kernel.org,
- snitzer@kernel.org, jmorris@namei.org, zohar@linux.ibm.com,
- linux-kernel@vger.kernel.org, ebiggers@kernel.org,
- linux-security-module@vger.kernel.org, linux-audit@redhat.com,
- eparis@redhat.com, linux-fscrypt@vger.kernel.org,
- linux-integrity@vger.kernel.org, agk@redhat.com, serge@hallyn.com
+Reply-To: hiroaki.fuse@ymail.ne.jp
 Errors-To: linux-audit-bounces@redhat.com
 Sender: "Linux-audit" <linux-audit-bounces@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Disposition: inline
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On Tue, Jan 31, 2023 at 10:59:59AM +0700, Bagas Sanjaya wrote:
-> On Mon, Jan 30, 2023 at 02:57:31PM -0800, Fan Wu wrote:
-> 
-> What about wordings below instead?
-
-Thanks for the review!
->  
-> -IPE policy supports comments. The character '#' will function as a
-> -comment, ignoring all characters to the right of '#' until the newline.
-> +IPE policy supports comments. Any line which is prefixed with ``#`` will
-> +be ignored.
-This one is actually incorrect. The '#' can also appear at the end of a rule.
-So it is not only prefixed to a line.
-
-Other than this part, everything looks great, I will take them in the next
-version.
-
--Fan
-
->  
->  -----------
-> 
-> Thanks.
-> 
-> -- 
-> An old man doll... just what I always wanted! - Clara
-
-
---
-Linux-audit mailing list
-Linux-audit@redhat.com
-https://listman.redhat.com/mailman/listinfo/linux-audit
+SGVsbG8sCgpUaGFuayB5b3UgZm9yIHRoZSBxdWljayByZXBseS4KTm93IHRoZSBsaWNlbnNlIG9m
+IGF1ZGl0IGxpYnJhcmllcyBhcmUgY2xlYXIhIQoKUmVnYXJkcywKCj4gLS0tLS0gT3JpZ2luYWwg
+TWVzc2FnZSAtLS0tLQo+IAo+IEZyb206ICJTdGV2ZSBHcnViYiIgPHNncnViYkByZWRoYXQuY29t
+Pgo+IFRvOiAibGludXgtYXVkaXRAcmVkaGF0LmNvbSIgPGxpbnV4LWF1ZGl0QHJlZGhhdC5jb20+
+Cj4gQ2M6ICJoaXJvYWtpLmZ1c2VAeW1haWwubmUuanAiIDxoaXJvYWtpLmZ1c2VAeW1haWwubmUu
+anA+OyAi5biD5pa9IOWNmuaYjiIgPGhmdXNlQHlhaG9vLmNvLmpwPgo+IERhdGU6IDIwMjMvMDIv
+MDIg5pyoIDA3OjA5Cj4gU3ViamVjdDogUmU6IGF1ZGl0IGxpYnJhcnkgbGljZW5zZQo+IAo+IAo+
+IEhlbGxvLAo+IAo+IE9uIFdlZG5lc2RheSwgRmVicnVhcnkgMSwgMjAyMyAxOjAwOjM3IEFNIEVT
+VCDluIPmlr0g5Y2a5piOIHdyb3RlOgo+ID4gVGhhbmsgeW91IGZvciB0aGUgY29tbWVudC4KPiA+
+IEkgYWxzbyBmaW5kIGZvbGxvd2luZyBjb21taXQuCj4gPiAgIC0KPiA+IGh0dHBzOi8vZ2l0aHVi
+LmNvbS9saW51eC1hdWRpdC9hdWRpdC11c2Vyc3BhY2UvY29tbWl0L2U2M2E4YjE2MjgxNzAxNTEw
+MTY0Cj4gPiA3MDA3NTM5NmUzNjk3ZGQ1N2E5Ygo+ID4gCj4gPiBCVFcsIEkgZm91bmQgYW5vdGhl
+ciBsaWNlbnNlIHF1ZXN0aW9uLgo+ID4gCj4gPiBUaGUgbGliYXVwYXJzZS5zbyBhcmUgY3JlYXRl
+ZCBmb2xsb3dpbmcgc291cmNlIGNvZGVzLgo+ID4gCj4gPiBJbiAnYXVwYXJzZS9NYWtlZmlsZS5h
+bScKPiA+IAo+ID4gQU1fQ1BQRkxBR1MgPSAtSS4gLUkke3RvcF9zcmNkaXJ9IC1JJHt0b3Bfc3Jj
+ZGlyfS9zcmMgLUkke3RvcF9zcmNkaXJ9L2xpYgo+ID4gLUkke3RvcF9zcmNkaXJ9L2NvbW1vbgo+
+ID4gCj4gPiBsaWJhdXBhcnNlX2xhX1NPVVJDRVMgPSBscnUuYyBpbnRlcnByZXQuYyBudmxpc3Qu
+YyBlbGxpc3QuYwkJXAo+ID4gCWF1cGFyc2UuYyBhdWRpdGQtY29uZmlnLmMgbWVzc2FnZS5jIGRh
+dGFfYnVmLmMgCQkJXAo+ID4gCWF1cGFyc2UtZGVmcy5oCWF1cGFyc2UtaWRhdGEuaCBkYXRhX2J1
+Zi5oIAkJCVwKPiA+IAludmxpc3QuaCBhdXBhcnNlLmggZWxsaXN0LmgJCQkJCVwKPiA+IAlpbnRl
+cm5hbC5oIGxydS5oIHJub2RlLmggaW50ZXJwcmV0LmgJCQkJXAo+ID4gCXByaXZhdGUuaCBleHBy
+ZXNzaW9uLmMgZXhwcmVzc2lvbi5oIHR0eV9uYW1lZF9rZXlzLmgJCVwKPiA+IAlub3JtYWxpemUu
+YyBub3JtYWxpemUtbGxpc3QuYyBub3JtYWxpemUtbGxpc3QuaCAJCVwKPiA+IAlub3JtYWxpemUt
+aW50ZXJuYWwuaCBub3JtYWxpemVfb2JqX2tpbmRfbWFwLmgJCQlcCj4gPiAJbm9ybWFsaXplX3Jl
+Y29yZF9tYXAuaCBub3JtYWxpemVfc3lzY2FsbF9tYXAuaAo+ID4gCj4gPiBXZSBjYW4gZmluZCBm
+b2xsb3dpbmcgbGluZSBpbiBpbnRlcm5hbC5oCj4gPiAKPiA+ICNpbmNsdWRlICJhdWRpdGQtY29u
+ZmlnLmgiCj4gPiAKPiA+IEkgY2FuIGZpbmQgc3JjL2F1ZGl0ZC1jb25maWcuaCBmaWxlIHdoaWNo
+IGlzIEdQTHYyLgo+ID4gCj4gPiBUaGUgInNyYy9hdWRpdGQtY29uZmlnLmgiIHNob3VsZCBiZSBh
+bHNvIExHUEx2Mi4xCj4gCj4gVGhhdCBmaWxlIGlzIGFsc28gbWlzbGFiZWxlZC4gSXQgaXMgbm93
+IGNvcnJlY3RlZC4gVGhhbmtzIGZvciB0aGUgcmV2aWV3Lgo+IAo+IC1TdGV2ZQo+IAo+IAoKLS0K
+TGludXgtYXVkaXQgbWFpbGluZyBsaXN0CkxpbnV4LWF1ZGl0QHJlZGhhdC5jb20KaHR0cHM6Ly9s
+aXN0bWFuLnJlZGhhdC5jb20vbWFpbG1hbi9saXN0aW5mby9saW51eC1hdWRpdAo=
 
