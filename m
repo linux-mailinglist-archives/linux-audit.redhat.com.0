@@ -1,79 +1,92 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09CB5690ACA
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 20E59690AC9
 	for <lists+linux-audit@lfdr.de>; Thu,  9 Feb 2023 14:46:51 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1675950411;
+	s=mimecast20190719; t=1675950409;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=YfH6FQZ2Gbprso2wh9OyN7jP7/CKUCXyGYvDroCHU2k=;
-	b=NbBNTJgscrm8GfYcOa04GpJjJEOcFc+5wCQCHAiCuNUgilAIdBKYdqP2ieRVEmL06P/FGb
-	HTUPxfGaaqixzqXXrz1wyS3LB3+eOjj5X5oUZCjB/D82dKawsK+U3WagK/z9XrVXah9GNo
-	Ran2O0RcbwixbuObjEPKBeB6d5i8s1k=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=b2P6sizVVlgrHcgXQr/jbOpcWjiSFDCzi+9oaSe97xY=;
+	b=eT61QwFQWqGEZRLf3KD0uG6K0mXVnn7AqIviXm3Au0dt42Nw4r+NAG7PBxoHjVKvsu7TQ4
+	0Z9dkcL9+Ugwtd8o7oVrwEjQYgNOIBC64fkCBDjEwLN3LCAwmD9XJ3dWlnKsCOMX2uztOS
+	vtyX8vV6ThYSHykYBoTZtWOHiqO85KQ=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-81-bVgoioz0Np22AJpUUWZ1uQ-1; Thu, 09 Feb 2023 08:46:47 -0500
-X-MC-Unique: bVgoioz0Np22AJpUUWZ1uQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
+ us-mta-664-qIVU946UOwCe6XRphMUB9g-1; Thu, 09 Feb 2023 08:46:46 -0500
+X-MC-Unique: qIVU946UOwCe6XRphMUB9g-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5EDDA1C0754F;
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5EEAF802C1D;
 	Thu,  9 Feb 2023 13:46:44 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (unknown [10.30.29.100])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 0F17A40C83B6;
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 77D2D440D9;
 	Thu,  9 Feb 2023 13:46:39 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (localhost [IPv6:::1])
-	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id 9A74719465A0;
+	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id BB55C19465B3;
 	Thu,  9 Feb 2023 13:46:38 +0000 (UTC)
 X-Original-To: linux-audit@listman.corp.redhat.com
 Delivered-To: linux-audit@listman.corp.redhat.com
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
  by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with
- ESMTP id B4FCA1946589 for <linux-audit@listman.corp.redhat.com>;
- Thu,  9 Feb 2023 03:37:59 +0000 (UTC)
+ ESMTP id 21B421946589 for <linux-audit@listman.corp.redhat.com>;
+ Thu,  9 Feb 2023 09:07:56 +0000 (UTC)
 Received: by smtp.corp.redhat.com (Postfix)
- id A8EEB492B00; Thu,  9 Feb 2023 03:37:59 +0000 (UTC)
+ id D6FBD2026D68; Thu,  9 Feb 2023 09:07:56 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
- (mimecast05.extmail.prod.ext.rdu2.redhat.com [10.11.55.21])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A0E0E492C3E
- for <linux-audit@redhat.com>; Thu,  9 Feb 2023 03:37:59 +0000 (UTC)
+ (mimecast07.extmail.prod.ext.rdu2.redhat.com [10.11.55.23])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CE9E02026D4B
+ for <linux-audit@redhat.com>; Thu,  9 Feb 2023 09:07:56 +0000 (UTC)
 Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [205.139.110.120])
+ [207.211.31.120])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8442E87B2A0
- for <linux-audit@redhat.com>; Thu,  9 Feb 2023 03:37:59 +0000 (UTC)
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-66-HCcgC_WvMo-r6KjP9mEL7g-1; Wed, 08 Feb 2023 22:37:55 -0500
-X-MC-Unique: HCcgC_WvMo-r6KjP9mEL7g-1
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A75D03C14868
+ for <linux-audit@redhat.com>; Thu,  9 Feb 2023 09:07:56 +0000 (UTC)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_128_GCM_SHA256) id us-mta-581-yrnAIY6SOZSpEt-9kvgrYw-1; Thu,
+ 09 Feb 2023 04:07:53 -0500
+X-MC-Unique: yrnAIY6SOZSpEt-9kvgrYw-1
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by sin.source.kernel.org (Postfix) with ESMTPS id 78040CE22A2;
- Thu,  9 Feb 2023 03:30:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 811C9C433EF;
- Thu,  9 Feb 2023 03:30:35 +0000 (UTC)
-Date: Wed, 8 Feb 2023 19:30:33 -0800
-From: Eric Biggers <ebiggers@kernel.org>
-To: Fan Wu <wufan@linux.microsoft.com>
-Subject: Re: [RFC PATCH v9 12/16] fsverity: consume builtin signature via LSM
- hook
-Message-ID: <Y+Ro2Uor21d/Gfqc@sol.localdomain>
-References: <1675119451-23180-1-git-send-email-wufan@linux.microsoft.com>
- <1675119451-23180-13-git-send-email-wufan@linux.microsoft.com>
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 5C27C5C53E;
+ Thu,  9 Feb 2023 09:07:51 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4CBA61339E;
+ Thu,  9 Feb 2023 09:07:51 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id niyuEue35GP+IgAAMHmgww
+ (envelope-from <jack@suse.cz>); Thu, 09 Feb 2023 09:07:51 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+ id CA87BA06D8; Thu,  9 Feb 2023 10:07:50 +0100 (CET)
+Date: Thu, 9 Feb 2023 10:07:50 +0100
+From: Jan Kara <jack@suse.cz>
+To: Paul Moore <paul@paul-moore.com>
+Subject: Re: [PATCH v7 0/3] fanotify: Allow user space to pass back
+ additional audit info
+Message-ID: <20230209090750.lx32p57jtul7pnv5@quack3>
+References: <cover.1675373475.git.rgb@redhat.com>
+ <20230207120921.7pgh6uxs7ze7hkjo@quack3>
+ <CAHC9VhQuD0UMYd12x9kOMwruDmQsyUFxQ8gJ3Q_qF6a58Lu+2Q@mail.gmail.com>
+ <20230208120816.2qhck3sb7u67vsib@quack3>
+ <CAHC9VhSumNxmoYQ9JPtBgV0dc1fgR38Lqbo0w4PRxhvBdS=W_w@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <1675119451-23180-13-git-send-email-wufan@linux.microsoft.com>
+In-Reply-To: <CAHC9VhSumNxmoYQ9JPtBgV0dc1fgR38Lqbo0w4PRxhvBdS=W_w@mail.gmail.com>
 X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
  Definition; Similar Internal Domain=false;
  Similar Monitored External Domain=false; Custom External Domain=false;
@@ -81,7 +94,7 @@ X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
  Internal User Name=false; Custom Display Name List=false;
  Reply-to Address Mismatch=false; Targeted Threat Dictionary=false;
  Mimecast Threat Dictionary=false; Custom Threat Dictionary=false
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
 X-Mailman-Approved-At: Thu, 09 Feb 2023 13:46:37 +0000
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.29
@@ -94,101 +107,81 @@ List-Post: <mailto:linux-audit@redhat.com>
 List-Help: <mailto:linux-audit-request@redhat.com?subject=help>
 List-Subscribe: <https://listman.redhat.com/mailman/listinfo/linux-audit>,
  <mailto:linux-audit-request@redhat.com?subject=subscribe>
-Cc: axboe@kernel.dk, tytso@mit.edu, dm-devel@redhat.com, corbet@lwn.net,
- roberto.sassu@huawei.com, Deven Bowers <deven.desai@linux.microsoft.com>,
- linux-doc@vger.kernel.org, snitzer@kernel.org, jmorris@namei.org,
- zohar@linux.ibm.com, linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
- linux-security-module@vger.kernel.org, linux-audit@redhat.com,
- eparis@redhat.com, linux-fscrypt@vger.kernel.org,
- linux-integrity@vger.kernel.org, agk@redhat.com, serge@hallyn.com
+Cc: Jan Kara <jack@suse.cz>, Richard Guy Briggs <rgb@redhat.com>,
+ linux-api@vger.kernel.org, Amir Goldstein <amir73il@gmail.com>,
+ LKML <linux-kernel@vger.kernel.org>,
+ Linux-Audit Mailing List <linux-audit@redhat.com>,
+ linux-fsdevel@vger.kernel.org, Eric Paris <eparis@parisplace.org>
 Errors-To: linux-audit-bounces@redhat.com
 Sender: "Linux-audit" <linux-audit-bounces@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Disposition: inline
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-So disregarding the fact that using the fsverity builtin signatures still seems
-like a bad idea to me, here's a few comments on the diff itself:
+On Wed 08-02-23 10:03:24, Paul Moore wrote:
+> On Wed, Feb 8, 2023 at 7:08 AM Jan Kara <jack@suse.cz> wrote:
+> > On Tue 07-02-23 09:54:11, Paul Moore wrote:
+> > > On Tue, Feb 7, 2023 at 7:09 AM Jan Kara <jack@suse.cz> wrote:
+> > > > On Fri 03-02-23 16:35:13, Richard Guy Briggs wrote:
+> > > > > The Fanotify API can be used for access control by requesting permission
+> > > > > event notification. The user space tooling that uses it may have a
+> > > > > complicated policy that inherently contains additional context for the
+> > > > > decision. If this information were available in the audit trail, policy
+> > > > > writers can close the loop on debugging policy. Also, if this additional
+> > > > > information were available, it would enable the creation of tools that
+> > > > > can suggest changes to the policy similar to how audit2allow can help
+> > > > > refine labeled security.
+> > > > >
+> > > > > This patchset defines a new flag (FAN_INFO) and new extensions that
+> > > > > define additional information which are appended after the response
+> > > > > structure returned from user space on a permission event.  The appended
+> > > > > information is organized with headers containing a type and size that
+> > > > > can be delegated to interested subsystems.  One new information type is
+> > > > > defined to audit the triggering rule number.
+> > > > >
+> > > > > A newer kernel will work with an older userspace and an older kernel
+> > > > > will behave as expected and reject a newer userspace, leaving it up to
+> > > > > the newer userspace to test appropriately and adapt as necessary.  This
+> > > > > is done by providing a a fully-formed FAN_INFO extension but setting the
+> > > > > fd to FAN_NOFD.  On a capable kernel, it will succeed but issue no audit
+> > > > > record, whereas on an older kernel it will fail.
+> > > > >
+> > > > > The audit function was updated to log the additional information in the
+> > > > > AUDIT_FANOTIFY record. The following are examples of the new record
+> > > > > format:
+> > > > >   type=FANOTIFY msg=audit(1600385147.372:590): resp=2 fan_type=1 fan_info=3137 subj_trust=3 obj_trust=5
+> > > > >   type=FANOTIFY msg=audit(1659730979.839:284): resp=1 fan_type=0 fan_info=0 subj_trust=2 obj_trust=2
+> > > >
+> > > > Thanks! I've applied this series to my tree.
+> > >
+> > > While I think this version of the patchset is fine, for future
+> > > reference it would have been nice if you had waited for my ACK on
+> > > patch 3/3; while Steve maintains his userspace tools, I'm the one
+> > > responsible for maintaining the Linux Kernel's audit subsystem.
+> >
+> > Aha, I'm sorry for that. I had the impression that on the last version of
+> > the series you've said you don't see anything for which the series should
+> > be respun so once Steve's objections where addressed and you were silent
+> > for a few days, I thought you consider the thing settled... My bad.
+> 
+> That's understandable, especially given inconsistencies across
+> subsystems.  If it helps, if I'm going to ACK something I make it
+> explicit with a proper 'Acked-by: ...' line in my reply; if I say
+> something looks good but there is no explicit ACK, there is usually
+> something outstanding that needs to be resolved, e.g. questions,
+> additional testing, etc.
 
-On Mon, Jan 30, 2023 at 02:57:27PM -0800, Fan Wu wrote:
-> diff --git a/fs/verity/open.c b/fs/verity/open.c
-> index 81ff94442f7b..7e6fa52c0e9c 100644
-> --- a/fs/verity/open.c
-> +++ b/fs/verity/open.c
-> @@ -7,7 +7,9 @@
->  
->  #include "fsverity_private.h"
->  
-> +#include <linux/security.h>
->  #include <linux/slab.h>
-> +#include <crypto/public_key.h>
+Ok, thanks for letting me now. Next time I'll wait for an explicit ack from
+you. This time, since everybody is fine with the actual patch, let's just
+move on ;).
 
-There's no need to include <crypto/public_key.h>.
-
->  
->  static struct kmem_cache *fsverity_info_cachep;
->  
-> @@ -146,7 +148,7 @@ static int compute_file_digest(struct fsverity_hash_alg *hash_alg,
->   * appended signature), and check the signature if present.  The
->   * fsverity_descriptor must have already undergone basic validation.
->   */
-> -struct fsverity_info *fsverity_create_info(const struct inode *inode,
-> +struct fsverity_info *fsverity_create_info(struct inode *inode,
->  					   struct fsverity_descriptor *desc)
->  {
->  	struct fsverity_info *vi;
-> @@ -182,6 +184,15 @@ struct fsverity_info *fsverity_create_info(const struct inode *inode,
->  
->  	err = fsverity_verify_signature(vi, desc->signature,
->  					le32_to_cpu(desc->sig_size));
-> +	if (err) {
-> +		fsverity_err(inode, "Error %d verifying signature", err);
-> +		goto out;
-> +	}
-
-The above error message is unnecessary because fsverity_verify_signature()
-already prints an error message on failure.
-
-> +
-> +	err = security_inode_setsecurity(inode, FS_VERITY_INODE_SEC_NAME, desc->signature,
-> +					 le32_to_cpu(desc->sig_size), 0);
-
-This runs even if CONFIG_FS_VERITY_BUILTIN_SIGNATURES is disabled.  Is that
-really the right behavior?
-
-Also a nit: please stick to the preferred line length of 80 characters.
-See Documentation/process/coding-style.rst
-
-> diff --git a/fs/verity/signature.c b/fs/verity/signature.c
-> index 143a530a8008..5d7b9496f9c4 100644
-> --- a/fs/verity/signature.c
-> +++ b/fs/verity/signature.c
-> @@ -9,6 +9,7 @@
->  
->  #include <linux/cred.h>
->  #include <linux/key.h>
-> +#include <linux/security.h>
->  #include <linux/slab.h>
->  #include <linux/verification.h>
-
-This change is unnecessary.
-
-> diff --git a/include/linux/fsverity.h b/include/linux/fsverity.h
-> index 40f14e5fed9d..29e9888287ba 100644
-> --- a/include/linux/fsverity.h
-> +++ b/include/linux/fsverity.h
-> @@ -254,4 +254,6 @@ static inline bool fsverity_active(const struct inode *inode)
->  	return fsverity_get_info(inode) != NULL;
->  }
->  
-> +#define FS_VERITY_INODE_SEC_NAME "fsverity.inode-info"
-
-"inode-info" is very vague.  Shouldn't it be named "builtin-sig" or something?
-
-- Eric
+								Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
 
 --
 Linux-audit mailing list
