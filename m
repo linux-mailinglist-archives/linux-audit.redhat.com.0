@@ -2,84 +2,90 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 475E36A6218
-	for <lists+linux-audit@lfdr.de>; Tue, 28 Feb 2023 23:04:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F4466A6FBF
+	for <lists+linux-audit@lfdr.de>; Wed,  1 Mar 2023 16:32:14 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1677621876;
+	s=mimecast20190719; t=1677684733;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
-	 message-id:message-id:to:to:cc:mime-version:mime-version:
-	 content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:list-id:list-help:
-	 list-unsubscribe:list-subscribe:list-post;
-	bh=M3nDCWxNeb+hf4ZhRuMzUcyzMaZIQAXQulH7uANXVt4=;
-	b=O0JDT/B18RUhepRfUyeWpOiJet1F0siAiti1Wi/Mukz3fMsnDVjrdR4mPz/a4ddgsJpmR6
-	1/s1llsTM+caowKkx2C+NvTnjr8uA4u5h9shvK+DgvZs872a6u4WVDkKdtaoRYUUfsjgCp
-	q0TiGiQVxbGqzwrPVqw1yCw8fWqo6mE=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+	 content-type:content-type:in-reply-to:in-reply-to:
+	 references:references:list-id:list-help:list-unsubscribe:
+	 list-subscribe:list-post; bh=NubP1d0ajZIyOb+mw6W+cCRYeCwZ/dfwA08AI5O+gDA=;
+	b=EdY/bMgXGvzvAAYXJqRhPxPQ43PQBgRFu0Hcn/r5jLxItAC+FnIRXkQGb4fHUrLmiENqAQ
+	wHS+yW/Lxi7Dd+dbhPN6QOjf0RLs7kWxF4WjyJrt9JCqsJO06+z4uqqdqtijHhZHkmt4Hm
+	EGTww0miu+0wAXj5lazVLHd8tZiQA0A=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-639-HMzvoRxuP1GPUhftgRSyWA-1; Tue, 28 Feb 2023 17:04:34 -0500
-X-MC-Unique: HMzvoRxuP1GPUhftgRSyWA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
+ us-mta-421-Jf_E644rOzKfikm6sZVH1Q-1; Wed, 01 Mar 2023 10:32:09 -0500
+X-MC-Unique: Jf_E644rOzKfikm6sZVH1Q-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 038F387B2A1;
-	Tue, 28 Feb 2023 22:04:32 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1C36F384D02E;
+	Wed,  1 Mar 2023 15:32:06 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (unknown [10.30.29.100])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id CF089140EBF6;
-	Tue, 28 Feb 2023 22:04:22 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id DF7902026D68;
+	Wed,  1 Mar 2023 15:31:59 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (localhost [IPv6:::1])
-	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id 20A0519465B1;
-	Tue, 28 Feb 2023 22:04:22 +0000 (UTC)
+	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id D40DE1946A77;
+	Wed,  1 Mar 2023 15:31:58 +0000 (UTC)
 X-Original-To: linux-audit@listman.corp.redhat.com
 Delivered-To: linux-audit@listman.corp.redhat.com
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
  by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with
- ESMTP id 911BE194658C for <linux-audit@listman.corp.redhat.com>;
- Tue, 28 Feb 2023 22:04:20 +0000 (UTC)
+ ESMTP id DB61819465B9 for <linux-audit@listman.corp.redhat.com>;
+ Wed,  1 Mar 2023 15:31:37 +0000 (UTC)
 Received: by smtp.corp.redhat.com (Postfix)
- id 75862C15BAE; Tue, 28 Feb 2023 22:04:20 +0000 (UTC)
+ id 78C6D140EBF4; Wed,  1 Mar 2023 15:31:37 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
- (mimecast08.extmail.prod.ext.rdu2.redhat.com [10.11.55.24])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6E250C15BAD
- for <linux-audit@redhat.com>; Tue, 28 Feb 2023 22:04:20 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [207.211.31.81])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4EC48382C964
- for <linux-audit@redhat.com>; Tue, 28 Feb 2023 22:04:20 +0000 (UTC)
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com
- [209.85.210.180]) by relay.mimecast.com with ESMTP with STARTTLS
+ (mimecast07.extmail.prod.ext.rdu2.redhat.com [10.11.55.23])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 70A77140EBF6
+ for <linux-audit@redhat.com>; Wed,  1 Mar 2023 15:31:37 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [205.139.110.61])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 529183C18352
+ for <linux-audit@redhat.com>; Wed,  1 Mar 2023 15:31:37 +0000 (UTC)
+Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com
+ [209.85.222.42]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-583-OoHAkUu4OUquuVRta1qPxA-1; Tue, 28 Feb 2023 17:04:17 -0500
-X-MC-Unique: OoHAkUu4OUquuVRta1qPxA-1
-Received: by mail-pf1-f180.google.com with SMTP id u20so6729411pfm.7
- for <linux-audit@redhat.com>; Tue, 28 Feb 2023 14:04:17 -0800 (PST)
+ us-mta-628-ayUxqLVGPxGb1ifAm-q30A-1; Wed, 01 Mar 2023 10:31:34 -0500
+X-MC-Unique: ayUxqLVGPxGb1ifAm-q30A-1
+Received: by mail-ua1-f42.google.com with SMTP id s23so1282470uae.5
+ for <linux-audit@redhat.com>; Wed, 01 Mar 2023 07:31:33 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677621856;
- h=to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=WBdcEWTHOMgWII1SDCjRRm0jrKKWWdSRoqvCup+7P3M=;
- b=y68ljTiySsm3PwS9kX8Kg3yx2TCWTOwrt8+/TdN5N9E3bjt3EnIT5PUxXJ4DTF+7Zx
- L7BIZ04fVNDTDdXWpOF8p2F/Pm8wbG5saKHtB3XhaDU/Y7BEOL3c9czjo3PFL8disjjh
- FRY/afwXubS/8s3ITamoDZLmTpk7+QZqchae2dzp5eQxUD7/BjIBopKMA0619LDRHsu9
- 6xBzBKqXgBMwFxTvsWjwU22pb6RVxRfjvpKUjSWFkNAJrrREqdYMNbTVNLwUp2bIupvK
- LZm37MS87GVMQ4e/RsaRsk9gGflQ03rH9BacZdrGfEfb9tsUD+QRaHfxN+EMVupPeeQX
- 4jMQ==
-X-Gm-Message-State: AO0yUKW8ZyqO+MfEJdlQp40cnIv7A3yzdJ/5nGbjxzrOKnf1fv7Z4p4Q
- ASwQ3vpE55R6aCibOTt85koyuRjQPJL2BUrWsacEt4GXKTwdJ5w=
-X-Google-Smtp-Source: AK7set/WN9zUhqEknmHVhy9URGP8/w3jQGdhl6yDI6ldydP3ZxKFRaICUFQBFspSLy69s0wMHLlCsD4a8J/5c9YzbzU=
-X-Received: by 2002:a63:788c:0:b0:503:20b9:5d88 with SMTP id
- t134-20020a63788c000000b0050320b95d88mr1334983pgc.4.1677621855707; Tue, 28
- Feb 2023 14:04:15 -0800 (PST)
+ d=1e100.net; s=20210112; t=1677684693;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=qyLCAQLi19hsFPN4pKmYwM4dnn6LWyNzIwBUwcdWG6M=;
+ b=tJ0TOxnUIF0DwjzY0aGDqTH1BEOjcBVuCbgqs4U1vwug42EzvShEmtJ/Oae+KNMrBs
+ K6nCqmoyO+Lz4oA59tFTFLSCvF9fVfM99T4heFGr0gK8GRyymgVfA41Xvww5l2bORau6
+ ppzH4hvdc7H2EY1XeR+59n1Og6qZZGhrUQ22QPamh5JPBDhWSiYo91FAplfv0nhNq0kt
+ hZ3CpECfUwtE3FFBsyumaxP5cAW3HJnhJzQtFr/grmVDLzhZSrSB+cYeC2ctFcNmbUqD
+ rw7HSTJeOPK0dQm1jzBXlorFfZrghTX0PzposoVhUrZdDhsuybnRbeQq5paTNtpHcqRi
+ VXoQ==
+X-Gm-Message-State: AO0yUKWG/N5AAaBO9NwCvBV9cQX4ZvNq8lS5PKIplONHDVjZeh/Cw3n1
+ 8k+waXMZTti6SnzrJJbjzeDLIZ/W7vCWScejNr7CuykR
+X-Google-Smtp-Source: AK7set9Ker/y7lkK6PMm9bHHY9tcO3+95tC8V7QCUXUrbZQV6Kvk/DXoWbczzFH+Y1B5U39L/ZLGeP5EqgsAWbx/3C4=
+X-Received: by 2002:ab0:53d4:0:b0:68e:2dce:3162 with SMTP id
+ l20-20020ab053d4000000b0068e2dce3162mr4246220uaa.2.1677684693366; Wed, 01 Mar
+ 2023 07:31:33 -0800 (PST)
 MIME-Version: 1.0
-From: Paul Moore <paul@paul-moore.com>
-Date: Tue, 28 Feb 2023 17:04:04 -0500
-Message-ID: <CAHC9VhRMJq1gJPoR79AxM1JphmGtxhGMYBkd=Ptuaq3WBjX2Bw@mail.gmail.com>
-Subject: audit userspace problems with io_uring async ops
-To: linux-audit@redhat.com
+References: <CAPoNrttQKG1uiUx=v6Cj8U0MnYMoU-ZP_Htmxn7F_Q7ZdUc9RA@mail.gmail.com>
+ <CAHC9VhQAFgv5e3rvoaDTnQvQOoGawoAUfcRonayEwrvJu6znBg@mail.gmail.com>
+ <CAPoNrtswDzsghShzAvf72xOQ-vWUj6DdkVPRWnBWp-qG9Xa8Vw@mail.gmail.com>
+ <CAHC9VhSr3groyZpA34L3swqDoU8_WJWbWsHz7GDR0QqNpSjhyA@mail.gmail.com>
+ <d0c20f21-7064-e199-c052-5d049a681ecf@magitekltd.com>
+In-Reply-To: <d0c20f21-7064-e199-c052-5d049a681ecf@magitekltd.com>
+From: Anurag Aggarwal <anurag19aggarwal@gmail.com>
+Date: Wed, 1 Mar 2023 21:01:23 +0530
+Message-ID: <CAPoNrtsiXr=-w5OT0J_i5Ekun0FKVc3Ocs2oY-bAj+ZjvEwCmg@mail.gmail.com>
+Subject: Re: Key based rate limiter (audit_set_rate_limit)
+To: Lenny Bruzenak <lenny@magitekltd.com>
 X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
  Definition; Similar Internal Domain=false;
  Similar Monitored External Domain=false; Custom External Domain=false;
@@ -87,7 +93,7 @@ X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
  Internal User Name=false; Custom Display Name List=false;
  Reply-to Address Mismatch=false; Targeted Threat Dictionary=false;
  Mimecast Threat Dictionary=false; Custom Threat Dictionary=false
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,137 +105,81 @@ List-Post: <mailto:linux-audit@redhat.com>
 List-Help: <mailto:linux-audit-request@redhat.com?subject=help>
 List-Subscribe: <https://listman.redhat.com/mailman/listinfo/linux-audit>,
  <mailto:linux-audit-request@redhat.com?subject=subscribe>
+Cc: linux-audit@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
 Sender: "Linux-audit" <linux-audit-bounces@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: multipart/mixed; boundary="===============3722984524840917573=="
+
+--===============3722984524840917573==
+Content-Type: multipart/alternative; boundary="000000000000317e9905f5d86889"
+
+--000000000000317e9905f5d86889
+Content-Type: text/plain; charset="UTF-8"
+
+>
+>
+> What we do not know is - do you have any filtering criteria in mind not
+> covered by the available auditctl exclusions or do you just want to
+> "sample" randomly?
+>
+> If the latter, why bother auditing this with a rule at all? You might be
+> able to remove the rule causing the events and do something in userspace
+> to audit only what you really want.
+>
+>
+We want to sample system calls like rename.
+In many cases, we have seen this overburden and increase auditd cpu
+consumption.
+In such cases, we want to drop some events randomly, so as to keep cpu
+consumption under control.
+
+There are other rules also, for example monitoring login/logout.
+For such rules we do not want to drop any event.
+
+--
+Anurag Aggarwal
+
+--000000000000317e9905f5d86889
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quot=
+e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
+;padding-left:1ex"><br>
+What we do not know is - do you have any filtering criteria in mind not <br=
+>
+covered by the available auditctl exclusions or do you just want to <br>
+&quot;sample&quot; randomly?<br>
+<br>
+If the latter, why bother auditing this with a rule at all? You might be <b=
+r>
+able to remove the rule causing the events and do something in userspace <b=
+r>
+to audit only what you really want.<br>
+<br></blockquote><div><br></div><div>We want to sample system calls like re=
+name.</div><div>In many cases, we have seen this overburden and increase au=
+ditd cpu consumption.</div><div>In such=C2=A0cases, we want to drop some ev=
+ents randomly, so as to keep cpu consumption under control.</div><div><br><=
+/div><div>There are other rules also, for=C2=A0example monitoring login/log=
+out.=C2=A0</div><div>For such rules we do not want to drop any event.</div>=
+<div><br></div><div>--<br></div></div><div dir=3D"ltr" class=3D"gmail_signa=
+ture">Anurag Aggarwal<br></div></div>
+
+--000000000000317e9905f5d86889--
+
+--===============3722984524840917573==
 Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-
-Hi all,
-
-We just recently started picking up audit-testsuite failures with the
-latest upstream kernels and I tracked it down to a change in how the
-IORING_OP_OPENAT operation is handled, and how Steve's audit userspace
-displays async io_uring ops.  It appears that when ausearch is used to
-look for events it doesn't display async io_uring events (URINGOP
-records/events without an associated SYSCALL record/event).  Take the
-following snippet from /var/log/audit/audit.log:
-
---- 287 ---
-type=SYSCALL msg=audit(1677618568.199:287): arch=c000003e syscall=426
-  success=yes exit=1 a0=4 a1=1 a2=0 a3=0 items=1 ppid=1498 pid=1499
-  auid=0 uid=0 gid=0 euid=0 suid=0 fsuid=0 egid=0 sgid=0 fsgid=0
-  tty=pts1 ses=3 comm="iouring" exe="/.../iouring"
-  subj=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023
-  key="testsuite-1677618568-WJBbDxKg"ARCH=x86_64 SYSCALL=io_uring_enter ...
-type=CWD msg=audit(1677618568.199:287):
-  cwd="/root/sources/audit-testsuite/tests/io_uring"
-type=PATH msg=audit(1677618568.199:287): item=0
-  name="/tmp/iouring.4.txt" nametype=UNKNOWN ...
-type=PROCTITLE msg=audit(1677618568.199:287):
-  proctitle=2E2F696F7572696E670074315F6368696C64
---- 288 ---
-type=URINGOP msg=audit(1677618568.199:288): uring_op=18 success=yes exit=0
-  items=1 ppid=1498 pid=1499
-  uid=0 gid=0 euid=0 suid=0 fsuid=0 egid=0 sgid=0 fsgid=0
-  subj=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023
-  key="testsuite-1677618568-WJBbDxKg"URING_OP=openat ...
-type=CWD msg=audit(1677618568.199:288):
-  cwd="/root/sources/audit-testsuite/tests/io_uring"
-type=PATH msg=audit(1677618568.199:288): item=0 name="/tmp/iouring.4.txt"
-  inode=33 dev=00:22 mode=0100644 ouid=0 ogid=0 rdev=00:00
-  obj=unconfined_u:object_r:user_tmp_t:s0 nametype=NORMAL ...
---- 289 ---
-type=SYSCALL msg=audit(1677618568.199:289): arch=c000003e syscall=426
-  success=yes exit=0 a0=4 a1=0 a2=1 a3=1 items=0 ppid=1498 pid=1499
-  auid=0 uid=0 gid=0 euid=0 suid=0 fsuid=0 egid=0 sgid=0 fsgid=0
-  tty=pts1 ses=3 comm="iouring" exe="/.../iouring"
-  subj=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023
-  key="testsuite-1677618568-WJBbDxKg"ARCH=x86_64 SYSCALL=io_uring_enter ...
-type=PROCTITLE msg=audit(1677618568.199:289):
-  proctitle=2E2F696F7572696E670074315F6368696C64
-
-... and the matching ausearch output:
-
-% ausearch -i -k "testsuite-1677618568-WJBbDxKg"
-----
-type=PROCTITLE msg=audit(02/28/2023 16:09:28.199:287) :
-  proctitle=./iouring t1_child
-type=PATH msg=audit(02/28/2023 16:09:28.199:287) : item=0
-  name=/tmp/iouring.4.txt nametype=UNKNOWN ...
-type=CWD msg=audit(02/28/2023 16:09:28.199:287) :
-  cwd=/root/sources/audit-testsuite/tests/io_uring
-type=SYSCALL msg=audit(02/28/2023 16:09:28.199:287) : arch=x86_64
- syscall=io_uring_enter success=yes exit=1 a0=0x4 a1=0x1 a2=0x0 a3=0x0 items=1
- ppid=1498 pid=1499 auid=root uid=root gid=root euid=root suid=root fsuid=root
- egid=root sgid=root fsgid=root tty=pts1 ses=3 comm=iouring exe=/.../iouring
- subj=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023
- key=testsuite-1677618568-WJBbDxKg
-----
-type=PROCTITLE msg=audit(02/28/2023 16:09:28.199:289) :
- proctitle=./iouring t1_child
-type=SYSCALL msg=audit(02/28/2023 16:09:28.199:289) : arch=x86_64
- syscall=io_uring_enter success=yes exit=0 a0=0x4 a1=0x0 a2=0x1 a3=0x1 items=0
- ppid=1498 pid=1499 auid=root uid=root gid=root euid=root suid=root fsuid=root
- egid=root sgid=root fsgid=root tty=pts1 ses=3 comm=iouring exe=/.../iouring
- subj=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023
- key=testsuite-1677618568-WJBbDxKg
-----
-
-... if you look closely you'll notice that the #289 event (the async
-URINGOP) is missing from the ausearch output.
-
-The good news is that this is easily reproducible on current upstream
-kernels and Steve's v3.1 audit userspace release using the
-audit-testsuite io_uring tests.  This can also be seen in Rawhide with
-current packages:
-
-% uname -r
-6.3.0-0.rc0.20230228gitae3419fb.9.1.secnext.fc39.x86_64
-% rpm -q audit
-audit-3.1-2.fc39.x86_64
-% pwd
-/root/sources/audit-testsuite/tests/io_uring
-% git log --oneline | head -n 1
-44c933e tests/filter_exclude: euid filtering now possible in exclude filter
-
-Once ausearch is fixed we will also need to update the audit-testsuite
-to add an explicit io_uring filter for the IORING_OP_OPENAT op.  The
-patch below is untested (blocked on ausearch), but I expect it to
-resolve the issue in the test suite:
-
->>>
-diff --git a/tests/io_uring/test b/tests/io_uring/test
-index 9eb427a..df13af0 100755
---- a/tests/io_uring/test
-+++ b/tests/io_uring/test
-@@ -49,6 +49,7 @@ system("auditctl -D >& /dev/null");
- # set our io_uring filters
- system("auditctl -a exit,always -F arch=b$abi_bits -S io_uring_setup -k $key");
- system("auditctl -a exit,always -F arch=b$abi_bits -S io_uring_enter -k $key");
-+system("auditctl -a io_uring,always -S openat -k $key");
-
- # run the "t1" test
- system("$basedir/iouring t1");
->>>
-
-For the kernel folks, the relevant commit is likely 0ffae640ad83
-("io_uring: always go async for unsupported open flags").  I believe
-what happened in the past is we caught the initial failing/-EAGAIN
-io_uring op with the syscall record, e.g. #287 in the example above,
-but now that IORING_OP_OPENAT goes straight to an async/io_wq op we
-don't "see" it as ausearch isn't showing that (maybe needs to learn to
-search URINGOP records too? dunno.).  Arguably this was always a
-problem with the test, we just got a bit lucky because io_uring would
-attempt to do IORING_OP_OPENAT synchronously at first.
-
--- 
-paul-moore.com
+Content-Disposition: inline
 
 --
 Linux-audit mailing list
 Linux-audit@redhat.com
 https://listman.redhat.com/mailman/listinfo/linux-audit
+
+--===============3722984524840917573==--
 
