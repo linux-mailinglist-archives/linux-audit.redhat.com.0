@@ -2,89 +2,102 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18B016B25DC
-	for <lists+linux-audit@lfdr.de>; Thu,  9 Mar 2023 14:51:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F0386B2AE4
+	for <lists+linux-audit@lfdr.de>; Thu,  9 Mar 2023 17:36:58 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1678369870;
+	s=mimecast20190719; t=1678379817;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-	 content-type:content-type:in-reply-to:in-reply-to:
-	 references:references:list-id:list-help:list-unsubscribe:
-	 list-subscribe:list-post; bh=UixjFMj6pwI0yJzsl7nj6Wvp2Ju5qQuq0Ti9oPXqk4o=;
-	b=HSumojQ8MSXjGc6XroMqNUym45oE4KD12durFH6zUNvlAcfu3xpY+T2E3T+9d5uW+BUu54
-	2a3sGlC6DsVdNOWKHYbSpofx8Xs4TbbOa8y0edwaWi3U477H37s7X6FdSPaYBYLaAupFdD
-	88chLg2tQ5r9WRCynwmrDe2oR8Ki+nU=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+	 content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:list-id:list-help:
+	 list-unsubscribe:list-subscribe:list-post;
+	bh=2g//bhJiCpls4Y4P/gj+hPomFMqDBFGeP0oC9NORmsE=;
+	b=aWw5g4GrSvgwfZ4Y7ns1TaTJfHWzJEQnjzJYGo0YQ8s2OwmyAxIjM2yMg8vpP7wp1YLXZ1
+	rP3OPUPgJxEXGcUPuggyfDQVjOgsXVm1qbC2o8Hc2b5k17ZHT7bIHIR2lawk54F12c2jf6
+	Oxovf0GvUTAZxjbxBqM+hOYI0BoQLHI=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-84-XEz5w80bO3WYUFNZ5gYRZQ-1; Thu, 09 Mar 2023 08:51:08 -0500
-X-MC-Unique: XEz5w80bO3WYUFNZ5gYRZQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
+ us-mta-68-pltHW2cMMV6sBBEr8G0Rgg-1; Thu, 09 Mar 2023 11:36:52 -0500
+X-MC-Unique: pltHW2cMMV6sBBEr8G0Rgg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CAAC2802D38;
-	Thu,  9 Mar 2023 13:51:06 +0000 (UTC)
-Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (unknown [10.30.29.100])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id ACA4D40ED76E;
-	Thu,  9 Mar 2023 13:50:59 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8E89228237C6;
+	Thu,  9 Mar 2023 16:36:50 +0000 (UTC)
+Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com [10.30.29.100])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id A700EC15BA0;
+	Thu,  9 Mar 2023 16:36:45 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (localhost [IPv6:::1])
-	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id D790019466DF;
-	Thu,  9 Mar 2023 13:50:58 +0000 (UTC)
+	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id C9D281946A44;
+	Thu,  9 Mar 2023 16:36:44 +0000 (UTC)
 X-Original-To: linux-audit@listman.corp.redhat.com
 Delivered-To: linux-audit@listman.corp.redhat.com
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
  by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with
- ESMTP id 02C5519465B5 for <linux-audit@listman.corp.redhat.com>;
- Thu,  9 Mar 2023 02:07:29 +0000 (UTC)
+ ESMTP id 110541946597 for <linux-audit@listman.corp.redhat.com>;
+ Thu,  9 Mar 2023 16:36:39 +0000 (UTC)
 Received: by smtp.corp.redhat.com (Postfix)
- id CE38C492B00; Thu,  9 Mar 2023 02:07:29 +0000 (UTC)
+ id CD16E112132D; Thu,  9 Mar 2023 16:36:38 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
- (mimecast09.extmail.prod.ext.rdu2.redhat.com [10.11.55.25])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C62EF492C3E
- for <linux-audit@redhat.com>; Thu,  9 Mar 2023 02:07:29 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [207.211.31.120])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (mimecast07.extmail.prod.ext.rdu2.redhat.com [10.11.55.23])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C5AE11121314
+ for <linux-audit@redhat.com>; Thu,  9 Mar 2023 16:36:38 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [207.211.31.81])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 798273C0E210
+ for <linux-audit@redhat.com>; Thu,  9 Mar 2023 16:36:38 +0000 (UTC)
+Received: from smtp-relay-internal-1.canonical.com
+ (smtp-relay-internal-1.canonical.com [185.125.188.123]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-673-YD9kdx07MiWJ2CcBLVqqbQ-1; Thu,
+ 09 Mar 2023 11:33:43 -0500
+X-MC-Unique: YD9kdx07MiWJ2CcBLVqqbQ-1
+Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com
+ [209.85.210.198])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A9AC629AA2C1
- for <linux-audit@redhat.com>; Thu,  9 Mar 2023 02:07:29 +0000 (UTC)
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com
- [209.85.208.52]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-145-pO7k7QncP3isDFs7-MEClA-1; Wed, 08 Mar 2023 21:07:27 -0500
-X-MC-Unique: pO7k7QncP3isDFs7-MEClA-1
-Received: by mail-ed1-f52.google.com with SMTP id ay14so1219356edb.11;
- Wed, 08 Mar 2023 18:07:26 -0800 (PST)
+ by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 77A993F19F
+ for <linux-audit@redhat.com>; Thu,  9 Mar 2023 16:33:25 +0000 (UTC)
+Received: by mail-pf1-f198.google.com with SMTP id
+ cj27-20020a056a00299b00b005f1ef2e4e1aso1416194pfb.6
+ for <linux-audit@redhat.com>; Thu, 09 Mar 2023 08:33:25 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678327645;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=gKlpsWVdngj9nu0vEzW1jA9a/N7Fr/EfBDeLVlVnPcc=;
- b=EGrDIbGicgHHvZqiBdxMixMcDlbWE/gQVEkKAZPRJXcxbG4Kf2YieyFN0izoFnIBH6
- oqHaWJblyFixaz5quLWnoR01rZ7Dj8ONKgIKVeKktWRKOuK6eZYsOggXcx0YsMWvOaB5
- snrvEkKgkfjOZ2NvaqaImFXElpHCbNvqIeDbJNkuKrmXT3qPWN83wV8GrzlISCA8iweT
- DPUsW18do4e9VbTPojnOLUp499CCMbaelPyEMX241pX1VyoGmKMcOs/uEeK0lItow/0P
- r2325xyZIyCbszfbUBhNK7PcIMQ7rxXPufsfKP2dYPb1NxhIVRWp48TyT5QLc51ASyKq
- wicQ==
-X-Gm-Message-State: AO0yUKVPeajbgR2yuuGfUj8kjR3nLZroE+/aA9J0f29xU0MbP166Spho
- WEUz4bWyWmvZ/vUUnxlTgbvXKPtQqS54rwHnDHwWzjh7NLw=
-X-Google-Smtp-Source: AK7set/wCSZpX+Gf4facAjizNX5y+3Yas8kz6e1e1MmvYZQoPO+2gGVdP8fsCjhjj4Q9ZWgu283x98dPmfMd2PydmmM=
-X-Received: by 2002:a50:d60d:0:b0:4bc:edde:14ff with SMTP id
- x13-20020a50d60d000000b004bcedde14ffmr10816660edi.0.1678327645457; Wed, 08
- Mar 2023 18:07:25 -0800 (PST)
+ d=1e100.net; s=20210112; t=1678379604;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=zIsy2bEuGLMzczcvseqQs2ubUFQW3vdt1FFXuA1sT3Y=;
+ b=MMA7yDkNk0eXBa0lc9AkSPJ7vZLmT4BQ9GfMXjeJhc2xwuIXuxIX12PBJGfG7SBOAQ
+ TC/QrGydK5frNuFqhcuVgb6naP9G3EUKbi27IjchzrUyGrvLjKZe3lIBuEF/dC88E2GM
+ DXPqBNazozPHR77dNL1AI8jAYMmQPg2ojtMRR255/Bo9do/4P2bN3hu82UP0Llwda7a/
+ d3ecad3yP9D1u2r9dn89ysT6PrqbBthF7uVN7OMwdQXIeNNT/eb21SskZ4X6LpQd62GH
+ jtdbYd7HRlc+t0t2a8wlVsyvF6tU/1s3t939ccieA8GE0yGG9EFXHefQCSN+fMMMGhoi
+ Ojjw==
+X-Gm-Message-State: AO0yUKWn+/abbZke1/7J+QgZOPfWl84LmcJCXmOZqbKoiOjubzHhVvQn
+ AX8ckMP3HUnyMc/YgNkT8HjXcIA9MduxZn/eKCvwpiJzoa82P0mxUMUJ0KmEwP0Btt6NhCpMDZv
+ 6GuHOiZ9BZ2frlK8+OynOlg45CCH9vn650ptpCNkTBib/hdd43hVA5NFF9j5U
+X-Received: by 2002:a63:b55e:0:b0:502:e1c4:d37b with SMTP id
+ u30-20020a63b55e000000b00502e1c4d37bmr7780392pgo.12.1678379603711; 
+ Thu, 09 Mar 2023 08:33:23 -0800 (PST)
+X-Google-Smtp-Source: AK7set/dn9jNXIQxKwHoPm0FS9orUgXCV1UDUJ72FKC9ZYrMplh5WuYcDzEnVBpAHkK4lW1BT0cobPYr583Ih0zv2Wo=
+X-Received: by 2002:a63:b55e:0:b0:502:e1c4:d37b with SMTP id
+ u30-20020a63b55e000000b00502e1c4d37bmr7780379pgo.12.1678379603298; Thu, 09
+ Mar 2023 08:33:23 -0800 (PST)
 MIME-Version: 1.0
-References: <CAH2vwOt3yCNhcLc+7QWvRAvSoNmtCJDpC4m41_sno7u_Rmf88A@mail.gmail.com>
- <12326100.O9o76ZdvQC@x2>
-In-Reply-To: <12326100.O9o76ZdvQC@x2>
-From: Richard Du <duxiong@gmail.com>
-Date: Thu, 9 Mar 2023 10:07:14 +0800
-Message-ID: <CAH2vwOvV+vBOejtyKR8bsjV-7Voe32kvjuqF4wa_p2o-Wz1MBg@mail.gmail.com>
-Subject: Re: How to define audit rule for one bit *not* set for a syscall
- argument?
-To: Steve Grubb <sgrubb@redhat.com>
+References: <CAH6unQK=a54uxPjvdgNrZy57cHwZKw72rJMNeDRxAch8q46dcQ@mail.gmail.com>
+ <CAHC9VhR-51mMWvrdU3AJsBi7RRiKE49rQV+PX6cifT5P=r3pqA@mail.gmail.com>
+In-Reply-To: <CAHC9VhR-51mMWvrdU3AJsBi7RRiKE49rQV+PX6cifT5P=r3pqA@mail.gmail.com>
+From: Bruce Elrick <bruce.elrick@canonical.com>
+Date: Thu, 9 Mar 2023 09:33:12 -0700
+Message-ID: <CAH6unQKQ7xYHpHmOoXbZK748Ge7nYTkZODVMLLiFnYTvsQBbRw@mail.gmail.com>
+Subject: Re: Auditing nftables changes
+To: Paul Moore <paul@paul-moore.com>
 X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
  Definition; Similar Internal Domain=false;
  Similar Monitored External Domain=false; Custom External Domain=false;
@@ -92,8 +105,7 @@ X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
  Internal User Name=false; Custom Display Name List=false;
  Reply-to Address Mismatch=false; Targeted Threat Dictionary=false;
  Mimecast Threat Dictionary=false; Custom Threat Dictionary=false
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-X-Mailman-Approved-At: Thu, 09 Mar 2023 13:50:57 +0000
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,131 +120,155 @@ List-Subscribe: <https://listman.redhat.com/mailman/listinfo/linux-audit>,
 Cc: linux-audit@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
 Sender: "Linux-audit" <linux-audit-bounces@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/mixed; boundary="===============6993446987303436865=="
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
---===============6993446987303436865==
-Content-Type: multipart/alternative; boundary="0000000000001fd10905f66e1b64"
-
---0000000000001fd10905f66e1b64
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Yes, the case is that we would like to filter out the "thread creation" and
-only keep the "process creation", by excluding the CLONE_THREAD flag bit of
-a0 of clone() syscall.
-Without the audit comparator support for this case, we have to filter out
-the "thread creation" in user space which introduces a performance penalty.
-
-Regards,
-Richard
-
-On Thu, Mar 9, 2023 at 6:22=E2=80=AFAM Steve Grubb <sgrubb@redhat.com> wrot=
-e:
-
-> Hello,
->
-> On Wednesday, March 8, 2023 8:46:57 AM EST Richard Du wrote:
-> > I'm trying to define an audit rule with auditctl for clone() syscall,
-> and I
-> > would expect that the a0 of clone() syscall (i.e. the clone_flags
-> > argument) without the CLONE_THREAD flag bit being set.
-> >
-> > int clone(int (*fn)(void *), void *stack, int flags, void *arg, ...
-> >                  /* pid_t *parent_tid, void *tls, pid_t *child_tid */ )=
-;
-> >
-> > From man page of auditctl, -F option build a rule file: name, operation=
-,
-> > value.
-> > -F [n=3Dv | n!=3Dv | n<v | n>v | n<=3Dv | n>=3Dv | n&v | n&=3Dv]
-> >
-> > I can understand that, the n&v (Audit_bitmask) means any bit of a bitma=
-st
-> > is set, and the n&=3Dv (Audit_bittest) means all bits of a bitmask are =
-set.
-> >
-> > While my question is, how to build a rule which means "none of bit of a
-> > bitmask is set", i.e. ( ! n&=3Dv ). If the current audit comparator dos=
-en't
-> > support this, can we add the support in furture?
->
-> The comparator does not support this. This is a corner case in which this
-> is
-> the first time someone ever needed it.
->
-> -Steve
->
->
->
-
---0000000000001fd10905f66e1b64
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Yes, the case is that we would like to filter out the=
- &quot;thread creation&quot; and only keep the &quot;process creation&quot;=
-, by excluding the CLONE_THREAD flag bit of a0 of clone() syscall.</div><di=
-v>Without the audit comparator support for this case, we have to filter out=
- the &quot;thread creation&quot; in user space which introduces a performan=
-ce penalty.</div><div><br></div><div>Regards,</div><div>Richard</div><br><d=
-iv class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Mar =
-9, 2023 at 6:22=E2=80=AFAM Steve Grubb &lt;<a href=3D"mailto:sgrubb@redhat.=
-com">sgrubb@redhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_q=
-uote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,2=
-04);padding-left:1ex">Hello,<br>
-<br>
-On Wednesday, March 8, 2023 8:46:57 AM EST Richard Du wrote:<br>
-&gt; I&#39;m trying to define an audit rule with auditctl for clone() sysca=
-ll, and I<br>
-&gt; would expect that the a0 of clone() syscall (i.e. the clone_flags<br>
-&gt; argument) without the CLONE_THREAD flag bit being set.<br>
-&gt; <br>
-&gt; int clone(int (*fn)(void *), void *stack, int flags, void *arg, ...<br=
->
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* pid_t=
- *parent_tid, void *tls, pid_t *child_tid */ );<br>
-&gt; <br>
-&gt; From man page of auditctl, -F option build a rule file: name, operatio=
-n,<br>
-&gt; value.<br>
-&gt; -F [n=3Dv | n!=3Dv | n&lt;v | n&gt;v | n&lt;=3Dv | n&gt;=3Dv | n&amp;v=
- | n&amp;=3Dv]<br>
-&gt; <br>
-&gt; I can understand that, the n&amp;v (Audit_bitmask) means any bit of a =
-bitmast<br>
-&gt; is set, and the n&amp;=3Dv (Audit_bittest) means all bits of a bitmask=
- are set.<br>
-&gt; <br>
-&gt; While my question is, how to build a rule which means &quot;none of bi=
-t of a<br>
-&gt; bitmask is set&quot;, i.e. ( ! n&amp;=3Dv ). If the current audit comp=
-arator dosen&#39;t<br>
-&gt; support this, can we add the support in furture?<br>
-<br>
-The comparator does not support this. This is a corner case in which this i=
-s <br>
-the first time someone ever needed it.<br>
-<br>
--Steve<br>
-<br>
-<br>
-</blockquote></div></div>
-
---0000000000001fd10905f66e1b64--
-
---===============6993446987303436865==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
---
-Linux-audit mailing list
-Linux-audit@redhat.com
-https://listman.redhat.com/mailman/listinfo/linux-audit
-
---===============6993446987303436865==--
+SSB0aGluayBJIG5lZWQgdG8gY2xhcmlmeSB3aGVyZSBJJ20gY29uZnVzZWQgOy0pCgpXaXRoIGlw
+dGFibGVzIHlvdSBjb3VsZCB3cml0ZSBhIHJ1bGUgdGhhdCB3b3VsZCBvbmx5IGNhdGNoIHN5c3Rl
+bQpjYWxscyB0aGF0IHdlcmUgZm9yIGlwdGFibGVzIGNoYW5nZXMuIFRoYXQgaXMsIHlvdSBkaWRu
+J3QgbmVlZCB0bwpjYXB0dXJlICphbGwqIHNldHNvY2tvcHQgY2FsbHMgKG5vdCB0aGF0IHRoZXJl
+IHdvdWxkIGJlIGxvdHMgb2YKKnRob3NlKikgYnV0IHJhdGhlciB5b3UgY291bGQgYWRkIHRoZSBh
+Mj02NCB0byBvbmx5IGdldCB0aGUKb3A9SVBUX1NPX1NFVF9SRVBMQUNFIG9uZXMuCgpXaXRoIG5l
+dGZpbHRlciwgaG93ZXZlciwgc2luY2UgdGhlIGNvbnRyb2wgaW50ZXJmYWNlIGlzIG5ldGxpbmsg
+YW5kCm5ldGxpbmsgcmVxdWlyZXMgYSBtZXNzYWdlIHRvIGEgc29ja2V0IGFuZCBtZXNzYWdlcyBh
+cmUgc3RydWN0cywgdGhlcmUKaXMgbm8gd2F5IHRvIGhhdmUgYSBzaW1pbGFybHkgbmFycm93IGF1
+ZGl0IHJ1bGUgYXMgaW4gdGhlIGNhc2Ugb2YKaXB0YWJsZXMuCgpUaGF0J3MgdGhlIGZpcnN0IHRo
+aW5nIEkgd2FudCB0byBjb25maXJtOiB3aGV0aGVyIG15IHVuZGVyc3RhbmRpbmcKYWJvdmUgaXMg
+Y29ycmVjdD8gSSdtIGNvbmZ1c2VkIGJlY2F1c2UgeW91ciBhbnN3ZXIgaW1wbGllcyBJJ20gY29y
+cmVjdApidXQgeW91IGRpZG4ndCBleHBsaWNpdGx5IGNvbmZpcm0gdGhhdCBteSBpbnRlcnByZXRh
+dGlvbiBvZiBob3cgaXQKd29ya3Mgd2FzIGNvcnJlY3QuCgpZb3UgdGFsayBhYm91dCBoYXZpbmcg
+YW4gZXhjbHVkZSBmaWx0ZXIgb24gTkVURklMVEVSX0NGRyAob3IgcmF0aGVyCmV4Y2x1ZGUgZXZl
+cnl0aGluZyBleGNlcHQgTkVURklMVEVSX0NGRz8/KSBidXQgbXkgdW5kZXJzdGFuZGluZyBpcwp0
+aGF0IHlvdSBjYW4gb25seSBkbyB0aGF0IGZpbHRlcmluZyBhZnRlciB0aGUgZmFjdCB1c2luZyBh
+dXNlYXJjaCBvcgp3cml0aW5nIHNvbWUgc29ydCBvZiBjb3JyZWxhdGlvbiBjb2RlIHVzaW5nIHRo
+ZSBhdXBhcnNlIGxpYnJhcnkuIEJ1dAp5b3UgYXJlIHRoZW4sIGluIHRoaXMgY2FzZSwgc3RpbGwg
+Y2FwdHVyaW5nIGEgaGF5c3RhY2sgYW5kLCBhZnRlciB0aGUKZmFjdCwgc2VhcmNoaW5nIGZvciB0
+aGUgbmVlZGxlIGFmdGVyd2FyZHMuIEFjdHVhbGx5LCB0aGF0J3MgYSBiYWQKYW5hbG9neSBiZWNh
+dXNlIGF1c2VhcmNoIGVhc2lseSBmaW5kcyB0aGUgZXZlbnRzIG9mIHR5cGU9TkVURklMVEVSX0NG
+Rwp2ZXJ5IGVhc2lseSBhbmQgdGhlbiBiYWNrdHJhY2tzIGFuZCBnaXZlcyB5b3UgdGhlIHByb2N0
+aXRsZSwgc29ja2FkZHIKY2FsbCwgYW5kIHNlbmRtc2cgc3lzY2FsbCBhc3NvY2lhdGVkIHdpdGgg
+dGhlIHR5cGU9bmV0ZmlsdGVyX2NmZyBhdAp3aGljaCBwb2ludCB5b3UgY2FuIGxvb2sgYXQgdGhl
+IGF1aWQgYW5kIGRlY2lkZSB3aGF0IHRvIGRvIHRoZW4uCgpCdXQgdGhpcyBpcyB2ZXJ5IGRpZmZl
+cmVudCBmcm9tIHdoYXQgd2FzIHBvc3NpYmxlIHdpdGggaXB0YWJsZXMgd2hlcmUKdGhlIHJ1bGUg
+aXRzZWxmIGNhbiBmaWx0ZXIganVzdCB0aGUgaXB0YWJsZXMtcmVsYXRlZCBzZXRzb2Nrb3B0CnN5
+c2NhbGxzLgoKSXQganVzdCBzZWVtZWQgc3VycHJpc2luZyB0aGF0IHRoZXJlIGlzIGEgbm9uLXRy
+aXZpYWwgbG9zcyBvZiBhdWRpdApmdW5jdGlvbmFsaXR5IGJ1dCB0aGF0IEkgY291bGQgbm90IGZp
+bmQgYW55IG9idmlvdXMgZGlzY3Vzc2lvbiBhYm91dAp0aGF0LiBCeSBvYnZpb3VzIGRpc2N1c3Np
+b24gSSBtZWFuIGFzIGV4cGxpY2l0bHkgYXMgd2hhdCBJJ20gdHJ5aW5nIHRvCnNheSBoZXJlLgoK
+VGhlIG90aGVyIHRoaW5nIEknbSB0cnlpbmcgdG8gdW5kZXJzdGFuZCBpcyBob3cgaGVhdnkgYW4g
+YXVkaXQgbG9hZAp3b3VsZCBpdCBiZSB0byBoYXZlIGFuIGF1ZGl0IHJ1bGUgdGhhdCBjYXB0dXJl
+cyAqYWxsKiBzZW5kbXNnIGNhbGxzCih3ZWxsLCBhbGwgZXhjZXB0IHdoZXJlIGF1aWQ9LTEgb3Ig
+YXVpZD0ke3NlcnZpY2V1c2VyX3VpZH0pLiBJIGRvbid0CmhhdmUgYSBnb29kIGVub3VnaCB1bmRl
+cnN0YW5kaW5nIG9mIHN5c3RlbXMgcHJvZ3JhbW1pbmcgdG8ga25vdyB3aGVyZQphbmQgaG93IG9m
+dGVuIHRoZSBzZW5kbXNnIGlzIGNhbGxlZC4gT2YgY291cnNlIEkga25vdyB0aGlzIGlzIGhpZ2hs
+eQpkZXBlbmRlbnQgb24gd29ya2xvYWQsIGJ1dCBteSBrbm93bGVkZ2UgaXMgbGltaXRlZCBlbm91
+Z2ggdGhhdCBJIEkgY2FuCmNvbnZpbmNlIG15c2VsZiBib3RoIHRoYXQgdGhlIGF1ZGl0IGxvYWQg
+d291bGQgYmUgbm90IHRyaXZpYWwgYnV0CnN0aWxsIG1hbmFnZWFibGUgaW4gbW9zdCBjYXNlcyBi
+dXQgYWxzbyBJIGNhbiBjb252aW5jZSBteXNlbGYgdGhhdCBubwpzYW1lIHN5c2FkbWluIHdvdWxk
+IGNvbnNpZGVyIHJ1bm5pbmcgc3VjaCBhbiBhdWRpdCBydWxlLiBXaXRoIGZpbGUgSU8KaXQncyBl
+YXN5IHRvIGRpc3Rpbmd1aXNoIHRoYXQgZmlsZSBvcGVucyBhcmUgd29ydGggYXVkaXRpbmcgYnV0
+IGZpbGUKcmVhZHMgYW5kIHdyaXRlcyB3b3VsZCBiZSBpbnNhbmUgdG8gYXVkaXQuIEl0J3Mgbm90
+IHNvIGNsZWFyIGZvciBtZQpmb3Igc29ja2V0cy4KCkNoZWVycy4uLgpCcnVjZQoKCk9uIFdlZCwg
+TWFyIDgsIDIwMjMgYXQgODozNOKAr1BNIFBhdWwgTW9vcmUgPHBhdWxAcGF1bC1tb29yZS5jb20+
+IHdyb3RlOgo+Cj4gT24gV2VkLCBNYXIgOCwgMjAyMyBhdCA3OjEz4oCvUE0gQnJ1Y2UgRWxyaWNr
+IDxicnVjZS5lbHJpY2tAY2Fub25pY2FsLmNvbT4gd3JvdGU6Cj4gPiBIZWxsbyBhbGwsCj4gPgo+
+ID4gSSdtIG5vdCBzdXJlIGlmIHRoaXMgbGlzdCBpcyBhcHByb3ByaWF0ZSBmb3IgcXVlc3Rpb25z
+IHNvIHBsZWFzZSBsZXQKPiA+IG1lIGtub3cgYW5kIG90aGVyd2lzZSBpZ25vcmUgaWYgdGhpcyBt
+ZXNzYWdlIGlzIG5vdCBhcHByb3ByaWF0ZS4KPiA+Cj4gPiBJJ20gdHJ5aW5nIHRvIGhlbHAgc29t
+ZW9uZSB3aG8gaXMgZmluYWxseSBtaWdyYXRpbmcgZnJvbSBpcHRhYmxlcyB0bwo+ID4gbmZ0YWJs
+ZXMgb24gdGhlIGJhY2stZW5kIGFuZCBuZWVkcyB0byB0aGVyZWZvcmUgbWlncmF0ZSB0aGVpciBh
+dWRpdAo+ID4gY2FwYWJpbGl0eS4KPiA+Cj4gPiBDdXJyZW50bHkgdGhleSBoYXZlIGEgc2luZ2xl
+IHNpbXBsZSBhdWRpdCBydWxlIHRvIGRldGVjdCB3aGVuIHRoZXJlIGlzCj4gPiBhIGlwdGFibGUg
+Y2hhbmdlIGZyb20gYW55IGF1ZGl0IHVzZXIgYXBhcnQgZnJvbSB0aGVpciBzZXJ2aWNlIHVzZXIK
+PiA+IHVzaW5nIGEgcnVsZSBsaWtlIHRoZSBhY2NlcHRlZCBhbnN3ZXIgZ2l2ZW4gaW4gdGhpc1sw
+XSBTdGFja0V4Y2hhbmdlCj4gPiBxdWVzdGlvbiwgYWx0aG91Z2ggd2l0aCBhZGRlZCBmaWx0ZXJz
+IG9uIHRoZSBhdWlkIChJIGhhdmUgdG8gYWRtaXQgSQo+ID4gZG9uJ3Qga25vdyB0aGUgb3JpZ2lu
+IG9mIGF1aWQ9LTEgZXZlbnRzKToKPiA+Cj4gPiAgICAgYXVkaXRjdGwgLWEgZXhpdCxhbHdheXMg
+LUYgYXJjaD1iNjQgLUYgYTI9NjQgLUYgYXVpZCE9LTEgLUYKPiA+IGF1aWQhPSR7c2VydmljZXVz
+ZXJfdWlkfSAtUyBzZXRzb2Nrb3B0IC1rIGlwdGFibGVzQ2hhbmdlCj4gPgo+ID4gVGhleSBhcmUg
+bWlncmF0aW5nIGZyb20gVWJ1bnR1IGJpb25pYyB0byBqYW1teSBhbmQgc3RpbGwgdXNpbmcgdGhl
+Cj4gPiBpcHRhYmxlcyBmcm9udC1lbmQgYnV0IHNpbmNlIHRoZSBiYWNrLWVuZCBjaGFuZ2VzIGZy
+b20gZGVmYXVsdAo+ID4gaXB0YWJsZXMgdG8gZGVmYXVsdCBuZnRhYmxlcyB0aGV5IG5lZWQgdG8g
+Y2hhbmdlIHRoZWlyIGF1ZGl0IHJ1bGVzCj4gPgo+ID4gVGhleSBkaWQgc3RyYWNlIHRlc3Rpbmcg
+YW5kIG5vdGVkIHRoZSBzeXNjYWxsIGNoYW5naW5nIGZyb20KPiA+Cj4gPiAgICAgc2V0c29ja29w
+dCg0LCBTT0xfSVAsIElQVF9TT19TRVRfUkVQTEFDRSwKPiA+ICJmaWx0ZXJcMFwwXDBcMFwwXDBc
+MFwwXDBcMFwwXDBcMFwwXDBcMFwwXDBcMFwwXDBcMFwwXDBcMFwwIi4uLiwKPiA+IDgwOTUyKSA9
+IDAKPiA+Cj4gPiB0bwo+ID4KPiA+ICAgICBzZW5kdG8oMywgW3tubG1zZ19sZW49MjAsCj4gPiBu
+bG1zZ190eXBlPU5GTkxfU1VCU1lTX05GVEFCTEVTPDw4fE5GVF9NU0dfR0VUR0VOLAo+ID4gbmxt
+c2dfZmxhZ3M9TkxNX0ZfUkVRVUVTVCwgbmxtc2dfc2VxPTAsIG5sbXNnX3BpZD0wfSwKPiA+IHtu
+Zmdlbl9mYW1pbHk9QUZfVU5TUEVDLCB2ZXJzaW9uPU5GTkVUTElOS19WMCwgcmVzX2lkPWh0b25z
+KDApfV0sIDIwLAo+ID4gMCwge3NhX2ZhbWlseT1BRl9ORVRMSU5LLCBubF9waWQ9MCwgbmxfZ3Jv
+dXBzPTAwMDAwMDAwfSwgMTIpID0gMjAKPiA+Cj4gPiBiZXR3ZWVuIHRoZSB0d28gdmVyc2lvbnMu
+Cj4gPgo+ID4gSW4gbXkgb3duIHRlc3RpbmcsIEkgZGVjaWRlZCB0byBhcHByb2FjaCBmcm9tIHRo
+ZSBhdWRpdCB0b29scwo+ID4gcGVyc3BlY3RpdmUgc28gSSBjcmVhdGVkIGEgYnJvYWQgcnVsZSB0
+byBjYXB0dXJlIGFsbCBzeXN0ZW0gY2FsbAo+ID4gcmVsYXRlZCB0byBhIHRlc3QgdXNlcjoKPiA+
+Cj4gPiAgICAgYXVkaXRjdGwgLWEgYWx3YXlzLGV4aXQgLVMgYWxsIC1GIGF1aWQ9MTAwMSAjIDEw
+MDEgaXMgdWlkIG9mIHRlc3R1c2VyCj4gPgo+ID4gVGhlbiBJIHRyaWVkIHZhcmlvdXMgb3BlcmF0
+aW9ucyB1c2luZyBteSB0ZXN0dXNlciBzdWNoIGFzCj4gPiBpcHRhYmxlcy1yZXN0b3JlIG9mIGVp
+dGhlciBhIGRlZmF1bHQtYWNjZXB0IHJ1bGUgc2V0IHdpdGggbm8gcnVsZXMgb3IKPiA+IHdpdGgg
+b25lIG9yIHR3byBzaW1wbGUgZHJvcCBydWxlcy4gSSBhbHNvIHRlc3RlZCBhZGRpbmcganVzdCBh
+IHNpbmdsZQo+ID4gaXB0YWJsZXMgcnVsZS4gSSB0aGVuIHVzZWQgYXVzZWFyY2ggdG8gZGlzY292
+ZXIgd2hhdCB0aGUgYXVkaXQgc3lzdGVtCj4gPiBjYXB0dXJlZDoKPiA+Cj4gPiAgICAgIyBhdXNl
+YXJjaCAtaSAtbSBORVRGSUxURVJfQ0ZHCj4gPiAgICAgLi4uCj4gPiAgICAgLS0tLQo+ID4gICAg
+IHR5cGU9UFJPQ1RJVExFIG1zZz1hdWRpdCgwMy8wNy8yMDIzIDE3OjE4OjU1LjE1MjoxNDMwNDQp
+IDoKPiA+IHByb2N0aXRsZT1pcHRhYmxlcy1yZXN0b3JlCj4gPiAgICAgdHlwZT1TWVNDQUxMIG1z
+Zz1hdWRpdCgwMy8wNy8yMDIzIDE3OjE4OjU1LjE1MjoxNDMwNDQpIDoKPiA+IGFyY2g9eDg2XzY0
+IHN5c2NhbGw9c2VuZG1zZyBzdWNjZXNzPXllcyBleGl0PTc2NCBhMD0weDMKPiA+IGExPTB4N2Zm
+ZGIwZTk4ZGIwIGEyPTB4MCBhMz0weDdmZmRiMGU5OGQ5YyBpdGVtcz0wIHBwaWQ9NTY3MyBwaWQ9
+NTY3Ngo+ID4gYXVpZD10ZXN0dXNlciB1aWQ9cm9vdCBnaWQ9cm9vdCBldWlkPXJvb3Qgc3VpZD1y
+b290IGZzdWlkPXJvb3QKPiA+IGVnaWQ9cm9vdCBzZ2lkPXJvb3QgZnNnaWQ9cm9vdCB0dHk9cHRz
+MiBzZXM9MTA4IGNvbW09aXB0YWJsZXMtcmVzdG9yCj4gPiBleGU9L3Vzci9zYmluL3h0YWJsZXMt
+bmZ0LW11bHRpIHN1Ymo9dW5jb25maW5lZCBrZXk9KG51bGwpCj4gPiAgICAgdHlwZT1ORVRGSUxU
+RVJfQ0ZHIG1zZz1hdWRpdCgwMy8wNy8yMDIzIDE3OjE4OjU1LjE1MjoxNDMwNDQpIDoKPiA+IHRh
+YmxlPWZpbHRlcjozMCBmYW1pbHk9aXB2NCBlbnRyaWVzPTEyIG9wPW5mdF91bnJlZ2lzdGVyX3Rh
+YmxlCj4gPiBwaWQ9NTY3NiBzdWJqPXVuY29uZmluZWQgY29tbT1pcHRhYmxlcy1yZXN0b3IKPiA+
+ICAgICB0eXBlPU5FVEZJTFRFUl9DRkcgbXNnPWF1ZGl0KDAzLzA3LzIwMjMgMTc6MTg6NTUuMTUy
+OjE0MzA0NCkgOgo+ID4gdGFibGU9ZmlsdGVyOjMwIGZhbWlseT1pcHY0IGVudHJpZXM9NyBvcD1u
+ZnRfcmVnaXN0ZXJfY2hhaW4gcGlkPTU2NzYKPiA+IHN1Ymo9dW5jb25maW5lZCBjb21tPWlwdGFi
+bGVzLXJlc3Rvcgo+ID4gICAgIC0tLS0KPiA+ICAgICB0eXBlPVBST0NUSVRMRSBtc2c9YXVkaXQo
+MDMvMDcvMjAyMyAxNzoyMzowNC4zOTA6MTQ0NDU5KSA6Cj4gPiBwcm9jdGl0bGU9c3VkbyAvdXNy
+L3NiaW4vaXB0YWJsZXMgLUEgT1VUUFVUIC1kIDEwLjEwMC4yNDkuNjQgLWogRFJPUAo+ID4gICAg
+IHR5cGU9U09DS0FERFIgbXNnPWF1ZGl0KDAzLzA3LzIwMjMgMTc6MjM6MDQuMzkwOjE0NDQ1OSkg
+OiBzYWRkcj17Cj4gPiBzYWRkcl9mYW09bmV0bGluayBubG5rLWZhbT0xNiBubG5rLXBpZD0wIH0K
+PiA+ICAgICB0eXBlPVNZU0NBTEwgbXNnPWF1ZGl0KDAzLzA3LzIwMjMgMTc6MjM6MDQuMzkwOjE0
+NDQ1OSkgOgo+ID4gYXJjaD14ODZfNjQgc3lzY2FsbD1zZW5kbXNnIHN1Y2Nlc3M9eWVzIGV4aXQ9
+MzA0IGEwPTB4Mwo+ID4gYTE9MHg3ZmZjODA2NTkxMTAgYTI9MHgwIGEzPTB4N2ZmYzgwNjU5MGZj
+IGl0ZW1zPTAgcHBpZD01NzAzIHBpZD01NzA0Cj4gPiBhdWlkPXRlc3R1c2VyIHVpZD1yb290IGdp
+ZD1yb290IGV1aWQ9cm9vdCBzdWlkPXJvb3QgZnN1aWQ9cm9vdAo+ID4gZWdpZD1yb290IHNnaWQ9
+cm9vdCBmc2dpZD1yb290IHR0eT1wdHMyIHNlcz0xMDggY29tbT1pcHRhYmxlcwo+ID4gZXhlPS91
+c3Ivc2Jpbi94dGFibGVzLW5mdC1tdWx0aSBzdWJqPXVuY29uZmluZWQga2V5PShudWxsKQo+ID4g
+ICAgIHR5cGU9TkVURklMVEVSX0NGRyBtc2c9YXVkaXQoMDMvMDcvMjAyMyAxNzoyMzowNC4zOTA6
+MTQ0NDU5KSA6Cj4gPiB0YWJsZT1maWx0ZXI6MzEgZmFtaWx5PWlwdjQgZW50cmllcz0xIG9wPW5m
+dF9yZWdpc3Rlcl9ydWxlIHBpZD01NzA0Cj4gPiBzdWJqPXVuY29uZmluZWQgY29tbT1pcHRhYmxl
+cwo+ID4KPiA+IFRoZSBldmVudCBzZXF1ZW5jZXMgc2VlbSB0byBtYWtlIHNlbnNlIHdpdGggdGhl
+IHNvY2thZGRyIGZ1bmN0aW9uCj4gPiBzZWxlY3RpbmcgdGhlIG5ldGxpbmsgZmFtaWx5IHdoaWNo
+IGFncmVlcyB3aXRoIHRoZSBzdHJhY2Ugb3V0cHV0Lgo+ID4KPiA+IFdpdGggdGhlIGNoYW5nZSBp
+biB0aGUgYmFjay1lbmQgdG8gbmZ0YWJsZXMsIEkgY2FuIHNlZSBpbiBlaXRoZXIgY2FzZQo+ID4g
+dGhhdCB0aGUgc2V0c29ja29wdCBzeXN0ZW0gY2FsbCB3aXRoIGEgbmljZSwgY3Jpc3AsIHNpbmds
+ZSBhcmd1bWVudAo+ID4gKGEyPTY0L0lQVF9TT19TRVRfUkVQTEFDRSkgb3B0aW9uIHdpdGggZWl0
+aGVyIGEgc2VuZHRvIG9yIHNlbmRtc2cKPiA+IHN5c3RlbSBjYWxsIGJ1dCB3aXRoIGEgcG9pbnRl
+ciB0byBhIG1lc3NhZ2Ugc3RydWN0dXJlLiBJIHJlYWQgdGhhdAo+ID4gYXVkaXQgcnVsZXMgY2Fu
+bm90IGZpbHRlciB1c2luZyBkYXRhIGluc2lkZSBzdHJ1Y3QgYXJndW1lbnRzLgo+ID4KPiA+IE15
+IG5haXZlIGludGVycHJldGF0aW9uIG9mIHRoaXMgaXMgdGhhdCBJJ2QgbmVlZCB0byBoYXZlIGEg
+cnVsZSB0aGF0Cj4gPiBjYXB0dXJlcyBhbGwgc2VuZG1zZyBzeXNjYWxscyB3aXRoIChhdWlkIT0t
+MSBhbmQKPiA+IGF1aWQhPSR7c2VydmljZXVzZXJfdWlkfSBidXQgSSBkb24ndCBrbm93IGVub3Vn
+aCBhYm91dCBzb2NrZXQgc3lzY2FsbAo+ID4gdXNhZ2UgdG8ga25vdyB3aGV0aGVyIHRoaXMgaXMg
+dG9vIG11Y2guIEkgc2VlIHRoYXQgd3JpdGUoMikgdG8gYQo+ID4gc29ja2V0IGlzIHRoZSBzYW1l
+IGFzIHNlbmQoMikgd2l0aG91dCB0aGUgZmxhZ3Mgc28gSSBtaWdodCBhc3N1bWUgdGhhdAo+ID4g
+bW9zdCBzb2NrZXQgc3lzY2FsbHMgdGhhdCBhcmUgc2VuZGluZyBkYXRhIHVzZSB3cml0ZSgyKSBh
+bmQgbm90Cj4gPiBzZW5kL3NlbmR0by9zZW5kbXNnKDIpIGJ1dCBJIHdvcnJ5IHRoaXMgd291bGQg
+YmUgdG9vIG11Y2ggYXVkaXQgZGF0YS4KPiA+Cj4gPiBBbnlvbmUgY2FyZSB0byBjb21tZW50IG9y
+IHBvaW50IG1lIGluIHRoZSBjb3JyZWN0IGRpcmVjdGlvbj8KPgo+IFRoZSBwcm9ibGVtIEkgdGhp
+bmsgeW91J3JlIGdvaW5nIHRvIGhhdmUsIGFuZCBJIGJlbGlldmUgeW91J3ZlIGFscmVhZHkKPiBz
+dXNwZWN0ZWQgaXQsIGlzIHRoYXQgYXVkaXRpbmcgc29ja2V0IHdyaXRlcyBpcyBnb2luZyB0byBy
+ZXN1bHQgaW4gYQo+IGZpcmVob3NlIG9mIHJlY29yZHMuICBIb3dldmVyLCB1bmxlc3MgeW91IGhh
+dmUgYW4gZXhjbHVkZSBmaWx0ZXIgZm9yCj4gTkVURklMVEVSX0NGRyByZWNvcmRzIEkgYmVsaWV2
+ZSB0aGV5IHdpbGwgYmUgZ2VuZXJhdGVkIHdpdGhvdXQgYW4KPiBleHBsaWNpdCBmaWx0ZXIgcnVs
+ZSB0cmlnZ2VyaW5nIHRoZWlyIGdlbmVyYXRpb24uCj4KPiBPciBhbSBJIG1pc3VuZGVyc3RhbmRp
+bmcgeW91ciBxdWVzdGlvbj8KPgo+IC0tCj4gcGF1bC1tb29yZS5jb20KCi0tCkxpbnV4LWF1ZGl0
+IG1haWxpbmcgbGlzdApMaW51eC1hdWRpdEByZWRoYXQuY29tCmh0dHBzOi8vbGlzdG1hbi5yZWRo
+YXQuY29tL21haWxtYW4vbGlzdGluZm8vbGludXgtYXVkaXQK
 
