@@ -1,92 +1,90 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFD566B1B46
-	for <lists+linux-audit@lfdr.de>; Thu,  9 Mar 2023 07:17:31 +0100 (CET)
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 18B016B25DC
+	for <lists+linux-audit@lfdr.de>; Thu,  9 Mar 2023 14:51:11 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1678342650;
+	s=mimecast20190719; t=1678369870;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-	 content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:list-id:list-help:
-	 list-unsubscribe:list-subscribe:list-post;
-	bh=WACv9qMJTZN+9A7QHmLizNDUwOYk+FeJQJ5gIMSoDdw=;
-	b=G6hJEY4n6ibPpWc3RyD05c9X7xQ4tkMaomzH5TbkWT0Wr5vhC2bpBr0hM4BvfXbA9igz7a
-	jXB/pgl7YOeiWryaAX+MFizolnNBpO5vBVFwy0buBC6sURym2K0ZxXHpWkQqNJFxQVOQ1h
-	wFKufSTO+Ad4K4irbEpTOY8qO/Ki8yI=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+	 content-type:content-type:in-reply-to:in-reply-to:
+	 references:references:list-id:list-help:list-unsubscribe:
+	 list-subscribe:list-post; bh=UixjFMj6pwI0yJzsl7nj6Wvp2Ju5qQuq0Ti9oPXqk4o=;
+	b=HSumojQ8MSXjGc6XroMqNUym45oE4KD12durFH6zUNvlAcfu3xpY+T2E3T+9d5uW+BUu54
+	2a3sGlC6DsVdNOWKHYbSpofx8Xs4TbbOa8y0edwaWi3U477H37s7X6FdSPaYBYLaAupFdD
+	88chLg2tQ5r9WRCynwmrDe2oR8Ki+nU=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-653-IFNRyILrNrid_T2FVGtbTg-1; Thu, 09 Mar 2023 01:17:27 -0500
-X-MC-Unique: IFNRyILrNrid_T2FVGtbTg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
+ us-mta-84-XEz5w80bO3WYUFNZ5gYRZQ-1; Thu, 09 Mar 2023 08:51:08 -0500
+X-MC-Unique: XEz5w80bO3WYUFNZ5gYRZQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DAA5C29AA38B;
-	Thu,  9 Mar 2023 06:17:19 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CAAC2802D38;
+	Thu,  9 Mar 2023 13:51:06 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (unknown [10.30.29.100])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 5EEFB14171C4;
-	Thu,  9 Mar 2023 06:16:46 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id ACA4D40ED76E;
+	Thu,  9 Mar 2023 13:50:59 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (localhost [IPv6:::1])
-	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id 1C69D1946A51;
-	Thu,  9 Mar 2023 06:16:44 +0000 (UTC)
+	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id D790019466DF;
+	Thu,  9 Mar 2023 13:50:58 +0000 (UTC)
 X-Original-To: linux-audit@listman.corp.redhat.com
 Delivered-To: linux-audit@listman.corp.redhat.com
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
  by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with
- ESMTP id 75D0B19465B5 for <linux-audit@listman.corp.redhat.com>;
- Thu,  9 Mar 2023 06:16:42 +0000 (UTC)
+ ESMTP id 02C5519465B5 for <linux-audit@listman.corp.redhat.com>;
+ Thu,  9 Mar 2023 02:07:29 +0000 (UTC)
 Received: by smtp.corp.redhat.com (Postfix)
- id 05C512166B2A; Thu,  9 Mar 2023 06:16:42 +0000 (UTC)
+ id CE38C492B00; Thu,  9 Mar 2023 02:07:29 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
- (mimecast02.extmail.prod.ext.rdu2.redhat.com [10.11.55.18])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F29F12166B26
- for <linux-audit@redhat.com>; Thu,  9 Mar 2023 06:16:41 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [207.211.31.81])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C17A3800B23
- for <linux-audit@redhat.com>; Thu,  9 Mar 2023 06:16:41 +0000 (UTC)
-Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com
- [209.85.222.47]) by relay.mimecast.com with ESMTP with STARTTLS
+ (mimecast09.extmail.prod.ext.rdu2.redhat.com [10.11.55.25])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C62EF492C3E
+ for <linux-audit@redhat.com>; Thu,  9 Mar 2023 02:07:29 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [207.211.31.120])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A9AC629AA2C1
+ for <linux-audit@redhat.com>; Thu,  9 Mar 2023 02:07:29 +0000 (UTC)
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com
+ [209.85.208.52]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-189-534epiDfN4awk-v0bumdkw-1; Thu, 09 Mar 2023 01:16:39 -0500
-X-MC-Unique: 534epiDfN4awk-v0bumdkw-1
-Received: by mail-ua1-f47.google.com with SMTP id l24so422475uac.12;
- Wed, 08 Mar 2023 22:16:39 -0800 (PST)
+ us-mta-145-pO7k7QncP3isDFs7-MEClA-1; Wed, 08 Mar 2023 21:07:27 -0500
+X-MC-Unique: pO7k7QncP3isDFs7-MEClA-1
+Received: by mail-ed1-f52.google.com with SMTP id ay14so1219356edb.11;
+ Wed, 08 Mar 2023 18:07:26 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678342599;
+ d=1e100.net; s=20210112; t=1678327645;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=7ortQN1KB8PKKOVF7PFhVDUHXZfKr/ARClEMuutbCrI=;
- b=DXLa38L5POyA+lajyMtGcadtyo3+ct+DSM0rC3FB1tBlBntuqtCQDYydwdrfsqODDi
- +D7ply37CrCQOFrt02Jv3aj/Q0UagnTiDAJxmEVJ13WIvx9wDJcby3Q/94HR2kLsgpXq
- pN/6StCDDsChNCXYqT/Y0h9dEde4QMzsnlTYqKBYvfjJr28QfUjQqq5sJugp4yU17gYj
- LYnEFyJ/YBeuyi6qwlVKCF5KBOrUNo0zfrJuDH7pQC+kWllDoFSsK2SzAh/JkJCtK0bg
- BoofZ8VNbjhrCYUNEoXeHAHkj4DnlR2fAMiWpqb2A3jcOTNF1zoMUr/wbSNfL6BbKxC9
- FKFQ==
-X-Gm-Message-State: AO0yUKUeoz97FIufHL/gu7ZklkAKIAnx1maW7njqVPVhqIMXr7vuUjla
- kN5PYeZlylJfaJGGP0y0U7QYwAKIhbBQqWWArn4=
-X-Google-Smtp-Source: AK7set9X7Blr/P0ays8rHjH+gp6KCxuoW0zEkHLqjugPgXB9nSL0o+Xahngd1vLY0oulBNXY46CuWbn2VeG/G2/jphc=
-X-Received: by 2002:a1f:6043:0:b0:42d:424c:aea3 with SMTP id
- u64-20020a1f6043000000b0042d424caea3mr3039280vkb.2.1678342599030; Wed, 08 Mar
- 2023 22:16:39 -0800 (PST)
+ bh=gKlpsWVdngj9nu0vEzW1jA9a/N7Fr/EfBDeLVlVnPcc=;
+ b=EGrDIbGicgHHvZqiBdxMixMcDlbWE/gQVEkKAZPRJXcxbG4Kf2YieyFN0izoFnIBH6
+ oqHaWJblyFixaz5quLWnoR01rZ7Dj8ONKgIKVeKktWRKOuK6eZYsOggXcx0YsMWvOaB5
+ snrvEkKgkfjOZ2NvaqaImFXElpHCbNvqIeDbJNkuKrmXT3qPWN83wV8GrzlISCA8iweT
+ DPUsW18do4e9VbTPojnOLUp499CCMbaelPyEMX241pX1VyoGmKMcOs/uEeK0lItow/0P
+ r2325xyZIyCbszfbUBhNK7PcIMQ7rxXPufsfKP2dYPb1NxhIVRWp48TyT5QLc51ASyKq
+ wicQ==
+X-Gm-Message-State: AO0yUKVPeajbgR2yuuGfUj8kjR3nLZroE+/aA9J0f29xU0MbP166Spho
+ WEUz4bWyWmvZ/vUUnxlTgbvXKPtQqS54rwHnDHwWzjh7NLw=
+X-Google-Smtp-Source: AK7set/wCSZpX+Gf4facAjizNX5y+3Yas8kz6e1e1MmvYZQoPO+2gGVdP8fsCjhjj4Q9ZWgu283x98dPmfMd2PydmmM=
+X-Received: by 2002:a50:d60d:0:b0:4bc:edde:14ff with SMTP id
+ x13-20020a50d60d000000b004bcedde14ffmr10816660edi.0.1678327645457; Wed, 08
+ Mar 2023 18:07:25 -0800 (PST)
 MIME-Version: 1.0
-References: <CAPoNrttQKG1uiUx=v6Cj8U0MnYMoU-ZP_Htmxn7F_Q7ZdUc9RA@mail.gmail.com>
- <CAHC9VhQAFgv5e3rvoaDTnQvQOoGawoAUfcRonayEwrvJu6znBg@mail.gmail.com>
- <CAPoNrtvt_RZfPYLAWdPp6gTu_67f1RzOz3s4T62SdoG4ryyzGw@mail.gmail.com>
- <CAHC9VhRGFL8MDtNXbSoes-gV=qM3YmCU20=UQoCfR29nnU7dcA@mail.gmail.com>
-In-Reply-To: <CAHC9VhRGFL8MDtNXbSoes-gV=qM3YmCU20=UQoCfR29nnU7dcA@mail.gmail.com>
-From: Anurag Aggarwal <anurag19aggarwal@gmail.com>
-Date: Thu, 9 Mar 2023 11:46:27 +0530
-Message-ID: <CAPoNrtsZv96hz-E=nU8y2KSxhqU8vEfcVKQH6X=EqD3O0BmLwA@mail.gmail.com>
-Subject: Re: Key based rate limiter (audit_set_rate_limit)
-To: Paul Moore <paul@paul-moore.com>, sgrubb@redhat.com
+References: <CAH2vwOt3yCNhcLc+7QWvRAvSoNmtCJDpC4m41_sno7u_Rmf88A@mail.gmail.com>
+ <12326100.O9o76ZdvQC@x2>
+In-Reply-To: <12326100.O9o76ZdvQC@x2>
+From: Richard Du <duxiong@gmail.com>
+Date: Thu, 9 Mar 2023 10:07:14 +0800
+Message-ID: <CAH2vwOvV+vBOejtyKR8bsjV-7Voe32kvjuqF4wa_p2o-Wz1MBg@mail.gmail.com>
+Subject: Re: How to define audit rule for one bit *not* set for a syscall
+ argument?
+To: Steve Grubb <sgrubb@redhat.com>
 X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
  Definition; Similar Internal Domain=false;
  Similar Monitored External Domain=false; Custom External Domain=false;
@@ -94,7 +92,8 @@ X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
  Internal User Name=false; Custom Display Name List=false;
  Reply-to Address Mismatch=false; Targeted Threat Dictionary=false;
  Mimecast Threat Dictionary=false; Custom Threat Dictionary=false
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+X-Mailman-Approved-At: Thu, 09 Mar 2023 13:50:57 +0000
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,41 +105,134 @@ List-Post: <mailto:linux-audit@redhat.com>
 List-Help: <mailto:linux-audit-request@redhat.com?subject=help>
 List-Subscribe: <https://listman.redhat.com/mailman/listinfo/linux-audit>,
  <mailto:linux-audit-request@redhat.com?subject=subscribe>
-Cc: tibdewal.rahulkumar@gmail.com, Linux-audit@redhat.com
+Cc: linux-audit@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
 Sender: "Linux-audit" <linux-audit-bounces@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: multipart/mixed; boundary="===============6993446987303436865=="
+
+--===============6993446987303436865==
+Content-Type: multipart/alternative; boundary="0000000000001fd10905f66e1b64"
+
+--0000000000001fd10905f66e1b64
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Yes, the case is that we would like to filter out the "thread creation" and
+only keep the "process creation", by excluding the CLONE_THREAD flag bit of
+a0 of clone() syscall.
+Without the audit comparator support for this case, we have to filter out
+the "thread creation" in user space which introduces a performance penalty.
+
+Regards,
+Richard
+
+On Thu, Mar 9, 2023 at 6:22=E2=80=AFAM Steve Grubb <sgrubb@redhat.com> wrot=
+e:
+
+> Hello,
+>
+> On Wednesday, March 8, 2023 8:46:57 AM EST Richard Du wrote:
+> > I'm trying to define an audit rule with auditctl for clone() syscall,
+> and I
+> > would expect that the a0 of clone() syscall (i.e. the clone_flags
+> > argument) without the CLONE_THREAD flag bit being set.
+> >
+> > int clone(int (*fn)(void *), void *stack, int flags, void *arg, ...
+> >                  /* pid_t *parent_tid, void *tls, pid_t *child_tid */ )=
+;
+> >
+> > From man page of auditctl, -F option build a rule file: name, operation=
+,
+> > value.
+> > -F [n=3Dv | n!=3Dv | n<v | n>v | n<=3Dv | n>=3Dv | n&v | n&=3Dv]
+> >
+> > I can understand that, the n&v (Audit_bitmask) means any bit of a bitma=
+st
+> > is set, and the n&=3Dv (Audit_bittest) means all bits of a bitmask are =
+set.
+> >
+> > While my question is, how to build a rule which means "none of bit of a
+> > bitmask is set", i.e. ( ! n&=3Dv ). If the current audit comparator dos=
+en't
+> > support this, can we add the support in furture?
+>
+> The comparator does not support this. This is a corner case in which this
+> is
+> the first time someone ever needed it.
+>
+> -Steve
+>
+>
+>
+
+--0000000000001fd10905f66e1b64
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Yes, the case is that we would like to filter out the=
+ &quot;thread creation&quot; and only keep the &quot;process creation&quot;=
+, by excluding the CLONE_THREAD flag bit of a0 of clone() syscall.</div><di=
+v>Without the audit comparator support for this case, we have to filter out=
+ the &quot;thread creation&quot; in user space which introduces a performan=
+ce penalty.</div><div><br></div><div>Regards,</div><div>Richard</div><br><d=
+iv class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Mar =
+9, 2023 at 6:22=E2=80=AFAM Steve Grubb &lt;<a href=3D"mailto:sgrubb@redhat.=
+com">sgrubb@redhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_q=
+uote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,2=
+04);padding-left:1ex">Hello,<br>
+<br>
+On Wednesday, March 8, 2023 8:46:57 AM EST Richard Du wrote:<br>
+&gt; I&#39;m trying to define an audit rule with auditctl for clone() sysca=
+ll, and I<br>
+&gt; would expect that the a0 of clone() syscall (i.e. the clone_flags<br>
+&gt; argument) without the CLONE_THREAD flag bit being set.<br>
+&gt; <br>
+&gt; int clone(int (*fn)(void *), void *stack, int flags, void *arg, ...<br=
+>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* pid_t=
+ *parent_tid, void *tls, pid_t *child_tid */ );<br>
+&gt; <br>
+&gt; From man page of auditctl, -F option build a rule file: name, operatio=
+n,<br>
+&gt; value.<br>
+&gt; -F [n=3Dv | n!=3Dv | n&lt;v | n&gt;v | n&lt;=3Dv | n&gt;=3Dv | n&amp;v=
+ | n&amp;=3Dv]<br>
+&gt; <br>
+&gt; I can understand that, the n&amp;v (Audit_bitmask) means any bit of a =
+bitmast<br>
+&gt; is set, and the n&amp;=3Dv (Audit_bittest) means all bits of a bitmask=
+ are set.<br>
+&gt; <br>
+&gt; While my question is, how to build a rule which means &quot;none of bi=
+t of a<br>
+&gt; bitmask is set&quot;, i.e. ( ! n&amp;=3Dv ). If the current audit comp=
+arator dosen&#39;t<br>
+&gt; support this, can we add the support in furture?<br>
+<br>
+The comparator does not support this. This is a corner case in which this i=
+s <br>
+the first time someone ever needed it.<br>
+<br>
+-Steve<br>
+<br>
+<br>
+</blockquote></div></div>
+
+--0000000000001fd10905f66e1b64--
+
+--===============6993446987303436865==
 Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-
->
-> However, I am fairly skeptical that we could add per-key rate limiting
-> without introducing a non-trivial amount of overhead to record
-> generation, which would be a show stopper for this feature given its
-> expected limited appeal.
->
-
-I understand the reservation. I will spend some time to analyze it impact
-
-Steve, about your comment:
-
-> There just really isn't room to add more thinkgs without some userspace API
-> problem. (This would definitely need a feaure bitmap so user space can make
-> sense of it.)
-
-I was not aware that this could cause problems in the userspace API.
-
-Key based filtering for rate limiting could be a useful feature. It is
-something that would
-help us a lot.
-
--- 
-Anurag Aggarwal
+Content-Disposition: inline
 
 --
 Linux-audit mailing list
 Linux-audit@redhat.com
 https://listman.redhat.com/mailman/listinfo/linux-audit
+
+--===============6993446987303436865==--
 
