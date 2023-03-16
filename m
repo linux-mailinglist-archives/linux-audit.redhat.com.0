@@ -2,87 +2,89 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id E94156BBDFA
-	for <lists+linux-audit@lfdr.de>; Wed, 15 Mar 2023 21:33:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C2876BECDB
+	for <lists+linux-audit@lfdr.de>; Fri, 17 Mar 2023 16:27:30 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1678912409;
+	s=mimecast20190719; t=1679066849;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:in-reply-to:in-reply-to:
 	 references:references:list-id:list-help:list-unsubscribe:
-	 list-subscribe:list-post; bh=04U4fey18G9yiMnZgwlQkFSFFoVUQWBVbR+79duyTfA=;
-	b=MaHQOosQJhk82TThhmEJehEJpjj5/0pbX6hfgOZ6gaj+XawMCnGQ9QamaJt7tSBccSyl08
-	GP5+S84zooXqVl3ugqvf6a7K5F2kzdepxPsp+JY/84xM4kT8awSpJes83/bPxaNGAtU3zY
-	5JLQ+/STb4J44OIgYFoAhP9OoEgMAPw=
+	 list-subscribe:list-post; bh=IWK4vy9bZ7UuBI2YMODU32s69UL1+gXcvrvoRzFOlrE=;
+	b=GBjhNwmKyDDSjTfYuhAmBapVfsRU2yixLnCzkekys28Q9SnzaR9UyVVIBbA2X+Q6+Ut61Q
+	gNdhQWHwrkXN/u8wwUQppoO4i0sRa3hbXVdFM2IZbTVQXL0r91FsC7pa4XjsFxkcNeqPeD
+	Bg0rRGeJQVgkLW+cu1jGoV2Z7WXDMO4=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-544-9iBOrBQnPp2P5XOQJq_j6A-1; Wed, 15 Mar 2023 16:33:28 -0400
-X-MC-Unique: 9iBOrBQnPp2P5XOQJq_j6A-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
+ us-mta-644-xxnIgDvCPd60-cpJlYMlrQ-1; Fri, 17 Mar 2023 11:27:26 -0400
+X-MC-Unique: xxnIgDvCPd60-cpJlYMlrQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5E7FF3C0ED47;
-	Wed, 15 Mar 2023 20:33:26 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 65F5E1C29260;
+	Fri, 17 Mar 2023 15:27:22 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com [10.30.29.100])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 7167E18EC7;
-	Wed, 15 Mar 2023 20:33:16 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 0BD252166B26;
+	Fri, 17 Mar 2023 15:27:16 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (localhost [IPv6:::1])
-	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id D36F61946A47;
-	Wed, 15 Mar 2023 20:33:07 +0000 (UTC)
+	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id A5BFC1946A50;
+	Fri, 17 Mar 2023 15:27:14 +0000 (UTC)
 X-Original-To: linux-audit@listman.corp.redhat.com
 Delivered-To: linux-audit@listman.corp.redhat.com
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
  by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with
- ESMTP id A70C81946597 for <linux-audit@listman.corp.redhat.com>;
- Wed, 15 Mar 2023 20:30:16 +0000 (UTC)
+ ESMTP id 6BF181946587 for <linux-audit@listman.corp.redhat.com>;
+ Thu, 16 Mar 2023 18:58:59 +0000 (UTC)
 Received: by smtp.corp.redhat.com (Postfix)
- id 40338C017D7; Wed, 15 Mar 2023 20:30:16 +0000 (UTC)
+ id 4BAE81410F1D; Thu, 16 Mar 2023 18:58:59 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
- (mimecast06.extmail.prod.ext.rdu2.redhat.com [10.11.55.22])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 37F6AC158C2
- for <linux-audit@redhat.com>; Wed, 15 Mar 2023 20:30:16 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [207.211.31.81])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 15A15185A7A2
- for <linux-audit@redhat.com>; Wed, 15 Mar 2023 20:30:16 +0000 (UTC)
-Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com
- [209.85.219.50]) by relay.mimecast.com with ESMTP with STARTTLS
+ (mimecast05.extmail.prod.ext.rdu2.redhat.com [10.11.55.21])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 42CF71410F1C
+ for <linux-audit@redhat.com>; Thu, 16 Mar 2023 18:58:59 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [207.211.31.120])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1F25E87B2A1
+ for <linux-audit@redhat.com>; Thu, 16 Mar 2023 18:58:59 +0000 (UTC)
+Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com
+ [209.85.222.180]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-147-hJH9cqHzMba5d5f5z9AbJw-1; Wed, 15 Mar 2023 16:30:11 -0400
-X-MC-Unique: hJH9cqHzMba5d5f5z9AbJw-1
-Received: by mail-qv1-f50.google.com with SMTP id o3so17491578qvr.1;
- Wed, 15 Mar 2023 13:30:11 -0700 (PDT)
+ us-mta-541-opHxbzZPM6OQkb9hO7f6_w-1; Thu, 16 Mar 2023 14:58:56 -0400
+X-MC-Unique: opHxbzZPM6OQkb9hO7f6_w-1
+Received: by mail-qk1-f180.google.com with SMTP id p1so981882qkk.1;
+ Thu, 16 Mar 2023 11:58:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678912211;
+ d=1e100.net; s=20210112; t=1678993136;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=ROb8qrSX2bod0s4xTuP8E4y5RnbLJGv0ic+OIiw9E/k=;
- b=yO+C10mp/3UtmY9gE+xRn7Ae8fOwkaAGXzI0Rd2MtgyaYT9Izk9gBDGbisTe60TlIa
- JmDsUwfWY5T4zh18cNGpVjpy6yLPejEqmUyk/FN/kdWOI1b81MYXbUEJLAg77eiUfaZL
- KYuMr4OcEMBi+0Ijnd9P0do43ZVcC7XwDGqFd1QfbB2uhRIw90IvemJF5oUdqqkUEUI2
- m9/6O/weAoZKggYShG+p0ob2sfhgj0wbmCVmn9nO17AbSN/GL2Ic9pEgOhH+WEF18U7y
- /KPZTzdrDWIecUvnOlKzyx6cOfHM8PoAO+ZjIwsVQbZjXNhkXCc1SexjdNyjxUVxP2At
- unYw==
-X-Gm-Message-State: AO0yUKWBVkuBHJZdFM4BTb2FvOXytCsdzPijIVcX/LER51U0HjQ/oeyX
- OKxk53C3L+6FPwd5XBs1xephHB4qhQoU/Mqosnp4ANLRpAf0xg==
-X-Google-Smtp-Source: AK7set8rNMvsX93EIoJ3YtgVhVSD3UPThrkxO43yg6NSpLpygSOhbD47xHVl+W7PBQTWg3KvGrJRzdL1D1UDU07l0s8=
-X-Received: by 2002:ad4:4e74:0:b0:56e:9f09:ee58 with SMTP id
- ec20-20020ad44e74000000b0056e9f09ee58mr4216141qvb.8.1678912210758; Wed, 15
- Mar 2023 13:30:10 -0700 (PDT)
+ bh=dBhzDX1HUYDKbHvS94CcK7o5d55Uyrre22y9VOaFHf8=;
+ b=I2KxD+mVa7J0Vf/1pVl6PAisIA+UojVbkz9zBS3K4++m+YMsZly/We6BQ2tvbCDB3d
+ CLTtN5bqia5kubh6Fm2OMWXmKt8nyKfFMtqJvru2FzdyR7xhhgaLwtC1z+l8Z2LZS0ga
+ vCQITqnFCJMcyA55IdWGSBov4xeDFNUhfsmfgoSTB67ODUDh8G6/Iwns7FhU5rjCo+3R
+ Kk7f3kQ45HFS3e7pG5+V49a5KVKoC3ymt8+PP76bKJTdBa8+oJhV6O7Mbeeh/AAaWXqv
+ cg5ysxe53Oec8g5dSSf5lDR07do3FLgF/KD2CQYIZC4j8I6BOSrePoRvzIjWLNdOOwC7
+ 2+cA==
+X-Gm-Message-State: AO0yUKXmuMEHZ9p9E/UaVcNPU10k+RTOBQ+qvHPjlBnnRqoPO/eC1c35
+ ektsUq+oKo1GY9jfzyp+k4e6xU//ZVde8FJWKqadYHXCNb0=
+X-Google-Smtp-Source: AK7set+PtNMukfwQQ1rV6B5I7JhHn/HWgYrpbF98FpxLy+1tfi8uLA5oNvsF6nkYLLp3GRDmWjr5QlmTgQJKRiLYMog=
+X-Received: by 2002:a05:620a:11b0:b0:746:145:5ae with SMTP id
+ c16-20020a05620a11b000b00746014505aemr1707327qkk.2.1678993135644; Thu, 16 Mar
+ 2023 11:58:55 -0700 (PDT)
 MIME-Version: 1.0
 References: <CAJcJf=TSvQxtFxNTkizfk_B1Y2WxE60Ct8HzHkt8RWhKMLnpUQ@mail.gmail.com>
  <4814542.31r3eYUQgx@x2>
  <CAJcJf=R4KgO_LwBfqgkFRKK+zJrth=CN1wvu1wqaEupaS_q_ww@mail.gmail.com>
  <2289859.ElGaqSPkdT@x2> <ZAunHiMZXgQkJW9a@madcap2.tricolour.ca>
-In-Reply-To: <ZAunHiMZXgQkJW9a@madcap2.tricolour.ca>
+ <CAJcJf=T5FJr05f_HDi8=_QWxPXCcJ7bqfu3tBeWFq6y-Qsac-g@mail.gmail.com>
+In-Reply-To: <CAJcJf=T5FJr05f_HDi8=_QWxPXCcJ7bqfu3tBeWFq6y-Qsac-g@mail.gmail.com>
 From: Amjad Gabbar <amjadgabbar11@gmail.com>
-Date: Wed, 15 Mar 2023 15:29:59 -0500
-Message-ID: <CAJcJf=T5FJr05f_HDi8=_QWxPXCcJ7bqfu3tBeWFq6y-Qsac-g@mail.gmail.com>
+Date: Thu, 16 Mar 2023 13:58:44 -0500
+Message-ID: <CAJcJf=RkFDKpMZcULHQv_1rAk-PQujFX3fTQJWVq_unJ_9AA2w@mail.gmail.com>
 Subject: Re: Clarification Around File System Auditing
 To: Richard Guy Briggs <rgb@redhat.com>
 X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
@@ -92,8 +94,8 @@ X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
  Internal User Name=false; Custom Display Name List=false;
  Reply-to Address Mismatch=false; Targeted Threat Dictionary=false;
  Mimecast Threat Dictionary=false; Custom Threat Dictionary=false
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-X-Mailman-Approved-At: Wed, 15 Mar 2023 20:33:06 +0000
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+X-Mailman-Approved-At: Fri, 17 Mar 2023 15:23:59 +0000
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,269 +110,305 @@ List-Subscribe: <https://listman.redhat.com/mailman/listinfo/linux-audit>,
 Cc: linux-audit@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
 Sender: "Linux-audit" <linux-audit-bounces@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/mixed; boundary="===============2631710904690423877=="
+Content-Type: multipart/mixed; boundary="===============2661646215009339471=="
 
---===============2631710904690423877==
-Content-Type: multipart/alternative; boundary="000000000000ee729b05f6f635a9"
+--===============2661646215009339471==
+Content-Type: multipart/alternative; boundary="0000000000006e356005f7090db4"
 
---000000000000ee729b05f6f635a9
+--0000000000006e356005f7090db4
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Yup....I was able to find the dummy check you are referring to and the
-audit_reset_context() that is called next(which immediately exits in case
-of dummy).
-Thanks for the help folks....have a much better understanding of how the
-audit context is allocated on enabling syscall auditing and the whole flow
-post that.
+Also, we would need to have a separate rule for open and openat family with
+something like
 
-Had just 1 question wrt watches. IIUC, for watch rules we evaluate all
-syscalls (Snippet from audit-userspace:
-https://github.com/linux-audit/audit-userspace/blob/1482cec74f2d9472f81dd4f=
-0533484bd0c26decd/lib/libaudit.c#L805
-).
-But based on the permissions in the rule, we evaluate if the syscall
-belongs to a specific Audit Class using audit_match_class() and only log if
-the syscalls match/ are part of the class. This also explains why I see
-audit_filter_rules() called for watches even if the syscall being performed
-is not at all related to file system auditing.
+-S open,openat -F dir=3D/etc -F perm=3Dwa -k ETC_WATCH.
 
+So 2 syscall rules instead of 1 watch rule but we replace -S all with
+specific syscalls.
 
-   1. I was wondering why do we not automatically identify if the syscall
-   is of interest or not in audit_in_mask() itself based on the rule
-   permissions of the watch? In this way we would avoid the additional
-   overhead of each syscall going into audit_filter_rules() and then
-   evaluating on the AUDIT_PERM case as well.
+Or we could combine all these open,openat,write family syscalls into a
+single syscall rule but with the permissions flag.
 
+On Wed, Mar 15, 2023 at 3:29 PM Amjad Gabbar <amjadgabbar11@gmail.com>
+wrote:
 
-Currently a watch rule for "wa" permissions for /etc is similar to :
--a always,exit -F arch=3Db64 -S all -F dir=3D/etc -F perm=3Dwa -k ETC_WATCH
-
-We only log if the syscall is part of the WRITE and ATTR permissions set.
-Instead what I was suggesting was something like this:
-
--a always,exit -F arch=3Db64 -S <all syscalls part of the write and attr
-classes> -F dir=3D/etc  -k ETC_WATCH
-
-Please correct me if my understanding in any of the above is incorrect.
-
-On Fri, Mar 10, 2023 at 3:54=E2=80=AFPM Richard Guy Briggs <rgb@redhat.com>=
- wrote:
-
-> On 2023-02-17 16:50, Steve Grubb wrote:
-> > Hello,
-> >
-> > On Tuesday, February 14, 2023 3:55:58 PM EST Amjad Gabbar wrote:
-> > > Thanks for the reply.
-> > > I was trying to evaluate the same via Flamegraphs and what I noticed
-> was
-> > > that :
-> > >
-> > > 1. Despite deleting all rules (auditctl -D), there were still calls t=
-o
-> > > audit_filter_syscall() on each syscall. I assume this is because
-> syscall
-> > > auditing is enabled and despite no rules, there still will be some
-> > > performance impact and calls to syscall filtering functions on each
-> > > syscall.
-> >
-> > Yes.
-> >
-> > > 2. For a single watch rule as well without any syscall rules, I could
-> see
-> > > calls to audit_filter_syscall() followed by audit_filter_rules() for
-> > > unrelated syscalls such as futex() and recvmsg() - not present in
-> > > include/asm-generic/audit_*.h
-> > > Why would these functions be called for a single watch rule for
-> syscalls
-> > > unrelated to the permissions?
-> >
-> > If auditing is enabled, it will go into the syscall filter for *any*
-> syscall.
-> > It will go into __audit_syscall_exit for every syscall. If there is an
-> audit
-> > context, it will go into audit_filter_syscall. The documentation in the
-> > comments above these functions is informative.
-> >
-> > My guess is that this code path might benefit from adding a list_empty
-> check.
-> > A long time ago, I think we kept a variable that denoted if there were
-> any
-> > rules and short-circuited if none.
+> Yup....I was able to find the dummy check you are referring to and the
+> audit_reset_context() that is called next(which immediately exits in case
+> of dummy).
+> Thanks for the help folks....have a much better understanding of how the
+> audit context is allocated on enabling syscall auditing and the whole flo=
+w
+> post that.
 >
-> There is essentially an empty list check in __audit_syscall_exit() with
-> the dummy check, based on the number of syscall (or io_uring) rules in
-> place tracked in audit_n_rules.  Unfortunately, we can't bail from
-> __audit_syscall_entry() right after setting dummy because other
-> hardwired records can cancel the dummy flag.
+> Had just 1 question wrt watches. IIUC, for watch rules we evaluate all
+> syscalls (Snippet from audit-userspace:
+> https://github.com/linux-audit/audit-userspace/blob/1482cec74f2d9472f81dd=
+4f0533484bd0c26decd/lib/libaudit.c#L805
+> ).
+> But based on the permissions in the rule, we evaluate if the syscall
+> belongs to a specific Audit Class using audit_match_class() and only log =
+if
+> the syscalls match/ are part of the class. This also explains why I see
+> audit_filter_rules() called for watches even if the syscall being perform=
+ed
+> is not at all related to file system auditing.
 >
-> > -Steve
-> >
-> > > On Tue, Feb 14, 2023 at 8:29 AM Steve Grubb <sgrubb@redhat.com> wrote=
-:
-> > > > Hello,
-> > > >
-> > > > On Monday, February 13, 2023 4:24:02 PM EST Amjad Gabbar wrote:
-> > > > > I wanted some help in better understanding the workflow of file
-> system
-> > > > > auditing(watch rules) vs Syscall Auditing(syscall rules). I know =
-in
-> > > >
-> > > > general
-> > > >
-> > > > > file system auditing does not have the same performance impact as
-> > > > > syscall
-> > > > > auditing, even though both make use of syscall exits for their
-> > > >
-> > > > evaluation.
-> > > >
-> > > > > From the manpage - "Unlike most syscall auditing rules, watches d=
-o
-> not
-> > > > > impact performance based on the number of rules sent to the
-> kernel."
-> > > > >
-> > > > > From a previous thread, I found this excerpt regarding file watch
-> rules
-> > > >
-> > > > vs
-> > > >
-> > > > > sycall rules -
-> > > > >
-> > > > > "The reason it doesn't have performance impact like normal syscal=
-l
-> > > > > rules
-> > > >
-> > > > is
-> > > >
-> > > > > because it gets moved to a list that is not evaluated every
-> syscall. A
-> > > > > normal syscall rule will get evaluated for every syscall because
-> it has
-> > > >
-> > > > to
-> > > >
-> > > > > see if the syscall number is of interest and then it checks the
-> next
-> > > > > rule."
-> > > > >
-> > > > > Based on this I had a couple of questions:
-> > > > >
-> > > > > For normal syscall rules, the evaluation happens as
-> > > > > __audit_syscall_exit
-> > > > > <
-> https://elixir.bootlin.com/linux/v6.1.10/C/ident/__audit_syscall_exit>
-> > > > > calls audit_filter_syscall
-> > > > > (
-> https://elixir.bootlin.com/linux/v6.1.10/source/kernel/auditsc.c#L841)
-> > > > >
-> > > > > Here, we check if the syscall is of interest or not in the
-> > > > > audit_in_mask
-> > > > > <https://elixir.bootlin.com/linux/v6.1.10/C/ident/audit_in_mask>
-> > > >
-> > > > function.
-> > > >
-> > > > > Only if the syscall is of interest do we proceed with examining t=
-he
-> > > > > task
-> > > > > and return on the first rule match.
-> > > > >
-> > > > > 1. What is the process or code path for watch rules?
-> > > > > audit_filter_syscall
-> > > > > <
-> https://elixir.bootlin.com/linux/v6.1.10/C/ident/audit_filter_syscall>
-> > > >
-> > > > is
-> > > >
-> > > > > called for watch rules as well. Then how is it that these are not
-> > > > > called
-> > > > > for every syscall? Could you point me to the code where the
-> evaluation
-> > > > > happens only once?
-> > > >
-> > > > There is a file, kernel/audit_watch.c, that implements the interfac=
+>
+>    1. I was wondering why do we not automatically identify if the syscall
+>    is of interest or not in audit_in_mask() itself based on the rule
+>    permissions of the watch? In this way we would avoid the additional
+>    overhead of each syscall going into audit_filter_rules() and then
+>    evaluating on the AUDIT_PERM case as well.
+>
+>
+> Currently a watch rule for "wa" permissions for /etc is similar to :
+> -a always,exit -F arch=3Db64 -S all -F dir=3D/etc -F perm=3Dwa -k ETC_WAT=
+CH
+>
+> We only log if the syscall is part of the WRITE and ATTR permissions set.
+> Instead what I was suggesting was something like this:
+>
+> -a always,exit -F arch=3Db64 -S <all syscalls part of the write and attr
+> classes> -F dir=3D/etc  -k ETC_WATCH
+>
+> Please correct me if my understanding in any of the above is incorrect.
+>
+> On Fri, Mar 10, 2023 at 3:54=E2=80=AFPM Richard Guy Briggs <rgb@redhat.co=
+m> wrote:
+>
+>> On 2023-02-17 16:50, Steve Grubb wrote:
+>> > Hello,
+>> >
+>> > On Tuesday, February 14, 2023 3:55:58 PM EST Amjad Gabbar wrote:
+>> > > Thanks for the reply.
+>> > > I was trying to evaluate the same via Flamegraphs and what I noticed
+>> was
+>> > > that :
+>> > >
+>> > > 1. Despite deleting all rules (auditctl -D), there were still calls =
+to
+>> > > audit_filter_syscall() on each syscall. I assume this is because
+>> syscall
+>> > > auditing is enabled and despite no rules, there still will be some
+>> > > performance impact and calls to syscall filtering functions on each
+>> > > syscall.
+>> >
+>> > Yes.
+>> >
+>> > > 2. For a single watch rule as well without any syscall rules, I coul=
+d
+>> see
+>> > > calls to audit_filter_syscall() followed by audit_filter_rules() for
+>> > > unrelated syscalls such as futex() and recvmsg() - not present in
+>> > > include/asm-generic/audit_*.h
+>> > > Why would these functions be called for a single watch rule for
+>> syscalls
+>> > > unrelated to the permissions?
+>> >
+>> > If auditing is enabled, it will go into the syscall filter for *any*
+>> syscall.
+>> > It will go into __audit_syscall_exit for every syscall. If there is an
+>> audit
+>> > context, it will go into audit_filter_syscall. The documentation in th=
 e
-> > > > between
-> > > > audit and fsnotify. You would want to learn how fsnotify works to
-> > > > understand
-> > > > how it avoids the syscall filter.
-> > > >
-> > > > > 2. Also, do file watches only involve the open system call family
-> > > > > (open,
-> > > > > openat etc). The man page implies the same, so just wanted to
-> confirm.
-> > > > >
-> > > > > I assume -w /etc -p wa is the same as -a always,exit -S open -S
-> openat
-> > > > > -F
-> > > > > dir=3D/etc?
-> > > >
-> > > > It depends on the flag passed for perm as to what syscall it wants.
-> See:
-> > > >
-> > > > include/asm-generic/audit_*.h
-> > > >
-> > > > -Steve
-> >
-> >
-> >
-> >
-> > --
-> > Linux-audit mailing list
-> > Linux-audit@redhat.com
-> > https://listman.redhat.com/mailman/listinfo/linux-audit
-> >
->
-> - RGB
->
-> --
-> Richard Guy Briggs <rgb@redhat.com>
-> Sr. S/W Engineer, Kernel Security, Base Operating Systems
-> Remote, Ottawa, Red Hat Canada
-> IRC: rgb, SunRaycer
-> Voice: +1.647.777.2635, Internal: (81) 32635
->
->
+>> > comments above these functions is informative.
+>> >
+>> > My guess is that this code path might benefit from adding a list_empty
+>> check.
+>> > A long time ago, I think we kept a variable that denoted if there were
+>> any
+>> > rules and short-circuited if none.
+>>
+>> There is essentially an empty list check in __audit_syscall_exit() with
+>> the dummy check, based on the number of syscall (or io_uring) rules in
+>> place tracked in audit_n_rules.  Unfortunately, we can't bail from
+>> __audit_syscall_entry() right after setting dummy because other
+>> hardwired records can cancel the dummy flag.
+>>
+>> > -Steve
+>> >
+>> > > On Tue, Feb 14, 2023 at 8:29 AM Steve Grubb <sgrubb@redhat.com>
+>> wrote:
+>> > > > Hello,
+>> > > >
+>> > > > On Monday, February 13, 2023 4:24:02 PM EST Amjad Gabbar wrote:
+>> > > > > I wanted some help in better understanding the workflow of file
+>> system
+>> > > > > auditing(watch rules) vs Syscall Auditing(syscall rules). I know
+>> in
+>> > > >
+>> > > > general
+>> > > >
+>> > > > > file system auditing does not have the same performance impact a=
+s
+>> > > > > syscall
+>> > > > > auditing, even though both make use of syscall exits for their
+>> > > >
+>> > > > evaluation.
+>> > > >
+>> > > > > From the manpage - "Unlike most syscall auditing rules, watches
+>> do not
+>> > > > > impact performance based on the number of rules sent to the
+>> kernel."
+>> > > > >
+>> > > > > From a previous thread, I found this excerpt regarding file watc=
+h
+>> rules
+>> > > >
+>> > > > vs
+>> > > >
+>> > > > > sycall rules -
+>> > > > >
+>> > > > > "The reason it doesn't have performance impact like normal sysca=
+ll
+>> > > > > rules
+>> > > >
+>> > > > is
+>> > > >
+>> > > > > because it gets moved to a list that is not evaluated every
+>> syscall. A
+>> > > > > normal syscall rule will get evaluated for every syscall because
+>> it has
+>> > > >
+>> > > > to
+>> > > >
+>> > > > > see if the syscall number is of interest and then it checks the
+>> next
+>> > > > > rule."
+>> > > > >
+>> > > > > Based on this I had a couple of questions:
+>> > > > >
+>> > > > > For normal syscall rules, the evaluation happens as
+>> > > > > __audit_syscall_exit
+>> > > > > <
+>> https://elixir.bootlin.com/linux/v6.1.10/C/ident/__audit_syscall_exit>
+>> > > > > calls audit_filter_syscall
+>> > > > > (
+>> https://elixir.bootlin.com/linux/v6.1.10/source/kernel/auditsc.c#L841)
+>> > > > >
+>> > > > > Here, we check if the syscall is of interest or not in the
+>> > > > > audit_in_mask
+>> > > > > <https://elixir.bootlin.com/linux/v6.1.10/C/ident/audit_in_mask>
+>> > > >
+>> > > > function.
+>> > > >
+>> > > > > Only if the syscall is of interest do we proceed with examining
+>> the
+>> > > > > task
+>> > > > > and return on the first rule match.
+>> > > > >
+>> > > > > 1. What is the process or code path for watch rules?
+>> > > > > audit_filter_syscall
+>> > > > > <
+>> https://elixir.bootlin.com/linux/v6.1.10/C/ident/audit_filter_syscall>
+>> > > >
+>> > > > is
+>> > > >
+>> > > > > called for watch rules as well. Then how is it that these are no=
+t
+>> > > > > called
+>> > > > > for every syscall? Could you point me to the code where the
+>> evaluation
+>> > > > > happens only once?
+>> > > >
+>> > > > There is a file, kernel/audit_watch.c, that implements the interfa=
+ce
+>> > > > between
+>> > > > audit and fsnotify. You would want to learn how fsnotify works to
+>> > > > understand
+>> > > > how it avoids the syscall filter.
+>> > > >
+>> > > > > 2. Also, do file watches only involve the open system call famil=
+y
+>> > > > > (open,
+>> > > > > openat etc). The man page implies the same, so just wanted to
+>> confirm.
+>> > > > >
+>> > > > > I assume -w /etc -p wa is the same as -a always,exit -S open -S
+>> openat
+>> > > > > -F
+>> > > > > dir=3D/etc?
+>> > > >
+>> > > > It depends on the flag passed for perm as to what syscall it wants=
+.
+>> See:
+>> > > >
+>> > > > include/asm-generic/audit_*.h
+>> > > >
+>> > > > -Steve
+>> >
+>> >
+>> >
+>> >
+>> > --
+>> > Linux-audit mailing list
+>> > Linux-audit@redhat.com
+>> > https://listman.redhat.com/mailman/listinfo/linux-audit
+>> >
+>>
+>> - RGB
+>>
+>> --
+>> Richard Guy Briggs <rgb@redhat.com>
+>> Sr. S/W Engineer, Kernel Security, Base Operating Systems
+>> Remote, Ottawa, Red Hat Canada
+>> IRC: rgb, SunRaycer
+>> Voice: +1.647.777.2635, Internal: (81) 32635
+>>
+>>
 
---000000000000ee729b05f6f635a9
+--0000000000006e356005f7090db4
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Yup....I was able to find the dummy check you are referrin=
-g to and the audit_reset_context() that is called next(which immediately ex=
-its in case of dummy).<div>Thanks for the help folks....have a much better =
-understanding=C2=A0of how the audit context is allocated on enabling syscal=
-l auditing and the whole flow post that.</div><div><br></div><div>Had just =
-1 question wrt watches. IIUC, for watch rules we evaluate all syscalls (Sni=
-ppet from audit-userspace: <a href=3D"https://github.com/linux-audit/audit-=
-userspace/blob/1482cec74f2d9472f81dd4f0533484bd0c26decd/lib/libaudit.c#L805=
-">https://github.com/linux-audit/audit-userspace/blob/1482cec74f2d9472f81dd=
-4f0533484bd0c26decd/lib/libaudit.c#L805</a>).</div><div>But based on the pe=
-rmissions in the rule, we evaluate if the syscall belongs to a specific Aud=
-it Class using audit_match_class() and only log if the syscalls match/ are =
-part of the class. This also explains why I see audit_filter_rules() called=
- for watches even if the syscall being performed is not at all related to f=
-ile system auditing.</div><div><br></div><div><ol><li>I was wondering why d=
-o we not automatically identify if the syscall is of interest or not in=C2=
-=A0audit_in_mask() itself based on the rule permissions of the watch? In th=
-is way we would avoid the additional overhead of each syscall going into au=
-dit_filter_rules() and then evaluating on the AUDIT_PERM case as well.</li>=
-</ol></div><div><br></div><div>Currently a watch rule for &quot;wa&quot; pe=
-rmissions for /etc is similar to :</div><div>-a always,exit -F arch=3Db64 -=
-S all -F dir=3D/etc -F perm=3Dwa -k ETC_WATCH</div><div><br></div><div>We o=
-nly log if the syscall is part of the WRITE and ATTR permissions set. Inste=
-ad what I was suggesting was something like this:<br><br></div><div>-a alwa=
-ys,exit -F arch=3Db64 -S &lt;all syscalls part of the write and attr classe=
-s&gt; -F dir=3D/etc=C2=A0 -k ETC_WATCH</div><div><br></div><div>Please corr=
-ect me if my understanding in any of the above is incorrect.</div></div><br=
-><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, M=
-ar 10, 2023 at 3:54=E2=80=AFPM Richard Guy Briggs &lt;<a href=3D"mailto:rgb=
-@redhat.com">rgb@redhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gm=
-ail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,=
-204,204);padding-left:1ex">On 2023-02-17 16:50, Steve Grubb wrote:<br>
+<div dir=3D"auto">Also, we would need to have a separate rule for open and =
+openat family with something like</div><div dir=3D"auto"><br></div><div dir=
+=3D"auto">-S open,openat -F dir=3D/etc -F perm=3Dwa -k ETC_WATCH.</div><div=
+ dir=3D"auto"><br></div><div dir=3D"auto">So 2 syscall rules instead of 1 w=
+atch rule but we replace -S all with specific syscalls.</div><div dir=3D"au=
+to"><br></div><div dir=3D"auto">Or we could combine all these open,openat,w=
+rite family syscalls into a single syscall rule but with the permissions fl=
+ag.</div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmai=
+l_attr">On Wed, Mar 15, 2023 at 3:29 PM Amjad Gabbar &lt;<a href=3D"mailto:=
+amjadgabbar11@gmail.com">amjadgabbar11@gmail.com</a>&gt; wrote:<br></div><b=
+lockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px =
+#ccc solid;padding-left:1ex"><div dir=3D"ltr">Yup....I was able to find the=
+ dummy check you are referring to and the audit_reset_context() that is cal=
+led next(which immediately exits in case of dummy).<div>Thanks for the help=
+ folks....have a much better understanding=C2=A0of how the audit context is=
+ allocated on enabling syscall auditing and the whole flow post that.</div>=
+<div><br></div><div>Had just 1 question wrt watches. IIUC, for watch rules =
+we evaluate all syscalls (Snippet from audit-userspace: <a href=3D"https://=
+github.com/linux-audit/audit-userspace/blob/1482cec74f2d9472f81dd4f0533484b=
+d0c26decd/lib/libaudit.c#L805" target=3D"_blank">https://github.com/linux-a=
+udit/audit-userspace/blob/1482cec74f2d9472f81dd4f0533484bd0c26decd/lib/liba=
+udit.c#L805</a>).</div><div>But based on the permissions in the rule, we ev=
+aluate if the syscall belongs to a specific Audit Class using audit_match_c=
+lass() and only log if the syscalls match/ are part of the class. This also=
+ explains why I see audit_filter_rules() called for watches even if the sys=
+call being performed is not at all related to file system auditing.</div><d=
+iv><br></div><div><ol><li>I was wondering why do we not automatically ident=
+ify if the syscall is of interest or not in=C2=A0audit_in_mask() itself bas=
+ed on the rule permissions of the watch? In this way we would avoid the add=
+itional overhead of each syscall going into audit_filter_rules() and then e=
+valuating on the AUDIT_PERM case as well.</li></ol></div><div><br></div><di=
+v>Currently a watch rule for &quot;wa&quot; permissions for /etc is similar=
+ to :</div><div>-a always,exit -F arch=3Db64 -S all -F dir=3D/etc -F perm=
+=3Dwa -k ETC_WATCH</div><div><br></div><div>We only log if the syscall is p=
+art of the WRITE and ATTR permissions set. Instead what I was suggesting wa=
+s something like this:<br><br></div><div>-a always,exit -F arch=3Db64 -S &l=
+t;all syscalls part of the write and attr classes&gt; -F dir=3D/etc=C2=A0 -=
+k ETC_WATCH</div><div><br></div><div>Please correct me if my understanding =
+in any of the above is incorrect.</div></div><br><div class=3D"gmail_quote"=
+><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Mar 10, 2023 at 3:54=E2=80=
+=AFPM Richard Guy Briggs &lt;<a href=3D"mailto:rgb@redhat.com" target=3D"_b=
+lank">rgb@redhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quo=
+te" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204=
+);padding-left:1ex">On 2023-02-17 16:50, Steve Grubb wrote:<br>
 &gt; Hello,<br>
 &gt; <br>
 &gt; On Tuesday, February 14, 2023 3:55:58 PM EST Amjad Gabbar wrote:<br>
@@ -566,10 +604,11 @@ IRC: rgb, SunRaycer<br>
 Voice: +1.647.777.2635, Internal: (81) 32635<br>
 <br>
 </blockquote></div>
+</blockquote></div></div>
 
---000000000000ee729b05f6f635a9--
+--0000000000006e356005f7090db4--
 
---===============2631710904690423877==
+--===============2661646215009339471==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -580,5 +619,5 @@ Linux-audit mailing list
 Linux-audit@redhat.com
 https://listman.redhat.com/mailman/listinfo/linux-audit
 
---===============2631710904690423877==--
+--===============2661646215009339471==--
 
