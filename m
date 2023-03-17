@@ -2,75 +2,89 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F46E6BECDC
-	for <lists+linux-audit@lfdr.de>; Fri, 17 Mar 2023 16:27:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AFBE6BF2C2
+	for <lists+linux-audit@lfdr.de>; Fri, 17 Mar 2023 21:38:11 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1679066853;
+	s=mimecast20190719; t=1679085490;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
-	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+	 message-id:message-id:to:to:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=EqZapRZVwcwb+oj5jLNtp9DgMuPxccsOIcUMQiS/ySI=;
-	b=dQt/sY7XEqsl3J3r25WUJVAGwUhBNDbUp4o2mS3ZPtBeChW9MCRTcTyfmdxBFRTZLDUaEM
-	1UUiVtV6rKF01z+dUG9fgfJ98PoQRNpO784UYac6vMh8+vDEbN5mkhukTusqBJxpy53jqU
-	co/s8Wme8YKl31ZYdtd2od4HSTChK5c=
+	bh=WPXPLakd6JZ5cGy9UDcpauzVTVRQO/ZZmb+4GQysw1w=;
+	b=YFBc3NEWKMh49E3RYGAyX6exEGyFggvMq3kW6XBEGAIG4FX7/6BSBWMiaMF+1u63NSbCHh
+	6wMxY3xD01p+37rldd+5p6gOdMnkDEiK6YHaoprbkzCpPg+807jAVe2T6k2ME4oKtUdNMO
+	rSB7wzeXM2OP1EKk4oMWfu4vCzQhLmk=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-54-GvbabbEHNLCN7Ww9HvgQBg-1; Fri, 17 Mar 2023 11:27:28 -0400
-X-MC-Unique: GvbabbEHNLCN7Ww9HvgQBg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
+ us-mta-56-BNFt8pQvNZWQuNseZN0i-Q-1; Fri, 17 Mar 2023 16:38:06 -0400
+X-MC-Unique: BNFt8pQvNZWQuNseZN0i-Q-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6FE41829DF9;
-	Fri, 17 Mar 2023 15:27:26 +0000 (UTC)
-Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com [10.30.29.100])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 54CFC40C6E67;
-	Fri, 17 Mar 2023 15:27:26 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 49A56185A790;
+	Fri, 17 Mar 2023 20:38:04 +0000 (UTC)
+Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (unknown [10.30.29.100])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 1204E2027064;
+	Fri, 17 Mar 2023 20:38:00 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (localhost [IPv6:::1])
-	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id CE6501946A54;
-	Fri, 17 Mar 2023 15:27:25 +0000 (UTC)
+	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id E7E001946A50;
+	Fri, 17 Mar 2023 20:37:53 +0000 (UTC)
 X-Original-To: linux-audit@listman.corp.redhat.com
 Delivered-To: linux-audit@listman.corp.redhat.com
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
  by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with
- ESMTP id 6B7DD1946587 for <linux-audit@listman.corp.redhat.com>;
- Thu, 16 Mar 2023 22:53:46 +0000 (UTC)
+ ESMTP id ECF4519466DF for <linux-audit@listman.corp.redhat.com>;
+ Fri, 17 Mar 2023 20:37:51 +0000 (UTC)
 Received: by smtp.corp.redhat.com (Postfix)
- id 5D52540CFD41; Thu, 16 Mar 2023 22:53:46 +0000 (UTC)
+ id A31B61121318; Fri, 17 Mar 2023 20:37:51 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
- (mimecast09.extmail.prod.ext.rdu2.redhat.com [10.11.55.25])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 565F640CFD40
- for <linux-audit@redhat.com>; Thu, 16 Mar 2023 22:53:46 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [205.139.110.120])
+ (mimecast10.extmail.prod.ext.rdu2.redhat.com [10.11.55.26])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9C1611121315
+ for <linux-audit@redhat.com>; Fri, 17 Mar 2023 20:37:51 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [205.139.110.61])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 37E0529AA39C
- for <linux-audit@redhat.com>; Thu, 16 Mar 2023 22:53:46 +0000 (UTC)
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182]) by
- relay.mimecast.com with ESMTP id us-mta-640-b5Aq0cvsMiKrH-gkwn42Dg-1; Thu,
- 16 Mar 2023 18:53:42 -0400
-X-MC-Unique: b5Aq0cvsMiKrH-gkwn42Dg-1
-Received: by linux.microsoft.com (Postfix, from userid 1052)
- id EC6622057035; Thu, 16 Mar 2023 15:53:40 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com EC6622057035
-Date: Thu, 16 Mar 2023 15:53:40 -0700
-From: Fan Wu <wufan@linux.microsoft.com>
-To: Paul Moore <paul@paul-moore.com>
-Subject: Re: [RFC PATCH v9 07/16] uapi|audit|ipe: add ipe auditing support
-Message-ID: <20230316225340.GB22567@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
-References: <1675119451-23180-1-git-send-email-wufan@linux.microsoft.com>
- <1675119451-23180-8-git-send-email-wufan@linux.microsoft.com>
- <3723852.kQq0lBPeGt@x2>
- <CAHC9VhRqMrTuvVtwzJoK2U=6O1QuaQ8ceA6+qm=6ib0TOUEeSw@mail.gmail.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 625731C05134
+ for <linux-audit@redhat.com>; Fri, 17 Mar 2023 20:37:51 +0000 (UTC)
+Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com
+ [209.85.219.176]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-582-ZX1xPgkEPeKSDtfM4WfveA-1; Fri, 17 Mar 2023 16:37:49 -0400
+X-MC-Unique: ZX1xPgkEPeKSDtfM4WfveA-1
+Received: by mail-yb1-f176.google.com with SMTP id z83so7087899ybb.2
+ for <linux-audit@redhat.com>; Fri, 17 Mar 2023 13:37:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1679085469;
+ h=content-transfer-encoding:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=v5YPquWTXwq4ftGZFMkxuswI+Et8fgMbMriG2VU/zy0=;
+ b=Z+SrYA/nPKM5GUs3P1XXp6vznuUfKcLPUaJJe3mBhRxOmkymuFAimzhmR+TjFH/LZb
+ 2t4+ShFnmVIBeuXZPedJaW59qlZ1z1sYv07xk2lXmBiW8/0DBOz9hx7jrVwnrLVWkdkb
+ n1VaedRD/iCKE+1NNfr/7iKUrqLdqYABZkqPQ5FbfvrdolK0jzF1r9qXDjr4GLH4GJRB
+ gS9LlS8u+wUuCRX9mSMbuoZLPacuZUaVbzwWs1GXu77cilm18ayUBNfRpvEGOujUU13A
+ i4qQdPIyLUrkxTCXKwThe9MvAy/kb+ZR3XtFUr1avVotG/TybT6BSnZgmUPcDXE+PLYU
+ jUaA==
+X-Gm-Message-State: AO0yUKVES2gfmgAjIuQM0nM5Mg/ijWHeHQ7F9bPPa6mVjDa94dZktk1C
+ d3pv9f+mMO+3S4G4hJDRLbilDfH17uaqw9M/UJwfcIW9Z8z5K4Tdhw==
+X-Google-Smtp-Source: AK7set9LDi+rZ9oIzM6E6XXXBiyVEJ5aFJ+JTdodl+F57ab4aB39CYyXrbJhtRBZntk4VdA7FoJ09x9U78FabcgO54k=
+X-Received: by 2002:a05:6902:1082:b0:a06:55b5:3cdf with SMTP id
+ v2-20020a056902108200b00a0655b53cdfmr539449ybu.3.1679085468955; Fri, 17 Mar
+ 2023 13:37:48 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAHC9VhRqMrTuvVtwzJoK2U=6O1QuaQ8ceA6+qm=6ib0TOUEeSw@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+References: <CAHC9VhRMJq1gJPoR79AxM1JphmGtxhGMYBkd=Ptuaq3WBjX2Bw@mail.gmail.com>
+ <12213468.O9o76ZdvQC@x2>
+In-Reply-To: <12213468.O9o76ZdvQC@x2>
+From: Paul Moore <paul@paul-moore.com>
+Date: Fri, 17 Mar 2023 16:37:38 -0400
+Message-ID: <CAHC9VhSEM50nMmK+uEUjwmYM_6-pkp8k4=-MXBLLHCJy+FcHyw@mail.gmail.com>
+Subject: Re: audit userspace problems with io_uring async ops
+To: Steve Grubb <sgrubb@redhat.com>, linux-audit@redhat.com
 X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
  Definition; Similar Internal Domain=false;
  Similar Monitored External Domain=false; Custom External Domain=false;
@@ -78,8 +92,7 @@ X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
  Internal User Name=false; Custom Display Name List=false;
  Reply-to Address Mismatch=false; Targeted Threat Dictionary=false;
  Mimecast Threat Dictionary=false; Custom Threat Dictionary=false
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-X-Mailman-Approved-At: Fri, 17 Mar 2023 15:23:59 +0000
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,90 +104,28 @@ List-Post: <mailto:linux-audit@redhat.com>
 List-Help: <mailto:linux-audit-request@redhat.com?subject=help>
 List-Subscribe: <https://listman.redhat.com/mailman/listinfo/linux-audit>,
  <mailto:linux-audit-request@redhat.com?subject=subscribe>
-Cc: axboe@kernel.dk, linux-security-module@vger.kernel.org, tytso@mit.edu,
- corbet@lwn.net, roberto.sassu@huawei.com,
- Deven Bowers <deven.desai@linux.microsoft.com>, linux-doc@vger.kernel.org,
- snitzer@kernel.org, jmorris@namei.org, zohar@linux.ibm.com,
- linux-kernel@vger.kernel.org, ebiggers@kernel.org, dm-devel@redhat.com,
- linux-audit@redhat.com, linux-block@vger.kernel.org, eparis@redhat.com,
- linux-fscrypt@vger.kernel.org, linux-integrity@vger.kernel.org, agk@redhat.com,
- serge@hallyn.com
 Errors-To: linux-audit-bounces@redhat.com
 Sender: "Linux-audit" <linux-audit-bounces@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Disposition: inline
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On Thu, Mar 02, 2023 at 02:05:33PM -0500, Paul Moore wrote:
-> On Tue, Jan 31, 2023 at 12:11???PM Steve Grubb <sgrubb@redhat.com> wrote:
-> >
-> > Hello,
-> >
-> > On Monday, January 30, 2023 5:57:22 PM EST Fan Wu wrote:
-> > > From: Deven Bowers <deven.desai@linux.microsoft.com>
-> > >
-> > > Users of IPE require a way to identify when and why an operation fails,
-> > > allowing them to both respond to violations of policy and be notified
-> > > of potentially malicious actions on their systens with respect to IPE
-> > > itself.
-> > >
-> > > The new 1420 audit, AUDIT_IPE_ACCESS indicates the result of a policy
-> > > evaulation of a resource. The other two events, AUDIT_MAC_POLICY_LOAD,
-> > > and AUDIT_MAC_CONFIG_CHANGE represent a new policy was loaded into the
-> > > kernel and the currently active policy changed, respectively.
-> >
-> > Typically when you reuse an existing record type, it is expected to maintain
-> > the same fields in the same order. Also, it is expect that fields that are
-> > common across diferent records have the same meaning. To aid in this, we have
-> > a field dictionary here:
-> >
-> > https://github.com/linux-audit/audit-documentation/blob/main/specs/fields/
-> > field-dictionary.csv
-> >
-> > For example, dev is expected to be 2 hex numbers separated by a colon which
-> > are the device major and minor numbers. But down a couple lines from here, we
-> > find dev="tmpfs". But isn't that a filesystem type?
-> 
-> What Steve said.
-> 
-> I'll also add an administrative note, we just moved upstream Linux
-> audit development to a new mailing list, audit@vger.kernel.org, please
-> use that in future patch submissions.  As a positive, it's a fully
-> open list so you won't run into moderation delays/notifications/etc.
-> 
-Thanks for the info, I will update the address.
-
-> > > This patch also adds support for success auditing, allowing users to
-> > > identify how a resource passed policy. It is recommended to use this
-> > > option with caution, as it is quite noisy.
-> > >
-> > > This patch adds the following audit records:
-> > >
-> > >   audit: AUDIT1420 path="/tmp/tmpwxmam366/deny/bin/hello" dev="tmpfs"
-> > >     ino=72 rule="DEFAULT op=EXECUTE action=DENY"
-> >
-> > Do we really need to log the whole rule?
-> 
-> Fan, would it be reasonable to list the properties which caused the
-> access denial?  That seems like it might be more helpful than the
-> specific rule, or am I missing something?
-> 
-Audit the whole rule can let the user find the reason of a policy decision.
-We need the whole rule because an allow/block is not caused by a specific
-property, but the combination of all property conditions in a rule.
-
-We could also add a verbose switch such that we only audit
-the whole rule when a user turned the verbose switch on. 
-
--Fan
-
-> paul-moore.com
-
---
-Linux-audit mailing list
-Linux-audit@redhat.com
-https://listman.redhat.com/mailman/listinfo/linux-audit
+T24gVHVlLCBNYXIgNywgMjAyMyBhdCA0OjE34oCvUE0gU3RldmUgR3J1YmIgPHNncnViYkByZWRo
+YXQuY29tPiB3cm90ZToKPgo+IEhlbGxvIFBhdWwsCj4KPiBPbiBUdWVzZGF5LCBGZWJydWFyeSAy
+OCwgMjAyMyA1OjA0OjA0IFBNIEVTVCBQYXVsIE1vb3JlIHdyb3RlOgo+ID4gLi4uIGlmIHlvdSBs
+b29rIGNsb3NlbHkgeW91J2xsIG5vdGljZSB0aGF0IHRoZSAjMjg5IGV2ZW50ICh0aGUgYXN5bmMK
+PiA+IFVSSU5HT1ApIGlzIG1pc3NpbmcgZnJvbSB0aGUgYXVzZWFyY2ggb3V0cHV0Lgo+Cj4gVGhh
+bmtzIGZvciB0aGUgYnVnIHJlcG9ydC4gTGV0IG1lIGtub3cgaWYgeW91IHNlZSBhbnl0aGluZyBl
+bHNlLgo+Cj4gVXBzdHJlYW0gY29tbWl0IDdkMzVlMTQgc2hvdWxkIGZpeCBwYXJzaW5nIFVSSU5H
+T1AgYW5kIERNX0NUUkwgcmVjb3Jkcy4KCkZpbmFsbHkgZ290IGEgY2hhbmNlIHRvIHRyeSB0aGUg
+Zml4LCBhbmQgaXQgbG9va3MgbGlrZSBpdCBzb2x2ZXMgdGhlCnByb2JsZW0gZm9yIG1lLiAgVGhh
+bmtzLgoKSW4gY2FzZSBhbnlvbmUgd2FudHMgYSBoYWNreSBwYXRjaGVkIHNvdXJjZSBSUE0sIEkg
+cHV0IHRoZSBjb3B5IEknbQp1c2luZyBhdCB0aGUgbGluayBiZWxvdzoKCiogaHR0cHM6Ly9kcm9w
+LnBhdWwtbW9vcmUuY29tLzEyMC5PSDFDL2F1ZGl0LTMuMS0yLjEuc2VjbmV4dC5mYzM5LnNyYy5y
+cG0KCltUaGUgbGluayBhYm92ZSBzaG91bGQgd29yayBmb3IgdGhlIG5leHQgMTIwIGRheXNdCgot
+LSAKcGF1bC1tb29yZS5jb20KCi0tCkxpbnV4LWF1ZGl0IG1haWxpbmcgbGlzdApMaW51eC1hdWRp
+dEByZWRoYXQuY29tCmh0dHBzOi8vbGlzdG1hbi5yZWRoYXQuY29tL21haWxtYW4vbGlzdGluZm8v
+bGludXgtYXVkaXQK
 
