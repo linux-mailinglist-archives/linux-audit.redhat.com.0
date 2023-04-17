@@ -2,161 +2,77 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAB166E4841
-	for <lists+linux-audit@lfdr.de>; Mon, 17 Apr 2023 14:50:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D61B6E500E
+	for <lists+linux-audit@lfdr.de>; Mon, 17 Apr 2023 20:18:51 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1681735815;
+	s=mimecast20190719; t=1681755530;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:list-id:list-help:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=NhPEFGwxsqnrGyG3zoL9rsIHiaGMPJSIdOf8OKUNzqc=;
-	b=URZLfHJFI/NBH4GctLLtM3pvtx9+UHsIfwTzluubFR4fQYWCSL5AJ+O5MbXGKFe+4swbSD
-	rfpqvQUEPJUnt1OgPUVUpTYpk4Mtagp4E0kPw3/sGzpRiFVHz1L3cquG47+tphEyM969WW
-	3Hb9ZHOpAjBe12uKlpH2Xgh+teydNlA=
+	bh=ddy3is2m7cQwGGyEYGGgWc7CHSZSI8Gv2GIqlYZmlps=;
+	b=aL6O7hhVWlMr02WcSNFyxLM3RSaMvAckDsT0B9igPq2qVchMrrTJhbmcPLtNjsaqdE/T1i
+	P+HBC/ApPNpVmPrbuqfR43L1ojQicv4YYzfBke+2cyGcsp0frsUzOyWG/EEuCy+xKnpxsf
+	+SZCixTeGTgMYaBho2ZVCkFcp5KaxmY=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-498-y7iNshf-PSKCH7i92yYzAg-1; Mon, 17 Apr 2023 08:50:14 -0400
-X-MC-Unique: y7iNshf-PSKCH7i92yYzAg-1
+ us-mta-152-KJw1WF__Ps6aVIWiEnJk0g-1; Mon, 17 Apr 2023 14:18:47 -0400
+X-MC-Unique: KJw1WF__Ps6aVIWiEnJk0g-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D0B4E811E7C;
-	Mon, 17 Apr 2023 12:50:11 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DDBD38314E8;
+	Mon, 17 Apr 2023 18:18:44 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (unknown [10.30.29.100])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 1AAA12166B29;
-	Mon, 17 Apr 2023 12:50:00 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 94B432166B29;
+	Mon, 17 Apr 2023 18:18:39 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (localhost [IPv6:::1])
-	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id 97AE719465B2;
-	Mon, 17 Apr 2023 12:49:59 +0000 (UTC)
+	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id 9D9F519465A3;
+	Mon, 17 Apr 2023 18:18:38 +0000 (UTC)
 X-Original-To: linux-audit@listman.corp.redhat.com
 Delivered-To: linux-audit@listman.corp.redhat.com
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
  by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with
- ESMTP id 7E2DD1946588 for <linux-audit@listman.corp.redhat.com>;
- Mon, 17 Apr 2023 08:36:12 +0000 (UTC)
+ ESMTP id 1BA9D1946587 for <linux-audit@listman.corp.redhat.com>;
+ Mon, 17 Apr 2023 18:06:09 +0000 (UTC)
 Received: by smtp.corp.redhat.com (Postfix)
- id 2BBA5492B0D; Mon, 17 Apr 2023 08:36:12 +0000 (UTC)
+ id F0A412027062; Mon, 17 Apr 2023 18:06:08 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
- (mimecast02.extmail.prod.ext.rdu2.redhat.com [10.11.55.18])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 22FCA492B0C
- for <linux-audit@redhat.com>; Mon, 17 Apr 2023 08:36:12 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [207.211.31.120])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 03C658996E8
- for <linux-audit@redhat.com>; Mon, 17 Apr 2023 08:36:12 +0000 (UTC)
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-435-Mj9uKAO4M5-soSJPIMifUQ-1; Mon, 17 Apr 2023 04:36:10 -0400
-X-MC-Unique: Mj9uKAO4M5-soSJPIMifUQ-1
-X-IronPort-AV: E=McAfee;i="6600,9927,10682"; a="343593699"
-X-IronPort-AV: E=Sophos;i="5.99,203,1677571200"; d="scan'208";a="343593699"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Apr 2023 01:35:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10682"; a="1020340016"
-X-IronPort-AV: E=Sophos;i="5.99,203,1677571200"; d="scan'208";a="1020340016"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
- by fmsmga005.fm.intel.com with ESMTP; 17 Apr 2023 01:35:06 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Mon, 17 Apr 2023 01:35:06 -0700
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23 via Frontend Transport; Mon, 17 Apr 2023 01:35:06 -0700
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.100)
- by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.23; Mon, 17 Apr 2023 01:35:05 -0700
-Received: from DM8PR11MB5750.namprd11.prod.outlook.com (2603:10b6:8:11::17) by
- MN2PR11MB4519.namprd11.prod.outlook.com (2603:10b6:208:26c::7) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6298.45; Mon, 17 Apr 2023 08:35:04 +0000
-Received: from DM8PR11MB5750.namprd11.prod.outlook.com
- ([fe80::65f0:6a4e:8aac:3e3e]) by DM8PR11MB5750.namprd11.prod.outlook.com
- ([fe80::65f0:6a4e:8aac:3e3e%2]) with mapi id 15.20.6298.045; Mon, 17 Apr 2023
- 08:35:04 +0000
-From: "Reshetova, Elena" <elena.reshetova@intel.com>
-To: "linux-security-module@vger.kernel.org"
- <linux-security-module@vger.kernel.org>
-Subject: [ANNOUNCE] [CFP] Linux Security Summit Europe (LSS-EU)
-Thread-Topic: [ANNOUNCE] [CFP] Linux Security Summit Europe (LSS-EU)
-Thread-Index: AdlxBvhHhF6rbpsrQ7SOGxoWhhjmbw==
-Date: Mon, 17 Apr 2023 08:35:04 +0000
-Message-ID: <DM8PR11MB57509BF8C3350944A3DB0A8FE79C9@DM8PR11MB5750.namprd11.prod.outlook.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM8PR11MB5750:EE_|MN2PR11MB4519:EE_
-x-ms-office365-filtering-correlation-id: 79f4193e-2676-4bd1-4979-08db3f1ea45b
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0
-x-microsoft-antispam-message-info: HeSlJcRl8mo/Dpk2KCJzmHFfhR3gshk97opStzk9T6WysLZPJMeWlqEWqcmyxFxqJMvDlYRqzp3jijRcoGcEJ8taDHSo4SSQJiRP9+C8+w8bpVru+ZxaPFrIQoZJP9Dcsd24qwXW83/8xCdwx784ENJr+Ewa/1gONjfGD38PZCGS2IykGo1qAGuPdlgXKqujYUyCiMcnD0gUqvBBXJto7csJ+bXv4x8NlBcVd9mr423FvvyYZpW+5gnbW5/jSMjJkWQW0JQS9dC0ClTYlVw4BzO70xFYsk3rh5szgWrql5mzl45Zqshb4el9bRHmZR93NBhd39NTFLW8I3LaWN+OQVguiknKPIX4wAn1Or4feXsQkTqNS3TcV49UWeGoDrQgZFYWW3kBzIcQ21owouBFoN4gLLDpfXrrsNjVOvSLLPha4v19TqdZ7Z1pf6YDtLjJMEBh3uzTr6pAkchvmZRGHOEj7wREjuOZ+tGB7iKcgoA03KZALc86IGNhSyp0Xr33IBR9O8LAdhV2MNrMGWsjiaGo6Q4TZkxn5JlxSLQaLNyZ60G9hb/nx2XJ3AiUv3A09KoSeEAZfZ5V+3gxi8jYaP08mO/3shnWFCaofEYCC3tI3qtJUriVDR8QGFo9MseFhnbCtL4/TXraG4kE8Eobyw==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM8PR11MB5750.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(39860400002)(346002)(136003)(366004)(396003)(376002)(451199021)(55016003)(66476007)(76116006)(66946007)(82960400001)(66556008)(66446008)(64756008)(6916009)(4326008)(478600001)(316002)(54906003)(5660300002)(52536014)(8676002)(15650500001)(7416002)(41300700001)(122000001)(8936002)(38100700002)(186003)(83380400001)(9686003)(71200400001)(7696005)(26005)(6506007)(4744005)(966005)(33656002)(86362001)(38070700005)(2906002);
- DIR:OUT; SFP:1102
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?VW9weTNiNENPWmhLQ1RiT1NIQzcxNHlXN0lHa29RSzdNUW5VY3dYVDNkcWY1?=
- =?utf-8?B?R29Qc2Y4NFg3TEQyb3BJSVlzaWttS2hQaE9LWHk0aFZmL2Vaclh0NTdEdXgx?=
- =?utf-8?B?QmtTd0RQOWQ0emJMYU8zQjBheWllQndkOXhtZ2VGZHYzYTV6TU14RElkN29v?=
- =?utf-8?B?a3R0bTRvaWU5eldJUlNpWW5CUkxKa2xxcGk5RDZKMzJZSitKcmMvbFNxRDRC?=
- =?utf-8?B?Ykx1bVN2UzI5dU1KRU5DQ1lOMHlRZjN1ZWN6SHZ1cHJNNHJKSWxVNG5NM3l0?=
- =?utf-8?B?a0gwdThvcGRMSmt5OVd3enNMY3dwTnRIVnh1Zk8wTzgxeUxKWXRidS9CYzdh?=
- =?utf-8?B?S3ROVkFtVVd6Zmxid0NlNDA1WDBBQ2drZDRqQll2NHR1OTVFVXZGQkRVZU5o?=
- =?utf-8?B?R3ljK1U3N1h6WWhrNmhiUElHMXljcjFHMzRzME9wRVZucXF2SjFkcXNxWXpk?=
- =?utf-8?B?VksxZHVmb08raTFVZUlvWmVwYXNkc0VIa3hnaUVDZlV0eXMxOEdXTW5od2xG?=
- =?utf-8?B?eWsxa1FxdU4wYjhzQmIyL0NmQU1sZzJIL1dlM2NETGNvdTNBVG1nL0pOaEdn?=
- =?utf-8?B?ajRNM01LNmFrNTgvd0huRnptK0N1ekJQSllpRktLbjNaeEsyb3RLVVRpdk9y?=
- =?utf-8?B?bENxQXlpYmIvVExxeUxGZmg1bzlKdVlYQ3V1ajV6SUs3NGtmbXBmWWsxK2hD?=
- =?utf-8?B?OUZqL0tJUm0yUzBJQTlBbjMxTzdBSm5JcC9jUmlRSUFSeEFqdFdKSkhreDRB?=
- =?utf-8?B?eVkydWdKVnpicW50NUxoK3JtZUVMaUE5WXpxeExwcW5CZHliTGlQaThSdmRi?=
- =?utf-8?B?ak9TZkZVU2MvQVU1dlFGbC9aVjlmTXZna0JNZllQZExUZHdnbTBnV0JwakR1?=
- =?utf-8?B?aFhzeG1WR2pIc29SUndON0R6bmFteHh2UVBmMFZrTGpjc3FoMktybUxZakFD?=
- =?utf-8?B?TDF0U3VoeUdlTW5OQkpydUhLem1qempNSjlzSFYraDVXcFA3RVBqSllVN3Ni?=
- =?utf-8?B?Z25KTkNCb1JnMXVzSzQ4RzlSdVIwMVUzU2ZWWkpaaExoRWJNWDlJWFJBRStj?=
- =?utf-8?B?RG5RQ29sZjNXMTBqOG9aRVpvMGE1RWdBekhXVGNlbytzdE9NcktGb0VkSVFO?=
- =?utf-8?B?ZmYzZ3J0TjdxUHRMek90QlFMQXAxRzEyeEpYRUNjOXdJUkwxMDJHVlpOdGJI?=
- =?utf-8?B?VzNqdVNWYlpiOGkvOTNLT0lLWDk5c2ZrWnplbmRmRW9EZHZMRXZJTlFNTVRZ?=
- =?utf-8?B?dUozUXZQUjlZaFNxQkgxdko1UlBIWmUvNDJOZWUvTkJaaDJWWnk3VnNjTkhV?=
- =?utf-8?B?UEVEaGk0Rld2Q0s4NGgrcnZPdjhiYzlNT3ZVVUgzTDJSMVRweTljSDVaNklT?=
- =?utf-8?B?UEhJbnpwZ3NkVjNxeXhiU1M3V1BqaG15K2liM05lVzd4K1pRUUswRWVBVjdN?=
- =?utf-8?B?Z25RYVZyTjQ4WDhVS3U4V2MrTWJJbGNqcmxyS3V4MXd6bUlORFE4cWxNWE84?=
- =?utf-8?B?ZkpCVXByQS9QMllYMGQ3bXBUVDlnNFVtOU1lNHVLaGVybU5nMXI3ZXpDTkhs?=
- =?utf-8?B?a21rZ3d6YStseUNhMGxtZThNaTd4N2U4TGFTUjh6dWEwaHpJd1RlM2QxcHI1?=
- =?utf-8?B?MGxFMHRxcEE4dVVvdmpNWnNGcG5HZUVyY0dFeTZ3RWJSdW5tSTh1NzBJV2gy?=
- =?utf-8?B?dHN4RGNCQi9oRjVKcy9BSTVVcVZSaEJFTWdMSVlzVm5WeW5wTGt1SEN4ejBS?=
- =?utf-8?B?YjQvZjJjQm1MNlNRWUF0Y3MvS0tPVzhjTEczcmlxdkJEMVdoMk40cXhGZHEr?=
- =?utf-8?B?MmZvcytpSkNGc2N3WnFvZTFINmc2dVg4Tk85cEM1dHRRL0pRWHp1aWZCTXIz?=
- =?utf-8?B?WHdITTBLN3J1MTErd04vZ1NTV3NMNGdvUmRZSjlFY3NORWZrMytteWczU05h?=
- =?utf-8?B?a3YwQW00aU45RXBuSCt6cThRaEFlcWh6dUJ0OGZQY1grNHFJSEUxTTBWRVNK?=
- =?utf-8?B?M0hsSGVBdGI0NDQ2bW55cUxwL2tKZ2NuRWpMaWVlRGVoUTBoVGpsd29ZNnZt?=
- =?utf-8?B?TUNUcTFtdTQ1TmV3djlySHJqaXcvRHN5bG95Z056NklYUmp2S2dYNDAxQklV?=
- =?utf-8?Q?/PIGyDtJrzzYXpq/EMfiZy6Rm?=
+ (mimecast03.extmail.prod.ext.rdu2.redhat.com [10.11.55.19])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E8D6F2027044
+ for <linux-audit@redhat.com>; Mon, 17 Apr 2023 18:06:08 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-2.mimecast.com [207.211.31.81])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CAB3088B7A0
+ for <linux-audit@redhat.com>; Mon, 17 Apr 2023 18:06:08 +0000 (UTC)
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182]) by
+ relay.mimecast.com with ESMTP id us-mta-635-ukzYfyPoNAezvegZUFROQA-1; Mon,
+ 17 Apr 2023 14:06:07 -0400
+X-MC-Unique: ukzYfyPoNAezvegZUFROQA-1
+Received: by linux.microsoft.com (Postfix, from userid 1052)
+ id 627AA21C1E42; Mon, 17 Apr 2023 11:06:05 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 627AA21C1E42
+Date: Mon, 17 Apr 2023 11:06:05 -0700
+From: Fan Wu <wufan@linux.microsoft.com>
+To: Paul Moore <paul@paul-moore.com>
+Subject: Re: [RFC PATCH v9 05/16] ipe: add userspace interface
+Message-ID: <20230417180605.GA402@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+References: <1675119451-23180-1-git-send-email-wufan@linux.microsoft.com>
+ <1675119451-23180-6-git-send-email-wufan@linux.microsoft.com>
+ <CAHC9VhRa+NwKzLfQBmHfMgUp6_d5soQG7JBq-Vn=MUeUAt4tuQ@mail.gmail.com>
+ <20230410191035.GB18827@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+ <CAHC9VhQDvWDshaZvJrHmjcwyHFxv9oYTN9bn0xiTtFZQRp+GPg@mail.gmail.com>
+ <20230412233606.GA16658@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+ <CAHC9VhTs3Njfg=1baQ6=58rPLBmyB3cW0R-MfAaEcRF-jAaYBw@mail.gmail.com>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM8PR11MB5750.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 79f4193e-2676-4bd1-4979-08db3f1ea45b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Apr 2023 08:35:04.1795 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Yvk0uINt0uTyZ7OH565tzyTk5d+mzjWAmXLAz5+UqaVLx+NNJ8/QPxc9mfDxxUdRwpWBxlNOM9hOJRBvluQrSVDmL8eujUi9XRkA1wrzsUI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR11MB4519
-X-OriginatorOrg: intel.com
+In-Reply-To: <CAHC9VhTs3Njfg=1baQ6=58rPLBmyB3cW0R-MfAaEcRF-jAaYBw@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
  Definition; Similar Internal Domain=false;
  Similar Monitored External Domain=false; Custom External Domain=false;
@@ -164,8 +80,8 @@ X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
  Internal User Name=false; Custom Display Name List=false;
  Reply-to Address Mismatch=false; Targeted Threat Dictionary=false;
  Mimecast Threat Dictionary=false; Custom Threat Dictionary=false
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-X-Mailman-Approved-At: Mon, 17 Apr 2023 12:49:59 +0000
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+X-Mailman-Approved-At: Mon, 17 Apr 2023 18:18:37 +0000
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -177,43 +93,68 @@ List-Post: <mailto:linux-audit@redhat.com>
 List-Help: <mailto:linux-audit-request@redhat.com?subject=help>
 List-Subscribe: <https://listman.redhat.com/mailman/listinfo/linux-audit>,
  <mailto:linux-audit-request@redhat.com?subject=subscribe>
-Cc: "lss-pc@lists.linuxfoundation.org" <lss-pc@lists.linuxfoundation.org>,
- Kernel Hardening <kernel-hardening@lists.openwall.com>,
- "selinux@vger.kernel.org" <selinux@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- "tpmdd-devel@lists.sourceforge.net" <tpmdd-devel@lists.sourceforge.net>,
- Audit-ML <linux-audit@redhat.com>,
- "keyrings@vger.kernel.org" <keyrings@vger.kernel.org>,
- "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
- "lwn@lwn.net" <lwn@lwn.net>,
- "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
- "linux-coco@lists.linux.dev" <linux-coco@lists.linux.dev>
+Cc: axboe@kernel.dk, linux-block@vger.kernel.org, tytso@mit.edu,
+ dm-devel@redhat.com, corbet@lwn.net, roberto.sassu@huawei.com,
+ Deven Bowers <deven.desai@linux.microsoft.com>, linux-doc@vger.kernel.org,
+ snitzer@kernel.org, jmorris@namei.org, zohar@linux.ibm.com,
+ linux-kernel@vger.kernel.org, ebiggers@kernel.org,
+ linux-security-module@vger.kernel.org, linux-audit@redhat.com,
+ eparis@redhat.com, linux-fscrypt@vger.kernel.org,
+ linux-integrity@vger.kernel.org, agk@redhat.com, serge@hallyn.com
 Errors-To: linux-audit-bounces@redhat.com
 Sender: "Linux-audit" <linux-audit-bounces@redhat.com>
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
 X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: intel.com
-Content-Language: en-US
+X-Mimecast-Originator: linux.microsoft.com
+Content-Disposition: inline
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-The Call for Participation for the 2023 LSS-EU conference is open!
+On Thu, Apr 13, 2023 at 02:45:07PM -0400, Paul Moore wrote:
+> On Wed, Apr 12, 2023 at 7:36???PM Fan Wu <wufan@linux.microsoft.com> wrote:
+> > On Tue, Apr 11, 2023 at 05:45:41PM -0400, Paul Moore wrote:
+> > > On Mon, Apr 10, 2023 at 3:10???PM Fan Wu <wufan@linux.microsoft.com> wrote:
+> > > > On Thu, Mar 02, 2023 at 02:04:42PM -0500, Paul Moore wrote:
+> > > > > On Mon, Jan 30, 2023 at 5:58???PM Fan Wu <wufan@linux.microsoft.com> wrote:
+> 
+> ...
+> 
+> > > I guess this does make me wonder about keeping a non-active policy
+> > > loaded in the kernel, what purpose does that serve?
+> > >
+> >
+> > The non-active policy doesn't serve anything unless it is activated. User can
+> > even delete a policy if that is no longer needed. Non-active is just the default
+> > state when a new policy is loaded.
+> >
+> > If IPE supports namespace, there is another use case where different containers
+> > can select different policies as the active policy from among multiple loaded
+> > policies. Deven has presented a demo of this during LSS 2021. But this goes
+> > beyond the scope of this version.
+> 
+> Do you plan to add namespace support at some point in the
+> not-too-distant future?  If so, I'm okay with keeping support for
+> multiple policies, but if you think you're only going to support one
+> active policy at a time, it might be better to remove support for
+> multiple (inactive) policies.
+> 
+> -- 
+> paul-moore.com
 
-See details of the event and information on submitting proposals here:
-https://events.linuxfoundation.org/linux-security-summit-europe/
+Another benefit of having multiple policies is that it provides isolation
+between different policies. For instance, if we have two policies named
+"policy_a" and "policy_b," we can ensure that only team a can update "policy_a,"
+and only team b can update "policy_b." This way, both teams can update
+their policy without affecting others. However, if there is only one policy
+in the system, both teams will have to operate on the same policy, making it
+less manageable.
 
-LSS-EU 2023 will be in Bilbao, Spain, from September 20th to September 21. 
-This will be a two day event, co-located with Open Source Summit Europe [1].
+Besides, removing multiple (inactive) policies support will
+render the policy_name field meaningless, and we should only audit the policy
+hash. I am fine if we decide to go for the single policy option.
 
-The LSS-EU CFP is open until Monday, June 5.
+-Fan
 
-Note that announcements relating to the Linux Security Summit may be found 
-now on the Fediverse, via: https://social.kernel.org/LinuxSecSummit
-
-Best Regards,
-Elena Reshetova
-
-[1] https://events.linuxfoundation.org/open-source-summit-europe/ 
 --
 Linux-audit mailing list
 Linux-audit@redhat.com
