@@ -2,88 +2,103 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AE586F897B
-	for <lists+linux-audit@lfdr.de>; Fri,  5 May 2023 21:24:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF4286F8C47
+	for <lists+linux-audit@lfdr.de>; Sat,  6 May 2023 00:12:51 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1683314698;
+	s=mimecast20190719; t=1683324770;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-	 content-type:content-type:in-reply-to:in-reply-to:
-	 references:references:list-id:list-help:list-unsubscribe:
-	 list-subscribe:list-post; bh=+vMPtegEQdAU/iW8Zcnhvgmsgn/Vtq6i94fWW7p73IA=;
-	b=Ws4xgrIK25shcE4nfz5CLRDP4ewpIaAwSMOtosU6MJHZioO9ikrEGJCT5nA/ZREWxwE10V
-	AXoJGx8OisjCrwA2RdkyTxUelRewZNibTwDe0w2OHzAYBL0rVMABKHgloBg6RNa6B9LAxv
-	Bvk7Mo6dMdGklnHCfazoVAVHm/BNrdo=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+	 content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:list-id:list-help:
+	 list-unsubscribe:list-subscribe:list-post;
+	bh=5zaeWh0OnLmDSdMFuIt/AAajGZo1wyjL7l+Zvsb7Zgg=;
+	b=I6EeOwmc7yDoCtqYeZYcIgER0Zrp1WfAS+RU/PpVJxUktsUId7yffXbypjPAKWOVhiBrO4
+	syn3RQqi2P6o7AW/d7CJMV/uby+Yas3dgAhbR30b963ubiIdmxaTta6s2goVhsfqZYUHyt
+	dfo7fpjUc3HGK0yMRtIv5GbWOrUsh1Q=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-428-vcSJptkhPeaanNd6p5DfCw-1; Fri, 05 May 2023 15:24:54 -0400
-X-MC-Unique: vcSJptkhPeaanNd6p5DfCw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
+ us-mta-618-XnkBUFhfPzKSylyv3zFj3g-1; Fri, 05 May 2023 18:12:47 -0400
+X-MC-Unique: XnkBUFhfPzKSylyv3zFj3g-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DE46C29DD98B;
-	Fri,  5 May 2023 19:24:51 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id ED1BF80080E;
+	Fri,  5 May 2023 22:12:44 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (unknown [10.30.29.100])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 459ED2166B31;
-	Fri,  5 May 2023 19:24:43 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 19E6C2026E1C;
+	Fri,  5 May 2023 22:12:40 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (localhost [IPv6:::1])
-	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id 18E001946A4D;
-	Fri,  5 May 2023 19:24:42 +0000 (UTC)
+	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id C6B4A1946A4D;
+	Fri,  5 May 2023 22:12:38 +0000 (UTC)
 X-Original-To: linux-audit@listman.corp.redhat.com
 Delivered-To: linux-audit@listman.corp.redhat.com
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
  by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with
- ESMTP id E4AEB1946586 for <linux-audit@listman.corp.redhat.com>;
- Sun, 30 Apr 2023 00:20:35 +0000 (UTC)
+ ESMTP id BCC2A1946A43 for <linux-audit@listman.corp.redhat.com>;
+ Fri,  5 May 2023 22:12:37 +0000 (UTC)
 Received: by smtp.corp.redhat.com (Postfix)
- id C8A3D1410F1E; Sun, 30 Apr 2023 00:20:35 +0000 (UTC)
+ id 645D0492B01; Fri,  5 May 2023 22:12:37 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
- (mimecast08.extmail.prod.ext.rdu2.redhat.com [10.11.55.24])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C0BA41410F1C
- for <linux-audit@redhat.com>; Sun, 30 Apr 2023 00:20:35 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [205.139.110.61])
+ (mimecast05.extmail.prod.ext.rdu2.redhat.com [10.11.55.21])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5BD19492B00
+ for <linux-audit@redhat.com>; Fri,  5 May 2023 22:12:31 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [205.139.110.120])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A5426380610C
- for <linux-audit@redhat.com>; Sun, 30 Apr 2023 00:20:35 +0000 (UTC)
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com
- [209.85.208.174]) by relay.mimecast.com with ESMTP with STARTTLS
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3C3B2886460
+ for <linux-audit@redhat.com>; Fri,  5 May 2023 22:12:31 +0000 (UTC)
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
+ [209.85.167.50]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-630-AjXH0X5SOKSuLIirwAjA6g-1; Sat, 29 Apr 2023 20:20:30 -0400
-X-MC-Unique: AjXH0X5SOKSuLIirwAjA6g-1
-Received: by mail-lj1-f174.google.com with SMTP id
- 38308e7fff4ca-2a8bbea12d7so11314791fa.3; 
- Sat, 29 Apr 2023 17:20:30 -0700 (PDT)
+ us-mta-304-qxA6JWcDNfiTXgzlwVWnpw-1; Fri, 05 May 2023 18:12:28 -0400
+X-MC-Unique: qxA6JWcDNfiTXgzlwVWnpw-1
+Received: by mail-lf1-f50.google.com with SMTP id
+ 2adb3069b0e04-4eed764a10cso2602887e87.0
+ for <linux-audit@redhat.com>; Fri, 05 May 2023 15:12:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682814029; x=1685406029;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=KA3AkPLYJ1BpZSrX/Hknhjr2RirKjavjPnTX49VdIGY=;
- b=AIxc9GV0tjOJax1veCjsqGiFtikJ+qIbxRko5BjB51uzoGeKBHwY8BQDyfWqWLvM1U
- /aY7p9l/FQdIMN2lprv53DmT4v9XxNHveN3b64RDpkXY5CEUVylC+3hmH5BMW+5vOnSm
- jG4+E+uoHglqg2CYl0XDxUcFh3zMxUQ2KJKdbWNb2Oxf6gn9S7Vi2n4SadqhdKabGJ63
- SMMeA2nMb0R23QnuOOMVb9TYWVlD7QtewJ5w6yMFeD59x5lBHMRgGRCNu7OwTdjZqpt5
- JVd0KBQmO+dzLE55b7ZVM7vxjEHnYpNyopV86S3OT62Kx2H9H2Fx13yc7RWkYSom/T0k
- 5t4g==
-X-Gm-Message-State: AC+VfDxTbDjPOYGJHL6xlS1rAhxaO47sTvawtLLp2h2bkwkqLmGX2qwd
- PriaChlcLFtPM3ynZh2HOHiLSceqCY0qSk8YdRaHTmRxlVk=
-X-Google-Smtp-Source: ACHHUZ7mGKJnGwapMsoKZCp8DNUQYAKtK7Hw0kppXUqthoVw9zmtPOgfjRztC37kt47PaZL9YZ8l42DU1ouW2pqhEBc=
-X-Received: by 2002:a2e:9f0c:0:b0:2a6:2305:110c with SMTP id
- u12-20020a2e9f0c000000b002a62305110cmr2386241ljk.38.1682814028328; Sat, 29
- Apr 2023 17:20:28 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1683324744; x=1685916744;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=zvwH/om6riyO67KuORkjhn7D8bd2EIUB1tcKOP2bv8w=;
+ b=NaqrS7V7D8MX2F87dI5zqIVSpPUBJtAYPHpsxyUZ8tnGUfIpq/5+UWhAJy3z/QpDtq
+ 9gsizskh3bBP2Hw9+/gplyUrRyVfa8wyYEFn8dIO2dPw4dzk9tWoJFZn50H5pZ0UAuw/
+ lcyKaj/6bKSMRtZCWWWC7BKwbcptJ8YLbMlbm94Tqf7s81zvaH8EAZfvGYBezjfEzy79
+ fMybz17MSjoVktdtx5FTr/HLauQUQYGq7gfJRW/rQ44l+L4N+iyuTsczhGkNZyuFXOVk
+ v9yv+xbXMKe3KQLmBGxnVMkdfqXcLgDrJybaxPTkL9l/Pa10xq2kjrh9eDDZhyOToEgl
+ 7YFA==
+X-Gm-Message-State: AC+VfDyVYdZBOD7Yp4jTsLRm4vRFCf2QHKBdZjOZdHItlc3ciPSCgrYK
+ Z8Q5TeG2SXMrzeF9deZpPmHK8XvXeNVYQh7X
+X-Google-Smtp-Source: ACHHUZ4dPDxP/8+k+DX0YtlzfqnFMES5FF+Vr0TwXxTT/asT8GQ0seC0pv55tjxY7JZVO+zcLj7O2g==
+X-Received: by 2002:ac2:5213:0:b0:4d8:4f46:f0b9 with SMTP id
+ a19-20020ac25213000000b004d84f46f0b9mr872406lfl.23.1683324743929; 
+ Fri, 05 May 2023 15:12:23 -0700 (PDT)
+Received: from [192.168.0.31] ([94.242.171.165])
+ by smtp.gmail.com with ESMTPSA id
+ x22-20020ac24896000000b004db297957e8sm426674lfc.305.2023.05.05.15.12.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 05 May 2023 15:12:23 -0700 (PDT)
+Message-ID: <7c4caf66-a0ae-4999-172e-437d6cfc8ff3@gmail.com>
+Date: Sat, 6 May 2023 01:12:23 +0300
 MIME-Version: 1.0
-References: <CABvEhECpywJRHDW6dFZU8Q3_rCZ0MpG45UQVu8fgH7ENSK37dA@mail.gmail.com>
- <4526563.LvFx2qVVIh@x2>
-In-Reply-To: <4526563.LvFx2qVVIh@x2>
-From: =?UTF-8?B?5rGf5p2o?= <jiangyang.me@gmail.com>
-Date: Sun, 30 Apr 2023 08:20:16 +0800
-Message-ID: <CABvEhEART=nT0Nnt27LwaYmK5SAnUhuA-U9k2uFVio+GX6qwBQ@mail.gmail.com>
-Subject: Re: "service auditd start" fails inside a container
-To: Steve Grubb <sgrubb@redhat.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: Can AUDIT_LIST_RULES causes kthreadd-spam?
+To: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+ Paul Moore <paul@paul-moore.com>
+References: <ecd4bf68-3bf1-a1d8-4da5-5fbd28c51a6b@gmail.com>
+ <CAHC9VhTXHLS7bsDJ8-dSp4dQSQRcKRLiTMRYJOJVCY11G5D85A@mail.gmail.com>
+ <e5713a91-37b0-d32f-a0d2-eb668122c9e4@gmail.com>
+ <9ae2c1df-1f20-a40b-35ed-1dc76b122a4f@I-love.SAKURA.ne.jp>
+ <CAHC9VhTfxqrWaJrBccDY9LJR+Fggr__zufD-Wd=0VZwN5bBU6g@mail.gmail.com>
+ <415a4871-4d84-a31f-5417-e850a98bbffd@I-love.SAKURA.ne.jp>
+From: Rinat Gadelshin <rgadelsh@gmail.com>
+In-Reply-To: <415a4871-4d84-a31f-5417-e850a98bbffd@I-love.SAKURA.ne.jp>
 X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
  Definition; Similar Internal Domain=false;
  Similar Monitored External Domain=false; Custom External Domain=false;
@@ -91,8 +106,7 @@ X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
  Internal User Name=false; Custom Display Name List=false;
  Reply-to Address Mismatch=false; Targeted Threat Dictionary=false;
  Mimecast Threat Dictionary=false; Custom Threat Dictionary=false
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-X-Mailman-Approved-At: Fri, 05 May 2023 19:24:40 +0000
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,87 +118,150 @@ List-Post: <mailto:linux-audit@redhat.com>
 List-Help: <mailto:linux-audit-request@redhat.com?subject=help>
 List-Subscribe: <https://listman.redhat.com/mailman/listinfo/linux-audit>,
  <mailto:linux-audit-request@redhat.com?subject=subscribe>
-Cc: linux-audit@redhat.com
+Cc: audit@vger.kernel.org, linux-audit@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
 Sender: "Linux-audit" <linux-audit-bounces@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: gmail.com
-Content-Type: multipart/mixed; boundary="===============1751110098308434690=="
+Content-Language: en-US, ru-RU
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 
---===============1751110098308434690==
-Content-Type: multipart/alternative; boundary="00000000000061b2a005fa82ac64"
-
---00000000000061b2a005fa82ac64
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Thank you for your information.
-
-Steve Grubb <sgrubb@redhat.com> =E4=BA=8E2023=E5=B9=B44=E6=9C=8829=E6=97=A5=
-=E5=91=A8=E5=85=AD 02:49=E5=86=99=E9=81=93=EF=BC=9A
-
-> On Friday, April 28, 2023 3:54:32 AM EDT =E6=B1=9F=E6=9D=A8 wrote:
-> > May I ask if Auditd supports Docker? Thank you
-> > https://listman.redhat.com/archives/linux-audit/2018-July/msg00078.html
->
-> There is no active work that I know of to put auditd in a container. It's
-> libraries are used by many applications. So, I don't know what use it
-> would
-> be to containerize it.
->
-> And if you are asking if auditd can audit events in a container, I think
-> that
-> answer is also no.
->
-> -Steve
->
->
->
-
---00000000000061b2a005fa82ac64
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Thank you for your information.=C2=A0<br></div><br><div cl=
-ass=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">Steve Grubb &lt;<=
-a href=3D"mailto:sgrubb@redhat.com">sgrubb@redhat.com</a>&gt; =E4=BA=8E2023=
-=E5=B9=B44=E6=9C=8829=E6=97=A5=E5=91=A8=E5=85=AD 02:49=E5=86=99=E9=81=93=EF=
-=BC=9A<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
-px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Friday=
-, April 28, 2023 3:54:32 AM EDT =E6=B1=9F=E6=9D=A8 wrote:<br>
-&gt; May I ask if Auditd supports Docker? Thank you<br>
-&gt; <a href=3D"https://listman.redhat.com/archives/linux-audit/2018-July/m=
-sg00078.html" rel=3D"noreferrer" target=3D"_blank">https://listman.redhat.c=
-om/archives/linux-audit/2018-July/msg00078.html</a><br>
-<br>
-There is no active work that I know of to put auditd in a container. It&#39=
-;s <br>
-libraries are used by many applications. So, I don&#39;t know what use it w=
-ould <br>
-be to containerize it.<br>
-<br>
-And if you are asking if auditd can audit events in a container, I think th=
-at <br>
-answer is also no.<br>
-<br>
--Steve<br>
-<br>
-<br>
-</blockquote></div>
-
---00000000000061b2a005fa82ac64--
-
---===============1751110098308434690==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
---
-Linux-audit mailing list
-Linux-audit@redhat.com
-https://listman.redhat.com/mailman/listinfo/linux-audit
-
---===============1751110098308434690==--
+T24gMDUuMDUuMjAyMyAwMTo1MywgVGV0c3VvIEhhbmRhIHdyb3RlOgo+IE9uIDIwMjMvMDUvMDUg
+Mzo0MCwgUGF1bCBNb29yZSB3cm90ZToKPj4gT24gV2VkLCBNYXkgMywgMjAyMyBhdCAxMDo1MOKA
+r1BNIFRldHN1byBIYW5kYQo+PiA8cGVuZ3Vpbi1rZXJuZWxAaS1sb3ZlLnNha3VyYS5uZS5qcD4g
+d3JvdGU6Cj4+PiBPbiAyMDIzLzA1LzA0IDc6MTIsIFJpbmF0IEdhZGVsc2hpbiB3cm90ZToKPj4+
+PiBPbiAwNC4wNS4yMDIzIDAwOjI3LCBQYXVsIE1vb3JlIHdyb3RlOgo+Pj4+PiBDYW4geW91IGJl
+IG1vcmUgc3BlY2lmaWMgYWJvdXQgdGhlIGtlcm5lbCB0aHJlYWRzIHlvdSBhcmUgc2VlaW5nLCBh
+cmUKPj4+Pj4geW91IHNlZWluZyBtdWx0aXBsZSAia2F1ZGl0ZCIgdGhyZWFkcz8KPj4+Pj4KPj4+
+Pj4gJSBwcyAtZkMga2F1ZGl0ZAo+Pj4+PiBVSUQgICAgICAgICAgUElEICAgIFBQSUQgIEMgU1RJ
+TUUgVFRZICAgICAgICAgIFRJTUUgQ01ECj4+Pj4+IHJvb3QgICAgICAgICAgODkgICAgICAgMiAg
+MCBBcHIyOCA/ICAgICAgICAwMDowMDowMCBba2F1ZGl0ZF0KPj4+IEkgZG9uJ3QgdGhpbmsgc28u
+Cj4+Pgo+Pj4ga2VybmVsIGF1ZGl0IHN1YnN5c3RlbSB1c2VzIGt0aHJlYWRfcnVuKCkgaW4gb3Jk
+ZXIgdG8gcnVuIHNob3J0LWxpdmVkIGtlcm5lbCB0aHJlYWRzLgo+PiBUaGFua3MgVGV0c3VvLCBJ
+IGFncmVlIHRoYXQncyBmYXIgbW9yZSBsaWtlbHkuICBFdmVyIHNpbmNlIEkgdG9vayBvdmVyCj4+
+IHNoZXBoZXJkaW5nIHRoZSBhdWRpdCBjb2RlLCBhbGwgb2YgdGhlIHRocmVhZCBpc3N1ZXMgaGF2
+ZSBiZWVuIGFyb3VuZAo+PiB0aGUgbWFpbiBhdWRpdCBxdWV1ZSB0aHJlYWQgc28gaXQncyBhIGJp
+dCByZWZsZXhpdmUgdG8gYXNzdW1lIHRoYXQgaXMKPj4gdGhlIGNhc2UgOikKPj4KPiBTaW5jZSBr
+dGhyZWFkX3J1bihhdWRpdF9zZW5kX2xpc3RfdGhyZWFkKSBpcyBjYWxsZWQgYnkgYXVkaXRfcmVj
+ZWl2ZV9tc2coQVVESVRfTElTVF9SVUxFUykKPiB2aWEgYXVkaXRfbGlzdF9ydWxlc19zZW5kKCks
+IHRyeWluZyB0byBhdWRpdCBmb3JrIHJlcXVlc3QgdmlhIEFVRElUX0xJU1RfUlVMRVMgd2lsbCBj
+YXVzZQo+IHNwYW1zLiBNYXliZSBzb21ldGhpbmcgaXMgZ29pbmcgd3Jvbmcgd2l0aCAiQW5kIHN1
+Y2ggZXZlbnRzIG9jY3VycmVkIDEyMDggdGltZXMgd2hlbgo+IEFVRElUX0xJU1RfUlVMRVMgaXMg
+c2VuZGluZy4iIHBhcnQ7IGxldCdzIHdhaXQgZm9yIHdoYXQgcHJpbnRrKCkgc2F5cy4KPgo+IEJ5
+IHRoZSB3YXksIHdoeSBkbyB3ZSBuZWVkIHRvIHVzZSBrdGhyZWFkX3J1bigpIGZvciBzaG9ydC1s
+aXZlZCB0YXNrcz8gQ2FuJ3Qgd2UgdXNlCj4gYSBkZWRpY2F0ZWQgd29ya3F1ZXVlIHdoaWNoIHdv
+dWxkIHNpZ25pZmljYW50bHkgcmVkdWNlIGZyZXF1ZW5jeSBvZiBmb3JrIHJlcXVlc3QgZm9yCj4g
+QVVESVRfTElTVF9SVUxFUyByZXF1ZXN0Pwo+CkhlbGxvIHRoZXJlID0pClNvcnJ5IGZvciBteSBs
+b25nIGFic2VuY2UuCgpJJ3ZlIG1hbmFnZWQgdG8gYnVpbGQgYW5kIGluc3RhbGwgdGhlIGN1c3Rv
+bSBrZXJuZWwgKGZyb20gTGludXMnIGJyYW5jaCAKd2l0aCBUZXRzdW8ncyBwYXRjaCBmb3IgbG9n
+Z2luZykuCgpUaGUgZm9sbG93aW5nIHJ1bGVzIHdlcmUgZGljdGF0ZWQgYnkgbXkgbmV0bGluayAo
+d2l0aCBkaXNhYmxlZCBwb2xsIApydWxlJ3MgbG9naWM6CgotYSBhbHdheXMsZXhpdCAtRiBhcmNo
+PWIzMiAtUyBmb3JrLGV4ZWN2ZSxjbG9uZSx2Zm9yayxleGVjdmVhdAotYSBhbHdheXMsZXhpdCAt
+RiBhcmNoPWI2NCAtUyBjbG9uZSxmb3JrLHZmb3JrLGV4ZWN2ZSxleGVjdmVhdAotYSBuZXZlcixl
+eGl0IC1GIHBpZD00NjQxCi1hIG5ldmVyLGV4aXQgLUYgcHBpZD00NjQxCi1hIG5ldmVyLGV4aXQg
+LUYgcGlkPTEKLWEgbmV2ZXIsZXhpdCAtRiBwcGlkPTEKLWEgYWx3YXlzLGV4aXQgLUYgYXJjaD1i
+NjQgLVMga2lsbCxwdHJhY2UKLWEgYWx3YXlzLGV4aXQgLUYgYXJjaD1iMzIgLVMgcHRyYWNlLGtp
+bGwKLWEgYWx3YXlzLGV4aXQgLUYgYXJjaD1iNjQgLVMgZXhpdCxleGl0X2dyb3VwCi1hIGFsd2F5
+cyxleGl0IC1GIGFyY2g9YjMyIC1TIGV4aXQsZXhpdF9ncm91cAotYSBhbHdheXMsZXhpdCAtRiBh
+cmNoPWI2NCAtUyBjb25uZWN0LGFjY2VwdCxhY2NlcHQ0Ci1hIGFsd2F5cyxleGl0IC1GIGFyY2g9
+YjMyIC1TIGNvbm5lY3QsYWNjZXB0NAotYSBhbHdheXMsZXhpdCAtRiBhcmNoPWI2NCAtUyBvcGVu
+LGNyZWF0LG9wZW5hdCw0MzcKLWEgYWx3YXlzLGV4aXQgLUYgYXJjaD1iNjQgLVMgcmVuYW1lLHJl
+bmFtZWF0LHJlbmFtZWF0MgotYSBhbHdheXMsZXhpdCAtRiBhcmNoPWIzMiAtUyByZW5hbWUscmVu
+YW1lYXQscmVuYW1lYXQyCi1hIGFsd2F5cyxleGl0IC1GIGFyY2g9YjY0IC1TIGNob3duLGZjaG93
+bixsY2hvd24sZmNob3duYXQKLWEgYWx3YXlzLGV4aXQgLUYgYXJjaD1iMzIgLVMgbGNob3duLGZj
+aG93bixjaG93bixmY2hvd25hdAotYSBhbHdheXMsZXhpdCAtRiBhcmNoPWI2NCAtUyBjaG1vZCxm
+Y2htb2QsZmNobW9kYXQKLWEgYWx3YXlzLGV4aXQgLUYgYXJjaD1iMzIgLVMgY2htb2QsZmNobW9k
+LGZjaG1vZGF0Ci1hIGFsd2F5cyxleGl0IC1GIGFyY2g9YjY0IC1TIGxpbmssc3ltbGluayxsaW5r
+YXQsc3ltbGlua2F0Ci1hIGFsd2F5cyxleGl0IC1GIGFyY2g9YjMyIC1TIGxpbmssc3ltbGluayxs
+aW5rYXQsc3ltbGlua2F0Ci1hIGFsd2F5cyxleGl0IC1GIGFyY2g9YjY0IC1TIG1vdW50LHVtb3Vu
+dDIKLWEgYWx3YXlzLGV4aXQgLUYgYXJjaD1iMzIgLVMgbW91bnQsdW1vdW50LHVtb3VudDIKLWEg
+YWx3YXlzLGV4aXQgLUYgYXJjaD1iNjQgLVMgCnNldHVpZCxzZXRnaWQsc2V0cmV1aWQsc2V0cmVn
+aWQsc2V0cmVzdWlkLHNldHJlc2dpZAotYSBhbHdheXMsZXhpdCAtRiBhcmNoPWIzMiAtUyAKc2V0
+dWlkLHNldGdpZCxzZXRyZXVpZCxzZXRyZWdpZCxzZXRyZXN1aWQsc2V0cmVzZ2lkCi1hIGFsd2F5
+cyxleGl0IC1GIGFyY2g9YjY0IC1TIG1tYXAsbXByb3RlY3QgLUYgYTI9MHg3Ci1hIGFsd2F5cyxl
+eGl0IC1GIGFyY2g9YjMyIC1TIG1tYXAsbXByb3RlY3QgLUYgYTI9MHg3Ci1hIGFsd2F5cyxleGl0
+IC1GIGFyY2g9YjY0IC1TIHVubGluayx1bmxpbmthdAotYSBhbHdheXMsZXhpdCAtRiBhcmNoPWIz
+MiAtUyB1bmxpbmssdW5saW5rYXQKLWEgYWx3YXlzLGV4aXQgLUYgYXJjaD1iNjQgLVMgaW9jdGwg
+LUYgYTI9MHg0MDA4NjYwMgotYSBhbHdheXMsZXhpdCAtRiBhcmNoPWIzMiAtUyBpb2N0bCAtRiBh
+Mj0weDQwMDg2NjAyCgpUaGUgb25seSBvbmUgYGF1ZGl0Y3RsIC1sYCByZXF1ZXN0IHdhcyBwZXJm
+b3JtZWQuCkkgc2VlIHRoZSBmb2xsb3dpbmcgcmVzcG9uc2UgaW4gc3lzbG9nIGZvciB0aGUgcmVx
+dWVzdDoKCk1hecKgIDYgMDE6MDE6MTkgZ2FkZWxzaGluLXJpLW5iIGtlcm5lbDogW8KgIDExMC40
+NzQxMTFdIGF1ZGl0OiBTdGFydGVkIAphdWRpdF9zZW5kX3JlcGx5X3RocmVhZApNYXnCoCA2IDAx
+OjAxOjE5IGdhZGVsc2hpbi1yaS1uYiBrZXJuZWw6IFvCoCAxMTAuNDc0MTIzXSBhdWRpdDogRmlu
+aXNoZWQgCmF1ZGl0X3NlbmRfcmVwbHlfdGhyZWFkCk1hecKgIDYgMDE6MDE6MjAgZ2FkZWxzaGlu
+LXJpLW5iIGtlcm5lbDogW8KgIDExMS45NzIwMTRdIGF1ZGl0OiBTdGFydGVkIAphdWRpdF9zZW5k
+X2xpc3RfdGhyZWFkCk1hecKgIDYgMDE6MDE6MjAgZ2FkZWxzaGluLXJpLW5iIGtlcm5lbDogW8Kg
+IDExMS45NzIwMjBdIGF1ZGl0OiBDYWxsaW5nIApuZXRsaW5rIHVuaWNhc3QKTWF5wqAgNiAwMTow
+MToyMCBnYWRlbHNoaW4tcmktbmIga2VybmVsOiBbwqAgMTExLjk3MjAyM10gYXVkaXQ6IENhbGxp
+bmcgCm5ldGxpbmsgdW5pY2FzdApNYXnCoCA2IDAxOjAxOjIwIGdhZGVsc2hpbi1yaS1uYiBrZXJu
+ZWw6IFvCoCAxMTEuOTcyMDIzXSBhdWRpdDogQ2FsbGluZyAKbmV0bGluayB1bmljYXN0Ck1hecKg
+IDYgMDE6MDE6MjAgZ2FkZWxzaGluLXJpLW5iIGtlcm5lbDogW8KgIDExMS45NzIwMjRdIGF1ZGl0
+OiBDYWxsaW5nIApuZXRsaW5rIHVuaWNhc3QKTWF5wqAgNiAwMTowMToyMCBnYWRlbHNoaW4tcmkt
+bmIga2VybmVsOiBbwqAgMTExLjk3MjAyNV0gYXVkaXQ6IENhbGxpbmcgCm5ldGxpbmsgdW5pY2Fz
+dApNYXnCoCA2IDAxOjAxOjIwIGdhZGVsc2hpbi1yaS1uYiBrZXJuZWw6IFvCoCAxMTEuOTcyMDI2
+XSBhdWRpdDogQ2FsbGluZyAKbmV0bGluayB1bmljYXN0Ck1hecKgIDYgMDE6MDE6MjAgZ2FkZWxz
+aGluLXJpLW5iIGtlcm5lbDogW8KgIDExMS45NzIwMjZdIGF1ZGl0OiBDYWxsaW5nIApuZXRsaW5r
+IHVuaWNhc3QKTWF5wqAgNiAwMTowMToyMCBnYWRlbHNoaW4tcmktbmIga2VybmVsOiBbwqAgMTEx
+Ljk3MjAyN10gYXVkaXQ6IENhbGxpbmcgCm5ldGxpbmsgdW5pY2FzdApNYXnCoCA2IDAxOjAxOjIw
+IGdhZGVsc2hpbi1yaS1uYiBrZXJuZWw6IFvCoCAxMTEuOTcyMDI4XSBhdWRpdDogQ2FsbGluZyAK
+bmV0bGluayB1bmljYXN0Ck1hecKgIDYgMDE6MDE6MjAgZ2FkZWxzaGluLXJpLW5iIGtlcm5lbDog
+W8KgIDExMS45NzIwMjldIGF1ZGl0OiBDYWxsaW5nIApuZXRsaW5rIHVuaWNhc3QKTWF5wqAgNiAw
+MTowMToyMCBnYWRlbHNoaW4tcmktbmIga2VybmVsOiBbwqAgMTExLjk3MjAyOV0gYXVkaXQ6IENh
+bGxpbmcgCm5ldGxpbmsgdW5pY2FzdApNYXnCoCA2IDAxOjAxOjIwIGdhZGVsc2hpbi1yaS1uYiBr
+ZXJuZWw6IFvCoCAxMTEuOTcyMDMwXSBhdWRpdDogQ2FsbGluZyAKbmV0bGluayB1bmljYXN0Ck1h
+ecKgIDYgMDE6MDE6MjAgZ2FkZWxzaGluLXJpLW5iIGtlcm5lbDogW8KgIDExMS45NzIwMzBdIGF1
+ZGl0OiBDYWxsaW5nIApuZXRsaW5rIHVuaWNhc3QKTWF5wqAgNiAwMTowMToyMCBnYWRlbHNoaW4t
+cmktbmIga2VybmVsOiBbwqAgMTExLjk3MjAzMV0gYXVkaXQ6IENhbGxpbmcgCm5ldGxpbmsgdW5p
+Y2FzdApNYXnCoCA2IDAxOjAxOjIwIGdhZGVsc2hpbi1yaS1uYiBrZXJuZWw6IFvCoCAxMTEuOTcy
+MDMyXSBhdWRpdDogQ2FsbGluZyAKbmV0bGluayB1bmljYXN0Ck1hecKgIDYgMDE6MDE6MjAgZ2Fk
+ZWxzaGluLXJpLW5iIGtlcm5lbDogW8KgIDExMS45NzIwMzJdIGF1ZGl0OiBDYWxsaW5nIApuZXRs
+aW5rIHVuaWNhc3QKTWF5wqAgNiAwMTowMToyMCBnYWRlbHNoaW4tcmktbmIga2VybmVsOiBbwqAg
+MTExLjk3MjAzM10gYXVkaXQ6IENhbGxpbmcgCm5ldGxpbmsgdW5pY2FzdApNYXnCoCA2IDAxOjAx
+OjIwIGdhZGVsc2hpbi1yaS1uYiBrZXJuZWw6IFvCoCAxMTEuOTcyMDM0XSBhdWRpdDogQ2FsbGlu
+ZyAKbmV0bGluayB1bmljYXN0Ck1hecKgIDYgMDE6MDE6MjAgZ2FkZWxzaGluLXJpLW5iIGtlcm5l
+bDogW8KgIDExMS45NzIwMzRdIGF1ZGl0OiBDYWxsaW5nIApuZXRsaW5rIHVuaWNhc3QKTWF5wqAg
+NiAwMTowMToyMCBnYWRlbHNoaW4tcmktbmIga2VybmVsOiBbwqAgMTExLjk3MjAzNV0gYXVkaXQ6
+IENhbGxpbmcgCm5ldGxpbmsgdW5pY2FzdApNYXnCoCA2IDAxOjAxOjIwIGdhZGVsc2hpbi1yaS1u
+YiBrZXJuZWw6IFvCoCAxMTEuOTcyMDM1XSBhdWRpdDogQ2FsbGluZyAKbmV0bGluayB1bmljYXN0
+Ck1hecKgIDYgMDE6MDE6MjAgZ2FkZWxzaGluLXJpLW5iIGtlcm5lbDogW8KgIDExMS45NzIwMzZd
+IGF1ZGl0OiBDYWxsaW5nIApuZXRsaW5rIHVuaWNhc3QKTWF5wqAgNiAwMTowMToyMCBnYWRlbHNo
+aW4tcmktbmIga2VybmVsOiBbwqAgMTExLjk3MjAzN10gYXVkaXQ6IENhbGxpbmcgCm5ldGxpbmsg
+dW5pY2FzdApNYXnCoCA2IDAxOjAxOjIwIGdhZGVsc2hpbi1yaS1uYiBrZXJuZWw6IFvCoCAxMTEu
+OTcyMDM4XSBhdWRpdDogQ2FsbGluZyAKbmV0bGluayB1bmljYXN0Ck1hecKgIDYgMDE6MDE6MjAg
+Z2FkZWxzaGluLXJpLW5iIGtlcm5lbDogW8KgIDExMS45NzIwMzhdIGF1ZGl0OiBDYWxsaW5nIApu
+ZXRsaW5rIHVuaWNhc3QKTWF5wqAgNiAwMTowMToyMCBnYWRlbHNoaW4tcmktbmIga2VybmVsOiBb
+wqAgMTExLjk3MjAzOV0gYXVkaXQ6IENhbGxpbmcgCm5ldGxpbmsgdW5pY2FzdApNYXnCoCA2IDAx
+OjAxOjIwIGdhZGVsc2hpbi1yaS1uYiBrZXJuZWw6IFvCoCAxMTEuOTcyMDM5XSBhdWRpdDogQ2Fs
+bGluZyAKbmV0bGluayB1bmljYXN0Ck1hecKgIDYgMDE6MDE6MjAgZ2FkZWxzaGluLXJpLW5iIGtl
+cm5lbDogW8KgIDExMS45NzIwNDBdIGF1ZGl0OiBDYWxsaW5nIApuZXRsaW5rIHVuaWNhc3QKTWF5
+wqAgNiAwMTowMToyMCBnYWRlbHNoaW4tcmktbmIga2VybmVsOiBbwqAgMTExLjk3MjA0MF0gYXVk
+aXQ6IENhbGxpbmcgCm5ldGxpbmsgdW5pY2FzdApNYXnCoCA2IDAxOjAxOjIwIGdhZGVsc2hpbi1y
+aS1uYiBrZXJuZWw6IFvCoCAxMTEuOTcyMDQxXSBhdWRpdDogQ2FsbGluZyAKbmV0bGluayB1bmlj
+YXN0Ck1hecKgIDYgMDE6MDE6MjAgZ2FkZWxzaGluLXJpLW5iIGtlcm5lbDogW8KgIDExMS45NzIw
+NDJdIGF1ZGl0OiBDYWxsaW5nIApuZXRsaW5rIHVuaWNhc3QKTWF5wqAgNiAwMTowMToyMCBnYWRl
+bHNoaW4tcmktbmIga2VybmVsOiBbwqAgMTExLjk3MjA0M10gYXVkaXQ6IENhbGxpbmcgCm5ldGxp
+bmsgdW5pY2FzdApNYXnCoCA2IDAxOjAxOjIwIGdhZGVsc2hpbi1yaS1uYiBrZXJuZWw6IFvCoCAx
+MTEuOTcyMDQ0XSBhdWRpdDogQ2FsbGluZyAKbmV0bGluayB1bmljYXN0Ck1hecKgIDYgMDE6MDE6
+MjAgZ2FkZWxzaGluLXJpLW5iIGtlcm5lbDogW8KgIDExMS45NzIwNDVdIGF1ZGl0OiBGaW5pc2hl
+ZCAKYXVkaXRfc2VuZF9saXN0X3RocmVhZApNYXnCoCA2IDAxOjAxOjIxIGdhZGVsc2hpbi1yaS1u
+YiBrZXJuZWw6IFvCoCAxMTIuNDg1NjU5XSBhdWRpdDogU3RhcnRlZCAKYXVkaXRfc2VuZF9yZXBs
+eV90aHJlYWQKTWF5wqAgNiAwMTowMToyMSBnYWRlbHNoaW4tcmktbmIga2VybmVsOiBbwqAgMTEy
+LjQ4NTY4OV0gYXVkaXQ6IEZpbmlzaGVkIAphdWRpdF9zZW5kX3JlcGx5X3RocmVhZApNYXnCoCA2
+IDAxOjAxOjIzIGdhZGVsc2hpbi1yaS1uYiBrZXJuZWw6IFvCoCAxMTQuNTAxMDcyXSBhdWRpdDog
+U3RhcnRlZCAKYXVkaXRfc2VuZF9yZXBseV90aHJlYWQKTWF5wqAgNiAwMTowMToyMyBnYWRlbHNo
+aW4tcmktbmIga2VybmVsOiBbwqAgMTE0LjUwMTA3Nl0gYXVkaXQ6IEZpbmlzaGVkIAphdWRpdF9z
+ZW5kX3JlcGx5X3RocmVhZApNYXnCoCA2IDAxOjAxOjI0IGdhZGVsc2hpbi1yaS1uYiBhdWRpdGRb
+MTIxMF06IEF1ZGl0IGRhZW1vbiByb3RhdGluZyBsb2cgCmZpbGVzCk1hecKgIDYgMDE6MDE6MjUg
+Z2FkZWxzaGluLXJpLW5iIGtlcm5lbDogW8KgIDExNi41MDY2NDVdIGF1ZGl0OiBTdGFydGVkIAph
+dWRpdF9zZW5kX3JlcGx5X3RocmVhZApNYXnCoCA2IDAxOjAxOjI1IGdhZGVsc2hpbi1yaS1uYiBr
+ZXJuZWw6IFvCoCAxMTYuNTA2NjU2XSBhdWRpdDogRmluaXNoZWQgCmF1ZGl0X3NlbmRfcmVwbHlf
+dGhyZWFkCk1hecKgIDYgMDE6MDE6MjcgZ2FkZWxzaGluLXJpLW5iIGtlcm5lbDogW8KgIDExOC41
+MTIyODJdIGF1ZGl0OiBTdGFydGVkIAphdWRpdF9zZW5kX3JlcGx5X3RocmVhZApNYXnCoCA2IDAx
+OjAxOjI3IGdhZGVsc2hpbi1yaS1uYiBrZXJuZWw6IFvCoCAxMTguNTEyMzA2XSBhdWRpdDogRmlu
+aXNoZWQgCmF1ZGl0X3NlbmRfcmVwbHlfdGhyZWFkCgpgZ2l0IGRlc2NyaWJlc2Agc2hvd3M6IHY2
+LjMtMTMwMjctZzFhNTMwNGZlY2VlNQpEaXN0cmlidXRpdmUgaXPCoCBVYnVudHUgMjAuMDQgKHg2
+NCkKCi0tCkxpbnV4LWF1ZGl0IG1haWxpbmcgbGlzdApMaW51eC1hdWRpdEByZWRoYXQuY29tCmh0
+dHBzOi8vbGlzdG1hbi5yZWRoYXQuY29tL21haWxtYW4vbGlzdGluZm8vbGludXgtYXVkaXQK
 
