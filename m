@@ -2,97 +2,93 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14BB370110C
-	for <lists+linux-audit@lfdr.de>; Fri, 12 May 2023 23:23:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28694701FF9
+	for <lists+linux-audit@lfdr.de>; Sun, 14 May 2023 23:45:34 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1683926634;
+	s=mimecast20190719; t=1684100733;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
-	 message-id:message-id:to:to:cc:mime-version:mime-version:
-	 content-type:content-type:list-id:list-help:list-unsubscribe:
-	 list-subscribe:list-post; bh=pGJTqX7bIunpeufx57O12wUXDf2+CIsihURVuD+EUqg=;
-	b=g4RS+ck8wQH7wmSyCGwOg8UIfkJh8MiD2uvEKmyZfECr2uMOmSQctMmqUL/2a7DGiWgLyB
-	yA6YE5/MSaMJ2w8tN/cL5meJ/iTC+ruDiCiZ3zMDwQDoeeJ7R3zewnWhnhR+ltkVmTLN78
-	P7V54yRkl3TQ2jfvyGxZB+6kdeYevps=
+	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+	 content-type:content-type:in-reply-to:in-reply-to:
+	 references:references:list-id:list-help:list-unsubscribe:
+	 list-subscribe:list-post; bh=PL2KacC/QqQ0QNsoqyVHzZwgewgkkPK9qBJXR/ZEXmo=;
+	b=dwKcEvDegGq9STsVVjkiL2aDeVgpCLIjG/hNc7vhfNrND4aJcbJjOK4DzrT0oqewskna8W
+	SamJyFU2eCQqITWMfIH6Qr1UAICL44Td4yS2uKAfU12Cw4QkqWTtTiB9y0dfA/sIIRXdjl
+	UA+ibEvzmBME64EGxN3GKm+bAd9OSBQ=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-627-WVjrLHT0NLyUPhzPS1UCng-1; Fri, 12 May 2023 17:23:51 -0400
-X-MC-Unique: WVjrLHT0NLyUPhzPS1UCng-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
+ us-mta-569-8D1Kmf71NxWeFSz4AJ2K7w-1; Sun, 14 May 2023 17:45:28 -0400
+X-MC-Unique: 8D1Kmf71NxWeFSz4AJ2K7w-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5CC881C09064;
-	Fri, 12 May 2023 21:23:49 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C802B380673B;
+	Sun, 14 May 2023 21:45:21 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (unknown [10.30.29.100])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id BE00848FB12;
-	Fri, 12 May 2023 21:23:41 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 06978400F5A;
+	Sun, 14 May 2023 21:45:10 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (localhost [IPv6:::1])
-	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id A1D3119451E9;
-	Fri, 12 May 2023 21:23:40 +0000 (UTC)
+	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id 0236919465A8;
+	Sun, 14 May 2023 21:45:09 +0000 (UTC)
 X-Original-To: linux-audit@listman.corp.redhat.com
 Delivered-To: linux-audit@listman.corp.redhat.com
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
  by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with
- ESMTP id 7B11819451E3 for <linux-audit@listman.corp.redhat.com>;
- Fri, 12 May 2023 21:23:34 +0000 (UTC)
+ ESMTP id DC568194658C for <linux-audit@listman.corp.redhat.com>;
+ Sun, 14 May 2023 21:45:06 +0000 (UTC)
 Received: by smtp.corp.redhat.com (Postfix)
- id 76B272027043; Fri, 12 May 2023 21:23:34 +0000 (UTC)
+ id 762792166B2A; Sun, 14 May 2023 21:45:06 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
  (mimecast08.extmail.prod.ext.rdu2.redhat.com [10.11.55.24])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6ED852026DFD
- for <linux-audit@redhat.com>; Fri, 12 May 2023 21:23:34 +0000 (UTC)
-Received: from us-smtp-inbound-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [205.139.110.120])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6C49B2166B26
+ for <linux-audit@redhat.com>; Sun, 14 May 2023 21:45:06 +0000 (UTC)
+Received: from us-smtp-inbound-1.mimecast.com (us-smtp-2.mimecast.com
+ [205.139.110.61])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 49383381D4CD
- for <linux-audit@redhat.com>; Fri, 12 May 2023 21:23:34 +0000 (UTC)
-Received: from aplegw01.jhuapl.edu (aplegw01.jhuapl.edu [128.244.251.168])
- by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-264-QxCGtasUNQC211qEy7-uaQ-1; Fri, 12 May 2023 17:23:30 -0400
-X-MC-Unique: QxCGtasUNQC211qEy7-uaQ-1
-Received: from pps.filterd (aplegw01.jhuapl.edu [127.0.0.1])
- by aplegw01.jhuapl.edu (8.17.1.19/8.17.1.19) with ESMTP id 34CKo0NF029976
- for <Linux-audit@redhat.com>; Fri, 12 May 2023 17:17:58 -0400
-Received: from aplex22.dom1.jhuapl.edu (aplex22.dom1.jhuapl.edu [10.114.162.7])
- by aplegw01.jhuapl.edu (PPS) with ESMTPS id 3qf778vgmq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <Linux-audit@redhat.com>; Fri, 12 May 2023 17:17:58 -0400
-Received: from APLEX26.dom1.jhuapl.edu (10.114.162.11) by
- APLEX22.dom1.jhuapl.edu (10.114.162.7) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Fri, 12 May 2023 17:17:57 -0400
-Received: from APLEX26.dom1.jhuapl.edu ([fe80::8b67:5cb8:8fbe:fd18]) by
- APLEX26.dom1.jhuapl.edu ([fe80::8b67:5cb8:8fbe:fd18%12]) with mapi id
- 15.02.1118.026; Fri, 12 May 2023 17:17:57 -0400
-From: "Wieprecht, Karen M." <Karen.Wieprecht@jhuapl.edu>
-To: "Linux-audit@redhat.com" <Linux-audit@redhat.com>
-Subject: What STIG audit rule picks up type=SOFTWARE_UPDATE events?
-Thread-Topic: What STIG audit rule picks up type=SOFTWARE_UPDATE events?
-Thread-Index: AdmFCk3zm3FM9tdHSrSSGqt8WBugUw==
-Date: Fri, 12 May 2023 21:17:57 +0000
-Message-ID: <7622dda18a1544c3bb52052019e34d72@jhuapl.edu>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.114.162.18]
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4B12B38173C2
+ for <linux-audit@redhat.com>; Sun, 14 May 2023 21:45:06 +0000 (UTC)
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-62-pI37JugBM2uFLAE7G4P48A-1; Sun, 14 May 2023 17:45:04 -0400
+X-MC-Unique: pI37JugBM2uFLAE7G4P48A-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ 4fb4d7f45d1cf-50bcc3ee913so10569296a12.2
+ for <Linux-audit@redhat.com>; Sun, 14 May 2023 14:45:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1684100703; x=1686692703;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=t1EvAoeEuUW/IEG/0glGdetpC1AgSaNpubiPb52gmYI=;
+ b=csFa+smAUmse8XNc3IcQCnVi/ePWXhSA2sV82kVz6lQw2e5UGbLdATtnj0SxJZHxHS
+ tvxbys6ZUu7aYdniEvXrz9i3OyFAQN3V0+LSfCmAr2dwhXMYehv1TGXicjrErHkLff0a
+ eFTE8dtWXBYUf4XzgsNREjusHJy5+IrhNpwwbFcM0WlOGUQ8nlavDIHB3rYCI4r97h2l
+ yOwnDms98wKMVtXZ4l7vRf1jP5jDvaXPZduUTBgCBPxFMrpxhrRxNgSFh05+X4qbhJ2B
+ 5xv2NxNzFj0M2S5+WLbnMtB9vXiHq7VRiWYSeBgvrS7olAxOFvzH8KuHh4zLssIqJ7Rm
+ yJ1w==
+X-Gm-Message-State: AC+VfDw9sOigP+JceBSisv8OSaAoc//Dzy0ot4hmBbkwdP8v8FC8Oa2Q
+ szQn/Qc9GCfUC9SGmmcKFNY61txzUYUInJxeLmzDUrMeVLRv9asYcKX3SdGo016DamKApT+tQ/t
+ Kez3DOwgsqynDaLQZMA5nexXPZ+8XPQCz048=
+X-Received: by 2002:a05:6402:641:b0:50c:161b:9152 with SMTP id
+ u1-20020a056402064100b0050c161b9152mr24157840edx.13.1684100703127; 
+ Sun, 14 May 2023 14:45:03 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ545FJ0epmxMO1ZCzRLunU6vGE4vaQi9sNrVbofouwnYeIVE1+ox1Db+xmd3OWa2GXX6RWNil2dUA0N+FzfCUk=
+X-Received: by 2002:a05:6402:641:b0:50c:161b:9152 with SMTP id
+ u1-20020a056402064100b0050c161b9152mr24157830edx.13.1684100702788; Sun, 14
+ May 2023 14:45:02 -0700 (PDT)
 MIME-Version: 1.0
-X-CrossPremisesHeadersFilteredBySendConnector: APLEX22.dom1.jhuapl.edu
-X-OrganizationHeadersPreserved: APLEX22.dom1.jhuapl.edu
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-05-12_13,2023-05-05_01,2023-02-09_01
-X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
- Definition; Similar Internal Domain=false;
- Similar Monitored External Domain=false; Custom External Domain=false;
- Mimecast External Domain=false; Newly Observed Domain=false;
- Internal User Name=false; Custom Display Name List=false;
- Reply-to Address Mismatch=false; Targeted Threat Dictionary=false;
- Mimecast Threat Dictionary=false; Custom Threat Dictionary=false
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+References: <7622dda18a1544c3bb52052019e34d72@jhuapl.edu>
+In-Reply-To: <7622dda18a1544c3bb52052019e34d72@jhuapl.edu>
+From: Steven Grubb <sgrubb@redhat.com>
+Date: Sun, 14 May 2023 17:46:01 -0400
+Message-ID: <CAAepc6X3Opzz7amSMAUSFGKZnkrBCvi8qA0STYe3ySOEAzvL1Q@mail.gmail.com>
+Subject: Re: What STIG audit rule picks up type=SOFTWARE_UPDATE events?
+To: "Wieprecht, Karen M." <Karen.Wieprecht@jhuapl.edu>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,312 +100,357 @@ List-Post: <mailto:linux-audit@redhat.com>
 List-Help: <mailto:linux-audit-request@redhat.com?subject=help>
 List-Subscribe: <https://listman.redhat.com/mailman/listinfo/linux-audit>,
  <mailto:linux-audit-request@redhat.com?subject=subscribe>
+Cc: "Linux-audit@redhat.com" <Linux-audit@redhat.com>
 Errors-To: linux-audit-bounces@redhat.com
 Sender: "Linux-audit" <linux-audit-bounces@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
 X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: jhuapl.edu
-Content-Language: en-US
-Content-Type: multipart/mixed; boundary="===============4869946541222567185=="
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/mixed; boundary="===============8040778346056975489=="
 
---===============4869946541222567185==
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_7622dda18a1544c3bb52052019e34d72jhuapledu_"
+--===============8040778346056975489==
+Content-Type: multipart/alternative; boundary="00000000000027fa8b05fbae40a6"
 
---_000_7622dda18a1544c3bb52052019e34d72jhuapledu_
-Content-Type: text/plain; charset="us-ascii"
+--00000000000027fa8b05fbae40a6
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-All,
+Hello,
 
-Do you happen to know which if the standard STIG rules is picking up   type=
-=3DSOFTWARE_UPDATE events on RHEL 7 and 8 ?   I'm trying to figure out if w=
-e missed one of these rules on an Ubuntu 20 system we are configuring  or i=
-f maybe the audit subsystem implementation on that system doesn't pick up a=
-ll of the same record types as we get on our RHEL boxes.  I realized when I=
- started looking at this that it's not easy to determine which audit rule i=
-s picking up a particular event if it's not one of the rule that has a key =
-associated with it.
 
-As a possible alternative,   I ran across a sample audit.rules  list here G=
-itHub - Neo23x0/auditd: Best Practice Auditd Configuration<https://github.c=
-om/Neo23x0/auditd>  (actual rules file is here: auditd/audit.rules at maste=
-r * Neo23x0/auditd * GitHub<https://github.com/Neo23x0/auditd/blob/master/a=
-udit.rules>) which included some software management rules that don't appea=
-r to be  part of the standard "30-stig.rules" .
+On Fri, May 12, 2023 at 5:23=E2=80=AFPM Wieprecht, Karen M. <
+Karen.Wieprecht@jhuapl.edu> wrote:
 
-If the standard STIG rules don't pick up  type=3DSOFTWARE_UPDATE events on =
-Ubuntu20,  I might add some of these , so I was hoping to have a quick sani=
-ty check on whether these look like appropriate alternatives.  Any recommen=
-dations or comments regarding these sample rules would be much appreciated.=
-  Basically it looks to me like they are just setting watches for anyone  e=
-xecuting these various commands, which shouldn't cause to much noise in the=
- logs except maybe when we are patching which is one of the continuous moni=
-toring items I  need to be able to confirm.
-
-Thanks much!
-Karen Wieprecht
-
-# Software Management -----------------------------------------------------=
-----
-
-# RPM (Redhat/CentOS)
--w /usr/bin/rpm -p x -k software_mgmt
--w /usr/bin/yum -p x -k software_mgmt
-
-# DNF (Fedora/RedHat 8/CentOS 8)
--w /usr/bin/dnf -p x -k software_mgmt
-
-# YAST/Zypper/RPM (SuSE)
--w /sbin/yast -p x -k software_mgmt
--w /sbin/yast2 -p x -k software_mgmt
--w /bin/rpm -p x -k software_mgmt
--w /usr/bin/zypper -k software_mgmt
-
-# DPKG / APT-GET (Debian/Ubuntu)
--w /usr/bin/dpkg -p x -k software_mgmt
--w /usr/bin/apt -p x -k software_mgmt
--w /usr/bin/apt-add-repository -p x -k software_mgmt
--w /usr/bin/apt-get -p x -k software_mgmt
--w /usr/bin/aptitude -p x -k software_mgmt
--w /usr/bin/wajig -p x -k software_mgmt
--w /usr/bin/snap -p x -k software_mgmt
-
-# PIP(3) (Python installs)
--w /usr/bin/pip -p x -k T1072_third_party_software
--w /usr/local/bin/pip -p x -k T1072_third_party_software
--w /usr/bin/pip3 -p x -k T1072_third_party_software
--w /usr/local/bin/pip3 -p x -k T1072_third_party_software
-
-# npm
-## T1072 third party software
-## https://www.npmjs.com
-## https://docs.npmjs.com/cli/v6/commands/npm-audit
--w /usr/bin/npm -p x -k T1072_third_party_software
-
---_000_7622dda18a1544c3bb52052019e34d72jhuapledu_
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
-osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
-//www.w3.org/TR/REC-html40">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+> All,
 >
-<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
-<style><!--
-/* Font Definitions */
-@font-face
-=09{font-family:"Cambria Math";
-=09panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-=09{font-family:Calibri;
-=09panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-=09{font-family:Consolas;
-=09panose-1:2 11 6 9 2 2 4 3 2 4;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-=09{margin:0in;
-=09margin-bottom:.0001pt;
-=09font-size:11.0pt;
-=09font-family:"Calibri",sans-serif;}
-a:link, span.MsoHyperlink
-=09{mso-style-priority:99;
-=09color:#0563C1;
-=09text-decoration:underline;}
-a:visited, span.MsoHyperlinkFollowed
-=09{mso-style-priority:99;
-=09color:#954F72;
-=09text-decoration:underline;}
-code
-=09{mso-style-priority:99;
-=09font-family:"Courier New";}
-pre
-=09{mso-style-priority:99;
-=09mso-style-link:"HTML Preformatted Char";
-=09margin:0in;
-=09margin-bottom:.0001pt;
-=09font-size:10.0pt;
-=09font-family:"Courier New";}
-span.EmailStyle17
-=09{mso-style-type:personal-compose;
-=09font-family:"Calibri",sans-serif;
-=09color:windowtext;}
-span.HTMLPreformattedChar
-=09{mso-style-name:"HTML Preformatted Char";
-=09mso-style-priority:99;
-=09mso-style-link:"HTML Preformatted";
-=09font-family:"Courier New";}
-.MsoChpDefault
-=09{mso-style-type:export-only;}
-@page WordSection1
-=09{size:8.5in 11.0in;
-=09margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-=09{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]-->
-</head>
-<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72">
-<div class=3D"WordSection1">
-<p class=3D"MsoNormal">All,&nbsp; <o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+>
+>
+> Do you happen to know which if the standard STIG rules is picking up
+>   type=3DSOFTWARE_UPDATE events on RHEL 7 and 8 ?
+>
+
+None. rpm has been altered to produce these much the same as pam produces
+login events. It was too tricky to tell the intent to update vs querying
+the rpm database. And you have no way to answer the question about success
+without originating from inside rpm itself. I don't think any external
+rules can meet all requirements imposed by OSPP, which the STIG audit rules
+are loosely based on.
+
+-Steve
+
+
+>   I=E2=80=99m trying to figure out if we missed one of these rules on an =
+Ubuntu 20
+> system we are configuring  or if maybe the audit subsystem implementation
+> on that system doesn=E2=80=99t pick up all of the same record types as we=
+ get on
+> our RHEL boxes.  I realized when I started looking at this that it=E2=80=
+=99s not
+> easy to determine which audit rule is picking up a particular event if it=
+=E2=80=99s
+> not one of the rule that has a key associated with it.
+>
+>
+>
+> As a possible alternative,   I ran across a sample audit.rules  list here=
+ GitHub
+> - Neo23x0/auditd: Best Practice Auditd Configuration
+> <https://github.com/Neo23x0/auditd>  (actual rules file is here: auditd/a=
+udit.rules
+> at master =C2=B7 Neo23x0/auditd =C2=B7 GitHub
+> <https://github.com/Neo23x0/auditd/blob/master/audit.rules>) which
+> included some software management rules that don=E2=80=99t appear to be  =
+part of
+> the standard =E2=80=9C30-stig.rules=E2=80=9D .
+>
+>
+>
+> If the standard STIG rules don=E2=80=99t pick up  type=3DSOFTWARE_UPDATE =
+events on
+> Ubuntu20,  I might add some of these , so I was hoping to have a quick
+> sanity check on whether these look like appropriate alternatives.  Any
+> recommendations or comments regarding these sample rules would be much
+> appreciated.  Basically it looks to me like they are just setting watches
+> for anyone  executing these various commands, which shouldn=E2=80=99t cau=
+se to much
+> noise in the logs except maybe when we are patching which is one of the
+> continuous monitoring items I  need to be able to confirm.
+>
+>
+>
+> Thanks much!
+>
+> Karen Wieprecht
+>
+>
+>
+> # Software Management
+> ---------------------------------------------------------
+>
+>
+>
+> # RPM (Redhat/CentOS)
+>
+> -w /usr/bin/rpm -p x -k software_mgmt
+>
+> -w /usr/bin/yum -p x -k software_mgmt
+>
+>
+>
+> # DNF (Fedora/RedHat 8/CentOS 8)
+>
+> -w /usr/bin/dnf -p x -k software_mgmt
+>
+>
+>
+> # YAST/Zypper/RPM (SuSE)
+>
+> -w /sbin/yast -p x -k software_mgmt
+>
+> -w /sbin/yast2 -p x -k software_mgmt
+>
+> -w /bin/rpm -p x -k software_mgmt
+>
+> -w /usr/bin/zypper -k software_mgmt
+>
+>
+>
+> # DPKG / APT-GET (Debian/Ubuntu)
+>
+> -w /usr/bin/dpkg -p x -k software_mgmt
+>
+> -w /usr/bin/apt -p x -k software_mgmt
+>
+> -w /usr/bin/apt-add-repository -p x -k software_mgmt
+>
+> -w /usr/bin/apt-get -p x -k software_mgmt
+>
+> -w /usr/bin/aptitude -p x -k software_mgmt
+>
+> -w /usr/bin/wajig -p x -k software_mgmt
+>
+> -w /usr/bin/snap -p x -k software_mgmt
+>
+>
+>
+> # PIP(3) (Python installs)
+>
+> -w /usr/bin/pip -p x -k T1072_third_party_software
+>
+> -w /usr/local/bin/pip -p x -k T1072_third_party_software
+>
+> -w /usr/bin/pip3 -p x -k T1072_third_party_software
+>
+> -w /usr/local/bin/pip3 -p x -k T1072_third_party_software
+>
+>
+>
+> # npm
+>
+> ## T1072 third party software
+>
+> ## https://www.npmjs.com
+>
+> ## https://docs.npmjs.com/cli/v6/commands/npm-audit
+>
+> -w /usr/bin/npm -p x -k T1072_third_party_software
+> --
+> Linux-audit mailing list
+> Linux-audit@redhat.com
+> https://listman.redhat.com/mailman/listinfo/linux-audit
+>
+
+--00000000000027fa8b05fbae40a6
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Hello,<div dir=3D"ltr"><br></div><br><div class=3D"gmail_q=
+uote"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, May 12, 2023 at 5:23=E2=
+=80=AFPM Wieprecht, Karen M. &lt;<a href=3D"mailto:Karen.Wieprecht@jhuapl.e=
+du">Karen.Wieprecht@jhuapl.edu</a>&gt; wrote:<br></div><blockquote class=3D=
+"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(2=
+04,204,204);padding-left:1ex"><div class=3D"msg3360991086530130866">
+
+
+
+
+
+<div lang=3D"EN-US">
+<div class=3D"m_3360991086530130866WordSection1">
+<p class=3D"MsoNormal">All,=C2=A0 <u></u><u></u></p>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
 <p class=3D"MsoNormal">Do you happen to know which if the standard STIG rul=
-es is picking up &nbsp;&nbsp;type=3DSOFTWARE_UPDATE events on RHEL 7 and 8 =
-?&nbsp;&nbsp; I&#8217;m trying to figure out if we missed one of these rule=
-s on an Ubuntu 20 system we are configuring&nbsp; or if maybe the audit
- subsystem implementation on that system doesn&#8217;t pick up all of the s=
-ame record types as we get on our RHEL boxes.&nbsp; I realized when I start=
-ed looking at this that it&#8217;s not easy to determine which audit rule i=
-s picking up a particular event if it&#8217;s not one of
- the rule that has a key associated with it.&nbsp; &nbsp;&nbsp;<o:p></o:p><=
-/p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">As a possible alternative,&nbsp;&nbsp; I ran across =
-a sample audit.rules &nbsp;list here
-<a href=3D"https://github.com/Neo23x0/auditd">GitHub - Neo23x0/auditd: Best=
- Practice Auditd Configuration</a> &nbsp;(actual rules file is here:
-<a href=3D"https://github.com/Neo23x0/auditd/blob/master/audit.rules">audit=
-d/audit.rules at master &middot; Neo23x0/auditd &middot; GitHub</a>) which =
-included some software management rules that don&#8217;t appear to be &nbsp=
-;part of the standard &#8220;30-stig.rules&#8221; .&nbsp;&nbsp;&nbsp;
-<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">If the standard STIG rules don&#8217;t pick up &nbsp=
-;type=3DSOFTWARE_UPDATE events on Ubuntu20, &nbsp;I might add some of these=
- , so I was hoping to have a quick sanity check on whether these look like =
-appropriate alternatives.&nbsp; Any recommendations or comments
- regarding these sample rules would be much appreciated.&nbsp; Basically it=
- looks to me like they are just setting watches for anyone &nbsp;executing =
-these various commands, which shouldn&#8217;t cause to much noise in the lo=
-gs except maybe when we are patching which is one
- of the continuous monitoring items I &nbsp;need to be able to confirm.&nbs=
-p; &nbsp;&nbsp;<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">Thanks much!<o:p></o:p></p>
-<p class=3D"MsoNormal">Karen Wieprecht <o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Consolas;=
-color:#1F2328;border:none windowtext 1.0pt;padding:0in"># Software Manageme=
-nt ---------------------------------------------------------<o:p></o:p></sp=
-an></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Consolas;=
-color:#1F2328;border:none windowtext 1.0pt;padding:0in"><o:p>&nbsp;</o:p></=
-span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Consolas;=
-color:#1F2328;border:none windowtext 1.0pt;padding:0in"># RPM (Redhat/CentO=
-S)<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Consolas;=
-color:#1F2328;border:none windowtext 1.0pt;padding:0in">-w /usr/bin/rpm -p =
-x -k software_mgmt<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Consolas;=
-color:#1F2328;border:none windowtext 1.0pt;padding:0in">-w /usr/bin/yum -p =
-x -k software_mgmt<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Consolas;=
-color:#1F2328;border:none windowtext 1.0pt;padding:0in"><o:p>&nbsp;</o:p></=
-span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Consolas;=
-color:#1F2328;border:none windowtext 1.0pt;padding:0in"># DNF (Fedora/RedHa=
-t 8/CentOS 8)<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Consolas;=
-color:#1F2328;border:none windowtext 1.0pt;padding:0in">-w /usr/bin/dnf -p =
-x -k software_mgmt<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Consolas;=
-color:#1F2328;border:none windowtext 1.0pt;padding:0in"><o:p>&nbsp;</o:p></=
-span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Consolas;=
-color:#1F2328;border:none windowtext 1.0pt;padding:0in"># YAST/Zypper/RPM (=
-SuSE)<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Consolas;=
-color:#1F2328;border:none windowtext 1.0pt;padding:0in">-w /sbin/yast -p x =
--k software_mgmt<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Consolas;=
-color:#1F2328;border:none windowtext 1.0pt;padding:0in">-w /sbin/yast2 -p x=
- -k software_mgmt<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Consolas;=
-color:#1F2328;border:none windowtext 1.0pt;padding:0in">-w /bin/rpm -p x -k=
- software_mgmt<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Consolas;=
-color:#1F2328;border:none windowtext 1.0pt;padding:0in">-w /usr/bin/zypper =
--k software_mgmt<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Consolas;=
-color:#1F2328;border:none windowtext 1.0pt;padding:0in"><o:p>&nbsp;</o:p></=
-span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Consolas;=
-color:#1F2328;border:none windowtext 1.0pt;padding:0in"># DPKG / APT-GET (D=
-ebian/Ubuntu)<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Consolas;=
-color:#1F2328;border:none windowtext 1.0pt;padding:0in">-w /usr/bin/dpkg -p=
- x -k software_mgmt<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Consolas;=
-color:#1F2328;border:none windowtext 1.0pt;padding:0in">-w /usr/bin/apt -p =
-x -k software_mgmt<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Consolas;=
-color:#1F2328;border:none windowtext 1.0pt;padding:0in">-w /usr/bin/apt-add=
--repository -p x -k software_mgmt<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Consolas;=
-color:#1F2328;border:none windowtext 1.0pt;padding:0in">-w /usr/bin/apt-get=
- -p x -k software_mgmt<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Consolas;=
-color:#1F2328;border:none windowtext 1.0pt;padding:0in">-w /usr/bin/aptitud=
-e -p x -k software_mgmt<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Consolas;=
-color:#1F2328;border:none windowtext 1.0pt;padding:0in">-w /usr/bin/wajig -=
-p x -k software_mgmt<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Consolas;=
-color:#1F2328;border:none windowtext 1.0pt;padding:0in">-w /usr/bin/snap -p=
- x -k software_mgmt<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Consolas;=
-color:#1F2328;border:none windowtext 1.0pt;padding:0in"><o:p>&nbsp;</o:p></=
-span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Consolas;=
-color:#1F2328;border:none windowtext 1.0pt;padding:0in"># PIP(3) (Python in=
-stalls)<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Consolas;=
-color:#1F2328;border:none windowtext 1.0pt;padding:0in">-w /usr/bin/pip -p =
-x -k T1072_third_party_software<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Consolas;=
-color:#1F2328;border:none windowtext 1.0pt;padding:0in">-w /usr/local/bin/p=
-ip -p x -k T1072_third_party_software<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Consolas;=
-color:#1F2328;border:none windowtext 1.0pt;padding:0in">-w /usr/bin/pip3 -p=
- x -k T1072_third_party_software<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Consolas;=
-color:#1F2328;border:none windowtext 1.0pt;padding:0in">-w /usr/local/bin/p=
-ip3 -p x -k T1072_third_party_software<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Consolas;=
-color:#1F2328;border:none windowtext 1.0pt;padding:0in"><o:p>&nbsp;</o:p></=
-span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Consolas;=
-color:#1F2328;border:none windowtext 1.0pt;padding:0in"># npm<o:p></o:p></s=
-pan></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Consolas;=
-color:#1F2328;border:none windowtext 1.0pt;padding:0in">## T1072 third part=
-y software<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Consolas;=
-color:#1F2328;border:none windowtext 1.0pt;padding:0in">## https://www.npmj=
-s.com<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Consolas;=
-color:#1F2328;border:none windowtext 1.0pt;padding:0in">## https://docs.npm=
-js.com/cli/v6/commands/npm-audit<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Consolas;=
-color:#1F2328;border:none windowtext 1.0pt;padding:0in">-w /usr/bin/npm -p =
-x -k T1072_third_party_software</span><o:p></o:p></p>
+es is picking up =C2=A0=C2=A0type=3DSOFTWARE_UPDATE events on RHEL 7 and 8 =
+?=C2=A0</p></div></div></div></blockquote><div><br></div><div><div>None. rp=
+m has been altered to produce these much the same as pam=20
+produces login events. It was too tricky to tell the intent to update vs
+ querying the rpm database. And you have no way to answer the question=20
+about success without originating from inside rpm itself. I don&#39;t think=
+=20
+any external rules can meet all requirements imposed by OSPP, which the=20
+STIG audit rules are loosely based on.<br></div><div><br></div><div>-Steve<=
+/div></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"marg=
+in:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1e=
+x"><div class=3D"msg3360991086530130866"><div lang=3D"EN-US"><div class=3D"=
+m_3360991086530130866WordSection1"><p class=3D"MsoNormal">=C2=A0 I=E2=80=99=
+m trying to figure out if we missed one of these rules on an Ubuntu 20 syst=
+em we are configuring=C2=A0 or if maybe the audit
+ subsystem implementation on that system doesn=E2=80=99t pick up all of the=
+ same record types as we get on our RHEL boxes.=C2=A0 I realized when I sta=
+rted looking at this that it=E2=80=99s not easy to determine which audit ru=
+le is picking up a particular event if it=E2=80=99s not one of
+ the rule that has a key associated with it.=C2=A0 =C2=A0=C2=A0<u></u><u></=
+u></p>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<p class=3D"MsoNormal">As a possible alternative,=C2=A0=C2=A0 I ran across =
+a sample audit.rules =C2=A0list here
+<a href=3D"https://github.com/Neo23x0/auditd" target=3D"_blank">GitHub - Ne=
+o23x0/auditd: Best Practice Auditd Configuration</a> =C2=A0(actual rules fi=
+le is here:
+<a href=3D"https://github.com/Neo23x0/auditd/blob/master/audit.rules" targe=
+t=3D"_blank">auditd/audit.rules at master =C2=B7 Neo23x0/auditd =C2=B7 GitH=
+ub</a>) which included some software management rules that don=E2=80=99t ap=
+pear to be =C2=A0part of the standard =E2=80=9C30-stig.rules=E2=80=9D .=C2=
+=A0=C2=A0=C2=A0
+<u></u><u></u></p>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<p class=3D"MsoNormal">If the standard STIG rules don=E2=80=99t pick up =C2=
+=A0type=3DSOFTWARE_UPDATE events on Ubuntu20, =C2=A0I might add some of the=
+se , so I was hoping to have a quick sanity check on whether these look lik=
+e appropriate alternatives.=C2=A0 Any recommendations or comments
+ regarding these sample rules would be much appreciated.=C2=A0 Basically it=
+ looks to me like they are just setting watches for anyone =C2=A0executing =
+these various commands, which shouldn=E2=80=99t cause to much noise in the =
+logs except maybe when we are patching which is one
+ of the continuous monitoring items I =C2=A0need to be able to confirm.=C2=
+=A0 =C2=A0=C2=A0<u></u><u></u></p>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<p class=3D"MsoNormal">Thanks much!<u></u><u></u></p>
+<p class=3D"MsoNormal">Karen Wieprecht <u></u><u></u></p>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:9pt;font-family:Consolas;co=
+lor:rgb(31,35,40);border:1pt none windowtext;padding:0in"># Software Manage=
+ment ---------------------------------------------------------<u></u><u></u=
+></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:9pt;font-family:Consolas;co=
+lor:rgb(31,35,40);border:1pt none windowtext;padding:0in"><u></u>=C2=A0<u><=
+/u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:9pt;font-family:Consolas;co=
+lor:rgb(31,35,40);border:1pt none windowtext;padding:0in"># RPM (Redhat/Cen=
+tOS)<u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:9pt;font-family:Consolas;co=
+lor:rgb(31,35,40);border:1pt none windowtext;padding:0in">-w /usr/bin/rpm -=
+p x -k software_mgmt<u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:9pt;font-family:Consolas;co=
+lor:rgb(31,35,40);border:1pt none windowtext;padding:0in">-w /usr/bin/yum -=
+p x -k software_mgmt<u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:9pt;font-family:Consolas;co=
+lor:rgb(31,35,40);border:1pt none windowtext;padding:0in"><u></u>=C2=A0<u><=
+/u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:9pt;font-family:Consolas;co=
+lor:rgb(31,35,40);border:1pt none windowtext;padding:0in"># DNF (Fedora/Red=
+Hat 8/CentOS 8)<u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:9pt;font-family:Consolas;co=
+lor:rgb(31,35,40);border:1pt none windowtext;padding:0in">-w /usr/bin/dnf -=
+p x -k software_mgmt<u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:9pt;font-family:Consolas;co=
+lor:rgb(31,35,40);border:1pt none windowtext;padding:0in"><u></u>=C2=A0<u><=
+/u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:9pt;font-family:Consolas;co=
+lor:rgb(31,35,40);border:1pt none windowtext;padding:0in"># YAST/Zypper/RPM=
+ (SuSE)<u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:9pt;font-family:Consolas;co=
+lor:rgb(31,35,40);border:1pt none windowtext;padding:0in">-w /sbin/yast -p =
+x -k software_mgmt<u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:9pt;font-family:Consolas;co=
+lor:rgb(31,35,40);border:1pt none windowtext;padding:0in">-w /sbin/yast2 -p=
+ x -k software_mgmt<u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:9pt;font-family:Consolas;co=
+lor:rgb(31,35,40);border:1pt none windowtext;padding:0in">-w /bin/rpm -p x =
+-k software_mgmt<u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:9pt;font-family:Consolas;co=
+lor:rgb(31,35,40);border:1pt none windowtext;padding:0in">-w /usr/bin/zyppe=
+r -k software_mgmt<u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:9pt;font-family:Consolas;co=
+lor:rgb(31,35,40);border:1pt none windowtext;padding:0in"><u></u>=C2=A0<u><=
+/u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:9pt;font-family:Consolas;co=
+lor:rgb(31,35,40);border:1pt none windowtext;padding:0in"># DPKG / APT-GET =
+(Debian/Ubuntu)<u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:9pt;font-family:Consolas;co=
+lor:rgb(31,35,40);border:1pt none windowtext;padding:0in">-w /usr/bin/dpkg =
+-p x -k software_mgmt<u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:9pt;font-family:Consolas;co=
+lor:rgb(31,35,40);border:1pt none windowtext;padding:0in">-w /usr/bin/apt -=
+p x -k software_mgmt<u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:9pt;font-family:Consolas;co=
+lor:rgb(31,35,40);border:1pt none windowtext;padding:0in">-w /usr/bin/apt-a=
+dd-repository -p x -k software_mgmt<u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:9pt;font-family:Consolas;co=
+lor:rgb(31,35,40);border:1pt none windowtext;padding:0in">-w /usr/bin/apt-g=
+et -p x -k software_mgmt<u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:9pt;font-family:Consolas;co=
+lor:rgb(31,35,40);border:1pt none windowtext;padding:0in">-w /usr/bin/aptit=
+ude -p x -k software_mgmt<u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:9pt;font-family:Consolas;co=
+lor:rgb(31,35,40);border:1pt none windowtext;padding:0in">-w /usr/bin/wajig=
+ -p x -k software_mgmt<u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:9pt;font-family:Consolas;co=
+lor:rgb(31,35,40);border:1pt none windowtext;padding:0in">-w /usr/bin/snap =
+-p x -k software_mgmt<u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:9pt;font-family:Consolas;co=
+lor:rgb(31,35,40);border:1pt none windowtext;padding:0in"><u></u>=C2=A0<u><=
+/u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:9pt;font-family:Consolas;co=
+lor:rgb(31,35,40);border:1pt none windowtext;padding:0in"># PIP(3) (Python =
+installs)<u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:9pt;font-family:Consolas;co=
+lor:rgb(31,35,40);border:1pt none windowtext;padding:0in">-w /usr/bin/pip -=
+p x -k T1072_third_party_software<u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:9pt;font-family:Consolas;co=
+lor:rgb(31,35,40);border:1pt none windowtext;padding:0in">-w /usr/local/bin=
+/pip -p x -k T1072_third_party_software<u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:9pt;font-family:Consolas;co=
+lor:rgb(31,35,40);border:1pt none windowtext;padding:0in">-w /usr/bin/pip3 =
+-p x -k T1072_third_party_software<u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:9pt;font-family:Consolas;co=
+lor:rgb(31,35,40);border:1pt none windowtext;padding:0in">-w /usr/local/bin=
+/pip3 -p x -k T1072_third_party_software<u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:9pt;font-family:Consolas;co=
+lor:rgb(31,35,40);border:1pt none windowtext;padding:0in"><u></u>=C2=A0<u><=
+/u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:9pt;font-family:Consolas;co=
+lor:rgb(31,35,40);border:1pt none windowtext;padding:0in"># npm<u></u><u></=
+u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:9pt;font-family:Consolas;co=
+lor:rgb(31,35,40);border:1pt none windowtext;padding:0in">## T1072 third pa=
+rty software<u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:9pt;font-family:Consolas;co=
+lor:rgb(31,35,40);border:1pt none windowtext;padding:0in">## <a href=3D"htt=
+ps://www.npmjs.com" target=3D"_blank">https://www.npmjs.com</a><u></u><u></=
+u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:9pt;font-family:Consolas;co=
+lor:rgb(31,35,40);border:1pt none windowtext;padding:0in">## <a href=3D"htt=
+ps://docs.npmjs.com/cli/v6/commands/npm-audit" target=3D"_blank">https://do=
+cs.npmjs.com/cli/v6/commands/npm-audit</a><u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:9pt;font-family:Consolas;co=
+lor:rgb(31,35,40);border:1pt none windowtext;padding:0in">-w /usr/bin/npm -=
+p x -k T1072_third_party_software</span><u></u><u></u></p>
 </div>
-</body>
-</html>
+</div>
 
---_000_7622dda18a1544c3bb52052019e34d72jhuapledu_--
+--<br>
+Linux-audit mailing list<br>
+<a href=3D"mailto:Linux-audit@redhat.com" target=3D"_blank">Linux-audit@red=
+hat.com</a><br>
+<a href=3D"https://listman.redhat.com/mailman/listinfo/linux-audit" rel=3D"=
+noreferrer" target=3D"_blank">https://listman.redhat.com/mailman/listinfo/l=
+inux-audit</a><br>
+</div></blockquote></div></div>
 
---===============4869946541222567185==
+--00000000000027fa8b05fbae40a6--
+
+--===============8040778346056975489==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -420,5 +461,5 @@ Linux-audit mailing list
 Linux-audit@redhat.com
 https://listman.redhat.com/mailman/listinfo/linux-audit
 
---===============4869946541222567185==--
+--===============8040778346056975489==--
 
