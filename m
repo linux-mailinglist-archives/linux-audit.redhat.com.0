@@ -1,85 +1,107 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2B6570E962
-	for <lists+linux-audit@lfdr.de>; Wed, 24 May 2023 01:12:41 +0200 (CEST)
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 352CF70F456
+	for <lists+linux-audit@lfdr.de>; Wed, 24 May 2023 12:38:21 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1684883560;
+	s=mimecast20190719; t=1684924700;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
-	 message-id:message-id:to:to:cc:mime-version:mime-version:
-	 content-type:content-type:list-id:list-help:list-unsubscribe:
-	 list-subscribe:list-post; bh=9rMwPWSBOqenT2bhNDycGDRynz81LpIvamLAdgUZVMs=;
-	b=O5OO31aKGloanJxM0NMBUrNspGLMax4bOTssNQQp/X6oM6zMnx2lcnI7KYUhkSZb5EIHtE
-	vtvTh0Jlx84dfoM/o0BF8QkEBG2/uyIY7oLK8ssAMByW930QVtUaWCUDXsde4iS1KqvORh
-	QCC0LcXaIRC80VOYhLjRlUqiJo24P9g=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+	 content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:list-id:list-help:
+	 list-unsubscribe:list-subscribe:list-post;
+	bh=SIoFsWb6C09y/NSY6NFkRDIRjnGa9ATxw2JUgFE8anY=;
+	b=eSUsdGieSyVih2aOJdmQ3kwzUcfGXhWIYF40qLZkvnO3hUuxQJ25DPGzdrg+EKbiT3s5nM
+	BSnI5COGGobF+5DPD29fzUgxNiR5cWA/LZTnTh4zxH6W5HZi4t+p4StA0TNwBjWUOMkSdM
+	I357H0VhAZC6P8DjcX3V6OGWo8UV6r0=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-657-UJOaVEUYP0yTLuv4AcP-VA-1; Tue, 23 May 2023 19:12:37 -0400
-X-MC-Unique: UJOaVEUYP0yTLuv4AcP-VA-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
+ us-mta-390-FHte1iH7Mg6_rStiY6UHjw-1; Wed, 24 May 2023 06:38:16 -0400
+X-MC-Unique: FHte1iH7Mg6_rStiY6UHjw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3C48629AA2C1;
-	Tue, 23 May 2023 23:12:35 +0000 (UTC)
-Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com [10.30.29.100])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 32FE4492B0B;
-	Tue, 23 May 2023 23:12:26 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6C5B5101A53B;
+	Wed, 24 May 2023 10:38:14 +0000 (UTC)
+Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (unknown [10.30.29.100])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 053F220296C8;
+	Wed, 24 May 2023 10:38:10 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (localhost [IPv6:::1])
-	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id 7500619465B9;
-	Tue, 23 May 2023 23:12:24 +0000 (UTC)
+	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id 5EA4519465B9;
+	Wed, 24 May 2023 10:38:08 +0000 (UTC)
 X-Original-To: linux-audit@listman.corp.redhat.com
 Delivered-To: linux-audit@listman.corp.redhat.com
 Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
  [10.11.54.9])
  by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with
- ESMTP id 9F22219465A0 for <linux-audit@listman.corp.redhat.com>;
- Tue, 23 May 2023 23:12:23 +0000 (UTC)
+ ESMTP id 2E01419465A0 for <linux-audit@listman.corp.redhat.com>;
+ Wed, 24 May 2023 10:38:07 +0000 (UTC)
 Received: by smtp.corp.redhat.com (Postfix)
- id 89EA6482060; Tue, 23 May 2023 23:12:23 +0000 (UTC)
+ id 126DF400F17; Wed, 24 May 2023 10:38:07 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
- (mimecast06.extmail.prod.ext.rdu2.redhat.com [10.11.55.22])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 82A68400F17
- for <linux-audit@redhat.com>; Tue, 23 May 2023 23:12:23 +0000 (UTC)
+ (mimecast07.extmail.prod.ext.rdu2.redhat.com [10.11.55.23])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0A5B9492B00
+ for <linux-audit@redhat.com>; Wed, 24 May 2023 10:38:07 +0000 (UTC)
 Received: from us-smtp-inbound-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [205.139.110.120])
+ [207.211.31.120])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 67AFB185A78E
- for <linux-audit@redhat.com>; Tue, 23 May 2023 23:12:23 +0000 (UTC)
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com
- [209.85.218.42]) by relay.mimecast.com with ESMTP with STARTTLS
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E145A3C14AAB
+ for <linux-audit@redhat.com>; Wed, 24 May 2023 10:38:06 +0000 (UTC)
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com
+ [209.85.167.43]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-558-FCF1jvcwOI2sx599i-yD2A-1; Tue, 23 May 2023 19:12:21 -0400
-X-MC-Unique: FCF1jvcwOI2sx599i-yD2A-1
-Received: by mail-ej1-f42.google.com with SMTP id
- a640c23a62f3a-96fdc081cb3so29087266b.2
- for <linux-audit@redhat.com>; Tue, 23 May 2023 16:12:21 -0700 (PDT)
+ us-mta-363-njYRHGC1Mhyf5Bph1M6wtQ-1; Wed, 24 May 2023 06:38:05 -0400
+X-MC-Unique: njYRHGC1Mhyf5Bph1M6wtQ-1
+Received: by mail-lf1-f43.google.com with SMTP id
+ 2adb3069b0e04-4f004cc54f4so730392e87.3
+ for <linux-audit@redhat.com>; Wed, 24 May 2023 03:38:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684883540; x=1687475540;
- h=to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=2FrRSkZx2AyqT05pKe6ODfA1VhMcqeFX6GNEbxEnqHc=;
- b=TRPRQwe+SUmuxzpl5w40BKxLcxT9vqGEb/YV8z7IigvhOnyd9KflqjptMWKXV+o/P9
- 4ETIWADxL0gaiTicR1rafh0/FtTGOEVQKWuF8l6dmoRkmmtncXvdzxcQAU6m1bEQ3TJ2
- kSjbJtzkEVHiZKqlcj8giJUKtmoaPmz/nwTZ/Gx+5YdT4HClU7/9obBxU1CiRdWs6HEs
- ZuEgQkqFrLlX+62Pq9UQGAJq5LaXVxSubwLAcJQUtCrKwjeHOwV8ecczQO8bnZvcqGQd
- ZuNjnmDNIPLmC1tSBTmEBScEXiNWPqHhTDDd+ilnqgrwkVz2HZlcCBz8kQtyr42c/mgD
- OnpA==
-X-Gm-Message-State: AC+VfDwxntYsMdwHpwen+h2ZPUkx5rUR9rCIp8lcjyvmKrIz8VkvaGFA
- vNNG8Zb81E4p8jjSWqP+SAmOyv4fDwrrCaxpHATAEHzOtL8=
-X-Google-Smtp-Source: ACHHUZ4XnJbnYigea7gbbIpk2te0R5mb7MT6yV9vINXH+ICaBPP+pTiEhPUbPgW+gxviX9A/YnsKYlLmeLJiQ1IeaS4=
-X-Received: by 2002:a17:907:c26:b0:94f:356d:cd0 with SMTP id
- ga38-20020a1709070c2600b0094f356d0cd0mr20661081ejc.33.1684883539549; Tue, 23
- May 2023 16:12:19 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1684924683; x=1687516683;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=8aIc+W4jRozyQKjGPCOdblhKfCTo6UqCtNr9GJSvrD0=;
+ b=FPTBL9xsAWqnb7WCTZdOqt4mXI9MYSm7ixgugIdYx0uvSAVIwcOPiikHR3fJkApKi1
+ s+xU+POfuer7/hU04XhzqfBs2C+M6h2jnPN1aoS45NXtabH8MlGWymRuylcAGDYHOYGh
+ jEMYJ0roqctahpWOjmQIjQPENcQjzBzwxdcM3sDKjxZRHt4wlempBr1R7i9z5PO1Fm07
+ zhJAWIobjCXuAh7rITScAGVpmlu1f8I72zJ/fbZw2SyxQVVrWoZj7rj+ksLpM1G6Zq23
+ yM7LP9jhU6dHf/gu21+Mosfxy4m2IIOHnWeQfI15ShfxA34ruAEY6lkCAsQ6Lf51Uu6R
+ Bnjg==
+X-Gm-Message-State: AC+VfDyQDRTokjkYkU0QNelQzUS1ASBU3gJfLe+AXFvSxWygOSM9rz7y
+ cYF5SB8BKwhvZNvnzYbDLCo=
+X-Google-Smtp-Source: ACHHUZ7g7cPceUMikyYVFWz/WlBSc4fZEWypRDBoGCo+aCDkVp8a3751hHLICOTYJfkAW8YcXV1isQ==
+X-Received: by 2002:a05:6512:489:b0:4f2:7c91:93f with SMTP id
+ v9-20020a056512048900b004f27c91093fmr5649928lfq.21.1684924683061; 
+ Wed, 24 May 2023 03:38:03 -0700 (PDT)
+Received: from [192.168.0.31] ([94.242.171.185])
+ by smtp.gmail.com with ESMTPSA id
+ z4-20020ac25de4000000b004efee5841b9sm1656965lfq.290.2023.05.24.03.38.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 24 May 2023 03:38:02 -0700 (PDT)
+Message-ID: <8406cb9d-0654-b41c-64f9-01aba486b849@gmail.com>
+Date: Wed, 24 May 2023 13:38:01 +0300
 MIME-Version: 1.0
-From: "warron.french" <warron.french@gmail.com>
-Date: Tue, 23 May 2023 19:12:07 -0400
-Message-ID: <CAJdJdQnpmK3uN7R_CNQs3+HdLKfswgQpqT95+O0_Bawc7zMKHw@mail.gmail.com>
-Subject: No more report of quantity of rules successfully loaded
-To: Linux Audit <linux-audit@redhat.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: Can AUDIT_LIST_RULES causes kthreadd-spam?
+To: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+References: <ecd4bf68-3bf1-a1d8-4da5-5fbd28c51a6b@gmail.com>
+ <CAHC9VhTXHLS7bsDJ8-dSp4dQSQRcKRLiTMRYJOJVCY11G5D85A@mail.gmail.com>
+ <e5713a91-37b0-d32f-a0d2-eb668122c9e4@gmail.com>
+ <9ae2c1df-1f20-a40b-35ed-1dc76b122a4f@I-love.SAKURA.ne.jp>
+ <CAHC9VhTfxqrWaJrBccDY9LJR+Fggr__zufD-Wd=0VZwN5bBU6g@mail.gmail.com>
+ <415a4871-4d84-a31f-5417-e850a98bbffd@I-love.SAKURA.ne.jp>
+ <7c4caf66-a0ae-4999-172e-437d6cfc8ff3@gmail.com>
+ <0e748195-d3ba-88c5-1b1e-5a9c447bea57@I-love.SAKURA.ne.jp>
+ <dcb7759f-ffd9-b414-f68b-44707a879312@gmail.com>
+ <f2c12d41-95bb-6e56-4d68-8a4b50ca59fd@I-love.SAKURA.ne.jp>
+From: Rinat Gadelshin <rgadelsh@gmail.com>
+In-Reply-To: <f2c12d41-95bb-6e56-4d68-8a4b50ca59fd@I-love.SAKURA.ne.jp>
 X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
  Definition; Similar Internal Domain=false;
  Similar Monitored External Domain=false; Custom External Domain=false;
@@ -99,82 +121,71 @@ List-Post: <mailto:linux-audit@redhat.com>
 List-Help: <mailto:linux-audit-request@redhat.com?subject=help>
 List-Subscribe: <https://listman.redhat.com/mailman/listinfo/linux-audit>,
  <mailto:linux-audit-request@redhat.com?subject=subscribe>
+Cc: audit@vger.kernel.org, linux-audit@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
 Sender: "Linux-audit" <linux-audit-bounces@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: gmail.com
-Content-Type: multipart/mixed; boundary="===============4733701703747419548=="
-
---===============4733701703747419548==
-Content-Type: multipart/alternative; boundary="000000000000dce08205fc6484b5"
-
---000000000000dce08205fc6484b5
-Content-Type: text/plain; charset="UTF-8"
-
-Hi, I am running auditd-3.0.7-4 on an Alma Linux v8.8.
-
-I know that for all of RHEL 6 and RHEL 7 variants that I worked with, to
-include CentOS (not Stream) that after I rebooted a server or restarted the
-auditd service (with -e 1 set) that I would 100% of the time get a report
-in /var/log/messages about the quantity of rules that successfully loaded.
-
-I could compare that to my unified rules file
-(/etc/audit/rules.d/Unified.rules - for a reference) and strip out the
-typical for auditd Control rules (-D, -e 1, -f 1, -b, -r, for examples) and
-then assess if I had the full set of files loaded or not.
-
-With this implementation of auditd, on version 3.0.7-4, I am not getting
-those results anymore.
-Am I looking in the wrong place, because for me this is important
-information?
-
-Yes, I know that I can also manually execute "auditctl -l  | wc -l" and get
-that information  too, but I was wondering if this is planned or if I am
-looking in the wrong place, or what to do.
-
-
-Thanks,
---------------------------
-Warron French
-
---000000000000dce08205fc6484b5
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Hi, I am running=C2=A0auditd-3.0.7-4 on an Alma Linux=
- v8.8.</div><div><br></div><div>I know that for all of RHEL 6 and RHEL 7 va=
-riants that I worked with, to include CentOS (not Stream) that after I rebo=
-oted a server or restarted the auditd service (with -e 1 set) that I would =
-100% of the time get a report in /var/log/messages about the quantity of ru=
-les that successfully loaded.</div><div><br></div><div>I could compare that=
- to my unified rules file (/etc/audit/rules.d/Unified.rules - for a referen=
-ce) and strip out the typical for auditd Control rules (-D, -e 1, -f 1, -b,=
- -r, for examples) and then assess if I had the full set of files loaded or=
- not.</div><div><br></div><div>With this implementation of auditd, on versi=
-on 3.0.7-4, I am not getting those results anymore.</div><div>Am I looking =
-in the wrong place, because for me this is important information?</div><div=
-><br></div><div>Yes, I know that I can also manually execute &quot;auditctl=
- -l=C2=A0 | wc -l&quot; and get that information=C2=A0 too, but I was wonde=
-ring if this is planned or if I am looking in the wrong place, or what to d=
-o.</div><div><br></div><div><br></div><div>Thanks,</div><div><div dir=3D"lt=
-r" class=3D"gmail_signature" data-smartmail=3D"gmail_signature"><div dir=3D=
-"ltr">--------------------------<br><font color=3D"#000099" size=3D"4">Warr=
-on French<br><font size=3D"4"><font size=3D"4"><font size=3D"4"><br></font>=
-</font></font></font></div></div></div></div>
-
---000000000000dce08205fc6484b5--
-
---===============4733701703747419548==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
+Content-Language: en-US, ru-RU
 Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+
+Hi Tetsuo.
+
+Sorry for my log absence.
+The kthread-spam problem has gone when I've switched to using 
+unicast-netlink connection (like auditd does).
+
+Do we need to make another test with the additional pr_info() ?
+
+On 10.05.2023 16:30, Tetsuo Handa wrote:
+> On 2023/05/10 21:12, Rinat Gadelshin wrote:
+>>> Please try to find who is calling audit_send_reply_thread for many times.
+>>>
+>> I've rebuilt the kernel with 'dump stack()'.
+> Oops, I thought dump_stack() shows pid and comm name, but
+> it is dump_stack_print_info() that shows pid and comm name.
+>
+>> As far as I can see, it's the exit of `sendto` syscall.
+>> It seems that the kernel just creates a new kthreadd for each sendto syscall.
+>> But I think that I'm wrong and just missing something.
+> Yes, sendto() on netlink socket calls netlink_sendmsg().
+> For some reason, audit_send_reply() is called for many times.
+> audit_send_reply() is called by audit_receive_msg() for the following types.
+>
+>    AUDIT_GET
+>    AUDIT_SIGNAL_INFO
+>    AUDIT_TTY_GET
+>    AUDIT_GET_FEATURE
+>
+> Would you re-caputure with
+>
+> -	dump_stack();
+> +	pr_info("%s %s:%d type=%d\n", __func__, current->comm, current->pid, type);
+>
+> ?
+>
+> Regardless of the result of re-caputure, it seems there is no switch that can
+> prevent audit_send_reply() from calling kthread_run(audit_send_reply_thread).
+>
+> But since kthreadd runs with PID=2 and PPID=0, you might be able to use
+> PID=2 and/or PPID=0 in your rules in order to let kernel audit subsystem
+> ignore kthreadd. (I can't test because I haven't found how to reproduce
+> audit_receive_msg() in my environment...)
+>
+> # cat /proc/2/status
+> Name:   kthreadd
+> Umask:  0000
+> State:  S (sleeping)
+> Tgid:   2
+> Ngid:   0
+> Pid:    2
+> PPid:   0
+>
 
 --
 Linux-audit mailing list
 Linux-audit@redhat.com
 https://listman.redhat.com/mailman/listinfo/linux-audit
-
---===============4733701703747419548==--
 
