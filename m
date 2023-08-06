@@ -1,92 +1,84 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEE7D762423
-	for <lists+linux-audit@lfdr.de>; Tue, 25 Jul 2023 23:09:17 +0200 (CEST)
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [216.145.221.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 32AE6771566
+	for <lists+linux-audit@lfdr.de>; Sun,  6 Aug 2023 15:43:08 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1690319356;
+	s=mimecast20190719; t=1691329386;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
-	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-	 content-type:content-type:in-reply-to:in-reply-to:
-	 references:references:list-id:list-help:list-unsubscribe:
-	 list-subscribe:list-post; bh=NOKae0/lxx1HEdfmTtk3d6X4AjWF0PRntvzlaph8RaA=;
-	b=X8lcLnlxOgIv3b2T9RcBizPC9TLPaBY2Sve7Z93FCH/hRQRMzWTuBJKxZsyCbq/7TfJkh0
-	uj0gbacrywuXCzPcnNHT6aUD/cK5B9Qp4MzoJH10cH9vwfIA/KU++f4UDWpiZg8ti7x3qQ
-	S9/NEiAsAWUL8SQbE3BYjBCsAtUpu1Y=
+	 message-id:message-id:to:to:cc:mime-version:mime-version:
+	 content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:list-id:list-help:
+	 list-unsubscribe:list-subscribe:list-post;
+	bh=GyXsnWYgWz6ghPOM5Od0/5alzJHInCL9ziRxCdzCr7s=;
+	b=GeCXcYmmszeekWC6U2xw0QQa5KvJ27jf//mzu8PE2ITqWN6g91FYsNaGAjUeyx4idKxIGf
+	jAnEepb9RXqZG0jLVhTQF7AaAmSTBmN9hD7axYf+a7C4ogTU4dFyLnHEOJRx+jYq75LIgk
+	CtT52B4PFT1KGP53SHq5LjHAVVm4qrQ=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-688-FoZNmUPNP0q3h7vofUUbrA-1; Tue, 25 Jul 2023 17:09:15 -0400
-X-MC-Unique: FoZNmUPNP0q3h7vofUUbrA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
+ us-mta-2-WgHV4rXTOzm9mS_JU9ALWA-1; Sun, 06 Aug 2023 09:43:02 -0400
+X-MC-Unique: WgHV4rXTOzm9mS_JU9ALWA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 43A20873232;
-	Tue, 25 Jul 2023 21:09:13 +0000 (UTC)
-Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com [10.30.29.100])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 0E7DDC2C7D3;
-	Tue, 25 Jul 2023 21:09:03 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 41E9D185A78B;
+	Sun,  6 Aug 2023 13:43:00 +0000 (UTC)
+Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (unknown [10.30.29.100])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 2A125201EE6E;
+	Sun,  6 Aug 2023 13:42:49 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (localhost [IPv6:::1])
-	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id 2106B1946A5E;
-	Tue, 25 Jul 2023 21:09:01 +0000 (UTC)
+	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id 49D3B1946594;
+	Sun,  6 Aug 2023 13:42:47 +0000 (UTC)
 X-Original-To: linux-audit@listman.corp.redhat.com
 Delivered-To: linux-audit@listman.corp.redhat.com
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
  by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with
- ESMTP id 720771946589 for <linux-audit@listman.corp.redhat.com>;
- Tue, 25 Jul 2023 21:00:13 +0000 (UTC)
+ ESMTP id CC7E01946587 for <linux-audit@listman.corp.redhat.com>;
+ Sun,  6 Aug 2023 13:41:54 +0000 (UTC)
 Received: by smtp.corp.redhat.com (Postfix)
- id 4B4DB40C206F; Tue, 25 Jul 2023 21:00:13 +0000 (UTC)
+ id E8DCEF7FC1; Sun,  6 Aug 2023 13:41:53 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
- (mimecast08.extmail.prod.ext.rdu2.redhat.com [10.11.55.24])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 43BFE40C2063
- for <linux-audit@redhat.com>; Tue, 25 Jul 2023 21:00:13 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [207.211.31.120])
+ (mimecast06.extmail.prod.ext.rdu2.redhat.com [10.11.55.22])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E0AE8F7FC0
+ for <linux-audit@redhat.com>; Sun,  6 Aug 2023 13:41:53 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-inbound-delivery-1.mimecast.com
+ [205.139.110.61])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1FE663810D30
- for <linux-audit@redhat.com>; Tue, 25 Jul 2023 21:00:13 +0000 (UTC)
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com
- [209.85.208.180]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-117-t8I7AP7vMIOId0H_jZhTww-1; Tue, 25 Jul 2023 17:00:10 -0400
-X-MC-Unique: t8I7AP7vMIOId0H_jZhTww-1
-Received: by mail-lj1-f180.google.com with SMTP id
- 38308e7fff4ca-2b933bbd3eeso89080201fa.1
- for <linux-audit@redhat.com>; Tue, 25 Jul 2023 14:00:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690318808; x=1690923608;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=J+T5HFAQEkP+eqGAThMnN0dkHOWI2tx33n/C14m47uA=;
- b=hwAK6sM7HDdmBUD/onG7xYXBsKrF7Vr8Xahbo/lme1Eu7bNcO8kkHt3bXMNej0RzUJ
- BhNZoYhZviZu5CqJCB8PO9W5Jw/zi6UTmyYe+80O/9+qjOAYEIO2xa+bNguf8UxR1wWm
- 6dhXPrPJB+peDDzWp+TtPvE9mil7tii5iJcZRzgxHAfSLuWPImqXTNs9CdoNgm+/KP+e
- lUydh9yl8gNjtemunY91GDdGI2eeWwOM+2nT6pdCRDL0e/GCGNOsywNmwCndZ0207cG/
- msyedd0SSEBZhoBtl/tTYVLl48rmHHb+pvnP3y58G0yFV3+onrUn1CMNV8p60BqzOy3B
- Sjlw==
-X-Gm-Message-State: ABy/qLa77yCdm7/1WeFDQ+Rq3Q2z7FTQQQKOuvrbtRqnpHLeqqyeejri
- /DCiUGyXM5jB4oNwn0rk5dum6+S5YTzA0PiJ2rrYnQ==
-X-Google-Smtp-Source: APBJJlHNjeHlgiyJcbrN7cyCPLs7qnfA153QxgCMBDSXt2JngP9e9XKNSbOtUbTnYC9GzEwV8iObQRMQXhsuOdPCIaE=
-X-Received: by 2002:a2e:b00a:0:b0:2b9:3db7:322a with SMTP id
- y10-20020a2eb00a000000b002b93db7322amr9991536ljk.29.1690318808470; Tue, 25
- Jul 2023 14:00:08 -0700 (PDT)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BE6DC185A78F
+ for <linux-audit@redhat.com>; Sun,  6 Aug 2023 13:41:53 +0000 (UTC)
+Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-536-WjKYVS3CO9y-3fvYcOs6nQ-1; Sun, 06 Aug 2023 09:41:50 -0400
+X-MC-Unique: WjKYVS3CO9y-3fvYcOs6nQ-1
+Received: from fsav413.sakura.ne.jp (fsav413.sakura.ne.jp [133.242.250.112])
+ by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 376D4v3i062567;
+ Sun, 6 Aug 2023 22:04:57 +0900 (JST)
+ (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Received: from www262.sakura.ne.jp (202.181.97.72)
+ by fsav413.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav413.sakura.ne.jp);
+ Sun, 06 Aug 2023 22:04:57 +0900 (JST)
+X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav413.sakura.ne.jp)
+Received: from [192.168.1.6] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
+ (authenticated bits=0)
+ by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 376D4v8N062563
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+ Sun, 6 Aug 2023 22:04:57 +0900 (JST)
+ (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Message-ID: <41d03271-ff8a-9888-11de-a7f53da47328@I-love.SAKURA.ne.jp>
+Date: Sun, 6 Aug 2023 22:04:55 +0900
 MIME-Version: 1.0
-References: <CAG0SdGBHWZCDTHrx-OthDoJ6O==RqSzH3yvAEzmQLT=iYHZhSw@mail.gmail.com>
- <2691760.mvXUDI8C0e@x2>
- <CAG0SdGBHnFLf=DDMwvyYyctfq3YcA3RUzuEibMdDbxTCuwFxZA@mail.gmail.com>
- <2241383.iZASKD2KPV@x2>
-In-Reply-To: <2241383.iZASKD2KPV@x2>
-From: Samuel Bahr <sbahr@pinterest.com>
-Date: Tue, 25 Jul 2023 15:59:57 -0500
-Message-ID: <CAG0SdGAH-De7KW00gXhMyFBF17-yVn+H+COU7w6WuZRydSyAyQ@mail.gmail.com>
-Subject: Re: Cannot disable kernel's audit system via auditctl
-To: Steve Grubb <sgrubb@redhat.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.14.0
+To: linux-security-module <linux-security-module@vger.kernel.org>,
+ audit@vger.kernel.org, linux-audit@redhat.com
+From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+Subject: [PATCH v2] TaskTracker : Simplified thread information tracker.
 X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
  Definition; Similar Internal Domain=false;
  Similar Monitored External Domain=false; Custom External Domain=false;
@@ -94,8 +86,7 @@ X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
  Internal User Name=false; Custom Display Name List=false;
  Reply-to Address Mismatch=false; Targeted Threat Dictionary=false;
  Mimecast Threat Dictionary=false; Custom Threat Dictionary=false
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-X-Mailman-Approved-At: Tue, 25 Jul 2023 21:08:59 +0000
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,199 +98,289 @@ List-Post: <mailto:linux-audit@redhat.com>
 List-Help: <mailto:linux-audit-request@redhat.com?subject=help>
 List-Subscribe: <https://listman.redhat.com/mailman/listinfo/linux-audit>,
  <mailto:linux-audit-request@redhat.com?subject=subscribe>
-Cc: linux-audit@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
 Sender: "Linux-audit" <linux-audit-bounces@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
 X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: pinterest.com
-Content-Type: multipart/mixed; boundary="===============2143266204850063370=="
-
---===============2143266204850063370==
-Content-Type: multipart/alternative; boundary="000000000000234b8b06015604e8"
-
---000000000000234b8b06015604e8
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Hi Steve,
-
-Since auditd.service is disabled nothing is writing to the audit log:
-
-# aureport --start yesterday --event --summary -i
->
-> Event Summary Report
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> total  type
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> <no events of interest were found>
->
-
-However, I can parse the audit logs that do make it to the kernel ring
-buffer (not suppressed by printk):
-
-> $ dmesg | grep -Eo 'type=3D[0-9]+' | sort | uniq -c | sort -n
->    1198 type=3D1400
->
-
-In the past, before landing on our current (partial) solution to disable
-the kernel audit subsystem w/ `auditctl -e 0` we tried just filtering out
-type 1400 messages w/ `auditctl -a exclude,always -F msgtype=3D1400`.
-However, that only lead us to seeing other types of audit messages in the
-kernel ring buffer:
-
-> $ dmesg | grep -Eo 'type=3D[0-9]+' | sort | uniq -c | sort -n
-> 7 type=3D1109
-> 10 type=3D1110
-> 12 type=3D1123
-> 52 type=3D1112
-> 91 type=3D1131
-> 93 type=3D1130
-> 268 type=3D1105
-> 356 type=3D1104
-> 357 type=3D1106
-> 414 type=3D1006
-> 454 type=3D1103
-> 459 type=3D1101
->
-
-Note, that was with the kernel audit subsystem enabled so perhaps the
-behavior is different than now where it's disabled entirely.
-
-Regards,
-Samuel Bahr
-Pinterest Sr. Site Reliability Engineer
-
-On Tue, Jul 25, 2023 at 12:05=E2=80=AFPM Steve Grubb <sgrubb@redhat.com> wr=
-ote:
-
-> On Monday, July 24, 2023 5:06:02 PM EDT Samuel Bahr wrote:
-> > `auditctl -D` does not make it go away (outputs `No rules`). auditd isn=
-'t
-> > running at all and this behavior is happening purely from the kernel.
-> These
-> > systems were never set to enabled 2 (locked).
-> >
-> > I went ahead and filed a Github issue for this thread:
-> > https://github.com/linux-audit/audit-kernel/issues/146
-> >
-> > The maintainer there suggested it's too difficult to debug due to eBPF
-> > programs + AWS's modified kernel.
->
-> I think there is data that could help decide where the problem might be.
-> On
-> one of the systems that is still logging, try running an event type repor=
-t:
->
-> aureport --start yesterday --event --summary -i
->
-> This should identify what kind of event is being emitted. Based on that,
-> it
-> might point to where the problem is.
->
-> > I've resigned to asking Red Canary to support eBPF mode with `audit=3D0=
-`
-> > kernel parameter in their Linux EDR. Let me know if you have any other
-> > ideas.
->
-> I'd say collecting summary information about what kind of events are bein=
-g
-> logged would be a good start.
->
-> -Steve
->
->
->
-
---000000000000234b8b06015604e8
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hi Steve,<div><br></div><div>Since auditd.service is disab=
-led nothing is writing to the audit log:</div><div><br></div><blockquote cl=
-ass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid=
- rgb(204,204,204);padding-left:1ex"># aureport --start yesterday --event --=
-summary -i<br><br>Event Summary Report<br>=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>total =C2=A0type<br>=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>&lt;no events of intere=
-st were found&gt;<br></blockquote><div><br></div><div>However, I can parse =
-the audit logs that do make it to the kernel ring buffer (not suppressed by=
- printk):</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0p=
-x 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">$ dmesg | =
-grep -Eo &#39;type=3D[0-9]+&#39; | sort | uniq -c | sort -n<br>=C2=A0 =C2=
-=A01198 type=3D1400<br></blockquote><div><br></div><div>In the past, before=
- landing on our current (partial) solution to disable the kernel audit subs=
-ystem w/ `auditctl -e 0` we tried just filtering out type 1400 messages w/ =
-`auditctl -a exclude,always -F msgtype=3D1400`. However, that only lead us =
-to seeing other types of audit messages in the kernel ring buffer:</div><bl=
-ockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-lef=
-t:1px solid rgb(204,204,204);padding-left:1ex">$ dmesg | grep -Eo &#39;type=
-=3D[0-9]+&#39; | sort | uniq -c | sort -n<br>7 type=3D1109<br>10 type=3D111=
-0<br>12 type=3D1123<br>52 type=3D1112<br>91 type=3D1131<br>93 type=3D1130<b=
-r>268 type=3D1105<br>356 type=3D1104<br>357 type=3D1106<br>414 type=3D1006<=
-br>454 type=3D1103<br>459 type=3D1101<br></blockquote><div><br></div><div>N=
-ote, that was with the kernel=C2=A0audit subsystem enabled so perhaps the b=
-ehavior is different than now where it&#39;s disabled entirely.</div><div><=
-br></div><div>Regards,</div><div>Samuel Bahr</div><div>Pinterest Sr. Site R=
-eliability Engineer</div></div><br><div class=3D"gmail_quote"><div dir=3D"l=
-tr" class=3D"gmail_attr">On Tue, Jul 25, 2023 at 12:05=E2=80=AFPM Steve Gru=
-bb &lt;<a href=3D"mailto:sgrubb@redhat.com">sgrubb@redhat.com</a>&gt; wrote=
-:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.=
-8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Monday, Jul=
-y 24, 2023 5:06:02 PM EDT Samuel Bahr wrote:<br>
-&gt; `auditctl -D` does not make it go away (outputs `No rules`). auditd is=
-n&#39;t<br>
-&gt; running at all and this behavior is happening purely from the kernel. =
-These<br>
-&gt; systems were never set to enabled 2 (locked).<br>
-&gt; <br>
-&gt; I went ahead and filed a Github issue for this thread:<br>
-&gt; <a href=3D"https://github.com/linux-audit/audit-kernel/issues/146" rel=
-=3D"noreferrer" target=3D"_blank">https://github.com/linux-audit/audit-kern=
-el/issues/146</a><br>
-&gt; <br>
-&gt; The maintainer there suggested it&#39;s too difficult to debug due to =
-eBPF<br>
-&gt; programs + AWS&#39;s modified kernel.<br>
-<br>
-I think there is data that could help decide where the problem might be. On=
- <br>
-one of the systems that is still logging, try running an event type report:=
-<br>
-<br>
-aureport --start yesterday --event --summary -i<br>
-<br>
-This should identify what kind of event is being emitted. Based on that, it=
- <br>
-might point to where the problem is.<br>
-<br>
-&gt; I&#39;ve resigned to asking Red Canary to support eBPF mode with `audi=
-t=3D0`<br>
-&gt; kernel parameter in their Linux EDR. Let me know if you have any other=
-<br>
-&gt; ideas.<br>
-<br>
-I&#39;d say collecting summary information about what kind of events are be=
-ing <br>
-logged would be a good start.<br>
-<br>
--Steve<br>
-<br>
-<br>
-</blockquote></div>
-
---000000000000234b8b06015604e8--
-
---===============2143266204850063370==
+X-Mimecast-Originator: i-love.sakura.ne.jp
+Content-Language: en-US
 Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+
+When an unexpected system event occurs, the administrator may want to
+identify which application triggered the event. For example, unexpected
+process termination is still a real concern enough to write articles
+like https://access.redhat.com/solutions/165993 . TaskTracker is a
+trivial LSM module which emits TOMOYO-like information into the audit
+logs for better understanding of unexpected system events.
+
+I suggested TaskTracker about 10 years ago [1]. Compared to that time,
+security_task_alloc()/security_task_free() hooks have been revived, but
+the multiple concurrent LSM patches have not completed yet.
+
+When I proposed TaskTracker as an LSM module [2], there was a comment that
+this module should not reuse the subj= field and instead add new fields to
+audit logs. But that thread died for unknown reason, and there is an effort
+for making it possible to enable SELinux and Smack at the same time.
+Thus, retrying as an LSM module based on an assumption that the multiple
+concurrent LSM patches will address how to share the subj= field. I think
+that passing whole history in one string is easier for those who want to
+avoid bloating audit log files to control history size and fields to
+include. Also, I think that userspace tools won't try to tokenize
+this history in order to perform more than fgrep matching.
+
+But now that LSM people are about to require an LSM ID for registering an
+LSM module, I can't wait till it becomes possible to enable SELinux and
+Smack at the same time. I have to send TaskTracker upstream in order to
+assign an LSM ID for TaskTracker.
+
+Link: https://marc.info/?l=linux-security-module&m=138547679621695 [1]
+Link: https://lkml.kernel.org/r/201405232144.JFB30480.OVMOOSFtQJHLFF@I-love.SAKURA.ne.jp [2]
+Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+---
+ security/Kconfig                   |   1 +
+ security/Makefile                  |   1 +
+ security/tasktracker/Kconfig       |  24 +++++
+ security/tasktracker/Makefile      |   2 +
+ security/tasktracker/tasktracker.c | 160 +++++++++++++++++++++++++++++
+ 5 files changed, 188 insertions(+)
+ create mode 100644 security/tasktracker/Kconfig
+ create mode 100644 security/tasktracker/Makefile
+ create mode 100644 security/tasktracker/tasktracker.c
+
+diff --git a/security/Kconfig b/security/Kconfig
+index 52c9af08ad35..aea0ac2b24a1 100644
+--- a/security/Kconfig
++++ b/security/Kconfig
+@@ -194,6 +194,7 @@ source "security/yama/Kconfig"
+ source "security/safesetid/Kconfig"
+ source "security/lockdown/Kconfig"
+ source "security/landlock/Kconfig"
++source "security/tasktracker/Kconfig"
+ 
+ source "security/integrity/Kconfig"
+ 
+diff --git a/security/Makefile b/security/Makefile
+index 18121f8f85cd..86ae43be3207 100644
+--- a/security/Makefile
++++ b/security/Makefile
+@@ -24,6 +24,7 @@ obj-$(CONFIG_SECURITY_LOCKDOWN_LSM)	+= lockdown/
+ obj-$(CONFIG_CGROUPS)			+= device_cgroup.o
+ obj-$(CONFIG_BPF_LSM)			+= bpf/
+ obj-$(CONFIG_SECURITY_LANDLOCK)		+= landlock/
++obj-$(CONFIG_SECURITY_TASKTRACKER)	+= tasktracker/
+ 
+ # Object integrity file lists
+ obj-$(CONFIG_INTEGRITY)			+= integrity/
+diff --git a/security/tasktracker/Kconfig b/security/tasktracker/Kconfig
+new file mode 100644
+index 000000000000..6b294bf18878
+--- /dev/null
++++ b/security/tasktracker/Kconfig
+@@ -0,0 +1,24 @@
++# SPDX-License-Identifier: GPL-2.0-only
++config SECURITY_TASKTRACKER
++	bool "TaskTracker Support"
++	depends on SECURITY && AUDIT
++	default n
++	help
++	  This selects TaskTracker, a module which provides a thread's
++	  history for better understanding of audit logs.
++
++          If you enable this module, you will find history of current
++          thread in the subj= field of audit logs in the form of
++          name=$commname;pid=$pid;start=$YYYYMMDDhhmmss delimited by =>
++          like an example shown below.
++
++          [root@localhost ~]# auditctl -a exit,always -F arch=b64 -S kill
++          [root@localhost ~]# bash
++          [root@localhost ~]# kill -9 $$
++          Killed
++          [root@localhost ~]# ausearch -sc kill
++          ----
++          time->Sun Aug  6 15:36:17 2023
++          type=PROCTITLE msg=audit(1691303777.054:117): proctitle="(null)"
++          type=OBJ_PID msg=audit(1691303777.054:117): opid=3787 oauid=0 ouid=0 oses=1 ocomm="bash"
++          type=SYSCALL msg=audit(1691303777.054:117): arch=c000003e syscall=62 success=yes exit=0 a0=ecb a1=9 a2=0 a3=7ffc779be760 items=0 ppid=3766 pid=3787 auid=0 uid=0 gid=0 euid=0 suid=0 fsuid=0 egid=0 sgid=0 fsgid=0 tty=pts0 ses=1 comm="bash" exe="/usr/bin/bash" subj="name=swapper/0;pid=0;start=20230806153345=>name=init;pid=1;start=20230806153400=>name=systemd;pid=1;start=20230806153457=>name=sshd;pid=3661;start=20230806063525=>name=sshd;pid=3764;start=20230806063543=>name=bash;pid=3766;start=20230806063549=>name=bash;pid=3787;start=20230806063612" key=(null)
+diff --git a/security/tasktracker/Makefile b/security/tasktracker/Makefile
+new file mode 100644
+index 000000000000..1c11673c7684
+--- /dev/null
++++ b/security/tasktracker/Makefile
+@@ -0,0 +1,2 @@
++# SPDX-License-Identifier: GPL-2.0
++obj-y = tasktracker.o
+diff --git a/security/tasktracker/tasktracker.c b/security/tasktracker/tasktracker.c
+new file mode 100644
+index 000000000000..bd76d7e2b42b
+--- /dev/null
++++ b/security/tasktracker/tasktracker.c
+@@ -0,0 +1,160 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * tt.c - Simplified thread information tracker.
++ */
++
++#include <linux/lsm_hooks.h>
++#include <linux/ctype.h>
++
++#define HISTORY_BUFFER_SIZE 1024
++
++struct lsm_blob_sizes tt_blob_sizes __ro_after_init = {
++	.lbs_task = HISTORY_BUFFER_SIZE,
++};
++
++/**
++ * tt_task - Get history of specified thread.
++ *
++ * @task - Pointer to "struct task_struct".
++ *
++ * Returns history of specified thread.
++ */
++static char *tt_task(struct task_struct *task)
++{
++	return task->security + tt_blob_sizes.lbs_task;
++}
++
++/**
++ * tt_update_history - Update history of current thread.
++ *
++ * Returns nothing.
++ */
++static void tt_update_history(void)
++{
++	int i;
++	int required;
++	struct tm tm;
++	char buf[256];
++	char *cp = buf;
++	char *history = tt_task(current);
++
++	cp += snprintf(buf, sizeof(buf) - 1, "name=");
++	for (i = 0; i < TASK_COMM_LEN; i++) {
++		const unsigned char c = current->comm[i];
++
++		if (!c)
++			break;
++		if (isalnum(c) || c == '.' || c == '_' || c == '-' || c == '/') {
++			*cp++ = c;
++			continue;
++		}
++		*cp++ = '\\';
++		*cp++ = (c >> 6) + '0';
++		*cp++ = ((c >> 3) & 7) + '0';
++		*cp++ = (c & 7) + '0';
++	}
++	/* Append PID. */
++	cp += snprintf(cp, buf - cp + sizeof(buf) - 1, ";pid=%u",
++		       current->pid);
++	/* Append timestamp. */
++	time64_to_tm(ktime_get_real_seconds(), 0, &tm);
++	cp += snprintf(cp, buf - cp + sizeof(buf) - 1,
++		       ";start=%04u%02u%02u%02u%02u%02u", (int) tm.tm_year + 1900,
++		       tm.tm_mon + 1, tm.tm_mday, tm.tm_hour, tm.tm_min,
++		       tm.tm_sec);
++	/* Terminate the buffer. */
++	if (cp >= buf + sizeof(buf))
++		cp = buf + sizeof(buf) - 1;
++	*cp = '\0';
++	required = cp - buf;
++	/* Truncate history if history is too long to append. */
++	cp = history;
++	while (i = strlen(cp), i + required >= HISTORY_BUFFER_SIZE - 10) {
++		char *cp2 = memchr(cp + 3, '>', i - 3);
++
++		if (WARN_ON_ONCE(!cp2))
++			return;
++		cp2--;
++		memmove(cp + 1, cp2, strlen(cp2) + 1);
++	}
++	/* Create or append history. */
++	if (!i)
++		sprintf(cp, "\"%s\"", buf);
++	else
++		sprintf(cp + i - 1, "=>%s\"", buf);
++}
++
++static void tt_current_getsecid_subj(u32 *secid)
++{
++	*secid = 1;
++}
++
++/**
++ * tt_secid_to_secctx - Allocate memory used for auditing.
++ *
++ * @secid:   Bool flag to allocate.
++ * @secdata: Pointer to allocate memory.
++ * @seclen:  Unused.
++ *
++ * Returns 0 on success, -EINVAL otherwise.
++ */
++static int tt_secid_to_secctx(u32 secid, char **secdata, u32 *seclen)
++{
++	char *history = tt_task(current);
++
++	/*
++	 * This module avoids returning -ENOMEM in order to avoid audit_panic(),
++	 * by returning only current thread's history. Since current thread's
++	 * history is updated and read by only current thread, we don't need to
++	 * copy the history for reading.
++	 */
++	if (secid != 1)
++		return -EINVAL;
++	if (secdata)
++		*secdata = history;
++	*seclen = strlen(history);
++	return 0;
++}
++
++static int tt_task_alloc(struct task_struct *task, unsigned long clone_flags)
++{
++	/* Copy from current thread's history upon clone(). */
++	strscpy(tt_task(task), tt_task(current), HISTORY_BUFFER_SIZE);
++	return 0;
++}
++
++static void tt_bprm_committing_creds(struct linux_binprm *bprm)
++{
++	/* Update current thread's history upon successful execve(). */
++	tt_update_history();
++}
++
++static struct security_hook_list tt_hooks[] __ro_after_init = {
++	LSM_HOOK_INIT(current_getsecid_subj, tt_current_getsecid_subj),
++	LSM_HOOK_INIT(secid_to_secctx, tt_secid_to_secctx),
++	LSM_HOOK_INIT(task_alloc, tt_task_alloc),
++	LSM_HOOK_INIT(bprm_committing_creds, tt_bprm_committing_creds),
++};
++
++/**
++ * tt_init - Register TaskTracker as a LSM module.
++ *
++ * Returns 0.
++ */
++static int __init tt_init(void)
++{
++	char *history = tt_task(current);
++
++	memset(history, 0, HISTORY_BUFFER_SIZE);
++	tt_update_history();
++	security_add_hooks(tt_hooks, ARRAY_SIZE(tt_hooks), "tt");
++	pr_info("TaskTracker initialized\n");
++	return 0;
++}
++
++DEFINE_LSM(tt) = {
++	.name = "tt",
++	.flags = LSM_FLAG_EXCLUSIVE, /* Due to use of "u32 *secid' argument. */
++	.blobs = &tt_blob_sizes,
++	.init = tt_init,
++};
+-- 
+2.18.4
 
 --
 Linux-audit mailing list
 Linux-audit@redhat.com
 https://listman.redhat.com/mailman/listinfo/linux-audit
-
---===============2143266204850063370==--
 
