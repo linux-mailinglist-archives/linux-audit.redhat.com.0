@@ -2,90 +2,95 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C7E47817F4
-	for <lists+linux-audit@lfdr.de>; Sat, 19 Aug 2023 09:10:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5091782E7D
+	for <lists+linux-audit@lfdr.de>; Mon, 21 Aug 2023 18:36:38 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1692429019;
+	s=mimecast20190719; t=1692635797;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=nHTUSuctAV4bSwTmqur0t7xqyZ0Q42j81pWqj6PSE28=;
-	b=Xsx6WvMKKpdYenR9AM46HzPg63X8bFE4wNk63tNNk/bldIraRQMnnEj4cNPMduuCXBh3gB
-	jCiCprO/RXZ9wPiK4GHSOiL0frs1vDpqdQm6DCnX1Es4eJJtqfxIu14Z/E5Tf0lp38ynet
-	+v08tg8nGGRauws5d63b596e6yY9GCU=
+	bh=ALQbJf3bYU1Qa8Cc8nGewXxb/KIWh2U8deKKrzLsaWU=;
+	b=LFYgdx29mKB2E3mO4RV34y44/57Jjb2/2bLjYJksdllmtTm4p0HHiGH8BGpqeMVMgC23mh
+	Apu5fj3GArPAxnzTP/JU73ObWzwiGM17RhAUG8EmY3KKELs8pgTu6+/Xl+fpodT2b1TcY6
+	Lp3Rg4z5wvsp410X7mPDayhcQIcdwhE=
 Received: from mimecast-mx02.redhat.com (66.187.233.73 [66.187.233.73]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-136-A_9qPYMHPA6_VneG3pAkug-1; Sat, 19 Aug 2023 03:10:16 -0400
-X-MC-Unique: A_9qPYMHPA6_VneG3pAkug-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
+ us-mta-516-0UTApDzQPU62UCdDv2YqJQ-1; Mon, 21 Aug 2023 12:36:29 -0400
+X-MC-Unique: 0UTApDzQPU62UCdDv2YqJQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 50845380201E;
-	Sat, 19 Aug 2023 07:10:14 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B2BC91C09A40;
+	Mon, 21 Aug 2023 16:36:26 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com [10.30.29.100])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 61A672026D68;
-	Sat, 19 Aug 2023 07:10:01 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id A7858140E950;
+	Mon, 21 Aug 2023 16:36:22 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (localhost [IPv6:::1])
-	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id 0F4221946594;
-	Sat, 19 Aug 2023 07:10:00 +0000 (UTC)
+	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id 78B6D1946594;
+	Mon, 21 Aug 2023 16:36:16 +0000 (UTC)
 X-Original-To: linux-audit@listman.corp.redhat.com
 Delivered-To: linux-audit@listman.corp.redhat.com
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
  by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with
- ESMTP id 7C6701946587 for <linux-audit@listman.corp.redhat.com>;
- Sat, 19 Aug 2023 07:09:59 +0000 (UTC)
+ ESMTP id AB5501946587 for <linux-audit@listman.corp.redhat.com>;
+ Mon, 21 Aug 2023 16:36:13 +0000 (UTC)
 Received: by smtp.corp.redhat.com (Postfix)
- id 69D3E4021AD; Sat, 19 Aug 2023 07:09:59 +0000 (UTC)
+ id 751351121314; Mon, 21 Aug 2023 16:36:08 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
- (mimecast07.extmail.prod.ext.rdu2.redhat.com [10.11.55.23])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 61D04492C13
- for <linux-audit@redhat.com>; Sat, 19 Aug 2023 07:09:59 +0000 (UTC)
-Received: from us-smtp-1.mimecast.com (us-smtp-inbound-delivery-1.mimecast.com
- [205.139.110.61])
+ (mimecast03.extmail.prod.ext.rdu2.redhat.com [10.11.55.19])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6D3EC1121318
+ for <linux-audit@redhat.com>; Mon, 21 Aug 2023 16:36:08 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [205.139.110.61])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1A7633C00120
- for <linux-audit@redhat.com>; Sat, 19 Aug 2023 07:09:59 +0000 (UTC)
-Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-586-B6T1BtOJMgqmz2NIHItucg-3; Sat, 19 Aug 2023 03:09:56 -0400
-X-MC-Unique: B6T1BtOJMgqmz2NIHItucg-3
-Received: from fsav114.sakura.ne.jp (fsav114.sakura.ne.jp [27.133.134.241])
- by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 37J79m2c075496;
- Sat, 19 Aug 2023 16:09:48 +0900 (JST)
- (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Received: from www262.sakura.ne.jp (202.181.97.72)
- by fsav114.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav114.sakura.ne.jp);
- Sat, 19 Aug 2023 16:09:48 +0900 (JST)
-X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav114.sakura.ne.jp)
-Received: from [192.168.1.6] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
- (authenticated bits=0)
- by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 37J79mSQ075493
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
- Sat, 19 Aug 2023 16:09:48 +0900 (JST)
- (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Message-ID: <b0b60fdc-4484-2265-7fdf-8367bf218d18@I-love.SAKURA.ne.jp>
-Date: Sat, 19 Aug 2023 16:09:46 +0900
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 525398D40A2
+ for <linux-audit@redhat.com>; Mon, 21 Aug 2023 16:36:08 +0000 (UTC)
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com
+ [209.85.128.169]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-346-WyEH3uSzNRWPWbW91cEqSQ-1; Mon, 21 Aug 2023 12:36:05 -0400
+X-MC-Unique: WyEH3uSzNRWPWbW91cEqSQ-1
+Received: by mail-yw1-f169.google.com with SMTP id
+ 00721157ae682-58df8cab1f2so39511037b3.3
+ for <linux-audit@redhat.com>; Mon, 21 Aug 2023 09:36:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1692635764; x=1693240564;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=sQv4L/PA9hY8HSrQBW7aq0hnDdsWEt0E4rTSB2AJsSQ=;
+ b=lOtWRY54wRoVemntdLZ0WhMI6SEl1yO5d6oIHzDQUiqd3hWGfhdK0JW0b8ftaukjJZ
+ 7dP+AKV9cQu5If7ApeX7PFH07YMoxuA4yX3dB9ndquisluYk3R2phYrzRc0BSa/JNrXJ
+ uxVEpFDfoqXkLgZJjoPyKwE1UkfBy5VIEfRzKDNDcEBS/Qzsn+zzHF5QEg5p6fY/hBwB
+ 24prmldBEx1E4NtbYDkLuYl8eOCmzRIToUQsuZ9m9hWxLnAoaz26Jtmdo410wWM9utXz
+ 6BnVqatu9VfJBKKtxMRZhjqrVST3FrviqsoBvEQpQG5yTszkgmGx0HIvPoPzVWS6RY4L
+ ty2Q==
+X-Gm-Message-State: AOJu0YzMgFQ8mCEa6ZzDi0qfxCJNRQ/jEzsf/nW3FSyeUVV8vaHbzes0
+ oQQ8t/LSd7nzaGZ3F039nZmvi3hHflUjYuzuru6t
+X-Google-Smtp-Source: AGHT+IGvrYxl2ATR99fLkx+ccMWXaAajiFR3da/YtTYl68Cg1mIR3qSvlj19aljN17/0G+gBMNsEw321rCUGMLHiEws=
+X-Received: by 2002:a81:6d0c:0:b0:581:2887:22be with SMTP id
+ i12-20020a816d0c000000b00581288722bemr8465445ywc.37.1692635764580; Mon, 21
+ Aug 2023 09:36:04 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.14.0
-Subject: Re: [PATCH] audit: add task history record
-To: Paul Moore <paul@paul-moore.com>
 References: <36b65eb1-ccbf-8b81-468f-b8d88c4be5a3@I-love.SAKURA.ne.jp>
  <CAHC9VhTLQjjQ0QMfBDHYCz9LOAuO=rJWSDEUqPsFE+dowFbN=Q@mail.gmail.com>
  <b06dbdd8-d2f6-b190-5635-948c0a966103@I-love.SAKURA.ne.jp>
  <CAHC9VhSz=3utr_CigGvkMEb6_avJUQq1Ak2smB7neSd76mzjFw@mail.gmail.com>
  <6957af54-16a2-4c28-56ff-dafe95f4e276@I-love.SAKURA.ne.jp>
  <CAHC9VhTj-PQ0qPTiphPLXyJx3bWeqgVS_GPCWNgjqFqBgH6Njg@mail.gmail.com>
-From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-In-Reply-To: <CAHC9VhTj-PQ0qPTiphPLXyJx3bWeqgVS_GPCWNgjqFqBgH6Njg@mail.gmail.com>
+ <b0b60fdc-4484-2265-7fdf-8367bf218d18@I-love.SAKURA.ne.jp>
+In-Reply-To: <b0b60fdc-4484-2265-7fdf-8367bf218d18@I-love.SAKURA.ne.jp>
+From: Paul Moore <paul@paul-moore.com>
+Date: Mon, 21 Aug 2023 12:35:53 -0400
+Message-ID: <CAHC9VhRaUxN=oEyKCOrfrGzJeXDGxv2EKbZH3qwAB6AhKcSfog@mail.gmail.com>
+Subject: Re: [PATCH] audit: add task history record
+To: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
 X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
  Definition; Similar Internal Domain=false;
  Similar Monitored External Domain=false; Custom External Domain=false;
@@ -93,7 +98,7 @@ X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
  Internal User Name=false; Custom Display Name List=false;
  Reply-to Address Mismatch=false; Targeted Threat Dictionary=false;
  Mimecast Threat Dictionary=false; Custom Threat Dictionary=false
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -110,186 +115,78 @@ Cc: audit@vger.kernel.org,
  linux-audit@redhat.com, Linus Torvalds <torvalds@linux-foundation.org>
 Errors-To: linux-audit-bounces@redhat.com
 Sender: "Linux-audit" <linux-audit-bounces@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
 X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: i-love.sakura.ne.jp
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+X-Mimecast-Originator: paul-moore.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On 2023/08/18 23:59, Paul Moore wrote:
-> Except we are not talking SELinux or LSMs here, we are talking about
-> audit and the audit subsystem is very different from the LSM layer.
-> The LSM layer is designed to be pluggable with support for multiple
-> individual LSMs, whereas the audit subsystem is designed to support a
-> single audit implementation.  It is my opinion that the audit patch
-> you have proposed here does not provide an audit administrator with
-> any new capabilities that they do not currently have as an option.
-
-Before explaining why an audit administrator cannot afford emulating
-this patch, I explain what this patch will do.
-
-
-
-There are three system calls for managing a process: fork()/execve()/exit().
-
-  https://I-love.SAKURA.ne.jp/tomoyo/fork.gif
-  https://I-love.SAKURA.ne.jp/tomoyo/execve.gif
-  https://I-love.SAKURA.ne.jp/tomoyo/exit.gif
-
-As a result, history of a process can be represented as a tree, where the
-root of the tree is the kernel thread which is started by the boot loader.
-
-  https://I-love.SAKURA.ne.jp/tomoyo/railway.gif
-
-This fundamental mechanism cannot be changed as long as Linux remains as a
-Unix-like OS. That is, adding this information will not cause what you call
-"the support burden".
-
-
-
-Currently, a "struct task_struct" has comm field and pid field, and
-people use these fields like
-
-  printk("[%s:%d] some msg comes here\n", current->comm, current->pid);
-
-for giving hints for identifying a process.
-
-What this patch does is to allow people do like
-
-  printk("[%s] some msg comes here\n", current->comm_history);
-
-for giving hints for identifying a process more precisely.
-That is, users of this information is not limited to audit. For example,
-an LSM module can use this information, an audit record can use this
-information, a SystemTap script can use this information, and so on...
-
-
-
-> 
-> There are also concerns around field formatting, record length, etc.,
-> but those are secondary issues compared to the more important issue of
-> redundant functionality.
-
-If someone tries to emulate this patch, we need to be able to trace all
-fork()/execve()/exit() system calls. Or, the history tree will be broken.
-
-If an audit administrator tries to emulate this patch using system call
-auditing functionality, we need to make sure that
-
-  "auditctl -D" must not clear rules for tracing fork()/execve()/exit()
-  system calls. This is impossible because this change will break userspace
-  programs expecting that "auditctl -D" clears all rules.
-
-  Rules for tracing fork()/execve()/exit() system calls must be enabled
-  when the kernel thread which is started by the boot loader starts.
-  How can we embed such system call auditing rules into the kernel and
-  tell whether to enable these rules using the kernel command line options?
-
-  In order to avoid possibility of loosing fork()/execve()/exit() records,
-  auditd must not be stopped even temporarily. Who wants to enforce such
-  requirement in order to be able to obtain process history information?
-
-It seems that Linux kernel also offers "proc connector" mechanism. But is that
-reliable enough to guarantee that all fork()/execve()/exit() histories are
-kept up-to-dated? Any emulation done by userspace programs is unreliable,
-for programs for emulating this patch are started too late to trace all.
-Only the built-in kernel code can trace all fork()/execve()/exit() events
-and guarantee that all fork()/execve()/exit() histories are kept up-to-dated.
-
-
-
-The tracing implemented by this patch needs to be done using the kernel code.
-
-https://www.intellilink.co.jp/column/oss/2014/093001.aspx (sorry, this article
-is written in Japanese language) explains 4 survey methods for finding locations
-affected by CVE-2014-6271 (also known as "ShellShock"). This article was based on
-https://I-love.SAKURA.ne.jp/tomoyo/LCJ2014-en.pdf . Copying P43 and P44 of this
-PDF file here:
-
-  Is SystemTap good at everything?
-
-    SystemTap can be used for not only measuring performance
-    of functionality but also tracing functionality.
-
-      LSM interface allows probing at only locations where LSM
-      callback hooks are provided, for it is designed for making
-      security decision and auditing.
-
-    SystemTap allows probing at almost everywhere (not only the
-    start/end of a function but also any line number in a function in
-    the source code).
-
-      For example, you can find out the exact location in the
-      source code where the errno the system call auditing would
-      record was set, by writing a SystemTap script which probes
-      at specific line number
-
-    Unfortunately, SystemTap is not a tool designed for monitoring
-    throughout years.
-
-      LSM modules do not skip events nor stop working until
-      shutdown, but SystemTap might skip events or stop working
-      due to SystemTap's safety mechanism (and/or external
-      factors like SIGKILL) before the event you want to record
-      occurs.
-
-    Please check whether SystemTap is suitable for solving your
-    problem.
-
-      There will be cases where system call auditing is better.
-      There will be cases where single function LSM modules
-      explained later is better.
-
-P100, P101, P102 of this PDF file demonstrates a SystemTap script
-which tries to emulate subset of what this patch can do. The difficult
-part of such emulation is mainly managing the process history tree.
-If the built-in kernel code offers the process history tree, writing
-SystemTap scripts will become much easier. 
-
-But I can't propose this code as a patch for SystemTap, for SystemTap
-is not a in-tree kernel code. I need to propose this code as a patch
-for in-tree kernel code. LSM and system call auditing are users who
-can utilize this code. But you don't want this code as a patch for
-audit due to unknown "the support burden".
-
-
-
-> 
->> People propose different approaches/implementations because
->> they can't afford utilizing/configuring existing approaches/implementations.
-> 
-> From what I've seen, both in this thread as well as the other related
-> threads from you, these recent efforts are due to a lack of TOMOYO
-> support in mainstream Linux distributions.  My advice is to stop
-> trying to duplicate the TOMOYO functionality in other subsystems/LSMs
-> and start working with the distributions to better understand why they
-> are not supporting TOMOYO.  I believe that if you can determine why
-> the distributions are not enabling TOMOYO, you should be able to
-> develop a plan to address those issues and eventually gain
-> distribution support for TOMOYO.  I understand that such an approach
-> will likely be time consuming and difficult, but I think that is your
-> best option for success.
-
-https://bugzilla.redhat.com/show_bug.cgi?id=542986 was the request for
-enabling TOMOYO in Fedora. But Red Hat people do not want to support
-TOMOYO due to unknown "the support burden" like you say.
-
-TOMOYO is tested by syzbot, and quite few bugs have been found in TOMOYO.
-I think that enabling TOMOYO in Fedora/RHEL kernels won't cause "the support
-burden.". But I can't determine why Red Hat people do not enable TOMOYO.
-How can I convince Red Hat people afraiding unprovable, unexplainable,
-unknown "the support burden" ?
-
-
-
-Anyway, enabling TOMOYO in Fedora/RHEL kernels won't solve the problem
-this patch is trying to solve, for TOMOYO cannot utilize TOMOYO's process
-history information because LSM hook for sending signals does not allow
-TOMOYO to sleep...
-
---
-Linux-audit mailing list
-Linux-audit@redhat.com
-https://listman.redhat.com/mailman/listinfo/linux-audit
+T24gU2F0LCBBdWcgMTksIDIwMjMgYXQgMzowOeKAr0FNIFRldHN1byBIYW5kYQo8cGVuZ3Vpbi1r
+ZXJuZWxAaS1sb3ZlLnNha3VyYS5uZS5qcD4gd3JvdGU6Cj4gT24gMjAyMy8wOC8xOCAyMzo1OSwg
+UGF1bCBNb29yZSB3cm90ZToKPiA+IEV4Y2VwdCB3ZSBhcmUgbm90IHRhbGtpbmcgU0VMaW51eCBv
+ciBMU01zIGhlcmUsIHdlIGFyZSB0YWxraW5nIGFib3V0Cj4gPiBhdWRpdCBhbmQgdGhlIGF1ZGl0
+IHN1YnN5c3RlbSBpcyB2ZXJ5IGRpZmZlcmVudCBmcm9tIHRoZSBMU00gbGF5ZXIuCj4gPiBUaGUg
+TFNNIGxheWVyIGlzIGRlc2lnbmVkIHRvIGJlIHBsdWdnYWJsZSB3aXRoIHN1cHBvcnQgZm9yIG11
+bHRpcGxlCj4gPiBpbmRpdmlkdWFsIExTTXMsIHdoZXJlYXMgdGhlIGF1ZGl0IHN1YnN5c3RlbSBp
+cyBkZXNpZ25lZCB0byBzdXBwb3J0IGEKPiA+IHNpbmdsZSBhdWRpdCBpbXBsZW1lbnRhdGlvbi4g
+IEl0IGlzIG15IG9waW5pb24gdGhhdCB0aGUgYXVkaXQgcGF0Y2gKPiA+IHlvdSBoYXZlIHByb3Bv
+c2VkIGhlcmUgZG9lcyBub3QgcHJvdmlkZSBhbiBhdWRpdCBhZG1pbmlzdHJhdG9yIHdpdGgKPiA+
+IGFueSBuZXcgY2FwYWJpbGl0aWVzIHRoYXQgdGhleSBkbyBub3QgY3VycmVudGx5IGhhdmUgYXMg
+YW4gb3B0aW9uLgo+Cj4gQmVmb3JlIGV4cGxhaW5pbmcgd2h5IGFuIGF1ZGl0IGFkbWluaXN0cmF0
+b3IgY2Fubm90IGFmZm9yZCBlbXVsYXRpbmcKPiB0aGlzIHBhdGNoLCBJIGV4cGxhaW4gd2hhdCB0
+aGlzIHBhdGNoIHdpbGwgZG8uCj4KPiBUaGVyZSBhcmUgdGhyZWUgc3lzdGVtIGNhbGxzIGZvciBt
+YW5hZ2luZyBhIHByb2Nlc3M6IGZvcmsoKS9leGVjdmUoKS9leGl0KCkuCj4KPiAgIGh0dHBzOi8v
+SS1sb3ZlLlNBS1VSQS5uZS5qcC90b21veW8vZm9yay5naWYKPiAgIGh0dHBzOi8vSS1sb3ZlLlNB
+S1VSQS5uZS5qcC90b21veW8vZXhlY3ZlLmdpZgo+ICAgaHR0cHM6Ly9JLWxvdmUuU0FLVVJBLm5l
+LmpwL3RvbW95by9leGl0LmdpZgo+Cj4gQXMgYSByZXN1bHQsIGhpc3Rvcnkgb2YgYSBwcm9jZXNz
+IGNhbiBiZSByZXByZXNlbnRlZCBhcyBhIHRyZWUsIHdoZXJlIHRoZQo+IHJvb3Qgb2YgdGhlIHRy
+ZWUgaXMgdGhlIGtlcm5lbCB0aHJlYWQgd2hpY2ggaXMgc3RhcnRlZCBieSB0aGUgYm9vdCBsb2Fk
+ZXIuCj4KPiAgIGh0dHBzOi8vSS1sb3ZlLlNBS1VSQS5uZS5qcC90b21veW8vcmFpbHdheS5naWYK
+Pgo+IFRoaXMgZnVuZGFtZW50YWwgbWVjaGFuaXNtIGNhbm5vdCBiZSBjaGFuZ2VkIGFzIGxvbmcg
+YXMgTGludXggcmVtYWlucyBhcyBhCj4gVW5peC1saWtlIE9TLiBUaGF0IGlzLCBhZGRpbmcgdGhp
+cyBpbmZvcm1hdGlvbiB3aWxsIG5vdCBjYXVzZSB3aGF0IHlvdSBjYWxsCj4gInRoZSBzdXBwb3J0
+IGJ1cmRlbiIgLi4uCgpBbnkgbmV3IGZ1bmN0aW9uYWxpdHkgYWRkZWQgdG8gdGhlIGtlcm5lbCwg
+ZXNwZWNpYWxseSB1c2VyIHZpc2libGUKZnVuY3Rpb25hbGl0eSBvciBzb21lIHNvcnQgb2YgaW50
+ZXJmYWNlLCBhZGRzIGEgc3VwcG9ydCBidXJkZW4uCk5vdGhpbmcgaXMgImZyZWUiLgoKPiA+IFRo
+ZXJlIGFyZSBhbHNvIGNvbmNlcm5zIGFyb3VuZCBmaWVsZCBmb3JtYXR0aW5nLCByZWNvcmQgbGVu
+Z3RoLCBldGMuLAo+ID4gYnV0IHRob3NlIGFyZSBzZWNvbmRhcnkgaXNzdWVzIGNvbXBhcmVkIHRv
+IHRoZSBtb3JlIGltcG9ydGFudCBpc3N1ZSBvZgo+ID4gcmVkdW5kYW50IGZ1bmN0aW9uYWxpdHku
+Cj4KPiBJZiBzb21lb25lIHRyaWVzIHRvIGVtdWxhdGUgdGhpcyBwYXRjaCwgd2UgbmVlZCB0byBi
+ZSBhYmxlIHRvIHRyYWNlIGFsbAo+IGZvcmsoKS9leGVjdmUoKS9leGl0KCkgc3lzdGVtIGNhbGxz
+LiBPciwgdGhlIGhpc3RvcnkgdHJlZSB3aWxsIGJlIGJyb2tlbi4KPgo+IElmIGFuIGF1ZGl0IGFk
+bWluaXN0cmF0b3IgdHJpZXMgdG8gZW11bGF0ZSB0aGlzIHBhdGNoIHVzaW5nIHN5c3RlbSBjYWxs
+Cj4gYXVkaXRpbmcgZnVuY3Rpb25hbGl0eSwgd2UgbmVlZCB0byBtYWtlIHN1cmUgdGhhdAo+Cj4g
+ICAiYXVkaXRjdGwgLUQiIG11c3Qgbm90IGNsZWFyIHJ1bGVzIGZvciB0cmFjaW5nIGZvcmsoKS9l
+eGVjdmUoKS9leGl0KCkKPiAgIHN5c3RlbSBjYWxscy4gVGhpcyBpcyBpbXBvc3NpYmxlIGJlY2F1
+c2UgdGhpcyBjaGFuZ2Ugd2lsbCBicmVhayB1c2Vyc3BhY2UKPiAgIHByb2dyYW1zIGV4cGVjdGlu
+ZyB0aGF0ICJhdWRpdGN0bCAtRCIgY2xlYXJzIGFsbCBydWxlcy4KCkl0J3MgYSBnb29kIHRoaW5n
+IHRoYXQgJ2F1ZHRpY3RsIC1kIC4uLicgZXhpc3RzIHNvIHRoYXQgb25lIGNhbgpzZWxlY3RpdmVs
+eSBkZWxldGUgYXVkaXQgcnVsZXMgZnJvbSB0aGUga2VybmVsLiAgSWYgc29tZW9uZSB3YW50cyB0
+bwpwcmVzZXJ2ZSBzcGVjaWZpYyBhdWRpdCBydWxlcywgdGhhdCBpcyB0aGUgd2F5IHRvIGRvIGl0
+OyAnYXVkaXRjdGwgLUQnCmlzIGEgdmVyeSBjb2Fyc2UgdG9vbCBhbmQgbm90IHNvbWV0aGluZyB0
+aGF0IGlzIGxpa2VseSB2ZXJ5IHVzZWZ1bCBmb3IKdXNlcnMgd2l0aCBzdHJpY3QgYXVkaXRpbmcg
+cmVxdWlyZW1lbnRzLgoKPiAgIFJ1bGVzIGZvciB0cmFjaW5nIGZvcmsoKS9leGVjdmUoKS9leGl0
+KCkgc3lzdGVtIGNhbGxzIG11c3QgYmUgZW5hYmxlZAo+ICAgd2hlbiB0aGUga2VybmVsIHRocmVh
+ZCB3aGljaCBpcyBzdGFydGVkIGJ5IHRoZSBib290IGxvYWRlciBzdGFydHMuCj4gICBIb3cgY2Fu
+IHdlIGVtYmVkIHN1Y2ggc3lzdGVtIGNhbGwgYXVkaXRpbmcgcnVsZXMgaW50byB0aGUga2VybmVs
+IGFuZAo+ICAgdGVsbCB3aGV0aGVyIHRvIGVuYWJsZSB0aGVzZSBydWxlcyB1c2luZyB0aGUga2Vy
+bmVsIGNvbW1hbmQgbGluZSBvcHRpb25zPwoKSSB3b3VsZCBib290IHRoZSBzeXN0ZW0gd2l0aCAn
+YXVkaXQ9MScgb24gdGhlIGtlcm5lbCBjb21tYW5kIGxpbmUgYW5kCmVuc3VyZSB0aGF0IHlvdXIg
+ZGVzaXJlZCBhdWRpdCBydWxlcyBhcmUgbG9hZGVkIGFzIGVhcmx5IGluIHRoZSBib290CnByb2Nl
+c3MgYXMgcG9zc2libGUsIGJlZm9yZSBhbnkgbG9uZy1ydW5uaW5nIHByb2Nlc3Nlcy9kYWVtb25z
+L2xvZ2lucwphcmUgc3RhcnRlZC4gIEhvbmVzdGx5LCB0aGF0J3Mgc2ltcGx5IGEgZ29vZCBiZXN0
+IHByYWN0aWNlIGZvciBhbnlvbmUKd2hvIGNhcmVzIGFib3V0IG1haW50YWluaW5nIGEgcHJvcGVy
+IGF1ZGl0IGxvZywgaW5kZXBlbmRlbnQgb2YgdGhlCnNwZWNpZmljIHVzZSBjYXNlIGhlcmUuCgo+
+ICAgSW4gb3JkZXIgdG8gYXZvaWQgcG9zc2liaWxpdHkgb2YgbG9vc2luZyBmb3JrKCkvZXhlY3Zl
+KCkvZXhpdCgpIHJlY29yZHMsCj4gICBhdWRpdGQgbXVzdCBub3QgYmUgc3RvcHBlZCBldmVuIHRl
+bXBvcmFyaWx5LiBXaG8gd2FudHMgdG8gZW5mb3JjZSBzdWNoCj4gICByZXF1aXJlbWVudCBpbiBv
+cmRlciB0byBiZSBhYmxlIHRvIG9idGFpbiBwcm9jZXNzIGhpc3RvcnkgaW5mb3JtYXRpb24/CgpB
+IHNpbGx5IGFtb3VudCBvZiB3b3JrIGhhcyBnb25lIGludG8gZW5zdXJpbmcgdGhhdCB0aGUgYXVk
+aXQgc3Vic3lzdGVtCmluIHRoZSBrZXJuZWwgZG9lc24ndCBsb3NlIHJlY29yZHMgd2hlbiBwcm9w
+ZXJseSBjb25maWd1cmVkLiAgSWYgeW91CmhhdmVuJ3QgYWxyZWFkeSwgSSB3b3VsZCBlbmNvdXJh
+Z2UgeW91IHRvIHJlYWQgdGhlIGF1ZGl0Y3RsKDgpIG1hbgpwYWdlIGFuZCBsb29rIGZvciB0aGUg
+cGFyYW1ldGVycyB0aGF0IGFkanVzdCB0aGUgYXVkaXQgYmFja2xvZwpjb25maWd1cmF0aW9uLgoK
+LS0gCnBhdWwtbW9vcmUuY29tCgotLQpMaW51eC1hdWRpdCBtYWlsaW5nIGxpc3QKTGludXgtYXVk
+aXRAcmVkaGF0LmNvbQpodHRwczovL2xpc3RtYW4ucmVkaGF0LmNvbS9tYWlsbWFuL2xpc3RpbmZv
+L2xpbnV4LWF1ZGl0Cg==
 
