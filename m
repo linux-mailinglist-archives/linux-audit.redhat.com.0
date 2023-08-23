@@ -2,92 +2,91 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52C5A7848DF
-	for <lists+linux-audit@lfdr.de>; Tue, 22 Aug 2023 19:59:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E8F9785A45
+	for <lists+linux-audit@lfdr.de>; Wed, 23 Aug 2023 16:21:08 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1692727157;
+	s=mimecast20190719; t=1692800467;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=OOXuW2/9LibcRMmNaBez2/wh3wIEyJi2nJXXKhHag8o=;
-	b=HpqgIKX4/l2ZkMkXUtZypTUGkgAs0Xc02zeDe4cQ+zlSwogBbYgLhHUqQpacQVjyqdQmsF
-	xnbzdDQ18+eo8PBC05F47viEmRrcO3B7JHsQ9HCCafrhm6piPEZ7dOE6qOgSklR8s1ioi/
-	n+xIdowcVDU2unlzy63y4YGaOI9lR8w=
-Received: from mimecast-mx02.redhat.com (66.187.233.73 [66.187.233.73]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-396-OZBsDZDFPcCyt040HnB66A-1; Tue, 22 Aug 2023 13:59:15 -0400
-X-MC-Unique: OZBsDZDFPcCyt040HnB66A-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
+	bh=InEdb+4Hf4z7T+OpSf9Ty1gIfa2FVkFmA6GBtVB3M4w=;
+	b=GNEhPRq7SegbCWqwGLyYzOHUyRiXPBfJJRwmfh6/tZCtP8VCaWgXzGtHjQoqCjfy4aFaVr
+	Mt2du+h6tnP3yf+HS6xzzooiMpvGxJkn8EGiELyFXO8l5cAnryt0y7uIuNRXb9oJxmW8Tu
+	KQVnRTpA/akWhU3GGJlVgUt/oFKBH/M=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-462-Qo20SllHMHWAjZZvQ3m5MQ-1; Wed, 23 Aug 2023 10:21:01 -0400
+X-MC-Unique: Qo20SllHMHWAjZZvQ3m5MQ-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 70CFA1C05B17;
-	Tue, 22 Aug 2023 17:59:13 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 71CED853065;
+	Wed, 23 Aug 2023 14:20:53 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com [10.30.29.100])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id A8BC5140E96F;
-	Tue, 22 Aug 2023 17:59:07 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 2CD03492C14;
+	Wed, 23 Aug 2023 14:20:48 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (localhost [IPv6:::1])
-	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id E62F01946594;
-	Tue, 22 Aug 2023 17:59:00 +0000 (UTC)
+	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id 2D6241946597;
+	Wed, 23 Aug 2023 14:20:42 +0000 (UTC)
 X-Original-To: linux-audit@listman.corp.redhat.com
 Delivered-To: linux-audit@listman.corp.redhat.com
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
  by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with
- ESMTP id C0E551946586 for <linux-audit@listman.corp.redhat.com>;
- Tue, 22 Aug 2023 17:58:59 +0000 (UTC)
+ ESMTP id 522B61946589 for <linux-audit@listman.corp.redhat.com>;
+ Wed, 23 Aug 2023 14:19:02 +0000 (UTC)
 Received: by smtp.corp.redhat.com (Postfix)
- id AC4C9492C18; Tue, 22 Aug 2023 17:58:59 +0000 (UTC)
+ id 2DB36403161; Wed, 23 Aug 2023 14:19:02 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
- (mimecast02.extmail.prod.ext.rdu2.redhat.com [10.11.55.18])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A48D1492C13
- for <linux-audit@redhat.com>; Tue, 22 Aug 2023 17:58:59 +0000 (UTC)
+ (mimecast04.extmail.prod.ext.rdu2.redhat.com [10.11.55.20])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 23F74492C13
+ for <linux-audit@redhat.com>; Wed, 23 Aug 2023 14:19:02 +0000 (UTC)
 Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [207.211.31.81])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
  bits)) (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 87265800193
- for <linux-audit@redhat.com>; Tue, 22 Aug 2023 17:58:59 +0000 (UTC)
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com
- [209.85.128.182]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-581-OOQh9SaPOGCtegwQ_qXYQw-1; Tue, 22 Aug 2023 13:58:57 -0400
-X-MC-Unique: OOQh9SaPOGCtegwQ_qXYQw-1
-Received: by mail-yw1-f182.google.com with SMTP id
- 00721157ae682-58dce1f42d6so79616727b3.0
- for <linux-audit@redhat.com>; Tue, 22 Aug 2023 10:58:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1692727137; x=1693331937;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=ZJNO4DpweFGif48FgwOo4h5q6LSFLw60E3Noa2q77zU=;
- b=crgetKCF5csbtLMHw/dxR89XmIEcQ2FOTDiIOJ4PjWep175luRpLGtz/HJPgSPpKXY
- UIqsOghUqu+WTZuiYqUZsWX+WBuZrr2JXDX0XKhoO3MUVZ3UaTHvslCKWz3+8T+BZ6o7
- 7KpcDH24lLceDMEctNN5bf1fpc1uwxoaS3NHXMvBqxNbIsbLOpwphNvVojBOoRUZcUIq
- z0T2Xx5yhDE0QRqwQqoGqLqriiKuBmXpi1RSem7rkFKliTrWHKcuj7m90uSb+Iygg6Rb
- PoLNFhkOHuBOvKJ9LA8zNjVb72Td60KPgOn6Y2jfTZCSJUK/dn6SyY6N0cqXWMeGpzbV
- fTIw==
-X-Gm-Message-State: AOJu0YyNGjLGhe0ptXOgZfYo67upYuwAYCP+4Mjfdu/vpcigRqsFZx2l
- f9VGGoo9bzHqsAfpxB4+oZPBuo1+ueiY8V7Rw7nr
-X-Google-Smtp-Source: AGHT+IEyDfy0CMSqPUd439p96k1PQIF8AF7NcYT6/KkkAcqmqIDP4pgMgV538sua5wmJ8oyoG1MTh7ku1JPl8x1envE=
-X-Received: by 2002:a0d:e206:0:b0:583:9db5:7e89 with SMTP id
- l6-20020a0de206000000b005839db57e89mr9299641ywe.24.1692727137183; Tue, 22 Aug
- 2023 10:58:57 -0700 (PDT)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 06D4D101A5BD
+ for <linux-audit@redhat.com>; Wed, 23 Aug 2023 14:19:02 +0000 (UTC)
+Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-81-79hwH5ogO8e7MZN9bGWDxQ-3; Wed, 23 Aug 2023 10:18:59 -0400
+X-MC-Unique: 79hwH5ogO8e7MZN9bGWDxQ-3
+Received: from fsav120.sakura.ne.jp (fsav120.sakura.ne.jp [27.133.134.247])
+ by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 37NEIqtU083525;
+ Wed, 23 Aug 2023 23:18:52 +0900 (JST)
+ (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Received: from www262.sakura.ne.jp (202.181.97.72)
+ by fsav120.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav120.sakura.ne.jp);
+ Wed, 23 Aug 2023 23:18:52 +0900 (JST)
+X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav120.sakura.ne.jp)
+Received: from [192.168.1.6] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
+ (authenticated bits=0)
+ by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 37NEIjCs083510
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+ Wed, 23 Aug 2023 23:18:52 +0900 (JST)
+ (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Message-ID: <68a0ef90-b452-2096-3729-b5c208878ff9@I-love.SAKURA.ne.jp>
+Date: Wed, 23 Aug 2023 23:18:43 +0900
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.14.0
+Subject: Re: [PATCH] audit: add task history record
+To: Paul Moore <paul@paul-moore.com>
 References: <36b65eb1-ccbf-8b81-468f-b8d88c4be5a3@I-love.SAKURA.ne.jp>
+ <CAHC9VhTLQjjQ0QMfBDHYCz9LOAuO=rJWSDEUqPsFE+dowFbN=Q@mail.gmail.com>
  <b06dbdd8-d2f6-b190-5635-948c0a966103@I-love.SAKURA.ne.jp>
  <CAHC9VhSz=3utr_CigGvkMEb6_avJUQq1Ak2smB7neSd76mzjFw@mail.gmail.com>
- <4865772.31r3eYUQgx@x2>
-In-Reply-To: <4865772.31r3eYUQgx@x2>
-From: Paul Moore <paul@paul-moore.com>
-Date: Tue, 22 Aug 2023 13:58:46 -0400
-Message-ID: <CAHC9VhTGQ7LF8BjZDJMj7F8Uo0AYsWtyce98kyQrsRYK1Ui1xg@mail.gmail.com>
-Subject: Re: [PATCH] audit: add task history record
-To: Steve Grubb <sgrubb@redhat.com>
+ <6957af54-16a2-4c28-56ff-dafe95f4e276@I-love.SAKURA.ne.jp>
+ <CAHC9VhTj-PQ0qPTiphPLXyJx3bWeqgVS_GPCWNgjqFqBgH6Njg@mail.gmail.com>
+ <b0b60fdc-4484-2265-7fdf-8367bf218d18@I-love.SAKURA.ne.jp>
+ <CAHC9VhRaUxN=oEyKCOrfrGzJeXDGxv2EKbZH3qwAB6AhKcSfog@mail.gmail.com>
+From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+In-Reply-To: <CAHC9VhRaUxN=oEyKCOrfrGzJeXDGxv2EKbZH3qwAB6AhKcSfog@mail.gmail.com>
 X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
  Definition; Similar Internal Domain=false;
  Similar Monitored External Domain=false; Custom External Domain=false;
@@ -95,7 +94,7 @@ X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
  Internal User Name=false; Custom Display Name List=false;
  Reply-to Address Mismatch=false; Targeted Threat Dictionary=false;
  Mimecast Threat Dictionary=false; Custom Threat Dictionary=false
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,48 +108,90 @@ List-Subscribe: <https://listman.redhat.com/mailman/listinfo/linux-audit>,
  <mailto:linux-audit-request@redhat.com?subject=subscribe>
 Cc: audit@vger.kernel.org,
  linux-security-module <linux-security-module@vger.kernel.org>,
- linux-audit@redhat.com
+ linux-audit@redhat.com, Linus Torvalds <torvalds@linux-foundation.org>
 Errors-To: linux-audit-bounces@redhat.com
 Sender: "Linux-audit" <linux-audit-bounces@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
 X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: paul-moore.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-Mimecast-Originator: i-love.sakura.ne.jp
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
-T24gVHVlLCBBdWcgMjIsIDIwMjMgYXQgMTI6MjnigK9QTSBTdGV2ZSBHcnViYiA8c2dydWJiQHJl
-ZGhhdC5jb20+IHdyb3RlOgo+IE9uIFdlZG5lc2RheSwgQXVndXN0IDE2LCAyMDIzIDk6NTM6NTgg
-QU0gRURUIFBhdWwgTW9vcmUgd3JvdGU6Cj4gPiBPbiBXZWQsIEF1ZyAxNiwgMjAyMyBhdCA2OjEw
-4oCvQU0gVGV0c3VvIEhhbmRhCj4gPiA8cGVuZ3Vpbi1rZXJuZWxAaS1sb3ZlLnNha3VyYS5uZS5q
-cD4gd3JvdGU6Cj4gPiA+IE9uIDIwMjMvMDgvMTYgMzo0NCwgUGF1bCBNb29yZSB3cm90ZToKPiA+
-ID4gPiBPbiBGcmksIEF1ZyAxMSwgMjAyMyBhdCA2OjU44oCvQU0gVGV0c3VvIEhhbmRhCj4gPiA+
-ID4gPHBlbmd1aW4ta2VybmVsQGktbG92ZS5zYWt1cmEubmUuanA+IHdyb3RlOgo+ID4gPiA+PiBX
-aGVuIGFuIHVuZXhwZWN0ZWQgc3lzdGVtIGV2ZW50IG9jY3VycywgdGhlIGFkbWluaXN0cmF0b3Ig
-bWF5IHdhbnQgdG8KPiA+ID4gPj4gaWRlbnRpZnkgd2hpY2ggYXBwbGljYXRpb24gdHJpZ2dlcmVk
-IHRoZSBldmVudC4gRm9yIGV4YW1wbGUsCj4gPiA+ID4+IHVuZXhwZWN0ZWQgcHJvY2VzcyB0ZXJt
-aW5hdGlvbiBpcyBzdGlsbCBhIHJlYWwgY29uY2VybiBlbm91Z2ggdG8gd3JpdGUKPiA+ID4gPj4g
-YXJ0aWNsZXMgbGlrZSBodHRwczovL2FjY2Vzcy5yZWRoYXQuY29tL3NvbHV0aW9ucy8xNjU5OTMg
-Lgo+ID4gPiA+Pgo+ID4gPiA+PiBUaGlzIHBhdGNoIGFkZHMgYSByZWNvcmQgd2hpY2ggZW1pdHMg
-VE9NT1lPLWxpa2UgdGFzayBoaXN0b3J5Cj4gPiA+ID4+IGluZm9ybWF0aW9uIGludG8gdGhlIGF1
-ZGl0IGxvZ3MgZm9yIGJldHRlciB1bmRlcnN0YW5kaW5nIG9mIHVuZXhwZWN0ZWQKPiA+ID4gPj4g
-c3lzdGVtIGV2ZW50cy4KPiA+ID4gPj4KPiA+ID4gPj4gdHlwZT1VTktOT1dOWzEzNDBdIG1zZz1h
-dWRpdCgxNjkxNzUwNzM4LjI3MToxMDgpOgo+ID4gPiA+PiBoaXN0b3J5PSJuYW1lPXN3YXBwZXIv
-MDtwaWQ9MTtzdGFydD0yMDIzMDgxMTE5NDMyOT0+bmFtZT1pbml0O3BpZD0xO3MKPiA+ID4gPj4g
-dGFydD0yMDIzMDgxMTE5NDM0Mz0+bmFtZT1zeXN0ZW1kO3BpZD0xO3N0YXJ0PTIwMjMwODExMTk0
-NDM5PT5uYW1lPXNzaAo+ID4gPiA+PiBkO3BpZD0zNjYwO3N0YXJ0PTIwMjMwODExMTA0NTA0PT5u
-YW1lPXNzaGQ7cGlkPTM3Njc7c3RhcnQ9MjAyMzA4MTExMDQ1Cj4gPiA+ID4+IDM1Igo+ID4gPiA+
-Cj4gPiA+ID4gV2hpbGUgSSByZXNwZWN0IHlvdXIgcGVyc2lzdGVuY2UsIHdlJ3ZlIHRhbGtlZCBh
-Ym91dCB0aGlzIHF1aXRlIGEgYml0Cj4gPiA+ID4gYWxyZWFkeSBpbiBvdGhlciB0aHJlYWRzLiAg
-V2hhdCB5b3UgYXJlIHRyeWluZyB0byBkbyBpcyBhbHJlYWR5Cj4gPiA+ID4gcG9zc2libGUgd2l0
-aCBhdWRpdAo+ID4gPgo+ID4gPiBIb3c/Cj4gPgo+ID4gSWYgeW91IGNvbmZpZ3VyZSBhdWRpdCB0
-byByZWNvcmQgZXhlYygpIGFuZCBmcmllbmRzIHlvdSBzaG91bGQgaGF2ZSBhCj4gPiBwcm9wZXIg
-aGlzdG9yeSBvZiB0aGUgcHJvY2Vzc2VzIHN0YXJ0ZWQgb24gdGhlIHN5c3RlbS4KPgo+IFRoaXMg
-aXMgbm90IGEgcHJhY3RpY2FsIHNvbHV0aW9uLiBZZXMsIHRlY2huaWNhbGx5IHRoaXMgY291bGQg
-YmUgZG9uZS4gQnV0IGl0Cj4gd291bGQgYmUgYSBodWdlIGJ1cmRlbiBvbiB0aGUgc3lzdGVtIHRv
-IGtlZXAgdXAgd2l0aCB0aGlzLiBBbmQgaXQgd291bGQgYnVyeQo+IGV2ZW50cyB5b3UgdHJ1bHkg
-d2FudGVkIHRvIHNlZSBlZmZlY3RpdmVseSBEb1MnaW5nIHRoZSBhdWRpdCBzeXN0ZW0uCgpJZiB0
-aGUgYXVkaXQgc3Vic3lzdGVtIGNhbid0IGhhbmRsZSB0aGUgbG9hZCwgdGhhdCBpcyBhIHNlcGFy
-YXRlIGlzc3VlLgoKLS0gCnBhdWwtbW9vcmUuY29tCgotLQpMaW51eC1hdWRpdCBtYWlsaW5nIGxp
-c3QKTGludXgtYXVkaXRAcmVkaGF0LmNvbQpodHRwczovL2xpc3RtYW4ucmVkaGF0LmNvbS9tYWls
-bWFuL2xpc3RpbmZvL2xpbnV4LWF1ZGl0Cg==
+On 2023/08/22 1:35, Paul Moore wrote:
+>>   "auditctl -D" must not clear rules for tracing fork()/execve()/exit()
+>>   system calls. This is impossible because this change will break userspace
+>>   programs expecting that "auditctl -D" clears all rules.
+> 
+> It's a good thing that 'audtictl -d ...' exists so that one can
+> selectively delete audit rules from the kernel.  If someone wants to
+> preserve specific audit rules, that is the way to do it; 'auditctl -D'
+> is a very coarse tool and not something that is likely very useful for
+> users with strict auditing requirements.
+
+In most systems, "auditctl -D" is the first command done via /etc/audit/audit.rules file.
+You are asking all administrators who want to emulate this patch's functionality using
+auditd to customize that line. We can't afford asking such administrators to become
+specialist of strict auditing configurations, as well as we can't afford asking
+every administrator to become specialist of strict SELinux policy configurations.
+
+Like Steve Grubb mentions, technically possible and practically affordable are
+different. The audit subsystem could handle the load, but the system administrator 
+can't handle the load. That's why I said
+
+  That is a "No LSM modules other than SELinux is needed because SELinux can do
+  everything" assertion.
+
+and your response
+
+  Except we are not talking SELinux or LSMs here, we are talking about
+  audit and the audit subsystem is very different from the LSM layer.
+  The LSM layer is designed to be pluggable with support for multiple
+  individual LSMs, whereas the audit subsystem is designed to support a
+  single audit implementation.
+
+is totally missing the point.
+
+For example, doing
+
+  auditctl -a exit,always -F arch=b64 -S exit,exit_group
+
+(in order to allow userspace daemon which tries to emulate this patch's
+functionality) will let auditd to generate process termination logs via exit()
+system call. This command alone can generate too much stress on a busy system
+(performance DoS and storage DoS). And moreover, this command will not let
+auditd to generate process termination logs via kill() system call.
+
+  kill -9 $$
+
+Auditing kill system call may generate more stress than auditing exit system call.
+Too much noisy logs for catching the exact one event we want to know.
+
+Also, despite too much logs, system calls are not the only source of sending
+signals. There are signals delivered without security checks via LSM modules.
+
+
+
+The requirements for emulating functionality provided by this patch will be
+
+  (1) Catch _all_ process creations (both via fork()/clone() system calls and
+      kthread_create() from the kernel), and duplicate the history upon process
+      creation.
+
+  (2) Catch _all_ execve(), and update the history upon successful execve().
+
+  (3) Catch _all_ process terminations (both exit()/exit_group()/kill() system
+      calls and internal reasons such as OOM killer), and erase the history upon
+      process termination.
+
+  (4) Do the above things without asking administrators to become a specialist of
+      system management and without asking administrators to drastically change
+      system configurations and without consuming too much CPU and storage.
+
+. Simply we can't emulate functionality provided by this patch using audit rules.
+
+--
+Linux-audit mailing list
+Linux-audit@redhat.com
+https://listman.redhat.com/mailman/listinfo/linux-audit
 
