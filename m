@@ -2,89 +2,97 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7BAF7A5897
-	for <lists+linux-audit@lfdr.de>; Tue, 19 Sep 2023 06:51:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C35A7A5899
+	for <lists+linux-audit@lfdr.de>; Tue, 19 Sep 2023 06:51:36 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1695099074;
+	s=mimecast20190719; t=1695099095;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
-	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-	 content-type:content-type:in-reply-to:in-reply-to:
-	 references:references:list-id:list-help:list-unsubscribe:
-	 list-subscribe:list-post; bh=pyKrTVDMpKWrdcWH6/mutAH9kGpkglfPP83QAACTjZM=;
-	b=YIVqqO2DISax0XJTBgQplOn+lfPOvAm/HLTnlwXreRoeJtwXW3/tTh7jvSL+sAqJVCUKpK
-	N+pJ4Vpw6X1j/gLVzzgBJv4hzbinUlVebeL+e0z+4rIJ6ZOq5iMqZV0QqJryphMW2jmhWd
-	5P0t1ZbmNu4nRJXbZ+lfqJdHZTQTHRc=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-46-0Bv4P49gMW2w5iPdc0N9yw-1; Tue, 19 Sep 2023 00:51:11 -0400
-X-MC-Unique: 0Bv4P49gMW2w5iPdc0N9yw-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
+	 message-id:message-id:to:to:cc:mime-version:mime-version:
+	 content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:list-id:list-help:
+	 list-unsubscribe:list-subscribe:list-post;
+	bh=uCVqg70xrsceiDXY0UwsO4fN4nvLVi0F5/u/U50OdAc=;
+	b=hAnml0S8nMGhYGpJ7BYXyTTDXnhqypN9Z6iwCT2KZkgRVYSMyN7+mY+OsUr3DwGwUhdLM3
+	5fb9Dp7nrd9XHv9cs+v186RKNewGwriart/mapWcC4x/RWGwzNTGQ0nzle4M8hXnObYIeb
+	FQ4qc9V984sBlRwFf62I9lyIrm356Kg=
+Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
+ by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-164-In-7zrWjOPWLErTz11q-xA-1; Tue, 19 Sep 2023 00:51:31 -0400
+X-MC-Unique: In-7zrWjOPWLErTz11q-xA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 902DA85A5A8;
-	Tue, 19 Sep 2023 04:51:09 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0E3153C0F665;
+	Tue, 19 Sep 2023 04:51:29 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com [10.30.29.100])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id A6F1B492B05;
-	Tue, 19 Sep 2023 04:51:00 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id DCCE4140E953;
+	Tue, 19 Sep 2023 04:51:28 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (localhost [IPv6:::1])
-	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id 058D419465B2;
-	Tue, 19 Sep 2023 04:50:59 +0000 (UTC)
+	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id 4E17A19465B2;
+	Tue, 19 Sep 2023 04:51:28 +0000 (UTC)
 X-Original-To: linux-audit@listman.corp.redhat.com
 Delivered-To: linux-audit@listman.corp.redhat.com
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
  by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with
- ESMTP id 5846F194658D for <linux-audit@listman.corp.redhat.com>;
- Tue, 12 Sep 2023 21:21:14 +0000 (UTC)
+ ESMTP id DC50C1946588 for <linux-audit@listman.corp.redhat.com>;
+ Fri, 15 Sep 2023 05:40:21 +0000 (UTC)
 Received: by smtp.corp.redhat.com (Postfix)
- id 331C110F1BE8; Tue, 12 Sep 2023 21:21:14 +0000 (UTC)
+ id C110540C2009; Fri, 15 Sep 2023 05:40:16 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
- (mimecast02.extmail.prod.ext.rdu2.redhat.com [10.11.55.18])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EA19A10F1BE7
- for <linux-audit@redhat.com>; Tue, 12 Sep 2023 21:21:13 +0000 (UTC)
-Received: from us-smtp-inbound-delivery-1.mimecast.com (us-smtp-2.mimecast.com
- [207.211.31.81])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (mimecast03.extmail.prod.ext.rdu2.redhat.com [10.11.55.19])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BA43040C2070
+ for <linux-audit@redhat.com>; Fri, 15 Sep 2023 05:40:16 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [207.211.31.81])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9B40788904B
+ for <linux-audit@redhat.com>; Fri, 15 Sep 2023 05:40:16 +0000 (UTC)
+Received: from smtp-relay-internal-0.canonical.com
+ (smtp-relay-internal-0.canonical.com [185.125.188.122]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-689-3alOJ05INzG7txC3lWub3g-1; Fri,
+ 15 Sep 2023 01:40:14 -0400
+X-MC-Unique: 3alOJ05INzG7txC3lWub3g-1
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C361A8E5066
- for <linux-audit@redhat.com>; Tue, 12 Sep 2023 21:21:13 +0000 (UTC)
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com
- [209.85.208.175]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-321-ZGkv8Sd_NrqiPoG-4OnFbw-1; Tue, 12 Sep 2023 17:21:09 -0400
-X-MC-Unique: ZGkv8Sd_NrqiPoG-4OnFbw-1
-Received: by mail-lj1-f175.google.com with SMTP id
- 38308e7fff4ca-2bce552508fso100842971fa.1; 
- Tue, 12 Sep 2023 14:21:09 -0700 (PDT)
+ by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 328733F665
+ for <linux-audit@redhat.com>; Fri, 15 Sep 2023 05:33:54 +0000 (UTC)
+Received: by mail-ed1-f72.google.com with SMTP id
+ 4fb4d7f45d1cf-52a38baa269so1217125a12.2
+ for <linux-audit@redhat.com>; Thu, 14 Sep 2023 22:33:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1694553667; x=1695158467;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=qV1V4Eha2xyp0bxYlb7lVaj5OBEe+gopnVYTa4Qkix4=;
- b=DNKyQI0Cg6PWnVHZc5xa/Xz3rYd8YXafXbCb8rcOPDKkQQ823mRmUdl+oFnSdiyqV5
- qYnuJ7k1z7pXrz8rIOFUtzY9tSfemlwCVn4XrFGuSDIzQqhe0D/uUAV4EFFSUcw9YAvz
- k2qDyE89v5WJ0rZnMKv+JSzArTi0PyeDndkgoweeaSSKdl9RmDDv61mdE4SIXFxAmEgX
- tJDYxIhqppGKdFeQXCYN9+OSsL7m0qe9tA3+eOIn+sfkOQEt+HND6p4QnMnQ99DqdXbf
- xfbL6whLqMxy1oPXHNDxdqAABCbIb7pHqQqp6HzJ1F5fs03oVPO27Kz7H6HCWPN3Lhxu
- Y9HQ==
-X-Gm-Message-State: AOJu0YzVa+ANXVWWBqN6Oof9cuSukz8usvQgm2Im3ZAH3FQcNZ9JxnUG
- Ku2jdqOG95USrO310qWlzEZNJZvt6XgAMuqzItMrLzT1AIA=
-X-Google-Smtp-Source: AGHT+IGb/rPoySjpOLx9GDlCAkYTNQJEDYyXzXR6U+maBPSY9YzoQRT9v/2iuFtsZ3F5UDUU6C9aRvYkOQJzmgK2Lho=
-X-Received: by 2002:a2e:9b12:0:b0:2bd:c23:c810 with SMTP id
- u18-20020a2e9b12000000b002bd0c23c810mr703213lji.51.1694553666957; Tue, 12 Sep
- 2023 14:21:06 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1694756033; x=1695360833;
+ h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=E1sgqBA5RHQ4c2dHH9+uKrN3WCzTJqZGhQQSVYVjVZ8=;
+ b=S2Bzk6d+PVJSuRkNFUng/abm4CXCvn9OP2SZAZSzgwf1O3xD9k/Qcf6yMJlS/s4Sme
+ scxkvqtPQ7hvqVgLTEWbVAneBj8CRNGyjNpmPeWa2aaW4fT1iiRMoKKxoEbFcLeTiK8p
+ fjqBylRyAT0R6fQsMStLiFKv/ietnIZOaW4YjnPzz3nZdMwS6OnzXTPQVrKeRCJQZA1n
+ /QG4TlclN8I15+ZzV0uJXlYh30SWmmK2QE1nuUc/JPaaMRnLi5BHXRlitT8umw4MZSB7
+ vfzf9E8h7RymKacSxmn3QGmmeyYyuAp0C/0m28ohv3ICwM5P4CcIH7uNoF66SzFtgUTS
+ 6Jxw==
+X-Gm-Message-State: AOJu0YxNG8ZBI6Fe+yk3hxXl+eyuzfrCEsJY/q513z58K5lmBx1DJaUT
+ /ruq6Tq0mQuz6TlyzRhhH9F3Kx7QfMRGrOSmVdNVyicTokWDx6WhNnqX6mfQHrv7OXzX+dvgyNq
+ O+Fgf7HFKkCcoPHbKD2hQuDOgQmzLEQlf9wyMr7O3TgfQrLzdIOzH7JV5LGOf
+X-Received: by 2002:a05:6402:14c4:b0:530:4fc4:50f8 with SMTP id
+ f4-20020a05640214c400b005304fc450f8mr382659edx.29.1694756033509; 
+ Thu, 14 Sep 2023 22:33:53 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH2cgwu/wnUJwcNcmHdPZDUFe8yunJec3eZbQbFszJXosoQ8fPWS2BgX/aIa6f92/4sW9npGgekYNivA2RVgCE=
+X-Received: by 2002:a05:6402:14c4:b0:530:4fc4:50f8 with SMTP id
+ f4-20020a05640214c400b005304fc450f8mr382648edx.29.1694756033078; Thu, 14 Sep
+ 2023 22:33:53 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAJcJf=Qb7muwWG4DyQtEcCKmCOETD4H3h1BoGrewJ5u26r6o=w@mail.gmail.com>
- <ZPjZ6py5vxdvKTY0@madcap2.tricolour.ca>
-In-Reply-To: <ZPjZ6py5vxdvKTY0@madcap2.tricolour.ca>
-From: Amjad Gabbar <amjadgabbar11@gmail.com>
-Date: Tue, 12 Sep 2023 16:20:54 -0500
-Message-ID: <CAJcJf=TQ6R4zjNPX+TQyDBxtFz+QWQWDqT3t0PEXvzp9CvJS_g@mail.gmail.com>
-Subject: Re: Sycall Rules vs Watch Rules
-To: Richard Guy Briggs <rgb@redhat.com>
+From: Seyeong Kim <seyeong.kim@canonical.com>
+Date: Fri, 15 Sep 2023 14:33:42 +0900
+Message-ID: <CADrBPndcnp8F5ctMZjg_JBs2xzpMgVJhx8VgjSbb77Z-Uuy-aA@mail.gmail.com>
+Subject: Increasing audit netlink buffer size
+To: linux-audit@redhat.com
 X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
  Definition; Similar Internal Domain=false;
  Similar Monitored External Domain=false; Custom External Domain=false;
@@ -92,8 +100,8 @@ X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
  Internal User Name=false; Custom Display Name List=false;
  Reply-to Address Mismatch=false; Targeted Threat Dictionary=false;
  Mimecast Threat Dictionary=false; Custom Threat Dictionary=false
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-X-Mailman-Approved-At: Tue, 19 Sep 2023 04:50:57 +0000
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+X-Mailman-Approved-At: Tue, 19 Sep 2023 04:51:26 +0000
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,204 +113,84 @@ List-Post: <mailto:linux-audit@redhat.com>
 List-Help: <mailto:linux-audit-request@redhat.com?subject=help>
 List-Subscribe: <https://listman.redhat.com/mailman/listinfo/linux-audit>,
  <mailto:linux-audit-request@redhat.com?subject=subscribe>
-Cc: linux-audit@redhat.com
 Errors-To: linux-audit-bounces@redhat.com
 Sender: "Linux-audit" <linux-audit-bounces@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
 X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: gmail.com
-Content-Type: multipart/mixed; boundary="===============3681365837960769183=="
-
---===============3681365837960769183==
-Content-Type: multipart/alternative; boundary="0000000000005f354e06053005a0"
-
---0000000000005f354e06053005a0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-So,
-
-Based on this and some experiments I have been performing, I would suggest
-changing how a lot of the FileSystem rules are written and illustrated.
-Ex -
-https://github.com/linux-audit/audit-userspace/blob/master/rules/30-pci-dss=
--v31.rules#L34-L35
-
-The rule in the repository is
--a always,exit -F path=3D/etc/sudoers -F perm=3Dwa -F
-key=3D10.2.2-priv-config-changes
-
-My suggestion is to instead change the rule based on the permissions
-defined. The above rule would change to the following based on the kernel
-being used.
--a always,exit -S <list of syscalls in audit_write.h and audit_read.h
-+open,openat> -F path=3D/etc/sudoers -F perm=3Dwa -F
-key=3D10.2.2-priv-config-changes
-
-This is higher performance because we are limiting the syscalls instead of
-making use of -S all which has more paths of evaluation for each and every
-syscall.
-
-Same thing for watches. Watches are inherently -S all rules which are very
-performance intensive.
-https://github.com/linux-audit/audit-userspace/blob/1482cec74f2d9472f81dd4f=
-0533484bd0c26decd/lib/libaudit.c#L805
-
-Ideally we should limit the syscalls based on the permissions being used.
-
-I have implemented the same in my environment rules and have noticed a
-massive performance difference with no difference in the events being
-logged since we anyways filter eventually based on the permissions.
-
-Let me know what you all think.
-
-Ali Adnan.
-
-
-
-
-
-On Wed, Sep 6, 2023 at 2:58 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-
-> On 2023-09-06 10:56, Amjad Gabbar wrote:
-> > Hi,
-> >
-> > I have done some analysis and digging into how both the watch rules and
-> > syscall rules are translated.
-> >
-> > From my understanding, in terms of logging, both the below rules are
-> > similar. There is no difference in either of the rules.
-> >
-> > 1. -w /etc -p wa -k ETC_WATCH
->
-> They are similar in this case.
-> -w behaves differently depending on the existance of the watched entity
-> and the presence of a trailing "/".  This is why the form above is
-> deprecated.
->
-> > 2. -a always,exit -F arch=3Db64 -S <all syscalls part of the write and =
-attr
-> > classes> -F dir=3D/etc  -F perm=3Dwa -k ETC_WATCH
-> >
-> > The write and attr classes consist of syscalls in
-> > =E2=80=9Cinclude/asm-generic/audit_*.h=E2=80=9C.
-> >
-> >  The perm flag is needed in the second case for including open/openat
-> > syscalls which are not a part of the write and attr syscall list.
-> >
-> > I'd like to verify if what I mentioned earlier is accurate, and I have =
-an
-> > additional point but depends on whether this is accurate.
-> >
-> > Ali
->
-> - RGB
->
-> --
-> Richard Guy Briggs <rgb@redhat.com>
-> Sr. S/W Engineer, Kernel Security, Base Operating Systems
-> Remote, Ottawa, Red Hat Canada
-> Upstream IRC: SunRaycer
-> Voice: +1.613.860 2354 SMS: +1.613.518.6570
->
->
-
---0000000000005f354e06053005a0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"auto">So,</div><div dir=3D"auto"><br></div><di=
-v dir=3D"auto">Based on this and some experiments I have been performing, I=
- would suggest changing how a lot of the FileSystem rules are written and i=
-llustrated.</div><div>Ex -=C2=A0<a href=3D"https://github.com/linux-audit/a=
-udit-userspace/blob/master/rules/30-pci-dss-v31.rules#L34-L35">https://gith=
-ub.com/linux-audit/audit-userspace/blob/master/rules/30-pci-dss-v31.rules#L=
-34-L35</a></div><div><br></div><div>The rule in the repository is</div><div=
->-a always,exit -F path=3D/etc/sudoers -F perm=3Dwa -F key=3D10.2.2-priv-co=
-nfig-changes<br></div><div><br></div><div>My suggestion is to instead chang=
-e the rule based on the permissions defined. The above rule would change to=
- the following=C2=A0based on the kernel being used.</div><div>-a always,exi=
-t -S &lt;list of syscalls in audit_write.h and audit_read.h +open,openat&gt=
-; -F path=3D/etc/sudoers -F perm=3Dwa -F key=3D10.2.2-priv-config-changes<b=
-r></div><div><br></div><div>This is higher performance because we are limit=
-ing the syscalls instead of making use of -S all which has more paths of ev=
-aluation for each and every syscall.</div><div><br></div><div>Same thing fo=
-r watches. Watches are inherently -S all rules which are very performance=
-=C2=A0intensive.</div><div><a href=3D"https://github.com/linux-audit/audit-=
-userspace/blob/1482cec74f2d9472f81dd4f0533484bd0c26decd/lib/libaudit.c#L805=
-">https://github.com/linux-audit/audit-userspace/blob/1482cec74f2d9472f81dd=
-4f0533484bd0c26decd/lib/libaudit.c#L805</a><br></div><div><br></div><div>Id=
-eally we should limit the syscalls based on the permissions being used.=C2=
-=A0</div><div><br></div><div>I have implemented the same in my environment =
-rules and have noticed a massive performance difference with no difference =
-in the events being logged since we anyways filter eventually based on the =
-permissions.</div><div><br></div><div>Let me know what you all think.</div>=
-<div><br></div><div>Ali Adnan.</div><div><br></div><div><br></div><div><br>=
-</div><div><br></div></div><div><br><div class=3D"gmail_quote"><div dir=3D"=
-ltr" class=3D"gmail_attr">On Wed, Sep 6, 2023 at 2:58 PM Richard Guy Briggs=
- &lt;<a href=3D"mailto:rgb@redhat.com" target=3D"_blank">rgb@redhat.com</a>=
-&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
-0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On 2=
-023-09-06 10:56, Amjad Gabbar wrote:<br>
-&gt; Hi,<br>
-&gt; <br>
-&gt; I have done some analysis and digging into how both the watch rules an=
-d<br>
-&gt; syscall rules are translated.<br>
-&gt; <br>
-&gt; From my understanding, in terms of logging, both the below rules are<b=
-r>
-&gt; similar. There is no difference in either of the rules.<br>
-&gt; <br>
-&gt; 1. -w /etc -p wa -k ETC_WATCH<br>
-<br>
-They are similar in this case.<br>
--w behaves differently depending on the existance of the watched entity<br>
-and the presence of a trailing &quot;/&quot;.=C2=A0 This is why the form ab=
-ove is<br>
-deprecated.<br>
-<br>
-&gt; 2. -a always,exit -F arch=3Db64 -S &lt;all syscalls part of the write =
-and attr<br>
-&gt; classes&gt; -F dir=3D/etc=C2=A0 -F perm=3Dwa -k ETC_WATCH<br>
-&gt; <br>
-&gt; The write and attr classes consist of syscalls in<br>
-&gt; =E2=80=9Cinclude/asm-generic/audit_*.h=E2=80=9C.<br>
-&gt; <br>
-&gt;=C2=A0 The perm flag is needed in the second case for including open/op=
-enat<br>
-&gt; syscalls which are not a part of the write and attr syscall list.<br>
-&gt; <br>
-&gt; I&#39;d like to verify if what I mentioned earlier is accurate, and I =
-have an<br>
-&gt; additional point but depends on whether this is accurate.<br>
-&gt; <br>
-&gt; Ali<br>
-<br>
-- RGB<br>
-<br>
---<br>
-Richard Guy Briggs &lt;<a href=3D"mailto:rgb@redhat.com" target=3D"_blank">=
-rgb@redhat.com</a>&gt;<br>
-Sr. S/W Engineer, Kernel Security, Base Operating Systems<br>
-Remote, Ottawa, Red Hat Canada<br>
-Upstream IRC: SunRaycer<br>
-Voice: +1.613.860 2354 SMS: +1.613.518.6570<br>
-<br>
-</blockquote></div></div>
-
---0000000000005f354e06053005a0--
-
---===============3681365837960769183==
+X-Mimecast-Originator: canonical.com
 Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+
+Hello all
+
+Recently I've seen some people who faced below error msg while booting
+or while the machine is working.
+
+Error receiving audit netlink packet (No buffer space available)
+Error setting audit daemon pid (No buffer space available)
+Unable to set audit pid, exiting
+
+increasing q_depth=75000 and -b 8192 didn't help for them.
+
+There is no stable reproducer but I suspect this is because the
+default netlink buffer is not big enough. Below were my test steps to
+see the above msg.
+
+1. launch instance
+2. enable audit with kernel parameters
+3. run for i in {1..100000}; do auditctl --reset-lost; done
+4. while running #3, keep restarting systemctl restart auditd
+
+I wasn't able to let them test this test pkg but could you please give
+me any advice related to this if it makes sense or not?
+
+Thanks in advance. Regards
+
+Index: audit-3.0.7/lib/netlink.c
+===================================================================
+--- audit-3.0.7.orig/lib/netlink.c
++++ audit-3.0.7/lib/netlink.c
+@@ -34,6 +34,9 @@
+ #ifndef NETLINK_AUDIT
+ #define NETLINK_AUDIT 9
+ #endif
++#ifndef SO_RCVBUFFORCE
++#define SO_RCVBUFFORCE 33
++#endif
+
+ static int adjust_reply(struct audit_reply *rep, int len);
+ static int check_ack(int fd);
+@@ -47,6 +50,7 @@ static int check_ack(int fd);
+ int audit_open(void)
+ {
+        int saved_errno;
++       int rcvbuf;
+        int fd = socket(PF_NETLINK, SOCK_RAW, NETLINK_AUDIT);
+
+        if (fd < 0) {
+@@ -62,6 +66,19 @@ int audit_open(void)
+                errno = saved_errno;
+                return fd;
+        }
++
++       rcvbuf = 10*1024*1024;  // size is temp value for now.
++       if (setsockopt(fd, SOL_SOCKET, SO_RCVBUFFORCE,
++                      &rcvbuf, sizeof(rcvbuf))) {
++               saved_errno = errno;
++               audit_msg(LOG_ERR,
++                       "Error setting netlink sock buffer size (%s)",
++                       strerror(errno));
++               close(fd);
++               errno = saved_errno;
++               return -1;
++       }
++
+        if (fcntl(fd, F_SETFD, FD_CLOEXEC) == -1) {
+                saved_errno = errno;
+                audit_msg(LOG_ERR,
 
 --
 Linux-audit mailing list
 Linux-audit@redhat.com
 https://listman.redhat.com/mailman/listinfo/linux-audit
-
---===============3681365837960769183==--
 
