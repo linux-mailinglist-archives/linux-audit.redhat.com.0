@@ -2,89 +2,85 @@ Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F0D37A2377
-	for <lists+linux-audit@lfdr.de>; Fri, 15 Sep 2023 18:21:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D50137A3F7B
+	for <lists+linux-audit@lfdr.de>; Mon, 18 Sep 2023 04:39:33 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1694794915;
+	s=mimecast20190719; t=1695004772;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
-	 message-id:message-id:to:to:cc:mime-version:mime-version:
-	 content-type:content-type:list-id:list-help:list-unsubscribe:
-	 list-subscribe:list-post; bh=+UFjFN77KF1406Ii+qBKYpJJVunun1nR9FBttMLrEpU=;
-	b=Lf6j8114WbufuKWXCNgQbDbxF2RsaC5lWWWy5q1N8t9nC9IESGmSBxH7fjJXgnexeWGmt5
-	hX9MA8QaI8q53CH70Xt7VX7ZwbbbkqfSdH7ODiG2V3bxmwrbGXlC5uhyq0rmD/lWNAEXGP
-	rPe+5J51aYfFjyaDchLJSHZwsVucHJA=
+	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+	 content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:list-id:list-help:
+	 list-unsubscribe:list-subscribe:list-post;
+	bh=RIBKBHDEaolJ1IS4jHbVUaRBZn8J48ujoulfKA+AoPo=;
+	b=epEP9mcwievZd4t1gg8TgTMIWE6QSh4a0XRgBxMjMjwDI5dMuVZVAQcKjHLUgl+1xzamhT
+	QvFuOyr2A6PmnzvACfoyrt5PnJDAho/DzKal2Z+iJpe+IYpJFssnOXx1RUQ1UtFY6ic87g
+	X/DuZ0CA7R0f1mimCKnbEuehKSBhr9M=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-533-OZlzBBxjPwaMT25HKYGStQ-1; Fri, 15 Sep 2023 12:21:51 -0400
-X-MC-Unique: OZlzBBxjPwaMT25HKYGStQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
+ us-mta-547-48f35vLZNoS2INBUgYIpsA-1; Sun, 17 Sep 2023 22:39:28 -0400
+X-MC-Unique: 48f35vLZNoS2INBUgYIpsA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A8CCF945935;
-	Fri, 15 Sep 2023 16:21:48 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E374F85A5A8;
+	Mon, 18 Sep 2023 02:39:26 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com [10.30.29.100])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 2522B170E4;
-	Fri, 15 Sep 2023 16:21:39 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 0225D40C6EBF;
+	Mon, 18 Sep 2023 02:39:16 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (localhost [IPv6:::1])
-	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id 5DD4519465B9;
-	Fri, 15 Sep 2023 16:21:33 +0000 (UTC)
+	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id 7D4D119465A2;
+	Mon, 18 Sep 2023 02:39:15 +0000 (UTC)
 X-Original-To: linux-audit@listman.corp.redhat.com
 Delivered-To: linux-audit@listman.corp.redhat.com
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
  [10.11.54.1])
  by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with
- ESMTP id C3E6F1946588 for <linux-audit@listman.corp.redhat.com>;
- Fri, 15 Sep 2023 16:21:32 +0000 (UTC)
+ ESMTP id 59E1F194658C for <linux-audit@listman.corp.redhat.com>;
+ Mon, 18 Sep 2023 02:39:14 +0000 (UTC)
 Received: by smtp.corp.redhat.com (Postfix)
- id AD3D540E0421; Fri, 15 Sep 2023 16:21:27 +0000 (UTC)
+ id 1E95D40C2070; Mon, 18 Sep 2023 02:39:14 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
- (mimecast01.extmail.prod.ext.rdu2.redhat.com [10.11.55.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A559F40E0420
- for <linux-audit@redhat.com>; Fri, 15 Sep 2023 16:21:27 +0000 (UTC)
-Received: from us-smtp-inbound-delivery-1.mimecast.com
- (us-smtp-inbound-delivery-1.mimecast.com [207.211.31.120])
+ (mimecast05.extmail.prod.ext.rdu2.redhat.com [10.11.55.21])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 175B840C2064
+ for <linux-audit@redhat.com>; Mon, 18 Sep 2023 02:39:14 +0000 (UTC)
+Received: from us-smtp-inbound-delivery-1.mimecast.com (us-smtp-2.mimecast.com
+ [207.211.31.81])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8225C85A5BE
- for <linux-audit@redhat.com>; Fri, 15 Sep 2023 16:21:27 +0000 (UTC)
-Received: from aplegw02.jhuapl.edu (aplegw02.jhuapl.edu [128.244.251.169])
- by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EE305800883
+ for <linux-audit@redhat.com>; Mon, 18 Sep 2023 02:39:13 +0000 (UTC)
+Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-441-NK6uMTi1M2SzeP6TfBnMBg-1; Fri, 15 Sep 2023 12:21:23 -0400
-X-MC-Unique: NK6uMTi1M2SzeP6TfBnMBg-1
-Received: from pps.filterd (aplegw02.jhuapl.edu [127.0.0.1])
- by aplegw02.jhuapl.edu (8.17.1.19/8.17.1.19) with ESMTP id 38FCVqFK008125
- for <linux-audit@redhat.com>; Fri, 15 Sep 2023 12:15:13 -0400
-Received: from aplex22.dom1.jhuapl.edu (aplex22.dom1.jhuapl.edu [10.114.162.7])
- by aplegw02.jhuapl.edu (PPS) with ESMTPS id 3t2yes32fm-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <linux-audit@redhat.com>; Fri, 15 Sep 2023 12:15:13 -0400
-Received: from APLEX26.dom1.jhuapl.edu (10.114.162.11) by
- APLEX22.dom1.jhuapl.edu (10.114.162.7) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Fri, 15 Sep 2023 12:15:12 -0400
-Received: from APLEX26.dom1.jhuapl.edu ([fe80::8b67:5cb8:8fbe:fd18]) by
- APLEX26.dom1.jhuapl.edu ([fe80::8b67:5cb8:8fbe:fd18%12]) with mapi id
- 15.02.1118.026; Fri, 15 Sep 2023 12:15:12 -0400
-From: "Wieprecht, Karen M." <Karen.Wieprecht@jhuapl.edu>
-To: "linux-audit@redhat.com" <linux-audit@redhat.com>
-Subject: 128 Character limit on proctitle field?
-Thread-Topic: 128 Character limit on proctitle field?
-Thread-Index: Adnn7XCv4G5FhuKUT3CiGEqUr+p2zg==
-Date: Fri, 15 Sep 2023 16:15:12 +0000
-Message-ID: <f04d10f4d94c4c2295031fee26dc8082@jhuapl.edu>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.114.162.18]
+ us-mta-301-6BXPguw9O8-nJiQ-N1NN2A-1; Sun, 17 Sep 2023 22:39:10 -0400
+X-MC-Unique: 6BXPguw9O8-nJiQ-N1NN2A-1
+Received: from fsav412.sakura.ne.jp (fsav412.sakura.ne.jp [133.242.250.111])
+ by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 38I2d0km071323;
+ Mon, 18 Sep 2023 11:39:01 +0900 (JST)
+ (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Received: from www262.sakura.ne.jp (202.181.97.72)
+ by fsav412.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav412.sakura.ne.jp);
+ Mon, 18 Sep 2023 11:39:00 +0900 (JST)
+X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav412.sakura.ne.jp)
+Received: from [192.168.1.6] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
+ (authenticated bits=0)
+ by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 38I2ct0o071303
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+ Mon, 18 Sep 2023 11:39:00 +0900 (JST)
+ (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Message-ID: <8ef14c37-2a75-5755-d074-fd4bcfc9e574@I-love.SAKURA.ne.jp>
+Date: Mon, 18 Sep 2023 11:38:55 +0900
 MIME-Version: 1.0
-X-CrossPremisesHeadersFilteredBySendConnector: APLEX22.dom1.jhuapl.edu
-X-OrganizationHeadersPreserved: APLEX22.dom1.jhuapl.edu
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.601,FMLib:17.11.176.26
- definitions=2023-09-15_12,2023-09-15_01,2023-05-22_02
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: 128 Character limit on proctitle field?
+To: "Wieprecht, Karen M." <Karen.Wieprecht@jhuapl.edu>
+References: <f04d10f4d94c4c2295031fee26dc8082@jhuapl.edu>
+From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+In-Reply-To: <f04d10f4d94c4c2295031fee26dc8082@jhuapl.edu>
 X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
  Definition; Similar Internal Domain=false;
  Similar Monitored External Domain=false; Custom External Domain=false;
@@ -104,150 +100,65 @@ List-Post: <mailto:linux-audit@redhat.com>
 List-Help: <mailto:linux-audit-request@redhat.com?subject=help>
 List-Subscribe: <https://listman.redhat.com/mailman/listinfo/linux-audit>,
  <mailto:linux-audit-request@redhat.com?subject=subscribe>
+Cc: "linux-audit@redhat.com" <linux-audit@redhat.com>
 Errors-To: linux-audit-bounces@redhat.com
 Sender: "Linux-audit" <linux-audit-bounces@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
 X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: jhuapl.edu
+X-Mimecast-Originator: i-love.sakura.ne.jp
 Content-Language: en-US
-Content-Type: multipart/mixed; boundary="===============0881015176276008567=="
-
---===============0881015176276008567==
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_f04d10f4d94c4c2295031fee26dc8082jhuapledu_"
-
---_000_f04d10f4d94c4c2295031fee26dc8082jhuapledu_
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-All,
-
-We're working with Docker and podman, and I'm working on parsing the audit =
-data we get to flag prohibited and missing command options based on STIG gu=
-idelines.   I normally extract the proctitle from the raw auditd data , but=
- these commands are very long with sometimes 23 or more command line parame=
-ters ,  and I noticed that all of the auditd proctitle data for the lengthi=
-er commands is being cut off at 128 characters.
-
-I'm bringing this up  for two reasons:
-
-     One,  not everyone working with this data may realize that there seems=
- to be a character limit,
-     and second, if this is by chance a bug as opposed to intentional,  the=
-n I'm hoping we can get a fix cooking for it?
-
-In the meantime,  I may be able to work around this by piecing together the=
- full command from the "a#=3D "  fields, but it would be much easier if pro=
-ctitle wasn't cut off after 128 chars.
-
-Thanks, any info you can share would be much appreciated,
-
-Karen Wieprecht
-
---_000_f04d10f4d94c4c2295031fee26dc8082jhuapledu_
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
-osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
-//www.w3.org/TR/REC-html40">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
->
-<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
-<style><!--
-/* Font Definitions */
-@font-face
-=09{font-family:"Cambria Math";
-=09panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-=09{font-family:Calibri;
-=09panose-1:2 15 5 2 2 2 4 3 2 4;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-=09{margin:0in;
-=09margin-bottom:.0001pt;
-=09font-size:11.0pt;
-=09font-family:"Calibri",sans-serif;}
-a:link, span.MsoHyperlink
-=09{mso-style-priority:99;
-=09color:#0563C1;
-=09text-decoration:underline;}
-a:visited, span.MsoHyperlinkFollowed
-=09{mso-style-priority:99;
-=09color:#954F72;
-=09text-decoration:underline;}
-span.EmailStyle17
-=09{mso-style-type:personal-compose;
-=09font-family:"Calibri",sans-serif;
-=09color:windowtext;}
-.MsoChpDefault
-=09{mso-style-type:export-only;
-=09font-family:"Calibri",sans-serif;}
-@page WordSection1
-=09{size:8.5in 11.0in;
-=09margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-=09{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]-->
-</head>
-<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72">
-<div class=3D"WordSection1">
-<p class=3D"MsoNormal">All,<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">We&#8217;re working with Docker and podman, and I&#8=
-217;m working on parsing the audit data we get to flag prohibited and missi=
-ng command options based on STIG guidelines.&nbsp;&nbsp; I normally extract=
- the proctitle from the raw auditd data , but these commands
- are very long with sometimes 23 or more command line parameters ,&nbsp; an=
-d I noticed that all of the auditd proctitle data for the lengthier command=
-s is being cut off at 128 characters.<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">I&#8217;m bringing this up &nbsp;for two reasons:&nb=
-sp;&nbsp; <o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">&nbsp;&nbsp;&nbsp;&nbsp; One,&nbsp; not everyone wor=
-king with this data may realize that there seems to be a character limit,&n=
-bsp;
-<o:p></o:p></p>
-<p class=3D"MsoNormal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;and second, if this is=
- by chance a bug as opposed to intentional,&nbsp; then I&#8217;m hoping we =
-can get a fix cooking for it?
-<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">In the meantime,&nbsp; I may be able to work around =
-this by piecing together the full command from the &#8220;a#=3D &#8220; &nb=
-sp;fields, but it would be much easier if proctitle wasn&#8217;t cut off af=
-ter 128 chars.&nbsp;
-<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">Thanks, any info you can share would be much appreci=
-ated,<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">Karen Wieprecht &nbsp;&nbsp;<o:p></o:p></p>
-</div>
-</body>
-</html>
-
---_000_f04d10f4d94c4c2295031fee26dc8082jhuapledu_--
-
---===============0881015176276008567==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+
+On 2023/09/16 1:15, Wieprecht, Karen M. wrote:
+> All,
+> 
+> We're working with Docker and podman, and I'm working on parsing the audit data
+> we get to flag prohibited and missing command options based on STIG guidelines.
+> I normally extract the proctitle from the raw auditd data , but these commands
+> are very long with sometimes 23 or more command line parameters ,  and I noticed
+> that all of the auditd proctitle data for the lengthier commands is being cut off
+> at 128 characters.
+
+This limitation is intentional
+( https://elixir.bootlin.com/linux/v6.6-rc2/source/kernel/auditsc.c#L81 ).
+
+Since each argv[]/envp[] value passed to execve() can go up to 128KB
+( https://elixir.bootlin.com/linux/v6.6-rc2/source/include/uapi/linux/binfmts.h#L15 )
+and number of arguments is effectively unlimited
+( https://elixir.bootlin.com/linux/v6.6-rc2/source/include/uapi/linux/binfmts.h#L16 ),
+trying to audit full command line can exhaust storage.
+
+> 
+> I'm bringing this up  for two reasons:
+> 
+>      One,  not everyone working with this data may realize that there seems to be
+>      a character limit,
+>      and second, if this is by chance a bug as opposed to intentional,  then I'm
+>      hoping we can get a fix cooking for it?
+> 
+> In the meantime,  I may be able to work around this by piecing together the full
+> command from the "a#= "  fields, but it would be much easier if proctitle wasn't
+> cut off after 128 chars.
+
+If you can use an out-of-tree LSM, you can use execute_handler feature available in
+TOMOYO and CaitSith, which replaces any execve() request with a specific execve()
+request in order to allow userspace to examine and audit (and optionally sanitize)
+full command line before executing the originally requested program.
+
+https://tomoyo.osdn.jp/1.8/policy-specification/domain-policy-syntax.html.en#task_auto_execute_handler
+https://en.osdn.net/projects/tomoyo/scm/svn/blobs/head/trunk/1.8.x/ccs-tools/examples/env_chk.c
+
+If you think execute_handler feature is helpful for you, I can make a dedicated LSM
+which implements only execute_handler feature.
+
+> 
+> Thanks, any info you can share would be much appreciated,
+> 
+> Karen Wieprecht
 
 --
 Linux-audit mailing list
 Linux-audit@redhat.com
 https://listman.redhat.com/mailman/listinfo/linux-audit
-
---===============0881015176276008567==--
 
