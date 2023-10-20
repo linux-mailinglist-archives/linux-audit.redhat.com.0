@@ -1,154 +1,135 @@
 Return-Path: <linux-audit-bounces@redhat.com>
 X-Original-To: lists+linux-audit@lfdr.de
 Delivered-To: lists+linux-audit@lfdr.de
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F81C7CCF76
-	for <lists+linux-audit@lfdr.de>; Tue, 17 Oct 2023 23:42:45 +0200 (CEST)
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3682E7D17A9
+	for <lists+linux-audit@lfdr.de>; Fri, 20 Oct 2023 23:03:18 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1697578963;
+	s=mimecast20190719; t=1697835796;
 	h=from:from:sender:sender:reply-to:subject:subject:date:date:
-	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+	 message-id:message-id:to:to:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:list-id:list-help:
 	 list-unsubscribe:list-subscribe:list-post;
-	bh=HkZ9CCteQYNqW0HrSV5LJIBpRroJwQYbMsJZW7i6jiY=;
-	b=EFt8MdRTlLZmvPOR+heeO8CHKYKQJVuc+/F5Fm8TPnD7NPUlO1gObuJwfLo3N+fA224a6A
-	OCEa/nHnzKG46Q1s1hFBy7ikIs70UvXMoQczpfIur4d7CAWzyTcZVzONggJuICNvOrK0hY
-	/Q7Xc9uwGg0wQjXGfl05e2wgDWi0i3M=
-Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
- by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-438-yWI8N0q9N52P15rDshjy7w-1; Tue, 17 Oct 2023 17:42:40 -0400
-X-MC-Unique: yWI8N0q9N52P15rDshjy7w-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
+	bh=fqe9mzTGwbKcEO0U/sFOmD3dCOJuxFZvVRZ0dsM3F3M=;
+	b=E4iJziZSNHVAtHh431YKySW/PhVM3A1q+xdolG3nstl+0ZsiJOKpulfClZHdXDjxW7QX0/
+	SiA2LIw24xfhjidhz7ReeiNp1EF34pmudBb1VWnIfsnGFQidHOu66EaK83EG+BIPPG97G0
+	2QeZH18H2YSDKuzX9ilw647Dr6rEFqg=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-311-9VbuT_JMO16laDLy7yJArQ-1; Fri, 20 Oct 2023 17:03:13 -0400
+X-MC-Unique: 9VbuT_JMO16laDLy7yJArQ-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B85C93C1ACDC;
-	Tue, 17 Oct 2023 21:42:37 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AEEB38C7ED9;
+	Fri, 20 Oct 2023 21:03:09 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com [10.30.29.100])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id BC5508C4;
-	Tue, 17 Oct 2023 21:42:29 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 94722492BE0;
+	Fri, 20 Oct 2023 21:03:01 +0000 (UTC)
 Received: from mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (localhost [IPv6:::1])
-	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id C5F0D19466F7;
-	Tue, 17 Oct 2023 21:42:28 +0000 (UTC)
+	by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with ESMTP id 3CBA319452E1;
+	Fri, 20 Oct 2023 21:03:00 +0000 (UTC)
 X-Original-To: linux-audit@listman.corp.redhat.com
 Delivered-To: linux-audit@listman.corp.redhat.com
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
  by mm-prod-listman-01.mail-001.prod.us-east-1.aws.redhat.com (Postfix) with
- ESMTP id 269CB19465B3 for <linux-audit@listman.corp.redhat.com>;
- Tue, 17 Oct 2023 14:21:46 +0000 (UTC)
+ ESMTP id 364191946A75 for <linux-audit@listman.corp.redhat.com>;
+ Fri, 20 Oct 2023 19:23:49 +0000 (UTC)
 Received: by smtp.corp.redhat.com (Postfix)
- id EC928C15BB8; Tue, 17 Oct 2023 14:21:45 +0000 (UTC)
+ id E5031492BE0; Fri, 20 Oct 2023 19:23:48 +0000 (UTC)
 Delivered-To: linux-audit@redhat.com
 Received: from mimecast-mx02.redhat.com
- (mimecast05.extmail.prod.ext.rdu2.redhat.com [10.11.55.21])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E4354C15BBC
- for <linux-audit@redhat.com>; Tue, 17 Oct 2023 14:21:45 +0000 (UTC)
-Received: from us-smtp-inbound-delivery-1.mimecast.com
- (us-smtp-delivery-1.mimecast.com [205.139.110.120])
+ (mimecast03.extmail.prod.ext.rdu2.redhat.com [10.11.55.19])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DC1AF492BD9
+ for <linux-audit@redhat.com>; Fri, 20 Oct 2023 19:23:48 +0000 (UTC)
+Received: from us-smtp-inbound-delivery-1.mimecast.com (us-smtp-1.mimecast.com
+ [205.139.110.61])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BFAA0862F1F
- for <linux-audit@redhat.com>; Tue, 17 Oct 2023 14:21:45 +0000 (UTC)
-Received: from mx0b-002c1b01.pphosted.com (mx0b-002c1b01.pphosted.com
- [148.163.155.12]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-462-K4vfd9OJMWCYQF1Oq-ddxQ-1; Tue, 17 Oct 2023 10:21:43 -0400
-X-MC-Unique: K4vfd9OJMWCYQF1Oq-ddxQ-1
-Received: from pps.filterd (m0127844.ppops.net [127.0.0.1])
- by mx0b-002c1b01.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id
- 39HCwY7k011842; Tue, 17 Oct 2023 07:21:40 -0700
-Received: from nam11-dm6-obe.outbound.protection.outlook.com
- (mail-dm6nam11lp2169.outbound.protection.outlook.com [104.47.57.169])
- by mx0b-002c1b01.pphosted.com (PPS) with ESMTPS id 3ts6hwu5xs-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 17 Oct 2023 07:21:40 -0700 (PDT)
-Received: from DM5PR02MB3830.namprd02.prod.outlook.com (2603:10b6:4:b0::29) by
- BN0PR02MB8159.namprd02.prod.outlook.com (2603:10b6:408:164::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6886.36; Tue, 17 Oct
- 2023 14:21:38 +0000
-Received: from DM5PR02MB3830.namprd02.prod.outlook.com
- ([fe80::26ba:be45:ee4b:e1ae]) by DM5PR02MB3830.namprd02.prod.outlook.com
- ([fe80::26ba:be45:ee4b:e1ae%4]) with mapi id 15.20.6863.046; Tue, 17 Oct 2023
- 14:21:37 +0000
-Message-ID: <7c6c965e-2644-46e1-832c-321ec256291d@nutanix.com>
-Date: Tue, 17 Oct 2023 15:21:32 +0100
-User-Agent: Mozilla Thunderbird
-To: linux-audit@redhat.com
-From: Chris Riches <chris.riches@nutanix.com>
-Subject: netlink ACK handling in audit_set_pid()
-X-ClientProxiedBy: SJ0PR03CA0054.namprd03.prod.outlook.com
- (2603:10b6:a03:33e::29) To DM5PR02MB3830.namprd02.prod.outlook.com
- (2603:10b6:4:b0::29)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B884988904E
+ for <linux-audit@redhat.com>; Fri, 20 Oct 2023 19:23:48 +0000 (UTC)
+Received: from mailhub1-fb.kaspersky-labs.com
+ (mailhub1-fb.kaspersky-labs.com [4.31.156.216]) by relay.mimecast.com with
+ ESMTP with STARTTLS (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-426-PxrWq3T8NV6cRxPW6VSb_g-1; Fri, 20 Oct 2023 15:23:46 -0400
+X-MC-Unique: PxrWq3T8NV6cRxPW6VSb_g-1
+Received: from mailhub1-fb.kaspersky-labs.com (unknown [127.0.0.11])
+ by mailhub1-fb.kaspersky-labs.com (Postfix) with ESMTP id 31C73188426
+ for <linux-audit@redhat.com>; Fri, 20 Oct 2023 22:14:23 +0300 (MSK)
+Received: from mx12.kaspersky-labs.com (mx12.kaspersky-labs.com
+ [91.103.66.155])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+ client-signature RSA-PSS (2048 bits) client-digest SHA256)
+ (Client CN "mx12.kaspersky-labs.com",
+ Issuer "Kaspersky MailRelays CA G3" (verified OK))
+ by mailhub1-fb.kaspersky-labs.com (Postfix) with ESMTPS id C15EE18817D
+ for <linux-audit@redhat.com>; Fri, 20 Oct 2023 22:14:22 +0300 (MSK)
+Received: from relay12.kaspersky-labs.com (unknown [127.0.0.10])
+ by relay12.kaspersky-labs.com (Postfix) with ESMTP id 939B97B296
+ for <linux-audit@redhat.com>; Fri, 20 Oct 2023 22:14:18 +0300 (MSK)
+Received: from mail-hq2.kaspersky.com (unknown [91.103.66.201])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (Client CN "mail-hq2.kaspersky.com",
+ Issuer "Kaspersky MailRelays CA G3" (verified OK))
+ by mailhub12.kaspersky-labs.com (Postfix) with ESMTPS id 5A1227B28B
+ for <linux-audit@redhat.com>; Fri, 20 Oct 2023 22:14:18 +0300 (MSK)
+Received: from [10.32.51.9] (10.64.68.128) by HQMAILSRV3.avp.ru (10.64.57.53)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.27; Fri, 20 Oct
+ 2023 22:14:17 +0300
+Message-ID: <0c22c924-2c1d-4a4f-a4f2-ea477999c8a4@kaspersky.com>
+Date: Fri, 20 Oct 2023 22:14:17 +0300
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM5PR02MB3830:EE_|BN0PR02MB8159:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8c6da3e0-6649-4429-87c5-08dbcf1c5f95
-x-proofpoint-crosstenant: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0
-X-Microsoft-Antispam-Message-Info: o3p3DIvcS8sWld0q7IeYT6ut7yLXX3f1Zj9v7slHkV8GjEhqx9gUn7lxygNdvIg27LytZX93BW7BNn1ow6qJXOYXGkCRgPBaac4NCbCAaSqxbrKIg0mVtJvjnqaohk01U0UmprVZ04LLKlxLtyljs0iWh8KW+tWVPA1ivNsZEd0LVgWBLwhxWE+mfZKlXkADfjZXWqVe3gLSQprLhIu1bXpliQCeh+bQC/m6JccknGWKPMvMs4bUJPyhz3q9i5qtNvEM/ufje16SaDRQfghUrqZckL/ClcLZg3hWO9h2xFSE8KzTdYBh3WCqcuzsfvovIxW0bP0EJqQlQE2X/4e+PxnodgEANff60RRvErw+1zVxZzHTKGsRo+1sBxapertEK1QVfKblY3wnNT6Isk8IOy1NL2kbOfb+GArLylMu40iBYHZMX938mP9mcNNP0FE/t/2/qviFNuHt7/YpQQ/0PSe0+OwHbsXJUMWt82OPtiGse4kQR3aBMa3rXX/PoW9bLvZB2QXKYW/LtUSmFWKOVKzMDVZ7oQ47Dv2CROWZOzmUCKlEkmlMFWieHcCqro91y71fHXQ0LFpqAhgtHI41CpxPHIT0LurVAPYrBws1Bbogol5fOzgDYgPy3v/sbaiXWBGLsINnFBribbqxZ9kOkg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM5PR02MB3830.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(376002)(396003)(366004)(346002)(136003)(39860400002)(230922051799003)(451199024)(186009)(1800799009)(64100799003)(44832011)(107886003)(2616005)(26005)(8676002)(8936002)(4326008)(5660300002)(38100700002)(83380400001)(31686004)(41300700001)(478600001)(31696002)(6486002)(966005)(86362001)(2906002)(316002)(6512007)(6666004)(6506007)(66946007)(66556008)(36756003)(66476007)(6916009)(45980500001)(43740500002);
- DIR:OUT; SFP:1102
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UlNLVVBZdDN3Vld0bVNRK0IyanNoODVEN3RBbm5HdStSOXhaNXc4UGhCUUdO?=
- =?utf-8?B?OG1XYVpqWm5neURVUWRBTGFNbEZJWU5nbmd3QVFZUzF2RXRZN1pnSEk2aXVk?=
- =?utf-8?B?akk2d3ljWTR3bXVwU21tVkVoaElDWjdmVFRPK2pKK1k3UFR4ME5sazNtclo0?=
- =?utf-8?B?OUQwellFaXBoY1VoMjdXWFpGMUZhSE9YcWpRMHBsenY5cXZDOHhQTi9qZTJH?=
- =?utf-8?B?U3VjaXY2UThLYk9IaDB2S1grekJ5bVpCTkJmd2hWVGZVOGZNdUplTzdMZDRO?=
- =?utf-8?B?Uk82bzB4Tkx0eDlEUU1QclZzb1dtRlQyOWJVeE4zMFBVak1NUWdwREx6MXVT?=
- =?utf-8?B?dXI2WENWenJsOEQ0QXJZb2hLTVk2ZzdJZ043VFJqOXI2VStrNDVqOGwyOXFC?=
- =?utf-8?B?cDZMWGJETEF3Wm03MXh5bm9GVW1yS0hIOHVsK2I1a1JzQjhjL2ZIRzBWYmVu?=
- =?utf-8?B?QUhGdGQyQ1ZpVmQ0ejRrdDE3RWM1bGNvZWVqM2VMYUFXSWhtZk1wcE1QRlp1?=
- =?utf-8?B?S0NSV1RXVkpyaTBhMnhsVzdLalQzR1h0aEtFeG11QzZ2LzlmVGR2aXFDWExt?=
- =?utf-8?B?ajRFRGpKcDRoQThqem5LNkRRU0FvaS9Sd1hyTWpJbm1uaXZaQ0hORW1BcDZX?=
- =?utf-8?B?K2xqenA2aVkvdGJvYlFpV2d1MDF6Z1JWZGdFeVdVYW45OFdjYzNmV2UxNTF5?=
- =?utf-8?B?Mi9CT3kvYkdzQ3hNWVpsUXhmeW9PSkJTam4xNmpKMkpVcWdVZFhVY2lISVRH?=
- =?utf-8?B?RHRkdE9NamQ0RWp4OEtqUG9RbmV2OVk5VXdVMm5ER0xWUkREZ2V0blJiNDZO?=
- =?utf-8?B?MVd1WldHVDlkblYrdmczcFJYMDM2MHEybXJod29pZWpZbS9ISmpGTHAxYnNx?=
- =?utf-8?B?cGo2Um8zd3YwcUpKaGp6Zkg0cXg5Z0RYYkQxT1VYMDdWcW0zUmNES21BeHdm?=
- =?utf-8?B?b0ZxSHZ6VkZkemsvdkt2Q2h0ZVRETXF1ay9oZzF1a1BSNUJaSXFjZ0g3WjdO?=
- =?utf-8?B?TmxRYmdCbEhaeUcxKzdZbnVoRlRkNUFQc3pYd3Z5dnYyTGtwUnRITDdWczNu?=
- =?utf-8?B?dElrZUZsVG1Xc3J6Q3poaC9ER29xYVU2cjR2VzV3UitwTy9FRzFnSngvMXUz?=
- =?utf-8?B?eEg1cHQrN3pLckkwSjgrZStCWU1ELzRXZEpEMGg2eUxDMXdqb01lYnBFQ3Ex?=
- =?utf-8?B?dmZoV1U5Z0k2MWZMVXBicThGaDJqVmt0bTFNbS9TWE5KY1YrVVhpMHFJQUlw?=
- =?utf-8?B?UVVEWTBQVVcxZW9SWU1qQ21aZzJUelhPY3R0YjdiUnlLQTcrdEwwOHZLSXQx?=
- =?utf-8?B?QTJLbnV1dkcyS1Y4YmtxaWtPZ2Rwek8vRmVOTFh0eEttS3R4TFd6RE5wRlVl?=
- =?utf-8?B?Q1h0aG5weXlEM1ptQWVJbC82bFB4cFJWUDFKZ0g4MVNiRGV4eEVtU01CNE1s?=
- =?utf-8?B?ZWZqTVhDNUo3NmRhaHRZRFljQ20xZEFEdkhRWHhwU2dJQVdJK3RvZkxQK3dh?=
- =?utf-8?B?NFdtM3hidjFHMm1zVHJmcSt5S1ZiZjdQNUU1cjNmNGs1M3p0VlVmekU3c3Yx?=
- =?utf-8?B?dUh0djZKZXFzWFAzVUN4eVM2VkNyQTNDWFF3K3VQWUZmbytMWXBDNlh2NnJT?=
- =?utf-8?B?WjY0TDh2bmNGMHFGbXo0V3oyQWFLOW04R3RTVWk2dDB4RGRSV3JnYU1UVWYy?=
- =?utf-8?B?ZjVlUjVBZzdaWWZBVndMb3F5ZWdjMDJSKzMzeXk5K1paQU4reDMxNWNSQ1p2?=
- =?utf-8?B?MWFYMHlkTjBRQWtKNTgxcHNXWXJaWUJjd2xycmFJRlo1Ym9rVjB1VlpPR1VJ?=
- =?utf-8?B?RlVrZGVxbm1tY3dnWktZSnhuUnlqTElCeHRKOE5kL1l5UzRNb2VveFBibXNx?=
- =?utf-8?B?dnJ3bnBZc0pOZVVEcmxwcTY5T3UrRy9VWllRRnA3cmdVV1ZZa1hQcUFpYzRx?=
- =?utf-8?B?bHJ2S1poS2UycVhDTDYvNEdudWpQMWNYallyWEViZmIvcVc1azBXeUhGZUt0?=
- =?utf-8?B?WFV4aWVJUDRLdUpjYWdxUUZxR3I4Zi9EZG9RaVB6ZVBnN1ZneGRtaEFrQWtO?=
- =?utf-8?B?YURpRk1VR1ZobW1lR1U2NmRNdnBPUWFMTkw3ZytTSG9XVmswTGlXQjI1dDU3?=
- =?utf-8?B?dDZmZDJCVXNBMDNQdWJVMXNsS3JwWHlCeVR0NXZ2TWxvbjRyN0ZpNE5Pckpz?=
- =?utf-8?B?SlE9PQ==?=
-X-OriginatorOrg: nutanix.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8c6da3e0-6649-4429-87c5-08dbcf1c5f95
-X-MS-Exchange-CrossTenant-AuthSource: DM5PR02MB3830.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Oct 2023 14:21:37.6013 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bb047546-786f-4de1-bd75-24e5b6f79043
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 9lNxi26rl9pwigA9w2Iq5PIJpoeuvDnWrQFachaS1MJELI1ycsl8srmbJ0f3L7TQtrCFCB6eJi914oBs8i2YgpvQ9S5M+V0FiWG09YHVHt0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN0PR02MB8159
-X-Proofpoint-GUID: Qup-9736ub5fdkQidrr4ogbYFXCyYFC2
-X-Proofpoint-ORIG-GUID: Qup-9736ub5fdkQidrr4ogbYFXCyYFC2
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-10-17_03,2023-10-17_01,2023-05-22_02
-X-Proofpoint-Spam-Reason: safe
+User-Agent: Mozilla Thunderbird
+To: <linux-audit@redhat.com>
+From: Rinat Gadelshin <rinat.gadelshin@kaspersky.com>
+Subject: Couldn't get audit messages for 'listen' on kernel 4.19.0-6-686-pae
+X-Originating-IP: [10.64.68.128]
+X-ClientProxiedBy: hqmailmbx2.avp.ru (10.64.67.242) To HQMAILSRV3.avp.ru
+ (10.64.57.53)
+X-KSE-ServerInfo: HQMAILSRV3.avp.ru, 9
+X-KSE-AntiSpam-Interceptor-Info: scan successful
+X-KSE-AntiSpam-Version: 6.0.0, Database issued on: 10/20/2023 18:57:21
+X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
+X-KSE-AntiSpam-Method: none
+X-KSE-AntiSpam-Rate: 0
+X-KSE-AntiSpam-Info: Lua profiles 180778 [Oct 20 2023]
+X-KSE-AntiSpam-Info: Version: 6.0.0.2
+X-KSE-AntiSpam-Info: Envelope from: rinat.gadelshin@kaspersky.com
+X-KSE-AntiSpam-Info: LuaCore: 542 542 3d23828e213bab96daa5e52f9cef518f74e40214
+X-KSE-AntiSpam-Info: {Tracking_cluster_exceptions, from_kas}
+X-KSE-AntiSpam-Info: {Tracking_real_kaspersky_domains}
+X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
+X-KSE-AntiSpam-Info: d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;
+ kaspersky.com:5.0.1,7.1.1; 127.0.0.199:7.1.2
+X-KSE-AntiSpam-Info: {Tracking_white_helo}
+X-KSE-AntiSpam-Info: Rate: 0
+X-KSE-AntiSpam-Info: Status: not_detected
+X-KSE-AntiSpam-Info: Method: none
+X-KSE-Antiphishing-Info: Clean
+X-KSE-Antiphishing-ScanningType: Deterministic
+X-KSE-Antiphishing-Method: None
+X-KSE-Antiphishing-Bases: 10/20/2023 19:02:00
+X-KSE-AttachmentFiltering-Interceptor-Info: no applicable attachment filtering
+ rules found
+X-KSE-Antivirus-Interceptor-Info: scan successful
+X-KSE-Antivirus-Info: Clean, bases: 10/20/2023 6:25:00 PM
+X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
+X-KSE-AttachmentFiltering-Interceptor-Info: no applicable attachment filtering
+ rules found
+X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
+X-KLMS-Rule-ID: 52
+X-KLMS-Message-Action: clean
+X-KLMS-AntiSpam-Status: not scanned, disabled by settings
+X-KLMS-AntiSpam-Interceptor-Info: not scanned
+X-KLMS-AntiPhishing: Clean, bases: 2023/10/20 17:20:00
+X-KLMS-AntiVirus: Kaspersky Security for Linux Mail Server, version 8.0.3.30,
+ bases: 2023/10/20 18:25:00 #22243472
+X-KLMS-AntiVirus-Status: Clean, skipped
 X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
  Definition; Similar Internal Domain=false;
  Similar Monitored External Domain=false; Custom External Domain=false;
@@ -156,8 +137,8 @@ X-Mimecast-Impersonation-Protect: Policy=CLT - Impersonation Protection
  Internal User Name=false; Custom Display Name List=false;
  Reply-to Address Mismatch=false; Targeted Threat Dictionary=false;
  Mimecast Threat Dictionary=false; Custom Threat Dictionary=false
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.8
-X-Mailman-Approved-At: Tue, 17 Oct 2023 21:42:27 +0000
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.9
+X-Mailman-Approved-At: Fri, 20 Oct 2023 21:02:59 +0000
 X-BeenThere: linux-audit@redhat.com
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -169,67 +150,59 @@ List-Post: <mailto:linux-audit@redhat.com>
 List-Help: <mailto:linux-audit-request@redhat.com?subject=help>
 List-Subscribe: <https://listman.redhat.com/mailman/listinfo/linux-audit>,
  <mailto:linux-audit-request@redhat.com?subject=subscribe>
-Cc: Jonathan Davies <jonathan.davies@nutanix.com>
 Errors-To: linux-audit-bounces@redhat.com
 Sender: "Linux-audit" <linux-audit-bounces@redhat.com>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.1
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.9
 X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: nutanix.com
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+X-Mimecast-Originator: kaspersky.com
+Content-Language: en-US, ru-RU
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 
-We are experiencing strange failures where the audit daemon fails to
-start on boot, hitting an ENOBUFS error on its audit_set_pid() call.
-This can be reproduced by repeatedly restarting the audit daemon while
-the system is under heavy audit load. This also seems to be dependent
-on the number of CPUs - we can reproduce this with 2 CPUs but not with
-48.
-
-Tracing showed a race between the kernel enabling audit messages to be
-sent to the daemon and actually sending the ACK, wherein the socket
-buffer could get filled by audit messages before the ACK could be sent,
-leading to the ACK being dropped and ENOBUFS set on the socket by
-netlink code. A patch to mitigate this race from the kernel side is
-separately under discussion on the audit subsystem mailing list:
-https://lore.kernel.org/audit/20230922152749.244197-1-chris.riches@nutanix.com/
-
-It's worth noting that this is almost certainly the same issue observed
-in this thread from last month (participants CCed):
-https://listman.redhat.com/archives/linux-audit/2023-September/020087.html
-
-Here, I am hoping to discuss ACK handling from the userspace side. The
-current implementation is a little odd - check_ack() will happily
-return success without seeing an ACK if a non-ACK message is top of the
-socket queue, but will fail if no message arrives within the timeout.
-It also of course fails if ENOBUFS is set on the socket, but this
-failure only seems to matter when doing audit_set_pid() - similar
-failures during main-loop message processing are logged but otherwise
-ignored, as far as I can tell.
-
-I'm not sure I quite understand the intentions of the code, but it
-seems odd to let ENOBUFS be a fatal error here, given that it likely
-means the socket buffer got flooded with audit messages, and thus
-audit_set_pid() succeeded. Perhaps we should just ignore ENOBUFS or
-even set NETLINK_NO_ENOBUFS?
-
-It may also be worth increasing the netlink socket buffer size, though
-this could only make the issue less likely and would not be sufficient
-under arbitrarily heavy audit loads.
-
-Finally, there is another oddity in audit_set_pid() that is tangential
-to this discussion but worth highlighting: if the wmode parameter is
-WAIT_YES, then there is some additional ACK-handling which waits for
-100 milliseconds and eats the top message of the socket queue if one
-arrives, without inspecting it. This seems completely wrong as the ACK
-will have already been consumed by check_ack() if there was one, and so
-the best this code can do is nothing, and at worst (quite likely) it
-will swallow a genuine audit message without ever recording it.
-
-- Chris
-
---
-Linux-audit mailing list
-Linux-audit@redhat.com
-https://listman.redhat.com/mailman/listinfo/linux-audit
+SGVsbG8gdGhlcmUhCgpJJ20gZmFjaW5nIGEgc3RyYW5nZSBwcm9ibGVtLgpJIGhhdmUgbm90IGJl
+ZW4gYWJsZSB0byBnZXQgYXVkaXQgcmVwb3J0cyBmb3IgYW55ICJuZXR3b3JrIiBzeXNjYWxsCm9u
+IG9uZSBvZiB0aGUgY29tcHV0ZXJzIGZyb20gbXkgdGVzdCBiZW5jaC4KSSBtZWFuICdjb25uZWN0
+JywgJ2FjY2VwdDQnLCAnbGlzdGVuJywgJ2JpbmQnLCAnc29ja2V0Jy4KVGhlIGZvbGxvd2luZyBl
+eGFtcGxlIHNob3dzIHRoYXQgYXVkaXRkIGNvdWxkbid0IGdldCB0aGVtIHRvbyAoJ2xpc3Rlbicg
+CmF0IGxlYXN0KS4KQnV0IEkndmUgcmVjZWl2ZWQgYSByZXBvcnQgYWJvdXQgJ2V4ZWN2ZScgY2Fs
+bGVkIGJ5IHRoZSBzYW1lIHByb2Nlc3MuCgpDb3VsZCB5b3UgdGVsbCBtZSB3aGF0IGNhbiBJIGRv
+IGluIG9yZGVyIHRvIHJlY2VpdmUgYXVkaXQgbWVzc2FnZXMgZm9yIAp0aGUgc3lzY2FsbHMuCmZy
+b20gdGhpcyB2ZXJzaW9uIG9mIHRoZSBrZXJuZWw/CgpBbnkgaGVscCB3aWxsIGJlIHdpbGwgYmUg
+YXBwcmVjaWF0ZWQuCgoKcm9vdEBkZWIxMDEteDg2LTAwMDk6fiMgbmV0Y2F0IC12IC1sIC1wIDQy
+NDIgJgpbMl0gMTM0ODEKcm9vdEBkZWIxMDEteDg2LTAwMDk6fiMgbGlzdGVuaW5nIG9uIFthbnld
+IDQyNDIgLi4uCnJvb3RAZGViMTAxLXg4Ni0wMDA5On4jIGVjaG8gIlRlc3QiIHwgbmMgLXEgMCAx
+MjcuMC4wLjEgNDI0Mgpjb25uZWN0IHRvIFsxMjcuMC4wLjFdIGZyb20gbG9jYWxob3N0IFsxMjcu
+MC4wLjFdIDM2NjUwClRlc3QKcm9vdEBkZWIxMDEteDg2LTAwMDk6fiMgc2tpbGwgLXAgMTM0ODEK
+WzJdK8KgIERvbmXCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBuZXRjYXQg
+LXYgLWwgLXAgNDI0Mgpyb290QGRlYjEwMS14ODYtMDAwOTp+IyBhdXNlYXJjaCAtcCAxMzQ4MQot
+LS0tCnRpbWUtPkZyaSBPY3QgMjAgMjI6MDA6NDIgMjAyMwp0eXBlPVBST0NUSVRMRSBtc2c9YXVk
+aXQoMTY5NzgyODQ0Mi42MDM6MjY5Nyk6IApwcm9jdGl0bGU9NkU2NTc0NjM2MTc0MDAyRDc2MDAy
+RDZDMDAyRDcwMDAzNDMyMzQzMgp0eXBlPVBBVEggbXNnPWF1ZGl0KDE2OTc4Mjg0NDIuNjAzOjI2
+OTcpOiBpdGVtPTEgCm5hbWU9Ii9saWIvbGQtbGludXguc28uMiIgaW5vZGU9NjU1MzgyIGRldj1m
+ZTowMCBtb2RlPTAxMDA3NTUgb3VpZD0wIApvZ2lkPTAgcmRldj0wMDowMCBuYW1ldHlwZT1OT1JN
+QUwgY2FwX2ZwPTAwMDAwMDAwMDAwMDAwMDAgCmNhcF9maT0wMDAwMDAwMDAwMDAwMDAwIGNhcF9m
+ZT0wIGNhcF9mdmVyPTAKdHlwZT1QQVRIIG1zZz1hdWRpdCgxNjk3ODI4NDQyLjYwMzoyNjk3KTog
+aXRlbT0wIG5hbWU9Ii91c3IvYmluL25ldGNhdCIgCmlub2RlPTY2NDg4NyBkZXY9ZmU6MDAgbW9k
+ZT0wMTAwNzU1IG91aWQ9MCBvZ2lkPTAgcmRldj0wMDowMCAKbmFtZXR5cGU9Tk9STUFMIGNhcF9m
+cD0wMDAwMDAwMDAwMDAwMDAwIGNhcF9maT0wMDAwMDAwMDAwMDAwMDAwIGNhcF9mZT0wIApjYXBf
+ZnZlcj0wCnR5cGU9Q1dEIG1zZz1hdWRpdCgxNjk3ODI4NDQyLjYwMzoyNjk3KTogY3dkPSIvcm9v
+dCIKdHlwZT1FWEVDVkUgbXNnPWF1ZGl0KDE2OTc4Mjg0NDIuNjAzOjI2OTcpOiBhcmdjPTUgYTA9
+Im5ldGNhdCIgYTE9Ii12IiAKYTI9Ii1sIiBhMz0iLXAiIGE0PSI0MjQyIgp0eXBlPVNZU0NBTEwg
+bXNnPWF1ZGl0KDE2OTc4Mjg0NDIuNjAzOjI2OTcpOiBhcmNoPTQwMDAwMDAzIHN5c2NhbGw9MTEg
+CnN1Y2Nlc3M9eWVzIGV4aXQ9MCBhMD1lMzY0MDAgYTE9ZDlkOWUwIGEyPWUzYTMxMCBhMz01ODQ5
+ODggaXRlbXM9MiAKcHBpZD0xMjk2OCBwaWQ9MTM0ODEgYXVpZD0wIHVpZD0wIGdpZD0wIGV1aWQ9
+MCBzdWlkPTAgZnN1aWQ9MCBlZ2lkPTAgCnNnaWQ9MCBmc2dpZD0wIHR0eT1wdHMxIHNlcz00IGNv
+bW09Im5ldGNhdCIgCmV4ZT0iL3Vzci9iaW4vbmMudHJhZGl0aW9uYWwiIHN1Ymo9PXVuY29uZmlu
+ZWQga2V5PShudWxsKQpyb290QGRlYjEwMS14ODYtMDAwOTp+IyBhdWRpdGN0bCAtbAotYSBhbHdh
+eXMsZXhpdCAtRiBhcmNoPWIzMiAtUyBmb3JrLGV4ZWN2ZSxjbG9uZSx2Zm9yayxleGVjdmVhdAot
+YSBhbHdheXMsZXhpdCAtRiBhcmNoPWIzMiAtUyBiaW5kLGNvbm5lY3QsbGlzdGVuLGFjY2VwdDQK
+cm9vdEBkZWIxMDEteDg2LTAwMDk6fiMgYXVkaXRjdGwgLXMKZW5hYmxlZCAxCmZhaWx1cmUgMQpw
+aWQgMTMzOTMKcmF0ZV9saW1pdCAwCmJhY2tsb2dfbGltaXQgODE5Mgpsb3N0IDAKYmFja2xvZyAw
+CmJhY2tsb2dfd2FpdF90aW1lIDAKbG9naW51aWRfaW1tdXRhYmxlIDAgdW5sb2NrZWQKcm9vdEBk
+ZWIxMDEteDg2LTAwMDk6fiMgdW5hbWUgLWEKTGludXggZGViMTAxLXg4Ni0wMDA5LmF2cC5ydS5s
+b2NhbCA0LjE5LjAtNi02ODYtcGFlICMxIFNNUCBEZWJpYW4gCjQuMTkuNjctMitkZWIxMHUyICgy
+MDE5LTExLTExKSBpNjg2IEdOVS9MaW51eApyb290QGRlYjEwMS14ODYtMDAwOTp+IyBjYXQgL2V0
+Yy9kZWJpYW5fdmVyc2lvbgoxMC4xCnJvb3RAZGViMTAxLXg4Ni0wMDA5On4jCgoKUmVnYXJkcwpS
+aW5hdAoKLS0KTGludXgtYXVkaXQgbWFpbGluZyBsaXN0CkxpbnV4LWF1ZGl0QHJlZGhhdC5jb20K
+aHR0cHM6Ly9saXN0bWFuLnJlZGhhdC5jb20vbWFpbG1hbi9saXN0aW5mby9saW51eC1hdWRpdAo=
 
